@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="SÖR" content="">
+    <meta name="DM Tool" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../css/colors.css" rel="stylesheet">
+    <link href="../css/about.css" rel="stylesheet">
+
+
+</head>
+<div class="title_bar">
+
+
+    <p class="text">The Owls are not what they seem</p>
+    <button id="minimize_app_button"></button>
+    <button id="min_max_button"></button>
+    <button id="close_window_button"> </button>
+</div>
+<div class="main_content_wrapper" id="main_wrapper">
+
+    <main>
+        <div class="drawer">
+            <button class="drawer_item button_style drawer_out" onclick="setDrawer( 0)">About</button>
+            <button class="drawer_item button_style" onclick="setDrawer( 1)">Basics</button>
+            <button class="drawer_item button_style" onclick="setDrawer( 2)">The Tools</button>
+            <button class="drawer_item button_style" onclick="setDrawer( 3)">Initiative</button>
+            <button class="drawer_item button_style" onclick="setDrawer( 4)">Generating</button>
+            <button class="drawer_item button_style" onclick="setDrawer( 5)">Adding stuff</button>
+            <button class="drawer_item button_style" onclick="setDrawer( 6)">The Map Tool</button>
+            <button class="drawer_item button_style" onclick="setDrawer( 7)">Advanced</button>
+
+        </div>
+
+        <section class="content_section">
+            <article>
+                <h1>About</h1>
+
+                <p>This app has been in development since early 2017, when I started upgrading from my old DMing Excel
+                    sheet. I created a basic app to make my DMing life a little bit
+                    easier and more efficient. It's main function is to be a convenient place to look up rules and
+                    monsters (SRD and homebrewed), and to keep track of initiative and HP in combat.</p>
+
+                <p>
+                    Since then I've added a few things, mainly tools to generate things such as treasure, NPC's and
+                    stuff, as well as an integrated mapping tool which allows you to efficiently maintain the visual
+                    component of running combats, usually on a projected screen or TV.
+                </p>
+
+                <p>
+                    What this app does is make life easier for the lazy DM and keep the game running smoothly. It's not
+                    a place where you should keep exstensive notes, but rather a set of convenient tools that help you
+                    improvise things and run combat without hassle.
+                </p>
+                <p>
+                    The app is entirely free to use and distribute non-commmercially. I really hope it's of some use to
+                    you! You can change or build upon it if you'd like. See <a
+                        href="https://creativecommons.org/licenses/by-nc/4.0/">license</a>.
+
+                    If you like you can support my work via <a
+                        href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2W3HBC83MYTV2&currency_code=USD&source=url">Paypal</a>.
+                </p>
+
+                <p>If you have any feature requests or suggestions you can email me at simonorn@gmail.com, or submit a
+                    <a href="https://github.com/Durtur/DDsDMTool">github</a> issue. </p>
+            </article>
+            <div class="row">
+                <button class="center next_chapter_button" onclick="setDrawer(1)">Next: The Basics</button>
+            </div>
+        </section>
+        <section class="content_section hidden ">
+            <article>
+                <h1>Searching</h1>
+                <p>
+                    <img class="img_right" src="screenshots/1.1.JPG" style="width:400px" alt="The top right searchbar (fig. 1.1) allows you to search for any monsters in the SRD, homebrew monsters or encounters you have created. The results will displayed in the window below (fig. 1.2). 
+                ">
+
+                    The top right searchbar (fig. 1.1) allows you to search for any monsters in the SRD, homebrew
+                    monsters
+                    or encounters you have created. The results will displayed in the window below (fig. 1.2).
+
+                </p>
+                <p>
+                    The searchbar below that (fig. 1.3) allows you to search for other things, such as spells and
+                    conditions.
+                    Pressing the top right button (fig. 1.3) loads the monster or encounter into the combat panel (fig.
+                    2).
+                    If you searched for an encounter, each NPC in the encounter will be loaded into the Combat panel.
+                </p>
+                <p>
+                    <img src="screenshots/1.2.JPG" style="width:600px" alt="Locked and loaded"> <br> <br>
+                    This panel is where stuff happens. It's where you keep track of HP and roll for attacks and damage.
+                    In
+                    global settings you can set a hard limit to how many creatures can be loaded into the panel. By
+                    default,
+                    it's 80.
+                </p>
+            </article>
+            <article>
+                <h1>The PC Party</h1>
+
+                <img class="img_right" src="screenshots/1.3.JPG" style="width:40%"
+                    alt="Use the party window to save information about your players.">
+
+
+                <p>The DM Tool can keep track of the basic information for player characters. Press the Party button in
+                    the top left corner. </p>
+                <p>This will bring up a table where you can add, edit or remove party members.The party window has
+                    fields for level, perception, AC and other metrics. Add a party member and mark
+                    them as active with the checkbox. </p>
+
+
+                <p>A plaque with the Player Character's key metrics now appears in the main app screen. Pressing the
+                    horizontal arrows will switch between alternative AC and regular AC. Pressing the up or down arrows
+                    will apply a buff/debuff to armor, useful if the PC has a Shield of Faith effect for instance. </p>
+
+
+                <p>Note that Player Character plaques can be disabled, in the Enabled Features settings.</p>
+                <img src="screenshots/1.5.JPG" style="width:100%" alt="Locked and loaded">
+            </article>
+            <article>
+                <h1>Grouping Player Characters</h1>
+                <p>If you have many player characters you can add them to specific parties. Press the Party button once
+                    again.</p>
+                <img src="screenshots/1.6.JPG" style="width: 100%;"
+                    alt="The party window lets you assign PC's to parties.">
+                <p>If the party icon (fig. 1) is white, it means that the player is not assigned to any specific party.
+                    Press it, and you will see an input field. Write the party name and press enter. This can be an
+                    existing party or a new one. You can now filter by this party in the filter input, on top of the
+                    table (fig. 2)</p>
+                </p>
+            </article>
+            <div class="row">
+                <button class="center next_chapter_button" onclick="setDrawer(2)">Next: The Tools</button>
+            </div>
+        </section>
+        <section class="content_section hidden ">
+            <h1>The Tools</h1>
+            <p>The main app screen has 5 tool panels to make your DMing life easier. Most of them can be disabled in the
+                "Enabled Features" setting. </p>
+            <article>
+                <h1>Combat panel</h1>
+                <img class="img_left" src="screenshots/2.1.jpg" style="width:58%" alt="Locked and loaded">
+                <p>The combat panel holds key information for monsters and NPC's in the encounter; current HP (fig. 2),
+                    AC
+                    (fig 3.), attack bonus (fig 4.) and damage (fig 7.).
+                </p>
+                <p>
+                    The leftmost field (fig 1.) is for damage. Write the damage, press enter or the "Ouch" button, and
+                    the
+                    number will be subtracted from the current HP field. If the remaining HP is less than or equal to 0,
+                    the
+                    row will be removed from the combat panel.
+                </p>
+                <p>
+                    Pressing the D20 button (fig. 5) will roll for attack. A D20 will be rolled and added to the attack
+                    bonus (fig. 4), and the number compared to the opponent AC (fig. 6). If the attack hits, the dice
+                    will
+                    turn green. If the hit is a critical, it will turn red.
+                    <img class="img_left" src="screenshots/2.2.jpg" style="width:58%" alt="Locked and loaded">
+                </p>
+                <p>
+                    If the attack hits damage will be rolled automatically and will appear in the monster damage field
+                    (fig.
+                    7). In the event of a crit, all dice are rolled twice and added. This field is not editable but
+                    pressing
+                    it will alternate between monster attacks. The tooltip (fig. 8) will display the current attack
+                    action.
+                </p>
+                <p>
+                    The table can be cleared completely by pressing the C button (fig. 9). If you use the Map tool you
+                    can
+                    press the Map tool sync button (fig. 10). This will allow you to easily plant tokens representing
+                    the
+                    entries in the Combat panel.
+                </p>
+
+            </article>
+            <article>
+                <h1>Dice roller</h1>
+                <img class="img_right" src="screenshots/2.3.jpg" style="width:200px" alt="Locked and loaded">
+                <img class="img_right" src="screenshots/2.4.jpg" style="width:200px" alt="Locked and loaded">
+                <p>This tool allows you to roll dice. You can add more rows to it by pressing the "+" button.
+                    <br><br>
+                    Each row has a default dice, which will be rolled if the input field is emtpy. You can write any
+                    combination of dice into any fields, for example "3d6" or "4d6+4d8+5". </p>
+                <br><br>
+            </article>
+            <article>
+                <h1>Randomizer</h1>
+                <img class="img_right" src="screenshots/2.5.jpg" style="width:200px" alt="Locked and loaded">
+                <p>Use this to generate things or get something randomly. You can ask for a random item, roll from your
+                    defined random tables or generate a random encounter. See <button class="hyperlink_like"
+                        onclick="setDrawer(4)">generating</button> for more information
+                </p>
+            </article>
+            <article>
+                <h1>Save roller</h1>
+                <img class="img_right" src="screenshots/2.6.jpg" style="width:200px" alt="Locked and loaded">
+                <p>
+
+                    Use this tool if you need to roll a bunch of saving throws, such as when a group of bandits gets
+                    fireballed. Enter the number of rolls to make (fig. 1), the roll DC (fig. 2) and the common modifier
+                    to
+                    add to the roll (fig. 3), then press the D20 button. In the two rightmost fields (fig. 4, fig. 5)
+                    you
+                    will see how many succeeded and how many failed. Hover over the respective fields to see which rolls
+                    failed or succeeded. </p>
+            </article>
+            <article>
+                <h1>Loot roller</h1>
+                <img class="img_right" src="screenshots/2.7.jpg" style="width:200px" alt="Locked and loaded">
+                <p>
+
+                    Use this tool if you need to roll for some quick treasure. Enter the Challenge rating (fig. 1) and
+                    press
+                    roll, and the amount will be displayed in the rightmost field (fig. 2).
+                </p>
+            </article>
+            <br>
+            <br>
+            <div class="row">
+                <button class="center next_chapter_button" onclick="setDrawer(3)">Next: Initiative</button>
+            </div>
+        </section>
+        <section class="content_section hidden ">
+            <article>
+                <h1>Initiative</h1>
+                <img class="img_left" src="screenshots/3.1.jpg" style="width:200px" alt="Initiative buttons">
+                <p>
+                    The main app screen features an initiative tracker. Press either one of the Initiative buttons to
+                    start
+                    tracking initiative. Depending on your settings, it's either rolled automatically for all the
+                    players or
+                    you input their initiative score.
+                </p>
+            </article>
+            <article>
+                <h1>Manual rolling</h1>
+                <img class="img_left" src="screenshots/3.3.jpg" style="width:200px" alt="Initiative buttons">
+                <p>When initative is set to manual rolling in the Settings window, a small window will appear with input
+                    fields for all the players. Input their scores and press "Confirm". The app rolls for all individual
+                    monsters loaded into the combat panel. If nothing is in the Combat panel, an additional input field
+                    will appear, entitled "Monsters".</p>
+            </article>
+            <article>
+
+                <h1>Autmoatic rolling</h1>
+                <p>When initative is set to roll automatically in the Settings window, you simply press the initiative
+                    button and the app rolls for all players and individual monsters loaded into the combat panel.</p>
+                <img class="img_left" src="screenshots/3.2.jpg" style="width:100%" alt="Initiative buttons">
+                <p>The initiative order is sorted. Hovering over the nodes reveals the initiative score. To remove
+                    someone from the initiative order, press the appropriate node (fig. 2). You can add to the
+                    initiative order
+                    by pressing the "+" button. </p>
+                <p>The initiative tracker (fig. 1) also counts the number of rounds passed. You can disable this feature
+                    in
+                    the intiative settings.</p>
+
+            </article>
+            <div class="row">
+                <button class="center next_chapter_button" onclick="setDrawer(4)">Next: Generating</button>
+            </div>
+        </section>
+
+        <section class="content_section hidden ">
+            <h1>Generating</h1>
+            <article>
+                <h2>Encounters</h2>
+                <p>You can randomly generate level appropriate encounters for your party, if you have saved the party in
+                    the
+                    Party window. The encounter randomizer will use the level of your currently active Player characters
+                    to
+                    generate encounters. </p>
+                <img class="img_left" src="screenshots/4.1.jpg" style="width:300px"
+                    alt="Generating encounters in the Randomizer tool.">
+                <p>In the randomizer tool, start typing "Encounters:". A list of suggestions will then appear. You can
+                    genearte an encounter from anything in the monster manual, or you can choose a subset based on
+                    creature
+                    type. </p>
+
+                <p>You can add more constraints, such as the approximate number of creatures in the encounter and the
+                    approximate difficulty of the encounter. Once the encounter is generated, you can load it into the
+                    combat panel like a normal encounter. (See <button class="hyperlink_like" onclick="setDrawer(1)">The
+                        basics</button>)</p>
+
+                <p>Note that it's possible that the Encounter randomizer will not come up with anything. If that's the
+                    case,
+                    then the constraints are too narrow, if for example you attempt to create an easy encounter of
+                    celestials for a level 1 party (Given that you haven't added any homebrew celestial creatures).</p>
+                <img src="screenshots/4.2.jpg" style="width:100%"
+                    alt="Press the Load into Combat Panel button to load a generated encounter.">
+
+            </article>
+            <article>
+                <h2>Encounter sets</h2>
+                <img class="img_right" src="screenshots/4.3.jpg" style="width:300px"
+                    alt="Open the Customize tab in the Generate window to create and edit encounter sets.">
+
+                <p>You can create tables for special types of encounters, just like encounters based on creature type.
+                    You might for example, create an encounter set named "Highwaymen", which would include bandits and
+                    other humanoid NPC's. </p>
+
+
+                <p>Click the "Generate" button in the main app. This will open the Generator window. Press the
+                    "Customize" tab and select "Encounter generation" in the dropdown menu. </p>
+                <img src="screenshots/4.4.jpg" class="img_right"
+                    alt="Encounter sets allow you to randomly generate encounters from a predefined set of creatures.">
+                <p>You can now create a
+                    simple table of creatures that the will be randomly chosen when generating a random encounter. Once
+                    you save this table, you will be able to randomly generate encounters via the the Randomizer in the
+                    main app screen. In the case of the Highwaymen example, you would type "Encounter: Highwaymen".
+                </p>
+                <p>
+                    <img src="screenshots/4.5.jpg" class="img_right" alt="Randomly generate any magic item by rarity.">
+                    You can use this screen to edit or delete any pre-existing encounter sets, as well as add new
+                    ones.<br><br> The dump input is to quickly generate a set from another source, such as Excel. You
+                    can
+                    paste from any source where entries in the set are seperated by a new line. </p>
+            </article>
+            <article>
+                <h2>Random magic items</h2>
+
+                <p>You can randomly get a magical item, weapon, armor or scroll via the randomizer. Begin writing the
+                    type
+                    you'd like in the Randomizer input field. You can then choose from a list of possibilites, such as
+                    Staff, Scroll, Wand or simply Magic item (Which will include all kinds of magical items). <br><br>
+                    Press
+                    enter or select from the list and a dropdown menu will appear next to the input field, allowing you
+                    to
+                    filter by rarity.</p>
+            </article>
+            <article>
+                <h2>Random tables</h2>
+
+                <img src="screenshots/4.8.jpg" class="img_right" alt="Creating a random table named 'Trinkets'.">
+                <p>You can create random tables to roll from using the Randomizer tool. Start by opening the Customize
+                    tab
+                    in the Generate window. Choose "Random Tables" from the drop down menu. Start by typing the table
+                    name
+                    (fig. 1), and press enter. </p>
+
+                <p>The dump input (fig. 2)is for quickly generating tables from another source. You can paste text into
+                    it
+                    and generate a random table from that. New lines represent new rows and tab characters represent new
+                    columns. A copied table from Excel will have this format.</p>
+                <p>Each row represents one entry in the table. The title (fig. 3) and content (fig. 4) columns are
+                    simply
+                    textual.
+                </p>
+                <p>
+                    The percentage (fig. 5) column represents the probability of a that entry being picked. Thus if the
+                    first row has a percentage column of 2, and all the other rows have a precentage column of 1, the
+                    probability of the first row being picked is double that of the others. <br><br> Note that it does
+                    not
+                    matter how high the numbers are in the percentage column, as they are normalized when the table is
+                    rolled. Thus if the first row has a percentage column of 200 and the others have 100, the first row
+                    is
+                    still twice as likely to be picked as the others. <br>The percentage column has a default of 1.
+                    <img src="screenshots/4.9.jpg" class="img_right"
+                        alt="Linking a your table with another table named 'Trinkets'.">
+                </p>
+                <p>
+                    You can link tables together using the Roll again on column. Type the name of an existing table and
+                    if
+                    that entry is rolled for the Randomizer will roll again on that table. If you've already created the
+                    table a list of autofill suggestions will pop up. Note that if you have not, you must write the
+                    table
+                    name correctly. ALso note that if the Roll again column is filled out whatever is written in the
+                    Title
+                    and Content columns will be ignored.
+                </p>
+            </article>
+            <article>
+                <h2>Shops</h2>
+
+                <img src="screenshots/4.10.jpg" class="img_left" alt="Randomly generate a shop.">
+                <p>In the Shops tab of the Generator window you can randomly generate magical shops. You can generate a
+                    shop of particular type (fig. 1), wealth level (fig. 2), size (fig. 3) and change the general
+                    pricing of the shop's items (fig. 4).
+                </p>
+                <p>
+                    A shop will be generated with a description, owner and inventory. If you don't like the inventory
+                    generated you can generate another set of inventory without changing the description (fig. 5).
+                </p>
+                <p>
+                    You can see descriptions of the items for sale by hovering over the table. (fig. 6)
+                </p>
+            </article>
+            <h2>Taverns</h2>
+            <img src="screenshots/4.11.jpg" class="img_left" alt="Randomly generate a tavern.">
+            <p>In the Taverns tab of the Generator window you can randomly generate a tavern. You can choose a wealth
+                level (fig. 1), a convenient or exotic menu (fig. 2), choose the amount of rumours (fig. 3) and adjust
+                pricing (fig. 4). A description of the tavern will generated, as well as a menu and a set of rumors.</p>
+
+            <p> Press the Reroll Rumors/Menu button (fig. 5) if you want to keep the name and description but
+                wish to reroll the menu and rumors.</p>
+            <p>Hovering over a rumor will give you a desription of the one telling the rumor.</p>
+            </p>
+            <article>
+                <h2>NPC's</h2>
+                <img src="screenshots/4.12.jpg" class="img_right" alt="Randomly generate an NPC.">
+                <p>In the NPC tab of the Generator window you can randomly generate an NPC. You can choose a creature
+                    type
+                    (fig. 1), choose from a Name set (fig. 2) and pick a gender (fig. 3). If you wish, you can copy the
+                    description to the clipboard to paste into wherever it is you keep your notes.</p>
+            </article>
+            <br>
+            <div class="row">
+                <button class="center next_chapter_button" onclick="setDrawer(5)">Next: Adding stuff</button>
+            </div>
+        </section>
+        <section class="content_section hidden ">
+
+            <h1>Adding stuff</h1>
+            <p>You can add things to the database. In the Database window, accessible via the main app screen, you can
+                select a category (spells, items, homebrew monsters, etc) and add or delete entries to that cateogry.
+            </p>
+            <img src="screenshots/5.1.jpg" style="width:100%" alt="Adding things to the databases.">
+            <article>
+                <h1>Monsters/NPC</h1>
+                <p>To add a homebrew monster, select the + in the top left corner of the homebrew monster list. A form
+                    will appear where you fill out the information for the monster. Most fields are optional but
+                    fields which are used by the Map tool (Size) and the Combat panel (Hit points, AC) should be filled
+                    out
+                    to avoid unpredictable behavior </p>
+                <img src="screenshots/5.2.jpg" class="img_right"
+                    alt="You can style the apperance of an entry with markdown.">
+                <p>
+                    Each creature is saved by name, so you cannot save two creatures with the same name. Any field
+                    that's left empty will not be saved, if the "Amphibious" Special Ability is left blank, the creature
+                    will not have that ability.
+                </p>
+                <p>
+                    You can use markdown to style any of the fields.
+                </p>
+                <p>
+                    The Challenge rating calculator gives you an estimated CR of the creature. Defensive CR is
+                    calculated from AC and HP, but you must input predicted damage per round and main attack bonus to
+                    calculate the offensive CR. Note this is just an estimate.
+                </p>
+
+                <p>Once you save the entry, you can search for it in the main app screen and load it into the Combat
+                    panel as with creatures from the SRD.</p>
+            </article>
+            <article>
+                <h1>Encounters</h1>
+                <p>You can create an encounter which can be easily loaded in the Combat panel. In the Encounters tab,
+                    press the plus to create a new encounter.</p>
+
+                <p>An encounter has a name, description and creature list. The creature list has an autocomplete
+                    feature, and if a creature with a given name is in the database the Challenge rating field will
+                    automatically be filled out. It can also be manually changed, if the creature named is not in the
+                    database.</p>
+                    <img src="screenshots/5.3.jpg" class="img_right"
+                    alt="Use autocomplete to automatically insert the creature challenge rating.">
+
+                <p>The difficulty calculator will estimate an encounter's difficulty. It either uses the levels of all
+                    Player characters that are marked as active in the Party window of the main app screen, or you can
+                    manually input the level and party size. </p>
+
+                <p>Once an encounter is saved, you can <button class="hyperlink_like"
+                    onclick="setDrawer(1)">search for it in the main app screen</button> and load it into the combat panel to easily start the encounter.</p>
+
+            </article>
+            <article>
+                <h1>Conditions</h1>
+                <p>Adding other items is straight forward. Once an entry has been added you can search for it in the top-right side of the main-app screen.</p>
+                <img src="screenshots/5.4.jpg" class="img_right"
+                alt="The upper searchbox combines encunters, monsters and homebrew monsters. .">
+            </article>
+            <article>
+                <h1>Other categories</h1>
+                <p>Adding other items is straight forward. Once an entry has been added you can search for it in the top-right side of the main-app screen.</p>
+                <img src="screenshots/5.4.jpg" class="img_right"
+                alt="The upper searchbox combines encunters, monsters and homebrew monsters. .">
+            </article>
+        </section>
+        <section class="content_section hidden ">
+            <h1>The Map Tool</h1>
+        </section>
+
+        <section class="content_section hidden ">
+                <h1>Advanced</h1>
+                <button class="hyperlink_like"
+                        onclick="openDataFolder()">Where's the data?</button>
+                        
+            </section>
+
+    </main>
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- The Close Button -->
+        <span class="close">&times;</span>
+
+        <!-- Modal Content (The Image) -->
+        <img class="modal-content" id="img01">
+
+        <!-- Modal Caption (Image Text) -->
+        <div id="caption"></div>
+    </div>
+</div>
+<script>
+    window.$ = window.jQuery = require("../js/jquery/3.2.1/jquery.min.js");
+</script>
+<script src="../js/guicontrol.js"></script>
+<script src="about.js"></script>
+
+</html>

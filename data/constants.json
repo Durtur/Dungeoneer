@@ -1,0 +1,119 @@
+{
+    "currencies": {
+        "coins": [
+            "cp",
+            "sp",
+            "ep",
+            "gp",
+            "pp"
+        ],
+        "conversions": [
+            10,
+            5,
+            2,
+            10,
+            0
+        ]
+    },
+    "colorPalette": [
+        "rgba(0, 100, 0,0.47)",
+        "rgba(61, 0, 64,0.47)",
+        "rgba(255, 255, 0,0.47)",
+        "rgba(0, 0, 230,0.47)",
+        "rgba(128, 64, 0,0.47)",
+        "rgba(0, 0, 64,0.47)",
+        "rgba(0, 255, 64,0.47)",
+        "rgba(255, 0, 255,0.47)",
+        "rgba(0, 255, 255,0.47)",
+        "rgba(128, 128, 192,0.47)",
+        "rgba(0, 128, 192,0.47)",
+        "rgba(128, 255, 0,0.47)",
+        "rgba(64, 0, 128,0.47)",
+        "rgba(255, 0, 0,0.47)",
+        "rgba(128, 0, 64,0.47)",
+        "rgba(0, 0, 64,0.47)",
+        "rgba(128, 128, 0,0.47)"
+    ],
+    "monsterColorPalette": [
+        "rgba(255, 255, 255,0.47)",
+        "rgba(0, 0, 0,0.47)",
+        "rgba(0, 75, 85,0.47)",
+        "rgba(64, 122, 0,0.47)",
+        "rgba(32, 0, 64,0.47)",
+        "rgba(64, 0, 32,0.47)",
+        "rgba(0, 0, 32,0.47)",
+        "rgba(64, 64, 0,0.47)"
+    ],
+    "creaturePossibleSizes": {
+        "hexes": [
+            0.5,
+            1,
+            1,
+            2,
+            3,
+            4,
+            6,
+            8,
+            14
+        ],
+        "sizes": [
+            "tiny",
+            "small",
+            "medium",
+            "large",
+            "huge",
+            "gargantuan",
+            "colossal",
+            "colossal+",
+            "titanic"
+        ]
+    },
+    "dicePossibleSides": [
+        100,
+        20,
+        12,
+        10,
+        8,
+        6,
+        4
+    ],
+    "itemRarityValues": [
+        "Common",
+        "Uncommon",
+        "Rare",
+        "Very rare",
+        "Legendary",
+        "Artifact"
+    ],
+    "itemTypeValues": [
+        "Weapon",
+        "Wand",
+        "Armor",
+        "List",
+        "Wondrous item",
+        "Potion",
+        "Scroll",
+        "Staff",
+        "Rod",
+        "Shield",
+        "Ring",
+        "Ammunition",
+        "Adventuring gear"
+    ],
+    "defaultCreatureTypes": [
+        "Plant",
+        "Beast",
+        "Fiend",
+        "Fey",
+        "Celestial",
+        "Undead",
+        "Construct",
+        "Aberration",
+        "Dragon",
+        "Elemental",
+        "Giant",
+        "Humanoid",
+        "Monstrosity",
+        "Ooze"
+    ]
+}

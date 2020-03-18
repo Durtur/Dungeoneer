@@ -1,0 +1,94 @@
+header {
+    height: 60px;
+}
+
+main {
+    padding-top: 50px;
+    width: 100%;
+    height: 100%;
+}
+
+.small {
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+}
+
+h2 {
+    margin: 0;
+}
+
+.brown {
+    background-color: #451A17;
+    color: white;
+    border-style: solid;
+    border-color: #3F0E0B;
+    border: 1px solid #3F0E0B;
+    padding: 1px;
+}
+
+.main_column {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+}
+
+#effect_name {
+    width: 210px;
+    height: 40px;
+    text-align: center;
+}
+
+#editing_header {
+    text-align: center;
+}
+
+.chosen-container-multi .chosen-choices {
+    border-radius: 0;
+    background-color: #fff;
+    ;
+}
+
+.token:hover {
+    filter: drop-shadow(0 0 10px white)
+}
+
+.token{
+    background-size: contain;
+    width: 80px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    height: 80px;
+    border-radius:50%;
+    background-position: center;
+}
+
+.success_message{
+    top: 40%;
+    left: 40%;
+    z-index:14;
+}
+
+.chosen-container .chosen-results {
+    background-image: none;
+}
+#deleteButton{
+    height: 40px;
+}
+#saveButton {
+    background-color: #06A70B;
+    height: 40px;
+    width: 100%;
+
+}
+
+#saveButton:hover {
+    background-color: rgb(4, 58, 6);
+    font-weight: bold;
+}
+
+.save_button_container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

@@ -1,0 +1,33 @@
+body{
+    -webkit-app-region: drag;
+    background-image:none !important;
+}
+
+button{
+    -webkit-app-region: no-drag;
+    margin:auto;
+    width:200px;
+    padding:1em;
+}
+.video_backdrop{
+    width:100%;
+    height:100%;
+}
+.video_cont{
+    width:100%;
+    height:100%;
+
+    background-size:cover;
+    background-repeat:no-repeat;
+}
+.button_cont{
+    display: flex;
+    justify-content: center;
+    background-image:url(../css/img/phbbg.png);
+    width: 100%;
+    height: 100%;
+}
+
+.hidden{
+    display:none;
+}

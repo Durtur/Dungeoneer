@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Dungeoneer: Map tool</title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/colors.css" rel="stylesheet">
+    <link href="chosen/chosen.css" rel="stylesheet">
+    <link href="mappingTool/mappingTool.css" rel="stylesheet">
+    <link href="mappingTool/effects.css" rel="stylesheet">
+    <link rel='stylesheet' href='mappingTool/spectrum.css' />
+</head>
+
+<body class="maptool_body">
+    <div class="title_bar">
+        <div class="title_bar_left">
+            <button id="settings_window_button"></button>
+            <button id="add_things_button" title="Add new effects">+</button>
+            <button id="reload_button" title="Reload the window" onclick="location.reload()"></button>
+        </div>
+
+        <div class="toolbar_container">
+
+
+            <div class="toolbar ">
+                <button class="button_style help_button" onclick="showOrHide('help_tool_tip', 1)">Help</button>
+
+
+                <div class="dropdown">
+                    <button class="dropbtn button_style">Map
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a class="button_style" id="file_load_button" href="#">Background</a>
+                        <a class="button_style" id="save_map_button" href="#"
+                            title="Saves the map in the current state, excluding tokens.">Save map</a>
+                        <a class="button_style" id="load_map_button" href="#"
+                            title="Loads an earlier map in the same state, excluding tokens.">Load map</a>
+                        <div class="menu_seperator"></div>
+                        <a class="button_style" id="map_edge_button" href="#"
+                            title="Sets the art for the map ede.">Map edge
+                            style</a>
+                        <a class="button_style" id="backdrop_window_button" href="#"
+                            title="Launches a backdrop window, useful if running in transparent mode.">Backdrop
+                            window</a>
+                    </div>
+                </div>
+
+
+                <div class="show_overflow">
+                    <button title="Change map size" class="toggle_button button_style " toggleGroup="3" toggled="false"
+                        onclick="showMapSizeSlider(this)">Size</button>
+
+                </div>
+
+                <button class="toggle_button button_style" id="fov_tool" toggled="false" title="Toggle fog of war"
+                    onclick="setFogOfWar()">Fog</button>
+
+                <select title="Filter" style="width: 60px" id="filter_tool" onchange="setBackgroundFilter">
+                    <option value="none" selected>No filter</option>
+                    <option value="url(#night-mode)">Night</option>
+                    <option value="url(#winter-mode)">Winter</option>
+                    <option value="hue-rotate(90deg)">Hue</option>
+                    <option value="url(#daylight)">Daylight</option>
+                </select>
+
+                <button class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer
+Lights placed here are not visible normally. " onclick="showVisibilityLayer()">Sight</button>
+
+                <button title="Line measurement tool" class="toggle_button button_style toolbox_button" id="line_tool"
+                    toggleGroup="1" toggled="false" onclick="setTool(this,0)"></button>
+                <button title="Cone measurement tool" class="toggle_button button_style toolbox_button" id="cone_tool"
+                    toggleGroup="1" toggled="false" onclick="setTool(this,1)"></button>
+                <button title="Sphere measurement tool" class="toggle_button button_style toolbox_button"
+                    id="sphere_tool" toggleGroup="1" toggled="false" onclick="setTool(this,2)"></button>
+                <button title="Cube measurement tool" class="toggle_button button_style toolbox_button" id="cube_tool"
+                    toggleGroup="1" toggled="false" onclick="setTool(this,3)"></button>
+                <button title="Rectangle measurement tool" class="toggle_button button_style toolbox_button"
+                    id="rect_tool" toggleGroup="1" toggled="false" onclick="setTool(this,4)"></button>
+
+                <button title="Effect fill paint" class=" button_style hidden" id="fill_style_button" toggleGroup="1"
+                    toggled="false" onclick="setFillStyle()">Fill</button>
+
+                <button title="Line segment" class="hidden visibility_toolbox toggle_button button_style toolbox_button"
+                    id="line_fov_tool" toggleGroup="2" toggled="false" onclick="setFovVisibilityTool(this,0)"></button>
+
+                <button title="Rectangle segment"
+                    class="hidden toggle_button button_style toolbox_button visibility_toolbox" id="rect_fov_tool"
+                    toggleGroup="2" toggled="false" onclick="setFovVisibilityTool(this,1)"></button>
+                <button title="Rectangle segment"
+                    class="hidden toggle_button button_style toolbox_button visibility_toolbox" id="sphere_fov_tool"
+                    toggleGroup="2" toggled="false" onclick="setFovVisibilityTool(this,2)"></button>
+
+                <button class="hidden toggle_button button_style visibility_toolbox" id="delete_segments_button"
+                    toggled="false" title="Delete visibility blocking segments"
+                    onclick="startDeletingSegments()">Delete</button>
+
+            </div>
+        </div>
+        <div class="toolbar toolbar_right hidden" id="fog_of_war_toolbar">
+            <select title="Forced perspective" id="fov_perspective_dropdown" onchange="fovLighting.setPerspective()">
+                <option value="0" selected>All</option>
+            </select>
+            <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Hue</label>
+            <input type="color" id="fog_of_war_hue_selector" value="#000000" class="hidden">
+            <button class="toggle_button button_style" toggled="false" title="Current viewer has darkvision"
+                id="active_viewer_button" onclick="switchActiveViewer()">DV</button>
+            <button class="toggle_button button_style" toggled="false" title="Map is in darkness"
+                id="active_viewer_button" onclick="switchMapLighting()">Dark</button>
+        </div>
+        <button id="minimize_app_button"></button>
+        <button id="min_max_button"></button>
+        <button id="close_window_button"> </button>
+    </div>
+
+    <body>
+        <div class="toolbar toolbar_center hidden" id="add_pawn_from_tool_toolbar">
+            <button class="toggle_button button_style" toggled="false" id="add_from_queue_toggle_button"
+                title="Add monsters from combat table." onclick="startAddingFromQueue()">+</button>
+        </div>
+        <div class="slidecontainer hidden" id="map_size_slider_container">
+            <input type="range" min="100" max="9000" class="slider" id="map_size_slider" title="Map size">
+        </div>
+
+        <!-- #region popups-->
+        <p id="tooltip" class="tooltip hidden">
+            A tooltip
+        </p>
+
+        <p id="tooltip2" class="tooltip hidden">
+            A tooltip
+        </p>
+        <div class="help_tool_tip hidden" id="help_tool_tip">
+            <div class="column">
+                <strong>Map</strong>
+                <ul>
+                    <li>
+                        <div>Reload:</div>
+                        <div class="list_value">CTRL + R </div>
+                    </li>
+                    <li>
+                        <div>Zoom:</div>
+                        <div class="list_value">Mousewheel </div>
+                    </li>
+
+                    <li>
+                        <div>Shift map:</div>
+                        <div class="list_value">Shift + Arrow keys </div>
+                    </li>
+                </ul>
+                <strong>Tokens</strong>
+                <ul>
+                    <li>
+                        <div>Rotate:</div>
+                        <div class="list_value">Shift + Mousewheel </div>
+                    </li>
+                    <li>
+                        <div>Adjust flying height:</div>
+                        <div class="list_value">CTRL + Mousewheel</div>
+                    </li>
+
+                    <li>
+                        <div>Multi select:</div>
+                        <div class="list_value">CTRL + Mouse left</div>
+                    </li>
+                </ul>
+                <strong>Measure</strong>
+                <ul>
+                    <li>
+                        <div>Multi point line:</div>
+                        <div class="list_value">CTRL + Mouse left </div>
+                    </li>
+
+
+
+                </ul>
+
+            </div>
+            <button class="button_style" onclick="showOrHide('help_tool_tip', -1)">Close</button>
+        </div>
+
+        <div id="popup_menu_pawn" class="popup_menu hidden">
+            <button class="button_style hidden" id="vision_button">Vision</button>
+            <button class="button_style" id="conditions_button">Conditions</button>
+            <button class="button_style" onclick="enlargeReducePawn(1)">Enlarge</button>
+            <button class="button_style" onclick="enlargeReducePawn(-1)">Reduce</button>
+            <button class="button_style" id="kill_or_revive_button" onclick="killOrRevivePawn()">Kill</button>
+            <button class="button_style context_menu_button" data-menu_item="context_menu_token">Token</button>
+
+
+
+            <button class="button_style" onclick="elevatePawn()">Push higher</button>
+            <button class="button_style" onclick="removePawn()">Remove</button>
+        </div>
+        <div id="context_menu_token" class="context_menu hidden">
+
+            <button class="button_style icon_load_button " id="add_token_facet_button">Add facet</button>
+            <button class="button_style " id="next_facet_button">Next facet</button>
+            <button class="button_style icon_load_button " id="icon_load_button">Choose token</button>
+            <input type="text" class="hidden" id="background_color_button_change_pawn">
+
+        </div>
+        <div id="popup_menu_general" class="popup_menu hidden">
+            <button class="button_style" onclick="showPopupDialogAddPawn()">Token</button>
+            <button class="button_style" onclick="showPopupMenuAddEffect(event)">Effect</button>
+        </div>
+        <div id="popup_menu_add_effect" class="popup_menu hidden column">
+            <select id="add_sfx_dropdown">
+
+
+
+            </select>
+            <select id="add_light_source_dropdown" class=" toggle_button_toggled">
+                <option value="torch" selected>Torchlight</option>
+                <option value="azure">Azure Light </option>
+                <option value="emerald">Emerald Light </option>
+                <option value="maroon">Maroon Light </option>
+                <option value="chromatic">Chromatic Light </option>
+            </select>
+            <div class="row  light_effect_input_cont">
+                <label id="label_for_effect_input_value_one" class="input_extra_text" for="effect_input_value_three">B:
+                </label>
+                <input type="number" class="input_for_effect" id="effect_input_value_three" placeholder=20
+                    title="Bright light radius">
+                <label id="label_for_effect_input_value_two" class="input_extra_text" for="effect_input_value_four">D:
+                </label>
+                <input type="number" class="input_for_effect" id="effect_input_value_four" placeholder=20
+                    title="Dim light radius">
+            </div>
+            <div class="row">
+                <label id="label_for_effect_input_value_one" class="input_extra_text" for="effect_input_value_one">W:
+                </label>
+                <input type="number" class="input_for_effect" id="effect_input_value_one" placeholder=20
+                    title="Effect width" value="2">
+                <label id="label_for_effect_input_value_two" class="input_extra_text" for="effect_input_value_two">H:
+                </label>
+                <input type="number" class="input_for_effect" id="effect_input_value_two" placeholder=20
+                    title="Effect height" value="2">
+            </div>
+            <button class="button_style toggle_button " id="move_effects_button" toggled="false"
+                onclick="startMovingEffects(event)">Move</button>
+            <button class="button_style toggle_button " id="delete_effects_button" toggled="false"
+                onclick="startDeletingEffects()">Remove</button>
+
+        </div>
+        <div id="popup_dialogue_add_pawn" class="popup_dialog hidden column section__show">
+            <input type="text" id="add_pawn_name">
+            <select id="add_pawn_size">
+
+            </select>
+
+            <button
+                title="Choose icon. If nothing is chosen, a default for the creature name is shown. If multiple files are chosen, one will be chosen randomly for each pawn."
+                id="icon_load_button_add_pawn" class="button_style">Choose Token</button>
+            <input type="text" value='rgba(255,255,255,0.5)' title="Base color" id="background_color_button_add_pawn">
+
+            <button class="button_style margin_top hidden" onclick="addPawnHandler()">Create</button>
+            <button class="button_style" onclick="closeAddPawnDialogue()">Close</button>
+        </div>
+        <div id="vision_tooltip_category" class="popup_menu hidden">
+            <button class="button_style" onclick="setLightSource(0, 0)">None</button>
+            <button class="button_style" onclick="setLightSource(20, 20, {torch : true})">Light / Torch</button>
+            <button class="button_style" onclick="setLightSource(15, 30, {torch : true})">Lamp</button>
+            <button class="button_style" onclick="setLightSource(60, 0, {darkvision : true})">Darkvision 60ft</button>
+            <button class="button_style" onclick="setLightSource(120,0, {darkvision : true})">Darkvision 120ft</button>
+        </div>
+
+        <div id="conditions_menu" class="popup_menu hidden">
+
+        </div>
+        <!-- #endregion popups-->
+        <div class="canvas_wrapper">
+            <canvas id="background" class="canvas_layer"></canvas>
+            <canvas id="effects" class="canvas_layer"></canvas>
+            <div id="tokens" class="canvas_layer"></div>
+            <canvas id="fog_of_war" class="canvas_layer" width="100%" height="100%"></canvas>
+            <canvas id="fog_of_war_segments" class="canvas_layer" width="100%" height="100%"></canvas>
+            <canvas id="grid" class="canvas_layer" width="100%" height="100%"></canvas>
+
+            <canvas id="measurements" class="canvas_layer" width="100%" height="100%"></canvas>
+
+        </div>
+
+        <script>
+            window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
+        </script>
+        <script src="js/dataaccess.js"></script>
+        <script src="js/guicontrol.js"></script>
+        <script src="js/constants.js"></script>
+        <script src="chosen/chosen.jquery.js"></script>
+        <script src='mappingTool/previewPlacing.js'></script>
+        <script src="mappingTool/mapscript.js"></script>
+        <script src="mappingTool/lightning.js"></script>
+        <script src='mappingTool/spectrum.js'></script>
+
+    </body>
+
+    <svg>
+
+        <filter id="effect_fill_filter" x="0%" y="0%" width="100%" height="100%">
+            <feImage id="effect_fill_filter_img"/>
+        </filter>
+        <filter id="night-mode">
+            <feColorMatrix type="matrix" values="
+        0.2  0   0    0  0 
+        0   0.2 0    0  0 
+        0   0   0.3  0  0.01 
+        0    0   0    0  1" />
+        </filter>
+        <filter id="winter-mode">
+            <feColorMatrix type="matrix" values="
+        0.6 0 0 0 0
+              0 0.6 0 0 0
+              0.3 0.2 2.5 0 0
+              0 0 0 1.8 0" />
+        </filter>
+
+        <filter id="daylight">
+            <!--Blur effect-->
+
+            <!--Lighting effect-->
+            <feSpecularLighting result="spec2" specularConstant="1.4" specularExponent="13"
+                lighting-color="rgba(255,255,0,0.01)">
+                <!--Light source effect-->
+                <feDistantLight azimuth="25" elevation="5" />
+            </feSpecularLighting>
+            <!--Composition of inputs-->
+            <feComposite in="SourceGraphic" in2="spec2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+    </svg>
+</body>
+
+</html>

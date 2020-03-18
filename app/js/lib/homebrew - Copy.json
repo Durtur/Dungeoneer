@@ -1,0 +1,1206 @@
+[
+	{
+		"name": "Sanzgor",
+		"description": "  A wicked giant goat.",
+		"size": "Large",
+		"type": "Beast",
+		"alignment": "Chaotic evil",
+		"armor_class": "11",
+		"hit_points": "33",
+		"hit_dice": "6d8+6",
+		"speed": "40ft",
+		"strength": "17 (+3)",
+		"dexterity": "11 (0)",
+		"constitution": "12 (+1)",
+		"intelligence": "6 (-2)",
+		"wisdom": "12 (+1)",
+		"charisma": "6 (-2)",
+		"perception": "1",
+		"damage_resistances": "Bludgeoning, piercing and slashing from nonmagical weapons.",
+		"senses": "Passive perception 1",
+		"challenge_rating": "1 (200xp)",
+		"special_abilities": [],
+		"actions": [
+			{
+				"name": "Ram",
+				"attack_bonus": "5",
+				"damage_dice": "2d4",
+				"damage_bonus": "3"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Animated Halberd",
+		"description": "  ",
+		"size": "Small",
+		"type": "Construct",
+		"alignment": "Unaligned",
+		"armor_class": "15",
+		"hit_points": "17",
+		"hit_dice": "5d6",
+		"speed": "fly 50ft (hover)",
+		"strength": "12",
+		"dexterity": "15",
+		"constitution": "11",
+		"intelligence": "1",
+		"wisdom": "5",
+		"charisma": "1",
+		"dex_save": "4",
+		"damage_immunities": "Poison, psychic",
+		"condition_immunities": "Blinded, charmed, deafened, frightened, paralyzed, petrified, poisoned",
+		"senses": "Blindsight 60ft, passive perception 7",
+		"challenge_rating": "1/4 (50xp)",
+		"special_abilities": [
+			{
+				"name": "Antimagic Susceptibility",
+				"desc": "The object is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the armor must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.",
+				"attack_bonus": 0
+			},
+			{
+				"name": "False Appearance",
+				"desc": "While the object remains motionless, it is indistinguishable from a normal object of it's type.",
+				"attack_bonus": 0
+			}
+		],
+		"actions": [
+			{
+				"name": "Halberd",
+				"attack_bonus": "3",
+				"damage_dice": "reach 1d10",
+				"damage_bonus": "1"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Animated Broom",
+		"description": "  ",
+		"size": "Small",
+		"type": "Construct",
+		"alignment": "Unaligned",
+		"armor_class": "15",
+		"hit_points": "17",
+		"hit_dice": "5d6",
+		"speed": "fly 50ft (hover)",
+		"strength": "10",
+		"dexterity": "17",
+		"constitution": "10",
+		"intelligence": "1",
+		"wisdom": "5",
+		"charisma": "1",
+		"damage_immunities": "Poison, psychic",
+		"condition_immunities": "Blinded, charmed, deafened, frightened, paralyzed, petrified, poisoned",
+		"senses": "Blindsight 60ft, passive perception 7",
+		"challenge_rating": "1/4 (50xp)",
+		"special_abilities": [
+			{
+				"name": "Antimagic Susceptibility",
+				"desc": "The object is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the armor must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute.",
+				"attack_bonus": 0
+			},
+			{
+				"name": "False Appearance",
+				"desc": "While the object remains motionless, it is indistinguishable from a normal object of it's type.",
+				"attack_bonus": 0
+			},
+			{
+				"name": "Multiattack",
+				"desc": "The broom makes two melee attacks.",
+				"attack_bonus": 0
+			},
+			{
+				"name": "Animated attack",
+				"desc": "If the broom is motionless and a creature grabs hold of it, the broom makes a Dexterity check contested by the creature's Strength check. If the broom wins the contest, it flies out of the creature's grasp and makes a melee attack against it with advantage on the attack roll.",
+				"attack_bonus": 0
+			}
+		],
+		"actions": [
+			{
+				"name": "Broomstick",
+				"attack_bonus": "5",
+				"damage_dice": "reach 1d4",
+				"damage_bonus": "3"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Animated sword",
+		"description": "  ",
+		"size": "Small",
+		"type": "construct",
+		"alignment": "unaligned",
+		"armor_class": "17",
+		"hit_points": "17",
+		"hit_dice": "5d6",
+		"speed": "50ft (hover)",
+		"strength": "12",
+		"dexterity": "15",
+		"constitution": "11",
+		"intelligence": "1",
+		"wisdom": "5",
+		"charisma": "1",
+		"dex_save": "4",
+		"damage_immunities": "Poison, psychic",
+		"condition_immunities": "Blinded, charemd, deafened, frightened, paralyzed, petrified, poisoned.",
+		"challenge_rating": "1/4 (50xp)",
+		"special_abilities": [
+			{
+				"antimagic_susceptibility": " The sword is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the sword must succeed on a constitution saving throw against the caster's spell save DC or fall unconcious for 1 minute. "
+			},
+			{
+				"false_appearance": " While the sword remains motionless it's indistinguishable from a normal sword."
+			}
+		],
+		"actions": [
+			{
+				"name": "Longsword",
+				"attack_bonus": "3",
+				"damage_dice": "1d8",
+				"damage_bonus": "1"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Guardian portrait",
+		"description": "  ",
+		"size": "Medium",
+		"type": "construct",
+		"alignment": "unaligned",
+		"armor_class": "5",
+		"hit_points": "22",
+		"hit_dice": "5d8",
+		"speed": "0",
+		"strength": "1",
+		"dexterity": "1",
+		"constitution": "10",
+		"intelligence": "14",
+		"wisdom": "10",
+		"charisma": "10",
+		"damage_immunities": "Poison",
+		"condition_immunities": "Charmed, exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained",
+		"senses": "Darkvision 60ft, passive perception 10",
+		"languages": "Common, primordial, draconic",
+		"challenge_rating": "1 (200xp)",
+		"special_abilities": [
+			{
+				"antimagic_susceptibility": " The sword is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the sword must succeed on a constitution saving throw against the caster's spell save DC or fall unconcious for 1 minute. "
+			},
+			{
+				"false_appearance": " While the sword remains motionless it's indistinguishable from a normal sword."
+			},
+			{
+				"innate_spellcasting": "Ability: Intelligence (save dc 12). \n **Spells:** \n\n\n* Counterspell (3/day)\n\n \n\n* Crown of Madness (3 / day ) \n\n \n\n* Hypnotic Pattern (3/day) \n\n \n\n* Telekinesis (3/day)\n\n"
+			}
+		],
+		"actions": [
+			{}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Rug of Smothering",
+		"description": "  ",
+		"size": "Large",
+		"type": "construct",
+		"alignment": "unaligned",
+		"armor_class": "12",
+		"hit_points": "33",
+		"hit_dice": "6d10",
+		"speed": "0",
+		"strength": "17",
+		"dexterity": "14",
+		"constitution": "10",
+		"intelligence": "1",
+		"wisdom": "3",
+		"charisma": "1",
+		"damage_immunities": "Poison, psychic",
+		"condition_immunities": "Blinded, charmed, deafened, frightened, paralyzed, petrified, poisoned",
+		"senses": "Blindsight 60ft, passive perception 6",
+		"challenge_rating": "1/4 (50xp)",
+		"special_abilities": [
+			{
+				"antimagic_susceptibility": " The object is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the object must succeed on a constitution saving throw against the caster's spell save DC or fall unconcious for 1 minute. "
+			},
+			{
+				"false_appearance": " While the object remains motionless it's indistinguishable from a normal object."
+			},
+			{
+				"damage_transfer": "WHile grappling a creature, the rug takes only half the damage dealt to it. The creature grappled by the rug takes the other half. "
+			},
+			{
+				"smother": "One medium or smaller creature hit. The creature is grappled (escape dc 13). Until this grapple ends, the target is restrained, blnded, and at risk of suffocating, and the rug can't smother another target. In addition, at the start of each of the target's turns, the target takes 2d6+3 bludgeoning damage. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Smother",
+				"attack_bonus": "5",
+				"damage_dice": "2d6",
+				"damage_bonus": "3"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Baba Lysaga",
+		"description": "  Former nurse mother to Strahd, Baba is a vile hag. \n\n<strong>Raven Bane:</strong> Baba lysaga has allies in Castle Ravenloft, a coven of witches. Through the aid of these witches, Lysaga recently uncovered a potential threat to Strahd, a secret society of wereravens called the Keepers of the Feather, a group that uses ordinar ravens as their spies. <br><br>\n\n<strong>Mother Nearest:</strong> During her exile, Baba Lysaga made countless sacrifices to Mother Night, pleading with the godess to afflict Queen Ravenovia with ill health and visit death upon her. LYsaga eventually got her wish, and after Strahd settled in the valley of Barovia, Lysaga moved as close to him as she dared to. \n<br >\nIn the filth-ridden depths of her heart, Lysaga knows that Strahd would ever accept her as his true mother, nor could she bear his rejection. She would rather exist in perpetual denial. ",
+		"size": "Medium",
+		"type": "Shapechanger",
+		"alignment": "Chaotic evil",
+		"armor_class": "15",
+		"hit_points": "120",
+		"hit_dice": "16d8+48",
+		"speed": "30ft",
+		"strength": "18",
+		"dexterity": "10",
+		"constitution": "16",
+		"intelligence": "20",
+		"wisdom": "17",
+		"charisma": "13",
+		"wisdom_save": "7",
+		"arcana": "13",
+		"religion": "13",
+		"senses": "Passive perception 13",
+		"languages": "Abyssal, common, draconic, dwarvish, giant.",
+		"challenge_rating": "11 (7.200 xp)",
+		"special_abilities": [
+			{
+				"shapechanger": " Baba Lysaga can use an action to polymorph into a swarm of flies or back into her true form. While in swarm form, she has a walking speed of 5 ft and flying speed of 30 ft. Anything she wears transforms with her, but nothing she is carrying does. "
+			},
+			{
+				"blessing_of_mother_night": "Baba Lysaga is protected by a nondetection spell. "
+			},
+			{
+				"multiattack": " Baba Lysaga makes three attacks with her quarterstaff. "
+			},
+			{
+				"summon_swarms_of_insects_(recharges_after_short_or_long_rest)": "Baba Lysaga summons 1d4 swarms of insects. A summoned swarm appears in an unoccupied space within 60 ft of Baba Lysaga and acts as her ally. It remains until it dies or Baba Lysaga dismisses it as an action. "
+			},
+			{
+				"spellcasting": " 16 level spellcaster, intelligence (spell save DC 17, +9 to hit)\n\n\n\n* Cantrips: Acid splash, fire bolt, light, mage hand, prestidigitation \n\n\n\n* <strong>1st level (4 slots)</strong> detetct magic, magic missile, sleep, witch bolt.\n\n\n\n* <strong>2nd level (3 slots)</strong> detect magic, magic missile, sleep, witch bolt.\n\n\n\n* <strong>3rd level ( 3 slots)</strong> Dispel magic, fireball, lightning bolt. \n\n\n\n\n* <strong>4th level (3 slots)</strong> Blight, Evard's Black Tentacles, polymorph\n\n\n\n\n* <strong>5th level ( 2 slots) </strong> Cloudkill, geas, scrying \n\n\n\n\n* <strong>6th level (1 slot)</strong> Programmed illusion, true seeing \n\n\n\n\n* <strong>7th level (1 slot)</strong> finger of death, mirage arcane\n\n\n\n\n* <strong>8th level (1 slot)</strong> power word stun"
+			}
+		],
+		"actions": [
+			{
+				"name": "Quarterstaff",
+				"attack_bonus": "8",
+				"damage_dice": "1d8",
+				"damage_bonus": "4"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Barovian Witch",
+		"size": "Medium",
+		"type": "Human",
+		"alignment": "Chaotic evil",
+		"armor_class": "10",
+		"hit_points": "16",
+		"hit_dice": "3d8+3",
+		"speed": "30ft",
+		"strength": "7",
+		"dexterity": "11",
+		"constitution": "13",
+		"intelligence": "14",
+		"wisdom": "11",
+		"charisma": "12",
+		"arcana": "4",
+		"perception": "2",
+		"senses": "Darkvision 60 ft, Passive perception 12",
+		"languages": "Common",
+		"challenge_rating": "1/2 (100xp)",
+		"special_abilities": [
+			{
+				"spellcasting": " 3rd level spellcaster, intelligence (spell save DC 12, +4 to hit)\n\n\n\n* Cantrips: Ray of frost, mage hand, prestidigitation \n\n\n\n* <strong>1st level (4 slots)</strong> Rat of sickness, sleep, Tasha's hideous laughter.\n\n\n\n* <strong>2nd level (2 slots)</strong> Alter self, invisibility\n\n"
+			}
+		],
+		"actions": [
+			{
+				"name": "Dagger",
+				"attack_bonus": "2",
+				"damage_dice": "1d4"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Tree Blight",
+		"description": "Blights are evil ambulatory plant creatures, and a tree blight is a particularily enormous variety. It looks like a dead tree or treant, 30 feet tall with spongy wooden flesh, thorny branches and rubber roots that trail behind it. It has blood for sap and is so saturated with blood that it doesn't catch fire easily. \n\n<br><br><strong>Vicious carnivore</strong> A tree bligh feeds on warm blooded prey and takes perverse delight in causing carnage. It strikes with heavy branches and crushes prey to death with it's roots. It can open it's gaping, tooth-filled mouth and bite a creature caught in it's roots. The roots of a tree blight can be severed, though cutting them causes the blight no harm. \n\n<br><br><strong>Blight animosity</strong> A tree blight will often fight alongside other kinds of blights, but it hates other tree blights and will attack them given the chance. Tree blights also hate treants, and the feeling is mutual. ",
+		"size": "Huge",
+		"type": "Plant",
+		"alignment": "Neutral Evil",
+		"armor_class": "15",
+		"hit_points": "149",
+		"hit_dice": "13d12+65",
+		"speed": "30ft",
+		"strength": "23",
+		"dexterity": "10",
+		"constitution": "20",
+		"intelligence": "6",
+		"wisdom": "10",
+		"charisma": "3",
+		"condition_immunities": "Blinded, deafened",
+		"senses": "Blindsight 60ft, passive perception 10",
+		"languages": "Common and druidic, but doesn't speak",
+		"challenge_rating": "7 (2900 xp)",
+		"special_abilities": [
+			{
+				"false_appearance": "While a blight remains motionless, it is indistinguishable from a dead tree."
+			},
+			{
+				"siege_monster": "The Blight deals double damage to objects and structures. "
+			},
+			{
+				"multiattack": "The blight makes four attacks, two with it's branches and two with it's grasping roots. If it has a target grappled, the blight can also make a bite attack against that target as a bonus action. "
+			},
+			{
+				"grasping_root": "+9 to hit, reach 15 ft. One creature not grappled by the blight. The target is grappled ( escape DC 15). Until the grapple ends, the target takes 1d6+6 bludgeoning damage at the start of each of its turns. The root has AC 15 and can be severed by dealing 6 slashing damage or more to it at once. Cutting the root doesn't hurt the blight, but ends the grapple. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Branch",
+				"attack_bonus": "9",
+				"damage_dice": "3d6",
+				"damage_bonus": "6"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Ezmeralda D'Avenir",
+		"description": "Ezmeralda, a vistana, is the protégé of Rudolph Van Richten. She has amassed a sizable personal fortune, some of which she used to buy a wagon to carry her vampire-slaying gear. On one of her less successful adventures, she was bitten by a werewolf, and was sidelined for months. She has a prosthetic leg because of this, which she takes care to hide. <br>\n\n<strong>Traits</strong>\nIdeal: \"Evil that feeds on the innocent is the worst of all evils, and must be destroyed. <br>\n\nBond: \"My mentor and teacher, Dr Rudolph van Richten, is like a father to me. <br>\n\nFlaw: \"I go where angels fear to tread.\"",
+		"size": "Medium",
+		"type": "Human",
+		"alignment": "Chaotic good",
+		"armor_class": "17",
+		"hit_points": "82",
+		"hit_dice": "11d8+33",
+		"speed": "30ft",
+		"strength": "14",
+		"dexterity": "19",
+		"constitution": "16",
+		"intelligence": "16",
+		"wisdom": "11",
+		"charisma": "17",
+		"wisdom_save": "3",
+		"skills": "Acrobatics +7, arcana +6, deception +9, insight +3, medicine +3, perception +6, performance +6,  sleight of hand +7, stealth +7, survival +6",
+		"senses": "Passive perception 16",
+		"languages": "Common, elvish",
+		"challenge_rating": "8 ( 3900xp)",
+		"special_abilities": [
+			{
+				"special_equipment": "In addition to her +1 rapier, +1 handaxe and her +1 studded leather armor, she has 2 potions of greater healing, six vials of holy water and three wooden stakes. "
+			},
+			{
+				"vistani_curses": "See vistani curses"
+			},
+			{
+				"multiattack": "Ezmeralda makes three attacks, two with her +1 rapier and one with her +1 handaxe or silvered shortsword. "
+			},
+			{
+				"spellcasting": "7th level spell caster, intelligence ( DC 14, +6 to hit) <br>\n\n\n\n* <strong>Cantrips: </strong>Fire bolt, mage hand, prestidigitation\n\n\n\n\n* <strong>1st level ( 4 slots ): </strong> Protection from evil and good, magic missile, shield \n\n\n\n\n\n* <strong>2nd level  (3 slots): </strong> Darkvision, knock, mirror image\n\n\n\n\n* <strong>3rd level  (3 slots): </strong> Clairvoyance, lightning bolt, magic circle. \n\n\n\n\n* <strong>4th level  (1 slots): </strong> Greater invisibility \n\n"
+			}
+		],
+		"actions": [
+			{
+				"name": "+1 Rapier",
+				"attack_bonus": "8",
+				"damage_dice": "1d8",
+				"damage_bonus": "5"
+			},
+			{
+				"name": "+1 handaxe",
+				"attack_bouns": "6",
+				"damage_dice": "1d6",
+				"damage_bonus": "3"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Izek Strazni",
+		"description": "Izek is a loyal servant of Baron Vallakovich. When he isn't enforcing his master's will, he drinks copious amounts of wine. <br><br>\n\n<strong>Doll collector: </strong> Izek collects dolls and keeps them in his bedroom. They all have the likeness of Ireena Kolyana.<br><br>\n\n<strong>Family is forever</strong> Izek has dreams of Ireena. If he spots her, he tries to take her by force to the Burgomaster's mansion. He holds her captive in his bedroom (chapter 5, area N3j). Unknown oto Izek and Ireena, they are brother and sister. ",
+		"size": "Medium",
+		"type": "Human",
+		"alignment": "Neutral evil",
+		"armor_class": "14",
+		"hit_points": "112",
+		"hit_dice": "15d8+45",
+		"speed": "30ft",
+		"strength": "18",
+		"dexterity": "15",
+		"constitution": "16",
+		"intelligence": "10",
+		"wisdom": "9",
+		"charisma": "15",
+		"skills": "Intimidaton +8, perception +2",
+		"senses": "Passive perception 12",
+		"languages": "Common",
+		"challenge_rating": "5 ( 1800xp)",
+		"special_abilities": [
+			{
+				"brute": "A melee weapon deals one extra die of it's damage when Izek hits with it (included)."
+			},
+			{
+				"multiattack": "Izek makes two attacks with his battleaxe. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Battleaxe",
+				"attack_bonus": "7",
+				"damage_dice": "2d10",
+				"damage_bonus": "4"
+			},
+			{
+				"name": "Hurl flame (Range 60 ft)",
+				"attack_bouns": "5",
+				"damage_dice": "3d6"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Kasimir Velikov",
+		"description": "Mutilated and grief stricken dusk elf. Carries a ring of warmth. ",
+		"size": "Medium",
+		"type": "humanoid",
+		"subtype": "Dusk elf",
+		"alignment": "Neutral",
+		"armor_class": 12,
+		"hit_points": 40,
+		"hit_dice": "9d8",
+		"speed": "30 ft.",
+		"strength": 9,
+		"dexterity": 14,
+		"constitution": 11,
+		"intelligence": 17,
+		"wisdom": 12,
+		"charisma": 11,
+		"intelligence_save": 6,
+		"wisdom_save": 4,
+		"arcana": 6,
+		"history": 6,
+		"damage_vulnerabilities": "",
+		"damage_resistances": "",
+		"damage_immunities": "",
+		"condition_immunities": "",
+		"senses": "passive Perception 11",
+		"languages": "any four languages",
+		"challenge_rating": "6",
+		"special_abilities": [
+			{
+				"name": "Spellcasting",
+				"desc": "The mage is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The mage has the following wizard spells prepared:\n\n• Cantrips (at will): fire bolt, light, mage hand, prestidigitation\n• 1st level (4 slots): detect magic, mage armor, magic missile, shield\n• 2nd level (3 slots): misty step, suggestion\n• 3rd level (3 slots): counterspell, fireball, fly\n• 4th level (3 slots): greater invisibility, ice storm\n• 5th level (1 slot): cone of cold",
+				"attack_bonus": 0
+			}
+		],
+		"actions": [
+			{
+				"name": "Dagger",
+				"desc": "Melee or Ranged Weapon Attack: +5 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d4 + 2) piercing damage.",
+				"attack_bonus": 5,
+				"damage_dice": "1d4",
+				"damage_bonus": 2
+			}
+		]
+	},
+	{
+		"name": "Madam Eva",
+		"description": "  Madam Eva is Strahd's half sister, though he is unaware of this fact. Her real name is Katarina, and she is the daughter of a Vistani woman whom King Barov, Strahd's father, took to his bed during one of his many crusades. \n\n<br><br><strong>Mother night:</strong> Over four hundred years ago, Katarina came to Barovia and insinuated herself into Strahd's court, working as a maid in Castle Ravenloft. She came to know the castle like the back of her hand, and she was present for the wedding of Sergei and Tatyana. After Strahd went mad and murdered his brother, she fled the castle and took refuge with the vistani. Later, she forged a pact with the goddess Mother Night, trading her youth for power to undo the evil STrahd had wrought. Mother Night transformed Katarina into an ageless crone, gifted with the power of magical foresight. In the guise of Madam Eva she uses this ability to help Strahd. She can send her Vistani out in their wagons to visit other worlds and bring adventurers to Strahd's domain, in hopes that they will find a way to destroy the vampire. \n\n<br><br><strong>Ideal: </strong> I wish Strahd to be free of his curse.<br><strong>Bond:</strong>The Vistani are my people now. <br><strong>Flaw: </strong> The people whose fates I divine aren't important. They are but  the means to an end. ",
+		"size": "Medium ",
+		"type": "Human",
+		"alignment": "Chaotic neutral",
+		"armor_class": "10",
+		"hit_points": "88",
+		"hit_dice": "16d8+6",
+		"speed": "20ft",
+		"strength": "8",
+		"dexterity": "11",
+		"constitution": "12",
+		"intelligence": "17",
+		"wisdom": "20",
+		"charisma": "18",
+		"constitution_save": "5",
+		"skills": "Arcana +7, Deception +8, Insight +13, Intimidation +8, Perception +9, Religion +7",
+		"senses": "Passive perception 19",
+		"languages": "Abyssal, common, Elvish, Infernal",
+		"challenge_rating": "10 (5900 xp)",
+		"special_abilities": [
+			{
+				"spellcasting": " 16th level spellcaster (DC 17, +9 to hit). \n\n\n\n* Cantrips (at will) : Light, mending, scared flame, thaumaturgy\n\n\n\n\n* 1st level (4 slots) :  Bane, command, detect evil and good, protection from evil and good. \n\n\n\n\n* 2nd level ( 3 slots) : Lesser restoration, protection from poison, spiritual weapon. \n\n\n\n\n*  3rd level (3 slots) : Create food and water, speak with dead, spirit guardians. \n\n\n\n\n\n* 4th level (3 slots ) : Divination, freedom of movement, guardian of faith. \n\n\n\n\n\n* 5th level (2 slots ) : Greater restoration, raise dead. \n\n\n\n\n\n* 6th level ( 1 slot ) :  Find the path, harm, true seeing \n\n\n\n\n\n*  7th level ( 1 slot ) : Fire storm, regenerate \n\n\n\n\n\n*  8th level ( 1 slot ) : Earthquake \n\n"
+			},
+			{
+				"vistani": " Curse and Evil Eye. See Vistani stats. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Dagger",
+				"attack_bonus": "4",
+				"damage_dice": "1d4"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Mongrelfolk",
+		"size": "Medium ",
+		"type": "Mongrelfolk",
+		"alignment": "Any alignment",
+		"armor_class": "11",
+		"hit_points": "26",
+		"hit_dice": "4d8 + 8",
+		"speed": "20ft",
+		"strength": "12",
+		"dexterity": "9",
+		"constitution": "15",
+		"intelligence": "9",
+		"wisdom": "10",
+		"charisma": "6",
+		"constitution_save": "5",
+		"skills": "Deception +2, Perception +2, Stealth +3",
+		"senses": "Passive perception 12",
+		"languages": "Common",
+		"challenge_rating": "1/4 (50xp)",
+		"special_abilities": [
+			{
+				"extraordinary_feature": "The Mongrelfolk has one of the following featyresm roll randomly.\n\n \n\n*  <strong> 1-3 : Amphibious </strong> The mongrelfolk can breathe air and water. \n\n\n\n\n\n*  <strong> 4-9 : Darkvision </strong>  The mongrelfolk has darkvision 60 ft. \n\n\n\n\n\n* <strong> 10 :  Flight </strong> The mongrelfolk has leathery wings and a flying speed of 40 ft. \n\n\n\n\n\n* <strong> 11-15:  Keen hearing and smell</strong> The mongrelfolk has advantage on perception checks that rely on hearing or smell. \n\n\n\n\n\n* <strong> 16-17:  Spider climb</strong> The mongrelfolk can climb difficult surfaces, including upside down on ceilings. \n\n\n\n\n\n* <strong> 18-19:  Standing leap</strong> The mongrelfolk's long jump is up to 20 feet and high jump up to 10 feet. \n\n\n\n\n\n* <strong> 20 :  Two headed</strong> The mongrelfolk has advantage on perception checks and saving throws against being blinded, charmed, deafened, frightened, stunned or knocked unconcious. \n\n"
+			},
+			{
+				"mimicry": "The mongrelfolk can mimic any sound it has heard, including voices. A creature that hears the sounds can tell they are imitations with a successful dc 12 insight check. "
+			},
+			{
+				"multiattack": "The mongrelfolk makes two attacks: one with its bite and one with its claw or dagger. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Bite/Claw/Dagger",
+				"attack_bonus": "3",
+				"damage_dice": "1d4",
+				"damage_bonus": "1"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Phantom Warrior",
+		"size": "Medium ",
+		"type": "Undead",
+		"alignment": "Any alignment",
+		"armor_class": "16",
+		"hit_points": "45",
+		"hit_dice": "6d8+18",
+		"speed": "30ft",
+		"strength": "16",
+		"dexterity": "11",
+		"constitution": "16",
+		"intelligence": "8",
+		"wisdom": "10",
+		"charisma": "15",
+		"skills": "Perception +2, stealth +4",
+		"damage_resistances": "Bludgeoning, piercing and slashing from nonmagical attacks",
+		"damage_immunities": "Cold, necrotic, poison",
+		"condition_immunities": "Charmed, exhaustion, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained. ",
+		"senses": "Passive perception 12, darkvision 60ft",
+		"languages": "Any languages it knew in life",
+		"challenge_rating": "3 (700 xp ) ",
+		"special_abilities": [
+			{
+				"etheral_sight": "The phantom warrior can see 60 ft into the etheral plane when it is on the Material plane, and vice versa. "
+			},
+			{
+				"incorporeal_movement": "The Phantom can move through other creatures and objects as if they were difficult terrain. It takes 1d10 force damage if it ends its turn inside an object. "
+			},
+			{
+				"etheralness": "The Phantom warrior enters the Etheral Plane from the Material Plane or vice versa. It is visible on the Material plane while it is in the Border Etheral, and vice versa, yet it can't affect or be affected by anything on the other plane. "
+			},
+			{
+				"spectral_armor_and_shield": "The Phantom warrior's AC accounts for its spectral armor and shield. "
+			},
+			{
+				"multiattack": "The phantom warrior makes two attacks with its spectral longsword. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Spectral longsword",
+				"attack_bonus": "5",
+				"damage_dice": "1d8",
+				"damage_bonus": "3"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Pidlwick II",
+		"description": "Evil toy",
+		"size": "Small",
+		"type": "Construct",
+		"alignment": "Neutral Evil",
+		"armor_class": "14",
+		"hit_points": "10",
+		"hit_dice": "3d6",
+		"speed": "30ft",
+		"strength": "10",
+		"dexterity": "14",
+		"constitution": "11",
+		"intelligence": "8",
+		"wisdom": "13",
+		"charisma": "10",
+		"skills": "Performance +2",
+		"damage_immunities": "Poison",
+		"condition_immunities": "Paralyzed, petrified, poisoned",
+		"senses": "Passive perception 11",
+		"languages": "Understands common but can't read or write",
+		"challenge_rating": "1/4 ( 50xp )",
+		"special_abilities": [
+			{
+				"ambusher": "During the first round of combat, Pidlwick II has advantage on attack rolls against any creature that hasn't had a turn yet. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Club",
+				"attack_bonus": "2",
+				"damage_dice": "1d4"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Rahadin",
+		"description": "Dusk elf chamberlain of Castle Ravenloft. Rahadin is fiercely loyal to his master, Strahd. '\n\n<br><br> <strong> Ideal : </strong> Loyalty is everything. \n<br><strong>Bond : </strong> I am son of King Barov von Zarovich, and I will serve his son, my brother and lord - forever. \n<br><strong>Flaw : </strong> I have slain thousands of men. I will slaughter thousands more to preserver the von Zarovich legacy. ",
+		"size": "Medium ",
+		"type": "Elf",
+		"alignment": "Lawful Evil",
+		"armor_class": "18",
+		"hit_points": "135",
+		"hit_dice": "18d8+54",
+		"speed": "35ft",
+		"strength": "14",
+		"dexterity": "22",
+		"constitution": "17",
+		"intelligence": "15",
+		"wisdom": "16",
+		"charisma": "18",
+		"wisdom_save": "+7 ",
+		"constitution_save": "+7",
+		"skills": "Deception +8, insight +7, intimidation +12, perception +11, stealth +14",
+		"senses": "Passive perception 21",
+		"languages": "Common, elvish",
+		"challenge_rating": "10 (5900 xp)",
+		"special_abilities": [
+			{
+				"deathly_choir": "Any creature within 10 feet of Rahadin that isn't protected by a mind blank spell hears in its mind the screams of the thousands of people Rahadin has killed. As a bonus action, Rahadin can force all creatures that can hear the screams to make a DC 16 wisdom saving throw. Each creature takes 3d10 psychic damage on a failed save, half has much on a successful one. "
+			},
+			{
+				"fey_ancestry": "Rahadin has advantage on saving throws against being charmed, and magic can't put him to sleep. "
+			},
+			{
+				"innate_spellcasting": "\n\n* 3/day : misty step, phantom steed\n\n\n\n* 1/day : magic weapon, nondetection \n\n"
+			},
+			{
+				"mask_of_the_wild": "Rahadin can attempt to hide even when he is only lightly obscured by foliage, heavy rain, falling snow, mist and other natural phenomena. "
+			},
+			{
+				"multiattack": "Rahadin attacks three times with his schimitar, or twice with his poisoned darts. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Schimitar",
+				"attack_bonus": "10",
+				"damage_dice": "1d6",
+				"damage_bonus": "6"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Rictavio / Rudolph van Richten",
+		"description": "<h2>Officer, gentleman : VAMPIRE HUNTER</h2>\nSeveral months, a colorfully dressed half elf bard came to Barovia in a carnival wagon, with a pet monkey on his shoulder. He took over an abandoned tower on Lake Baratok before rolling into the town of Vallaki several months later. This Bard's name? Albert Einstein. \n\nHe was in fact the legendary vampire hunter and scholar par excellance; Rudlph van Richten\n\n<br><br>\n\n<strong>Bond : </strong> Evil cannot go unchallenged. <br><strong>Bond : </strong> To protect those I love, I must keep them distant and hidden from my enemies. <br><strong>Flaw: </strong> I am cursed, thus I will never have peace. ",
+		"size": "Medium ",
+		"type": "Human",
+		"alignment": "Lawful good",
+		"armor_class": "12",
+		"hit_points": "77",
+		"hit_dice": "14d8+14",
+		"speed": "30 ft",
+		"strength": "9",
+		"dexterity": "12",
+		"constitution": "13",
+		"intelligence": "16",
+		"wisdom": "18",
+		"charisma": "16",
+		"wisdom_save": "+7 ",
+		"constitution_save": "+4",
+		"skills": "Arcana +9, Insight +7, Medicine +7, perception +7, religion +6, sleight of hand +4",
+		"senses": "Passive perception 17",
+		"languages": "Abyssal, common, elvish, infernal",
+		"challenge_rating": "5 (1800 xp)",
+		"special_abilities": [
+			{
+				"special_equipment": "In addition to his sword cane, Rictavio wears a hat of disguise and a ring of mind shielding, and carries a spell scroll of raise dead. "
+			},
+			{
+				"spellcasting": "9th level spell caster ( DC 15, +7 to hit)\n\n<br>\n\n\n\n* Cantrips  : guidance, light, mending, thaumaturgy \n\n\n\n\n*  1st level ( 4 slots ) : cure wounds, detect evil and good, protection from evil and good, sanctuary.\n\n\n\n\n* 2nd level ( 3 slots ) : augury, lesser restoration, protection from poison\n\n\n\n\n* 4th level ( 3 slots )  : death ward, freedom of movement\n\n\n*  5th level (1 slot ) : Dispel evil and good \n\n"
+			},
+			{
+				"undead_slayer": "When Rictavio hits and undead with a weapon attack, the undead takes an extra 3d6 damage of the weapon's type. "
+			},
+			{
+				"multiattack": "Rictavio makes two attacks with his sword cane. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Sword cane",
+				"attack_bonus": "4",
+				"damage_dice": "1d6",
+				"damage_bonus": "1"
+			}
+		],
+		"legendary_actions": []
+	},
+	{
+		"name": "Strahd von Zarovich",
+		"description": "Wicked vampire overlord. ",
+		"size": "Medium ",
+		"type": "Undead ( Shapechanger )",
+		"alignment": "Lawful evil",
+		"armor_class": "16",
+		"hit_points": "144",
+		"hit_dice": "17d8+68",
+		"speed": "30 ft",
+		"strength": "18",
+		"dexterity": "18",
+		"constitution": "18",
+		"intelligence": "20",
+		"wisdom": "15",
+		"charisma": "18",
+		"wisdom_save": "+7 ",
+		"charisma_save": "+9",
+		"dexterity_save": "+9",
+		"skills": "Arcana +15, perception +12, religion +10, stealth +14",
+		"damage_resistances": "Necrotic, piercing bludgeoning and slashing from nonmagical attacks. ",
+		"senses": "Darkvision 120 ft, passive perception 22",
+		"languages": "Abyssal, common, draconic, elvish, giant, infernal",
+		"challenge_rating": "15 ( 13 000 xp)",
+		"special_abilities": [
+			{
+				"shapechanger": "If Strahd isn't in running water or sunlight, he can use his action to polymorph into a tiny bat, a medium wolf or medium cloud of mist, or back into his true form. <br>\nWhile in bat or wolf form, Strahd can't speak. In bat form, his walking speed is 5 feet, and he has a flying speed of 30 feet. In wolf form, his walking speed is 40 feet. His statistic, othe rthan size and speed, are unchanged. Anything he is wearing transforms with him, but nothing he is carrying. He reverts to his true form if he dies. <br>\nWhile in mist form, Strahd can't take any actions, speak or manipulate objects. He is weightless, has a flying speed of 20 feet, can hover, and can enter a hostile creature's space and stop there. IF air can pass through a space, the mist can do so without squeezing, and he can't pass through water. \nHe has advantage on strength, dexterity and constitution saving throws, and is immune to all nonmagical damage, except for damage he takes from sunlight. "
+			},
+			{
+				"legendary_resistance": "3/ day : If Strahd fails a saving throw, he can choose to succeed instead."
+			},
+			{
+				"misty_escape": "When Strahd drops to 0 hit points outside his coffin, he transforms into a cloud of mist ( as in the Shapechanger trait) instead of falling unconcious, provided that he isn't in running water or sunlight. If he can't transform, he is destroyed. <br><br>\nWhile he has 0 hit points in mist form, he can't revert to his vampire form, and must reach his coffin within 2 hours or be destroyed. Once in his coffin, he reverts to his vampire form. He is then paralyzed until he regains at least 1 hit point. After one hour in his coffin, he reaches 1 hit point. "
+			},
+			{
+				"regeneration": "Strahd regains 20 hit points at the start of his turn if he has at least 1 hit point and isn't in running water or sunlight. If he takes radiant damage or damage from holy water, this trait doesn't function at the start of his next turn. "
+			},
+			{
+				"spider_climb": "Strahd can climb difficult surfaces, including upside down on ceilings, without having to make an ability check. "
+			},
+			{
+				"vampire_weaknesses": "Strahd has the following flaws: \n\n\n\n* Forbiddance: He can't enter a residence without an invitation from one of the occupants.\n\n\n\n\n\n* Harmed by running water : He takes 20 acid damage if he ends his turn in running water. \n\n\n\n\n\n* Stake to the heart : If a piercing weapon made of wood is driven into his heart while he is incapacitated in his coffin, he is paralyzed until the stake is removed. \n\n\n\n\n\n* Sunlight hypersensitivity : While in sulight, Strahd takes 20 radiant damage at the start of his turn, and he has disadvantage on ability checks and attack rolls. \n\n"
+			},
+			{
+				"spellcasting": "9th level spell caster ( DC 18, +10 to hit)\n\n<br>\n\n\n\n* Cantrips  : Mage hand, prestidigitation, ray of frost \n\n\n\n\n*  1st level ( 4 slots ) : Comprehend languages, fog cloud, sleep.\n\n\n\n\n* 2nd level ( 3 slots ) :Detect thoughts, gust of wind, mirror image\n\n\n\n\n* 4th level ( 3 slots )  : Blight, greater invisibility, polymorph\n\n\n*  5th level (1 slot ) : Animate objects, scrying\n\n"
+			},
+			{
+				"multiattack": "Strahd makes two attacks, only one of which can be a bite attack. "
+			},
+			{
+				"charm": "Strahd targets one humanoid he can see within 30 feet of him. If the target can see Strahd, the target must succeed on a DC 17 wisdom saving throw against his magic or be charmed. The charmed target regards Strahd as a truested friend to be heeded and protected. The target isn't under Strahd's control, but it takes Strahd's requests and actions in the most favorable way, and lets Strahd bite it. <br><br>\nEach time Strahd or his companions do anything harmfl to the target, it can repeat the saving throw, ending the effect on itself on a success. Otherwise, the effect lasts 24 hour or until Strahd is destroyed, is on a different plane of existance or takes a bonus action to end the effect. "
+			},
+			{
+				"children_of_the_night_": "(1 / day ) Strahd magically calls 2d4 <strong> swarms of bats or swarms of rats </strong>, provided that the sun isn't up. While outdoors, STrahd can call 3d6 wolves instead. The called reatures arrive in 1d4 rounds, acting as allies of Strahd and obeying his spoken commands. The beasts remain for 1 hour, until Strahd dies or he dismisses them as a bonus acton. "
+			},
+			{
+				"unarmed_strike": "Deals 4d6 necrotic damage in addition to normal damage ( included ). Strahd can choose to grappled the creature (Escape DC 18) instead of dealing the bludgeoning damage. "
+			},
+			{
+				"bite": "(Bat or vampire form ) One willing creature, or a creature that is grappled by Strahd, incapacitated or restrained. The bite deals 3d6 necrotic damage in addition to normal damage ( included ). "
+			},
+			{
+				"legendary_actions": "Strahd can take 3 legendary actions, choosing from the options below. Only one legendary action option can be used at a time, and only at the end of another creature's turn. \n\n\n\n* Dash and disengage\n\n\n\n* Bite\n\n\n\n* Unarmed strike\n\n"
+			}
+		],
+		"actions": [
+			{
+				"name": "Unarmed strike",
+				"attack_bonus": "9",
+				"damage_dice": "1d8+4d6",
+				"damage_bonus": "4"
+			},
+			{
+				"name": "Bite",
+				"attack_bonus": "9",
+				"damage_dice": "1d6+3d6",
+				"damage_bonus": "4"
+			}
+		]
+	},
+	{
+		"name": "Strahd Zombie",
+		"description": "  Strahd zombies are undead that serve the vampire Strahd von Zarovich. Created from the long dead guards of Castle Ravenloft, they were called into being through dark magic by Strahd himself. \n\n<br><br><strong>Loathsome limbs: </strong> Strahd zombie's gray-green flesh looks soft, and its bones seem brittle. any good hit from a bludgeoning or slashing weapon severs part of the zombies body. Strahd zombies are suffused with horrible necromantic magic that allows their severed body parts to continue to attack. Al parts of a Strahd zombie are considered one and the same creature, so damage to any part damages the whole craeture. \n\n<br> <br><strong> Undead nature: </strong> A Strahd zombie doesn't require air or sleep. ",
+		"size": "Medium",
+		"type": "Undead",
+		"alignment": "Unaligned",
+		"armor_class": "8",
+		"hit_points": "30",
+		"hit_dice": "4d8+12",
+		"speed": "20ft",
+		"strength": "13",
+		"dexterity": "6",
+		"constitution": "16",
+		"intelligence": "3",
+		"wisdom": "6",
+		"charisma": "5",
+		"wisdom_save": "0",
+		"damage_immunities": "Poison",
+		"condition_immunities": "poisoned",
+		"senses": "Darkvision 60ft, passive perception 8",
+		"languages": "Understands the languages it knew in life but doesn't speak",
+		"challenge_rating": "1 (200 xp )",
+		"special_abilities": [
+			{
+				"loathsome_limbs": " Whenever a zombie takes at least 5 bludgeoning or slashing damage, roll a d20 to determine what else happens to it. \n\n\n* 1-8 : One leg is severed from the zombie if it has anay legs left. \n\n\n\n\n*  One arm is severed from the zombie if it has any arms left. \n\n\n\n* 17-20 : \n\n The zombie is decapitated. \n\n\n\n\nIf the zombie is reduced to 0 points, all parts of it die. Until then, a severed part acts on the zombie's initiative and has its own action and movement. A severed part has AC 8. Any damage it takes is subtracted from the zombie's hitpoints. <br>\nA severed leg is unable to attack and has a speed of 5 feet. <br><br>\nA severed arm has a speed of 5 feet and can make one claw attack on its turn, with disadvantage on the attack roll. Each time the zombie loses an arm, it loses a claw attack. <br><br>\nIF its head is severed, the zombie loses the bite attack and it is blinded unless the head can see it. The severed head has a speed of 0 feet. It can make a bite attack, but only against a creature in its space. <br><br> The zombie's speed is halved if it's missing a leg. If it loses both legs, it falls prone. If it has both arms it can crawl, but its speed is halved. With no arms or legs, its speed is 0 feet and it cant benefit from bonuses to speed. "
+			},
+			{
+				"multiattack": " The zombie makes three attacks, one with its bite and two with its claws. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Bite",
+				"attack_bonus": "3",
+				"damage_dice": "1d4",
+				"damage_bonus": "1"
+			},
+			{
+				"name": "Claw",
+				"attack_bouns": "3",
+				"damage_dice": "1d6",
+				"damage_bonus": "1"
+			}
+		],
+		"legendary_actions": [
+			{}
+		]
+	},
+	{
+		"name": "Revenant",
+		"description": "A revenant forms from the soul of a mortal who met a cruel and undeserving fate. It claws its way back into the world to seek revenge against the one who has wronged it. The revenant reclaims its mortal body and superficially resembles a zombie. However, instead of lifeles seyes, a revenant's eyes burn with resolve and flare in the presence of its adversary. If the revenant's original body was destroyed or is otherwise unavailable, the spirit of the revenant enters another humanoid corpse. ",
+		"size": "Medium",
+		"type": "Undead",
+		"alignment": "Neutral",
+		"armor_class": "13",
+		"hit_points": "136",
+		"hit_dice": "16d8+64",
+		"speed": "30 ft",
+		"strength": "18",
+		"dexterity": "14",
+		"constitution": "18",
+		"intelligence": "13",
+		"wisdom": "16",
+		"charisma": "18",
+		"strength_save": "7",
+		"wisdom_save": "6",
+		"constitution_save": "7",
+		"charisma_save": "7",
+		"damage_resistances": "Necrotic, psychic",
+		"damage_immunities": "Poison",
+		"condition_immunities": "Charmed, exhaustion, frightened, paralyzed, poisoned, stunned",
+		"senses": "Darkvision 60ft, passive perception 13",
+		"languages": "The languages it knew in life. ",
+		"challenge_rating": "5 (1800 xp)",
+		"special_abilities": [
+			{
+				"regeneration": "The revenant regains 10 hit points at the start of its turn. If the revenant takes fire or radiant damage, this trait doesn't funciton at the start of the revenant's next turn. The revenant's body is destroyed only if it starts its turn with 0 hit points and doesn't regenerate. "
+			},
+			{
+				"rejuvination": "When the revenant's body is destroyed, its soul lingers. After 24 hours, the soul inhabits and animates another corpse in the same plane of existance and regains all its hit points. When the soul is bodyless, a wish spell can be used to go to the afterlife and not return. "
+			},
+			{
+				"turn_immunity": "The revenant is immune to effects that turn undead. "
+			},
+			{
+				"vengeful_tracker": "The revenant knows the distance to and direction of any creature against which it seeks revenge, even if the creature and the revenant are on different planes of existence. IF the creature being tracked by the revenant dies, the revenant knows. "
+			},
+			{
+				"multiattack": "The revenant makes two fist attacks. "
+			},
+			{
+				"vengeful_glare": "The revenant targets one creature it can see within 30 feet of it and against which it has sworn vengeance. The target must make a DC 15 wisdom saving throw. On a failure, the target is paralyzed until the revenant deals damage to it, or until the end of the revenants next turn. When the paralysis ends, the target is frightened of the revenant for  1 minute. The frightened target can repeat the saving throw at the end of each of its turns, with disadvantage if it can see the revenant, ending the frightened condition on itself on a success."
+			},
+			{
+				"fist": "If the target is a creature against which the revenant has sword vengeance, the target takes an extra 4d6 bludgeoning damage. Instead of dealing damage, the revenant can grapple the target  (escape DC 14), provided the target is large or smaller. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Fist",
+				"attack_bonus": "7",
+				"damage_dice": "2d6",
+				"damage_bonus": "4"
+			}
+		],
+		"legendary_actions": [
+			{}
+		]
+	},
+	{
+		"name": "Vladimir Horngaard",
+		"description": "Vladimir Horngaard joined the Order of the Silver Dragon at a young age, and quickly earned the friendship of its founder, the silver dragon Argynvost. When he became a knight of the order, he traveled to distant lands to wage war against the forces of evil. The dragon stayed home and, in the guise of a noble named Lord Argynvost, brought new initiates into the order. \n\n<br><br><strong>Enemies of Strahd  : </strong> Vladimir found himself fighting Strahd's armies time and again as they swept across the land. When it became clear that Strahd couldn't be stopped, the knights of the order led hundreds of refugees to Argynvost's valley, but Strahd tracked them to their sanctuary and overwhelemed them with a vast force. Vladimir, whom Argynvost had made a field commander, couldn't hold back the evil tide and was killed. Only after the heartbreaak of witnessing STrahd himself slay Vladimir's beloved, his fellow knight Sir Godfrey Gwilym. With the battle won, Strahd surrounded Argynvost. Rather than cower in his lair, Argynvost emerged and battled Strahd's armies to the bitter end. <br><br><strong>Deadly vengeance: </strong> Unwilling to accept his failure, Vladimir return ed as a revenant. So great was his hatred of STrahd and his thirst for vengeance that those feelings fueled the spirits of many of his fellow knights - including Godfrey - to come back as revenants as well. Vladimir continued to wage the hopeless war, even as Strahd tightened his grip on the valley. ",
+		"size": "Medium",
+		"type": "Undead",
+		"alignment": "Lawful evil",
+		"armor_class": "17",
+		"hit_points": "192",
+		"hit_dice": "16d8+64",
+		"speed": "30 ft",
+		"strength": "18",
+		"dexterity": "14",
+		"constitution": "18",
+		"intelligence": "13",
+		"wisdom": "16",
+		"charisma": "18",
+		"strength_save": "7",
+		"wisdom_save": "6",
+		"constitution_save": "7",
+		"charisma_save": "7",
+		"damage_resistances": "Necrotic, psychic",
+		"damage_immunities": "Poison",
+		"condition_immunities": "Charmed, exhaustion, frightened, paralyzed, poisoned, stunned",
+		"senses": "Darkvision 60ft, passive perception 13",
+		"languages": "Common, draconic",
+		"challenge_rating": "7 ( 2900 xp )",
+		"special_abilities": [
+			{
+				"regeneration": "The revenant regains 10 hit points at the start of its turn. If the revenant takes fire or radiant damage, this trait doesn't funciton at the start of the revenant's next turn. The revenant's body is destroyed only if it starts its turn with 0 hit points and doesn't regenerate. "
+			},
+			{
+				"rejuvination": "When the revenant's body is destroyed, its soul lingers. After 24 hours, the soul inhabits and animates another corpse in the same plane of existance and regains all its hit points. When the soul is bodyless, a wish spell can be used to go to the afterlife and not return. "
+			},
+			{
+				"turn_immunity": "The revenant is immune to effects that turn undead. "
+			},
+			{
+				"vengeful_tracker": "The revenant knows the distance to and direction of any creature against which it seeks revenge, even if the creature and the revenant are on different planes of existence. IF the creature being tracked by the revenant dies, the revenant knows. "
+			},
+			{
+				"multiattack": "The Vladimir makes two greatsword attacks. "
+			},
+			{
+				"vengeful_glare": "The revenant targets one creature it can see within 30 feet of it and against which it has sworn vengeance. The target must make a DC 15 wisdom saving throw. On a failure, the target is paralyzed until the revenant deals damage to it, or until the end of the revenants next turn. When the paralysis ends, the target is frightened of the revenant for  1 minute. The frightened target can repeat the saving throw at the end of each of its turns, with disadvantage if it can see the revenant, ending the frightened condition on itself on a success."
+			},
+			{
+				"greatsword": "Vladimir wields a +2 greatsword with the hilt sculped to resemble silver dragon wings and a pommel shaped like a siver dragon's head clutching a black opal between it's teeth. The weapon deals an <strong> extra 4d6 slashing damage against Strahd. </strong>"
+			}
+		],
+		"actions": [
+			{
+				"name": "+2 Greatsword",
+				"attack_bonus": "9",
+				"damage_dice": "4d6",
+				"damage_bonus": "6"
+			}
+		],
+		"legendary_actions": [
+			{}
+		]
+	},
+	{
+		"name": "Needle Blight",
+		"size": "Medium",
+		"type": "Plant",
+		"alignment": "Neutral Evil",
+		"armor_class": "12",
+		"hit_points": "11",
+		"hit_dice": "2d8+2",
+		"speed": "30 ft",
+		"strength": "12",
+		"dexterity": "12",
+		"constitution": "13",
+		"intelligence": "4",
+		"wisdom": "8",
+		"charisma": "3",
+		"condition_immunities": "Blinded, deafened",
+		"senses": "Blindsight 60ft, passive perception 9",
+		"languages": "Understands common but doesn't speak",
+		"challenge_rating": "1/4 ( 50xp)",
+		"special_abilities": [],
+		"actions": [
+			{
+				"name": "Claws",
+				"attack_bonus": "3",
+				"damage_dice": "2d4",
+				"damage_bonus": "1"
+			},
+			{
+				"name": "Needles",
+				"attack_bouns": "3",
+				"damage_dice": "2d6",
+				"damage_bonus": "1"
+			}
+		],
+		"legendary_actions": [
+			{}
+		]
+	},
+	{
+		"name": "Twig Blight",
+		"size": "Small",
+		"type": "Plant",
+		"alignment": "Neutral Evil",
+		"armor_class": "13",
+		"hit_points": "4",
+		"hit_dice": "1d6+1",
+		"speed": "20ft",
+		"strength": "6",
+		"dexterity": "13",
+		"constitution": "12",
+		"intelligence": "4",
+		"wisdom": "8",
+		"charisma": "3",
+		"stealth": "3",
+		"damage_vulnerabilities": "Fire",
+		"condition_immunities": "Blinded, deafened",
+		"senses": "Blindsight 60ft, passive perception 9",
+		"languages": "Understands common but doesn't speak",
+		"challenge_rating": "1/8 (25 xp)",
+		"special_abilities": [
+			{
+				"false_appearance": "While the blight remains motionless, it is indistinguishable from a dead shrub. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Claws",
+				"attack_bonus": "3",
+				"damage_dice": "2d4",
+				"damage_bonus": "1"
+			}
+		],
+		"legendary_actions": [
+			{}
+		]
+	},
+	{
+		"name": "Vine Blight",
+		"size": "Medium",
+		"type": "Plant",
+		"alignment": "Neutral Evil",
+		"armor_class": "12",
+		"hit_points": "26",
+		"hit_dice": "4d8+8",
+		"speed": "10ft",
+		"strength": "15",
+		"dexterity": "8",
+		"constitution": "14",
+		"intelligence": "5",
+		"wisdom": "10",
+		"charisma": "3",
+		"stealth": "1",
+		"condition_immunities": "Blinded, deafened",
+		"senses": "Blindsight 60ft, passive perception 9",
+		"languages": "Understands common but doesn't speak",
+		"challenge_rating": "1/2 (100xp)",
+		"special_abilities": [
+			{
+				"false_appearance": "While the blight remains motionless, it is indistinguishable from a tangle of vines. "
+			},
+			{
+				"constrict": "A large or smaller target is grappled, escape DC 12. Until this grapple ends, the target is restrained and the blight can't constrict another target."
+			},
+			{
+				"entangling_plants": "(Recharge 5 / 6) Grasping root and vines sprout in a 15 ft radius centered on the blight, withering away after 1 minute. For the duration the area is difficult terrain for a nonplant creature. In addition, each creature of the blight's choice in that area when the plants appear must succed a dc 12 strength save or become restrained. A DC 12 strength check can free it. "
+			}
+		],
+		"actions": [
+			{
+				"name": "Constrict",
+				"attack_bonus": "4",
+				"damage_dice": "2d6",
+				"damage_bonus": "2"
+			}
+		],
+		"legendary_actions": [
+			{}
+		]
+	},
+	{
+		"name": "Zaru",
+		"description": "Zaru lives in an old and weathered shop named Zaru's Emporium of Wonders. The two story building leanes haphazardly on one side, and the sign, which depicts an octagon inscribed with Draconic runes (They translate to Shop), is heavily faded. \n\nZaru's shop was a quaint little magic shop, which sold mundane equipment, the occasional barrel of salted pork and uncommon magic items.\n\nBy a dark twist of fate, Zaru was turned into a vampire spawn, his inherent sorcerous ability twisted into a vicious form of telekinetic ability.\n\nUnwilling to leave his shop despite his ever present hunger, Zaru will trade his items for fresh humanoid blood. His rates are approximitely 10 gp per liter of blood, but do depend on his mood. Thus a torch would generally cost a little suckle, whilst a potion of healing would demand a price which would drain one human dead. \n\nZaru will also trade items from the players for half their market value in the form of other items. He does not accept gold, generally his rule is : \"IF I can't suckle it I don't want it.\"\n\nZaru is quite mad. He may begin randomly throwing things at visitors. He keeps his shop pristine, but will, if the mood strikes him, hurl projectiles via his Catapult spell at customers.",
+		"size": "Medium",
+		"type": "Undead",
+		"alignment": "Neutral",
+		"armor_class": "16",
+		"hit_points": "82",
+		"hit_dice": "11d8+33",
+		"speed": "30ft",
+		"strength": "16",
+		"dexterity": "16",
+		"constitution": "16",
+		"intelligence": "11",
+		"wisdom": "10",
+		"charisma": "16",
+		"dexterity_save": "6",
+		"wisdom_save": "3",
+		"stealth": "6",
+		"perception": "3",
+		"damage_resistances": "Necrotic, bludgeoning, pierecing and slashing from nonmagical wepaons.",
+		"senses": "Darkvision 60ft, passive perception 13",
+		"languages": "Common, Elven, Draconic",
+		"challenge_rating": "6",
+		"special_abilities": [
+			{
+				"regeneration": " Zaru regains 10 hit points at the start of his turn if he isn't in sunlight or running water. If he takes radiant damage or damage from holy water, this trait doesn't function at the start of his next turn."
+			},
+			{
+				"spider_climb": " Zaru can climb dificult surfaces, including upside down on ceilings, without needing to make an ability check. "
+			},
+			{
+				"vampire_weaknesses": "\n* Forbiddance: Zaru cannot enter a residence without an invitiation from one of the occupants. Not that he'd want to really, he is perfecly happy in his shop. \n\n* Harmed by Running Water: Zaru will take 20 acid damage in the unlikely event that he ends his turn in running water. \n\n* Stake to the heart. Zaru is destroyed if a piercing weapon made of wood is drive into his heart while he is incapacitated in his resting place.\n\n* Sunlight hypersensitivity. Zaru takes 20 radiant damage when he starts his turn in sunlight. While in sunlight, he has disadvantage on attack rolls and ability checks. Zaru doesn't worry about this though, since he keeps his shades down. \n\n"
+			},
+			{
+				"spellcasting": "Zaru is a 9th level sorcerer. His spellcasting modifier is charisma. Spellcasting DC 14, +6 to hit with spells. He only knows  two spells, which he can use at varying spell levels. \n\n**Spell slots:** \n* 1st level(4 slots): Catapult\n* 2nd level (3 slots): Catapult\n* 3rd level (3 slots): Catapult\n* 4th level(3 slots):  Yes, you guessed it: Catapult\n* 5th level(1 slot): Telekinesis \n\n"
+			},
+			{
+				"multiattack": "Zaru makes **two attacks**, only one of which can be a bite attack. "
+			},
+			{
+				"bite": " Melee  Weapon  Attack:  +6 to hit, reach 5 ft., one willing\ncreature, or a creature that  is  grappled  by   Zaru,\nincapacitated, or restrained.  Hit :  6 (1d6 +  3)  piercing damage\nplus 7 (2d6) necrotic damage. The target's hit point maximum\nis  reduced  by  an  amount equal to the necrotic damage taken,\nand Zaru regains hit points equal to that amount. The\nreduction lasts until the target finishes a long rest. The target\ndies if this effect reduces its hit point maximum to  0."
+			},
+			{
+				"claws": "  Melee  Weapon  Attack:  +6  to hit, reach 5 ft., one creature.\nHit:  8 (2d4 +  3)  slashing damage. Instead of dealing damage,\nZaru can grapple the target (escape  DC  1 3)."
+			}
+		],
+		"actions": [
+			{
+				"name": "Claws",
+				"attack_bonus": "6",
+				"damage_dice": "2d4 ",
+				"damage_bonus": "3",
+				"attack_bouns": "6"
+			},
+			{
+				"name": "Bite",
+				"attack_bonus": "6",
+				"damage_dice": "1d6+2d6 ",
+				"damage_bonus": "3",
+				"attack_bouns": "6"
+			}
+		],
+		"legendary_actions": []
+	}
+]

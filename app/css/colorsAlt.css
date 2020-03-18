@@ -1,0 +1,264 @@
+*:focus{
+    outline:0;
+    box-shadow: 0 0 3pt 1pt #E58A11;
+  }
+
+main{
+ /* background-image:url("./img/phbbgbig.png");*/
+  background-size:cover;
+}
+
+html,body{
+    font-family: germania-one;
+    background-color:#2F221E;
+  }
+
+  hr{
+    background-color: #451A17;
+  }
+
+  .button{
+    color:white;
+    font-family: "Germania One";
+    background-color:#451A17;
+    background-size:contain;
+    background-repeat: no-repeat;
+  }
+
+  .button:hover{
+    background-color:#DE3C2B;
+}
+
+
+  header{
+
+      background-color:#450A03;
+      border-bottom:1px solid #2D0303;
+}
+
+.roundcounter{
+    background-color:#251212;
+    border:1px solid black;
+  }
+
+  
+.roundcounter>.row>button{
+    background-color:#2D2424;
+    color:white;
+
+}
+
+.section__show{
+    background-color:#450A03;
+
+  }
+  
+
+.roundcounter>h3{
+    color:white;
+  }
+
+.iframewrap{
+    background-color:#8A4135;
+    background-image:url("./img/phbbg.png");
+    background-size:cover;
+    border: 1px groove #2D0303;
+
+}
+
+.pageframe>h1{
+    color:#58180D;
+
+  }
+
+
+
+.ability_row>ul>li>p:first-of-type{
+    color:#58180D;
+    font-weight:bold;
+
+  }
+
+.pcnode__passiveperception{
+
+    color:black;
+    background-image:url("img/eye.png");
+    background-size:contain;
+    background-repeat:no-repeat;
+
+    
+  }
+
+  
+.pcnode{
+  
+    color:white;
+    background-image:url("img/shield.png");
+    background-size:80%,80%;
+    background-repeat:no-repeat;
+    background-position: 5px 17px;
+    background-color:#4a4a4a;
+   
+  }
+
+  .lootgenerator{
+
+    color:black;
+
+    background-color:#450A03;
+    
+  }
+  
+  .questionpopup:active:after {
+    border:1px solid #ccc;
+ 
+    background: #ffffca;
+    color:#000023;
+  }
+
+  .combatGUI{
+    background-color:#DE3C2B;
+  }
+  .combatRow>input{
+    background-color: #763838;
+    border:1px solid black;
+  }
+
+  .combatRow>button{
+    color:white;
+  }
+  
+
+  .sink{
+    color:white;
+    background-color:#451A17;
+  }
+
+  .pcnodeInner{
+
+    background-size:90%,90%;
+
+  }
+  
+  .acspinner{
+    background-image:url("img/arrowh.png");
+    background-size:80%,80%;
+    background-repeat:no-repeat;
+   
+  }
+
+  .roundcounter__value{
+    color:#444242;
+  }
+
+  
+.topContainer>p{
+    color: #DEC8C6;;
+
+  }
+
+  .search{
+    background-image: url("img/search.png");
+  }
+  .load{
+    background-image: url("img/load.png");
+  }
+  .initiative{
+    color:white;
+    background-color:#2B0300;
+  
+  }
+
+  .init--NPC{
+    background-color:#401211;
+    border-color:#3E3E40;
+  
+  }
+  
+.init--NPC:hover{
+    border-color:#7B7B7F;
+    background-color:#E5403E;
+}
+
+.init--PC{
+    background-color:#0E914B;
+    border-color:#3E3E40;
+  }
+
+.init--PC:hover{  
+        background-color:#98E5AE;
+        border-color:#7B7B7F;
+}
+
+.initiativeNode{
+    color:white;
+}
+
+.dmg{
+    background-image:url("img/blood.png");
+    background-size: cover;
+    color: #B2444D;
+    background-color:#B2444D;
+  
+  }
+  .diceRollerPanel{
+    background-color:inherit;
+  }
+
+.diceRollerPanel__container{
+    background-color:#450A03;
+}
+.diceRollerContainer{
+    color:white;
+}
+
+.diceRollerPanel>button{
+  color:white;
+ 
+}
+
+.pageframe_wrap{
+    background-color:#8A4135;
+}
+  
+#saveRollResultsSuccess{
+    color:#06A70B;
+    font-weight:bold;
+}
+
+#saveRollResultsFailures{
+    color:#BB000A;
+    font-weight:bold;
+}
+
+
+.vertical{
+    color: #7C7F7C;
+  }
+
+  /*
+.initiative--button{
+  background-image:url("img/init.png");
+  background-position:5px 0px;
+}
+
+.partystats{
+  background-image:url("img/muscle.png");
+  background-position:10px 0px;
+
+}
+
+.homebrew{
+  background-image:url("img/brew.png");
+  background-position:10px 0px;
+
+}
+
+.perception{
+
+  background-image:url("img/eye.png");
+}
+*/
+  
+  
+  

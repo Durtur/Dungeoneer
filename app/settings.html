@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="SÖR" content="">
+    <meta name="DM Tool" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="css/settings.css" rel="stylesheet">
+    <link href="css/colors.css" rel="stylesheet">
+
+</head>
+<div class="title_bar">
+
+
+    <p class="text">The Owls are not what they seem</p>
+    <button id="minimize_app_button"></button>
+    <button id="min_max_button"></button>
+    <button id="close_window_button"> </button>
+</div>
+<div class="main_content_wrapper">
+
+    <body>
+
+        <main>
+            <div class="settings_section column">
+                <h3 class="settings_header">Initiative settings</h3>
+                <div class="column header_content hidden">
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="Roll initiative for the players automatically and arrange initiative order."
+                            for="autoRollInitiative">Roll initiative automatically</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="autoRollInitiative">
+                            <span class="checkmark"></span>
+                        </label>
+
+
+                    </div>
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="Enables the round counter feature, which tracks how many rounds have passed when tracking initiative."
+                            for="roundCounterIntitiative">Enable round counter</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="roundCounterIntitiative">
+                            <span class="checkmark"></span>
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="settings_section column">
+                    <h3 class="settings_header">Enabled features</h3>
+                    <div class="column header_content hidden">
+                        <div class="row spaced">
+                            <label class="help_label tooltipped"
+                                data-tooltip="Enables the loot generator feature, which generates a single treasure based on challenge rating."
+                                for="lootRoller">Loot generator</label>
+
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" id="lootRoller">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                        <div class="row spaced">
+                            <label class="help_label tooltipped"
+                                data-tooltip="Enables the Randomizer tool, which can generate level appropriate encounters, magic items and more."
+                                for="generator">Randomizer</label>
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" id="generator">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                        <div class="row spaced">
+                            <label class="help_label tooltipped" data-tooltip="Enables the dice roller feature"
+                                for="diceRoller">Dice Roller</label>
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" id="diceRoller">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                        <div class="row spaced">
+                            <label class="help_label tooltipped"
+                                data-tooltip="Enables the save roller feature, which rolls saves for multiple NPC's at once."
+                                for="saveRoller">Save Roller</label>
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" id="saveRoller">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                        <div class="row spaced">
+                            <label class="help_label tooltipped" data-tooltip="Enables the map tool window"
+                                for="mapTool">Map
+                                Tool</label>
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" onclick="hideOrShowMapTool()" id="mapTool">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                        <div class="row spaced">
+                            <label class="help_label tooltipped"
+                                data-tooltip="Enables the player plaques feature, which displays basic information about PCs. The plaques can be rearranged to represent marching order."
+                                for="showPlayerPlaques">Player plaques</label>
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" id="showPlayerPlaques">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="settings_section column" id="mapToolSection">
+                <h3 class="settings_header">Map Tool settings</h3>
+                <div class="column header_content hidden">
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="Default map width for the Maptool. This is useful if your maps all have the same scale. If nothing is set the map will fit the window. The height will scale accordingly.">Default
+                            map width</label>
+                        <div class="row">
+                            <input type="number" id="defaultMapsizeX" placeholder="Auto" style="width:100px;">
+
+                        </div>
+
+                    </div>
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="If enabled, the Maptool window will be transparent. Note that when in this mode, the Maptool does not perform as fast."
+                            for="transparentWindow">Transparent window</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="transparentWindow">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="row spaced">
+                        <label class="help_label tooltipped" data-tooltip="Enable maptool grid." for="enableGrid">Show
+                            grid</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="enableGrid" onclick="hideOrShowGridSettings()">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+
+                    <div class="row spaced">
+                        <label class="help_label tooltipped" data-tooltip="Snap pawns to the maptool grid."
+                            for="snapToGrid">Snap to grid</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="snapToGrid">
+                            <span class="checkmark"></span>
+                        </label>
+
+                    </div>
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="Sync the combat panel to the maptool, enabling you to load pawns in the maptool from NPC's in the combat panel. 
+                    
+                    Tokens that are marked as dead in the map tool will disappear from the combat panel. If they are revived they will be added back to the combat panel with 1 hp.
+                    
+                    Tokens that are removed from the combat panel due to having HP less than or equal to zero will be marked as dead in the map tool."
+                            for="syncToCombatPanel">Sync with combat panel</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="syncToCombatPanel">
+                            <span class="checkmark"></span>
+                        </label>
+
+                    </div>
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="Automatically add player tokens when opening the map tool. A pawn is added for each player that is marked as active in the party window."
+                            for="addPlayersAutomatically">Auto add player tokens</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="addPlayersAutomatically">
+                            <span class="checkmark"></span>
+                        </label>
+
+                    </div>
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="Apply a grayscale filter when viewing through darkvision with the fog of war feature enabled in the map tool"
+                            for="applyDarkvisionFilter">Apply filter on darkvision</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="applyDarkvisionFilter">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+    
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
+                            data-tooltip="Automatically assign a color to token bases. If this is unchecked, the base will be transparent."
+                            for="colorTokenBases">Color token bases</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="colorTokenBases">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="settings_section column">
+                <h3 class="settings_header">Global settings</h3>
+                <div class="column header_content hidden">
+                    <div class="row spaced">
+                        <label class="help_label tooltipped" for="maxAutoLoads"
+                            data-tooltip="Hard limit on how many NPC's are added to the combat panel from an encounter"
+                            for="maxAutoLoads">Max entries in combat panel</label>
+                        <input class="small" type="number" id="maxAutoLoads">
+                    </div>
+                </div>
+            </div>
+
+            <div class="success_bg" id="save_msg_bg">
+                <div id="save_success" class="success_message  hidden">
+                    Save successful!
+                </div>
+
+            </div>
+
+        </main>
+        <!--
+        <div class="row save_button_container">
+            <button class="button_style green" id="saveButton" onclick="saveSettings()">Save</button>
+        </div>
+            -->
+        <script>
+            window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
+        </script>
+        <script src="js/dataaccess.js"></script>
+        <script src="js/constants.js"></script>
+        <script src="js/settings.js"></script>
+        <script src="js/guicontrol.js"></script>
+
+    </body>
+</div>
+
+</html>

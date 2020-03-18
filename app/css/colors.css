@@ -1,0 +1,1438 @@
+:root {
+  --main-color: #58180D;
+  --alt-main-color: #451A17;
+  --main-emphasis-color: #DE3C2B;
+  --alt-emphasis-color: rgba(194, 140, 29, 0.4);
+  --main-underline-color: rgb(61, 17, 9);
+  --main-success-color: rgb(4, 64, 4);
+  --main-success-color-lighter: rgb(10, 125, 10);
+  --transition-delay: 300ms;
+  --base-margin: 10px;
+  --rounded-corners: 5px;
+}
+
+input:focus, textarea:focus {
+  outline: 2px dashed #555 !important;
+}
+
+*:focus {
+  outline:none;
+}
+
+.main_content_wrapper {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  position: absolute;
+
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  animation: fadein 0.5s;
+}
+
+main, body {
+  background-image: url("./img/phbbgbig.png");
+  background-size: cover;
+  background-repeat: repeat;
+
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@font-face {
+  font-family: mrEaves;
+  src: url("./fonts/Mr Eaves Small Caps.otf");
+}
+
+@font-face {
+  font-family: nodesto;
+  src: url("./fonts/Nodesto Caps Condensed.otf");
+}
+
+@font-face {
+  font-family: bookSanity;
+  src: url("./fonts/Bookinsanity.otf");
+}
+
+@font-face {
+  font-family: misDirection;
+  src: url("./fonts/Zatanna Misdirection.otf");
+}
+
+@font-face {
+  font-family: solbera;
+  src: url("./fonts/Solbera Imitation.otf");
+}
+
+h1, h2, h3, h4, h5, .header_text {
+  font-family: "nodesto";
+  color: var(--main-color);
+}
+
+select {
+  font-family: "roboto condensed";
+  padding: 5px;
+  color: white;
+  background-color: var(--main-color);
+  border-bottom: 2px solid var(--main-underline-color);
+}
+
+select:hover {
+  background-color: var(--main-emphasis-color);
+  transition: background-color var(--transition-delay);
+}
+
+button {
+  transition: background-color var(--transition-delay);
+}
+
+.awesomplete {
+  font-family: "nodesto";
+  font-size: 16px;
+}
+
+.text {
+  font-family: "bookSanity";
+}
+
+p, label {
+  font-family: "roboto condensed";
+  color: black;
+  line-height: 1.5;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+input[type=checkbox] {
+  background-color: white;
+}
+
+.brown_input {
+  background-color: var(--alt-emphasis-color);
+  border: none;
+  font-family: 'mrEaves';
+}
+
+.floating_input {
+  position: absolute;
+  z-index: 12;
+  filter: drop-shadow(10px 10px 10px black);
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: black;
+}
+
+.floating_input>*>input {
+  width: 200px;
+  height: 25px;
+}
+
+.encounter_difficulty_description {
+  font-style: italic;
+  color: var(--main-color);
+}
+
+tr {
+  font-family: "bookSanity";
+  font-size: 12px;
+  padding: 3px;
+}
+
+td {
+  padding: 5px;
+  background-color: transparent;
+  border: none;
+  color: black;
+  text-align: center;
+}
+
+tbody>tr:nth-child(odd) {
+  background-color: var(--alt-emphasis-color);
+}
+
+td>strong {
+  font-family: "mrEaves";
+  color: var(--main-color);
+  font-size: 13px;
+}
+
+thead>tr, .table_header, th {
+  font-family: "mrEaves";
+  font-size: 1.2em;
+  border: none;
+  color: black;
+  font-weight: normal;
+}
+
+tbody>tr:hover, .selected_row {
+  background-color: rgba(0, 0, 0, 0.3)
+}
+
+h4 {
+  font-family: nodesto;
+  color: var(--main-color);
+}
+
+hr {
+  background-color: var(--main-color);
+}
+
+.control_button_toggled {
+  background-color: var(--main-emphasis-color) !important;
+}
+
+.button_style[disabled], button[disabled]{
+  opacity: 0.2;
+}
+.button_style {
+  color: white;
+  font-family: "Impact, fantasy";
+  font-size: 12px;
+  background-color: var(--main-color);
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: background-color 300ms;
+  border: none;
+  border-bottom: 2px solid var(--main-underline-color);
+}
+
+.button_style:hover {
+  background-color: var(--main-emphasis-color);
+}
+
+.die_d20 {
+  color: white;
+  border: none;
+  background-color: transparent;
+  background-size: contain;
+}
+
+.combatRow>.die_d20{
+  background-color: white;
+}
+
+.die_d20:hover {
+  background-image: url("./img/d20hover.png");
+}
+
+.die_d20_normal {
+  background-image: url("./img/d20normal.png");
+}
+
+.die_d20_hit {
+  background-image: url("./img/d20hit.png");
+}
+
+.die_d20_crit {
+  background-image: url("./img/d20crit.png");
+}
+
+.toggle_button[toggled="true"] {
+  background-color: var(--main-emphasis-color);
+  color: white;
+  font-family: "roboto condensed";
+  border: none;
+}
+
+
+
+.traybutton {
+  margin-left: 3px;
+}
+
+.success_message {
+  background-color: #60A163;
+  color: #003F02;
+}
+
+.failed_message {
+  background-color: rgb(161, 96, 96);
+  color: rgb(63, 0, 0);
+}
+
+.popup_message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.section__tool {
+  position: relative;
+  margin: 10px;
+  padding: 10px;
+  font-family: nodesto;
+  width: 600px;
+}
+
+.tool__pane {
+  max-width: 640px;
+  height: 180px;
+}
+
+.header__pane>h2 {
+  margin: 0;
+}
+
+.statblock_hp_and_ac_row>div{
+  flex:1;
+}
+
+.statblock_hp_and_ac_row{
+  display:flex;
+  flex-flow:row nowrap;
+  justify-content: space-around;
+}
+.spell_statblock_properties>div{
+  margin: 6px;
+  flex:1;
+}
+
+.spell_statblock_properties strong, .spell_statblock_properties p{
+  width:100%;
+  margin:0;
+  padding:0;
+  text-align:center;
+
+}
+
+.spell_statblock_properties{
+
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  border-bottom: 2px solid var(--main-color);
+  border-top: 2px solid var(--main-color);
+}
+
+.statblock_hit_points{
+  background-image: url("./img/heart.png");
+  margin: 0;
+  display: flex;
+  font-size: 1.2em;
+  justify-content: center;
+  background-size: 2.3em;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-weight: bold;
+  padding: 0.67em;
+  color: var(--main-success-color-lighter);
+}
+
+.statblock_key_stats{
+  margin: 0;
+  text-align:center;
+}
+.statblock_armor_class{
+  background-image: url("./img/shield_outline.png");
+  margin: 0;
+  display: flex;
+  font-size: 1.2em;
+  justify-content: center;
+  background-size: 1.8em;
+  background-position: center;
+  background-repeat: no-repeat;
+  font-weight: bold;
+  padding: 0.67em;
+  color: #2e5f8a;
+}
+.frame_history_button_toggled, .toggle_button_toggled {
+  background-color: var(--main-emphasis-color);
+}
+
+.header__pane>h2:nth-child(2) {
+  margin-left: 425px;
+  position: absolute;
+}
+
+.selected_field {
+  outline: 2px dashed black !important;
+  z-index: 1;
+}
+
+.header__pane {
+  justify-content: space-between;
+  height: 40px;
+  max-width: 640px;
+  margin-top: 10px;
+  margin-bottom: -10px;
+}
+
+.section__tool__large {
+  margin: var(--base-margin);
+  padding: 10px;
+  background-image: url("./img/phbbg.png");
+  border: none;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  border-bottom: 3px solid rgb(108, 67, 45);
+  color: var(--main-color);
+  font-family: nodesto;
+}
+
+
+
+.popup_menu {
+  position: absolute;
+  width: 120px;
+  display: flex;
+  flex-flow: column nowrap;
+  z-index: var(--z-index-tooltip);
+
+  font-size: 16px;
+}
+
+.iframewrap {
+  background-image: url("./img/phbbg.png");
+  background-size: cover;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  border-bottom: 3px solid rgb(108, 67, 45);
+}
+
+.pageframe {
+  font-family: "roboto condensed";
+  line-height: 1.5;
+  column-count: 2;
+  column-gap: 20px;
+}
+
+.single_column {
+  column-count: 1 !important;
+}
+
+.pageframe>h1 {
+  font-family: "mrEaves";
+  color: var(--main-color);
+}
+
+.pageframe>ul {
+  font-size: 1em;
+}
+
+.class_row {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.class_row>.class_node {
+  color: #333;
+  padding-left: 10px;
+  font-family: 'nodesto';
+}
+
+.monster_description {
+  background-image: url("img/phbbg.png");
+  border-top:3px solid var(--main-color);
+  margin-top:30px;
+  column-span: all;
+  width: 110%;
+  margin-left: -40px;
+  padding:10px;
+}
+
+.ability_row>ul>li>p:first-of-type {
+  color: var(--main-color);
+  font-weight: bold;
+}
+
+.ability_row>ul>li:nth-child(n+2)>p {
+  margin-top: -10px;
+  padding: 0;
+}
+
+.ability_row>ul>li>p:first-of-type {
+  margin-left: -42px;
+}
+
+.ability_row>ul>li>p {
+  margin-left: -42px;
+  text-align: center;
+}
+
+.ability_row>ul>li {
+  margin: 0;
+}
+
+.ability_row {
+  width: 90%;
+  display: flex;
+  flex-flow: row nowrap;
+  border-bottom: 2px solid #451A17;
+  border-top: 2px solid #451A17;
+  height: 90px;
+  justify-content: space-around;
+}
+
+.ability_row>ul {
+  list-style: none;
+  max-width: 11px;
+  flex: 1;
+  font-size: 14px;
+  margin-top: -8px;
+}
+
+.pcnode__passiveperception {
+  font-family: "mrEaves";
+  color: white;
+  background-image: url("img/eye.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.pcnode {
+  background-color: transparent;
+  background-image: url("img/scrollv.png");
+  background-size: 93px !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: "mrEaves";
+  max-width: 90px;
+  min-width: 90px;
+  max-height: 130px;
+  min-height: 130px;
+  border: none;
+  background-size: contain;
+  transition: all 300ms;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+
+
+.pcnode>div>p {
+  /*
+    background-image:url("img/shield.png");
+  */
+  max-width: 50px;
+  margin-top: 5px;
+  text-align: center;
+  margin: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "nodesto";
+}
+
+.lootgenerator {
+  color: black;
+  background-image: url("./img/phbbg.png");
+  background-color: #450A03;
+}
+
+.questionpopup:active:after {
+  border: 1px solid #ccc;
+  background: #ffffca;
+  color: #000023;
+}
+
+.center {
+  margin: auto;
+  text-align: center;
+}
+
+.combatGUI {
+  background-image: url("./img/phbbg.png");
+}
+
+input, textarea, .cell_row {
+  font-family: "roboto condensed";
+  background-color: #FFFFFF;
+  border: none !important;
+  border-bottom: 2px solid var(--main-emphasis-color);
+}
+
+.draggable_element {
+  position: absolute;
+}
+
+.small_font {
+  font-size: 12px;
+  font-family: "nodesto";
+}
+
+.row_margin {
+  margin-left: 5px;
+}
+
+.combatRow>button {
+  color: white;
+}
+
+.sink {
+  color: white;
+  background-color: #451A17;
+}
+
+.pcnodeInner {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.pcnode_normal_ac {
+  background-image: url("img/shield.png");
+}
+
+.pcnode_lower_ac {
+  background-image: url("img/shielddown.png");
+}
+
+.pcnode_higher_ac {
+  background-image: url("img/shieldup.png");
+}
+
+.acspinner {
+  background-image: url("img/arrowh.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.acspinner:hover {
+  background-image: url("img/arrowhhover.png");
+}
+
+.acnode {
+  font-family: "nodesto";
+}
+
+.roundcounter__value {
+  color: #444242;
+}
+
+.search {
+  background-image: url("img/search.png");
+}
+
+.load {
+  background-image: url("img/load.png");
+  background-position: center;
+  background-size: 35px;
+}
+
+.initiative {
+  color: white;
+}
+
+
+
+.initiativeNode {
+  border:none;
+}
+
+
+.initiative_node_active {
+  background-color: #85A215;
+}
+
+.dmg_button {
+  background-image: url("img/blood.png");
+  background-size: cover;
+  color: #B2444D;
+  background-color: var(--main-color);
+}
+
+#saveRollResultsSuccess {
+  color: #06A70B;
+  font-weight: bold;
+}
+
+#saveRollResultsFailures {
+  color: #BB000A;
+  font-weight: bold;
+}
+
+.separator{
+  height:7px;
+  background-color:rgb(61, 17, 9);
+}
+.warpColorsSuccess {
+  animation: 1s ease-in warpColorSuccess;
+}
+
+@keyframes warpColorSuccess {
+  0% {
+    color: white
+  }
+  100% {
+    color: #06A70B;
+  }
+  ;
+}
+
+.warpColorsFailures {
+  animation: 1s ease-in warpColorFailures;
+}
+
+@keyframes warpColorFailures {
+  0% {
+    color: white
+  }
+  100% {
+    color: #BB000A;
+  }
+  ;
+}
+
+/****  DATABASE WINDOW *******/
+
+.listRow:nth-child(n+5)>.listRow__inner>input {
+  padding: 5px;
+  color: black;
+  border: none;
+  background-color: transparent;
+}
+
+.listRow:nth-child(2n+5) {
+  background-color: rgba(194, 140, 29, 0.4);
+}
+
+.listRow:nth-child(4)>.listRow__inner>input {
+  background-position: right;
+  background-size: 10px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  font-family: "mrEaves";
+  font-size: 1.5em;
+  border: none;
+}
+
+.listWrap, .pageframe_wrap {
+  border: none;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  border-bottom: 3px solid rgb(108, 67, 45);
+  color: #58180D;
+  font-family: nodesto;
+  background-image: url("./img/phbbg.png");
+}
+
+/**Sizing and such**/
+
+.row {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.row_wrap {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.column {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.die_d20 {
+  background-repeat: no-repeat;
+  height: 40px;
+  width: 40px;
+}
+
+.button_smaller {
+  width: 33px !important;
+  height: 33px !important;
+}
+
+.button {
+  width: 50px;
+  height: 50px;
+  border-radius: 3px;
+  /** border-radius:5px;**/
+}
+
+.button_wide {
+  width: 80px;
+  height: 40px;
+  /** border-radius:5px;**/
+}
+
+.tab {
+  margin-left: 2px;
+  width: 160px;
+  flex: 1;
+  max-width: 150px;
+}
+
+.mainpage_header {
+  margin-top: 20px;
+  display: flex;
+  
+}
+.title_bar_left>.button_style{
+  width: 70px ;
+  line-height: 2.7;
+}
+.title_bar {
+  flex-shrink: 0;
+  -webkit-app-region: drag;
+  position: fixed;
+  z-index: 40;
+  width: 102%;
+  top: 0;
+  height: 30px;
+  min-height: 30px;
+  background-color: var(--main-color);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.green {
+  background-color: var(--main-success-color);
+}
+
+.red{
+  background-color:rgb(236, 0, 12);
+}
+
+.red:hover{
+  background-color:rgb(106, 0, 5);
+}
+
+#settings_window_button {
+
+  background-image: url("img/settings.png");
+  background-size: 50%;
+  background-position-y: 10px;
+
+  transform: all 300ms ease;
+}
+
+#about_window_button {
+  color: white;
+  font-family: "nodesto";
+
+  line-height: 2.5;
+  text-emphasis: bold;
+}
+
+#party_stats_button {
+ 
+  background-size: 15px;
+  background-position-y: 10px;
+
+  background-image: url("img/party.png");
+}
+.title_bar_left{
+  display:flex;
+  flex-flow:row nowrap;
+  justify-content: flex-start;
+  position: absolute;
+    left: 0;
+}
+#close_app_button, #close_window_button {
+  margin-right: 30px;
+  background-image: url("img/close.png");
+}
+#reload_button{
+  background-image:url("img/refresh.png");
+  background-position-y: 10px;
+}
+#minimize_app_button {
+  background-image: url("img/minimize.png");
+}
+
+#min_max_button {
+  background-image: url("img/maximize.png");
+}
+
+.title_bar>.text {
+  color: rgb(99, 63, 61);
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  font-size: 10px;
+}
+
+.title_bar>button,.title_bar_left>button  {
+  z-index: 4;
+  border: none;
+  transition: all 300ms;
+  background-color: var(--main-color);
+  background-size: 15px;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-app-region: no-drag;
+  height: 30px;
+  margin-left: 5px;
+  width: 30px;
+}
+
+.title_bar>button:hover, .title_bar_left>button:hover {
+  background-color: var(--main-emphasis-color);
+}
+
+header {
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  border-bottom: 3px solid rgb(108, 67, 45);
+  padding: 10px;
+  background-image: url("./img/phbbg.png");
+  width: 100%;
+  /* Full width */
+  height: 100px;
+  min-height: 20px;
+}
+.list_search_style {
+  background: white url(img/searchG.png) no-repeat scroll 7px 0;
+  background-size: contain;
+  padding-left: 30px;
+  text-align: left;
+  border-radius: 10px;
+}
+
+.searchwrap{
+  position:absolute;
+  right:0;
+  
+}
+
+.mainheader {
+  margin: 17px;
+  font-size: 50px;
+}
+
+.section__show {
+  background-image: url("./img/phbbg.png");
+  border: none;
+  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  position: relative;
+  border-bottom: 3px solid rgb(108, 67, 45);
+}
+
+.margin_top {
+  margin-top: var(--base-margin);
+}
+
+.margin_left {
+  margin-left: 40px;
+}
+
+.nomargin {
+  margin: 0;
+}
+
+.spread_children {
+  justify-content: space-around;
+}
+.invisible{
+  visibility: hidden;
+}
+
+.initiative_control_bar{
+  top:18px;
+}
+.invisible_editable_header {
+  font-size: 1.5em;
+  font-weight: bold;
+  -webkit-margin-before: 0.83em;
+  -webkit-margin-after: 0.83em;
+  background: none;
+  border: none;
+  font-family: "nodesto";
+  color: var(--main-color);
+}
+
+.invisible_editable_text {
+  background: none;
+  border: none;
+  font-size: 1em;
+  font-family: "bookSanity";
+  color: black;
+}
+
+.expanded_text_area {
+  width: 100%;
+  height: 40%;
+}
+
+.over {
+  z-index: 1;
+}
+
+.square {
+  border-radius: 0;
+}
+
+.smaller {
+  width: 50px;
+}
+
+.float_up {
+  margin-top: -35px;
+}
+
+.float_right {
+  margin-left: auto;
+}
+
+.wider {
+  width: 250px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.transparent {
+  opacity: 0;
+}
+
+.semi_hidden {
+  display: none;
+}
+
+.hidden_takes_space {
+  visibility: hidden;
+}
+
+.spaced {
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.help_icon {
+  border: 1px solid black;
+  font-weight: bold;
+  font-size: 12px;
+  display:none;
+}
+
+.spell_link {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: help;
+}
+
+.roll_result_effect {
+  animation: popEffectRollResult 3s;
+  transition: all 300ms;
+
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  animation-timing-function: ease-out;
+  font-family: 'roboto';
+  font-size: 60px;
+  color: var(--main-emphasis-color);
+  z-index: 20;
+}
+
+@keyframes popEffectRollResult {
+  12% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, -60px);
+  }
+}
+
+.fade_out {
+  animation: fadeout 2s;
+}
+
+.d20_roll_link, .dice_roller_link {
+  cursor: pointer;
+  text-decoration: underline;
+  transition: all var(--transition-delay);
+  text-decoration-color: var(--main-color);
+  text-decoration-style: dotted;
+}
+
+.d20_roll_link:hover, .dice_roller_link:hover {
+  border: 1px dotted var(--main-emphasis-color);
+  ;
+}
+
+#spell_popup_name {
+  text-align: center;
+  padding: 5px;
+}
+
+.spell_popup_window {
+  font-family: "bookSanity";
+  line-height: 1.5;
+  z-index: 12;
+  position: absolute;
+  padding: 10px;
+  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  border: 1px solid black;
+  background-image: url("img/spellbookbg.png");
+  background-size: cover;
+  min-width: 200px;
+  max-width: 500px;
+}
+
+.context_menu_button::after {
+  content: " ";
+  padding: 5px;
+  position: relative;
+  background-repeat: no-repeat;
+  right: -15px;
+  top: 7px;
+  background-image: url("img/arrow_one.png");
+  background-size: 80%;
+  transform: rotate(90deg);
+}
+
+.context_menu {
+  position: absolute;
+  transition: all var(--transition-delay);
+  width: 120px;
+  display: flex;
+  flex-flow: column nowrap;
+  z-index: 22;
+  overflow: hidden;
+  font-size: 16px;
+}
+
+
+.context_menu>.button_style {
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.spell_attribute_row {
+  justify-content: space-between;
+  text-align: center;
+  border-top: solid 4px var(--main-color);
+  padding: 5px;
+}
+
+#spell_popup_ritual {
+  position: absolute;
+  right: 70px;
+  top: -5px;
+}
+
+.spell_attribute_row>.column {
+  flex: 1;
+}
+
+.spell_attribute_row>.column>strong {
+  font-family: "mrEaves";
+}
+
+.required_field{
+  transition: all 300ms;
+  animation-name: requiredAnimation;
+  animation-duration: 3s;
+  animation-timing-function: ease;
+}
+
+
+@keyframes requiredAnimation{
+  20%{
+    box-shadow: 0 0 5px 5px var(--main-emphasis-color);
+  }
+  85%{
+    box-shadow: 0 0 5px 5px var(--main-emphasis-color);
+  }
+  100%{
+    box-shadow:none;
+  }
+
+}
+
+
+/** TOOLTIPS **/
+
+.combatRow[data-dnd_monster_index]:after {
+  content: attr(data-dnd_monster_index);
+  left: -25px;
+  top: 4px;
+  position: absolute;
+  text-align: center;
+  padding: 5px;
+  font-size: 18px;
+  color: var(--main-color);
+  border-radius: 50%;
+  white-space: pre-wrap;
+  width: 1em;
+}
+
+
+
+.tooltipped[data-tooltip] {
+  position: relative;
+  text-decoration: none;
+}
+
+.tooltipped_large[data-tooltip]:after {
+  max-width: 900em;
+  max-height: 30em;
+  z-index:14;
+  width: 45em !important;
+}
+
+.tooltipped_medium[data-tooltip]:after {
+  max-width: 500em;
+  max-height: 30em;
+  width: 25em !important;
+}
+
+.tooltipped[data-tooltip]:after {
+  content: attr(data-tooltip);
+  font-family: "bookSanity";
+  position: absolute;
+  bottom: 130%;
+  left: 20%;
+  background: var(--main-color);
+  padding: 5px 15px;
+  font-size: 12px;
+  color: white;
+  border-radius: 10px;
+  white-space: pre-line;
+  z-index: 5;
+  opacity: 0;
+  visibility: hidden;
+  line-height: 1.3em;
+  transition: all 0.5s ease;
+  width: 15em;
+  transition-delay: 0.7s;
+}
+
+.tooltipped[data-tooltip]:before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 20px solid var(--main-color);
+  z-index: 5;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  transition: all 0.5s ease;
+  transition-delay: 0.7s;
+  opacity: 0;
+  visibility: hidden;
+  left: 30%;
+  bottom: 90%;
+}
+
+.tooltipped[data-tooltip]:hover:after {
+  bottom: 100%;
+}
+
+.tooltipped[data-tooltip]:hover:before {
+  bottom: 90%;
+}
+
+.tooltipped[data-tooltip]:hover:after, .tooltipped[data-tooltip]:hover:before {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Custom checkbox */
+
+.container_for_checkbox {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 27px;
+  cursor: pointer;
+  font-size: 22px;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+
+.container_for_checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+
+.checkmark {
+  position: absolute;
+  top: 0em;
+  left: 7px;
+  height: 25px;
+  width: 25px;
+  background-color: var(--main-color);
+}
+
+/* On mouse-over, add a grey background color */
+
+.container_for_checkbox:hover input~.checkmark {
+  background-color: var(--main-emphasis-color);
+}
+
+/* When the checkbox is checked, add a blue background */
+
+.container_for_checkbox input:checked~.checkmark {
+  background-color: var(--main-emphasis-color);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+
+.container_for_checkbox input:checked~.checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+
+.container_for_checkbox .checkmark:after {
+  left: 9px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+/* Custom slider*/
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: var(--main-color);
+  cursor: pointer;
+}
+
+.slider::-webkit-slider-thumb :hover {
+  background: var(--main-emphasis-color);
+}
+
+
+/*scrollbar*/
+
+::-webkit-scrollbar {
+  width: 10px;
+  margin-left: -20px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar:end {
+  opacity: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  max-height: 200px;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  opacity: 0;
+}
+
+::-webkit-scrollbar-track-piece:start {
+  opacity: 0;
+}
+
+/*** DROPDOWNS ***/
+
+/* Navbar container */
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  font-family: Arial;
+}
+
+/* Links inside the navbar */
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+/* The dropdown container */
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+/* Add a red background color to navbar links on hover */
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: var(--main-emphasis-color);
+}
+
+/* Dropdown content (hidden by default) */
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--main-color);
+  top: 35px;
+  min-width: 160px;
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+
+.dropdown-content a {
+  float: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 1em;
+  border: none;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+
+.dropdown-content a:hover {
+  background-color: var(--main-emphasis-color);
+}
+
+/* Show the dropdown menu on hover */
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.randomly_chosen_table_row{
+  border: 4px solid var(--main-emphasis-color);
+}
+.sortable_table th{
+  cursor:pointer;
+}

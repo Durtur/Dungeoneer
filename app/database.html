@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Dungeoneer: Database</title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="css/nouislider.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="awesomplete/awesomplete.css" />
+    <link rel='stylesheet' href='mappingTool/spectrum.css' />
+    <link rel='stylesheet' href='chosen/chosen.css' />
+    <link href="css/popups.css" rel="stylesheet">
+    <link href="css/database.css" rel="stylesheet">
+    <link href="css/colors.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="title_bar">
+        <div class="title_bar_left">
+            <button id="settings_window_button"></button>
+            <button id="about_window_button">?</button>
+            <button id="reload_button" title="Reload the window" onclick="location.reload()"></button>
+        </div>
+
+        <p class="text">The Owls are not what they seem</p>
+        <button id="minimize_app_button"></button>
+        <button id="min_max_button"></button>
+        <button id="close_window_button"> </button>
+    </div>
+    <div class="main_content_wrapper">
+
+        <header class="homebrew_header">
+            <h1 class="mainheader">Homebrew</h1>
+
+            <section class="tab_row">
+                <button id="homebrew" class="button button_style tab"
+                    title="Manage NPC's descriptions and notes. Add to combat database."
+                    onclick="setTab('homebrew')">Homebrew monsters</button>
+                <button id="monsters" class="button button_style tab"
+                    title="Create monsters and add to the combat database" onclick="setTab('monsters')">Monster
+                    Manual</button>
+                <button id="encounters" class="button button_style tab" title="Create custom loadable encounters."
+                    onclick="setTab('encounters')">Encounters</button>
+                <button id="spells" class="button button_style tab" title="All spells."
+                    onclick="setTab('spells')">Spells</button>
+                <button id="items" class="button button_style tab" title="View and add items or equipment."
+                    onclick="setTab('items')">Items</button>
+                <button id="conditions" class="button button_style tab"
+                    title="Edit the default conditions, e.g. prone, or add new ones as house rules."
+                    onclick="setTab('conditions')">Conditions</button>
+                <button id="tables" class="button button_style tab"
+                    title="Edit or add SRD tables or create simple notes." onclick="setTab('tables')">Tables &
+                    Notes</button>
+
+
+            </section>
+
+        </header>
+
+        <main>
+            <section class="flex_container">
+                <div id="save_success" class="success_message popup_message center semi_hidden">
+                    Save successful!
+                </div>
+            </section>
+
+            <section class="flex_container">
+                <div id="save_failed" class="failed_message popup_message center semi_hidden">
+                    Save failed
+                </div>
+            </section>
+
+            <section id="listFrame__monsters" class="listWrap hidden marginTop center_items">
+                <button class="button button_style traybutton" title="Add monsters" onclick="show('tab')">+</button>
+                <div></div>
+                <div class="row">
+                    <input type="text" class="listSearch center" id="monsters_list_search">
+                </div>
+                <div class="listRow">
+                    <div class="listRow__inner">
+                        <input type="text" value="Name" readonly></input>
+                        <input type="text" value="CR" readonly></input>
+                        <input type="text" value="Type" readonly></input>
+                        <input type="text" value="HP" readonly></input>
+                    </div>
+                    <div class=" button_row">
+                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button"  onclick = "removeParentHandler(this)"  title="Delete from database"></button>
+
+                    </div>
+                </div>
+
+
+            </section>
+
+            <section id="listFrame__spells" class="listWrap hidden marginTop center_items section__show">
+                <button class="button button_style traybutton" title="Add homebrew spell"
+                    onclick="show('tab')">+</button>
+                <div></div>
+                <div class="column">
+                    <select id="spell_class_dropdown" class="spell_dropdown" multiple></select>
+                    <input type="text" class="listSearch center" id="spell_list_search">
+                </div>
+                <div class="listRow">
+                    <div class="listRow__inner">
+                        <input type="text" value="Name" readonly></input>
+                        <input type="text" value="Cast time" readonly></input>
+                        <input type="text" value="School" readonly></input>
+                        <input type="text" value="Level" readonly></input>
+                    </div>
+                    <div class=" button_row">
+                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="listFrame__items" class="listWrap hidden marginTop center_items">
+                <button class="button button_style traybutton" title="Add homebrew items"
+                    onclick="show('tab')">+</button>
+                <div></div>
+                <div class="row">
+                    <input type="text" class="listSearch center" id="items_list_search">
+                </div>
+                <div class="listRow">
+                    <div class="listRow__inner">
+                        <input type="text" value="Name" readonly></input>
+                        <input type="text" value="Type" readonly></input>
+                        <input type="text" value="Rarity" readonly></input>
+                    </div>
+                    <div class=" button_row">
+                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="listFrame__conditions" class="listWrap hidden marginTop center_items">
+                <button class="button button_style traybutton" title="Add homebrew conditions"
+                    onclick="show('tab')">+</button>
+                <div></div>
+                <div class="row">
+                    <input type="text" class="listSearch center" id="conditions_list_search">
+                </div>
+                <div class="listRow">
+                    <div class="listRow__inner">
+                        <input type="text" value="Name" readonly></input>
+                    </div>
+                    <div class=" button_row">
+                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+
+                    </div>
+                </div>
+
+            </section>
+
+            <section id="listFrame__encounters" class="listWrap hidden marginTop center_items">
+                <button class="button button_style traybutton" title="Add encounters" onclick="show('tab')">+</button>
+                <div></div>
+                <div class="row">
+                    <input type="text" class="listSearch center" id="encounters_list_search">
+                </div>
+                <div class="listRow">
+                    <div class="listRow__inner listRow_inner_encounters">
+                        <input type="text" value="Name" readonly class="wider">
+                    </div>
+                    <div class=" button_row">
+                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="listFrame__tables" class="listWrap hidden marginTop center_items">
+                <button class="button button_style traybutton" title="Add table" onclick="show('tab')">+</button>
+                <div></div>
+                <div class="row">
+                    <input type="text" class="listSearch center" id="tables_list_search">
+                </div>
+                <div class="listRow">
+                    <div class="listRow__inner listRow_inner_encounters">
+                        <input type="text" value="Name" readonly class="wider">
+                    </div>
+                    <div class=" button_row">
+                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+
+                    </div>
+                </div>
+            </section>
+
+            <section id="addtables" class="hidden  pageframe_wrap listWrap marginTop wide">
+                <h2 class="edit_header_name">New table / Note</h2>
+                <div class="column">
+                    <div class="addRowT">
+                        <div class="row">
+                            <input type="text" class="jsonAttributeT brown " title="Attribute" value="Name"
+                                readonly></input>
+                            <input type="text" class="jsonValueT db_name_field object_nameT" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeT brown" title="Attribute" value="Description"
+                                readonly></input>
+                            <textarea class="jsonValueT" >  </textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="button_style toggle_button" toggled="false" toggleGroup="1"
+                            onclick="showTableElements()">Table</button>
+                        <button class="jsonTableControl_up jsonTableControlT button_style hidden"
+                            onclick="resizeTable(1,0)">🠹</button>
+                        <button class="jsonTableControl_down jsonTableControlT button_style hidden"
+                            onclick="resizeTable(1,1)">🠻</button>
+                        <button class="jsonTableControl_left jsonTableControlT button_style hidden"
+                            onclick="resizeTable(0,0)">🠸</button>
+                        <button class="jsonTableControl_right jsonTableControlT button_style hidden"
+                            onclick="resizeTable(0,1)">🠺</button>
+                    </div>
+
+                    <div class="column jsonTableT hidden">
+                        <div class="jsonTableHeaderT row">
+                            <input class="add_table_header table_headerT" placeholder="Header">
+                            <input class="add_table_header table_headerT" placeholder="Header">
+                            <input class="add_table_header table_headerT" placeholder="Header">
+                        </div>
+                        <div class="jsonTableRowT row">
+                            <input class="table_row table_elementT" placeholder="Value">
+                            <input class="table_row table_elementT" placeholder="Value">
+                            <input class="table_row table_elementT" placeholder="Value">
+                        </div>
+                    </div>
+                    <div class="infobox hidden" id="markdowninfotables">
+                        <p>Use this form to save your homebrew items. After you have saved the entry it will be
+                            available via
+                            standard
+                            search
+                        </p>
+                        <p>
+                            <strong>The database cannot support multiple entries with the same name.</strong> Saving
+                            two items
+                            under the same
+                            name will overwrite the older one. </p>
+                        <p>You can use Markdown to style your entries. </p>
+
+                        <button class="floating" onclick="hide('markdowninfotables')">x</button>
+                    </div>
+                    <button class="small interactive floating help_icon"
+                        onclick="showBlock('markdowninfotables')">?</button>
+                    <div class="float_right_group">
+
+                        <button class="button button_style brown"
+                            onclick="return doneAdding('addtables')">Close</button>
+                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
+                    </div>
+                </div>
+            </section>
+
+
+
+            <section id="addconditions" class="hidden  addframe section__show marginTop wide">
+                <h2 class="edit_header_name">New condition</h2>
+                <div class="column">
+                    <div class="addRowC">
+                        <div class="row">
+                            <input type="text" class="jsonAttributeC brown " title="Attribute" value="Name" readonly>
+                            <input type="text" class="jsonValueC db_name_field object_nameC" >
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeC brown" title="Attribute" value="Description"
+                                readonly>
+                            <textarea class="jsonValueC" >  </textarea>
+                        </div>
+        
+                        <div class="condition_icon_container">
+                                <input type="text" id="condition_color_picker" value='rgba(255,255,255,1)'
+                                title="Condition color" readonly>
+                            <label class="brown attribute_label img_picker_label"
+                                for="condition_image_picker">Icon</label>
+                            <img id="condition_image_picker">
+                            <label id="condition_image_label"></label></div>
+                    </div>
+
+                    <div class="infobox hidden" id="markdowninfoconditions">
+                        <p>Use this form to save your homebrew houserules, conditions or notes. After you have saved
+                            the entry it
+                            will be
+                            available via standard search.</p>
+                        <p>
+                            <strong>The database cannot support multiple entries with the same name.</strong>Refrain
+                            from saving
+                            two conditions
+                            or rules under the same name, as you will not be able to access them. </p>
+                        <p>You can use Markdown to style your entries. For example, a spell list for an NPC can be made
+                            with a
+                            markdown
+                            list:
+                            <br> * 1st level
+                            <br> * 2nd level
+                            <br> will render as
+                            <ul>
+                                <li>1st level </li>
+                                <li>Second level </li>
+                            </ul>Emphasis can be added with ** A very important word **, which will render as
+                            <strong>A very important word</strong>
+                        </p>
+                        <p>Google Markdown syntax for more information on styling with Markdown.</p>
+                        <button class="floating" onclick="hide('markdowninfoconditions')">x</button>
+
+                    </div>
+                    <button class="small interactive floating help_icon"
+                        onclick="showBlock('markdowninfoconditions')">?</button>
+                    <div class="float_right_group">
+
+                        <button class="button button_style brown"
+                            onclick="return doneAdding('addconditions')">Close</button>
+                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="additems" class="hidden  pageframe_wrap marginTop wide">
+                <h2 class="edit_header_name">New item</h2>
+                <div class="column">
+                    <div class="addRowI">
+                        <div class="row">
+                            <input type="text" class="jsonAttributeI brown " title="Attribute" value="Name"
+                                readonly></input>
+                            <input type="text" class="jsonValueI db_name_field object_nameI" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeI brown" title="Attribute" value="Rarity"
+                                readonly></input>
+                            <input type="text" class="jsonValueI" id="item_rarity_input" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeI brown" title="Attribute" value="Type"
+                                readonly></input>
+                            <input type="text" class="jsonValueI" id="item_type_input" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeI brown" title="Attribute" value="Description"
+                                readonly></input>
+                            <textarea class="jsonValueI" >  </textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="button_style toggle_button" toggled="false" toggleGroup="2"
+                            onclick="showTableElements()">Table</button>
+                        <button class="jsonTableControl_up jsonTableControlI button_style hidden"
+                            onclick="resizeTable(1,0)">🠹</button>
+                        <button class="jsonTableControl_down jsonTableControlI button_style hidden"
+                            onclick="resizeTable(1,1)">🠻</button>
+                        <button class="jsonTableControl_left jsonTableControlI button_style hidden"
+                            onclick="resizeTable(0,0)">🠸</button>
+                        <button class="jsonTableControl_right jsonTableControlI button_style hidden"
+                            onclick="resizeTable(0,1)">🠺</button>
+                    </div>
+
+                    <div class="column jsonTableI hidden">
+                        <div class="jsonTableHeaderI row">
+                            <input class="add_table_header table_headerI" placeholder="Header">
+                            <input class="add_table_header table_headerI" placeholder="Header">
+                            <input class="add_table_header table_headerI" placeholder="Header">
+                        </div>
+                        <div class="jsonTableRowI row">
+                            <input class="table_row table_elementI" placeholder="Value">
+                            <input class="table_row table_elementI" placeholder="Value">
+                            <input class="table_row table_elementI" placeholder="Value">
+                        </div>
+                    </div>
+                    <div class="infobox hidden" id="markdowninfoitems">
+                        <p>Use this form to save your homebrew items. After you have saved the entry it will be
+                            available via
+                            standard
+                            search
+                        </p>
+                        <p>
+                            <strong>The database cannot support multiple entries with the same name.</strong> Saving
+                            two items
+                            under the same
+                            name will overwrite the older one. </p>
+                        <p>You can use Markdown to style your entries. </p>
+
+                        <button class="floating" onclick="hide('markdowninfoitems')">x</button>
+                    </div>
+                    <button class="small interactive floating help_icon"
+                        onclick="showBlock('markdowninfoitems')">?</button>
+                    <div class="float_right_group">
+
+                        <button class="button button_style brown" onclick="return doneAdding('additems')">Close</button>
+                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="addspells" class="hidden addframe section__show marginTop wide">
+                <h2 class="edit_header_name">New spell</h2>
+                <div class="column">
+                    <div class="addRowS">
+                        <div class="row" id="spell_class_row">
+                            <input type="text" class="jsonAttributeClasses brown" title="Attribute" value="Classes"
+                                readonly></input>
+                            <input type="text" class="jsonValueClasses" > </input>
+                            <button class="small brown interactive" title="Add class"
+                                onclick="addClassTextBoxForSpells()">
+                                + </button>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown " title="Attribute" value="Name"
+                                readonly></input>
+                            <input type="text" class="jsonValueS db_name_field object_nameS" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Level"
+                                readonly></input>
+                            <input type="text" class="jsonValueS" > </input>
+                        </div>
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="School"
+                                readonly></input>
+                            <input type="text" class="jsonValueS" id="spell_school_input" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Description"
+                                readonly></input>
+                            <textarea class="jsonValueS" >  </textarea>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Higher levels"
+                                readonly></input>
+                            <textarea class="jsonValueS" >  </textarea>
+                        </div>
+
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Components"
+                                readonly></input>
+                            <input type="text" class="jsonValueS" > </input>
+                        </div>
+
+
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Range"
+                                readonly></input>
+                            <input type="text" class="jsonValueS" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Casting time"
+                                readonly></input>
+                            <input type="text" class="jsonValueS" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Duration"
+                                readonly></input>
+                            <input type="text" class="jsonValueS" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class=" brown" title="Attribute" value="Ritual casting"
+                                readonly></input>
+                                <label class="container_for_checkbox">
+                                        <input type="checkbox" class="center " id = "ritual_casting_spell_checkbox" title="Ritual casting">
+                                        <span class="checkmark"></span>
+                                      </label>
+                        </div>
+
+                    </div>
+
+
+                    <div class="infobox hidden" id="markdowninfospells">
+                        <p>Use this form to save your homebrew spells. After you have saved the entry it will be
+                            available via
+                            standard
+                            search
+                        </p>
+                        <p>
+                            <strong>The database cannot support multiple entries with the same name.</strong> Saving
+                            two spells
+                            under the same
+                            name will overwrite the older one. </p>
+                        <p>You can use Markdown to style your entries. </p>
+
+                        <button class="floating" onclick="hide('markdowninfospells')">x</button>
+
+
+                    </div>
+                    <button class="small interactive floating help_icon"
+                        onclick="showBlock('markdowninfospells')">?</button>
+                    <div class="float_right_group">
+
+                        <button class="button button_style brown"
+                            onclick="return doneAdding('addspells')">Close</button>
+                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
+                    </div>
+                </div>
+            </section>
+
+            <section id="addencounters" class="hidden section__show addframe  marginTop wide">
+                <h2 class="edit_header_name">New encounter</h2>
+                <div class="top_right_corner">
+
+                    <button class=" button_style " onclick="return doneAdding('addencounters')">Close</button>
+                    <button class=" button_style save_button"  disabled style="margin-left: 5px;"
+                        onclick="return saveHomebrew(true)">Save</button>
+                </div>
+                <div class="column">
+
+                    <div class="row spread_children">
+                        <div class="column">
+                            <div class="addRowE">
+                                <div class="row">
+                                    <input type="text" class="jsonAttributeE brown " title="Attribute" value="Name"
+                                        readonly></input>
+
+                                    <input type="text" class="jsonValueE db_name_field object_nameE" > </input>
+
+                                </div>
+
+                                <div class="row">
+                                    <input type="text" class="jsonAttributeE brown" title="Attribute"
+                                        value="Description" readonly>
+                                    <textarea class="jsonValueE" 
+                                        style="width: 400px; height: 250px; margin: 0px;">  </textarea>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="column margin_left">
+                            <div class="row">
+                                <div class="column">
+                                    <label for="encounter_challenge_calculator_value_unadjusted">
+                                        Total XP
+                                    </label>
+                                    <input type="number" id="encounter_challenge_calculator_value_unadjusted" readonly>
+                                    <label for="encounter_challenge_calculator_value">
+                                        Adjusted total XP
+                                    </label>
+                                    <input type="number" id="encounter_challenge_calculator_value" readonly>
+                                    <div class="row">
+                                        <label for="userCurrentPartyForEncounterDiff"
+                                            id="userCurrentPartyForEncounterDiffLabel">Use current party levels</label>
+
+                                        <label class="container_for_checkbox">
+                                            <input type="checkbox" group="1" id="userCurrentPartyForEncounterDiff"
+                                                class="center" title="Advantage">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                    <div class="column" id="encounter_challenge_manual_input">
+                                        <label for="encounter_challenge_calculator_character_size">Party Size</label>
+                                        <input type="number" id="encounter_challenge_calculator_character_size">
+                                        <label for="encounter_challenge_calculator_character_level">Party Level</label>
+                                        <input type="number" id="encounter_challenge_calculator_character_level" max=20>
+                                    </div>
+
+
+                                    <div class="column">
+                                        <h3 class="nomargin">Difficulty:</h3>
+                                        <input type="text" id="encounter_challenge_calculator_result">
+                                    </div>
+                                </div>
+                                <div class="column encounter_limit_values">
+                                    <div class="row trivial_encounter_value">
+                                        <label>Trivial: </label>
+                                        <label id="encounter_trivial_value"></label>
+                                    </div>
+                                    <div class="row easy_encounter_value">
+                                        <label>Easy: </label>
+                                        <label id="encounter_easy_value"></label>
+                                    </div>
+                                    <div class="row medium_encounter_value">
+                                        <label>Medium: </label>
+                                        <label id="encounter_medium_value"></label>
+                                    </div>
+                                    <div class="row hard_encounter_value">
+                                        <label>Hard: </label>
+                                        <label id="encounter_hard_value"></label>
+                                    </div>
+                                    <div class="row deadly_encounter_value">
+                                        <label>Deadly: </label>
+                                        <label id="encounter_deadly_value"></label>
+                                    </div>
+                                    <div class="progress_bar_encounter_difficulty">
+                                        <div></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="addRowE addRow_creatures" id="encounter_row_container">
+                                <div class="row marginTop">
+                                    <input type="text" class="brown" title="Attribute" value="Creatures"
+                                        readonly></input>
+                                    <input type="text" class="brown smaller" title="Attribute" value="Number"
+                                        readonly></input>
+                                    <input type="text" class="brown smaller" title="Attribute" value="CR"
+                                        readonly></input>
+                                </div>
+
+                                <div class="row">
+                                    <input type="text" class="specialjsonAttributeE"  title="Creature name"
+                                        placeholder="Creature"></input>
+                                    <input type="number" class="specialjsonValueE smaller" > </input>
+                                    <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
+                                        max="30">
+                                </div>
+
+                                <div class="row">
+                                    <input type="text" class="specialjsonAttributeE"  title="Creature name"
+                                        placeholder="Creature"></input>
+                                    <input type="number" class="specialjsonValueE smaller" > </input>
+                                    <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
+                                        max="30">
+                                </div>
+                            </div>
+                            <button class="small brown interactive" title="Add creatures" onclick="addRow()"> +
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <div class="infobox hidden" id="markdowninfoencounters">
+                        <p>Use this form to save your encounters. After you have saved the entry it will be available
+                            via standard
+                            search
+                            and you will be able to load all the creatures into the combat table, provided that the
+                            name you
+                            entered
+                            can be found in the database.</p>
+                        <p>
+                            <strong>The database cannot support multiple entries with the same name.</strong> Saving
+                            two encounters
+                            under the
+                            same name will overwrite the older one. </p>
+                        <p>You can use Markdown to style your entries. </p>
+                        <p>The calculator on the right will estimate the encounter difficulty, that information is not
+                            saved.</p>
+
+                        <button class="floating" onclick="hide('markdowninfoencounters')">x</button>
+
+                    </div>
+                    <button class="small interactive floating help_icon"
+                        onclick="showBlock('markdowninfoencounters')">?</button>
+
+                </div>
+                <div class="encounter_table_container">
+                    <div class="encounter_table_tools">
+                        <div class="column">
+                            <button onclick='getRandomEncounter()' class="button_style"
+                                title="Attempt to create a random encounter from the table">Randomize</button>
+                            <input class="list_search_style " style="height: 25px;   border-radius: 5px;"
+                                id="encounter_monster_list_search">
+
+                        </div>
+
+                        <select class="chosen-select" multiple id="monster_type_select">
+
+                        </select>
+                        <div id="encounter_cr_slider" style="width:300px;"></div>
+                    </div>
+
+
+                    <table class=" encounter_table">
+                        <thead>
+                            <tr id="encounter_table_header_row">
+                                <th data-sort_direction="1" data-sort_attr="name">
+                                    Name
+                                </th>
+
+                                <th data-sort_direction="1" data-sort_attr="type">
+                                    Type
+                                </th>
+                                <th data-sort_direction="1" data-sort_attr="challenge_rating">
+                                    CR
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                        </tbody>
+
+                    </table>
+                </div>
+            </section>
+
+
+            <section id="addmonsters" class="hidden pageframe_wrap marginTop row wide">
+                <h2 class="edit_header_name">New monster</h2>
+
+                <div class="column">
+                    <div class="addRow">
+                        <div class="row">
+                            <input type="text" class="attr brown " title="Attribute" value="Name" readonly></input>
+                            <input type="text" class=" object_name db_name_field addmonster_name" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Description"
+                                readonly></input>
+                            <textarea class=" addmonster_description" >  </textarea>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Size" readonly></input>
+                            <input type="text" class=" addmonster_size" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Type" readonly></input>
+                            <input type="text" id="addmonster_type" class=" addmonster_type" > </input>
+                        </div>
+
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Subtype" readonly></input>
+                            <input type="text" class=" addmonster_subtype" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Alignment" readonly></input>
+                            <input type="text" class=" addmonster_alignment" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Armor class"
+                                readonly></input>
+                            <input type="text" class=" monsterCR addmonster_armor_class"  id="homebrewAC">
+                            </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Hit points" readonly></input>
+                            <input type="text" class=" monsterCR addmonster_hit_points"  id="homebrewHP">
+                            </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Hit dice" readonly></input>
+                            <input type="text" class=" addmonster_hit_dice" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Speed" readonly></input>
+                            <input type="text" class=" addmonster_speed" > </input>
+                        </div>
+
+                        <span></span>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Strength" readonly></input>
+                            <input type="text" class=" addmonster_strength" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Dexterity" readonly></input>
+                            <input type="text" class=" addmonster_dexterity" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown " title="Attribute" value="Constitution"
+                                readonly></input>
+                            <input type="text" class=" addmonster_constitution" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Intelligence"
+                                readonly></input>
+                            <input type="text" class=" addmonster_intelligence" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Wisdom" readonly></input>
+                            <input type="text" class=" addmonster_wisdom" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Charisma" readonly></input>
+                            <input type="text" class=" addmonster_charisma" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Senses" readonly></input>
+                            <input type="text" class=" addmonster_senses" > </input>
+                        </div>
+
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Languages" readonly></input>
+                            <input type="text" class=" addmonster_languages" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="attr brown" title="Attribute" value="Challenge rating"
+                                readonly></input>
+                            <input type="text" class=" addmonster_challenge_rating" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttribute" title="Attribute" value="Saving throws"></input>
+                            <input type="text" class="jsonValue" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttribute" title="Attribute" value="Skills"></input>
+                            <input type="text" class="jsonValue" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttribute" title="Attribute"
+                                value="Damage vulnerabilities"></input>
+                            <input type="text" class="jsonValue" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttribute" title="Attribute"
+                                value="Damage resistances"></input>
+                            <input type="text" class="jsonValue" > </input>
+                        </div>
+
+                        <div class="row">
+                            <input type="text" class="jsonAttribute" title="Attribute"
+                                value="Damage immunities"></input>
+                            <input type="text" class="jsonValue" > </input>
+                        </div>
+
+
+                        <div class="row">
+                            <input type="text" class="jsonAttribute" title="Attribute"
+                                value="Condition immunities"></input>
+                            <input type="text" class="jsonValue" > </input>
+                        </div>
+                    </div>
+                    <button class="small brown interactive" title="Add attribute" onclick="addRow()"> + </button>
+
+                    <span></span>
+                    <div>
+                        <input type="text" class="special_abilities_array brown" value="Special abilities"
+                            readonly></input>
+                    </div>
+
+                    <div class="addRow_special_abilities">
+                        <div class="row">
+                            <input type="text" class="specialjsonAttribute" title="Attribute"
+                                value="Amphibious"></input>
+                            <textarea class="specialjsonValue" > </textarea>
+                        </div>
+                        <div class="row">
+                            <input type="text" class="specialjsonAttribute" title="Attribute"
+                                value="Incorporeal"></input>
+                            <textarea class="specialjsonValue" > </textarea>
+                        </div>
+                    </div>
+
+                    <button class="small brown interactive" title="Add attribute" onclick="addRow('special_abilities')">
+                        +
+                    </button>
+
+
+
+                    <span></span>
+
+
+                    <div>
+                        <input type="text" class="actions_array brown" value="Actions" readonly></input>
+                    </div>
+
+                    <div class="addRow_actions">
+                        <div class="row action_row">
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Name"
+                                readonly></input>
+                            <input type="text" class="actionjsonValue action_name"  value="Slam"></input>
+
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Attack bonus"
+                                readonly></input>
+                            <input type="number" class="actionjsonValue action_attack_bonus" > </input>
+
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage dice"
+                                readonly></input>
+                            <input type="text" class="actionjsonValue action_damage_dice" > </input>
+
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage bonus"
+                                readonly></input>
+                            <input type="number" class="actionjsonValue action_damage_bonus" > </input>
+
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Description"
+                                readonly></input>
+                            <textarea class="actionjsonValue action_description action_description" > </textarea>
+                        </div>
+                        <div class="row action_row">
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Name"
+                            readonly></input>
+                        <input type="text" class="actionjsonValue action_name"  value="Slam"></input>
+
+                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Attack bonus"
+                            readonly></input>
+                        <input type="number" class="actionjsonValue action_attack_bonus" > </input>
+
+                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage dice"
+                            readonly></input>
+                        <input type="text" class="actionjsonValue action_damage_dice" > </input>
+
+                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage bonus"
+                            readonly></input>
+                        <input type="number" class="actionjsonValue action_damage_bonus" > </input>
+
+                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Description"
+                            readonly></input>
+                        <textarea class="actionjsonValue action_description action_description" > </textarea>
+                        </div>
+
+
+
+                    </div>
+                    <button class="small brown interactive" title="Add attribute" onclick="addRow('actions')"> +
+                    </button>
+
+
+
+                    <span></span>
+
+                    <div>
+                        <input type="text" class="legendary_actions_array brown" value="Legendary actions "
+                            readonly></input>
+                    </div>
+
+
+                    <div class="addRow_legendary_actions">
+                        <div class="row legendary_action_row">
+                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute" value="Name"
+                                readonly></input>
+                            <input type="text" class="legendaryjsonValue action_name"  value=""></input>
+
+                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
+                                value="Attack bonus" readonly></input>
+                            <input type="number" class="legendaryjsonValue action_attack_bonus" > </input>
+
+
+                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
+                                value="Damage dice" readonly></input>
+                            <input type="text" class="legendaryjsonValue action_damage_dice" > </input>
+
+                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
+                                value="Damage bonus" readonly></input>
+                            <input type="number" class="legendaryjsonValue action_damage_bonus" > </input>
+
+                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
+                                value="Description" readonly></input>
+                            <textarea class="legendaryjsonValue action_description" > </textarea>
+
+                        </div>
+
+
+                    </div>
+                    <button class="small brown interactive" title="Add attribute" onclick="addRow('legendary_actions')">
+                        +
+                    </button>
+
+
+
+
+
+                    <button class="small interactive floating help_icon"
+                        onclick="showBlock('markdowninfomonsters')">?</button>
+                    <div class="infobox hidden" id="markdowninfomonsters">
+                        <p>Use this form to save your homebrew monsters or NPCs. After you have saved the entry it will
+                            be
+                            available via
+                            standard search, and will be loadable into combat.</p>
+                        <p>Only fields with both a value and attribute filled out, e.g. [Speed] [30ft], will be saved.
+                            Leave the
+                            value field
+                            blank if you do not wish to save it. </p>
+                        <p>
+                            <strong>The database cannot support multiple entries with the same name.</strong>
+                        </p>
+                        <p>You can use Markdown to style your entries. For example, a spell list for an NPC can be made
+                            with a
+                            markdown
+                            list:
+                            <br> * 1st level
+                            <br> * 2nd level
+                            <br> will render as
+                            <ul>
+                                <li>1st level </li>
+                                <li>Second level </li>
+                            </ul>
+                            Emphasis can be added with ** A very important thingy **, which will render as
+                            <strong>A very important thingy</strong>
+                        </p>
+                        <p>Google Markdown syntax for more information on styling with Markdown.</p>
+                        <button class="floating" onclick="hide('markdowninfomonsters')">x</button>
+
+                    </div>
+                    <div class="float_right_group">
+
+                        <button class="button button_style brown"
+                            onclick="return doneAdding('addmonsters')">Close</button>
+                        <button class="button button_style brown save_button"  disabled
+                            onclick="return saveHomebrew(true)">Save</button>
+                    </div>
+                </div>
+                <div class="row" style="margin-left:-300px">
+                    <div class=column>
+                        <div class="column">
+                            <label for="dnd_beyond_crawler_input" style="font-size: 14px;">
+                                Copy from DnD beyond:
+                            </label>
+                            <input id="dnd_beyond_crawler_input" placeholder="Paste an url to a monster here">
+
+                        </div>
+                        <section class="cr_calculator_wrap column">
+                            <h2>Challenge rating calculator</h2>
+                            <label for="predictedDamageOutput">Predicted damage per round</label>
+                            <input type="number" id="predictedDamageOutput" placeholder="?" class="monsterCR">
+                            <label for="mainAttackBonus">Main attack bonus</label>
+                            <input type="number" placeholder="?" id="mainAttackBonus" class="monsterCR">
+                            <label for="OCR">Offensive challenge rating </label>
+                            <input type="text" id="OCR" readonly>
+                            <label for="DCR">Defensive challenge rating </label>
+                            <input type="text" id="DCR" readonly>
+                            <label for="suggestedCR">Suggested challenge rating </label>
+                            <input type="text" id="suggestedCR" readonly>
+                        </section>
+                    </div>
+                    <div class="column token_column" style="margin-left:100px;">
+                        <div class="row">
+                            <h2 style="margin:0;">Tokens</h2>
+                            <button class="small brown interactive" id="addTokenButton" disabled title="Add tokens"
+                                onclick="addTokensToCurrentMonster()">
+                                +
+                            </button>
+                        </div>
+                        <p class="explanation_text">These are tokens used by the Map Tool.</p>
+                        <div id="maptool_token_container"></div>
+                    </div>
+                </div>
+    </div>
+
+    </section>
+    <section id="iframeWrapper" class="settingsDataWrapper hidden marginTop">
+
+        <h1></h1>
+        <section id="statblock" class="pageframe pageframe_wrap">
+
+        </section>
+    </section>
+
+    <div id="spell_popup" class="spell_popup_window semi_hidden">
+        <h2 class="center" id="spell_popup_name">
+            </h4>
+            <h4 id="spell_popup_ritual"></h4>
+            <div class="row_wrap spell_attribute_row">
+                <div class="column">
+                    <strong>School</strong>
+                    <p id="spell_popup_school"></p>
+                </div>
+                <div class="column">
+                    <strong>Level</strong>
+                    <p id="spell_popup_level"></p>
+                </div>
+                <div class="column">
+                    <strong>Range</strong>
+                    <p id="spell_popup_range"></p>
+                </div>
+
+            </div>
+            <div class="row_wrap spell_attribute_row">
+
+                <div class="column">
+                    <strong>Casting time</strong>
+                    <p id="spell_popup_casting_time"></p>
+                </div>
+                <div class="column">
+                    <strong>Duration</strong>
+                    <p id="spell_popup_duration"></p>
+                </div>
+                <div class="column">
+                    <strong>Components</strong>
+                    <p id="spell_popup_components"></p>
+                </div>
+            </div>
+            <span></span>
+            <p id="spell_popup_description"></p>
+            <p id="spell_popup_higher_levels"></p>
+    </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+    </main>
+    </div>
+</body>
+
+
+<script>
+    window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
+</script>
+<script src="js/dataaccess.js"></script>
+<script src="js/constants.js"></script>
+
+<script src="awesomplete/awesomplete.js"></script>
+<script src="chosen/chosen.jquery.js"></script>
+
+<script src="js/statblockpresenter.js"></script>
+<script src="js/encounterModule.js"></script>
+<script src="js/database.js"></script>
+<script src="js/guicontrol.js"></script>
+<script src="js/crawler.js"></script>
+<script src='mappingTool/spectrum.js'></script>
+
+
+</html>

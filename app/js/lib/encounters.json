@@ -1,0 +1,115 @@
+[
+	{
+		"name": "Red River Bandit Encampment",
+		"description": "A group of Bandits are roasting a hog they stole from a nearby farm. The group goes by the name  \"The Merry Dozen\", despite not being twelve in number. \n\nThe keen eyed Gerry (Scout) is the band's scout, and he is usually on duty, keeping a watchful eye for intruders up in a nearby tree. \n\nThe Band's captain, Horth, is a burly red-bearded man dozing off in his tent. His second in command, Gorthok (Berserker), is an imposing, muscular and ruthless criminal. Gorthok is wears a leather shirt which he often leaves unbuttoned, screaming hoarsly at his fellows. ",
+		"creatures": [
+			{
+				"bandit_captain": "1"
+			},
+			{
+				"bandit": "5"
+			},
+			{
+				"berserker": "1"
+			},
+			{
+				"scout": "1"
+			}
+		]
+	},
+	{
+		"name": "Zaru's Emporium of Wonders",
+		"description": "Zaru's Emporium of wonders was a quaint little magic shop run by a human sorcerer named Zaru. \n\nZaru sold mundane equipment, the occasional barrel of salted pork, and uncommon magic items. \n\nBy a dark twist of fate, Zaru was turned into a vampire spawn, his inherent sorcerous ability twisted into a vicious form of telekinetic ability. \n\nUnwilling to leave his shop despite his growing hunger, Zaru will trade his items for fresh human blood. His rates are approximitely 10 gp per liter of blood, but do depend on his mood.\n\nZaru is also quite mad. He may begin randomly throwing things at visitors. He keeps his shop pristine, but will, if the mood strikes him, hurl projectiles via his Catapult spell at customers. \n\nThe projectile will consist of a random item form the PHB under 25 gp, with a 5% chance of throwing a container with a random common magic item, and a 1% chance of throwing an uncommon magic item. A non magical item has a 50% chance of breaking if thrown in this manner. \n\nIf especially furious, he may use his telekinesis to hurl the shop counter at a customer, although that is only in the most extreme cases. The counter is 10ft by 5ft and will deal 6d6 damage if it strikes one or more creatures. The damage can be mitigated with a DC 13 reflex save.",
+		"creatures": [
+			{
+				"zaru": "1"
+			}
+		]
+	},
+	{
+		"name": "Southshore Palace",
+		"description": "  Tarvath has prepared for the entrance of the players through the main door. A large weighted net has been placed in the ceiling and attached there. A guardsman will drop the net on Tarvath's signal, trapping anyone on the ground floor of the entry hall, aside from a 5 foot space against the walls. \n\nThe net functions as a net found in the Players Handbook. Creatures in the affected area can escape the falling net with a reflex save. Creatures adjacent to the end of the net must succeed on a DC 10 reflex save. The DC increases by 5 for every 5 feet away from the edge of the net.  \n\nGarth, the captain of the guard, commands his squad of guardsman. All of the guardsmen wield heavy crossbows, as does Garth himself, aside from their normal weaponry. \n\nWhen the players are restrained Tarvath will use his Cloudkill spell. If Tarvath is injured, he will trade places with his body double (Flesh Golem), hidden nearby, and use his actions to imbibe healing potions, whilst maintaining the cloudkill spell. ",
+		"creatures": [
+			{
+				"governor_tarvath": "1"
+			},
+			{
+				"flesh_golem": "1"
+			},
+			{
+				"guard": "20"
+			},
+			{
+				"knight": "1"
+			}
+		]
+	},
+	{
+		"name": "Werewolf pack",
+		"description": "A werewolf hunting party with a fearsome alpha wolf at its head.   ",
+		"creatures": [
+			{
+				"werewolf_alpha": "1"
+			},
+			{
+				"werewolf": "6"
+			},
+			{
+				"wolf": "9"
+			}
+		]
+	},
+	{
+		"name": "Johnny's Ugly Pub",
+		"description": "Barþjónninn Johnny er dónalegur og þetta er ljót krá. Fimm banditar hrærast um ásamt captain og scout sem er á verði.   ",
+		"creatures": [
+			{
+				"bandit_captain": "1"
+			},
+			{
+				"bandit": "5"
+			},
+			{
+				"scout": "1"
+			}
+		]
+	},
+	{
+		"name": "Corpse pile",
+		"description": "Mundal Thal corpse pile  ",
+		"creatures": [
+			{
+				"minotaur_skeleton": "2"
+			},
+			{
+				"skeleton": "10"
+			}
+		]
+	},
+	{
+		"name": "Lord of Hands ",
+		"description": "  ",
+		"creatures": [
+			{
+				"assassin": "1"
+			},
+			{
+				"crawling_claw": "20"
+			}
+		]
+	},
+	{
+		"name": "the rotting fields",
+		"description": "  ",
+		"creatures": [
+			{
+				"zombie": "70"
+			}
+		]
+	},
+	{
+		"name": "Darklands Encounter table",
+		"description": "\n | Command | Description |\n| --- | --- |\n| git status | List all new or modified files |\n| git diff | Show file differences that haven't been staged |",
+		"creatures": []
+	}
+]

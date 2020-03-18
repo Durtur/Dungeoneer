@@ -1,0 +1,7 @@
+node_modules
+dist/*
+electron-builder.yml
+DMTool-darwin-x64
+
+villur.txt
+

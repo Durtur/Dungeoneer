@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="SÖR" content="">
+    <meta name="DM Tool" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="awesomplete/awesomplete.css" />
+    <link href="chosen/chosen.css" rel="stylesheet">
+    <link href="css/colors.css" rel="stylesheet">
+    <link href="mappingTool/addMapToolStuff.css" rel="stylesheet">
+    <link href="mappingTool/effects.css" rel="stylesheet">
+
+</head>
+<div class="title_bar">
+
+
+    <p class="text" style="color:white;">Create MapTool effect</p>
+    <button id="minimize_app_button"></button>
+    <button id="min_max_button"></button>
+    <button id="close_window_button"> </button>
+</div>
+<div class="main_content_wrapper">
+
+    <body>
+
+        <main>
+            <div class="column main_column">
+                <h2 id="editing_header">New effect</h2>
+                <div class="column center" style="margin-top:20px; margin-bottom:0;">
+                    <div class="row">
+                        <input id="effect_name" placeholder="Effect name" value="New effect">
+                    </div>
+
+
+                    <div class="row" style="margin-top:40px;">
+                        <select id="classlist_select" multiple>
+                            <option value="smoke">Smoke effect</option>
+                            <option value="fog">Fog effect</option>
+                            <option value="poisonCloud">Poison cloud effect</option>
+                            <option value="jagged_shape">Jagged edges</option>
+                            <option value="white_hue">White hue</option>
+                            <option value="light_effect_torch" >Torch</option>
+                            
+                            <option value="light_source_torch">Torchlight </option>
+                            <option value="azure_orb">Azure Orb </option>
+                            <option value="azure_light">Azure Light </option>
+                            <option value="emerald_light">Emerald Light </option>
+                            <option value="emerald_orb">Emerald Orb </option>
+                            <option value="maroon_light">Maroon Light </option>
+                            <option value="maroon_orb">Maroon Orb </option>
+                            <option value="chromatic_light">Chromatic Light </option>
+                            <option value="chromatic_orb">Chromatic Orb </option>
+
+                        </select>
+                    </div>
+                    <div class="row" style="margin-top:40px; justify-content: center;">
+                        <label for = "isLightEffect">Provides light</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="isLightEffect" class="center"
+                                title="Advantage">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="column center" style="margin-top:20px;">
+
+
+                    <div class="row" style = "justify-content: center;">
+                        <h2>Effect art</h4><button class="small brown" onclick="addArtToEffect()">+</button>
+                    </div>
+
+
+                    <div class = "row" id="effect_token_container">
+                        <div class="token"></div>
+                    </div>
+                </div>
+                <div class="column save_button_container">
+                    <button class="button_style red hidden" id="deleteButton" onclick="deleteEffect()">Delete</button>
+                    <button class="button_style green" id="saveButton" onclick="saveEffect()">Save</button>
+
+                </div>
+
+            </div>
+            <div class="success_message popup_message center semi_hidden">
+                <p id="close_message"></p>
+            </div>
+        </main>
+
+        <script>
+            window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
+        </script>
+        <script src="js/dataaccess.js"></script>
+        <script src="js/constants.js"></script>
+        <script src="mappingTool/addMapToolStuff.js"></script>
+        <script src="awesomplete/awesomplete.js"></script>
+        <script src="chosen/chosen.jquery.js"></script>
+        <script src="js/guicontrol.js"></script>
+
+    </body>
+</div>
+
+</html>

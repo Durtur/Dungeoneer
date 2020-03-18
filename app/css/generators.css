@@ -1,0 +1,279 @@
+.rumor_row {
+    width: 300px;
+    transition: all var(--transition-delay);
+}
+
+@media (min-width: 884px) {
+    #tavern_rumors {
+        margin-left: 30px;
+    }
+    #tavern_rumors>div>h2 {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.generator_reroll_container {
+    display: flex;
+    position: relative;
+}
+
+.regenerate_button {
+    border: none;
+    background-image: url(img/refresh.png);
+    border-radius: 50%;
+    transition: all 300ms;
+    background-color: var(--main-color);
+    background-repeat: no-repeat;
+    background-size: 75%;
+    background-position: center;
+    position: absolute;
+    height: 20px;
+    left: -25px;
+    width: 20px;
+    top: 25px;
+}
+
+.regenerate_button:hover {
+    background-color: var(--main-emphasis-color);
+}
+
+.creature_generation_buttons {
+    margin-bottom: 12px;
+}
+
+.creature_generation_buttons>button {
+    padding: 6px;
+    font-size: 14px;
+    min-width: 110px;
+    width: 50%;
+}
+
+select {
+    font-family: "roboto condensed";
+}
+
+#random_table_dump {
+    white-space: pre;
+    width:100%;
+}
+#random_table_name_input{
+    padding:5px;
+}
+
+.generator_customization_section textarea{
+    min-height:100px;
+}
+
+.explaination_text{
+    font-size: 13px;
+    color: darkslategray;
+    cursor:help;
+}
+
+.generator_header {
+    height: 117px;
+}
+
+.random_table_followup_input, .encounter_set_add_creature {
+    border: none;
+    background-color: transparent;
+    text-align: center;
+}
+
+.table_and_rumors {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.rumor_row>p {
+    font-size: 14px;
+}
+
+.rumor_row:hover {
+    border-left: 15px solid var(--main-underline-color);
+    padding-left: 5px;
+}
+
+.customize_tab_row {
+    top: 0;
+    left: 0;
+    position: absolute;
+    height: 35px;
+}
+
+.shop__name {
+    background-color: transparent;
+    background-image: url("img/scroll.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: black;
+    width: 259px;
+    height: 110px;
+    text-align: center;
+    font-size: 20px;
+    margin: auto;
+    padding-top: 60px;
+}
+
+path {
+    fill: transparent;
+}
+
+#tavern_table, #shop_table {
+    width: 250px;
+}
+
+#tavern_name, #shop_name {
+    font-family: "bookSanity", cursive;
+    text-align: center;
+    white-space: "pre";
+    overflow: visible;
+}
+
+.generator_tab {
+    margin-top: -6px;
+}
+
+#generator_type_dropdown_chosen {
+    margin-top: 21px;
+    margin-left: 5px;
+}
+
+.genchooser_larger {
+    max-width: 85%;
+    width: 63%;
+}
+
+.generator_customization_section input {
+    width: 100%;
+}
+
+.genchooser_smaller {
+    max-width: 32%;
+    width: 32%;
+    position:relative;
+}
+
+.genname {
+    background: none;
+}
+
+.hidden {
+    display: none;
+}
+
+th {
+    cursor: pointer;
+}
+
+#shop_generator_table>table>thead>tr>th:hover {
+    background-image: url("img/arrow.png");
+}
+
+#shop_generator_table>table>thead>tr>th {
+    background-position: right;
+    background-size: 10px;
+    background-repeat: no-repeat;
+}
+
+.edit_button {
+    background-color: transparent;
+    border: none;
+    background-image: url(img/quill.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 17px;
+    margin-top: 4px;
+    width: 17px;
+    margin-left: 0px;
+    display: none;
+    z-index: 1;
+}
+
+.edit_button:hover {
+    background-image: url("img/quillH.png");
+}
+
+.treeview_attribute:hover>.edit_button {
+    display: block;
+}
+
+.treeview_attribute {
+    display: flex;
+}
+
+.treeview_attribute>input {
+    width: 100%;
+    padding: 4px;
+}
+
+.treeview_attribute>p {
+    margin: 2px;
+    color: var(--main-color);
+    font-family: "roboto";
+}
+
+/* Tree view */
+
+/* Remove default bullets */
+
+.treeview_list li {
+    list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+
+.treeview_list {
+    margin: 0;
+    padding: 0;
+}
+
+.treeview_nested:empty {
+    height: 20px;
+}
+
+/* Style the caret/arrow */
+
+.treeview_caret {
+    cursor: pointer;
+    color: black;
+    font-family: "roboto";
+    user-select: none;
+    /* Prevent text selection */
+}
+
+.treeview_caret li {
+    font-family: "roboto";
+    font-weight: normaL;
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+
+.treeview_caret::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+
+.treeview_caret-down::before {
+    transform: rotate(90deg);
+}
+
+/* Hide the nested list */
+
+.treeview_nested {
+    display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+
+.treeview_active {
+    display: block;
+    margin-bottom: 5px;
+}

@@ -1,0 +1,181 @@
+main {
+    display: flex;
+    flex-flow: row nowrap;
+    margin-top: 30px;
+}
+
+.drawer {
+    position: fixed;
+    display: flex;
+    flex-flow: column nowrap;
+    transition: all 300ms;
+}
+
+h1{
+    font-size:52px;
+}
+h1,h2,h3,h4 {
+    text-align: center;
+}
+
+p {
+    line-height: 1.5;
+}
+
+p:not(:first-of-type){
+    text-indent: 30px;
+}
+
+.drawer>.drawer_out {
+    border-bottom: none;
+    width: 200px;
+    border-right: 2px solid var(--main-color);
+}
+
+.drawer>button {
+    transition: all 300ms;
+    width: 150px;
+    padding: 10px;
+}
+
+.drawer_out {
+    background-color: var(--main-emphasis-color);
+}
+
+.content_section {
+    margin-left: 200px;
+    padding: 5%;
+}
+
+.next_chapter_button {
+    background-color: var( --main-success-color);
+    color: white;
+    font-family: "nodesto";
+    font-size: 28px;
+    padding: 12px;
+    margin: auto;
+    transition: background-color 300ms;
+    border: none;
+    border-bottom: 2px solid var(--main-underline-color);
+}
+
+.next_chapter_button:hover {
+    background-color: var(--main-success-color-lighter);
+}
+
+img {
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    object-fit: contain;
+    width:300px;
+    margin:6px;
+}
+
+.img_right {
+    float: right;
+}
+
+.row>img{
+    flex:1;
+}
+
+
+.img_left {
+    float: left;
+    margin-right: 15px;
+}
+
+.hyperlink_like {
+    border: none;
+    background-color: transparent;
+    border-bottom: 1px black dashed;
+    cursor: pointer;
+    font-family: "bookSanity";
+    padding: 0;
+    font-size: 1em;
+}
+.hyperlink_like:hover{
+    border: 2px white dashed;
+}
+/* The Modal (background) */
+
+.modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.9);
+    /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+
+.modal-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 90%;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+
+#caption {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 90%;
+    text-align: center;
+    color: #ccc;
+    padding: 10px 0;
+    height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+
+.modal-content, #caption {
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
+
+/* The Close Button */
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.close:hover, .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
