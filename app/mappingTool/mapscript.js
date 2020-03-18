@@ -82,8 +82,8 @@ function loadSettings() {
             document.getElementById("background_color_button_add_pawn").value = "rgba(255, 255, 255, 0)";
         }
         if (settings.gridSettings) {
-         //   originalCellSize = settings.gridSettings.cellSize ? settings.gridSettings.cellSize : originalCellSize;
-          //  cellSize = originalCellSize;
+            //   originalCellSize = settings.gridSettings.cellSize ? settings.gridSettings.cellSize : originalCellSize;
+            //  cellSize = originalCellSize;
         }
         var hueSelector = document.getElementById("fog_of_war_hue_selector")
         if (settings.fogOfWarHue) {
@@ -787,7 +787,9 @@ function onSettingsLoaded() {
             data.bgY = backgroundCanvas.data_transform_y;
 
             data.segments = fovLighting.getSegments();
-            data.bgSize = $("#background").css("background-size");
+            data.bg_scale = backgroundCanvas.data_bg_scale;
+            data.bg_height_width_ratio = backgroundCanvas.heightToWidthRatio;
+            data.bg_width = parseFloat(backgroundCanvas.style.width);
             fs.writeFile(path, JSON.stringify(data), (err) => {
                 if (err) return console.log(err)
             });
@@ -831,7 +833,12 @@ function onSettingsLoaded() {
                 console.log(data)
                 moveOffsetX = data.moveOffsetX;
                 moveOffsetY = data.moveOffsetY;
+            
 
+                backgroundCanvas.data_bg_scale = data.bg_scale;
+                backgroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
+                backgroundCanvas.style.setProperty("--bg-scale", data.bg_scale);
+                resizeMap(data.bg_width);
                 settings.currentMap = data.map;
                 $('#background').css('background-image', 'url("' + data.map + '")');
                 $("#background").css("background-size", data.bgSize);
@@ -945,6 +952,14 @@ function restoreEffect(effect) {
 
 function setMapBackground(path) {
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
+    var img = new Image();
+    img.onload = function () {
+        var height = img.height;
+        var width = img.width;
+        backgroundCanvas.heightToWidthRatio = img.height / img.width;
+    }
+    img.src = path;
+
 
 
 }
@@ -998,7 +1013,7 @@ function zoomIntoMap(event, resizeAmount) {
         var newBackgroundOriginX = newRect.left;
         var newBackgroundOriginY = newRect.top;
 
-        [pawns.all, effects].forEach(arr =>{
+        [pawns.all, effects].forEach(arr => {
             for (var i = 0; i < arr.length; i++) {
                 var pawn = arr[i];
                 var boundingRect = pawn.getBoundingClientRect();
@@ -1006,17 +1021,17 @@ function zoomIntoMap(event, resizeAmount) {
                     / (originalCellSize * backgroundSizeBeforeResize);
                 cellsFromTop = (boundingRect.top - backgroundOriginY)
                     / (originalCellSize * backgroundSizeBeforeResize);
-    
-                if(i == 0)console.log(cellsFromLeft + "from left " + cellsFromTop + " from top")
-                pawns.all[i].style.top = (cellsFromTop * cellSize +newBackgroundOriginY) + "px";
-                pawns.all[i].style.left =( cellsFromLeft * cellSize + newBackgroundOriginX) + "px";
-    
+
+                if (i == 0) console.log(cellsFromLeft + "from left " + cellsFromTop + " from top")
+                arr[i].style.top = (cellsFromTop * cellSize + newBackgroundOriginY) + "px";
+                arr[i].style.left = (cellsFromLeft * cellSize + newBackgroundOriginX) + "px";
+
             }
         });
-       
+
         resizeAndDrawGrid(null, event);
-        fovLighting.resizeSegments({x: backgroundOriginX, y: backgroundOriginY}, { x : newBackgroundOriginX, y: newBackgroundOriginY}, backgroundSizeBeforeResize);
-    
+        fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
+
     });
 }
 
@@ -1778,13 +1793,13 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
     var newPawnImg;
     if (monsters) {
         lastPoint = pawns.lastLocationMonsters;
-     
+
         rotate = 90;
-     
+
     } else {
         lastPoint = pawns.lastLocationPlayers;
         rotate = -90;
-     
+
     }
 
     for (var i = 0; i < pawnArray.length; i++) {
