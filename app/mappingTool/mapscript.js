@@ -685,7 +685,9 @@ function onSettingsLoaded() {
 
     gridLayer.onwheel = function (event) {
         event.preventDefault();
+        console.log(previewPlacementElement)
         if (event.ctrlKey && previewPlacementElement) {
+           
             var value = document.getElementById("effect_input_value_one").value;
             var value2 = document.getElementById("effect_input_value_two").value;
             value = value != "" ? parseInt(value) : 20;
@@ -713,7 +715,7 @@ function onSettingsLoaded() {
             previewPlacementElement.style.height = actualHeight + "px";
             adjustPreviewPlacement(event);
 
-        } else {
+        }else if(!event.shiftKey){
             var dir = event.deltaY > 0 ? -0.1 : 0.1;
 
             zoomIntoMap(event, dir);
@@ -916,7 +918,7 @@ function createEffectMenus() {
         dataset.forEach(eff => {
             var newOption = document.createElement("option");
             newOption.value = eff.name;
-            newOption.innerHTML = eff.name.substring(0, 1).toUpperCase() + eff.name.substring(1).toLowerCase();
+            newOption.innerHTML = eff.name;
             selectDd.appendChild(newOption);
         })
     }
@@ -2287,7 +2289,6 @@ function addSfxEffectHandler(e, isPreviewElement) {
     var effectName = effectDropdown.options[effectDropdown.selectedIndex].innerHTML;
     var effectObj = effectData.filter(x => x.name == effectName)[0];
 
-    console.log(effectName)
     if (!effectObj && effectName.toLowerCase() != "custom") {
         return;
     } else if (effectName.toLowerCase() == "custom") {
@@ -2328,7 +2329,7 @@ function createBaseEffect(effectObj, isPreviewElement, e) {
         var randEff = pickOne(effectObj.filePaths);
         var sfxPath = pathModule.join(effectFilePath, randEff);
         if (isPreviewElement) {
-            selectedSfxBackground = "url(" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + ")";
+            selectedSfxBackground = "url('" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + "')";
         }
     } else if (effectObj.name != "custom") {
         selectedSfxBackground = null;
