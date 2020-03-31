@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title></title>
     <meta name="SÖR" content="">
-    <meta name="DM Tool" content="">
+    <meta name="Dungeoneer" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="../css/colors.css" rel="stylesheet">
     <link href="../css/about.css" rel="stylesheet">
@@ -30,7 +30,7 @@
             <button class="drawer_item button_style" onclick="setDrawer( 3)">Initiative</button>
             <button class="drawer_item button_style" onclick="setDrawer( 4)">Generating</button>
             <button class="drawer_item button_style" onclick="setDrawer( 5)">Adding stuff</button>
-            <button class="drawer_item button_style" onclick="setDrawer( 6)">The Map Tool</button>
+          <!---  <button class="drawer_item button_style" onclick="setDrawer( 6)">The Map Tool</button> --->
             <button class="drawer_item button_style" onclick="setDrawer( 7)">Advanced</button>
 
         </div>
@@ -64,8 +64,8 @@
                         href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=2W3HBC83MYTV2&currency_code=USD&source=url">Paypal</a>.
                 </p>
 
-                <p>If you have any feature requests or suggestions you can email me at simonorn@gmail.com, or submit a
-                    <a href="https://github.com/Durtur/DDsDMTool">github</a> issue. </p>
+                <p>If you have any feature requests or suggestions you can submit a
+                    <a href="https://github.com/Durtur/Dungeoneer">github</a> issue. </p>
             </article>
             <div class="row">
                 <button class="center next_chapter_button" onclick="setDrawer(1)">Next: The Basics</button>
@@ -73,53 +73,74 @@
         </section>
         <section class="content_section hidden ">
             <article>
-                <h1>Searching</h1>
+                <h1>Using the combat panel</h1>
                 <p>
                     <img class="img_right" src="screenshots/1.1.JPG" style="width:400px" alt="The top right searchbar (fig. 1.1) allows you to search for any monsters in the SRD, homebrew monsters or encounters you have created. The results will displayed in the window below (fig. 1.2). 
                 ">
 
-                    The top right searchbar (fig. 1.1) allows you to search for any monsters in the SRD, homebrew
-                    monsters
-                    or encounters you have created. The results will displayed in the window below (fig. 1.2).
+                    The top right searchbar (fig. 1.1) allows you to search for any monsters in the SRD, or homebrew
+                    monsters and encounters you have created. The results will displayed in the window below.
 
                 </p>
                 <p>
-                    The searchbar below that (fig. 1.3) allows you to search for other things, such as spells and
-                    conditions.
-                    Pressing the top right button (fig. 1.3) loads the monster or encounter into the combat panel (fig.
-                    2).
-                    If you searched for an encounter, each NPC in the encounter will be loaded into the Combat panel.
+                    Pressing the add button inside the displayed statblock will add the creature or encounter into the
+                    combat panel.
                 </p>
                 <p>
-                    <img src="screenshots/1.2.JPG" style="width:600px" alt="Locked and loaded"> <br> <br>
-                    This panel is where stuff happens. It's where you keep track of HP and roll for attacks and damage.
-                    In
-                    global settings you can set a hard limit to how many creatures can be loaded into the panel. By
-                    default,
-                    it's 80.
+                    The combat panel has basic combat stats of a creature, as well as a dice roller for attacks.
+                    Pressing the creature's name will toggle a more detailed view, including a log of applied damage and
+                    healing
+                </p>
+                <p>
+                    Pressing the Apply button will apply damage from the leftmost field. For healing, use negative
+                    numbers. If the creature's hit points drop to 0 or less, it will be removed from the panel.
+                </p>
+                <img src="screenshots/1.2.JPG" style="width:600px"
+                    alt="Pressing the creature's name will toggle a more detailed view for that row.">
+                <p>
+                    Pressing the D20 button will roll an attack for the creature, adding the current attack's modifier
+                    to the roll result. If it equals or execeeds the value in the VS AC field, the D20 will turn green,
+                    indicating a hit. In the case of a critical hit, the die will turn red. If the attack hits, damage
+                    is automatically rolled (dice are doubled in the case of a crititcal hit) and displayed in the
+                    rightmost field.
+                </p>
+                <p>
+                    If the creature has multiple attacks, you can switch between them by pressing the leftmost field.
+                </p>
+                <p>
+                    The clear (C) button will delete everything from the combat panel.
+                </p>
+                <p>
+                    The Maptool (M) button will open the maptool, allowing you to add the creatures from the combat
+                    panel to the map tool. If the creatures have tokens saved, those tokens are automatically loaded. If
+                    a creature is killed in the maptool (by using Kill from the pawn context menu) it will be removed
+                    from the combat panel. Likewise, if it's hit points drop to 0 or less in the combat panel, it will
+                    be displayed as dead in the map tool.
+                </p>
+
+
                 </p>
             </article>
             <article>
                 <h1>The PC Party</h1>
-
-                <img class="img_right" src="screenshots/1.3.JPG" style="width:40%"
-                    alt="Use the party window to save information about your players.">
-
-
-                <p>The DM Tool can keep track of the basic information for player characters. Press the Party button in
+                <img src="screenshots/1.5.JPG" class="img_right" style="width:400px"
+                    alt=" Player Character plaques can be disabled, in the Enabled Features settings.">
+                <p>Dungeoneer can keep track of the basic information for player characters. Press the Party button in
                     the top left corner. </p>
                 <p>This will bring up a table where you can add, edit or remove party members.The party window has
                     fields for level, perception, AC and other metrics. Add a party member and mark
-                    them as active with the checkbox. </p>
+                    them as active with the checkbox. You can also choose a token for the PC here. This token will be
+                    used in the Maptool.</p>
 
 
                 <p>A plaque with the Player Character's key metrics now appears in the main app screen. Pressing the
-                    horizontal arrows will switch between alternative AC and regular AC. Pressing the up or down arrows
-                    will apply a buff/debuff to armor, useful if the PC has a Shield of Faith effect for instance. </p>
+                    horizontal arrows will switch between alternative AC and regular AC (with or without a shield, for
+                    instance). Pressing the up or down arrows
+                    will apply a buff/debuff to armor, useful if the PC has a Shield of Faith effect for instance.
 
 
-                <p>Note that Player Character plaques can be disabled, in the Enabled Features settings.</p>
-                <img src="screenshots/1.5.JPG" style="width:100%" alt="Locked and loaded">
+
+                </p>
             </article>
             <article>
                 <h1>Grouping Player Characters</h1>
@@ -127,11 +148,12 @@
                     again.</p>
                 <img src="screenshots/1.6.JPG" style="width: 100%;"
                     alt="The party window lets you assign PC's to parties.">
-                <p>If the party icon (fig. 1) is white, it means that the player is not assigned to any specific party.
+                <p>If the party icon is white, it means that the player is not assigned to any specific party.
                     Press it, and you will see an input field. Write the party name and press enter. This can be an
                     existing party or a new one. You can now filter by this party in the filter input, on top of the
-                    table (fig. 2)</p>
+                    table. This is useful if you DM for multiple parties.
                 </p>
+
             </article>
             <div class="row">
                 <button class="center next_chapter_button" onclick="setDrawer(2)">Next: The Tools</button>
@@ -139,46 +161,8 @@
         </section>
         <section class="content_section hidden ">
             <h1>The Tools</h1>
-            <p>The main app screen has 5 tool panels to make your DMing life easier. Most of them can be disabled in the
+            <p>The main app screen has five tool panels to make your DMing life easier. Most of them can be disabled in the
                 "Enabled Features" setting. </p>
-            <article>
-                <h1>Combat panel</h1>
-                <img class="img_left" src="screenshots/2.1.jpg" style="width:58%" alt="Locked and loaded">
-                <p>The combat panel holds key information for monsters and NPC's in the encounter; current HP (fig. 2),
-                    AC
-                    (fig 3.), attack bonus (fig 4.) and damage (fig 7.).
-                </p>
-                <p>
-                    The leftmost field (fig 1.) is for damage. Write the damage, press enter or the "Ouch" button, and
-                    the
-                    number will be subtracted from the current HP field. If the remaining HP is less than or equal to 0,
-                    the
-                    row will be removed from the combat panel.
-                </p>
-                <p>
-                    Pressing the D20 button (fig. 5) will roll for attack. A D20 will be rolled and added to the attack
-                    bonus (fig. 4), and the number compared to the opponent AC (fig. 6). If the attack hits, the dice
-                    will
-                    turn green. If the hit is a critical, it will turn red.
-                    <img class="img_left" src="screenshots/2.2.jpg" style="width:58%" alt="Locked and loaded">
-                </p>
-                <p>
-                    If the attack hits damage will be rolled automatically and will appear in the monster damage field
-                    (fig.
-                    7). In the event of a crit, all dice are rolled twice and added. This field is not editable but
-                    pressing
-                    it will alternate between monster attacks. The tooltip (fig. 8) will display the current attack
-                    action.
-                </p>
-                <p>
-                    The table can be cleared completely by pressing the C button (fig. 9). If you use the Map tool you
-                    can
-                    press the Map tool sync button (fig. 10). This will allow you to easily plant tokens representing
-                    the
-                    entries in the Combat panel.
-                </p>
-
-            </article>
             <article>
                 <h1>Dice roller</h1>
                 <img class="img_right" src="screenshots/2.3.jpg" style="width:200px" alt="Locked and loaded">
@@ -240,7 +224,7 @@
             </article>
             <article>
                 <h1>Manual rolling</h1>
-                <img class="img_left" src="screenshots/3.3.jpg" style="width:200px" alt="Initiative buttons">
+                <img class="img_right" src="screenshots/3.3.jpg" style="width:200px" alt="Initiative buttons">
                 <p>When initative is set to manual rolling in the Settings window, a small window will appear with input
                     fields for all the players. Input their scores and press "Confirm". The app rolls for all individual
                     monsters loaded into the combat panel. If nothing is in the Combat panel, an additional input field
@@ -251,11 +235,10 @@
                 <h1>Autmoatic rolling</h1>
                 <p>When initative is set to roll automatically in the Settings window, you simply press the initiative
                     button and the app rolls for all players and individual monsters loaded into the combat panel.</p>
-                <img class="img_left" src="screenshots/3.2.jpg" style="width:100%" alt="Initiative buttons">
-                <p>The initiative order is sorted. Hovering over the nodes reveals the initiative score. To remove
-                    someone from the initiative order, press the appropriate node (fig. 2). You can add to the
-                    initiative order
-                    by pressing the "+" button. </p>
+                <img class="img_right" src="screenshots/3.2.jpg" style="width:200px" alt="Initiative buttons">
+                <p>Rolling is done autmoatically for entries from the combat panel. If no entries are present in the panel, an entry named "Monsters" will be inserted, with a initiative modifer of zero.</p>
+                <p>The initiative order is sorted. Right clicking will reveal a context menu, which you can use to remove or add entries from the initiative order.</p>
+                <p>The ready action feature will place a red dot on the appropriate initiative entry. This dot will disappear in the next turn.</p>
                 <p>The initiative tracker (fig. 1) also counts the number of rounds passed. You can disable this feature
                     in
                     the intiative settings.</p>
@@ -275,7 +258,7 @@
                     Party window. The encounter randomizer will use the level of your currently active Player characters
                     to
                     generate encounters. </p>
-                <img class="img_left" src="screenshots/4.1.jpg" style="width:300px"
+                <img class="img_right" src="screenshots/4.1.jpg" style="width:300px"
                     alt="Generating encounters in the Randomizer tool.">
                 <p>In the randomizer tool, start typing "Encounters:". A list of suggestions will then appear. You can
                     genearte an encounter from anything in the monster manual, or you can choose a subset based on
@@ -369,9 +352,8 @@
                     that entry is rolled for the Randomizer will roll again on that table. If you've already created the
                     table a list of autofill suggestions will pop up. Note that if you have not, you must write the
                     table
-                    name correctly. ALso note that if the Roll again column is filled out whatever is written in the
-                    Title
-                    and Content columns will be ignored.
+                    name correctly. If the Roll again column is filled out whatever is written in the
+                    title and content columns will be ignored.
                 </p>
             </article>
             <article>
@@ -405,8 +387,8 @@
                 <img src="screenshots/4.12.jpg" class="img_right" alt="Randomly generate an NPC.">
                 <p>In the NPC tab of the Generator window you can randomly generate an NPC. You can choose a creature
                     type
-                    (fig. 1), choose from a Name set (fig. 2) and pick a gender (fig. 3). If you wish, you can copy the
-                    description to the clipboard to paste into wherever it is you keep your notes.</p>
+                    , choose from a Name set  and pick a gender. If you wish, you can copy the
+                    description to the clipboard to paste into wherever it is you keep your notes. The name and creature can both be regenerated independantly from each other by pressing the appropriate regenerate button.</p>
             </article>
             <br>
             <div class="row">
@@ -419,7 +401,6 @@
             <p>You can add things to the database. In the Database window, accessible via the main app screen, you can
                 select a category (spells, items, homebrew monsters, etc) and add or delete entries to that cateogry.
             </p>
-            <img src="screenshots/5.1.jpg" style="width:100%" alt="Adding things to the databases.">
             <article>
                 <h1>Monsters/NPC</h1>
                 <p>To add a homebrew monster, select the + in the top left corner of the homebrew monster list. A form
@@ -455,40 +436,41 @@
                     feature, and if a creature with a given name is in the database the Challenge rating field will
                     automatically be filled out. It can also be manually changed, if the creature named is not in the
                     database.</p>
-                    <img src="screenshots/5.3.jpg" class="img_right"
+                <img src="screenshots/5.3.jpg" class="img_right"
                     alt="Use autocomplete to automatically insert the creature challenge rating.">
 
                 <p>The difficulty calculator will estimate an encounter's difficulty. It either uses the levels of all
                     Player characters that are marked as active in the Party window of the main app screen, or you can
                     manually input the level and party size. </p>
 
-                <p>Once an encounter is saved, you can <button class="hyperlink_like"
-                    onclick="setDrawer(1)">search for it in the main app screen</button> and load it into the combat panel to easily start the encounter.</p>
+                <p>Once an encounter is saved, you can search for
+                        it in the main app screen and load it into the combat panel to easily start the
+                    encounter.</p>
 
             </article>
             <article>
-                <h1>Conditions</h1>
-                <p>Adding other items is straight forward. Once an entry has been added you can search for it in the top-right side of the main-app screen.</p>
+                <h1>Other cateogries</h1>
                 <img src="screenshots/5.4.jpg" class="img_right"
                 alt="The upper searchbox combines encunters, monsters and homebrew monsters. .">
+                <p>Adding other items is straight forward. Once an entry has been added you can search for it in the
+                    top-right side of the main-app screen.</p>
+           
             </article>
-            <article>
-                <h1>Other categories</h1>
-                <p>Adding other items is straight forward. Once an entry has been added you can search for it in the top-right side of the main-app screen.</p>
-                <img src="screenshots/5.4.jpg" class="img_right"
-                alt="The upper searchbox combines encunters, monsters and homebrew monsters. .">
-            </article>
+           
         </section>
         <section class="content_section hidden ">
             <h1>The Map Tool</h1>
         </section>
 
         <section class="content_section hidden ">
-                <h1>Advanced</h1>
-                <button class="hyperlink_like"
-                        onclick="openDataFolder()">Where's the data?</button>
-                        
-            </section>
+            <h1>Advanced</h1>
+            <p>
+             Dungeoneer stores all tokens and data <button class="hyperlink_like" onclick="openDataFolder()">here</button>. You can add this folder to a cloud syncing application to backup this data.
+            </p>
+
+          
+
+        </section>
 
     </main>
     <!-- The Modal -->
