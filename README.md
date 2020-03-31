@@ -1,4 +1,4 @@
-#DM Tool 1.0
+# Dungeoneer 1.0
 
 ## What is it?
 This tool is meant to make the DM's job easier. It handles database managment and lookup for
