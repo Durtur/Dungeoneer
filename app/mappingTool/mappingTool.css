@@ -6,10 +6,9 @@
     --bg-translate-x: 0;
     --bg-translate-y: 0;
     --bg-scale: 1;
-
-    --pawn-scale:1;
-    --pawn-rotate:0;
-    --cell-size:35;
+    --pawn-scale: 1;
+    --pawn-rotate: 0;
+    --cell-size: 35;
     --dnd-hexes: 1;
 }
 
@@ -229,21 +228,14 @@ li {
 #background {
     background-color: transparent;
     background-image: url('default.jpg'), url("default.png");
-    background-size:contain;
+    background-size: contain;
     background-repeat: no-repeat;
     transition: -webkit-filter 1s;
     transition-timing-function: ease-in;
-   
     /*
 matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 */
-    transform: matrix( 
-        calc( var(--bg-scale)),
-         0, 
-         0, 
-         calc( var(--bg-scale)), 
-         calc(var(--bg-translate-x)), 
-         calc(var(--bg-translate-y)));
+    transform: matrix( calc( var(--bg-scale)), 0, 0, calc( var(--bg-scale)), calc(var(--bg-translate-x)), calc(var(--bg-translate-y)));
 }
 
 .tooltip {
@@ -268,12 +260,10 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
     flex-flow: row wrap;
     background-color: rgba(255, 255, 255, 0.75);
     background-size: contain;
-
     background-repeat: no-repeat;
     background-position: center;
-    transition: border 300ms;
+    box-sizing: border-box;
     transform: scale(calc(var(--pawn-scale)));
-
 }
 
 .pawn_dead {
@@ -355,7 +345,7 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 }
 
 .pawn:hover, .pawn_selected {
-    filter: drop-shadow(0 0 10px white) !important;
+    border: 2px dashed white;
 }
 
 .help_tool_tip {

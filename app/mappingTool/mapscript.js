@@ -81,10 +81,7 @@ function loadSettings() {
         if (!settings.colorTokenBases) {
             document.getElementById("background_color_button_add_pawn").value = "rgba(255, 255, 255, 0)";
         }
-        if (settings.gridSettings) {
-            //   originalCellSize = settings.gridSettings.cellSize ? settings.gridSettings.cellSize : originalCellSize;
-            //  cellSize = originalCellSize;
-        }
+  
         var hueSelector = document.getElementById("fog_of_war_hue_selector")
         if (settings.fogOfWarHue) {
             hueSelector.value = settings.fogOfWarHue;
@@ -93,8 +90,6 @@ function loadSettings() {
         }
         if (!settings.transparentWindow) document.body.style.backgroundColor = hueSelector.value;
         effectFilePath = defaultEffectPath;
-
-
 
         if (!settings.enableGrid) settings.snapToGrid = false;
         if (!settings.applyDarkvisionFilter) {
@@ -373,7 +368,10 @@ ipcRenderer.on('monster-killed', function (evt, arg) {
 
 ipcRenderer.on('settings-changed', function (evt, arg) {
     console.log("Settings changed, applying...");
-    loadSettings();
+    dataAccess.getSettings(function (data) {
+        settings = data.maptool;
+        resizeAndDrawGrid();
+    });
 });
 
 ipcRenderer.on('monster-list-cleared', function (evt, arg) {
@@ -593,7 +591,7 @@ function onSettingsLoaded() {
     window.onresize = function () { window.requestAnimationFrame(resizeAndDrawGrid) }
 
     resizeMap(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth)
-    setUpgridLayer();
+    setupGridLayer();
     resizeAndDrawGrid();
     refreshFogOfWar();
     createEffectMenus();
@@ -687,7 +685,7 @@ function onSettingsLoaded() {
         event.preventDefault();
         console.log(previewPlacementElement)
         if (event.ctrlKey && previewPlacementElement) {
-           
+
             var value = document.getElementById("effect_input_value_one").value;
             var value2 = document.getElementById("effect_input_value_two").value;
             value = value != "" ? parseInt(value) : 20;
@@ -715,7 +713,7 @@ function onSettingsLoaded() {
             previewPlacementElement.style.height = actualHeight + "px";
             adjustPreviewPlacement(event);
 
-        }else if(!event.shiftKey){
+        } else if (!event.shiftKey) {
             var dir = event.deltaY > 0 ? -0.1 : 0.1;
 
             zoomIntoMap(event, dir);
@@ -757,10 +755,10 @@ function onSettingsLoaded() {
             });
         if (path != null) {
             var data = {};
-
+    /*
             var pawnsToSave = [...pawns.all].filter(paw => !isPlayerPawn(paw));
             data.pawns = [];
-            /*
+        
             pawnsToSave.forEach(p => {
                 data.pawns.push({
                     html: p.outerHTML,
@@ -835,7 +833,7 @@ function onSettingsLoaded() {
                 console.log(data)
                 moveOffsetX = data.moveOffsetX;
                 moveOffsetY = data.moveOffsetY;
-            
+
 
                 backgroundCanvas.data_bg_scale = data.bg_scale;
                 backgroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
@@ -2746,7 +2744,6 @@ function dragPawn(elmnt) {
     var offsetX, offsetY;
 
     function dragMouseDown(e) {
-        console.log(e.buttons)
         //Line tool
         if (toolbox[0]) {
             if (measurementTargetOrigin == null) {
@@ -2778,14 +2775,14 @@ function dragPawn(elmnt) {
                     gridLayer.onmousedown = generalMousedowngridLayer;
                 }
             } else {
-                //Not multiple move
                 if (selectedPawns.length == 0) {
                     setupMeasurements();
                     originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop };
-
                     measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
+                    showToolTip(e, "0 ft", "tooltip")
                 }
-                showToolTip(e, "0 ft", "tooltip")
+     
+           
                 e = e || window.event;
                 e.preventDefault();
                 // get the mouse cursor position at startup:
@@ -2990,7 +2987,7 @@ function resizeHelper(arr) {
 
     }
 }
-function setUpgridLayer() {
+function setupGridLayer() {
     gridLayerContext.strokeStyle = "rgba('10','10','10','0.4')";
     gridLayerContext.lineWidth = 1;
 }

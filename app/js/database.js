@@ -2024,7 +2024,7 @@ function saveHomebrew(promptCollisions) {
     addProperty("charisma", thingyToSave)
     addProperty("senses", thingyToSave)
     addProperty("languages", thingyToSave)
-    addProperty("challenge_rating", thingyToSave)
+    addProperty("challenge_rating", thingyToSave, 0)
 
   } else if (tab == "encounters") {
     thingyToSave.encounter_xp_value = parseInt(document.querySelector("#encounter_challenge_calculator_value").value);
