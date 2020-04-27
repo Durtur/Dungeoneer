@@ -23,9 +23,9 @@ input {
   width: 150px;
 }
 
-textarea{
-  width:220px;
-  height:120px;
+textarea {
+  width: 220px;
+  height: 120px;
 }
 
 .listRow__inner>input[type="text"]:first-child {
@@ -275,7 +275,6 @@ textarea{
 }
 
 .remove_button {
-
   background-color: transparent;
   border: none;
   background-image: url("img/redx.png");
@@ -288,8 +287,8 @@ textarea{
 
 .button_row {
   display: none;
-  position:absolute;
-  right:0;
+  position: absolute;
+  right: 0;
   z-index: 4;
   top: 5px;
 }
@@ -306,12 +305,11 @@ textarea{
   z-index: 1;
 }
 
-.edit_header_name{
+.edit_header_name {
   position: absolute;
-  top:0;
-  
+  top: 0;
   margin: 0;
-  left:10px;
+  left: 10px;
 }
 
 .copy_button {
@@ -325,7 +323,6 @@ textarea{
   margin-left: 5px;
   z-index: 1;
 }
-
 
 .edit_button:hover {
   background-image: url("img/quillH.png");
@@ -360,10 +357,12 @@ textarea{
 .actionjsonValue, .legendaryjsonValue {
   width: 50px;
 }
-.action_description{
-  height:60px;
-  width:250px;
+
+.action_description {
+  height: 60px;
+  width: 250px;
 }
+
 .jsonValueClasses {
   width: 50px;
   height: 80%;
@@ -513,7 +512,13 @@ textarea{
 .addRow_actions>div>textarea, .addRow_legendary_actions>div>textarea {
   z-index: 1;
 }
-.condition_icon_container{position: absolute}
+
+.condition_icon_container {
+  position: absolute;
+  z-index: 2;
+  display:flex;
+}
+
 .addRowC>.row>.sp-replacer {
   width: 79px;
   height: 79px;
@@ -538,23 +543,12 @@ textarea{
   display: none !important;
 }
 
-.img_picker_label {
-  padding: 12px;
-  font-size: 14px;
-}
 
 #condition_image_picker {
   background: white;
-  height: 64px;
-  min-width: 64px;
+  height: 32px;
   margin-left: 12px;
   cursor: pointer;
-}
-
-#condition_image_label {
-  font-style: italic;
-  margin-left: 12px;
-  color: rgb(121, 121, 121);
 }
 
 .encounter_cr_filters>input {
@@ -601,5 +595,9 @@ textarea{
 }
 
 .official_content_row>.listRow__inner>input {
-  color:#3f3b3b !important;
+  color: #3f3b3b !important;
+}
+
+.required_input:placeholder-shown {
+  border: 2px dotted var(--main-emphasis-color);
 }

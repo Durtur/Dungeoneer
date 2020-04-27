@@ -62,8 +62,10 @@
                     toggled="false" toggleGroup="1">NPC generation</button>
             </div>
 
-            <div class="column genchooser_smaller"style = "margin-top:45px;">
-                <p class = "explaination_text tooltipped tooltipped_large" data-tooltip="Random encounter tables are used to generate random encounters. Fill the table with all creatures applicable to the encounter type, and the encounter generator will generate an appropriately difficult encounter for your party.">Random encounter tables are used to generate random encounters... </p>
+            <div class="column genchooser_smaller" style="margin-top:45px;">
+                <p class="explaination_text tooltipped tooltipped_large"
+                    data-tooltip="Random encounter tables are used to generate random encounters. Fill the table with all creatures applicable to the encounter type, and the encounter generator will generate an appropriately difficult encounter for your party.">
+                    Random encounter tables are used to generate random encounters... </p>
                 <div class="column hidden generator_customization_section" id="random_encounters_table_container">
                     <label>Table name</label>
                     <input id="random_encounter_table_name_input"
@@ -90,8 +92,8 @@
                     <div class="row ">
                         <button class="button button_style green hidden " style="margin-top:6px" id="save_table_button"
                             onclick="saveRandomTable()">Save</button>
-                        <button class="button button_style red hidden" id="delete_table_button" style="margin-left:5px; margin-top:6px"
-                            onclick="deleteRandomTable()">Delete</button>
+                        <button class="button button_style red hidden" id="delete_table_button"
+                            style="margin-left:5px; margin-top:6px" onclick="deleteRandomTable()">Delete</button>
                         <button class="button button_style hidden" id="addTableRowButton" style="margin-left:5px"
                             onclick="addRandomTableRow()">Add row</button>
 
@@ -124,8 +126,8 @@
 
                 <div class="column hidden generator_customization_section" id="npc_generation_container">
                     <div class="row creature_generation_buttons">
-                        <button class="toggle_button  button_style"
-                            onclick="switchNpcGeneratorDetails(0)" toggled="true" toggleGroup="2">
+                        <button class="toggle_button  button_style" onclick="switchNpcGeneratorDetails(0)"
+                            toggled="true" toggleGroup="2">
                             Creatures
                         </button>
                         <button class="toggle_button button_style" toggled="false"
@@ -206,10 +208,11 @@
                     <option value="3">Exorbitant</option>
                 </select>
 
-                <div class="row">
-                    <button class="button_style button_wide margin_top" id="generate_tavern_button"
+                <div class="column">
+                    <button class="generate_button button_style button_wide margin_top" id="generate_tavern_button"
                         onclick="generateTavern()">Generate</button>
-                    <button class="button_style button_wide margin_top hidden" id="reroll_tavern_button">Reroll
+                    <button class="generate_button button_style button_wide margin_top hidden"
+                        id="reroll_tavern_button">Reroll
                         rumors/menu</button>
                 </div>
 
@@ -256,7 +259,11 @@
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
-                <button class="button_style button_wide margin_top" id="generate_npc_button">Generate</button>
+                <div class="column">
+                    <button class="generate_button button_style button_wide margin_top"
+                        id="generate_npc_button">Generate</button>
+                </div>
+
             </div>
 
             <div class="column genchooser_larger" style="margin-left:2em;">
@@ -316,9 +323,11 @@
                     <option value="2">Expensive</option>
                     <option value="3">Exorbitant</option>
                 </select>
-                <div class="row">
-                    <button class="button_style button_wide margin_top" id="generate_shop_button">Generate</button>
-                    <button class="button_style button_wide margin_top hidden" id="reroll_shop_button">Reroll
+                <div class="column">
+                    <button class="generate_button button_style button_wide margin_top"
+                        id="generate_shop_button">Generate</button>
+                    <button class="generate_button button_style button_wide margin_top hidden"
+                        id="reroll_shop_button">Reroll
                         inventory</button>
                 </div>
 

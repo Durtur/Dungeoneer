@@ -18,6 +18,14 @@
     position: relative;
 }
 
+.generate_button{
+    width:100%;
+   
+}
+.generate_button:first-child{
+    margin-top:3em;
+}
+
 .regenerate_button {
     border: none;
     background-image: url(img/refresh.png);
@@ -152,8 +160,8 @@ path {
 }
 
 .genchooser_smaller {
-    max-width: 32%;
-    width: 32%;
+    max-width: 250px;
+    width: 250px;
     position:relative;
 }
 

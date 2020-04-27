@@ -30,7 +30,7 @@ var statblockPresenter = function () {
     while (statblock.firstChild)
       statblock.removeChild(statblock.firstChild);
     values = JSON.parse(JSON.stringify(valueElement));
-    if (["tables", "spells", "conditions", "items"].indexOf(statblockType) >= 0) {
+    if (["tables", "random_tables","spells", "conditions", "items"].indexOf(statblockType) >= 0) {
       statblock.classList.add("single_column");
     } else {
       statblock.classList.remove("single_column");

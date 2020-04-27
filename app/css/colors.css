@@ -551,8 +551,8 @@ hr {
 input, textarea, .cell_row {
   font-family: "roboto condensed";
   background-color: #FFFFFF;
-  border: none !important;
-  border-bottom: 2px solid var(--main-emphasis-color);
+  border: none;
+
 }
 
 .draggable_element {

@@ -113,7 +113,7 @@ $(document).ready(function () {
     preferredFormat: "rgb",
     allowEmpty: false,
     showAlpha: true,
-    chooseText: "Condition color",
+    chooseText: "ok",
     showInput: true
   });
   document.getElementById("condition_image_picker").onclick = function (e) {
@@ -122,12 +122,11 @@ $(document).ready(function () {
         properties: ['openFile'],
         message: "Choose picture location",
         filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-      })[0];
+      });
     if (conditionImagePath == null)
       return;
     var imgEle = document.getElementById("condition_image_picker");
     imgEle.setAttribute("src", conditionImagePath);
-    document.getElementById("condition_image_label").innerHTML = conditionImagePath;
   }
   $(".listSearch").on("keyup paste", filterDataListFromSearch)
   $("#encounter_monster_list_search").on("keyup paste", searchMasterListAfterInput)
@@ -1372,7 +1371,6 @@ function editObject(dataObject, letter) {
   var loadedValues = Object.values(dataObject);
 
   document.getElementById("condition_image_picker").setAttribute("src", "");
-  document.getElementById("condition_image_label").innerHTML = "";
   document.getElementById("condition_color_picker").value = "#fff";
 
   checkIfTableExistsAndRemove(loadedKeys, loadedValues);
@@ -2090,12 +2088,13 @@ function saveHomebrew(promptCollisions) {
       for (var j = 0; j < rowCells.length / headers.length; j++) {
         currentColumn.push(rowCells[i + (j * headers.length)].value)
       }
-      if (currentColumn != "") tableObject[headers[i].value] = currentColumn;
+     
+      if (headers[i].value != "") tableObject[headers[i].value] = currentColumn;
     }
 
 
     thingyToSave.source = "Homebrew";
-    thingyToSave.description = thingyToSave.description.split("\n");
+    thingyToSave.description = thingyToSave.description;
     if (Object.keys(tableObject).length != 0) thingyToSave.table = tableObject;
   } else if (tab == "conditions") {
     thingyToSave.condition_color_value = document.getElementById("condition_color_picker").value;

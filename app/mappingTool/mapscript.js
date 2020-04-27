@@ -515,8 +515,7 @@ document.addEventListener("DOMContentLoaded", function () {
         addPawnImagePaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
             properties: ['openFile', 'multiSelections'],
             message: "Choose picture location",
-            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }],
-            defaultPath: defaultTokenPath
+            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
         });
     }
     document.getElementById("popup_menu_add_effect").addEventListener("mouseenter", function (evt) {
@@ -727,8 +726,7 @@ function onSettingsLoaded() {
         var path = dialog.showOpenDialog(remote.getCurrentWindow(), {
             properties: ['openFile'],
             message: "Choose map",
-            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }],
-            defaultPath: defaultTokenPath
+            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
         })[0].replace(/\\/g, "/");
 
         if (path) {
@@ -2259,8 +2257,7 @@ function setFillStyle() {
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }],
-                defaultPath: measurementFillStylePath ? measurementFillStylePath : ""
+                filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
             })[0];
     if (measurementFillStylePath)
         measurementFillStylePath = measurementFillStylePath.replace(/\\/g, "/");
@@ -2397,8 +2394,7 @@ function setTokenImageHandler(e) {
     var imagePaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
         properties: ['openFile', 'multiSelections'],
         message: "Choose picture location",
-        filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }],
-        defaultPath: defaultTokenPath
+        filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
     });
 
     if (imagePaths != null) {

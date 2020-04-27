@@ -293,10 +293,9 @@
                         <div class="condition_icon_container">
                                 <input type="text" id="condition_color_picker" value='rgba(255,255,255,1)'
                                 title="Condition color" readonly>
-                            <label class="brown attribute_label img_picker_label"
-                                for="condition_image_picker">Icon</label>
+                         
                             <img id="condition_image_picker">
-                            <label id="condition_image_label"></label></div>
+
                     </div>
 
                     <div class="infobox hidden" id="markdowninfoconditions">
@@ -344,25 +343,25 @@
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown " title="Attribute" value="Name"
                                 readonly></input>
-                            <input type="text" class="jsonValueI db_name_field object_nameI" > </input>
+                            <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown" title="Attribute" value="Rarity"
                                 readonly></input>
-                            <input type="text" class="jsonValueI" id="item_rarity_input" > </input>
+                            <input type="text" tabindex=1  class="jsonValueI" id="item_rarity_input" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown" title="Attribute" value="Type"
                                 readonly></input>
-                            <input type="text" class="jsonValueI" id="item_type_input" > </input>
+                            <input type="text" tabindex=1  class="jsonValueI" id="item_type_input" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown" title="Attribute" value="Description"
                                 readonly></input>
-                            <textarea class="jsonValueI" >  </textarea>
+                            <textarea  tabindex=1  class="jsonValueI" >  </textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -380,9 +379,9 @@
 
                     <div class="column jsonTableI hidden">
                         <div class="jsonTableHeaderI row">
-                            <input class="add_table_header table_headerI" placeholder="Header">
-                            <input class="add_table_header table_headerI" placeholder="Header">
-                            <input class="add_table_header table_headerI" placeholder="Header">
+                            <input class="add_table_header required_input table_headerI" required placeholder="Header">
+                            <input class="add_table_header required_input table_headerI" required placeholder="Header">
+                            <input class="add_table_header required_input table_headerI" required placeholder="Header">
                         </div>
                         <div class="jsonTableRowI row">
                             <input class="table_row table_elementI" placeholder="Value">
@@ -422,7 +421,7 @@
                         <div class="row" id="spell_class_row">
                             <input type="text" class="jsonAttributeClasses brown" title="Attribute" value="Classes"
                                 readonly></input>
-                            <input type="text" class="jsonValueClasses" > </input>
+                            <input  tabindex=1  type="text" class="jsonValueClasses" > </input>
                             <button class="small brown interactive" title="Add class"
                                 onclick="addClassTextBoxForSpells()">
                                 + </button>
@@ -431,37 +430,37 @@
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown " title="Attribute" value="Name"
                                 readonly></input>
-                            <input type="text" class="jsonValueS db_name_field object_nameS" > </input>
+                            <input type="text"  tabindex=1  class="jsonValueS db_name_field object_nameS" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Level"
                                 readonly></input>
-                            <input type="text" class="jsonValueS" > </input>
+                            <input type="text"  tabindex=1  class="jsonValueS" > </input>
                         </div>
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="School"
                                 readonly></input>
-                            <input type="text" class="jsonValueS" id="spell_school_input" > </input>
+                            <input type="text"  tabindex=1  class="jsonValueS" id="spell_school_input" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Description"
                                 readonly></input>
-                            <textarea class="jsonValueS" >  </textarea>
+                            <textarea  tabindex=1 class="jsonValueS" >  </textarea>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Higher levels"
                                 readonly></input>
-                            <textarea class="jsonValueS" >  </textarea>
+                            <textarea  tabindex=1  class="jsonValueS" >  </textarea>
                         </div>
 
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Components"
                                 readonly></input>
-                            <input type="text" class="jsonValueS" > </input>
+                            <input  tabindex=1  type="text" class="jsonValueS" > </input>
                         </div>
 
 
@@ -469,26 +468,26 @@
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Range"
                                 readonly></input>
-                            <input type="text" class="jsonValueS" > </input>
+                            <input type="text"  tabindex=1  class="jsonValueS" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Casting time"
                                 readonly></input>
-                            <input type="text" class="jsonValueS" > </input>
+                            <input type="text" tabindex=1  class="jsonValueS" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Duration"
                                 readonly></input>
-                            <input type="text" class="jsonValueS" > </input>
+                            <input type="text" tabindex=1  class="jsonValueS" > </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class=" brown" title="Attribute" value="Ritual casting"
                                 readonly></input>
                                 <label class="container_for_checkbox">
-                                        <input type="checkbox" class="center " id = "ritual_casting_spell_checkbox" title="Ritual casting">
+                                        <input type="checkbox" tabindex=1  class="center " id = "ritual_casting_spell_checkbox" title="Ritual casting">
                                         <span class="checkmark"></span>
                                       </label>
                         </div>
