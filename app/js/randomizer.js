@@ -10,7 +10,7 @@ var randomizer = function () {
     const randomizerRaritySelect = document.getElementById("randomizer_rarity_select");
     const randomizerEncounterDangerSelect = document.getElementById("randomizer_encounter_danger_select");
     const randomizerEncounterCreatureNumberSelect = document.getElementById("randomizer_encounter_creature_number_select");
-
+    const encounterModule = new EncounterModule();
     const randomizerClearButton = document.getElementById("randomizer_clear_button");
 
     randomizer_item_value
@@ -65,7 +65,7 @@ var randomizer = function () {
             if (!encounter.error) {
                 loadEncounter(encounter);
                 encounterIsLoaded = true;
-                statblockPresenter.createStatblock("statblock", encounter, false);
+                statblockPresenter.createStatblock(document.getElementById("statblock"), encounter, false);
                 if( document.getElementById("loaderButton")) document.getElementById("loaderButton").classList.remove("hidden");
                 document.getElementById("iframewrapper").style.display = "block";
                 showEntry({

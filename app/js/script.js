@@ -1201,7 +1201,6 @@ var combatLoader = function () {
   var playerMouseUpIndexMax;
   var playerUpMouseIndex = -1;
   function loadCombat() {
-
     if (!encounterIsLoaded) {
       if (loadedMonster.length == 0) {
         return false;
@@ -2087,7 +2086,8 @@ function linkSearchFor(searchstring) {
 // fullMatch: boolean : whether the string should be fully matched or not.
 // data: Dataset to look in, must contain attribute "name".
 //combat: Whether the entity should be loaded into combat system.
-function lookFor(searchstring, fullMatch, data, combat, statblock) {
+function lookFor(searchstring, fullMatch, data, key, statblock) {
+  console.log(encounterIsLoaded, key)
   for (var i = 0; i < data.length; i++) {
     if ((data[i].name.toLowerCase() == searchstring.toLowerCase() && fullMatch)
       || (data[i].name.toLowerCase().includes(searchstring.toLowerCase()) && !fullMatch)) {
@@ -2097,7 +2097,7 @@ function lookFor(searchstring, fullMatch, data, combat, statblock) {
         frameHistoryButtons.unToggleButtonsExcept(data[i].name);
       }
 
-      if (combat) {
+      if (key == "monsters") {
         $("#loaderButton").attr("title", "Load " + data[i].name + " into combat table. (ctrl + e)");
         
         loadedMonster.push(data[i].name);
@@ -2111,8 +2111,6 @@ function lookFor(searchstring, fullMatch, data, combat, statblock) {
           combatLoader.insertIntoTable();
           combatLoader.autoloads--;
         }
-
-
         //Loada öll creatures.
       } else if (encounterIsLoaded) {
         loadEncounter(data[i])
@@ -2132,10 +2130,11 @@ function loadEncounter(encounterObject) {
   var name;
   $("#loaderButton").attr("title", "Load " + encounterObject.name + " into combat table.");
 
-
+  console.log(creatures)
   for (var i = 0; i < creatures.length; i++) {
     var name = Object.keys(creatures[i])[0];
     name = name.replace(/_/g, " ");
+ 
     loadedEncounter.push([name, Object.values(creatures[i])[0]]);
 
   }
@@ -2167,7 +2166,6 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       if (key != "encounters") {
         encounterIsLoaded = false;
       } else {
-
         encounterIsLoaded = true;
       }
       loadedMonster = [];

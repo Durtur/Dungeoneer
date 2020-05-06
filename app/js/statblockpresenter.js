@@ -288,7 +288,7 @@ var statblockPresenter = function () {
 
         newP.innerHTML = "This encounter is " + description + " (" + totalXp + "xp)" + " for a party of " + partyDescString;
         newP.classList.add("encounter_difficulty_description")
-        return newP;
+        statblock.appendChild(newP);
       }
     }
   }
