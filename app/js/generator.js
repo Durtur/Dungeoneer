@@ -789,6 +789,7 @@ function dumpCreateTable(evt) {
         var baseProbability = 1 / allLines.length;
         var currentLine;
         var obj = [];
+        
         for (var i = 0; i < allLines.length; i++) {
             currentLine = allLines[i].split("\t");
             if (currentLine.length > 1) {

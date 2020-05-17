@@ -79,10 +79,10 @@
                             onclick="addRandomEncounterTableRow()">Add row</button>
 
                     </div>
-                    <label for=random_table_dump>Dump</label>
+                    <label for=random_encounter_dump>Dump</label>
                     <textarea
                         placeholder="Paste your table here, with rows &#13;&#10; seperated by new lines and columns seperated by tabs. &#13;&#10;You can also paste directly from a spreadsheet."
-                        value="" id="random_table_dump"></textarea>
+                         id="random_encounter_dump"></textarea>
 
                 </div>
 
@@ -101,7 +101,8 @@
                     <label for=random_table_dump>Dump</label>
                     <textarea
                         placeholder="Paste your table here, with rows &#13;&#10;seperated by new lines and columns seperated by tabs.&#13;&#10; You can also paste directly from a spreadsheet."
-                        value="" id="random_table_dump"></textarea>
+                        id="random_table_dump"></textarea>
+                        <button class = "button_style" onclick = "dumpCreateTable()">Generate from dump</button>
 
                 </div>
 

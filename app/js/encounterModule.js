@@ -1,6 +1,5 @@
 
 class EncounterModule {
-
     parseCR(str) {
         if (typeof str != "string") return str;
         str = str.trim();
@@ -84,7 +83,7 @@ class EncounterModule {
     }
 
     getXpSumForEncounter(crList, partySize) {
-        var xpSum, creatureSum, currentCreatureNum, currentCR;
+        var xpSum, creatureSum, currentCR;
         xpSum = 0;
         creatureSum = 0;
         crList.forEach(cr => {
@@ -103,7 +102,7 @@ class EncounterModule {
         return total;
     }
 
-    getXpValueForCR(cr){
+    getXpValueForCR(cr) {
         var currentCR = this.parseCRIndex(cr);
         return encounterCalculatorTable.xpByCR[currentCR];
     }
@@ -116,63 +115,58 @@ class EncounterModule {
         var difficultyIndex = ["trivial", "easy", "medium", "hard", "deadly"].indexOf(difficulty.toLowerCase().trim());
         if (difficultyIndex < 0) difficultyIndex = 0;
         var sum = 0;
-        difficultyIndex++;
         allLevels.forEach(level => {
-            level = parseInt(level);
-            var table = encounterCalculatorTable.table[level].concat([2 * encounterCalculatorTable.table[level][3] - 1])
-
-
+            level = parseInt(level) - 1;
             if (level < 0) level = 0;
+            var table = encounterCalculatorTable.table[level].concat([2 * encounterCalculatorTable.table[level][3] - 1])
+            console.log(table)
             if (level >= encounterCalculatorTable.table.length) level = encounterCalculatorTable.table.length - 1;
             sum += table[difficultyIndex];
         })
+        console.log("Upper limit for " + difficulty + " encounter for " + allLevels + ": " + sum)
 
         return sum;
     }
 
-    getMultiplierForCreatureNumber(creatureNumber, partySize) {
-        var multiplierThresholdValues = Object.values(encounterCalculatorTable.multipliers);
-        var multiplierThresholds = Object.keys(encounterCalculatorTable.multipliers);
-        var foundThreshold = 0;
-        while (parseInt(multiplierThresholds[foundThreshold]) < creatureNumber) {
-            if (foundThreshold == multiplierThresholds.length - 1) {
-                break;
-            }
-            foundThreshold++;
+    getMultiplierForCreatureNumber(count, partySize) {
+
+        var values = [1, 1.5, 2, 2.5, 3, 4];
+        var index = getIndex();
+        console.log(index, count, partySize)
+        if (partySize <= 2 && index != 0) index--;
+        if (partySize >= 5 && index != values.length - 1) index++;
+        return values[index];
+
+        function getIndex() {
+            if (count <= 1) return 0;
+            if (count <= 2) return 1;
+            if (count <= 6) return 2;
+            if (count <= 10) return 3;
+            if (count <= 14) return 4;
+            if (count >= 15) return 4;
         }
 
-        if (partySize <= 2) {
-            if (foundThreshold != multiplierThresholds.length - 1) foundThreshold++;
-        } else if (partySize > 5) {
-            if (foundThreshold != 0) foundThreshold--;
-        }
-        return multiplierThresholdValues[foundThreshold];
     }
     //difficulty : ["easy", "medium", "hard", "deadly", "2x deadly"]
     //encounterType : ["solitary", "squad", "mob"]
     getRandomEncounter(pcLevels, difficulty, encounterType, allowedMonsters, allowedType, callback) {
+        pcLevels = pcLevels.filter(x => x > 0);
+        if (pcLevels.length == 0)
+            return callback(createEncounterReturnError("<p>Unable to generate an encounter. There are no active party members with a level.</p>"));
+
         var multiplier = 1;
         if (difficulty == "2x deadly") {
             difficulty = "deadly"
             multiplier = 2;
+        } else if (difficulty == "any") {
+            difficulty = pickOne(["easy", "medium", "hard", "deadly"])
         }
         var XPCeiling = this.getXpCeilingForPlayers(pcLevels, difficulty) * multiplier;
-        var encounterSizeMod = (function (encType) {
-            switch (encType) {
-                case "squad":
-                    return 0.6;
-                case "mob":
-                    return 0.25;
-                case "horde":
-                    return 0;
-                default:
-                    return 1;
-            }
-        })(encounterType);
+
         var monsterCount = (function (encType) {
             switch (encType) {
                 case "squad":
-                    return 2 * d(4);
+                    return 2 * d(2);
                 case "mob":
                     return 4 * d(4);
                 case "horde":
@@ -194,160 +188,127 @@ class EncounterModule {
                     monsterArray = monsterArray.filter(x => x.type.toLowerCase().trim() == allowedType.toLowerCase().trim());
 
 
-                console.log("Generating encounter for ", XPCeiling, "xp")
+                console.log("Generating encounter for ", XPCeiling, "xp");
+                var remainingXp = XPCeiling / this.getMultiplierForCreatureNumber(monsterCount, pcLevels.length);
+
                 //Filter out monsters that have a cr higher than the threshold and cr 0 monsters
                 monsterArray = monsterArray.filter(x => {
                     var monCrIndex = this.parseCRIndex(x.challenge_rating);
                     if (isNaN(monCrIndex) || monCrIndex == 0 || monCrIndex >= encounterCalculatorTable.xpByCR.length)
                         return false;
-                    if (encounterCalculatorTable.xpByCR[monCrIndex] > XPCeiling)
+                    if (encounterCalculatorTable.xpByCR[monCrIndex] > remainingXp)
                         return false;
                     return true;
                 });
-                var allAvailableCrs = [];
 
                 if (monsterArray.length == 0)
-                    return callback({
-                        error: true,
-                        name: "Unable to generate",
-                        description: "<p>Unable to generate an encounter for this difficulty, as no monsters that fit the criteria are available. This is either because a creature under the specified CR limit does not exist, or that the CR limit is not provided. Make sure that you have some active party members.</p>",
-                        creatures: []
-                    })
-                monsterArray.forEach(b => allAvailableCrs[this.parseCRIndex(b.challenge_rating)] = true)
-                monsterArray.sort((a, b) => {
-                    return this.parseCRIndex(b.challenge_rating) - this.parseCRIndex(a.challenge_rating)
-                });
+                    return callback(createEncounterReturnError("<p>Unable to generate an encounter for this difficulty, as no monsters that fit the criteria are available. This is either because a creature under the specified CR limit does not exist, or that the CR limit is not provided. Make sure that you have some active party members.</p>")
 
-                var totalXp = 0;
-                var averageCr = XPCeiling / monsterCount;
-                var lowersAvailableCrIndex = 1;
-                while (!allAvailableCrs[lowersAvailableCrIndex] && lowersAvailableCrIndex < encounterCalculatorTable.xpByCR.length)
-                    lowersAvailableCrIndex++;
-                while (this.roundToNextCR(averageCr) < encounterCalculatorTable.xpByCR[lowersAvailableCrIndex]) {
-                    monsterCount--;
-                    averageCr = XPCeiling / monsterCount;
-                }
-                var crRatios = [];
-                var sumRatios = 0;
-                var maxMonsterTypes = Math.ceil(monsterCount / 5);
-                for (var i = 0; i < maxMonsterTypes; i++) {
-                    var rand = Math.random();
-                    sumRatios += rand;
-                    crRatios.push(rand);
-                }
-                crRatios = crRatios.map(x => x /= sumRatios);
-                crRatios.sort();
-                var crDispensationArray = [];
-                crRatios.forEach(ratio => crDispensationArray.push(ratio * XPCeiling));
-                monsterCount = 0;
+                    )
+                var allAvailableCrs = [...new Set(monsterArray.map(b => this.parseCRIndex(b.challenge_rating)))].sort();
+                console.log("Availble challenge ratings: ", allAvailableCrs);
                 var pickedMonsters = [];
-                for (var i = 0; i < crDispensationArray.length; i++) {
-                    var maxIndex = encounterCalculatorTable.xpByCR.indexOf(this.roundToNextCR(crDispensationArray[i]).xp);
-                    maxIndex = Math.min(maxIndex, allAvailableCrs.length)
-                    var rand = parseInt(Math.min((Math.random() + encounterSizeMod), 0.99) * maxIndex);
-                    var reachedTop;
-                    while (!allAvailableCrs[rand] &&
-                        rand > -1) {
-                        if (!reachedTop) {
-                            rand++;
-                        } else {
-                            rand--;
-                        }
-                        if (rand == maxIndex - 1)
-                            reachedTop = true;
+
+                //Adjust count if this amount of creatures is not available:
+                while (this.getOptimalCrForCreatureNumber(monsterCount, allAvailableCrs, remainingXp) < 0 && monsterCount < 0) {
+                    monsterCount--;
+                    remainingXp = XPCeiling / this.getMultiplierForCreatureNumber(monsterCount, pcLevels.length);
+                }
+                if (monsterCount == 0) throw "Encounter generator error, monster count is 0";
+
+
+                if (monsterCount <= 2) {
+                    var iterations = monsterCount;
+                    var availablePool = remainingXp / monsterCount;
+                    while (iterations > 0) {
+                        iterations--;
+                        remainingXp -= this.pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs);
                     }
-
-                    //Nothing available, xp goes to next tier. 
-                    if (rand <= 0 || crDispensationArray[i] <= 0) {
-                        if (i != crDispensationArray.length - 1)
-                            crDispensationArray[i + 1] = crDispensationArray[i + 1] + crDispensationArray[i]
-                        continue;
-                    }
-                    var usedXp = 0;
-                    var filteredCreatures = monsterArray.filter(x => this.parseCRIndex(x.challenge_rating) == rand);
-                    var creature = pickOne(filteredCreatures);
-
-                    var numberOfPickedCreatures = Math.ceil(crDispensationArray[i] / encounterCalculatorTable.xpByCR[rand]);
-
-                    monsterCount += numberOfPickedCreatures;
-                    var creatureObj = {};
-                    usedXp = numberOfPickedCreatures * encounterCalculatorTable.xpByCR[rand];
-                    totalXp += usedXp;
-                    creatureObj[creature.name] = "" + isNaN(numberOfPickedCreatures) ? 1 : numberOfPickedCreatures;
-                    creatureObj.challenge = rand;
-                    creatureObj.name = creature.name;
-
-                    if (i != crDispensationArray.length - 1)
-                        crDispensationArray[i + 1] = crDispensationArray[i + 1] - (usedXp - crDispensationArray[i])
-                    pickedMonsters.push(creatureObj)
-
+                  
+                    var totalXp = this.getXpSumForEncounter(pickedMonsters.map(x=> (x.challenge_rating)), pcLevels.length).adjusted;
+                    console.log("total xp", totalXp)
+                    return callback({
+                        name: "Generated encounter",
+                        description: "A generated encounter",
+                        creatures: toEncounter(pickedMonsters),
+                        encounter_xp_value: totalXp
+                    });
                 }
 
-                var filteredMonsters = [];
-                //Combine 
-                pickedMonsters.map(monster => {
-                    var alreadyInFiltered = filteredMonsters.filter(x => x.name == monster.name).length > 0;
-                    console.log(monster, alreadyInFiltered)
-                    if (!alreadyInFiltered) {
-                        var filtered = pickedMonsters.filter(x => x.name == monster.name);
-                        if (filtered.length > 1) {
-                            var sum = 0;
-
-                            filtered.forEach(filteredM => {
-                                sum += parseInt(filteredM[filteredM.name])
-                            })
-                            monster[monster.name] = (isNaN(sum) ? 1 : sum);
-                        }
-                        filteredMonsters.push(monster)
-                    }
-                    console.log("filtered ", filteredMonsters)
-                });
-
-                pickedMonsters = filteredMonsters;
-                pickedMonsters.sort((a, b) => {
-                    return a.challenge - b.challenge;
-                })
-
-                var multiplier = this.getMultiplierForCreatureNumber(monsterCount, pcLevels.length);
-                totalXp *= multiplier;
-
-                if (monsterCount > 1) {
-                    while (totalXp > (XPCeiling) * 1.75 && monsterCount > 1) {
-                        if (parseInt(pickedMonsters[0][pickedMonsters[0].name]) == 1 && pickedMonsters.length == 1)
-                            break;
-                        pickedMonsters[0][pickedMonsters[0].name] = parseInt(pickedMonsters[0][pickedMonsters[0].name]) - 1;
-                        console.log(pickedMonsters[0][pickedMonsters[0].name], " -- the count")
-                        if (pickedMonsters[0][pickedMonsters[0].name] == 0)
-                            pickedMonsters.splice(0, 1);
-
-                        totalXp = 0;
-                        pickedMonsters.forEach(monster => {
-                            totalXp += parseInt(monster[monster.name]) * encounterCalculatorTable.xpByCR[monster.challenge];
-                        })
-                        monsterCount--;
-                        multiplier = this.getMultiplierForCreatureNumber(monsterCount, pcLevels.length);
-                        totalXp *= multiplier;
-
-                    }
-
+                //>= 3 creatures
+                var withLieutenant = Math.random() > (0.45 - monsterCount/10) && monsterCount > 1;
+                console.log( (0.45 - monsterCount/10) , "prop", withLieutenant)
+                if (withLieutenant) {
+                    var availablePool = remainingXp / 1.5; //2/3 of xp
+                    if (this.getOptimalCrForCreatureNumber(monsterCount - 1, allAvailableCrs, remainingXp - availablePool) >= 0)
+                        remainingXp -= this.pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs, true);
                 }
 
-                pickedMonsters.forEach(monster => {
-                    delete monster.challenge;
-                    delete monster.name;
-                })
+             
+                var remainingCreaturesToAdd = monsterCount - 1;
+                var availablePool = remainingXp / remainingCreaturesToAdd;
 
+                var costForOne = this.pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs);
+                var pickedCreature = pickedMonsters[pickedMonsters.length-1];
+                remainingCreaturesToAdd--;
+                while (remainingCreaturesToAdd > 0) {
+                    remainingXp -= costForOne;
+                    remainingCreaturesToAdd--;
+                    pickedMonsters.push(pickedCreature);
+                }
+
+                var totalXp =  this.getXpSumForEncounter(pickedMonsters.map(x=> (x.challenge_rating)), pcLevels.length).adjusted;
                 return callback({
                     name: "Generated encounter",
                     description: "A generated encounter",
-                    creatures: pickedMonsters,
+                    creatures: toEncounter(pickedMonsters),
                     encounter_xp_value: totalXp
-                })
+                });
 
+                function toEncounter(monsters){
+                    var creatures = [];
+                    var nameList = [];
+                    monsters.forEach(x=>{
+                        nameList.push(x.name);
+                    });
+                    var uniqueNames = [... new Set(nameList)];
+                    uniqueNames.forEach(name=>{
+                        var obj = {};
+                        obj[name] = nameList.filter(x=> x==name).length;
+                        creatures.push(obj);
+                    });
+                    return creatures;
+                }
+
+                function createEncounterReturnError(msg) {
+
+                    return {
+                        error: true,
+                        name: "Unable to generate",
+                        description: msg,
+                        creatures: []
+                    };
+                }
             });
         })
     }
+    ///Picks the most powerful creature available and places it into the pickedMonsters array.
+    pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs, removeFromSet) {
+        var highestAvailable = this.getOptimalCrForCreatureNumber(1, allAvailableCrs, availablePool);
+        console.log("Highest available CR: ", encounterCalculatorTable.xpByCR[highestAvailable]);
+        var lietenantCreature = pickOne(monsterArray.filter(x => this.getXpValueForCR(x.challenge_rating) == encounterCalculatorTable.xpByCR[highestAvailable]));
+        if (lietenantCreature) {
+            if(removeFromSet)monsterArray = monsterArray.splice(monsterArray.indexOf(lietenantCreature), 1);
+            pickedMonsters.push(lietenantCreature);
+            return this.getXpValueForCR(lietenantCreature.challenge_rating);
+        }
+        return 0;
+    }
 
+    getOptimalCrForCreatureNumber(creatureCount, allAvailableCrs, availablePool) {
+        var optimalCr = Math.max(...allAvailableCrs.filter(x => creatureCount * encounterCalculatorTable.xpByCR[x] <= availablePool));
+        return optimalCr ? optimalCr : -1;
+    }
 
     roundToNextCR(xp) {
         var iterator = 0;
@@ -375,17 +336,6 @@ class EncounterModule {
 
 
 const encounterCalculatorTable = {
-
-    "multipliers": {
-        "1": 1,
-        "2": 1.5,
-        "6": 2,
-        "10": 2.5,
-        "14": 3,
-        "15": 4
-    }
-
-    ,
     "xpByCR": [
         10,
         25,

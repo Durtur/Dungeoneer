@@ -9,7 +9,7 @@
     "build": "electron-builder build --win --publish never",
     "deploy": "electron-builder build --win --publish always"
   },
-  "author": "durtur@github <simonorn@gmail.com>",
+  "author": "durtur@github ",
   "license": "CC-BY-NC-4.0",
   "devDependencies": {
     "electron": "^1.8.8",
