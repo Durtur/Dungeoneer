@@ -251,25 +251,50 @@ var fovLighting = function () {
                 var lastPoint;
                 var wallDataString = wall.points;
                 wallDataString = wallDataString.substring(17, wallDataString.length - 1);
-                var arr = wallDataString.split(",");
+                var wallPoints = wallDataString.split(",");
+                var wallLines = [];
                 var newPoint = {};
-                for (var i = 0; i < arr.length; i++) {
-                    var value = parseInt(arr[i]); //Normalize
+                for (var i = 0; i < wallPoints.length; i++) {
+                    var value = parseInt(wallPoints[i]);
                     if (i % 2 == 0) {
-                        newPoint.x = value *widthDiff +offsetX;
+                        newPoint.x = value;
                         continue;
                     }
-                    newPoint.y = value *heightDiff +offsetY;
+                    newPoint.y = value;
              
                     if (lastPoint) {
                         console.log("Point: a" + " x"+ lastPoint.x + "y"+lastPoint.y + " b x" + newPoint.x + " y"+ newPoint.y)
-                        addSegment({x:lastPoint.x, y:lastPoint.y}, {x:newPoint.x, y:newPoint.y});
+                        wallLines.push({a : {x:lastPoint.x, y:lastPoint.y},b: {x:newPoint.x, y:newPoint.y}});
                     }
                     lastPoint = newPoint;
                     newPoint = {};
                 }
+                if (wall.loop) {
+                    //Add a segment between first and last
+                    var firstPoint = {
+                        x: parseInt(wallPoints[0]),
+                        y: parseInt(wallPoints[1]) 
+                    }
+
+                    var lastPoint = {
+                        x: parseInt(wallPoints[wallPoints.length - 2]) ,
+                        y: parseInt(wallPoints[wallPoints.length - 1]) 
+                    }
+                    wallLines.push({a:firstPoint, b:lastPoint});
+                }
+
+                 //Normalize and add
+                wallLines.forEach(line=> {
+                    line.a.x = line.a.x  *widthDiff +offsetX;
+                    line.b.x = line.b.x  *widthDiff +offsetX;
+                    line.a.y =  line.a.y *heightDiff +offsetY;
+                    line.b.y =  line.b.y *heightDiff +offsetY
+                    addSegment(line.a, line.b)
+                
+                });
             });
 
+          ;
             drawSegments();
 
         });
