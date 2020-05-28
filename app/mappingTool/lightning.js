@@ -79,10 +79,6 @@ var fovLighting = function () {
         fogOfWarLayerContext.drawImage(maskCanvas, 0, 0);
         draw(forcedPerspectiveOrigin);
         clearMask();
-
-
-
-
     }
 
     function draw(currentPawn) {
@@ -105,21 +101,7 @@ var fovLighting = function () {
 
     }
 
-    function showPawnInFog(pawn) {
-        fogOfWarLayerContext.globalCompositeOperation = 'destination-out';
-        var sightRadius;
-        sightRadius = 2 * cellSize / 5;
-        console.log("Revealing", pawn)
-        pawnX = parseFloat(pawn.style.left) + pawn.clientWidth / 2;
-        pawnY = parseFloat(pawn.style.top) + pawn.clientHeight / 2;
-        radgrad = fogOfWarLayerContext.createRadialGradient(
-            pawnX, pawnY, 0, pawnX, pawnY, sightRadius);
-        radgrad.addColorStop(0, 'rgba(0,0,0,0)');
-        radgrad.addColorStop(0.5, 'rgba(0,0,0,0.5)');
-        radgrad.addColorStop(1, 'rgba(0,0,0,0)');
-        fogOfWarLayerContext.fillStyle = radgrad;
-        fogOfWarLayerContext.fill();
-    }
+
 
     function paintVision(currentPawn, pawnX, pawnY) {
         if (isNaN(pawnX) || isNaN(pawnY))
@@ -128,8 +110,8 @@ var fovLighting = function () {
         var sightRadiusBright, sightRadius;
         //Special handling if this is a player that should be always visible
         if (currentPawn.sight_mode == "darkvision" && !activeViewerHasDarkvision) {
-            sightRadiusBright = cellSize/5;
-            sightRadius = cellSize/5*2;
+            sightRadiusBright = cellSize / 5;
+            sightRadius = cellSize / 5 * 2;
         } else {
             sightRadiusBright = parseFloat(currentPawn.sight_radius_bright_light) * cellSize / 5;
             sightRadius = sightRadiusBright +
@@ -244,6 +226,55 @@ var fovLighting = function () {
 
     }
 
+    function importDungeondraftWalls() {
+        var dungeonDraftCellSize = 256;
+        difference = cellSize/dungeonDraftCellSize ;
+        var path = dialog.showOpenDialog(remote.getCurrentWindow(), {
+            properties: ['openFile', 'multiSelections'],
+            message: "Choose dungeondraft map location",
+            filters: [{ name: 'Dungeondraft map', extensions: ['dungeondraft_map'] }]
+        });
+        if (!path[0]) return;
+        dataAccess.readFile(path[0], function (data) {
+           // resetZoom(); something needs to be done about this
+            var wallArray = data.world.levels["0"].walls;
+            
+            var ddWidth = parseInt(data.world.width)*dungeonDraftCellSize;
+            var ddHeigth= parseInt(data.world.height)*dungeonDraftCellSize;
+            var widthDiff = parseFloat(backgroundCanvas.style.width)/ddWidth;
+            var heightDiff = parseFloat(backgroundCanvas.style.height)/ddHeigth;
+
+            var offsetX = backgroundCanvas.data_transform_x;
+            var offsetY = backgroundCanvas.data_transform_y;
+       
+            wallArray.forEach(wall => {
+                var lastPoint;
+                var wallDataString = wall.points;
+                wallDataString = wallDataString.substring(17, wallDataString.length - 1);
+                var arr = wallDataString.split(",");
+                var newPoint = {};
+                for (var i = 0; i < arr.length; i++) {
+                    var value = parseInt(arr[i]); //Normalize
+                    if (i % 2 == 0) {
+                        newPoint.x = value *widthDiff +offsetX;
+                        continue;
+                    }
+                    newPoint.y = value *heightDiff +offsetY;
+             
+                    if (lastPoint) {
+                        console.log("Point: a" + " x"+ lastPoint.x + "y"+lastPoint.y + " b x" + newPoint.x + " y"+ newPoint.y)
+                        addSegment({x:lastPoint.x, y:lastPoint.y}, {x:newPoint.x, y:newPoint.y});
+                    }
+                    lastPoint = newPoint;
+                    newPoint = {};
+                }
+            });
+
+            drawSegments();
+
+        });
+    }
+
     function addWindowBorderToSegments() {
         var offset = -500;
         var boxHeight = canvasHeight - offset;
@@ -262,9 +293,10 @@ var fovLighting = function () {
 
     function nudgeSegments(x, y) {
         var segment;
-
+        console.log("Nudging segments", segments.length)
         for (var i = 4; i < segments.length; i++) {
             segment = segments[i];
+            console.log(segment)
             segment.a.x += x;
             segment.a.y += y;
             segment.b.x += x;
@@ -493,6 +525,7 @@ var fovLighting = function () {
         return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
     }
     return {
+        importDungeondraftWalls: importDungeondraftWalls,
         clearFogOfWar: clearFogOfWar,
         drawFogOfWar: drawFogOfWar,
         nudgeSegments: nudgeSegments,

@@ -247,8 +247,15 @@ var dataAccess = function () {
         });
     }
 
-
+    function readFile(path, callback){
+        fs.readFile(path, function (err, data) {
+            if (err)
+               throw err;
+            callback(JSON.parse(data));
+        });
+    }
     return {
+        readFile : readFile,
         getTokenPath: getTokenPath,
         saveToken: saveToken,
         setMapToolData: setMapToolData,

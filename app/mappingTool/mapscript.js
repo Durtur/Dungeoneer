@@ -952,9 +952,12 @@ function setMapBackground(path) {
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
     var img = new Image();
     img.onload = function () {
-        var height = img.height;
-        var width = img.width;
+        console.log(img.width, img.height)
         backgroundCanvas.heightToWidthRatio = img.height / img.width;
+        backgroundCanvas.style.width = img.width +"px";
+        backgroundCanvas.style.height = img.height +"px";
+
+        document.getElementById("map_size_slider").value = img.width;
     }
     img.src = path;
 
@@ -1020,7 +1023,6 @@ function zoomIntoMap(event, resizeAmount) {
                 cellsFromTop = (boundingRect.top - backgroundOriginY)
                     / (originalCellSize * backgroundSizeBeforeResize);
 
-                if (i == 0) console.log(cellsFromLeft + "from left " + cellsFromTop + " from top")
                 arr[i].style.top = (cellsFromTop * cellSize + newBackgroundOriginY) + "px";
                 arr[i].style.left = (cellsFromLeft * cellSize + newBackgroundOriginX) + "px";
 
@@ -1687,8 +1689,6 @@ function stopMeasuring(event, ignoreClick) {
         if (event != null)
             lastMeasuredPoint = { x: event.clientX, y: event.clientY }
     }
-
-
 }
 function setLightSource(brightLight, dimLight, params) {
     selectedPawns.forEach(function (pawn) {
@@ -2712,6 +2712,12 @@ function startMovingMap(e) {
         })
 
     }
+}
+
+function resetZoomAndPan(){
+    backgroundCanvas.data_bg_scale = 1;
+    backgroundCanvas.data_transform_x = 0;
+    backgroundCanvas.data_transform_y = 0;
 }
 function isLightEffect(pawnElement) {
     for (var i = 0; i < pawns.lightSources.length; i++) {
