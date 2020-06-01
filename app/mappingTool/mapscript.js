@@ -1,4 +1,4 @@
-const { ipcRenderer } = require('electron');
+const { ipcRenderer, webFrame } = require('electron');
 
 
 var cellSize = 35, minCellsize = 10, maxCellsize = 150, originalCellSize = cellSize;
@@ -981,6 +981,7 @@ var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
  */
 
 function zoomIntoMap(event, resizeAmount) {
+
     window.requestAnimationFrame(function (ts) {
         if (ts == LAST_MAP_RESIZE) {
             MAP_RESIZE_BUFFER += resizeAmount;
@@ -1031,7 +1032,7 @@ function zoomIntoMap(event, resizeAmount) {
 
         resizeAndDrawGrid(null, event);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
-
+        window.requestAnimationFrame(refreshFogOfWar);
     });
 }
 

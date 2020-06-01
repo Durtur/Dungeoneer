@@ -228,7 +228,7 @@ var fovLighting = function () {
 
     function importDungeondraftWalls() {
         var dungeonDraftCellSize = 256;
-        difference = cellSize/dungeonDraftCellSize ;
+        difference = cellSize / dungeonDraftCellSize;
         var path = dialog.showOpenDialog(remote.getCurrentWindow(), {
             properties: ['openFile', 'multiSelections'],
             message: "Choose dungeondraft map location",
@@ -236,17 +236,17 @@ var fovLighting = function () {
         });
         if (!path[0]) return;
         dataAccess.readFile(path[0], function (data) {
-           // resetZoom(); something needs to be done about this
+            // resetZoom(); something needs to be done about this
             var wallArray = data.world.levels["0"].walls;
-            
-            var ddWidth = parseInt(data.world.width)*dungeonDraftCellSize;
-            var ddHeigth= parseInt(data.world.height)*dungeonDraftCellSize;
-            var widthDiff = parseFloat(backgroundCanvas.style.width)/ddWidth;
-            var heightDiff = parseFloat(backgroundCanvas.style.height)/ddHeigth;
+
+            var ddWidth = parseInt(data.world.width) * dungeonDraftCellSize;
+            var ddHeigth = parseInt(data.world.height) * dungeonDraftCellSize;
+            var widthDiff = parseFloat(backgroundCanvas.style.width) / ddWidth;
+            var heightDiff = parseFloat(backgroundCanvas.style.height) / ddHeigth;
 
             var offsetX = backgroundCanvas.data_transform_x;
             var offsetY = backgroundCanvas.data_transform_y;
-       
+
             wallArray.forEach(wall => {
                 var lastPoint;
                 var wallDataString = wall.points;
@@ -261,10 +261,9 @@ var fovLighting = function () {
                         continue;
                     }
                     newPoint.y = value;
-             
+
                     if (lastPoint) {
-                        console.log("Point: a" + " x"+ lastPoint.x + "y"+lastPoint.y + " b x" + newPoint.x + " y"+ newPoint.y)
-                        wallLines.push({a : {x:lastPoint.x, y:lastPoint.y},b: {x:newPoint.x, y:newPoint.y}});
+                        wallLines.push({ a: { x: lastPoint.x, y: lastPoint.y }, b: { x: newPoint.x, y: newPoint.y } });
                     }
                     lastPoint = newPoint;
                     newPoint = {};
@@ -273,33 +272,87 @@ var fovLighting = function () {
                     //Add a segment between first and last
                     var firstPoint = {
                         x: parseInt(wallPoints[0]),
-                        y: parseInt(wallPoints[1]) 
+                        y: parseInt(wallPoints[1])
                     }
 
                     var lastPoint = {
-                        x: parseInt(wallPoints[wallPoints.length - 2]) ,
-                        y: parseInt(wallPoints[wallPoints.length - 1]) 
+                        x: parseInt(wallPoints[wallPoints.length - 2]),
+                        y: parseInt(wallPoints[wallPoints.length - 1])
                     }
-                    wallLines.push({a:firstPoint, b:lastPoint});
+                    wallLines.push({ a: firstPoint, b: lastPoint });
                 }
 
-                 //Normalize and add
-                wallLines.forEach(line=> {
-                    line.a.x = line.a.x  *widthDiff +offsetX;
-                    line.b.x = line.b.x  *widthDiff +offsetX;
-                    line.a.y =  line.a.y *heightDiff +offsetY;
-                    line.b.y =  line.b.y *heightDiff +offsetY
+                //Create separate segments for portals
+                var portals = createPortals(wall);
+                if(portals)
+                {
+                  
+                    portals.forEach(portal =>{
+                        wallLines.forEach(line=>{
+                            if(!pointIsOnLine(line.a, line.b, portal))
+                              return;
+                            //Shorten first by radius
+                            var portalBegin = createPointDistanceTowardsAnother(portal.radius,  {x:portal.x, y:portal.y},line.a);
+                            var portalEnd = createPointDistanceTowardsAnother(portal.radius,  {x:portal.x, y:portal.y},line.b);
+                           // line.b.x = portalBegin.x;
+                            //line.b.y = portalBegin.y;
+                            var wallEnd = line.b;
+                            line.b = copyPoint(portalBegin);
+                            console.log(portalBegin, portalEnd)
+                            wallLines.push({a: copyPoint(portalBegin), b: copyPoint(portalEnd)});
+                        //    wallLines.push({a: copyPoint(line.a), b: copyPoint(portalBegin)});
+                            wallLines.push({a: copyPoint(wallEnd), b: copyPoint(portalEnd)});
+
+
+                        });
+                    });
+                   // while(segmentsToAdd.length > 0)
+                      //  wallLines.push(segmentsToAdd.pop());
+                    function createPointDistanceTowardsAnother(moveDistance, pointA, pointB){
+                        var distanceBetween = distance(pointA, pointB);
+                        var x = pointA.x - (moveDistance*(pointA.x - pointB.x))/distanceBetween;
+                        var y = pointA.y -  (moveDistance*(pointA.y - pointB.y))/distanceBetween;
+                        return {x:x, y:y};
+                    }
+                }
+
+                //Normalize and add
+                wallLines.forEach(line => {
+                    console.log(line)
+                    line.a.x = line.a.x * widthDiff + offsetX;
+                    line.b.x = line.b.x * widthDiff + offsetX;
+                    line.a.y = line.a.y * heightDiff + offsetY;
+                    line.b.y = line.b.y * heightDiff + offsetY
                     addSegment(line.a, line.b)
-                
+
                 });
             });
 
-          ;
             drawSegments();
 
         });
+
+        function createPortals(wall) {
+            if (!wall.portals || wall.portals.length == 0)
+                return null;
+            var portalArr = [];
+            wall.portals.forEach(port => {
+                var positionArr = port.position.substring(8, port.position.length - 1).split(",").map(x => parseFloat(x));
+                portalArr.push({
+                    x: positionArr[0],
+                    y: positionArr[1],
+                    radius: parseFloat(port.radius)
+                });
+            });
+            return portalArr;
+        }
+
     }
 
+
+    function copyPoint(point){
+        return {x:point.x, y:point.y};
+    }
     function addWindowBorderToSegments() {
         var offset = -500;
         var boxHeight = canvasHeight - offset;
@@ -318,10 +371,8 @@ var fovLighting = function () {
 
     function nudgeSegments(x, y) {
         var segment;
-        console.log("Nudging segments", segments.length)
         for (var i = 4; i < segments.length; i++) {
             segment = segments[i];
-            console.log(segment)
             segment.a.x += x;
             segment.a.y += y;
             segment.b.x += x;
