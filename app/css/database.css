@@ -387,6 +387,7 @@ textarea {
   border-color: #3F0E0B;
   border: 1px solid #3F0E0B;
   padding: 1px;
+  box-sizing: border-box;
 }
 
 .interactive:hover {

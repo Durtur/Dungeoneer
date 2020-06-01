@@ -3132,7 +3132,11 @@
                 "A fiddler is playing a racy tune _stagearea",
                 "A thick cloud of odors greets all who enter; mead, sweat and piss",
                 "Broken shields adorn the walls of this tavern",
-                ""
+                "A smug looking _manwoman sits at one of the tables, challenging anyone to a _game",
+                "Two _creatures skeletons are propped up at one table, seemingly in a card game",
+                "A shady looking figure seems to be lounging about in a dark corner, selling something",
+                "A young _noble sits awkwardly at a corner table, and seems very much out of place",
+                "A peddler is walking between tables, promising anyone that anyone who'll sell his product will make \"a killing\""
             ],
             [
                 "One corner of the tavern is a lounge area, furnished with comfortable armchairs and a small fireplace",
@@ -3143,7 +3147,14 @@
                 "A bard is reciting romantic folk tales poems _stagearea",
                 "Boisterous laughter echoes around the room, which is covered in pipe smoke ",
                 "A thick cloud of pipe smoke obscures the room",
-                "A beautiful cracked blade adorns the wall above the fireplace, with an enscription in draconic; Loyalty"
+                "A beautiful cracked blade adorns the wall above the fireplace, with an enscription in draconic; Loyalty",
+                "A large warbow adorns the wall above the fireplace",
+                "A wicked black dagger sticks out of a support pillar, bleeding black smoke. No patron dares touch it",
+                "Broken shields adorn the walls of this tavern",
+                "A smug looking _manwoman sits at one of the tables, challenging anyone to a _game",
+                "The atmosphere is glum, too glum for a tavern some might think",
+                "The bar has a small bust of a bald man, which patrons rub for good luck",
+                "A scribe sits at one of the tables, nursing an ale with a defeated look"
             ],
             [
                 "One corner of the tavern is a lounge area, furnished with comfortable armchairs and a small fireplace",
@@ -3156,7 +3167,17 @@
                 "A local _noble is sipping red wine on one table with his admiring entourage",
                 "Paintings of various nobility adorn the walls",
                 "Paintings of natural scenery adorn the walls",
-                "A beautiful cracked blade adorns the wall above the fireplace, with an enscription in draconic; Loyalty"
+                "A pair of nobles is having a heated but quiet discussion in one corner",
+                "A beautiful cracked blade adorns the wall above the fireplace, with an enscription in draconic; Loyalty",
+                "A large tapestry hangs on the south facing wall, containing a long epic poem in Sylvan",
+                "A wicked black dagger sticks out of a support pillar, bleeding black smoke. No patron dares touch it",
+                "A beautiflly crafted violin hangs above the fireplace, although there seem to be cracks in the wood",
+                "A smug looking _manwoman sits at one of the tables, challenging anyone to a _game",
+                "An assortment of beautiful plants fill every windowsill",
+                "The atmosphere is glum, too glum for a tavern some might think",
+                "A scribe sits at one of the tables, nursing an ale with a defeated look",
+                "The bar has a small bust of a bald man, which patrons rub for good luck"
+
             ],
             [
                 "One corner of the tavern is a lounge area, furnished with comfortable armchairs and a small fireplace",
@@ -3170,7 +3191,15 @@
                 "A local _noble is sipping red wine on one table with his admiring entourage",
                 "Paintings of various nobility adorn the walls",
                 "Paintings of natural scenery adorn the walls",
-                "A beautiful cracked blade adorns the wall above the fireplace, with an enscription in draconic; Loyalty"
+                "Paintings of various war scenes adorn the walls",
+                "A pair of nobles is having a heated but quiet discussion in one corner",
+                "A large tapestry hangs on the south facing wall, containing a long epic poem in Sylvan",
+                "A wicked black dagger sticks out of a support pillar, bleeding black smoke. No patron dares touch it",
+                "An assortment of beautiful plants fill every windowsill",
+                "The atmosphere is glum, too glum for a tavern some might think",
+                "A beautiflly crafted violin hangs above the fireplace, although there seem to be cracks in the wood",
+                "A beautiful cracked blade adorns the wall above the fireplace, with an enscription in draconic; Loyalty",
+                "The tavern has a large lounge area, with a dire bear pelt and various animal heads hanging upon the walls"
             ]
         ]
     },

@@ -371,7 +371,16 @@ function doneAdding(elname) {
   loadAll();
 }
 
-function show(element) {
+function newItem() {
+  var element = document.getElementById("add" + tabElementNameSuffix);
+  element.getElementsByClassName("edit_header_name")[0].innerHTML = "New " + tab;
+  element.classList.remove("hidden");
+  clearAddForm();
+
+  showAddForm('tab');
+}
+
+function showAddForm(element) {
   if (element == "tab") {
     element = "add" + tabElementNameSuffix;
     if (tab === "encounters") {
@@ -705,7 +714,7 @@ function displayAddEncounterMonsterList() {
     console.log(string)
     var foundMonster = monsterMasterList.filter(x => x.name == string)[0];
     statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, tab)
-    show("statblock");
+    showAddForm("statblock");
     [...document.querySelectorAll(".selected_row")].forEach(e => e.classList.remove("selected_row"));
     $(this).addClass("selected_row");
 
@@ -1264,7 +1273,7 @@ function fillCurrentMonsterTokens(entryName) {
 function getAllTokenPaths(entryName) {
   var paths = [];
   var i = 0;
- 
+
   while (true) {
     var pathStr = pathModule.join(tokenFilePath, entryName.toLowerCase() + i + ".png");
 
@@ -1317,7 +1326,7 @@ function writeHomebrewOrMonsters(data, callback) {
 }
 
 function copyEntry(entryName) {
-  show("tab");
+  showAddForm("tab");
   $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + tab.substring(0, tab.length - 1));
   editCopyHelper(entryName)
 }
@@ -1334,20 +1343,38 @@ function editEntry(entryName) {
 
 }
 
+function clearAddForm(){
+  var element = document.getElementById("add" + tabElementNameSuffix);
+  //Brute force this
+  [...element.querySelectorAll("input, textarea")].forEach(input => {
+    if (!input.readOnly)
+      input.value = "";
+  });
+  currentlyEditingEntry = null;
+  var letter = getLetterFromTabName();
+  if (letter == "") document.querySelectorAll(".token").forEach(tok => tok.parentNode.removeChild(tok));
+
+}
+
+function getLetterFromTabName() {
+
+  if (tab == "monsters" || tab == "homebrew")
+    return "";
+  return tab.substring(0, 1).toUpperCase(); //Verður "I" eða "E" eða "S"
+}
+
 function editCopyHelper(entryName) {
-  show("tab");
+  clearAddForm();
+  showAddForm("tab");
   //gera betur, þarf að virka fyrir allt
   $("#add" + tabElementNameSuffix + " .save_button")[0].disabled = false;
-
-  currentEntryName = entryName;
-  var letter;
-  if (tab == "monsters" || tab == "homebrew") {
-    letter = "";
+  var letter = getLetterFromTabName();
+  if (letter == "") {
     document.getElementById("addTokenButton").disabled = false;
     fillCurrentMonsterTokens(entryName);
-  } else {
-    letter = tab.substring(0, 1).toUpperCase(); //Verður "I" eða "E" eða "S"
   }
+  currentEntryName = entryName;
+
   editObject(loadedData.filter(x => {
     return x.name.toLowerCase() == entryName.toLowerCase()
   })[0], letter);
@@ -1362,7 +1389,8 @@ function editObject(dataObject, letter) {
   }
   var valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
   var keysElements = [...document.querySelectorAll(".jsonAttribute" + letter)];
-
+  keysElements.forEach(x => x.value = "");
+  valuesElements.forEach(x => x.value = "");
 
   hiddenAttributes.forEach(attr => { if (dataObject[attr]) delete dataObject[attr] })
   if (letter === "S")
@@ -1377,18 +1405,16 @@ function editObject(dataObject, letter) {
   removeFromObject("condition_color_value", loadedKeys, loadedValues);
   removeFromObject("condition_background_location", loadedKeys, loadedValues);
   removeFromObject("encounter_xp_value", loadedKeys, loadedValues);
-  //Hreinsa alla non-edit key fields til að passa að upplýsingar stemmi,
-  //og henda út fyrri upplýsingum í text inputtum
+
   if (letter === "")
     fillNpcRequiredStats(loadedKeys, loadedValues);
 
-  console.log(letter)
-  //Bæta við fields ef þarf
+  //Refetch
   if (addFieldsIfNeeded(loadedKeys.length - valuesElements.length)) {
     valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
     keysElements = [...document.querySelectorAll(".jsonAttribute" + letter)];
   }
-  console.log(dataObject, valuesElements, keysElements)
+
   for (var i = 0; i < loadedKeys.length; i++) {
 
     if (["number", "string"].indexOf(typeof loadedValues[i]) != -1) {
@@ -1477,7 +1503,6 @@ function editObject(dataObject, letter) {
 
   function fillFieldAndRemoveFromObject(property, keys, values) {
     var valueElement = document.getElementsByClassName("addmonster_" + property)[0];
-    var keyElement = valueElement.parentNode.getElementsByClassName("jsonAttribute");
     if (valueElement == null) {
       return console.log(property, " is undefined")
     }
@@ -1977,7 +2002,6 @@ function indexOfName(data, key) {
 
 
 function saveHomebrew(promptCollisions) {
-  console.log(tab, "tab")
   var letter = tab == "monsters" || tab == "homebrew" ? "" : tab.substring(0, 1).toUpperCase();
   var valueBoxes = document.getElementsByClassName("jsonValue" + letter);
   var attributeBoxes = document.getElementsByClassName("jsonAttribute" + letter);
@@ -2088,7 +2112,7 @@ function saveHomebrew(promptCollisions) {
       for (var j = 0; j < rowCells.length / headers.length; j++) {
         currentColumn.push(rowCells[i + (j * headers.length)].value)
       }
-     
+
       if (headers[i].value != "") tableObject[headers[i].value] = currentColumn;
     }
 
@@ -2211,7 +2235,7 @@ function lookFor(searchstring, fullMatch, data, combat, statblock) {
 
       foundMonster = data[i];
       statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, (tab == "monsters" || tab == "homebrew") ? "monsters" : tab)
-      show("statblock");
+      showAddForm("statblock");
       return true;
     }
   }
