@@ -6,6 +6,7 @@ var loadedMonsterQueue = [];
 var loadedEncounter = [];
 var marked = require('marked');
 const prompt = require('electron-prompt');
+const uniqueID = require('uniqid');
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -112,20 +113,20 @@ ipcRenderer.on('look-up-spell', function (evt, arg) {
 /* #endregion */
 document.addEventListener("DOMContentLoaded", function () {
   loadSettings();
-  observeArrayChanges(loadedMonsterQueue, function(){
+  observeArrayChanges(loadedMonsterQueue, function () {
     var button = document.getElementById("maptool_notify_button");
     button.title = "Opens the map tool with loaded creatures.";
     if (loadedMonsterQueue.length > 0) {
       button.disabled = false;
       loadedMonsterQueue.forEach(a => {
-        button.title +=  "\n" + a[0] ;
+        button.title += "\n" + a[0];
       });
-    }else{
+    } else {
       button.disabled = true;
     }
-   
+
   });
-  
+
   randomizer.initialize();
   combatLoader.clear();
   combatLoader.initialize();
@@ -206,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function designTimeAndDebug() {
-  
+
 }
 
 function setPcNodeConditions(pcNode, conditionList) {
@@ -505,13 +506,14 @@ function applySettings() {
  * Býr til Nodes fyrir AC og annað. 
  */
 function loadParty() {
-console.log("Getting party")
+  console.log("Getting party")
   dataAccess.getParty(function (data) {
     partyArray = [];
     console.log("received ", data)
     partyInformationList = (data && data.partyInfo ? data.partyInfo : []);
 
     var members = data.members != null ? data.members : [];
+
     for (var i = 0; i < members.length; i++) {
       if (members[i].active) {
         partyArray.push(members[i]);
@@ -525,6 +527,7 @@ console.log("Getting party")
       return a.sort_index - b.sort_index;
     })
 
+  
     if (settings.playerPlaques) {
       partyAlternativeACArray = [];
       for (var i = 0; i < partyArray.size; i++) {
@@ -1253,7 +1256,7 @@ var combatLoader = function () {
     }
     console.log(outbound)
     return outbound;
- 
+
   }
 
   function notifyPartyArrayUpdated() {
@@ -1378,7 +1381,7 @@ var combatLoader = function () {
 
       if (hp <= 0) {
         kill(["", allRows[i].getAttribute("data-dnd_monster_index")])
-      
+
       }
 
       dmgField.value = "";
@@ -1404,22 +1407,22 @@ var combatLoader = function () {
     search("monsters", false, arr[0]);
   }
   function kill(arr, originMaptool) {
-   
+
     var allRows = document.querySelectorAll(".combatRow");
     for (var i = 0; i < allRows.length; i++) {
       var row = allRows[i];
       var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
-      if ( monsterIndex== arr[1]) {
+      if (monsterIndex == arr[1]) {
         row.classList.add("hidden");
         initiative.removeLoadedMonsterInfo();
-        if(loadedMonsterQueue.find(x=>  x[2] == monsterIndex)){
-          loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x=>  x[2] == monsterIndex), 1);
+        if (loadedMonsterQueue.find(x => x[2] == monsterIndex)) {
+          loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x => x[2] == monsterIndex), 1);
           loadedMonsterQueue.propertyChanged();
         }
-       
+
         numMonstersLoaded--;
         frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
-        if(originMaptool)
+        if (originMaptool)
           return;
         let window2 = remote.getGlobal('maptoolWindow');
         if (window2) window2.webContents.send('monster-killed', monsterIndex);
@@ -1648,7 +1651,7 @@ var combatLoader = function () {
   function addRow() {
     var allRows = document.querySelectorAll(".combatRow");
     if (allRows.length <= numMonstersLoaded) {
-  
+
       var newRow = $(".combatRow:nth-child(1)").clone();
       newRow.attr("data-dnd_conditions", "");
       newRow.attr("data-dnd_monster_index", forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum);
@@ -1732,7 +1735,7 @@ var combatLoader = function () {
         actionsString += action;
       }
 
- 
+
       if (attackActions.length > 0) {
         attackField.value = attackActions[0].attack_bonus;
         damageField.innerHTML = attackActions[0].damage_string;
@@ -1790,7 +1793,7 @@ var combatLoader = function () {
     $(".combatRow:nth-child(1)").attr("data-dnd_current_action", null);
 
     loadedMonsterQueue.length = 0;
-    
+
     let window2 = remote.getGlobal('maptoolWindow');
     if (window2) window2.webContents.send('monster-list-cleared');
 
@@ -2099,7 +2102,7 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
 
       if (key == "monsters") {
         $("#loaderButton").attr("title", "Load " + data[i].name + " into combat table. (ctrl + e)");
-        
+
         loadedMonster.push(data[i].name);
         loadedMonster.push(data[i].hit_points);
         loadedMonster.push(data[i].armor_class);
@@ -2134,7 +2137,7 @@ function loadEncounter(encounterObject) {
   for (var i = 0; i < creatures.length; i++) {
     var name = Object.keys(creatures[i])[0];
     name = name.replace(/_/g, " ");
- 
+
     loadedEncounter.push([name, Object.values(creatures[i])[0]]);
 
   }
@@ -2246,7 +2249,7 @@ function getRandomTablesForStatblock(callback) {
       }
       data.push({ name: tblNames[i].deserialize(), table: tblObj })
     }
-    
+
     callback(data);
     function getArrayFromObjectAttributes(objArr, attName) {
       var arr = [];
@@ -2261,8 +2264,10 @@ function getRandomTablesForStatblock(callback) {
 function addRemoveHandlersPopupPCStats() {
   $('[remove-parent]').off("click");
   //Add handler for remove buttons.
-  $('[remove-parent]').on('click', function () {
-    if (window.confirm("Remove this PC?")) {
+  $('[remove-parent]').on('click', function (e) {
+    var pcId = e.target.parentNode.getAttribute("data-char_id");
+    var charName = e.target.parentNode.getElementsByClassName("pc_input_character_name")[0].value;
+    if (pcId == null || window.confirm("Delete " + charName + "?")) {
       jQuery(this).parent().remove();
     }
   });
@@ -2324,6 +2329,8 @@ $(function () {
 
 function addPlayerRow() {
   var row = $(".pcRow:nth-child(1)").clone();
+  row.attr("data-char_id", null);
+  row[0].getElementsByClassName("pc_input_character_token")[0].src = null;
   row.appendTo("#party--stats");
 
   if (settings.currentParty != "Any") {
@@ -2338,6 +2345,7 @@ function addPlayerRow() {
   var changePartyButton = row[0].getElementsByClassName("change_party_button")[0];
   changePartyButton.classList.add("no_party_loaded");
   changePartyButton.onclick = changePartyHandler;
+  addRemoveHandlersPopupPCStats();
 
 }
 
@@ -2362,6 +2370,7 @@ function fillPartyPopup() {
     var members = (data && data.members ? data.members : []);
     var parties = ["Any"];
     partyInformationList.parties = [];
+    $(".pcRow").attr("data-char_id", null);
     for (var i = 0; i < members.length - 1; i++)
       $(".pcRow:nth-child(1)").clone().appendTo("#party--stats");
 
@@ -2376,7 +2385,7 @@ function fillPartyPopup() {
             row.getElementsByClassName("pc_input_" + field)[0].value = members[index][field];
 
           });
-        var token = dataAccess.getTokenPath(members[index].character_name);
+        var token = dataAccess.getTokenPath(members[index].id);
 
         row.getElementsByClassName("pc_input_character_token")[0].setAttribute("src", token);
         if (members[index].party && parties.indexOf(members[index].party) < 0) {
@@ -2387,6 +2396,7 @@ function fillPartyPopup() {
           row.getElementsByClassName("change_party_button")[0].classList.add("no_party_loaded");
         }
         row.setAttribute("data-pc_party", members[index].party);
+        row.setAttribute("data-char_id",members[index].id);
         row.getElementsByClassName("checkbox_party_menu")[0].checked = members[index].active;
         index++;
       });
@@ -2520,7 +2530,12 @@ function saveParty(showWarnings) {
     pcObject.party = row.getAttribute("data-pc_party");
     if (parseInt(pcObject.level) <= 0) pcObject.level = "1";
     tempArr.push(pcObject);
-  })
+    var charId = row.getAttribute("data-char_id");
+    if (!charId)
+      charId = uniqueID();
+
+    pcObject.id = charId;
+  });
   if (tempArr.length < allRows.length) return;
   partyArray = tempArr;
   partyArray.sort(function (a, b) {
@@ -2634,9 +2649,9 @@ function expectedValueOfDice(diceSides) {
   return (diceSides * (diceSides + 1) / 2) / diceSides
 }
 
-function observeArrayChanges(arr, raiseChanged){
-  arr.push = function() {  Array.prototype.push.apply(this, arguments);  raiseChanged();}
-  arr.pop = function() { var ret = Array.prototype.pop.apply(this, arguments);  raiseChanged(); return ret;}
+function observeArrayChanges(arr, raiseChanged) {
+  arr.push = function () { Array.prototype.push.apply(this, arguments); raiseChanged(); }
+  arr.pop = function () { var ret = Array.prototype.pop.apply(this, arguments); raiseChanged(); return ret; }
   arr.propertyChanged = raiseChanged;
 }
 

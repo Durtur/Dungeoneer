@@ -40,8 +40,8 @@
                         <a class="button_style" id="load_map_button" href="#"
                             title="Loads an earlier map in the same state, excluding tokens.">Load map</a>
                         <div class="menu_seperator"></div>
-                        <a class="button_style" id="map_edge_button" href="#"
-                            title="Sets the art for the map ede.">Map edge
+                        <a class="button_style" id="map_edge_button" href="#" title="Sets the art for the map ede.">Map
+                            edge
                             style</a>
                         <a class="button_style" id="backdrop_window_button" href="#"
                             title="Launches a backdrop window, useful if running in transparent mode.">Backdrop
@@ -67,8 +67,29 @@
                     <option value="url(#daylight)">Daylight</option>
                 </select>
 
-                <button class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer
-Lights placed here are not visible normally. " onclick="showVisibilityLayer()">Sight</button>
+
+
+                <div class="dropdown">
+                    <button class="dropbtn button_style">Sight
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer
+                        Lights placed here are not visible normally. " onclick="showVisibilityLayer()">Show visibility
+                            lines</a>
+
+                        <a class=" button_style " title="Import walls from dungeondraft map"
+                            onclick="fovLighting.importDungeondraftWalls()">Import walls</a>
+
+                        <div class="menu_seperator"></div>
+
+
+                        <a class=" toggle_button button_style " id="delete_segments_button" toggled="false"
+                            title="Delete visibility blocking segments" onclick="startDeletingSegments()">Delete</a>
+
+
+                    </div>
+                </div>
 
                 <button title="Line measurement tool" class="toggle_button button_style toolbox_button" id="line_tool"
                     toggleGroup="1" toggled="false" onclick="setTool(this,0)"></button>
@@ -93,11 +114,6 @@ Lights placed here are not visible normally. " onclick="showVisibilityLayer()">S
                 <button title="Rectangle segment"
                     class="hidden toggle_button button_style toolbox_button visibility_toolbox" id="sphere_fov_tool"
                     toggleGroup="2" toggled="false" onclick="setFovVisibilityTool(this,2)"></button>
-
-                <button class="hidden toggle_button button_style visibility_toolbox" id="delete_segments_button"
-                    toggled="false" title="Delete visibility blocking segments"
-                    onclick="startDeletingSegments()">Delete</button>
-                    <button class = "hidden button_style visibility_toolbox" title ="Import walls from dungeondraft map" onclick = "fovLighting.importDungeondraftWalls()">Import</button>
 
             </div>
         </div>
@@ -312,7 +328,7 @@ Lights placed here are not visible normally. " onclick="showVisibilityLayer()">S
     <svg>
 
         <filter id="effect_fill_filter" x="0%" y="0%" width="100%" height="100%">
-            <feImage id="effect_fill_filter_img"/>
+            <feImage id="effect_fill_filter_img" />
         </filter>
         <filter id="night-mode">
             <feColorMatrix type="matrix" values="

@@ -15,7 +15,6 @@ const generatorResourcePath = pathModule.join(app.getPath("userData"), "data", "
 const defaultTokenPath = pathModule.join(app.getPath("userData"), "data", "maptool_tokens");
 const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "maptool_effects");
 
-
 var dataAccess = function () {
     function initializeData() {
         console.log("Initalizing data...");

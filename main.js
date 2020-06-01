@@ -357,7 +357,7 @@ function createWindow() {
 
     slashes: true
   }))
-  loading.show()
+  loading.show();
 }
 
 

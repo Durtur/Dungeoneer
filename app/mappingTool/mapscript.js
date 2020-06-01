@@ -1106,7 +1106,8 @@ function startDeletingSegments() {
                 return;
             }
 
-            fovLighting.attemptToDeleteSegment({ x: event.clientX, y: event.clientY })
+            fovLighting.attemptToDeleteSegment({ x: event.clientX, y: event.clientY });
+            if(fogOfWarEnabled)refreshFogOfWar();
         };
     } else {
         gridLayer.onmousedown = generalMousedowngridLayer;
@@ -1745,6 +1746,7 @@ function loadParty() {
                     newPartyArray.push(
                         {
                             name: data[i].character_name,
+                            id: data[i].id,
                             size: "medium",
                             color: null,
                             bgPhoto: null,
@@ -1814,7 +1816,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
         } else {
             monsters ? setPawnImageWithDefaultPath(newPawn, pawnArray[i].name.toLowerCase())
-                : setPlayerPawnImage(newPawn, pawnArray[i].name.toLowerCase())
+                : setPlayerPawnImage(newPawn, pawnArray[i].id)
         }
         newPawn.title = pawnArray[i].name.substring(0, 1).toUpperCase() + pawnArray[i].name.substring(1);
         newPawn.dnd_name = pawnArray[i].name.substring(0, 1).toUpperCase() + pawnArray[i].name.substring(1);
@@ -3074,7 +3076,7 @@ function drawGrid() {
     clearGrid();
     var ctx = gridLayerContext;
     ctx.beginPath();
-
+    ctx.setLineDash([2]);
     var startPointX = moveOffsetX % cellSize;
     var startPointY = moveOffsetY % cellSize;
 
