@@ -30,7 +30,7 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
  * A multiplayer internet type thing. This is just a desktop client.
 
 ## How do I use it?
-Check under "Releases".
+Check under [Releases](https://github.com/Durtur/Dungeoneer/releases).
 
 ## Licence and usage
 Anyone is free to use this application or distribute it freely. See further constraints in Licence.md. 
