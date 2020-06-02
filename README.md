@@ -13,7 +13,10 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
     * Dungeondraft wall import
     * Tokens and stuff
     * Some effects
-
+* Generator thingy
+    * Generate taverns with a menu, some optional plot hooks
+    * Generate an NPC on the fly
+    * Magic item shops
 
 
 ## How do I use it?
