@@ -1,6 +1,6 @@
 # Dungeoneer 1.0
-![Image of a red goblin](https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png | width=100)
 
+<img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="200" />
 
 ## What is it?
 This tool is meant to make the DM's job easier. It handles database managment and lookup for
