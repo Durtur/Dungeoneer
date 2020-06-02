@@ -10,7 +10,9 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
 * Random tables to randomize things.
 * Level appropriate encounter generator.
 * An integrated map tool with fog of war.
-
+    * Dungeondraft wall import
+    * Tokens and stuff
+    * Some effects
 
 
 
