@@ -26,6 +26,7 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
 ## What isn't it?
  * A VTT with multiplayer support
  * A a place to keep your notes
+ * A map making application
  * A multiplayer internet type thing. This is just a deskotop client.
 
 ## How do I use it?
