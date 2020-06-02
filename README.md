@@ -10,7 +10,10 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
 * Initiative tracker.
 * Stat tracker for monsters.
 * Random tables to randomize things.
+     * Pregenerated, and create your own!
 * Level appropriate encounter generator.
+     * From your own tables
+     * ... or creature type
 * An integrated map tool with fog of war.
     * Dungeondraft wall import
     * Tokens and stuff
