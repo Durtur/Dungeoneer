@@ -1,5 +1,5 @@
 # Dungeoneer 1.0
-![Image of a red goblin](https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png =250x)
+![Image of a red goblin](https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png | width=100)
 
 
 ## What is it?
