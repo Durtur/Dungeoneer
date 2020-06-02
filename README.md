@@ -23,7 +23,7 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
     * Generate an NPC on the fly
     * Magic item shops
 
-## What isn't it?
+## What is it not?
  * A VTT with multiplayer support
  * A place to keep your notes
  * A map making application
