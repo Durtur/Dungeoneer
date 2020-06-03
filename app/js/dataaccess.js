@@ -136,10 +136,10 @@ var dataAccess = function () {
         return baseGetWithFullPath(pathModule.join(generatorResourcePath, "names.json"), callback, [], pathModule.join(defaultGeneratorResourcePath, "names.json"));
     }
 
-    function setGeneratorData(callback) {
+    function setGeneratorData(data, callback) {
         if (!fs.existsSync(generatorResourcePath))
             fs.mkdirSync(generatorResourcePath);
-        return baseSetWithFullPath(pathModule.join(generatorResourcePath, "names.json"), callback);
+        return baseSetWithFullPath(pathModule.join(generatorResourcePath, "names.json"),data, callback);
     }
 
     function getGeneratorHookData(callback) {

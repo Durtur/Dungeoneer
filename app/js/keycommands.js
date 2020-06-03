@@ -300,7 +300,7 @@ var commandConsole = function () {
                 result = generateTavernName(data)
             } else {
                 var dataset = gender == "female" ? data.names[key].female : data.names[key].male;
-                result = pickX(dataset.firstnames, 1) + " " + pickX(data.names[key].male.lastnames, 1);
+                result = pickX(dataset, 1) + " " + pickX(data.names[key].lastnames, 1);
             }
             clearLastResult();
             inputElement.value += " = " + result;
@@ -372,7 +372,7 @@ var commandConsole = function () {
 
 function generateTavernName(data) {
     var tavernName = pickOne(data.tavern.name.template);
-    var tavernOwner = { firstname: pickOne(data.names.anglo.male.firstnames), lastname: pickOne(data.names.anglo.male.lastnames) };
+    var tavernOwner = { firstname: pickOne(data.names.anglo.male), lastname: pickOne(data.names.anglo.lastnames) };
 
     var ending = "'s";
     if (tavernOwner.firstname.substring(tavernOwner.firstname.length - 1) === "s") ending = "'";

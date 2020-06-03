@@ -145,7 +145,6 @@ document.addEventListener("DOMContentLoaded", function () {
     dataAccess.getGeneratorData(function (data) {
         replacementValues = data.replacement_values;
 
-
         var creatures = data.generated_creatures;
         var creatureTypes = Object.keys(creatures);
 
@@ -154,6 +153,54 @@ document.addEventListener("DOMContentLoaded", function () {
         populateCreatureTypeSelect(creatureTypes);
 
     });
+
+    document.getElementById("save_nameset_button").onclick = function (e) {
+        var domTree = document.getElementById("creature_navigator").firstChild;
+        var dataObj = {};
+        nextLevel(dataObj, domTree, "");
+        if (dataObj == null) throw "Dataobject null";
+
+        var nameSet = document.getElementById("creature_namesets_name_input").value.serialize();
+
+        dataAccess.getGeneratorData(function (data) {
+            console.log(data.names[nameSet])
+            console.log(dataObj)
+            data.names[nameSet] = dataObj;
+            dataAccess.setGeneratorData(data, function (data, err) {
+                if (err) {
+                    Util.showFailedMessage("Save failed");
+                } else {
+                    Util.showSuccessMessage("Saved");
+                    var domTree = document.getElementById("creature_navigator");
+                    while (domTree.firstChild)
+                        domTree.removeChild(domTree.firstChild);
+                    document.getElementById("creature_namesets_name_input").value = "";
+                }
+            });
+
+        });
+
+
+        document.getElementById("save_nameset_button").disabled = true;
+
+        function nextLevel(obj, dom, lastAttribute) {
+
+            if (dom.childNodes == null) return;
+            if (![...dom.childNodes].find(x => x.classList.contains("treeview_attribute"))) {
+                var attributeElement = [...dom.childNodes].find(x => x.classList && x.classList.contains("treeview_caret"));
+                if (!attributeElement) {
+                    for (var i = 0; i < dom.childNodes.length; i++)nextLevel(obj, dom.childNodes[i], lastAttribute);
+                    return;
+                }
+                var attr = attributeElement.innerHTML;
+                if (!obj[lastAttribute] && lastAttribute) obj[lastAttribute] = {};
+                nextLevel(lastAttribute ? obj[lastAttribute] : obj, [...dom.childNodes].find(x => x.classList.contains("treeview_nested")), attr);
+            } else {
+                var attrList = [...dom.childNodes].filter(x => x.classList.contains("treeview_attribute")).map(x => x.firstChild.innerHTML);
+                obj[lastAttribute] = attrList ? attrList : [];
+            }
+        }
+    }
 
     function populateCreatureTypeSelect(creatureTypes) {
 
@@ -176,8 +223,9 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener('awesomplete-selectcomplete', function (e) {
             dataAccess.getGeneratorData(data => {
                 var creature = data.names[e.target.value];
+                document.getElementById("currently_editing_navigator").innerHTML = e.target.value + " names";
                 createCreatureTreeList(creature);
-
+                document.getElementById("save_nameset_button").disabled = false;
             });
 
         });
@@ -243,7 +291,7 @@ function rerollNpc(key) {
             console.log(generatedNameTextField.innerHTML)
             var names = generatedNameTextField.innerHTML.split(" ");
             if (names[1] == null) names[1] = "";
-            var values = generateNPC(data, "male", { male: { firstnames: [names[0]], lastnames: [names[1]] } }, type)
+            var values = generateNPC(data, "male", { male: [names[0]], lastnames: [names[1]] }, type)
             replaceDescription(values);
         }
 
@@ -277,10 +325,11 @@ function createCreatureTreeList(object) {
     var list = document.createElement("ul")
     list.classList = "treeview_list";
     iterate(object, list, 10)
-    console.log(list)
+   
     cont.appendChild(list);
     cont.classList.remove("hidden");
     activeTreeviews();
+    document.getElementById("save_nameset_button").disabled = false;
 
     function iterate(arr, parentElement, infiniteLoopGuard) {
         if (infiniteLoopGuard == 0) return;
@@ -295,13 +344,15 @@ function createCreatureTreeList(object) {
                 caret.innerHTML = unSerialize(key);
                 var ul = document.createElement("ul");
                 ul.classList = "treeview_nested";
-                ul.addEventListener("dblclick", addRowToAttListHandler);
+
                 li.appendChild(ul);
                 parentElement.appendChild(li)
                 return iterate(arr[key], ul, infiniteLoopGuard - 1)
             }
             //attribute
             parentElement.appendChild(li);
+            parentElement.classList.add("attribute_list");
+            parentElement.addEventListener("dblclick", addRowToAttListHandler);
             li.classList.add("treeview_attribute")
             createParagraph(arr[key], li)
 
@@ -320,7 +371,7 @@ function createCreatureTreeList(object) {
 
     function addRowToAttList(parentList) {
         console.log(parentList)
-        var li = document.createElement(li);
+        var li = document.createElement("li");
         li.classList = "treeview_attribute";
         editingListAttribute = false;
         parentList.appendChild(li)
@@ -337,6 +388,7 @@ function createCreatureTreeList(object) {
         p.innerHTML = text;
         p.ondblclick = editListAttribute;
         li.appendChild(p);
+        return p;
     }
 
     function createEditParagraph(text, li) {
@@ -369,10 +421,28 @@ function createCreatureTreeList(object) {
         }
 
         function stopEditing(evt) {
+            var oldText = evt.target.getAttribute("data-old_value");
+
             var text = evt.target.value;
             var parent = evt.target.parentNode;
             if (parent.contains(evt.target)) parent.removeChild(evt.target);
             createParagraph(text, parent);
+            if(oldText != text)parent.classList.add("new_treeview_attribute");
+            //Sort alphabetically
+            var container = parent.parentNode;
+            if(!container)return;
+            var nodeList = [...container.childNodes];
+            while(nodeList.firstChild)
+            nodeList.removeChild(nodeList.firstChild);
+            nodeList.sort(function(a,b){
+                var first = a.querySelector("p").innerHTML.toUpperCase();
+                var second = b.querySelector("p").innerHTML.toUpperCase();
+                if(first < second)return 1;
+                if(second < first)return -1;
+                return 0;
+            });
+            while(nodeList.length > 0)
+                container.appendChild(nodeList.pop());
 
         }
     }
@@ -789,7 +859,7 @@ function dumpCreateTable(evt) {
         var baseProbability = 1 / allLines.length;
         var currentLine;
         var obj = [];
-        
+
         for (var i = 0; i < allLines.length; i++) {
             currentLine = allLines[i].split("\t");
             if (currentLine.length > 1) {
@@ -1091,8 +1161,8 @@ function generateNPC(data, gender, foundNameSet, creatureType) {
     }
 
 
-    npcValues.firstname = pickOne(subset.firstnames);
-    npcValues.lastname = pickOne(foundNameSet.male.lastnames)
+    npcValues.firstname = pickOne(subset);
+    npcValues.lastname = pickOne(foundNameSet.lastnames)
 
 
     //profession
@@ -1349,9 +1419,9 @@ function generateRumors(rumorAmount, data) {
         rumor = replaceAll(rumor, "_profession", pickOne(data.generated_creatures.humanoid.professions.common));
 
         rumor = replaceAll(rumor, "_forest", data.forests);
-        rumor = replaceAll(rumor, "_name", data.names.anglo.male.firstnames);
-        rumor = replaceAll(rumor, "_femalename", data.names.anglo.female.firstnames);
-        rumor = replaceAll(rumor, "_lastname", data.names.anglo.male.lastnames);
+        rumor = replaceAll(rumor, "_name", data.names.anglo.male);
+        rumor = replaceAll(rumor, "_femalename", data.names.anglo.female);
+        rumor = replaceAll(rumor, "_lastname", data.names.anglo.lastnames);
         rumor = replaceAll(rumor, "_locale", data.locales);
         rumor = capitalizeAndDot(rumor);
         rumorArray[i] = rumor;

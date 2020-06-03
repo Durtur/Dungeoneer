@@ -1494,7 +1494,7 @@ var combatLoader = function () {
     var nextAction = actions[index];
 
     if (actions.length > 1 && nextAction.name != null) {
-      showBubblyText("Switched to " + nextAction.name, { x: e.clientX, y: e.clientY }, true)
+      Util.showBubblyText("Switched to " + nextAction.name, { x: e.clientX, y: e.clientY }, true)
       row.getElementsByClassName("text_upper_damage_label")[0].innerHTML = nextAction.name;
     }
     var actionCompare = createActionString(nextAction)

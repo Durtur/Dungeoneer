@@ -250,12 +250,17 @@ th {
     color: black;
     font-family: "roboto";
     user-select: none;
-    /* Prevent text selection */
+    flex: 0 0 100%;
+
 }
 
 .treeview_caret li {
     font-family: "roboto";
     font-weight: normaL;
+}
+
+.treeview_active li:not(.treeview_attribute){
+    width:100%;
 }
 
 /* Create the caret/arrow with a unicode, and style it */
@@ -279,9 +284,23 @@ th {
     display: none;
 }
 
-/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.new_treeview_attribute{
+    background-color:#e9e3e3;
+}
 
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.treeview_active>.treeview_attribute:not(.new_treeview_attribute){
+    background-color: white;
+}
+
+.treeview_active>.treeview_attribute{
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 2px;
+}
 .treeview_active {
-    display: block;
+    display: flex;
+    width: 90%;
+    flex-flow: row wrap;
     margin-bottom: 5px;
 }

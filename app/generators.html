@@ -64,8 +64,8 @@
 
             <div class="column genchooser_smaller" style="margin-top:45px;">
                 <p class="explaination_text tooltipped tooltipped_large"
-                    data-tooltip="Random encounter tables are used to generate random encounters. Fill the table with all creatures applicable to the encounter type, and the encounter generator will generate an appropriately difficult encounter for your party.">
-                    Random encounter tables are used to generate random encounters... </p>
+                    data-tooltip="Random tables are used to get things randomly. Fill the table and you can get a random entry in the randomizer in the main app screen. The probability column denotes the chance of an entry. This can be any number as the numbers are always scaled. So an entry with a probability of 200 will be twice is likely as an entry with 100.">
+                    Random tables are used to get things randomly... </p>
                 <div class="column hidden generator_customization_section" id="random_encounters_table_container">
                     <label>Table name</label>
                     <input id="random_encounter_table_name_input"
@@ -82,7 +82,7 @@
                     <label for=random_encounter_dump>Dump</label>
                     <textarea
                         placeholder="Paste your table here, with rows &#13;&#10; seperated by new lines and columns seperated by tabs. &#13;&#10;You can also paste directly from a spreadsheet."
-                         id="random_encounter_dump"></textarea>
+                        id="random_encounter_dump"></textarea>
 
                 </div>
 
@@ -102,7 +102,7 @@
                     <textarea
                         placeholder="Paste your table here, with rows &#13;&#10;seperated by new lines and columns seperated by tabs.&#13;&#10; You can also paste directly from a spreadsheet."
                         id="random_table_dump"></textarea>
-                        <button class = "button_style" onclick = "dumpCreateTable()">Generate from dump</button>
+                    <button class="button_style" onclick="dumpCreateTable()">Generate from dump</button>
 
                 </div>
 
@@ -139,9 +139,8 @@
                     <div div class="column" id="generator_creature_details">
                         <input id="creature_type_name_input" placeholder="Type the name of a new or existing creature">
                         <div class="row " style="margin-top:12px">
-                            <button class="button button_style green " id="save_table_button" onclick="">Save</button>
-                            <button class="button button_style red" id="delete_table_button" style="margin-left:5px;"
-                                onclick="">Delete</button>
+                            <button class="button button_style green ">Save</button>
+                            <button class="button button_style red" style="margin-left:5px;" onclick="">Delete</button>
 
                         </div>
 
@@ -150,8 +149,8 @@
                     <div div class="column hidden" id="generator_creature_name_details">
                         <input id="creature_namesets_name_input" placeholder="Type the name of a nameset">
                         <div class="row " style="margin-top:12px">
-                            <button class="button button_style green " id="save_table_button" onclick="">Save</button>
-                            <button class="button button_style red" id="delete_table_button" style="margin-left:5px"
+                            <button class="button button_style green " id="save_nameset_button">Save</button>
+                            <button class="button button_style red" id="delete_nameset_button" style="margin-left:5px"
                                 onclick="">Delete</button>
 
                         </div>
@@ -170,7 +169,6 @@
 
                 </div>
                 <div class="column ">
-
                     <div id="customize_table">
 
                     </div>

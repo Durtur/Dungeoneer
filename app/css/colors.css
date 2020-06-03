@@ -253,25 +253,6 @@ hr {
   margin-left: 3px;
 }
 
-.success_message {
-  background-color: #60A163;
-  color: #003F02;
-}
-
-.failed_message {
-  background-color: rgb(161, 96, 96);
-  color: rgb(63, 0, 0);
-}
-
-.popup_message {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 1;
-  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
-  padding: 20px;
-  border-radius: 5px;
-}
 
 .section__tool {
   position: relative;
@@ -1014,6 +995,39 @@ header {
   text-decoration: underline;
   text-decoration-style: dotted;
   cursor: help;
+}
+@keyframes popupMessage {
+  12% {
+    opacity: 1;
+  }
+  
+}
+
+
+.success_message {
+  background-color: #60A163;
+  color: #003F02;
+}
+
+.failed_message {
+  background-color: rgb(161, 96, 96);
+  color: rgb(63, 0, 0);
+}
+.popup_message{
+  
+  z-index: 20;
+  animation: popupMessage 3s;
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  animation-timing-function: ease-out;
+  font-family: 'roboto';
+  font-size: 18px;
+  top:45%;
+  right:45%;
+  box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.75);
+  padding:20px;
+  border-radius:5px;
 }
 
 .roll_result_effect {

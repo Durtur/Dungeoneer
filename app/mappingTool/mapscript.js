@@ -2501,18 +2501,18 @@ function showPopupDialogAddPawn(event) {
 }
 
 function hideAllTooltips() {
-    showOrHide("vision_tooltip_category", -1);
-    showOrHide("tooltip", -1);
-    showOrHide("tooltip2", -1);
-    showOrHide("popup_menu_add_effect", -1);
-    showOrHide("popup_dialogue_add_pawn", -1);
-    showOrHide("conditions_menu", -1);
+    Util.showOrHide("vision_tooltip_category", -1);
+    Util.showOrHide("tooltip", -1);
+    Util.showOrHide("tooltip2", -1);
+    Util.showOrHide("popup_menu_add_effect", -1);
+    Util.showOrHide("popup_dialogue_add_pawn", -1);
+    Util.showOrHide("conditions_menu", -1);
     gridLayer.style.cursor = "auto";
     clearSelectedPawns();
 
 }
 function showLightSourceTooltip(event) {
-    showOrHide("vision_tooltip_category", 1);
+    Util.showOrHide("vision_tooltip_category", 1);
     var tooltip = document.getElementById("vision_tooltip_category");
     document.getElementById("popup_menu_pawn").classList.add("hidden");
     tooltip.style.left = event.clientX + "px";
@@ -2528,8 +2528,8 @@ function showLightSourceTooltip(event) {
 
 function showConditionsMenu(event) {
     var oldGridLayerOnClick = gridLayer.onclick;
-    showOrHide("conditions_menu", 1);
-    showOrHide("popup_menu_pawn", -1);
+    Util.showOrHide("conditions_menu", 1);
+    Util.showOrHide("popup_menu_pawn", -1);
     var menuWindow = document.getElementById("conditions_menu");
     document.getElementById("popup_menu_pawn").classList.add("hidden");
     menuWindow.style.left = event.clientX + "px";

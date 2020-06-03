@@ -475,7 +475,7 @@ var statblockPresenter = function () {
     }
 
     function showHandlerRollResult(text, event) {
-      showBubblyText(text, { x: event.clientX, y: event.clientY });
+      Util.showBubblyText(text, { x: event.clientX, y: event.clientY });
 
     }
     return {
