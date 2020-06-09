@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     var allButtons = document.querySelectorAll(".toggle_button");
                     var toggleGroup = this.getAttribute("toggleGroup");
                     for (var i = 0; i < allButtons.length; i++) {
-                        console.log(toggleGroup)
                         if (allButtons[i].getAttribute("toggleGroup") == toggleGroup) {
                             allButtons[i].setAttribute("toggled", "false");
 

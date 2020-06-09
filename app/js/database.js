@@ -1181,10 +1181,9 @@ function listAll() {
     data.sort(sortFunction);
   }
   hide("statblock")
-
+  $("#listFrame__" + tabElementName).removeClass("official_content_row");
   if (!$("#listFrame__" + tabElementName).is(":visible")) {
     $("#listFrame__" + tabElementName).removeClass("hidden");
-
   }
   var allRows = [...$("#listFrame__" + tabElementName + ">.listRow")];
   if (data.length > allRows.length - 1) {

@@ -10,6 +10,7 @@ function setFovVisibilityTool(source, toolIndex) {
     for (var i = 0; i < fovToolbox.length; i++) {
         fovToolbox[i] = false;
     }
+    lastMeasuredPoint = null;
     if (source.getAttribute("toggled") === "false") {
         gridLayer.onmousedown = startMeasuring;
 

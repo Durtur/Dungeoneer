@@ -1018,10 +1018,12 @@ function zoomIntoMap(event, resizeAmount) {
         [pawns.all, effects].forEach(arr => {
             for (var i = 0; i < arr.length; i++) {
                 var pawn = arr[i];
-                var boundingRect = pawn.getBoundingClientRect();
-                cellsFromLeft = (boundingRect.left - backgroundOriginX)
+                var left = parseFloat(pawn.style.left);
+                var top = parseFloat(pawn.style.top);
+                
+                cellsFromLeft = (left - backgroundOriginX)
                     / (originalCellSize * backgroundSizeBeforeResize);
-                cellsFromTop = (boundingRect.top - backgroundOriginY)
+                cellsFromTop = (top - backgroundOriginY)
                     / (originalCellSize * backgroundSizeBeforeResize);
 
                 arr[i].style.top = (cellsFromTop * cellSize + newBackgroundOriginY) + "px";
@@ -1206,8 +1208,12 @@ var measurementOriginPosition;
 var currentlyMeasuring = false;
 var measurementPaused = false;
 function startMeasuring(event) {
+ 
+    if (event.button != 0) {
 
-    if (event.button != 0) return;
+        lastMeasuredPoint = null;
+        return;   
+    }
     if (!visibilityLayerVisible) {
 
         if (toolbox[0]) {
@@ -1680,6 +1686,7 @@ function stopMeasuring(event, ignoreClick) {
         measurements.clearMeasurements();
     } else if (event.button == 0 && visibilityLayerVisible && lastMeasuredPoint != null) {
         if (fovToolbox[0]) {
+            console.log("Adding segment line")
             fovLighting.addLineSegment(lastMeasuredPoint, { x: event.clientX, y: event.clientY });
         } else if (fovToolbox[1]) {
             fovLighting.addRectangleSegment(lastMeasuredPoint, { x: event.clientX, y: event.clientY });
@@ -1690,6 +1697,7 @@ function stopMeasuring(event, ignoreClick) {
     } else {
         if (event != null)
             lastMeasuredPoint = { x: event.clientX, y: event.clientY }
+            console.log(event.button);
     }
 }
 function setLightSource(brightLight, dimLight, params) {
@@ -2340,6 +2348,7 @@ function createBaseEffect(effectObj, isPreviewElement, e) {
         previewPlacement(createEffect(e, true));
 
     effects.push(newEffect)
+    console.log("Push effect")
     return newEffect;
 }
 function addLightEffectHandler(e, isPreviewElement) {
@@ -3029,7 +3038,6 @@ function resizeAndDrawGrid(timestamp, event) {
         gridResize_Timestamp = timestamp;
     }
 
-    var bg = $("#background")
     var fovLayer = document.getElementById("fog_of_war");
     var fovLayerSegments = document.getElementById("fog_of_war_segments");
 
@@ -3125,6 +3133,8 @@ let measurements = function () {
         measurementsLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
         measurementsLayerContext.restore();
         lastMeasuredLineDrawn = null;
+        lastMeasuredPoint = null;
+        
     }
 
     function eraseModeOn() {
@@ -3134,7 +3144,7 @@ let measurements = function () {
         measurementsLayerContext.fillStyle = "#fff"
         measurementsLayerContext.globalCompositeOperation = 'destination-out'
         measurementsLayerContext.setLineDash([]);
-        measurementsLayerContext.lineWidth = 10;
+        measurementsLayerContext.lineWidth = 20;
     }
 
     function eraseModeOff() {

@@ -154,27 +154,89 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+    document.getElementById("save_creature_set_button").onclick = function(e){
+        dataObj = getJsonObjectFromTreeList();
+        var creatureSet = document.getElementById("creature_type_name_input").value.serialize();
+        dataAccess.getGeneratorData(function (data) {
+            console.log(data.generated_creatures[creatureSet]);
+            data.generated_creatures[creatureSet] = dataObj;
+            dataAccess.setGeneratorData(data, function (data, err) {
+                if (err) {
+                    Util.showFailedMessage("Save failed");
+                } else {
+                    Util.showSuccessMessage("Saved");
+                    clearTreeView();
+                    document.getElementById("creature_type_name_input").value = "";
+                    document.getElementById("delete_creature_set_button").disabled = true;
+                }
+            });
+        });
+    }
+
+    document.getElementById("delete_creature_set_button").onclick = function(e){
+        var set = document.getElementById("creature_type_name_input").value;
+        if(dialog.showMessageBox(remote.getCurrentWindow(), {
+            type: "question",
+            buttons: ["Ok", "Cancel"],
+            title: "Delete nameset?",
+            message: "Do you wish to delete the " + set + " creature set?"
+          }) == 1) return;
+        dataAccess.getGeneratorData(function(data){
+            delete data.generated_creatures[set.serialize()];
+            dataAccess.setGeneratorData(data, function(data, err){
+                if (err) {
+                    Util.showFailedMessage("An error occurred");
+                } else {
+                    Util.showSuccessMessage("Creature set deleted");
+                    clearTreeView();
+                    document.getElementById("creature_type_name_input").value = "";
+                    document.getElementById("delete_creature_set_button").disabled = true;
+                }
+            });
+        });
+    };
+
+    document.getElementById("delete_nameset_button").onclick = function(e){
+        var nameSet = document.getElementById("creature_namesets_name_input").value;
+        if(dialog.showMessageBox(remote.getCurrentWindow(), {
+            type: "question",
+            buttons: ["Ok", "Cancel"],
+            title: "Delete nameset?",
+            message: "Do you wish to delete the " + nameSet + " nameset?"
+          }) == 1) return;
+        dataAccess.getGeneratorData(function(data){
+            delete data.names[nameSet.serialize()];
+            dataAccess.setGeneratorData(data, function(data, err){
+                if (err) {
+                    Util.showFailedMessage("An error occurred");
+                } else {
+                    Util.showSuccessMessage("Nameset deleted");
+                    clearTreeView();
+                    document.getElementById("creature_namesets_name_input").value = "";
+                    document.getElementById("delete_nameset_button").disabled = true;
+                }
+            });
+        });
+    };
+
     document.getElementById("save_nameset_button").onclick = function (e) {
-        var domTree = document.getElementById("creature_navigator").firstChild;
-        var dataObj = {};
-        nextLevel(dataObj, domTree, "");
+       
+       dataObj = getJsonObjectFromTreeList();
         if (dataObj == null) throw "Dataobject null";
 
         var nameSet = document.getElementById("creature_namesets_name_input").value.serialize();
 
         dataAccess.getGeneratorData(function (data) {
-            console.log(data.names[nameSet])
-            console.log(dataObj)
+
             data.names[nameSet] = dataObj;
             dataAccess.setGeneratorData(data, function (data, err) {
                 if (err) {
                     Util.showFailedMessage("Save failed");
                 } else {
                     Util.showSuccessMessage("Saved");
-                    var domTree = document.getElementById("creature_navigator");
-                    while (domTree.firstChild)
-                        domTree.removeChild(domTree.firstChild);
+                    clearTreeView();
                     document.getElementById("creature_namesets_name_input").value = "";
+                    document.getElementById("delete_nameset_button").disabled = true;
                 }
             });
 
@@ -182,7 +244,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         document.getElementById("save_nameset_button").disabled = true;
+    }
 
+    function clearTreeView(){
+        var domTree = document.getElementById("creature_navigator");
+        while (domTree.firstChild)
+            domTree.removeChild(domTree.firstChild);
+            document.getElementById("currently_editing_navigator").innerHTML = "";
+
+    }
+
+    function getJsonObjectFromTreeList(){
+        var domTree = document.getElementById("creature_navigator").firstChild;
+        var dataObj = {};
+        nextLevel(dataObj, domTree, "");
+        return dataObj;
         function nextLevel(obj, dom, lastAttribute) {
 
             if (dom.childNodes == null) return;
@@ -223,7 +299,12 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener('awesomplete-selectcomplete', function (e) {
             dataAccess.getGeneratorData(data => {
                 var creature = data.names[e.target.value];
-                document.getElementById("currently_editing_navigator").innerHTML = e.target.value + " names";
+                document.getElementById("currently_editing_navigator").innerHTML = e.target.value + " names" + (creature == null ? " (new)" : "");
+                if(!creature){
+                    creature = {male : [""], female:[""], lastnames:[""]};
+                }else{
+                    document.getElementById("delete_nameset_button").disabled = false;
+                }
                 createCreatureTreeList(creature);
                 document.getElementById("save_nameset_button").disabled = false;
             });
@@ -243,22 +324,29 @@ document.addEventListener("DOMContentLoaded", function () {
             dataAccess.getGeneratorData(data => {
 
                 var creature = data.generated_creatures[e.target.value];
-                if (creature == null) creature = {
-                    professions: {
-                        rare: [],
-                        common: [],
-                        uncommon: []
-                    },
-                    traits: [],
-                    hooks: [],
-                    appearance: {
-                        face_aesthetics: [],
-                        face_shape: [],
-                        build: []
+                document.getElementById("currently_editing_navigator").innerHTML = e.target.value + (creature == null ? " (new)" : "");
+                if (creature == null){
+                    creature = {
+                        professions: {
+                           
+                            common: [""],
+                            uncommon: [""],
+                            rare: [""]
+                        },
+                        traits: [""],
+                        hooks: [""],
+                        appearance: {
+                            face_aesthetics: [""],
+                            face_shape: [""],
+                            build: [""]
+                        }
                     }
-                }
+                }else{
+                    document.getElementById("delete_creature_set_button").disabled = false;
+                } 
+                document.getElementById("save_creature_set_button").disabled = false;
                 createCreatureTreeList(creature);
-                document.getElementById("currently_editing_navigator").innerHTML = e.target.value;
+               
 
             });
         }
@@ -325,7 +413,7 @@ function createCreatureTreeList(object) {
     var list = document.createElement("ul")
     list.classList = "treeview_list";
     iterate(object, list, 10)
-   
+
     cont.appendChild(list);
     cont.classList.remove("hidden");
     activeTreeviews();
@@ -363,6 +451,8 @@ function createCreatureTreeList(object) {
 
     }
     function addRowToAttListHandler(evt) {
+        console.log("Editing: " + editingListAttribute)
+        if (editingListAttribute) return;
         if (evt.target.tagName == "P")
             return;
         var parentList = evt.target.closest(".treeview_nested ");
@@ -370,10 +460,9 @@ function createCreatureTreeList(object) {
     }
 
     function addRowToAttList(parentList) {
-        console.log(parentList)
+        console.log("Create new row on enter")
         var li = document.createElement("li");
         li.classList = "treeview_attribute";
-        editingListAttribute = false;
         parentList.appendChild(li)
         createEditParagraph("", li);
         li.scrollIntoView();
@@ -398,6 +487,7 @@ function createCreatureTreeList(object) {
         li.appendChild(input);
         input.select();
         input.addEventListener("keydown", leaveOnEnterOrEsc);
+        editingListAttribute = true;
         input.addEventListener("blur", stopEditing);
         function leaveOnEnterOrEsc(evt) {
             if (evt.keyCode == 13 || evt.keyCode == 27) {
@@ -406,12 +496,15 @@ function createCreatureTreeList(object) {
                     evt.target.value = evt.target.getAttribute("data-old_value")
                     //create new line straight away if enter
                 } else if (evt.keyCode == 13) {
-                    if (!editingListAttribute && evt.target.value != "") {
+                    if (evt.target.value != "") {
                         var parentList = input.closest(".treeview_nested");
+                        console.log("Want to add")
                         window.setTimeout(() => {
-                            addRowToAttList(parentList);
                             editingListAttribute = false;
-                        }, 50);
+                     
+                            addRowToAttList(parentList);
+                           
+                        }, 100);
 
                     }
 
@@ -421,33 +514,44 @@ function createCreatureTreeList(object) {
         }
 
         function stopEditing(evt) {
-            var oldText = evt.target.getAttribute("data-old_value");
+            window.setTimeout(() => {
+                if (evt.target != document.activeElement)
+                    doStopEditing(evt);
+            }, 50);
 
-            var text = evt.target.value;
-            var parent = evt.target.parentNode;
-            if (parent.contains(evt.target)) parent.removeChild(evt.target);
-            createParagraph(text, parent);
-            if(oldText != text)parent.classList.add("new_treeview_attribute");
-            //Sort alphabetically
-            var container = parent.parentNode;
-            if(!container)return;
-            var nodeList = [...container.childNodes];
-            while(nodeList.firstChild)
-            nodeList.removeChild(nodeList.firstChild);
-            nodeList.sort(function(a,b){
-                var first = a.querySelector("p").innerHTML.toUpperCase();
-                var second = b.querySelector("p").innerHTML.toUpperCase();
-                if(first < second)return 1;
-                if(second < first)return -1;
-                return 0;
-            });
-            while(nodeList.length > 0)
-                container.appendChild(nodeList.pop());
+            function doStopEditing(evt) {
+                editingListAttribute = false;
+                var oldText = evt.target.getAttribute("data-old_value");
+                console.log(evt)
+                var text = evt.target.value;
+                var parent = evt.target.parentNode;
+                if (parent.contains(evt.target)) parent.removeChild(evt.target);
+                createParagraph(text, parent);
+                if (oldText != text) parent.classList.add("new_treeview_attribute");
+                //Sort alphabetically
+                var container = parent.parentNode;
+                if (!container) return;
+                var nodeList = [...container.childNodes];
+                while (nodeList.firstChild)
+                    nodeList.removeChild(nodeList.firstChild);
+                nodeList.sort(function (a, b) {
+                    var first = a.querySelector("p").innerHTML.toUpperCase();
+                    var second = b.querySelector("p").innerHTML.toUpperCase();
+                    if (first < second) return 1;
+                    if (second < first) return -1;
+                    return 0;
+                });
+                while (nodeList.length > 0)
+                    container.appendChild(nodeList.pop());
+             
+            }
+
 
         }
     }
 
     function editListAttribute(event) {
+
         editingListAttribute = true;
         var para = event.target.parentNode.getElementsByTagName("p")[0];
         createEditParagraph(para.innerHTML, para.parentNode)
@@ -1668,8 +1772,9 @@ function serialize(string) {
     return string.replace(/ /g, "_");
 }
 
-function openCustomizationTab(containerName) {
-    [...document.getElementsByClassName("generator_customization_section")].forEach(ele => ele.classList.add("hidden"));
+function openCustomizationTab(containerName, button) {
+    [...document.querySelectorAll(".generator_customization_section, .explanation_text_customize_generator")].forEach(ele => ele.classList.add("hidden"));
+    document.getElementById(button.getAttribute("data-explanation_text")).classList.remove("hidden");
     document.getElementById(containerName).classList.remove("hidden");
     normalizeGeneratorPageStates();
 

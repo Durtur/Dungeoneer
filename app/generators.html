@@ -54,18 +54,24 @@
 
             <div class="row customize_tab_row">
                 <button class="button_style toggle_button"
-                    onclick="openCustomizationTab('random_table_input_container')" toggled="true" toggleGroup="1">Random
+                    onclick="openCustomizationTab('random_table_input_container', this)" data-explanation_text = "random_tables_explanation" toggled="true" toggleGroup="1">Random
                     tables</button>
-                <button class="button_style toggle_button" onclick="openCustomizationTab('encounter_input_container')"
+                <button class="button_style toggle_button" data-explanation_text = "encounter_tables_explanation"  onclick="openCustomizationTab('encounter_input_container', this)"
                     toggled="false" toggleGroup="1">Monster sets</button>
-                <button class="button_style toggle_button" onclick="openCustomizationTab('npc_generation_container')"
-                    toggled="false" toggleGroup="1">NPC generation</button>
+                <button class="button_style toggle_button" data-explanation_text = "npc_generation_explanation" onclick="openCustomizationTab('npc_generation_container', this)"
+                    toggled="false" toggleGroup="1">NPC generation (Experimental)</button>
             </div>
 
             <div class="column genchooser_smaller" style="margin-top:45px;">
-                <p class="explaination_text tooltipped tooltipped_large"
-                    data-tooltip="Random tables are used to get things randomly. Fill the table and you can get a random entry in the randomizer in the main app screen. The probability column denotes the chance of an entry. This can be any number as the numbers are always scaled. So an entry with a probability of 200 will be twice is likely as an entry with 100.">
+                <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator " id = "random_tables_explanation"
+                    data-tooltip="Random tables are used to get things randomly. Fill the table and you can get a random entry in the randomizer in the main app screen. The probability column denotes the chance of an entry. This can be any number as the numbers are always scaled. So an entry with a probability of 200 will be twice is likely as an entry with 100. Any field aside from the Percentage and roll again on columns can contain HTML.">
                     Random tables are used to get things randomly... </p>
+                    <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator hidden" id = "encounter_tables_explanation"
+                    data-tooltip="Encounter tables can be used to generate encounters. Create a set of creatures to pick from, and you can use the randomizer in the main app screen to generate a level appropriate encounter using only those creatures.">
+                    Encounter tables can be used to generate encounters. Create a set of creatures to pick from... </p>
+                    <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator hidden" id = "npc_generation_explanation"
+                    data-tooltip="You can add or remove names for a specific type of creature here, or create new namesets. These values are used when generating NPCs.">
+                    You can add or remove names for a specific type of creature here, or create new namesets. These.. </p>
                 <div class="column hidden generator_customization_section" id="random_encounters_table_container">
                     <label>Table name</label>
                     <input id="random_encounter_table_name_input"
@@ -129,33 +135,34 @@
                     <div class="row creature_generation_buttons">
                         <button class="toggle_button  button_style" onclick="switchNpcGeneratorDetails(0)"
                             toggled="true" toggleGroup="2">
-                            Creatures
+                            Name sets
                         </button>
                         <button class="toggle_button button_style" toggled="false"
                             onclick="switchNpcGeneratorDetails(1)" toggleGroup="2">
-                            Name sets
+                            Creatures
                         </button>
                     </div>
-                    <div div class="column" id="generator_creature_details">
-                        <input id="creature_type_name_input" placeholder="Type the name of a new or existing creature">
-                        <div class="row " style="margin-top:12px">
-                            <button class="button button_style green ">Save</button>
-                            <button class="button button_style red" style="margin-left:5px;" onclick="">Delete</button>
-
-                        </div>
-
-                    </div>
-
-                    <div div class="column hidden" id="generator_creature_name_details">
+                    
+                    <div div class="column " id="generator_creature_name_details">
                         <input id="creature_namesets_name_input" placeholder="Type the name of a nameset">
                         <div class="row " style="margin-top:12px">
-                            <button class="button button_style green " id="save_nameset_button">Save</button>
-                            <button class="button button_style red" id="delete_nameset_button" style="margin-left:5px"
-                                onclick="">Delete</button>
+                            <button class="button button_style green " disabled id="save_nameset_button">Save</button>
+                            <button class="button button_style red" disabled id="delete_nameset_button" style="margin-left:5px"
+                                >Delete</button>
 
                         </div>
 
                     </div>
+                    <div div class="column hidden" id="generator_creature_details">
+                        <input id="creature_type_name_input" placeholder="Type the name of a new or existing creature">
+                        <div class="row " style="margin-top:12px">
+                            <button class="button button_style green " disabled id="save_creature_set_button">Save</button>
+                            <button class="button button_style red" disabled style="margin-left:5px;" id="delete_creature_set_button">Delete</button>
+
+                        </div>
+
+                    </div>
+
 
 
                 </div>

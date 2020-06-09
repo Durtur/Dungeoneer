@@ -158,8 +158,6 @@ class EncounterModule {
         if (difficulty == "2x deadly") {
             difficulty = "deadly"
             multiplier = 2;
-        } else if (difficulty == "any") {
-            difficulty = pickOne(["easy", "medium", "hard", "deadly"])
         }
         var XPCeiling = this.getXpCeilingForPlayers(pcLevels, difficulty) * multiplier;
 

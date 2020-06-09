@@ -84,21 +84,26 @@ function previewPlacement(elmnt, callback) {
     }
 }
 function adjustPreviewPlacement(event) {
-    if(!previewPlacementElement)return;
+    if (!previewPlacementElement) return;
 
     var dndHeight = previewPlacementElement.dnd_height ? parseInt(previewPlacementElement.dnd_height) : 1;
-    var dndWidth = previewPlacementElement.dnd_width ?   parseInt(previewPlacementElement.dnd_width) : 1;
-    var feetSize = cellSize/5;
-    previewPlacementElement.style.width = dndWidth*feetSize + "px";
-    previewPlacementElement.style.height = dndHeight*feetSize + "px";
+    var dndWidth = previewPlacementElement.dnd_width ? parseInt(previewPlacementElement.dnd_width) : 1;
+    var feetSize = cellSize / 5;
+    previewPlacementElement.style.width = dndWidth * feetSize + "px";
+    previewPlacementElement.style.height = dndHeight * feetSize + "px";
     // calculate the new cursor position:
-    var x = event.clientX - dndWidth*feetSize / 2;
-    var y = event.clientY - dndHeight*feetSize / 2;
+    var x = event.clientX - dndWidth * feetSize / 2;
+    var y = event.clientY - dndHeight * feetSize / 2;
     previewPlacementElement.style.top = y + "px";
     previewPlacementElement.style.left = x + "px";
-    
+
 }
 
 function clearPreviewPlacement() {
+    [effects, pawns.lightSources].forEach(arr => {
+        if (arr.indexOf(previewPlacementElement) >= 0)
+            arr.splice(arr.indexOf(previewPlacementElement), 1);
+    })
+
     previewPlacement(null);
 }

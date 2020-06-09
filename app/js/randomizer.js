@@ -42,10 +42,13 @@ var randomizer = function () {
         randomizerEncounterCreatureNumberSelect.classList.remove("hidden");
         var selectedNumber = randomizerEncounterCreatureNumberSelect.options[randomizerEncounterCreatureNumberSelect.selectedIndex].value;
         var difficulty = randomizerEncounterDangerSelect.options[randomizerEncounterDangerSelect.selectedIndex].value;
-        if (difficulty == "any") {
-            var opt = randomizerEncounterDangerSelect.options;
-            difficulty = opt[parseInt(Math.random() * opt.length)].value;
-        }
+        if (difficulty == "any")
+            difficulty = pickOne([... randomizerEncounterDangerSelect.options].map(x=> x.value).filter(x=> x != "any"));
+
+        if(selectedNumber == "any")
+            selectedNumber = pickOne([... randomizerEncounterCreatureNumberSelect.options].map(x=> x.value).filter(x=> x != "any"))
+       
+
         var searchSet = searchSet.substring(11);
         var monsterSet = null;
         var forcedType = null;
