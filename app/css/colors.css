@@ -209,6 +209,20 @@ hr {
   border-bottom: 2px solid var(--main-underline-color);
 }
 
+.button_style_label{
+  color: white;
+  font-family: "Impact, fantasy";
+  font-size: 12px;
+  background-color: var(--main-color);
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: background-color 300ms;
+  padding:5px;
+  border: none;
+  text-align:center;
+  border-bottom: 2px solid var(--main-underline-color);
+}
+
 .button_style:hover {
   background-color: var(--main-emphasis-color);
 }
@@ -1104,7 +1118,8 @@ header {
 .context_menu {
   position: absolute;
   transition: all var(--transition-delay);
-  width: 120px;
+  background-color:var(--main-color);
+  min-width: 120px;
   display: flex;
   flex-flow: column nowrap;
   z-index: 22;
@@ -1113,10 +1128,12 @@ header {
 }
 
 
-.context_menu>.button_style {
+.context_menu>.button_style, .context_menu .button_style_label {
   padding: 5px;
   width: 100%;
   text-align: center;
+  margin:0;
+  font-size: 16px ;
 }
 
 .spell_attribute_row {

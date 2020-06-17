@@ -27,7 +27,63 @@ html {
 .maptool_body {
     background-color: transparent;
     background-image: none;
+    width: 300vw;
+    background-repeat: repeat;
+    background-position-x: 0;
+    background-position-y: 0;
+    height: 300vh;
+
+    position: absolute;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration:60s;
+  
 }
+
+@keyframes slideY {
+    0%{
+      transform: translate3d(0, 0, 0);
+    }
+    100%{
+      transform: translate3d(0, -100vh, 0);
+    }
+  }
+
+  @keyframes slideYReverse {
+    0%{
+      transform: translate3d(0, -100vh, 0);
+    }
+    100%{
+      transform: translate3d(0, 0, 0);
+    }
+  }
+  @keyframes slideX {
+    0%{
+        background-position-x:0;
+    }
+    100%{
+        background-position-x:200%;
+    }
+  }
+/*
+@keyframes slideX {
+    0%{
+      transform: translate3d(0, 0, 0);
+    }
+    100%{
+      transform: translate3d(-100vw, 0, 0);
+    }
+  }
+*/
+  @keyframes slideXReverse {
+    0%{
+        transform: translate3d(-100vw, 0, 0);
+      }
+    100%{
+      transform: translate3d(0, 0, 0);
+    }
+    
+  }
 
 @media(max-width:650px) {
     #add_things_button, #visiblity_tool, .help_button, #filter_tool, #fill_style_button {
@@ -227,7 +283,6 @@ li {
 
 #background {
     background-color: transparent;
-    background-image: url('default.jpg'), url("default.png");
     background-size: contain;
     background-repeat: no-repeat;
     transition: -webkit-filter 1s;
@@ -250,12 +305,18 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 .hidden {
     display: none;
 }
-
+.attach_lightsource_pawn{
+    cursor:copy;
+}
+.attach_lightsource_pawn:hover{
+    border: none !important;
+}
 .pawn {
     position: absolute;
     z-index: var(--z-index-pawn);
     border-radius: 50%;
     display: flex;
+
     filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
     flex-flow: row wrap;
     background-color: rgba(255, 255, 255, 0.75);

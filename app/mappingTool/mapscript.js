@@ -81,7 +81,7 @@ function loadSettings() {
         if (!settings.colorTokenBases) {
             document.getElementById("background_color_button_add_pawn").value = "rgba(255, 255, 255, 0)";
         }
-  
+
         var hueSelector = document.getElementById("fog_of_war_hue_selector")
         if (settings.fogOfWarHue) {
             hueSelector.value = settings.fogOfWarHue;
@@ -104,7 +104,7 @@ function loadSettings() {
         filterDd.selectedIndex = parseInt(filterValue);
         setBackgroundFilter();
         if (settings.currentMap) {
-            setMapBackground(settings.currentMap);
+            setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 
 
@@ -730,7 +730,7 @@ function onSettingsLoaded() {
         })[0].replace(/\\/g, "/");
 
         if (path) {
-            setMapBackground(path);
+            setMapForeground(path, settings.defaultMapSize);
             resetGridOffset()
             settings.currentMap = path;
             settings.gridSettings.mapSize = null;
@@ -753,24 +753,24 @@ function onSettingsLoaded() {
             });
         if (path != null) {
             var data = {};
-    /*
-            var pawnsToSave = [...pawns.all].filter(paw => !isPlayerPawn(paw));
-            data.pawns = [];
+            /*
+                    var pawnsToSave = [...pawns.all].filter(paw => !isPlayerPawn(paw));
+                    data.pawns = [];
+                
+                    pawnsToSave.forEach(p => {
+                        data.pawns.push({
+                            html: p.outerHTML,
+                            lightEffect: isLightEffect(p),
+                            sightRadius: { b: p.sight_radius_bright_light, d: p.sight_radius_dim_light },
+                            dnd_hexes : p.dnd_hexes,
+                            dnd_size : p.dnd_size,
+                            sight_mode : p.sight_mode,
+                            "data-dnd_conditions": p["data-dnd_conditions"],
+                            flying_height: p.flying_height
         
-            pawnsToSave.forEach(p => {
-                data.pawns.push({
-                    html: p.outerHTML,
-                    lightEffect: isLightEffect(p),
-                    sightRadius: { b: p.sight_radius_bright_light, d: p.sight_radius_dim_light },
-                    dnd_hexes : p.dnd_hexes,
-                    dnd_size : p.dnd_size,
-                    sight_mode : p.sight_mode,
-                    "data-dnd_conditions": p["data-dnd_conditions"],
-                    flying_height: p.flying_height
-
-                })
-            })
-            */
+                        })
+                    })
+                    */
             //data.pawns = pawnsToSave;
             data.moveOffsetX = moveOffsetX;
             data.moveOffsetY = moveOffsetY;
@@ -805,9 +805,9 @@ function onSettingsLoaded() {
             })[0];
         if (!imgPath) return;
         imgPath = imgPath.replace(/\\/g, "/");
+
         document.querySelector(".maptool_body").style.backgroundImage = "url('" + imgPath + "')";
         settings.map_edge_style = imgPath;
-        console.log(document.querySelector(".maptool_body").style.backgroundImage)
     }
 
     document.getElementById("load_map_button").onclick = function (e) {
@@ -948,21 +948,19 @@ function restoreEffect(effect) {
 
 }
 
-function setMapBackground(path) {
+function setMapForeground(path, width) {
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
     var img = new Image();
+    if (width)
+        return resizeMap(width);
     img.onload = function () {
         console.log(img.width, img.height)
         backgroundCanvas.heightToWidthRatio = img.height / img.width;
-        backgroundCanvas.style.width = img.width +"px";
-        backgroundCanvas.style.height = img.height +"px";
-
+        backgroundCanvas.style.width = img.width + "px";
+        backgroundCanvas.style.height = img.height + "px";
         document.getElementById("map_size_slider").value = img.width;
     }
     img.src = path;
-
-
-
 }
 
 /***
@@ -1020,7 +1018,7 @@ function zoomIntoMap(event, resizeAmount) {
                 var pawn = arr[i];
                 var left = parseFloat(pawn.style.left);
                 var top = parseFloat(pawn.style.top);
-                
+
                 cellsFromLeft = (left - backgroundOriginX)
                     / (originalCellSize * backgroundSizeBeforeResize);
                 cellsFromTop = (top - backgroundOriginY)
@@ -1041,6 +1039,70 @@ function zoomIntoMap(event, resizeAmount) {
 function onEffectSizeChanged(event) {
     previewPlacement(createEffect(event));
 }
+
+var backgroundLoop = function () {
+    var background_slide_animation_frame;
+    var background_slide_speed = 1, direction;
+    var slideCanvas = document.querySelector(".maptool_body")
+    function setBackgroundSlide(button) {
+        var animation = button.getAttribute("data-slide");
+        if (background_slide_animation_frame) {
+            window.cancelAnimationFrame(background_slide_animation_frame);
+            background_slide_animation_frame = null;
+        }
+        if (!slideCanvas.style.backgroundPositionX)
+            slideCanvas.style.backgroundPositionX = "0";
+        if (!slideCanvas.style.backgroundPositionY)
+            slideCanvas.style.backgroundPositionY = "0";
+        var loop;
+        switch (animation) {
+            case "slideXReverse": {
+                loop = slideLoopX;
+                direction = -1;
+                break;
+            }
+            case "slideX": {
+                loop = slideLoopX;
+                direction = 1;
+                break;
+            }
+            case "slideYReverse": {
+                loop = slideLoopY;
+                direction = -1;
+                break;
+            }
+            case "slideY": {
+                loop = slideLoopY;
+                direction = 1;
+                break;
+            }
+            default: return;
+        }
+        background_slide_animation_frame = window.requestAnimationFrame(loop);
+        function slideLoopX() {
+            console.log(slideCanvas.style.backgroundPositionX)
+            var curr = parseFloat(slideCanvas.style.backgroundPositionX);
+            slideCanvas.style.backgroundPositionX = (curr + (background_slide_speed * direction)) + "px";
+            background_slide_animation_frame = window.requestAnimationFrame(slideLoopX);
+
+        }
+        function slideLoopY() {
+            var curr = parseFloat(slideCanvas.style.backgroundPositionY);
+            slideCanvas.style.backgroundPositionY = (curr + (background_slide_speed * direction)) + "px";
+            background_slide_animation_frame = window.requestAnimationFrame(slideLoopY);
+
+        }
+    }
+
+
+    function updateSlideSpeed() {
+        background_slide_speed = document.getElementById("slide_speed_input").value;
+    }
+    return {
+        setBackgroundSlide: setBackgroundSlide,
+        updateSlideSpeed: updateSlideSpeed
+    }
+}();
 
 
 
@@ -1109,7 +1171,7 @@ function startDeletingSegments() {
             }
 
             fovLighting.attemptToDeleteSegment({ x: event.clientX, y: event.clientY });
-            if(fogOfWarEnabled)refreshFogOfWar();
+            if (fogOfWarEnabled) refreshFogOfWar();
         };
     } else {
         gridLayer.onmousedown = generalMousedowngridLayer;
@@ -1134,7 +1196,7 @@ function startMovingEffects(e) {
         };
         effects.map(eff => {
             eff.classList.add("elevated")
-            makeUIElementDraggable(eff)
+            Util.makeUIElementDraggable(eff)
         })
     } else {
         gridLayer.onmousedown = popupMenuAddEffectClickHandler;
@@ -1168,7 +1230,8 @@ function startDeletingEffects(e) {
                 if (event.buttons != 1) return;
 
                 event.target.parentNode.removeChild(event.target);
-                effects.splice(effects.indexOf(event.target), 1)
+                effects.splice(effects.indexOf(event.target), 1);
+                unattachObjectFromPawns(event.target);
                 if (pawns.lightSources.indexOf(event.target) >= 0) pawns.lightSources.splice(pawns.lightSources.indexOf(event.target), 1)
                 window.requestAnimationFrame(refreshFogOfWar);
             }
@@ -1181,6 +1244,16 @@ function startDeletingEffects(e) {
             effects[i].classList.remove("elevated");
             effects[i].onmousedown = null;
 
+        }
+    }
+}
+
+function unattachObjectFromPawns(objectElement) {
+    var objectIndex;
+    for (var i = 0; i < pawns.all.length; i++) {
+        var pawn = pawns.all[i];
+        if ((objectIndex = pawn.attached_objects.indexOf(objectElement)) >= 0) {
+            pawn.attached_objects.splice(objectIndex, 1);
         }
     }
 }
@@ -1208,11 +1281,11 @@ var measurementOriginPosition;
 var currentlyMeasuring = false;
 var measurementPaused = false;
 function startMeasuring(event) {
- 
+
     if (event.button != 0) {
 
         lastMeasuredPoint = null;
-        return;   
+        return;
     }
     if (!visibilityLayerVisible) {
 
@@ -1697,7 +1770,7 @@ function stopMeasuring(event, ignoreClick) {
     } else {
         if (event != null)
             lastMeasuredPoint = { x: event.clientX, y: event.clientY }
-            console.log(event.button);
+        console.log(event.button);
     }
 }
 function setLightSource(brightLight, dimLight, params) {
@@ -1874,7 +1947,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
         var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawnArray[i].size.toLowerCase());
         newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
-        console.log("Hexes " + newPawn.dnd_hexes)
+        newPawn.attached_objects = [];
         newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
         if (newPawn.dnd_hexes <= 0) newPawn.dnd_hexes = 1;
         newPawn.style.setProperty("--dnd-hexes", newPawn.dnd_hexes);
@@ -1882,7 +1955,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         newPawn.sight_radius_bright_light = sightRadiusBright;
         newPawn.sight_radius_dim_light = sightRadiusDim;
         newPawn.sight_mode = sightMode;
-        console.log(sightRadiusBright, sightRadiusDim, sightMode)
+
         newPawn.flying_height = 0;
         newPawn["data-dnd_conditions"] = [];
         newPawn.stateHasChanged = null;
@@ -2342,7 +2415,6 @@ function createBaseEffect(effectObj, isPreviewElement, e) {
     }
 
     newEffect.style.backgroundImage = selectedSfxBackground;
-    console.log(selectedSfxBackground)
     //Refresh preview
     if (!isPreviewElement)
         previewPlacement(createEffect(e, true));
@@ -2444,13 +2516,16 @@ function addPawnHandler(e) {
 }
 function showPopupMenuAddEffect(event) {
     var parent = document.getElementById("popup_menu_general");
-    for (var i = 0; i < pawns.all.length; i++)pawns.all[i].classList.add("non_selectable");
+    for (var i = 0; i < pawns.all.length; i++) {
+        pawns.all[i].data_overload_click = popupMenuAddEffectClickHandler;
+        pawns.all[i].classList.add("attach_lightsource_pawn")
+    }
     var popup = document.getElementById("popup_menu_add_effect");
     popup.style.left = parseInt(parent.style.left) + "px";
     popup.style.top = parseInt(parent.style.top) + "px";
     parent.classList.add("hidden");
     popup.classList.remove("hidden");
-    gridLayer.style.cursor = "copy";
+
     gridLayer.onmousedown = popupMenuAddEffectClickHandler;
     previewPlacement(createEffect(event, true));
 }
@@ -2459,17 +2534,30 @@ function stopAddingEffects() {
     document.getElementById("popup_menu_add_effect").classList.add("hidden");
     clearPreviewPlacement();
     gridLayer.style.cursor = "auto";
-    for (var i = 0; i < pawns.all.length; i++)pawns.all[i].classList.remove("non_selectable");
+    for (var i = 0; i < pawns.all.length; i++) {
+        pawns.all[i].data_overload_click = null;
+        pawns.all[i].classList.remove("attach_lightsource_pawn")
+    }
     gridLayer.onmousedown = generalMousedowngridLayer;
     effects = effects.filter(eff => eff != previewPlacementElement)
 }
 
 function popupMenuAddEffectClickHandler(e) {
-
+    console.log("add effect")
+    var pawn;
     if (e.button == 0 && e.target == gridLayer) {
         createEffect(e);
+    } else if (pawn = pawnClicked(e.target)) {
+        pawn.attached_objects.push(createEffect(e));
     } else {
         stopAddingEffects();
+    }
+
+    function pawnClicked(clickedEle) {
+        for (var i = 0; i < pawns.all.length; i++) {
+            if (pawns.all[i] == clickedEle) return clickedEle;
+        }
+        return null;
     }
 }
 function showPopupMenuPawn(x, y) {
@@ -2726,7 +2814,7 @@ function startMovingMap(e) {
     }
 }
 
-function resetZoomAndPan(){
+function resetZoomAndPan() {
     backgroundCanvas.data_bg_scale = 1;
     backgroundCanvas.data_transform_x = 0;
     backgroundCanvas.data_transform_y = 0;
@@ -2758,6 +2846,7 @@ function dragPawn(elmnt) {
     var offsetX, offsetY;
 
     function dragMouseDown(e) {
+        if (elmnt.data_overload_click) return elmnt.data_overload_click(e);
         //Line tool
         if (toolbox[0]) {
             if (measurementTargetOrigin == null) {
@@ -2795,8 +2884,8 @@ function dragPawn(elmnt) {
                     measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
                     showToolTip(e, "0 ft", "tooltip")
                 }
-     
-           
+
+
                 e = e || window.event;
                 e.preventDefault();
                 // get the mouse cursor position at startup:
@@ -2841,8 +2930,14 @@ function dragPawn(elmnt) {
             //Multiple move
             if (selectedPawns.length > 0) {
                 for (var i = 0; i < selectedPawns.length; i++) {
-                    selectedPawns[i].style.top = (selectedPawns[i].offsetTop - pos2) + "px";
-                    selectedPawns[i].style.left = (selectedPawns[i].offsetLeft - pos1) + "px";
+                    var pwn = selectedPawns[i];
+                    pwn.style.top = (pwn.offsetTop - pos2) + "px";
+                    pwn.style.left = (pwn.offsetLeft - pos1) + "px";
+                    pwn.attached_objects.forEach(obj => {
+                        console.log(obj)
+                        obj.style.top = (obj.offsetTop - pos2) + "px";
+                        obj.style.left = (obj.offsetLeft - pos1) + "px";
+                    });
                 }
                 tooltip.style.top = (selectedPawns[0].offsetTop - pos2 - 40) + "px";
                 tooltip.style.left = (selectedPawns[0].offsetLeft - pos1) + "px";
@@ -2857,6 +2952,11 @@ function dragPawn(elmnt) {
                 tooltip.style.left = (elmnt.offsetLeft - pos1) + "px";
                 elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                elmnt.attached_objects.forEach(obj => {
+
+                    obj.style.top = (obj.offsetTop - pos2) + "px";
+                    obj.style.left = (obj.offsetLeft - pos1) + "px";
+                });
 
                 //Clear old
                 if (oldLine != null) {
@@ -2978,8 +3078,8 @@ function resizeEffects() {
 
     function resize(ele) {
         var width, height;
-        width = parseInt(ele.dnd_width);
-        height = parseInt(ele.dnd_height);
+        width = parseFloat(ele.dnd_width);
+        height = parseFloat(ele.dnd_height);
         ele.style.width = width * cellSize / 5 + "px";
         ele.style.height = height * cellSize / 5 + "px";
 
@@ -3059,7 +3159,7 @@ function resizeAndDrawGrid(timestamp, event) {
         function () {
             settings.gridSettings = {}
             settings.gridSettings.cellSize = cellSize;
-            settings.gridSettings.mapSize = parseInt($("#background").css("background-size"));;
+            settings.gridSettings.mapSize = parseInt($("#background").css("width"));;
             saveSettings();
         }, 7000
     );
@@ -3134,7 +3234,7 @@ let measurements = function () {
         measurementsLayerContext.restore();
         lastMeasuredLineDrawn = null;
         lastMeasuredPoint = null;
-        
+
     }
 
     function eraseModeOn() {
