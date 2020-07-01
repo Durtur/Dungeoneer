@@ -9,6 +9,7 @@ var maxEntries = document.querySelector("#maxAutoLoads");
 var addPlayersAutomatically = document.querySelector("#addPlayersAutomatically");
 var snapToGrid = document.querySelector("#snapToGrid");
 var enableGrid = document.getElementById("enableGrid");
+var mobControllerEnabled = document.getElementById("mobControllerEnabled");
 var transparentMaptoolWindow = document.getElementById("transparentWindow");
 var syncToCombatPanel = document.querySelector("#syncToCombatPanel");
 var applyDarkvisionFilter = document.querySelector("#applyDarkvisionFilter");
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         playerPlaques.checked = data.playerPlaques;
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
+      
         maxEntries.value = data.maxAutoLoads;
         addPlayersAutomatically.checked = data.maptool.addPlayersAutomatically;
         applyDarkvisionFilter.checked = data.maptool.applyDarkvisionFilter;
@@ -44,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
         diceRoller.checked = data.enable.diceRoller;
         generator.checked = data.enable.generator;
         lootRoller.checked = data.enable.lootRoller;
+        mobControllerEnabled.checked = data.enable.mobController;
         mapTool.checked = data.enable.mapTool;
         colorTokenBases.checked = data.maptool.colorTokenBases;
         transparentMaptoolWindow.checked = data.maptool.transparentWindow;
@@ -109,6 +112,7 @@ function saveSettings(closeImmediately) {
         data.enable.saveRoller = saveRoller.checked;
         data.enable.diceRoller = diceRoller.checked;
         data.enable.generator = generator.checked;
+        data.enable.mobController = mobControllerEnabled.checked;
         data.enable.lootRoller = lootRoller.checked;
         data.enable.mapTool = mapToolCheckBox.checked;
     }catch(err){

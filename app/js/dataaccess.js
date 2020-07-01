@@ -171,7 +171,6 @@ var dataAccess = function () {
     }
 
     function getTokenPath(creatureName) {
-        console.log("Getting " + creatureName)
         var fileEndings = [".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];

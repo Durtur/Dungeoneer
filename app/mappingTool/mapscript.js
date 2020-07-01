@@ -366,6 +366,20 @@ ipcRenderer.on('monster-killed', function (evt, arg) {
 
 });
 
+ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
+    var list = JSON.parse(arg);
+    console.log(list)
+    list.forEach(param => {
+        var pawn = loadedMonstersFromMain.find(x => x.index_in_main_window == param.rowIndex);
+        if(!pawn)return;
+        pawn.setAttribute("data-mob_size", param.dead + param.remaining);
+        pawn.setAttribute("data-mob_dead_count", param.dead);
+        refreshMobBackgroundImages(pawn);
+        resizePawns();
+    });
+
+})
+
 ipcRenderer.on('settings-changed', function (evt, arg) {
     console.log("Settings changed, applying...");
     dataAccess.getSettings(function (data) {
@@ -377,6 +391,9 @@ ipcRenderer.on('settings-changed', function (evt, arg) {
 ipcRenderer.on('monster-list-cleared', function (evt, arg) {
     console.log("Clearing numbers")
     loadedMonstersFromMain.forEach(function (element) {
+        if (element.getAttribute("data-mob_size") != null)
+            return;
+ 
         element.index_in_main_window = "";
         element.classList.remove("pawn_numbered");
     });
@@ -409,13 +426,13 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
     console.log("Loading monsters")
     remote.getCurrentWindow().focus();
     var monsterArray = JSON.parse(arg);
-
+    console.log(evt, arg)
     //Analísera til að dreifa litum
     var counterArray = [];
     var inArray = false, indexInArray = 0;;
     monsterArray.forEach(function (element) {
         for (var i = 0; i < counterArray.length; i++) {
-            if (counterArray[i][0] == element[0]) {
+            if (counterArray[i][0] == element.name) {
                 inArray = true;
                 indexInArray = i;
                 break;
@@ -424,7 +441,7 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
         if (inArray) {
             counterArray[indexInArray][1]++;
         } else {
-            counterArray.push([element[0], 1]);
+            counterArray.push([element.name, 1]);
         }
         inArray = false;
     });
@@ -437,17 +454,21 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
 
     for (var i = monsterArray.length - 1; i >= 0; i--) {
         for (var j = 0; j < counterArray.length; j++) {
-            if (counterArray[j][0] == monsterArray[i][0]) {
+            if (counterArray[j][0] == monsterArray[i].name) {
                 color = monsterColorPalette[j];
                 if (color == null) color = 'rgba(255,255,255,0.45)';
             }
         }
         var newMonster = {
             color: settings.colorTokenBases ? color : "rgba(100,100,100,0)",
-            name: monsterArray[i][0],
-            size: monsterArray[i][1],
-            indexInMain: monsterArray[i][2]
+            name: monsterArray[i].name,
+            size: monsterArray[i].size,
+            indexInMain: monsterArray[i].index,
+            isMob: monsterArray[i].isMob == true,
+            mobCountDead : monsterArray[i].mobCountDead,
+            mobSize: monsterArray[i].mobSize
         }
+        console.log(newMonster)
         pawns.addQueue.push(newMonster)
     }
     document.getElementById("add_pawn_from_tool_toolbar").classList.remove("hidden");
@@ -871,7 +892,6 @@ function onSettingsLoaded() {
                         newP.sight_radius_dim_light = p.sightRadius.d;
                         newP.dnd_hexes = p.dnd_hexes;
 
-                        newP.style.setProperty("--dnd-hexes", p.dnd_hexes);
                         newP.dnd_size = p.dnd_size;
                         newP.sight_mode = p.sight_mode;
                         newP["data-dnd_conditions"] = p["data-dnd_conditions"];
@@ -950,14 +970,18 @@ function restoreEffect(effect) {
 
 function setMapForeground(path, width) {
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
+    console.log("Setting foreground " + width)
     var img = new Image();
-    if (width)
-        return resizeMap(width);
+
     img.onload = function () {
-        console.log(img.width, img.height)
         backgroundCanvas.heightToWidthRatio = img.height / img.width;
-        backgroundCanvas.style.width = img.width + "px";
-        backgroundCanvas.style.height = img.height + "px";
+        console.log("Width param", width)
+        var mapWidth = width ? width : img.width;
+        var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
+        var height = img.height * imgWidthToOldWidth;
+        console.log(height, width);
+        backgroundCanvas.style.width = mapWidth + "px";
+        backgroundCanvas.style.height = height + "px";
         document.getElementById("map_size_slider").value = img.width;
     }
     img.src = path;
@@ -1080,7 +1104,6 @@ var backgroundLoop = function () {
         }
         background_slide_animation_frame = window.requestAnimationFrame(loop);
         function slideLoopX() {
-            console.log(slideCanvas.style.backgroundPositionX)
             var curr = parseFloat(slideCanvas.style.backgroundPositionX);
             slideCanvas.style.backgroundPositionX = (curr + (background_slide_speed * direction)) + "px";
             background_slide_animation_frame = window.requestAnimationFrame(slideLoopX);
@@ -1870,42 +1893,28 @@ function fillForcedPerspectiveDropDown() {
 var lastIndexInsertedMonsters = 1;
 var lastColorIndex = 0;
 function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
-
     var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;
-    var newPawnImg;
+
     if (monsters) {
         lastPoint = pawns.lastLocationMonsters;
-
         rotate = 90;
-
     } else {
         lastPoint = pawns.lastLocationPlayers;
         rotate = -90;
-
     }
 
     for (var i = 0; i < pawnArray.length; i++) {
+        var pawn = pawnArray[i];
         newPawn = document.createElement("div");
-        newPawnImg = document.createElement("div");
-        newPawnImg.className = "token_photo";
-        newPawn.appendChild(newPawnImg);
         newPawn.classList.add("pawn");
-        //Checka hvort gefið hafi verið input fæll
-        optionalPaths = pawnArray[i].bgPhoto;
-        if (optionalPaths != null) {
-            setPawnBackgroundFromPathArray(newPawn, optionalPaths);
 
-        } else {
-            monsters ? setPawnImageWithDefaultPath(newPawn, pawnArray[i].name.toLowerCase())
-                : setPlayerPawnImage(newPawn, pawnArray[i].id)
-        }
-        newPawn.title = pawnArray[i].name.substring(0, 1).toUpperCase() + pawnArray[i].name.substring(1);
-        newPawn.dnd_name = pawnArray[i].name.substring(0, 1).toUpperCase() + pawnArray[i].name.substring(1);
+
+        newPawn.title = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
+        newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
         if (!monsters) {
-
-            if (pawnArray[i].darkVisionRadius != "") {
+            if (pawn.darkVisionRadius != "") {
                 sightMode = "darkvision";
-                sightRadiusBright = pawnArray[i].darkVisionRadius;
+                sightRadiusBright = pawn.darkVisionRadius;
                 sightRadiusDim = 0;
 
             } else {
@@ -1914,7 +1923,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
                 sightRadiusDim = 0;
             }
             pawns.lightSources.push(newPawn);
-            pawns.players.push([newPawn, pawnArray[i].name])
+            pawns.players.push([newPawn, pawn.name])
             if (settings.colorTokenBases) {
                 newPawn.style.backgroundColor = colorPalette[lastColorIndex++];
             } else {
@@ -1923,34 +1932,59 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             }
         } else {
             if (addingFromMainWindow) {
-                var index = pawnArray[i].indexInMain ? pawnArray[i].indexInMain : lastIndexInsertedMonsters++;
+                var index = pawn.indexInMain ? pawn.indexInMain : lastIndexInsertedMonsters++;
                 removeDuplicatePawnNumbers(index);
                 newPawn.setAttribute("index_in_main_window", index);
                 newPawn.index_in_main_window = index;
                 newPawn.classList.add("pawn_numbered");
+
             }
             pawns.monsters.push(newPawn);
-            loadedMonsters.push([newPawn, pawnArray[i].name]);
+            loadedMonsters.push([newPawn, pawn.name]);
 
-            newPawn.style.backgroundColor = pawnArray[i].color;
+            newPawn.style.backgroundColor = pawn.color;
         }
 
         newPawn.dead = "false";
-        newPawn.classList.add("pawn_" + pawnArray[i].size.toLowerCase());
+        newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
 
-        if (pawnArray[i].size.toLowerCase() == "small") {
-            // newPawn.classList.add("pawn_medium");
+        if (pawn.size.toLowerCase() == "small") {
             newPawn.classList.add("pawn_small");
         } else {
-            newPawn.classList.add("pawn_" + pawnArray[i].size.toLowerCase());
+            newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
         }
 
-        var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawnArray[i].size.toLowerCase());
+        var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
         newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
         newPawn.attached_objects = [];
         newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
         if (newPawn.dnd_hexes <= 0) newPawn.dnd_hexes = 1;
-        newPawn.style.setProperty("--dnd-hexes", newPawn.dnd_hexes);
+
+        if (pawn.isMob) {
+            newPawn.setAttribute("data-mob_size", pawn.mobSize);
+            newPawn.setAttribute("data-mob_dead_count", pawn.mobCountDead);
+            newPawn.classList.add("pawn_mob");
+            var newPawnImg = document.createElement("div");
+            newPawnImg.className = "mob_token_container";
+            newPawn.appendChild(newPawnImg);
+            setPawnMobBackgroundImages(newPawn, pawn.name.toLowerCase())
+
+        } else {
+            var newPawnImg = document.createElement("div");
+            newPawnImg.className = "token_photo";
+            newPawn.appendChild(newPawnImg);
+
+            //Checka hvort gefið hafi verið input fæll
+            optionalPaths = pawn.bgPhoto;
+            if (optionalPaths != null) {
+                setPawnBackgroundFromPathArray(newPawn, optionalPaths);
+            } else {
+                monsters ?
+                    setPawnImageWithDefaultPath(newPawn, pawn.name.toLowerCase())
+                    : setPlayerPawnImage(newPawn, pawn.id)
+            }
+        }
+
         rotatePawn(newPawn, rotate)
         newPawn.sight_radius_bright_light = sightRadiusBright;
         newPawn.sight_radius_dim_light = sightRadiusDim;
@@ -1975,10 +2009,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         }
 
         tokenLayer.appendChild(newPawn);
-
-
-
-    }
+    };
     refreshPawns();
     resizePawns();
     addPawnListeners();
@@ -2060,7 +2091,7 @@ function setPawnImageWithDefaultPath(pawnElement, path) {
             break;
         }
     }
-    console.log(possibleNames)
+
     if (possibleNames.length > 0) {
         tokenPath = "url('" + pickOne(possibleNames).replace(/\\/g, "/") + "')";
     } else {
@@ -2069,6 +2100,96 @@ function setPawnImageWithDefaultPath(pawnElement, path) {
 
     pawnElement.getElementsByClassName("token_photo")[0].style.backgroundImage = tokenPath;
 }
+
+function setPawnMobBackgroundImages(pawn, path) {
+    var possibleNames = [];
+    var i = 0;
+    while (true) {
+        var pawnPath = dataAccess.getTokenPath(path + i);
+        if (pawnPath != null) {
+            possibleNames.push(pawnPath);
+            i++;
+        } else {
+            break;
+        }
+    }
+
+    if (possibleNames.length == 0) {
+        possibleNames = ["mappingTool/tokens/default.png"]
+    }
+    pawn.setAttribute("data-token_paths", JSON.stringify(possibleNames));
+    refreshMobBackgroundImages(pawn);
+}
+
+function refreshMobBackgroundImages(pawn) {
+    var mobSize = parseInt(pawn.getAttribute("data-mob_size"));
+ 
+    var tokenPaths = JSON.parse(pawn.getAttribute("data-token_paths"));
+    var mobsToAdd = mobSize - pawn.querySelectorAll(".mob_token").length;
+    var container = pawn.querySelector(".mob_token_container");
+    if(mobsToAdd < 0){
+        for(var i = 0 ; i > mobsToAdd ; i--){
+            var token = pawn.querySelector(".mob_token");
+            if(!token)break;
+            token.parentNode.removeChild(token);
+        }
+    }else{
+        for (var i = 0; i < mobsToAdd; i++) {
+            var ele = document.createElement("div");
+            ele.className = "mob_token";
+            ele.style.backgroundImage = "url('" + pickOne(tokenPaths).replace(/\\/g, "/") + "')";
+            container.appendChild(ele);
+            container.appendChild(ele);
+            var base = document.createElement("div");
+            base.classList = "dead_marker";
+            ele.appendChild(base);
+        }
+    
+    }
+
+    var allTokens = [... pawn.querySelectorAll(".mob_token")];
+    //Make them dead  
+    var deadCount = parseInt(pawn.getAttribute("data-mob_dead_count"));
+    var shouldBeDead = deadCount - allTokens.filter(x=> x.classList.contains("mob_token_dead")).length;
+    var alivePawns = allTokens.filter(x=> !x.classList.contains("mob_token_dead"));
+    
+    for(var i = 0 ; i< shouldBeDead; i++){
+        var next = alivePawns.pop();
+        if(!next)break;
+        next.classList.add("mob_token_dead");
+    }
+
+    var deltaMax = 2;
+    var rowSize = Math.floor(Math.sqrt(mobSize));
+    var colSize = Math.ceil(Math.sqrt(mobSize));
+    var stepBaseY = 80 / rowSize;
+    var stepBaseX = 80 / colSize;
+    var rowShift = rowSize * stepBaseX+10;
+    var stepX = 5;
+    var stepY = 5;
+
+    allTokens.forEach(ele =>{
+        ele.style.top = stepY + randToDelta() + "%";
+        ele.style.left = stepX + randToDelta() + "%";
+        stepX += stepBaseX;
+        if (stepX >= rowShift) {
+            stepX = 0;
+            stepY += stepBaseY;
+        }
+    });
+  
+    refreshMobSize(pawn);
+
+    function randToDelta() {
+        return Math.floor(Math.random() * deltaMax) + 1 * (Math.random() > 0.5 ? 1 : -1);
+    }
+}
+
+function refreshMobSize(pawnElement) {
+    var sizePerCreature = pawnElement.dnd_hexes * cellSize;
+    pawnElement.style.width = sizePerCreature * parseInt(pawnElement.getAttribute("data-mob_size")) + "px";
+}
+
 function removeAllConditionsHandler(event) {
     selectedPawns.forEach(function (pawn) {
         pawn["data-dnd_conditions"] = [];
@@ -2166,7 +2287,10 @@ function rotatePawn(pawn, degrees) {
     } else {
         pawn.deg += degrees;
     }
-    pawn.getElementsByClassName("token_photo")[0].style.setProperty("--pawn-rotate", pawn.deg + "deg");
+    var isMob = pawn.getAttribute("data-mob_size") != null;
+    var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo")
+
+    element.style.setProperty("--pawn-rotate", pawn.deg + "deg");
 
 }
 
@@ -2191,7 +2315,6 @@ function enlargeReducePawn(direction) {
         element.classList.remove("pawn_" + currentSize);
         element.classList.add("pawn_" + newSize);
         element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
-        element.style.setProperty("--dnd-hexes", element.dnd_hexes);
         element.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
     }
 
@@ -3095,8 +3218,23 @@ function resizePawns() {
 function resizeHelper(arr) {
     for (var i = 0; i < arr.length; i++) {
         var pawn = arr[i];
-        pawn.style.height = pawn.dnd_hexes * cellSize + "px";
-        pawn.style.width = pawn.dnd_hexes * cellSize + "px";
+        var mobSize = pawn.getAttribute("data-mob_size");
+        var rowCount = Math.floor(Math.sqrt(mobSize));
+        var colCount = Math.ceil(Math.sqrt(mobSize));
+        if (mobSize) {
+            mobSize = parseInt(mobSize);
+            pawn.style.height = pawn.dnd_hexes * rowCount * cellSize + "px";
+            pawn.style.width = pawn.dnd_hexes * colCount * cellSize + "px";
+            var mobTokens = [...pawn.querySelectorAll(".mob_token")];
+            mobTokens.forEach(token => {
+                token.style.height = pawn.dnd_hexes * cellSize + "px";
+                token.style.width = pawn.dnd_hexes * cellSize + "px";
+            });
+        } else {
+            pawn.style.height = pawn.dnd_hexes * cellSize + "px";
+            pawn.style.width = pawn.dnd_hexes * cellSize + "px";
+        }
+
 
 
     }

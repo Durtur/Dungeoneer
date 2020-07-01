@@ -1,7 +1,7 @@
 
 
 var forcedMonsterIndexNum = null;
-var loadedMonster = [];
+var loadedMonster = {};
 var loadedMonsterQueue = [];
 var loadedEncounter = [];
 var marked = require('marked');
@@ -27,6 +27,8 @@ marked.setOptions({
  */
 
 const { ipcRenderer } = require('electron');
+
+var mobController;
 
 var statblockType; //Segir til um hvort verið sé að hlaða  monster.
 var encounterIsLoaded;
@@ -76,8 +78,10 @@ ipcRenderer.on('maptool-initialized', function (evt, arg) {
 
     document.getElementById("maptool_notify_button").title = document.getElementById("maptool_notify_button").title + "\n" + name;
 
-    loadedMonsterQueue.push([name, size, index]);
+    loadedMonsterQueue.push({name: name, size: size, index: index});
+ 
   }
+  mobController.mapToolInitialized();
 
 
 
@@ -119,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (loadedMonsterQueue.length > 0) {
       button.disabled = false;
       loadedMonsterQueue.forEach(a => {
-        button.title += "\n" + a[0];
+        button.title += "\n" + a.name;
       });
     } else {
       button.disabled = true;
@@ -166,16 +170,22 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   document.addEventListener("keydown", function (e) {
     //Close all shit on escape
-    if (e.keyCode == 27) {
+
+    if (e.key == "Escape") {
+ 
       combatLoader.clearSelection();
       hideFrame('search');
       hideAllFloatingInputs();
       hideAllPopups();
       combatLoader.closeLog();
-    } else if (e.keyCode == 69 && e.ctrlKey) {
+    } else if (e.key == "e" && e.ctrlKey) {
+ 
       if (loadedMonster) combatLoader.loadCombat()
-    } else if (e.keyCode == 73 && e.altKey) {
+    } else if (e.key  == "i" && e.altKey) {
+  
       initiative.roll();
+    } else if (e.key == "d" && e.ctrlKey) {
+      addMob();
     }
   });
   document.addEventListener("click", function (e) {
@@ -207,7 +217,8 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function designTimeAndDebug() {
-
+  //
+  search("monsters", true, "bandit", true)
 }
 
 function setPcNodeConditions(pcNode, conditionList) {
@@ -462,7 +473,7 @@ function applySettings() {
   mapToolBtn = document.getElementById("mapping--button");
   mapToolSyncBtn = document.getElementById("maptool_notify_button");
   lootRoller = document.getElementById("lootRoller");
-
+  var mobcontroller_element = document.getElementById("mobcontroller_element")
   saveRoller = document.getElementById("saveRoller");
 
   if (!enabled.diceRoller) {
@@ -497,6 +508,13 @@ function applySettings() {
   } else {
     mapToolSyncBtn.classList.remove("hidden");
   }
+  if (enabled.mobController) {
+    if (!mobController)
+      mobController = new MobController(mobcontroller_element, diceRoller);
+    mobcontroller_element.parentElement.classList.remove("hidden");
+  } else {
+    mobcontroller_element.parentElement.classList.add("hidden");
+  }
 }
 
 
@@ -527,7 +545,7 @@ function loadParty() {
       return a.sort_index - b.sort_index;
     })
 
-  
+
     if (settings.playerPlaques) {
       partyAlternativeACArray = [];
       for (var i = 0; i < partyArray.size; i++) {
@@ -1047,154 +1065,15 @@ var initiative = function () {
 }();
 
 
-var diceRoller = function () {
 
-  function roll() {
-    var inputString;
-    var result;
 
-    var diceRollers = [...document.getElementsByClassName("diceRollerContainer")];
-    diceRollers.forEach(function (diceRollerRow) {
-      inputString = diceRollerRow.getElementsByClassName("diceroller_die_no")[0].value;
-      if (inputString == "") {
-        var defaultDice = diceRollerRow.getElementsByClassName("diceroller_die_no")[0].getAttribute("data-default-die");
-        result = dice(parseInt(defaultDice), 1);
-      } else {
-        result = rollFromString(inputString);
 
-      }
-
-      diceRollerRow.getElementsByClassName("diceroller_result")[0].value = result;
-    });
-
+function addMob() {
+  if (loadedMonster.name == null) {
+    return false;
   }
-  function rollCritFromString(inputString) {
-    return rollFromStringHelper(inputString, true);
-  }
-  function rollFromString(inputString) {
-    return rollFromStringHelper(inputString, false);
-  }
-
-  function rollFromStringHelper(inputString, doCrit) {
-    console.log("rolling ", inputString)
-    var values, operators;
-    var firstNum, nextNum;
-    inputString = inputString.toLowerCase();
-    inputString = inputString.replace("-", "+-");
-
-    var splitStrings = inputString.split("+");
-    var sum = 0;
-    var result = 0;
-    splitStrings.forEach(function (side) {
-      result = 0;
-      values = side.split(/[Dd,]+/);
-      operators = [];
-      var lastI = 0;
-      while (side.indexOf("d", lastI) >= 0) {
-        operators.push("d");
-        lastI = side.indexOf("d", lastI) + 1;
-      }
-
-      for (var i = 0; i < operators.length; i++) {
-        firstNum = parseInt(zeroIfNull(values[i]));
-        nextNum = parseInt(zeroIfNull(values[i + 1]));
-        if (nextNum > 0 && firstNum > 0) {
-          result += dice(nextNum, firstNum);
-          if (doCrit) result += dice(nextNum, firstNum);
-        } else {
-          result += nextNum + firstNum;
-        }
-      }
-
-      if (operators.length == 0) {
-        result += parseInt(values[0])
-      }
-
-
-      sum += result;
-    })
-
-    return sum;
-  }
-
-  function zeroIfNull(value) {
-
-    if (value == null)
-      return 0;
-    return value;
-  }
-  function addRow() {
-    var newRow = $(".diceRollerContainer:nth-child(1)").clone();
-    newRow.appendTo(".diceRollerPanel");
-    var inputs = newRow.children(".diceroller_die_no");
-
-    var allRows = $(".diceRollerContainer");
-
-
-    var newDie = dicePossibleSides[
-      allRows.length > dicePossibleSides.length ?
-        dicePossibleSides.length - 1 :
-        allRows.length - 1];
-    inputs[0].setAttribute("data-default-die", newDie);
-    inputs[0].setAttribute("placeholder", "1d" + newDie)
-
-    inputs.on("keydown", function (event) {
-      if (event.keyCode == 13) {
-        return roll();
-      }
-    });
-    inputs.on("input", diceRollerInputSanitizer);
-  }
-
-  function loadHandlers() {
-    var inputs = [...document.getElementsByClassName("diceroller_input")];
-    inputs.forEach(function (input) {
-      input.addEventListener("keydown", function (event) {
-        if (event.keyCode == 13) {
-          return roll();
-        }
-      })
-      input.addEventListener("input", diceRollerInputSanitizer);
-    })
-  }
-
-  function diceRollerInputSanitizer(event) {
-    var input = event.target;
-    var valueString = input.value;
-    var lastChar = valueString[valueString.length - 2];
-    var currentChar = valueString[valueString.length - 1];
-
-    var charIsNumber = isNumber(currentChar);
-    var lastCharIsNumber = isNumber(lastChar);
-
-    var charIsOperator = isOperator(currentChar);
-
-    if (charIsOperator) {
-      if (!lastCharIsNumber) {
-        input.value = valueString.substring(0, valueString.length - 1)
-
-      }
-    } else if (!charIsNumber) {
-      input.value = valueString.substring(0, valueString.length - 1)
-    }
-
-  }
-  function isOperator(char) {
-    return ["+", "-", "d", "D"].indexOf(char) >= 0
-  }
-
-  return {
-    roll: roll,
-    addRow: addRow,
-    loadHandlers: loadHandlers,
-    rollFromString: rollFromString,
-    rollCritFromString: rollCritFromString
-  };
-}();
-
-
-
-
+  mobController.insert(loadedMonster);
+}
 
 
 var combatLoader = function () {
@@ -1205,7 +1084,7 @@ var combatLoader = function () {
   var playerUpMouseIndex = -1;
   function loadCombat() {
     if (!encounterIsLoaded) {
-      if (loadedMonster.length == 0) {
+      if (loadedMonster.name == null) {
         return false;
       }
       insertIntoTable();
@@ -1254,9 +1133,7 @@ var combatLoader = function () {
     while (queue.length > 0) {
       outbound.push(queue.pop());
     }
-    console.log(outbound)
     return outbound;
-
   }
 
   function notifyPartyArrayUpdated() {
@@ -1275,7 +1152,7 @@ var combatLoader = function () {
       window.setTimeout(function () {
         window2 = remote.getGlobal('maptoolWindow');
         if (window2) window2.webContents.send("notify-map-tool-monsters-loaded", JSON.stringify(popQueue(loadedMonsterQueue)));
-      }, 6000)
+      }, 4000)
     }
   }
 
@@ -1414,9 +1291,10 @@ var combatLoader = function () {
       var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
       if (monsterIndex == arr[1]) {
         row.classList.add("hidden");
+        row.setAttribute("data-dnd_conditions", "");
         initiative.removeLoadedMonsterInfo();
-        if (loadedMonsterQueue.find(x => x[2] == monsterIndex)) {
-          loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x => x[2] == monsterIndex), 1);
+        if (loadedMonsterQueue.find(x => x.index == monsterIndex)) {
+          loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x => x.index == monsterIndex), 1);
           loadedMonsterQueue.propertyChanged();
         }
 
@@ -1429,39 +1307,6 @@ var combatLoader = function () {
         return
       }
     }
-
-    /*
-      allRows[i].setAttribute("data-dnd_conditions", "");
-        document.querySelector("#combat_log_popup").classList.add("hidden")
-        addToCombatLog(allRows[i], "Died");
-        if (numMonstersLoaded > 1) {
-          allRows[i].classList.add("dead_row");
-          window.setTimeout(() => {
-            document.querySelectorAll(".dead_row").forEach(x => {
-              x.classList.add("hidden");
-              x.classList.remove("dead_row")
-            })
-
-          }, 600);
-
-        } else {
-          var fields = allRows[i].getElementsByTagName("input");
-          for (var j = 0; j < fields.length; j++) {
-            fields[j].value = "";
-          }
-          allRows[i].getElementsByClassName("text_upper_damage_label")[0].innerHTML = "";
-          creatureDamage.setAttribute("data-tooltip", "");
-          creatureDamage.classList.remove("tooltipped");
-          creatureDamage.innerHTML = "Creature damage";
-          creatureDamage.classList.add("label_inactive");
-        }
-        let window2 = remote.getGlobal('maptoolWindow');
-        if (window2) window2.webContents.send('monster-killed', allRows[i].getAttribute("data-dnd_monster_index"));
-
-        initiative.removeLoadedMonsterInfo(name);
-        frameHistoryButtons.deleteButtonIfExists(name);
-        numMonstersLoaded--;
-        */
 
   }
   function loadDamageFieldHandlers() {
@@ -1656,7 +1501,7 @@ var combatLoader = function () {
       newRow.attr("data-dnd_conditions", "");
       newRow.attr("data-dnd_monster_index", forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum);
       addLogPopupHandler(newRow[0]);
-      newRow.appendTo(".combatGUI");
+      newRow.appendTo("#combatMain");
       newRow.removeClass("hidden");
       loadFieldHandlers();
 
@@ -1672,7 +1517,7 @@ var combatLoader = function () {
     }
   }
 
-  function load(a) {
+  function load(monster) {
     var row;
     if (rowToFill == null) {
       var rows = document.querySelectorAll(".combatRow");
@@ -1687,23 +1532,26 @@ var combatLoader = function () {
     acField = row.getElementsByClassName("ac_field")[0];
     attackField = row.getElementsByClassName("attack_field")[0];
     damageField = row.getElementsByClassName("damage_field")[0];
-    nameField.setAttribute("data-combat_log", "[\"Starting hit points are " + a[1] + "\"]");
+    nameField.setAttribute("data-combat_log", "[\"Starting hit points are " + monster.hit_points + "\"]");
     damageLabel = row.getElementsByClassName("text_upper_damage_label")[0];
+
+    //Validate
+    if(!monster.size)monster.size = "medium";
 
     //"Bandit", 11, 12, Array(2), "Medium"]
     if (settings.enable.mapTool) {
-      nameField.value = a[0];
+      nameField.value = monster.name;
       row.setAttribute("data-dnd_monster_index", (forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum));
-      row.setAttribute("data-dnd_monster_name", a[0]);
-      row.setAttribute("data-dnd_monster_size", a[4].toLowerCase());
+      row.setAttribute("data-dnd_monster_name", monster.name);
+      row.setAttribute("data-dnd_monster_size", monster.size.toLowerCase());
       forcedMonsterIndexNum = null;
     }
-    hpField.value = a[1];
-    acField.value = a[2];
+    hpField.value = monster.hit_points;
+    acField.value = monster.armor_class;
 
     var actionsString = "";
-    if (a[3] != null) {
-      a[3].sort(function (a, b) {
+    if (monster.actions != null) {
+      monster.actions.sort(function (a, b) {
         if (a.name == null) return 1;
         if (b.name == null) return -1;
         if (a.name.toLowerCase() == "multiattack") return -1;
@@ -1716,16 +1564,16 @@ var combatLoader = function () {
       });
       var attackActions = [];
       var actionPicked = false;
-      for (var i = 0; i < a[3].length; i++) {
+      for (var i = 0; i < monster.actions.length; i++) {
         if (i > 0) actionsString += "\n";
-        var action = createActionString(a[3][i])
+        var action = createActionString(monster.actions[i])
 
-        var ele = a[3][i];
+        var ele = monster.actions[i];
         if ((ele.damage_dice != null || ele.damage_bonus != null) && ele.attack_bonus != null) {
           ele.damage_string = (ele.damage_dice == null ?
             ele.damage_bonus == null ?
               "" : ele.damage_bonus :
-            (a[3][i].damage_dice) + (a[3][i].damage_bonus == null ? "" : (a[3][i].damage_dice != null ? "+" : "") + a[3][i].damage_bonus));
+            (monster.actions[i].damage_dice) + (monster.actions[i].damage_bonus == null ? "" : (monster.actions[i].damage_dice != null ? "+" : "") + monster.actions[i].damage_bonus));
           attackActions.push(ele)
           if (!actionPicked) {
             action = ">" + action;
@@ -1761,10 +1609,10 @@ var combatLoader = function () {
 
 
 
-    if (a[0] != "") {
-      loadedMonsterQueue.push([a[0], a[4].toLowerCase(), forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum]);
-      initiative.addToLoadedMonsterInfo(a[0], a[5])
-      frameHistoryButtons.createButtonIfNotExists(a[0]);
+    if (monster.name != "") {
+      loadedMonsterQueue.push({name:monster.name, size: monster.size.toLowerCase(), index: forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum});
+      initiative.addToLoadedMonsterInfo(monster.name, monster.initiative)
+      frameHistoryButtons.createButtonIfNotExists(monster.name);
     }
   }
   function createActionString(action) {
@@ -1842,20 +1690,7 @@ var combatLoader = function () {
       if (e.target.value == "") return;
 
     }
-    row.querySelector(".combat_loader_advantage").onchange = function (e) {
-
-      var parentRow = e.target.closest(".combatRow");
-      var disadvCheckbox = parentRow.querySelector(".combat_loader_disadvantage");
-      if (disadvCheckbox.checked) disadvCheckbox.checked = !e.target.checked;
-    }
-
-    row.querySelector(".combat_loader_disadvantage").onchange = function (e) {
-
-      var parentRow = e.target.closest(".combatRow");
-      var advCheckbox = parentRow.querySelector(".combat_loader_advantage")
-      if (advCheckbox.checked) advCheckbox.checked = false;
-
-    }
+    
     row.querySelector(".hp_field").onfocus = function (e) {
       if (e.target.value == "") return;
       e.target.setAttribute("data-old_value", e.target.value);
@@ -2103,12 +1938,12 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
       if (key == "monsters") {
         $("#loaderButton").attr("title", "Load " + data[i].name + " into combat table. (ctrl + e)");
 
-        loadedMonster.push(data[i].name);
-        loadedMonster.push(data[i].hit_points);
-        loadedMonster.push(data[i].armor_class);
-        loadedMonster.push(data[i].actions);
-        loadedMonster.push(data[i].size);
-        loadedMonster.push(data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity));
+        loadedMonster.name = data[i].name;
+        loadedMonster.hit_points = data[i].hit_points;
+        loadedMonster.armor_class = data[i].armor_class;
+        loadedMonster.actions  = data[i].actions;
+        loadedMonster.size = data[i].size;
+        loadedMonster.initiative  = data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity);
 
         if (combatLoader.autoloads > 0) {
           combatLoader.insertIntoTable();
@@ -2171,7 +2006,7 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       } else {
         encounterIsLoaded = true;
       }
-      loadedMonster = [];
+      loadedMonster = {};
       var searchbox, searchstring;
       if (showStatblock) {
         searchbox = document.getElementById("searchbar");
@@ -2396,7 +2231,7 @@ function fillPartyPopup() {
           row.getElementsByClassName("change_party_button")[0].classList.add("no_party_loaded");
         }
         row.setAttribute("data-pc_party", members[index].party);
-        row.setAttribute("data-char_id",members[index].id);
+        row.setAttribute("data-char_id", members[index].id);
         row.getElementsByClassName("checkbox_party_menu")[0].checked = members[index].active;
         index++;
       });
@@ -2656,4 +2491,17 @@ function observeArrayChanges(arr, raiseChanged) {
 }
 
 
+function advantageCheckboxChanged (e) {
+
+  var parentRow = e.target.closest(".checkbox_row");
+  var disadvCheckbox = parentRow.querySelector(".combat_loader_disadvantage");
+  if (disadvCheckbox.checked) disadvCheckbox.checked = !e.target.checked;
+}
+
+ function disadvantageCheckboxChanged(e) {
+
+  var parentRow = e.target.closest(".checkbox_row");
+  var advCheckbox = parentRow.querySelector(".combat_loader_advantage")
+  if (advCheckbox.checked) advCheckbox.checked = false;
+}
 

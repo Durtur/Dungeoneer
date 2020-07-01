@@ -203,7 +203,8 @@ function loadDefaultSettings() {
       "mapTool": true,
       "lootRoller": true,
       "diceRoller": true,
-      "saveRoller": true
+      "saveRoller": true,
+      "mobController": false,
     }}
 }
 

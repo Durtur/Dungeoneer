@@ -9,7 +9,7 @@
     --pawn-scale: 1;
     --pawn-rotate: 0;
     --cell-size: 35;
-    --dnd-hexes: 1;
+
 }
 
 html {
@@ -34,56 +34,9 @@ html {
     height: 300vh;
 
     position: absolute;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
-    animation-duration:60s;
+
   
 }
-
-@keyframes slideY {
-    0%{
-      transform: translate3d(0, 0, 0);
-    }
-    100%{
-      transform: translate3d(0, -100vh, 0);
-    }
-  }
-
-  @keyframes slideYReverse {
-    0%{
-      transform: translate3d(0, -100vh, 0);
-    }
-    100%{
-      transform: translate3d(0, 0, 0);
-    }
-  }
-  @keyframes slideX {
-    0%{
-        background-position-x:0;
-    }
-    100%{
-        background-position-x:200%;
-    }
-  }
-/*
-@keyframes slideX {
-    0%{
-      transform: translate3d(0, 0, 0);
-    }
-    100%{
-      transform: translate3d(-100vw, 0, 0);
-    }
-  }
-*/
-  @keyframes slideXReverse {
-    0%{
-        transform: translate3d(-100vw, 0, 0);
-      }
-    100%{
-      transform: translate3d(0, 0, 0);
-    }
-    
-  }
 
 @media(max-width:650px) {
     #add_things_button, #visiblity_tool, .help_button, #filter_tool, #fill_style_button {
@@ -104,6 +57,8 @@ body {
     min-height: 100%;
     overflow: hidden;
     -webkit-user-select: none;
+    background-image:url('C:/Users/notandi/Documents/DnD/Nýársgrúbba/Maps/Corinthia/city.png');
+    background-size:200%;
 }
 
 .title_bar {
@@ -282,6 +237,7 @@ li {
 }
 
 #background {
+    height:auto;
     background-color: transparent;
     background-size: contain;
     background-repeat: no-repeat;
@@ -311,10 +267,10 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 .attach_lightsource_pawn:hover{
     border: none !important;
 }
-.pawn {
+.pawn{
     position: absolute;
     z-index: var(--z-index-pawn);
-    border-radius: 50%;
+  
     display: flex;
 
     filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
@@ -325,6 +281,44 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
     background-position: center;
     box-sizing: border-box;
     transform: scale(calc(var(--pawn-scale)));
+}
+
+.pawn:not(.pawn_mob){
+    border-radius: 50%;
+
+}
+
+.pawn_mob{
+    background-color: transparent !important;
+    border-radius:5px;
+}
+
+.mob_token{
+    position: absolute;
+    pointer-events: none;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mob_token_dead>.dead_marker{
+    visibility: visible !important;
+}
+
+.mob_token>.dead_marker{
+    visibility: hidden;
+}
+
+.dead_marker{
+    background-color: rgba(218, 0, 0, 0.632) !important;
+    background-position: center;
+    border-radius: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(tokens/dead.png);
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
 }
 
 .pawn_dead {
@@ -343,6 +337,18 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
     position: absolute;
     transform: rotate(calc(var(--pawn-rotate)));
 }
+
+.pawn>.mob_token_container {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    
+    border: none;
+    position: absolute;
+    transform: rotate(calc(var(--pawn-rotate)));
+}
+
+
 
 .condition_effect {
     height: 40%;

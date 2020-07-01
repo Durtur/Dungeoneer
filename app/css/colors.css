@@ -234,7 +234,7 @@ hr {
   background-size: contain;
 }
 
-.combatRow>.die_d20{
+.combatRow>.die_d20, .mobcontroller_row .die_d20{
   background-color: white;
 }
 
@@ -636,7 +636,6 @@ input, textarea, .cell_row {
 .dmg_button {
   background-image: url("img/blood.png");
   background-size: cover;
-  color: #B2444D;
   background-color: var(--main-color);
 }
 
@@ -1182,6 +1181,20 @@ header {
 /** TOOLTIPS **/
 
 .combatRow[data-dnd_monster_index]:after {
+  content: attr(data-dnd_monster_index);
+  left: -25px;
+  top: 4px;
+  position: absolute;
+  text-align: center;
+  padding: 5px;
+  font-size: 18px;
+  color: var(--main-color);
+  border-radius: 50%;
+  white-space: pre-wrap;
+  width: 1em;
+}
+
+.mobcontroller_row[data-dnd_monster_index]:after {
   content: attr(data-dnd_monster_index);
   left: -25px;
   top: 4px;

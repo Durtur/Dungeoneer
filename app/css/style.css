@@ -253,6 +253,7 @@ h1 {
 }
 
 .hp_field {
+  text-overflow: ellipsis;
   background-image: url("./img/heart.png");
   background-size: 72%;
   background-position: 0 7px;
@@ -436,7 +437,7 @@ h1 {
   margin-top: -2px;
 }
 
-.name_field {
+#combatMain .name_field {
   text-overflow: ellipsis;
   cursor: pointer;
 }
@@ -681,24 +682,71 @@ h1 {
   opacity: 0;
 }
 
-.combatRow>button {
-  max-height: 40px;
+.combatRow>button, .mobcontroller_row button {
+  max-height: 42px;
   min-width: 40px;
-  min-height: 40px;
+  min-height: 42px;
 }
 
-.combatRow>.cell_row {
+.combatRow>.cell_row  .mobcontroller_row .cell_row{
   max-height: 40px;
 }
 
-.combatRow>*:placeholder-shown, .combatRow>.label_inactive {
+.combatRow>*:placeholder-shown, .combatRow>.label_inactive , .mobcontroller_row *:placeholder-shown, .mobcontroller_row .label_inactive{
   font-size: 10px;
 }
 
-.combatRow>input {
+.combatRow>input  .mobcontroller_row input{
   font-size: 16px;
 }
+.mobcontroller_row input{
+  height:40px;
+}
 
+.mobcontroller_label{
+  font-size:12px;
+  padding-top:3px;
+  width: 110px;
+  text-align: center;
+
+  background-color:white;
+}
+
+.mobcontroller_second_row>input{
+  width: 110px !important;
+}
+
+.mobcontroller_creatures_remaining{
+  color:var(--main-success-color-lighter);
+}
+.mobcontroller_creatures_dead{
+  color:red;
+}
+
+.mobcontroller_row .dmg_field{
+  border-top-left-radius: var(--rounded-corners);
+  border-bottom-left-radius: var(--rounded-corners);
+}
+
+.mobcontroller_row .damage_field {
+  border-top-right-radius: var(--rounded-corners);
+}
+
+.mobcontroller_count{
+  border-bottom-left-radius:var(--rounded-corners);
+}
+
+.mobcontroller_percentage_attacking{
+  border-bottom-right-radius:var(--rounded-corners);
+}
+
+.mobcontroller_percentage_attacking::after{
+  content:"%";
+  z-index:2;
+  position: absolute;
+  top:0;
+
+}
 .initiative_input_row:first-child>input {
   border-top-left-radius: var(--rounded-corners);
   border-top-right-radius: var(--rounded-corners);
@@ -709,7 +757,7 @@ h1 {
   border-bottom-right-radius: var(--rounded-corners);
 }
 
-.combatRow:first-child>.dmg_field, .diceRollerContainer:first-child>input:first-child {
+.combatRow:first-child>.dmg_field, .diceRollerContainer:first-child>input:first-child , .mobcontroller_row .count_field{
   border-top-left-radius: var(--rounded-corners);
 }
 
@@ -723,6 +771,38 @@ h1 {
 
 .combatRow:last-child>.damage_field, .diceRollerContainer:last-of-type>input:last-child {
   border-bottom-right-radius: var(--rounded-corners);
+}
+
+
+.cell_row {
+  border: 1px solid #b4b4b3;
+  font-family: "bookSanity";
+  background-color: white;
+  line-height: 3;
+  width: 100%;
+  text-align: center;
+}
+
+.dead_row>* {
+  background-color: rgb(171, 0, 0) !important;
+  color: darkred;
+  transition: all 600ms;
+  transform: scaleY(0.2);
+}
+
+.combatRow , .mobcontroller_row{
+  margin-left: 8px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-flow: row nowrap;
+  width: 600px;
+  transition: all var(--transition-delay);
+}
+
+.combatRow>input , .mobcontroller_row input{
+  display: inherit;
+  width: 100%;
 }
 
 .dmg_button {
@@ -864,36 +944,6 @@ h1 {
   padding-right: 20px;
 }
 
-.cell_row {
-  border: 1px solid #b4b4b3;
-  font-family: "bookSanity";
-  background-color: white;
-  line-height: 3;
-  width: 100%;
-  text-align: center;
-}
-
-.dead_row>* {
-  background-color: rgb(171, 0, 0) !important;
-  color: darkred;
-  transition: all 600ms;
-  transform: scaleY(0.2);
-}
-
-.combatRow {
-  margin-left: 8px;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  flex-flow: row nowrap;
-  width: 600px;
-  transition: all var(--transition-delay);
-}
-
-.combatRow>input {
-  display: inherit;
-  width: 100%;
-}
 
 .sink {
   text-align: center;
@@ -920,7 +970,7 @@ h1 {
   display: flex;
 }
 
-.combatRow>input[type="number"] {
+.combatRow>input[type="number"], .mobcontroller_row input[type="number"] {
   width: 40px;
 }
 

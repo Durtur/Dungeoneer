@@ -107,7 +107,7 @@
 
 
 
-    <main class = "main_page_main">
+    <main class="main_page_main">
 
       <section class="topContainer">
         <div class="row pscontainer hidden_takes_space">
@@ -115,7 +115,7 @@
             ondragend="stopDraggingPcNode(event)" ondrop="dropPcNode(event)" ondragover="dragOverPcNode(event)"
             data-tooltip="A majestic gnome with a flowing beard. Athalasar prefers opulent robes. His personal hygiene is markedly bad.">
             <div class="pcnode_name">
-              <div class = "pcNode_condition_container"></div>
+              <div class="pcNode_condition_container"></div>
               <p>Athalasar</p>
             </div>
             <div class="pcnodeInner  pcnode_normal_ac">
@@ -148,29 +148,46 @@
               <label class=" cell_row damage_field label_inactive" data-tooltip=""
                 onclick=combatLoader.setDamageFieldNextAction(event)>Creature damage</label>
               <label class="text_upper_damage_label"></label>
-              <div class="column save_roller_checkbox_container">
-                <label class="small_font checbox_label_saveroller" title="Advantage">Adv</label>
-                <label class="container_for_checkbox">
-                  <input type="checkbox" class="center combat_loader_advantage" title="Advantage">
-                  <span class="checkmark"></span>
-                </label>
+              <div class="checkbox_row row">
 
+
+                <div class="column save_roller_checkbox_container">
+                  <label class="small_font checbox_label_saveroller" title="Advantage">Adv</label>
+                  <label class="container_for_checkbox">
+                    <input type="checkbox" onchange="advantageCheckboxChanged(event)"
+                      class="center combat_loader_advantage" title="Advantage">
+                    <span class="checkmark"></span>
+                  </label>
+
+                </div>
+                <div class="column save_roller_checkbox_container">
+                  <label class="small_font checbox_label_saveroller" title="Disadvantage">Dis</label>
+                  <label class="container_for_checkbox">
+                    <input type="checkbox" onchange="disadvantageCheckboxChanged(event)"
+                      class="center combat_loader_disadvantage" title="Disadvantage">
+                    <span class="checkmark"></span>
+                  </label>
+
+                </div>
               </div>
-              <div class="column save_roller_checkbox_container">
-                <label class="small_font checbox_label_saveroller" title="Disadvantage">Dis</label>
-                <label class="container_for_checkbox">
-                  <input type="checkbox" class="center combat_loader_disadvantage" title="Disadvantage">
-                  <span class="checkmark"></span>
-                </label>
-
-              </div>
-
             </div>
           </section>
           <div class="row float_up combat_toolbar">
+
             <button class="small button_style" title="Clear combat panel" onclick="combatLoader.clear()">C</button>
             <button class="small button_style" id="maptool_notify_button" title="Opens the map tool with loaded creatures.
               No creatures are loaded." disabled onclick="combatLoader.notifyMapTool()">M</button>
+          </div>
+        </div>
+
+        <div class="column section__tool section__show">
+          <section class="combatGUI" id="mobcontroller_element">
+
+          </section>
+          <div class="row float_up combat_toolbar">
+              <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
+            <button class="small  button_style" id="maptool_mob_add_button" title="Opens the map tool with loaded mobs.
+              No mobs are loaded." disabled onclick="mobController.notifyMapTool()">M</button>
           </div>
         </div>
 
@@ -221,7 +238,7 @@
                 id="randomizerButton">Roll</button>
               <button class="button_style hidden" onclick="randomizer.clear()"
                 id="randomizer_clear_button">Clear</button>
-              <select class="hidden" id="randomizer_rarity_select" >
+              <select class="hidden" id="randomizer_rarity_select">
                 <option selected value="any">Any</option>
               </select>
               <select class="hidden" id="randomizer_encounter_danger_select">
@@ -236,7 +253,7 @@
               <select class="hidden" id="randomizer_encounter_creature_number_select">
                 <option selected value="any">Any</option>
                 <option value="solitary">Solitary</option>
-                <option  value="squad">Squad</option>
+                <option value="squad">Squad</option>
                 <option value="mob">Mob</option>
                 <option value="horde">Horde</option>
               </select>
@@ -254,25 +271,29 @@
                 placeholder="# of rolls">
               <input class="saveRoller_input" id="saveRollsDc" type="number" min="0" title="Roll DC" placeholder="DC">
               <input class="saveRoller_input" id="saveRollsMod" type="number" title="Modifier" placeholder="Modifier">
-              <div class="column save_roller_checkbox_container">
-                <label for="saveRollsAdvantage" class="small_font checbox_label_saveroller"
-                  title="Advantage">Adv</label>
-                <label class="container_for_checkbox">
-                  <input type="checkbox" group="1" id="saveRollsAdvantage" class="center">
-                  <span class="checkmark"></span>
-                </label>
 
+              <div class="checkbox_row row">
+                <div class="column save_roller_checkbox_container">
+                  <label for="saveRollsAdvantage" class="small_font checbox_label_saveroller"
+                    title="Advantage">Adv</label>
+                  <label class="container_for_checkbox">
+                    <input type="checkbox" onchange="advantageCheckboxChanged(event)" group="1" id="saveRollsAdvantage"
+                      class="center">
+                    <span class="checkmark"></span>
+                  </label>
+
+                </div>
+                <div class="column save_roller_checkbox_container">
+                  <label for="saveRollsDisadvantage" class="small_font checbox_label_saveroller"
+                    title="Disadvantage">Dis</label>
+                  <label class="container_for_checkbox">
+                    <input type="checkbox" onchange="disadvantageCheckboxChanged(event)" group="1"
+                      id="saveRollsDisadvantage" class="center" title="Disadvantage">
+                    <span class="checkmark"></span>
+                  </label>
+
+                </div>
               </div>
-              <div class="column save_roller_checkbox_container">
-                <label for="saveRollsDisadvantage" class="small_font checbox_label_saveroller"
-                  title="Disadvantage">Dis</label>
-                <label class="container_for_checkbox">
-                  <input type="checkbox" group="1" id="saveRollsDisadvantage" class="center" title="Disadvantage">
-                  <span class="checkmark"></span>
-                </label>
-
-              </div>
-
               <button onclick="rollSaves()" class="die_d20  die_d20_normal">20</button>
 
               <label class="tooltipped cell_row" id="saveRollResultsSuccess" data-tooltip="Successful saves. "></label>
@@ -302,14 +323,17 @@
         <div class="history_button_row" id="history_button_row">
 
         </div>
-        <div class = "statblock_control_buttons">
-          <button class = "randomize_button die_d20_normal die_d20 hidden" title = "Get random table entry" id = "statblock_random_table_button" onclick = "getRandomTableEntry(event)">?</button>
-          <button class=" button_style load" style="right: 41px;" id="loaderButton"
-            onclick="combatLoader.loadCombat()" title="Load into combat panel (ctrl + e)."></button>
+        <div class="statblock_control_buttons">
+          <button class="randomize_button die_d20_normal die_d20 hidden" title="Get random table entry"
+            id="statblock_random_table_button" onclick="getRandomTableEntry(event)">?</button>
+          <button class=" button_style load" style="right: 41px;" id="loaderButton" onclick="combatLoader.loadCombat()"
+            title="Load into combat panel (ctrl + e)."></button>
+          <button class=" button_style " style="right: 61px;" onclick="addMob()"
+            title="Load into mob panel (ctrl + d)."></button>
           <button class=" button_style " onclick="hideFrame('search')">Hide</button>
 
         </div>
-    
+
         <section class="pageframe" id="statblock"></section>
       </div>
 
@@ -336,7 +360,7 @@
 
         </div>
         <div class="column">
-            <button onclick="initiative.finishRoll()" class=" button_style">Confirm</button>
+          <button onclick="initiative.finishRoll()" class=" button_style">Confirm</button>
           <button onclick="initiative.cancelRoll()" class=" button_style">Cancel</button>
 
         </div>
@@ -346,19 +370,19 @@
       </div>
       <div id="combat_log_popup" class="combat_log_popup_window hidden">
         <div class="column combat_loader_log_column" style="width: 90%">
-       
 
 
 
-            <h3 class="combat_log_title combat_log_title_main">Log</h3>
-            <div class="combat_log_conditions">
-              <select id="condition_list_dd" multiple>
 
-              </select>
-            </div>
+          <h3 class="combat_log_title combat_log_title_main">Log</h3>
+          <div class="combat_log_conditions">
+            <select id="condition_list_dd" multiple>
+
+            </select>
+          </div>
 
 
-        
+
           <div class="combat_log_content"></div>
         </div>
         <div class="column " style="width: 12%;">
@@ -421,7 +445,62 @@
 
     </div>
 
+    <div class="column hidden mobcontroller_row" id="mobcontroller_row_template" data-dnd_creature="">
 
+      <div class="row ">
+        <input type="number" placeholder="Dmg" class="dmg_field multi_selectable_field_num" title="Damage to Apply"
+          tabindex="2">
+        <button class="button button_style dmg_button" onclick="mobController.applyDamage()"
+          title="Apply damage">Apply</button>
+        <input type="text" placeholder="Creature name" class="name_field" title="Mob name">
+        <input type="number" placeholder="HP" class="hp_field" title="Mob HP (total)">
+        <input type="number" placeholder="AC" class="ac_field" title="Creature Armor Class">
+        <input type="number" placeholder="Atk+" class="attack_field" title="Mob Attack Modifier">
+        <button class="die_d20 die_combatRoller die_d20_normal" onclick="mobController.roll()"
+          title="Click to roll for attack">20</button>
+        <input type="number" placeholder="vs AC" title="AC of target" tabindex="1"
+          class="code_ac multi_selectable_field_num">
+        <label class=" cell_row damage_field " data-tooltip=""
+          onclick=mobController.setDamageFieldNextAction(event)>Creature damage</label>
+        <label class="text_upper_damage_label"></label>
+        <div class="checkbox_row row">
+          <div class="column save_roller_checkbox_container">
+            <label class="small_font checbox_label_saveroller" title="Advantage">Adv</label>
+            <label class="container_for_checkbox">
+              <input type="checkbox" onchange="advantageCheckboxChanged(event)" class="center combat_loader_advantage"
+                title="Advantage">
+              <span class="checkmark"></span>
+            </label>
+
+          </div>
+          <div class="column save_roller_checkbox_container">
+            <label class="small_font checbox_label_saveroller" title="Disadvantage">Dis</label>
+            <label class="container_for_checkbox">
+              <input type="checkbox" onchange="disadvantageCheckboxChanged(event)"
+                class="center combat_loader_disadvantage" title="Disadvantage">
+              <span class="checkmark"></span>
+            </label>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="column" style="margin-left:80px;">
+        <div class="row">
+
+          <label class="mobcontroller_label" title="Mob size">Creature count</label>
+          <label class="mobcontroller_label" title="Creatures remaining">Remaining</label>
+          <label class="mobcontroller_label" title="Creatures dead">Dead</label>
+          <label class="mobcontroller_label" title="Percentage of mob attacking each round">% attacking</label>
+        </div>
+        <div class="row mobcontroller_second_row">
+          <input type="number" onchange="mobController.mobSizeChanged(event)" class="mobcontroller_count">
+          <input type="number" readonly class="mobcontroller_creatures_remaining">
+          <input type="number" readonly class="mobcontroller_creatures_dead">
+          <input min=1 max=100 type="number" class="mobcontroller_percentage_attacking">
+        </div>
+      </div>
+    </div>
     <footer>
       <div class="popup" id="party_list_popup" data-popup="popup-1">
         <div class="popup-inner">
@@ -435,7 +514,7 @@
             <div class="playerRow__expl">
               <input type=text value="Player name" title="Player name" readonly></input>
               <input type=text value="Character name" title="Character name" readonly></input>
-              <input type=text style = "width:35px" value="Token" title="Maptool token" readonly></input>
+              <input type=text style="width:35px" value="Token" title="Maptool token" readonly></input>
               <input type=text value="Dex (Initiative)" title="Dex (Initiative)" readonly></input>
               <input type=text value="Perception" title="Perception" readonly></input>
               <input type=text value="Level" title="PC level" readonly></input>
@@ -452,7 +531,7 @@
                 <input type=text class="pc_input_player_name" placeholder="Player name" title="Player name"></input>
                 <input type=text class="pc_input_character_name" placeholder="Character name"
                   title="Character name"></input>
-                <img class = "pc_input_character_token">
+                <img class="pc_input_character_token">
                 <input type=number class="pc_input_dexterity" placeholder="Dex (Initiative)"
                   title="Dex (Initiative)"></input>
                 <input type=number class="pc_input_perception" placeholder="Perception" title="Perception"></input>
@@ -492,7 +571,9 @@
 
     <script src="awesomplete/awesomplete.js"></script>
     <script src="chosen/chosen.jquery.js"></script>
+    <script src="js/diceroller.js"></script>
     <script src="js/encounterModule.js"></script>
+    <script src="js/MobController.js"></script>
     <script src="js/script.js"></script>
     <script src="js/guicontrol.js"></script>
     <script src="js/keycommands.js"></script>
