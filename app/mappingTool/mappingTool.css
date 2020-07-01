@@ -295,7 +295,7 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 
 .mob_token{
     position: absolute;
-    pointer-events: none;
+  
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -315,6 +315,7 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
     border-radius: 50%;
     background-size: contain;
     background-repeat: no-repeat;
+    pointer-events: "none";
     background-image: url(tokens/dead.png);
     opacity: 0.7;
     width: 100%;

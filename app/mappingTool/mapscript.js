@@ -122,7 +122,7 @@ function saveSettings() {
     dataAccess.getSettings(function (data) {
         data.maptool = settings;
         dataAccess.saveSettings(data);
-        console.log("Settings saved : ", data)
+
     });
 }
 
@@ -338,7 +338,7 @@ ipcRenderer.on('notify-effects-changed', function (evt, arg) {
 
 
 ipcRenderer.on('token-condition-added', function (evt, list, index) {
-    console.log(list, index)
+
     var pawn = [...document.querySelectorAll(".pawn_numbered")].filter(pw => pw.index_in_main_window == index)[0];
     if (pawn) {
         removeAllPawnConditions(pawn);
@@ -358,7 +358,7 @@ ipcRenderer.on('monster-killed', function (evt, arg) {
             break;
         }
     }
-    console.log(killedPawn.dnd_name + " was killed");
+
 
     killedPawn.dead = "true";
     killedPawn.stateHasChanged = 1;
@@ -368,11 +368,11 @@ ipcRenderer.on('monster-killed', function (evt, arg) {
 
 ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
     var list = JSON.parse(arg);
-    console.log(list)
+
     list.forEach(param => {
         var pawn = loadedMonstersFromMain.find(x => x.index_in_main_window == param.rowIndex);
         if(!pawn)return;
-        pawn.setAttribute("data-mob_size", param.dead + param.remaining);
+        pawn.setAttribute("data-mob_size", param.remaining);
         pawn.setAttribute("data-mob_dead_count", param.dead);
         refreshMobBackgroundImages(pawn);
         resizePawns();
@@ -402,7 +402,7 @@ ipcRenderer.on('monster-list-cleared', function (evt, arg) {
 
 
 ipcRenderer.on("next-player-round", function (evt, params) {
-    console.log("Next player roud", params)
+
     var player = params.player;
     var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
     if (player != null) {
@@ -426,7 +426,6 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
     console.log("Loading monsters")
     remote.getCurrentWindow().focus();
     var monsterArray = JSON.parse(arg);
-    console.log(evt, arg)
     //Analísera til að dreifa litum
     var counterArray = [];
     var inArray = false, indexInArray = 0;;
@@ -465,10 +464,10 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
             size: monsterArray[i].size,
             indexInMain: monsterArray[i].index,
             isMob: monsterArray[i].isMob == true,
-            mobCountDead : monsterArray[i].mobCountDead,
+            mobCountDead : 0,
             mobSize: monsterArray[i].mobSize
         }
-        console.log(newMonster)
+
         pawns.addQueue.push(newMonster)
     }
     document.getElementById("add_pawn_from_tool_toolbar").classList.remove("hidden");
@@ -478,12 +477,10 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
 
 function suspendAllAnimations() {
     $(".pawn, .sfx_effect, .light_effect").addClass("animation_paused");
-    console.log("Animations paused");
 }
 
 function resumeAllAnimations() {
     $(".pawn, .sfx_effect, .light_effect").removeClass("animation_paused");
-    console.log("Animations resumed");
 }
 document.addEventListener("DOMContentLoaded", function () {
     backgroundCanvas = document.querySelector("#background");
@@ -520,7 +517,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     $("#background_color_button_change_pawn")
     document.getElementById("map_size_slider").oninput = function (event) {
-        console.log("Map size slider")
+
         resizeMap(event.target.value);
         var rect = backgroundCanvas.getBoundingClientRect();
         fovLighting.resizeSegments(rect.left, rect.top);
@@ -557,7 +554,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     dataAccess.getConditions(function (data) {
-        console.log(data)
+
         data.sort(function (a, b) {
             if (a.name < b.name) return -1;
             if (b.name < a.name) return 1;
@@ -703,7 +700,7 @@ function onSettingsLoaded() {
 
     gridLayer.onwheel = function (event) {
         event.preventDefault();
-        console.log(previewPlacementElement)
+
         if (event.ctrlKey && previewPlacementElement) {
 
             var value = document.getElementById("effect_input_value_one").value;
@@ -849,7 +846,7 @@ function onSettingsLoaded() {
                 data = JSON.parse(data);
                 //  pawns = data.pawns;
                 fovLighting.setSegments(data.segments);
-                console.log(data)
+      
                 moveOffsetX = data.moveOffsetX;
                 moveOffsetY = data.moveOffsetY;
 
@@ -975,11 +972,11 @@ function setMapForeground(path, width) {
 
     img.onload = function () {
         backgroundCanvas.heightToWidthRatio = img.height / img.width;
-        console.log("Width param", width)
+
         var mapWidth = width ? width : img.width;
         var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
         var height = img.height * imgWidthToOldWidth;
-        console.log(height, width);
+
         backgroundCanvas.style.width = mapWidth + "px";
         backgroundCanvas.style.height = height + "px";
         document.getElementById("map_size_slider").value = img.width;
@@ -1229,7 +1226,7 @@ function startMovingEffects(e) {
             eff.onmousedown = null;
         })
     }
-    console.log()
+
 }
 
 function startDeletingEffects(e) {
@@ -1251,11 +1248,16 @@ function startDeletingEffects(e) {
             effects[i].style.cursor = "pointer";
             effects[i].onmousedown = function (event) {
                 if (event.buttons != 1) return;
-
-                event.target.parentNode.removeChild(event.target);
-                effects.splice(effects.indexOf(event.target), 1);
-                unattachObjectFromPawns(event.target);
-                if (pawns.lightSources.indexOf(event.target) >= 0) pawns.lightSources.splice(pawns.lightSources.indexOf(event.target), 1)
+                var target = event.target;
+   
+                while(target.parentNode != tokenLayer){
+                    target = target.parentNode;
+                }
+                    
+                target.parentNode.removeChild(target);
+                effects.splice(effects.indexOf(target), 1);
+                unattachObjectFromPawns(target);
+                if (pawns.lightSources.indexOf(target) >= 0) pawns.lightSources.splice(pawns.lightSources.indexOf(target), 1)
                 window.requestAnimationFrame(refreshFogOfWar);
             }
         }
@@ -1638,7 +1640,7 @@ function startMeasuring(event) {
                 tokenLayer.appendChild(div);
                 div.dnd_width = parseInt(lastMeasuredSphere.radius * 2 / (cellSize / 5));
                 div.dnd_height = parseInt(lastMeasuredSphere.radius * 2 / (cellSize / 5));
-                console.log(div.dnd_height, div.dnd_width)
+
 
                 effects.push(div)
                 measurements.clearMeasurements();
@@ -1793,12 +1795,10 @@ function stopMeasuring(event, ignoreClick) {
     } else {
         if (event != null)
             lastMeasuredPoint = { x: event.clientX, y: event.clientY }
-        console.log(event.button);
     }
 }
 function setLightSource(brightLight, dimLight, params) {
     selectedPawns.forEach(function (pawn) {
-        console.log(params)
         if (params && params.darkvision) {
             pawn.sight_mode = "darkvision";
         } else {
@@ -2067,7 +2067,7 @@ function setPawnBackgroundFromPathArray(element, paths) {
 function setPlayerPawnImage(pawnElement, path) {
     var tokenPath;
     var path = dataAccess.getTokenPath(path);
-    console.log(path)
+
     if (path != null) {
         tokenPath = "url('" + path.replace(/\\/g, "/") + "')";
     } else {
@@ -2083,7 +2083,7 @@ function setPawnImageWithDefaultPath(pawnElement, path) {
     var i = 0;
     while (true) {
         var pawnPath = dataAccess.getTokenPath(path + i);
-        console.log(pawnPath);
+
         if (pawnPath != null) {
             possibleNames.push(pawnPath);
             i++;
@@ -2139,7 +2139,6 @@ function refreshMobBackgroundImages(pawn) {
             ele.className = "mob_token";
             ele.style.backgroundImage = "url('" + pickOne(tokenPaths).replace(/\\/g, "/") + "')";
             container.appendChild(ele);
-            container.appendChild(ele);
             var base = document.createElement("div");
             base.classList = "dead_marker";
             ele.appendChild(base);
@@ -2149,14 +2148,21 @@ function refreshMobBackgroundImages(pawn) {
 
     var allTokens = [... pawn.querySelectorAll(".mob_token")];
     //Make them dead  
-    var deadCount = parseInt(pawn.getAttribute("data-mob_dead_count"));
-    var shouldBeDead = deadCount - allTokens.filter(x=> x.classList.contains("mob_token_dead")).length;
+    var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
+
     var alivePawns = allTokens.filter(x=> !x.classList.contains("mob_token_dead"));
-    
+
     for(var i = 0 ; i< shouldBeDead; i++){
         var next = alivePawns.pop();
         if(!next)break;
         next.classList.add("mob_token_dead");
+        var currLocation = next.getBoundingClientRect();
+        next.parentNode.removeChild(next);
+        effects.push(next);
+        next.classList.add("sfx_effect");
+        next.style.top = currLocation.top + "px";
+        next.style.left = currLocation.left + "px";
+        tokenLayer.appendChild(next);
     }
 
     var deltaMax = 2;
@@ -2168,7 +2174,7 @@ function refreshMobBackgroundImages(pawn) {
     var stepX = 5;
     var stepY = 5;
 
-    allTokens.forEach(ele =>{
+    alivePawns.forEach(ele =>{
         ele.style.top = stepY + randToDelta() + "%";
         ele.style.left = stepX + randToDelta() + "%";
         stepX += stepBaseX;
@@ -2222,7 +2228,7 @@ function setPawnCondition(pawnElement, condition) {
     if (!conditionString || pawnElement["data-dnd_conditions"].indexOf(conditionString) > -1)
         return;
     pawnElement["data-dnd_conditions"].push(conditionString);
-    console.log(conditionString)
+
     var newDiv = document.createElement("div");
     var para = document.createElement("p");
     para.innerHTML = conditionString[0];
@@ -2274,7 +2280,7 @@ function removePawnConditionHelper(pawnElement, conditionObj, deleteAll) {
 }
 
 function raiseConditionsChanged(pawn) {
-    console.log("Condtions changed", pawn["data-dnd_conditions"])
+
     let window2 = remote.getGlobal('mainWindow');
     if (window2) window2.webContents.send('condition-list-changed', pawn["data-dnd_conditions"],
         pawn.index_in_main_window ? pawn.index_in_main_window : pawn.title);
@@ -2295,7 +2301,7 @@ function rotatePawn(pawn, degrees) {
 }
 
 function enlargeReducePawn(direction) {
-    console.log(creaturePossibleSizes)
+
     selectedPawns.forEach(element => enlargeReduceHelper(element, direction));
 
     refreshPawns();
@@ -2504,7 +2510,7 @@ function addSfxEffectHandler(e, isPreviewElement) {
 
 function createBaseEffect(effectObj, isPreviewElement, e) {
     var newEffect = document.createElement("div");
-    console.log(effectObj)
+
     var chosenWidth = document.getElementById("effect_input_value_one").value;
     var chosenHeight = document.getElementById("effect_input_value_two").value;
     var actualWidth, actualHeight;
@@ -2588,7 +2594,7 @@ function setTokenNextFacetHandler(e) {
         }
         currentIndex++;
         if (currentIndex >= images.length) currentIndex = 0;
-        console.log(currentIndex)
+
         pawnPhoto.style.backgroundImage = images[currentIndex];
 
     })
@@ -2619,7 +2625,7 @@ function addPawnHandler(e) {
 
     var pawnSizeDropDown = document.getElementById("add_pawn_size");
     var pawnName = document.getElementById("add_pawn_name").value;
-    console.log(pawnSizeDropDown.options[pawnSizeDropDown.selectedIndex].value)
+
     var sizeIndex = pawnSizeDropDown.options[pawnSizeDropDown.selectedIndex].value.toLowerCase();
     var pawnSize = creaturePossibleSizes.sizes[sizeIndex];
     var dndSize = creaturePossibleSizes.hexes[sizeIndex];
@@ -2666,7 +2672,7 @@ function stopAddingEffects() {
 }
 
 function popupMenuAddEffectClickHandler(e) {
-    console.log("add effect")
+
     var pawn;
     if (e.button == 0 && e.target == gridLayer) {
         createEffect(e);
@@ -3022,7 +3028,7 @@ function dragPawn(elmnt) {
             }
 
         } else if (e.buttons == 2) {
-            console.log(selectedPawns)
+
             if (selectedPawns.length == 1)
                 clearSelectedPawns();
             if (isSelectedPawn(e.target) < 0) {
@@ -3057,7 +3063,6 @@ function dragPawn(elmnt) {
                     pwn.style.top = (pwn.offsetTop - pos2) + "px";
                     pwn.style.left = (pwn.offsetLeft - pos1) + "px";
                     pwn.attached_objects.forEach(obj => {
-                        console.log(obj)
                         obj.style.top = (obj.offsetTop - pos2) + "px";
                         obj.style.left = (obj.offsetLeft - pos1) + "px";
                     });
