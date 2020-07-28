@@ -145,7 +145,7 @@ $(document).ready(function () {
       altInpCont.classList.add("hidden");
       var levels = [];
       partyArray.filter(x => x.level && x.active).forEach(member => levels.push(parseInt(member.level)));
-
+     
       fillEncounterDifficultyLevels(levels);
 
     }
@@ -1072,18 +1072,21 @@ function calculateSuggestedCR() {
 function calculateEncounterDifficulty() {
   console.log("Calculating encounter diff")
   var partySize, partyLevel, xpValue;
-  partySize = parseInt(document.querySelector("#encounter_challenge_calculator_character_size").value);
-  partyLevel = parseInt(document.querySelector("#encounter_challenge_calculator_character_level").value);
+
   xpValue = parseInt(document.querySelector("#encounter_challenge_calculator_value").value);
-  if (isNaN(partySize) || isNaN(partyLevel)) return;
+
   var allLevels = [];
   var altInpCont = document.getElementById("encounter_challenge_manual_input");
-  if (altInpCont.classList.contains("hidden")) {
-    for (var i = 0; i < partyArray.length; i++)allLevels.push(partyArray[i].level)
-  } else {
-    for (var i = 0; i < partySize; i++)allLevels.push(partyLevel)
-  }
-  if (!document.getElementById("encounter_challenge_manual_input").classList.contains("hidden")) {
+
+  console.log("Levels: ", allLevels)
+  if (!altInpCont.classList.contains("hidden")) {
+    partySize = parseInt(document.querySelector("#encounter_challenge_calculator_character_size").value);
+    partyLevel = parseInt(document.querySelector("#encounter_challenge_calculator_character_level").value);
+
+    if (isNaN(partySize) || isNaN(partyLevel))
+     return;
+
+     for (var i = 0; i < partySize; i++)allLevels.push(partyLevel)
     var levels = [];
     while (partySize > 0) {
       levels.push(partyLevel);
@@ -1095,6 +1098,9 @@ function calculateEncounterDifficulty() {
       document.querySelector("#encounter_" + difficulty + "_value").innerHTML = table[i] + " xp";
     }
     document.querySelector("#encounter_trivial_value").innerHTML = "<" + table[0] + " xp";
+  }else{
+    
+    for (var i = 0; i < partyArray.length; i++)allLevels.push(partyArray[i].level)
   }
 
   if (isNaN(xpValue)) {

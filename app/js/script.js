@@ -78,8 +78,8 @@ ipcRenderer.on('maptool-initialized', function (evt, arg) {
 
     document.getElementById("maptool_notify_button").title = document.getElementById("maptool_notify_button").title + "\n" + name;
 
-    loadedMonsterQueue.push({name: name, size: size, index: index});
- 
+    loadedMonsterQueue.push({ name: name, size: size, index: index });
+
   }
   mobController.mapToolInitialized();
 
@@ -172,17 +172,17 @@ document.addEventListener("DOMContentLoaded", function () {
     //Close all shit on escape
 
     if (e.key == "Escape") {
- 
+
       combatLoader.clearSelection();
       hideFrame('search');
       hideAllFloatingInputs();
       hideAllPopups();
       combatLoader.closeLog();
     } else if (e.key == "e" && e.ctrlKey) {
- 
+
       if (loadedMonster) combatLoader.loadCombat()
-    } else if (e.key  == "i" && e.altKey) {
-  
+    } else if (e.key == "i" && e.altKey) {
+
       initiative.roll();
     } else if (e.key == "d" && e.ctrlKey) {
       addMob();
@@ -514,6 +514,7 @@ function applySettings() {
     mobcontroller_element.parentElement.classList.remove("hidden");
   } else {
     mobcontroller_element.parentElement.classList.add("hidden");
+    document.getElementById("mobPanelLoadButton").classList.add("hidden");
   }
 }
 
@@ -1536,7 +1537,7 @@ var combatLoader = function () {
     damageLabel = row.getElementsByClassName("text_upper_damage_label")[0];
 
     //Validate
-    if(!monster.size)monster.size = "medium";
+    if (!monster.size) monster.size = "medium";
 
     //"Bandit", 11, 12, Array(2), "Medium"]
     if (settings.enable.mapTool) {
@@ -1610,7 +1611,7 @@ var combatLoader = function () {
 
 
     if (monster.name != "") {
-      loadedMonsterQueue.push({name:monster.name, size: monster.size.toLowerCase(), index: forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum});
+      loadedMonsterQueue.push({ name: monster.name, size: monster.size.toLowerCase(), index: forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum });
       initiative.addToLoadedMonsterInfo(monster.name, monster.initiative)
       frameHistoryButtons.createButtonIfNotExists(monster.name);
     }
@@ -1690,7 +1691,7 @@ var combatLoader = function () {
       if (e.target.value == "") return;
 
     }
-    
+
     row.querySelector(".hp_field").onfocus = function (e) {
       if (e.target.value == "") return;
       e.target.setAttribute("data-old_value", e.target.value);
@@ -1941,9 +1942,9 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
         loadedMonster.name = data[i].name;
         loadedMonster.hit_points = data[i].hit_points;
         loadedMonster.armor_class = data[i].armor_class;
-        loadedMonster.actions  = data[i].actions;
+        loadedMonster.actions = data[i].actions;
         loadedMonster.size = data[i].size;
-        loadedMonster.initiative  = data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity);
+        loadedMonster.initiative = data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity);
 
         if (combatLoader.autoloads > 0) {
           combatLoader.insertIntoTable();
@@ -2061,8 +2062,11 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       lastSearched = key;
       if (key == "monsters" || key == "encounters" || key == "homebrew") {
         document.getElementById("loaderButton").classList.remove("hidden");
+        if (settings.enabled.mobController)
+          document.getElementById("mobPanelLoadButton").classList.remove("hidden");
       } else {
         document.getElementById("loaderButton").classList.add("hidden");
+        document.getElementById("mobPanelLoadButton").classList.add("hidden");
       }
     }
   });
@@ -2492,14 +2496,14 @@ function observeArrayChanges(arr, raiseChanged) {
 }
 
 
-function advantageCheckboxChanged (e) {
+function advantageCheckboxChanged(e) {
 
   var parentRow = e.target.closest(".checkbox_row");
   var disadvCheckbox = parentRow.querySelector(".combat_loader_disadvantage");
   if (disadvCheckbox.checked) disadvCheckbox.checked = !e.target.checked;
 }
 
- function disadvantageCheckboxChanged(e) {
+function disadvantageCheckboxChanged(e) {
 
   var parentRow = e.target.closest(".checkbox_row");
   var advCheckbox = parentRow.querySelector(".combat_loader_advantage")

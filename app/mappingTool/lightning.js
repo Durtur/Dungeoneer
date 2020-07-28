@@ -347,7 +347,6 @@ var fovLighting = function () {
             });
             return portalArr;
         }
-
     }
 
 

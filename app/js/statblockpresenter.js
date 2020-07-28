@@ -370,7 +370,7 @@ var statblockPresenter = function () {
     var newDiv = document.createElement("p");
     boldText += boldText.substring(boldText.length - 1) == "." ? " " : ". ";
     boldText = boldText.deserialize();
-    console.log(marked("**" + boldText + "** " + paraText.substring(0, 1).toUpperCase() + paraText.substring(1)))
+
     newDiv.innerHTML = marked("**" + boldText + "** " + paraText.substring(0, 1).toUpperCase() + paraText.substring(1));
 
     return newDiv;
