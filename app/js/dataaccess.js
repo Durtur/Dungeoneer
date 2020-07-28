@@ -179,10 +179,12 @@ var dataAccess = function () {
                 return path;
 
         }
+        console.log("Getting token path for ", creatureName);
         return null;
     }
 
     function saveToken(tokenName, currentPath) {
+        console.log("Saving token", tokenName)
         var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));
         var savePath = pathModule.join(defaultTokenPath, tokenName + fileEnding);
         fs.createReadStream(currentPath).pipe(fs.createWriteStream(savePath));

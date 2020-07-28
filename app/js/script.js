@@ -2185,7 +2185,8 @@ function addPlayerRow() {
 }
 
 function pickPlayerToken(evt) {
-  var charName = evt.target.parentNode.getElementsByClassName("pc_input_character_name")[0].value;
+  var charId = evt.target.closest(".pcRow").getAttribute("data-char_id");
+
   var tokenPath = dialog.showOpenDialog(
     remote.getCurrentWindow(), {
       properties: ['openFile'],
@@ -2195,7 +2196,7 @@ function pickPlayerToken(evt) {
   if (tokenPath == null)
     return;
   tokenPath = tokenPath[0];
-  dataAccess.saveToken(charName, tokenPath);
+  dataAccess.saveToken(charId, tokenPath);
   evt.target.setAttribute("src", tokenPath);
 }
 
