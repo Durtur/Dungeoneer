@@ -1160,6 +1160,7 @@ function loadAll() {
   readDataFunction(function (data) {
     loadedData = data;
     listLength = loadedData.length;
+    listedData = null;
     listAll();
 
     $(".listRow:nth-child(4)>button").prop('title', '');
@@ -1198,12 +1199,11 @@ function listAll() {
       var newRow = $("#listFrame__" + tabElementName + ">.listRow:nth-child(4)").clone();
       newRow.appendTo("#listFrame__" + tabElementName);
     }
-  } else if (data.length < allRows.length - 1) {
+  } else if (data.length < allRows.length) {
     while (data.length < allRows.length - 1) {
       var toRemove = allRows.pop()
       toRemove.parentNode.removeChild(toRemove)
     }
-
   }
   var allRows = $("#listFrame__" + tabElementName + ">.listRow");
   console.log(allRows.length, data.length)
