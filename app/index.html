@@ -132,6 +132,7 @@
         <h2 class="frontpage_heading">Combat panel</h2>
         <div class="column section__tool section__show">
           <section class="combatGUI" id="combatMain">
+            <p class="no_data_text">Search for creatures to add them to this panel</p>
             <div class="combatRow" data-dnd_monster_index=1>
               <input type="number" placeholder="Dmg" class="dmg_field multi_selectable_field_num"
                 title="Damage to Apply" tabindex="2">
@@ -182,10 +183,10 @@
 
         <div class="column section__tool section__show">
           <section class="combatGUI" id="mobcontroller_element">
-
+              <p class="no_data_text">Search for creatures to add mobs</p>
           </section>
           <div class="row float_up combat_toolbar">
-              <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
+            <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
             <button class="small  button_style" id="maptool_mob_add_button" title="Opens the map tool with loaded mobs.
               No mobs are loaded." disabled onclick="mobController.notifyMapTool()">M</button>
           </div>
@@ -328,7 +329,7 @@
             id="statblock_random_table_button" onclick="getRandomTableEntry(event)">?</button>
           <button class=" button_style load" style="right: 41px;" id="loaderButton" onclick="combatLoader.loadCombat()"
             title="Load into combat panel (ctrl + e)."></button>
-          <button class=" button_style " style="right: 61px;" id = "mobPanelLoadButton" onclick="addMob()"
+          <button class=" button_style " style="right: 61px;" id="mobPanelLoadButton" onclick="addMob()"
             title="Load into mob panel (ctrl + d)."></button>
           <button class=" button_style " onclick="hideFrame('search')">Hide</button>
 

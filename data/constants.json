@@ -47,7 +47,7 @@
     "creaturePossibleSizes": {
         "hexes": [
             0.5,
-            1,
+            0.75,
             1,
             2,
             3,

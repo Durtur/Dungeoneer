@@ -145,7 +145,7 @@ $(document).ready(function () {
       altInpCont.classList.add("hidden");
       var levels = [];
       partyArray.filter(x => x.level && x.active).forEach(member => levels.push(parseInt(member.level)));
-     
+
       fillEncounterDifficultyLevels(levels);
 
     }
@@ -862,11 +862,11 @@ function deleteFromHomebrew(toRemove) {
       })
     }
     //Write json
-    writeDataFunction(data, function (data) { loadAll(); });
+    writeDataFunction(data, function () {   window.setTimeout(() => loadAll(), 200) });
     hide("statblock");
 
-  }
-  );
+
+  });
 }
 //#endregion
 
@@ -1084,9 +1084,9 @@ function calculateEncounterDifficulty() {
     partyLevel = parseInt(document.querySelector("#encounter_challenge_calculator_character_level").value);
 
     if (isNaN(partySize) || isNaN(partyLevel))
-     return;
+      return;
 
-     for (var i = 0; i < partySize; i++)allLevels.push(partyLevel)
+    for (var i = 0; i < partySize; i++)allLevels.push(partyLevel)
     var levels = [];
     while (partySize > 0) {
       levels.push(partyLevel);
@@ -1098,8 +1098,8 @@ function calculateEncounterDifficulty() {
       document.querySelector("#encounter_" + difficulty + "_value").innerHTML = table[i] + " xp";
     }
     document.querySelector("#encounter_trivial_value").innerHTML = "<" + table[0] + " xp";
-  }else{
-    
+  } else {
+
     for (var i = 0; i < partyArray.length; i++)allLevels.push(partyArray[i].level)
   }
 
@@ -1186,6 +1186,7 @@ function listAll() {
   if (sortFunction != null) {
     data.sort(sortFunction);
   }
+
   hide("statblock")
   $("#listFrame__" + tabElementName).removeClass("official_content_row");
   if (!$("#listFrame__" + tabElementName).is(":visible")) {
@@ -1348,7 +1349,7 @@ function editEntry(entryName) {
 
 }
 
-function clearAddForm(){
+function clearAddForm() {
   var element = document.getElementById("add" + tabElementNameSuffix);
   //Brute force this
   [...element.querySelectorAll("input, textarea")].forEach(input => {

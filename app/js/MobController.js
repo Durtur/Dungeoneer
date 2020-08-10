@@ -177,7 +177,7 @@ class MobController {
         row.querySelector(".mobcontroller_creatures_remaining").value = remainingCreatures;
         var index = row.getAttribute("data-dnd_monster_index");
         var recentlyDead = row.getAttribute("data-dead_buffer");
- 
+        console.log("Mob size changed, dead " + recentlyDead  + " current count " + remainingCreatures)
         this.notifyMapToolMobChanged(index, recentlyDead, remainingCreatures);
         row.setAttribute("data-dead_buffer", "0");
         var pushEntry = this.loadedMobs.find(x => x.index == index);
@@ -223,7 +223,7 @@ class MobController {
 
             var aliveCount = parseInt(row.querySelector(".mobcontroller_creatures_remaining").value);
             var attackPercentage = parseInt(row.querySelector(".mobcontroller_percentage_attacking").value) / 100;
-
+            if(attackPercentage > 100)attackPercentage = 100;
             var attackers = Math.floor(aliveCount * attackPercentage);
  
             var dmgString = row.getElementsByClassName("damage_field")[0].innerHTML;
@@ -319,6 +319,7 @@ class MobController {
             existing.dead = dead;
             existing.remaining = remaining;
         }
+        console.log(this.notifyMobBuffer, existing ? existing : { rowIndex: rowIndex, dead: dead, remaining: remaining });
         clearTimeout(this.notifyTimerMobChanged);
         var controller = this;
         this.notifyTimerMobChanged = window.setTimeout(
@@ -327,6 +328,7 @@ class MobController {
       
                 if (!maptoolWindow)
                     return;
+                    console.log(controller.notifyMobBuffer)
                 maptoolWindow.webContents.send("notify-map-tool-mob-changed", JSON.stringify(controller.notifyMobBuffer));
                 controller.notifyMobBuffer.clear();
             }, 1000
@@ -363,12 +365,25 @@ class MobController {
             var deadCount = row.querySelector(".mobcontroller_creatures_dead").value;
             var index = row.getAttribute("data-dnd_monster_index");
             var mobSize = parseInt(row.querySelector(".mobcontroller_creatures_remaining").value);
-
+            console.log(mobSize);
             if (isNaN(mobSize)) mobSize = this.DEFAULT_MOB_SIZE;
 
             this.loadedMobs.push({ name: monsterData.name, size: monsterData.size ? monsterData.size.toLowerCase() : "medium", index: index, isMob: true, mobSize: mobSize, mobCountDead: deadCount })
         });
 
+    }
+
+    clear(){
+        var allRows = [... this.parentElement.getElementsByClassName("mobcontroller_row")];
+        while(allRows.length > 0)
+        {
+            var row = allRows.pop();
+            this.notifyMapToolMobChanged(row.getAttribute("data-dnd_monster_index"), 0, 0);
+            row.parentNode.removeChild(row);
+        }
+        this.loadedMobs.clear();
+
+        this.updateButton();
     }
 
 

@@ -1376,7 +1376,7 @@ function generateTavern() {
         description += " " + pickOne(data.tavern.that_little_extra[tavernWealth]) + ".";
         description = description.replace(/_material/g, pickOne(data.material[tavernWealth]));
 
-        description = replacePlaceholders(description, null, data);
+        description = replacePlaceholders(description, Math.random()>0.5, data);
 
 
         var ownerName = tavernOwner.lastname;

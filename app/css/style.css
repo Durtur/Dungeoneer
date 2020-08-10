@@ -4,12 +4,11 @@
     flex-flow: row wrap;
     height: 200px;
   }
- 
   .searchwrap {
     margin-top: 20px;
     position: relative;
     margin: auto;
-    position:relative;
+    position: relative;
   }
   .wrap {
     margin: 0;
@@ -25,15 +24,13 @@
     position: relative;
     margin: auto;
   }
-  .main_page_main{
-    flex-flow:column-reverse nowrap;
+  .main_page_main {
+    flex-flow: column-reverse nowrap;
   }
   .statblock_control_buttons {
-  
     right: 7px;
   }
 }
-
 
 .margin_right {
   margin-right: 10px;
@@ -63,7 +60,7 @@ hr+hr {
 html, body {
   scroll-behavior: smooth;
   margin: 0px;
-  overflow-x:hidden;
+  overflow-x: hidden;
 }
 
 body {
@@ -74,10 +71,9 @@ main {
   display: flex;
   flex-flow: row nowrap;
   padding: 15px;
-
 }
 
-.main_page_main{
+.main_page_main {
   margin-top: 140px;
 }
 
@@ -108,7 +104,7 @@ h1 {
 #round_counter_container {
   margin: auto;
   margin-top: 25px;
-  margin-bottom:-5px;
+  margin-bottom: -5px;
 }
 
 .roundcounter__arrow {
@@ -116,51 +112,54 @@ h1 {
   height: 20px;
   width: 20px;
   cursor: pointer;
-  border-radius:50%;
+  border-radius: 50%;
   background-color: transparent;
-  transition:all 300ms;
-  color:white;
-  background-color:#222;
+  transition: all 300ms;
+  color: white;
+  background-color: #222;
   font-size: 17px;
+}
 
+#roundleft {
+  transform: rotateY(180deg);
 }
-#roundleft{
-  transform:  rotateY(180deg);
-}
-.arrow_shape>div:first-child{
+
+.arrow_shape>div:first-child {
   transform: skew(45deg);
 }
-.arrow_shape>div:last-child{
+
+.arrow_shape>div:last-child {
   transform: skewX(-45deg);
 }
-.arrow_shape{
-  display:flex;
-  flex-flow:column nowrap;
+
+.arrow_shape {
+  display: flex;
+  flex-flow: column nowrap;
 }
-.arrow_shape>div{
+
+.arrow_shape>div {
   background-color: #222;
   height: 10px;
   width: 7px;
-  cursor:pointer;
-
+  cursor: pointer;
 }
-.arrow_shape:hover>div{
-  background-color:var(--main-emphasis-color);
+
+.arrow_shape:hover>div {
+  background-color: var(--main-emphasis-color);
   filter: drop-shadow(0 0 10px #eeeeee);
-
 }
 
-
-.roundcounter__value{
-  padding: 0 5px 0 5px ;
+.roundcounter__value {
+  padding: 0 5px 0 5px;
   position: relative;
-  font-size:20px;
+  font-size: 20px;
 }
+
 .roundcounter__value:before {
   position: absolute;
   top: -16px;
   left: -8px;
-    font-size:12px;
+  font-size: 12px;
   content: "Round"
 }
 
@@ -171,10 +170,12 @@ h1 {
 .harmful_log_item {
   color: darkred;
 }
-.combat_log_conditions{
+
+.combat_log_conditions {
   position: absolute;
   right: 80px;
 }
+
 .combat_log_title {
   margin: 3px;
   font-size: 14px;
@@ -413,9 +414,10 @@ h1 {
   margin-bottom: 0;
 }
 
-.pcnode:hover{
-  z-index:14;
+.pcnode:hover {
+  z-index: 14;
 }
+
 .pcnode_rearrange {
   padding-left: 60px;
   background-position-x: 57px !important;
@@ -635,24 +637,27 @@ h1 {
   font-size: 16px;
 }
 
-.initiative_actions button{
-  padding:6px;
-  font-size:14px;
-}
-.initiative_control_bar{
-  position:absolute;
+.initiative_actions button {
+  padding: 6px;
+  font-size: 14px;
 }
 
-.statblock_control_buttons>button{
-  height:40px;
-  width:40px;
+.initiative_control_bar {
+  position: absolute;
 }
-.statblock_control_buttons{
-  position:absolute;
-  right:0;
-  top:0;
+
+.statblock_control_buttons>button {
+  height: 40px;
+  width: 40px;
+}
+
+.statblock_control_buttons {
+  position: absolute;
+  right: 0;
+  top: 0;
   display: flex;
 }
+
 .history_button_row {
   position: absolute;
   top: -20px;
@@ -688,42 +693,43 @@ h1 {
   min-height: 42px;
 }
 
-.combatRow>.cell_row  .mobcontroller_row .cell_row{
+.combatRow>.cell_row .mobcontroller_row .cell_row {
   max-height: 40px;
 }
 
-.combatRow>*:placeholder-shown, .combatRow>.label_inactive , .mobcontroller_row *:placeholder-shown, .mobcontroller_row .label_inactive{
+.combatRow>*:placeholder-shown, .combatRow>.label_inactive, .mobcontroller_row *:placeholder-shown, .mobcontroller_row .label_inactive {
   font-size: 10px;
 }
 
-.combatRow>input  .mobcontroller_row input{
+.combatRow>input .mobcontroller_row input {
   font-size: 16px;
 }
-.mobcontroller_row input{
-  height:40px;
+
+.mobcontroller_row input {
+  height: 40px;
 }
 
-.mobcontroller_label{
-  font-size:12px;
-  padding-top:3px;
+.mobcontroller_label {
+  font-size: 12px;
+  padding-top: 3px;
   width: 110px;
   text-align: center;
-
-  background-color:white;
+  background-color: white;
 }
 
-.mobcontroller_second_row>input{
+.mobcontroller_second_row>input {
   width: 110px !important;
 }
 
-.mobcontroller_creatures_remaining{
-  color:var(--main-success-color-lighter);
-}
-.mobcontroller_creatures_dead{
-  color:red;
+.mobcontroller_creatures_remaining {
+  color: var(--main-success-color-lighter);
 }
 
-.mobcontroller_row .dmg_field{
+.mobcontroller_creatures_dead {
+  color: red;
+}
+
+.mobcontroller_row .dmg_field {
   border-top-left-radius: var(--rounded-corners);
   border-bottom-left-radius: var(--rounded-corners);
 }
@@ -732,21 +738,21 @@ h1 {
   border-top-right-radius: var(--rounded-corners);
 }
 
-.mobcontroller_count{
-  border-bottom-left-radius:var(--rounded-corners);
+.mobcontroller_count {
+  border-bottom-left-radius: var(--rounded-corners);
 }
 
-.mobcontroller_percentage_attacking{
-  border-bottom-right-radius:var(--rounded-corners);
+.mobcontroller_percentage_attacking {
+  border-bottom-right-radius: var(--rounded-corners);
 }
 
-.mobcontroller_percentage_attacking::after{
-  content:"%";
-  z-index:2;
+.mobcontroller_percentage_attacking::after {
+  content: "%";
+  z-index: 2;
   position: absolute;
-  top:0;
-
+  top: 0;
 }
+
 .initiative_input_row:first-child>input {
   border-top-left-radius: var(--rounded-corners);
   border-top-right-radius: var(--rounded-corners);
@@ -757,7 +763,7 @@ h1 {
   border-bottom-right-radius: var(--rounded-corners);
 }
 
-.combatRow:first-child>.dmg_field, .diceRollerContainer:first-child>input:first-child , .mobcontroller_row .count_field{
+.combatRow:first-child>.dmg_field, .diceRollerContainer:first-child>input:first-child, .mobcontroller_row .count_field {
   border-top-left-radius: var(--rounded-corners);
 }
 
@@ -772,7 +778,6 @@ h1 {
 .combatRow:last-child>.damage_field, .diceRollerContainer:last-of-type>input:last-child {
   border-bottom-right-radius: var(--rounded-corners);
 }
-
 
 .cell_row {
   border: 1px solid #b4b4b3;
@@ -790,7 +795,20 @@ h1 {
   transform: scaleY(0.2);
 }
 
-.combatRow , .mobcontroller_row{
+.no_data_text {
+  z-index: 1;
+  position: absolute;
+  padding: 5px;
+  top: -7px;
+  width: 600px;
+  text-align: center;
+  font-family: booksanity;
+  font-size: 15px;
+
+  color:var(--main-color);
+}
+
+.combatRow, .mobcontroller_row {
   margin-left: 8px;
   position: relative;
   display: flex;
@@ -798,9 +816,10 @@ h1 {
   flex-flow: row nowrap;
   width: 600px;
   transition: all var(--transition-delay);
+  z-index: 2;
 }
 
-.combatRow>input , .mobcontroller_row input{
+.combatRow>input, .mobcontroller_row input {
   display: inherit;
   width: 100%;
 }
@@ -809,79 +828,79 @@ h1 {
   width: 190px;
   padding: 5px;
 }
-.initiative_node_active>.initiative_name_node{
+
+.initiative_node_active>.initiative_name_node {
   text-decoration: underline;
 }
-.initiativeNode:hover>.initiative_explanation_text_node, .initiative_node_active>.initiative_explanation_text_node{
-  display:block;
+
+.initiativeNode:hover>.initiative_explanation_text_node, .initiative_node_active>.initiative_explanation_text_node {
+  display: block;
 }
-.initiative_explanation_text_node{
-  display:none;
+
+.initiative_explanation_text_node {
+  display: none;
   margin: 0;
   line-height: 1;
   width: 130%;
   margin-left: -20%;
-  transition:all var(--transition-delay);
-  overflow:hidden;
+  transition: all var(--transition-delay);
+  overflow: hidden;
   font-style: italic;
   font-size: 12px;
   border: none;
-    background-color: transparent;
-    white-space: normal;
+  background-color: transparent;
+  white-space: normal;
 }
 
-.initiativeNode:not(last-child){
+.initiativeNode:not(last-child) {
   margin-right: 22px;
-
 }
 
-.init_value_node{
+.init_value_node {
   margin: 0;
   margin-top: 7px;
-  min-height:1.2em;
+  min-height: 1.2em;
   text-align: center;
 }
-.initiative_name_node{
+
+.initiative_name_node {
   margin: 0;
   margin-top: 9px;
   font-size: 12px;
   font-weight: bold;
   width: 130%;
   margin-left: -20%;
-
 }
 
-
 .initiativeNode {
-
   text-align: center;
   margin-top: -10px;
   border-radius: 50%;
   min-height: 40px;
- height: 40px;
+  height: 40px;
   min-width: 40px;
   width: 40px;
   position: relative;
-
 }
 
-.init_not_started{
+.init_not_started {
   height: 70px;
   cursor: pointer;
-  filter:drop-shadow(0 0 5px white);
+  filter: drop-shadow(0 0 5px white);
   width: 70px;
   background-image: url(img/d20normal.png);
   background-size: contain;
 }
-.init_not_started:hover{
 
-}
-.init_not_started>p{
+.init_not_started:hover {}
+
+.init_not_started>p {
   color: white;
   font-size: 13px;
   width: 100%;
   margin: 0;
 }
+
 .initiative {
   display: flex;
   justify-content: space-around;
@@ -914,7 +933,7 @@ h1 {
   display: flex;
   justify-content: flex-end;
   margin-top: 10px;
-  flex:1;
+  flex: 1;
   width: 300px;
   border: none;
 }
@@ -940,10 +959,9 @@ h1 {
   display: flex;
   flex-flow: column nowrap;
   float: right;
-  margin:auto;
+  margin: auto;
   padding-right: 20px;
 }
-
 
 .sink {
   text-align: center;
@@ -974,30 +992,31 @@ h1 {
   width: 40px;
 }
 
-.player_node{
+.player_node {
   background-color: rgb(101, 117, 197);
-
 }
 
-.initiative_node_action_readied:after{
-  content : " ";
-  background-color:#e32727;;
-  z-index:10;
-  height:10px;
-  min-height:10px;
-  width:10px;
-  min-width:10px;
-  border-radius:50%;
-  position:absolute;
-  right:0;
-  top:0;
+.initiative_node_action_readied:after {
+  content: " ";
+  background-color: #e32727;
+  ;
+  z-index: 10;
+  height: 10px;
+  min-height: 10px;
+  width: 10px;
+  min-width: 10px;
+  border-radius: 50%;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
-.monster_node{
+
+.monster_node {
   background-color: rgb(197, 0, 0);
 }
 
-button:disabled{
-  opacity:0.5;
+button:disabled {
+  opacity: 0.5;
 }
 
 .initiatie_popup_window {
@@ -1046,7 +1065,6 @@ button:disabled{
   overflow: show;
 }
 
-
 .saveRoller>.die_d20, .lootgenerator>.row>.die_d20 {
   margin: 0;
   margin-top: 5px;
@@ -1084,7 +1102,7 @@ button:disabled{
 .mainpage_header {
   justify-content: space-between;
   height: 110px;
-  position:absolute;
+  position: absolute;
 }
 
 .init_add_button:hover {
@@ -1109,71 +1127,69 @@ button:disabled{
   flex-flow: row wrap;
 }
 
-.combatRow[data-dnd_conditions]:before{
-  position:absolute;
+.combatRow[data-dnd_conditions]:before {
+  position: absolute;
   font-family: "roboto condensed";
-  left:85px;
+  left: 85px;
   font-size: 10px;
   top: 0px;
-  color:var(--main-emphasis-color);
-  height:25px;
-  width:25px;
-  content:attr(data-dnd_conditions);
+  color: var(--main-emphasis-color);
+  height: 25px;
+  width: 25px;
+  content: attr(data-dnd_conditions);
 }
-.pcNode_condition_container{
+
+.pcNode_condition_container {
   position: absolute;
   width: 30px;
   top: 11px;
   right: -7px;
 }
 
-
 .condition_effect {
-  height:20px;
-  width:20px;
+  height: 20px;
+  width: 20px;
   background-repeat: no-repeat;
- 
   border-radius: 50%;
   display: flex;
   font-size: 18px;
   background-color: rgba(255, 255, 255, 0.25);
-  display:flex;
-  font-family:'nodesto';
-  text-align:center;
+  display: flex;
+  font-family: 'nodesto';
+  text-align: center;
   -webkit-text-fill-color: white;
   background-size: contain;
-  z-index:6;
+  z-index: 6;
   -webkit-text-stroke-width: 1px;
-  cursor : "help";
-}
-.condition_effect>p{
-  margin:auto;
-  font-size:0.5vw;
-
+  cursor: "help";
 }
 
-.secondary_tooltip{
+.condition_effect>p {
+  margin: auto;
+  font-size: 0.5vw;
+}
+
+.secondary_tooltip {
   left: 30px;
-
   border: 1px solid black;
   display: none;
   position: absolute;
-  width:450px;
-  background-image:url('img/phbbg.png');
-  padding:10px;
-  z-index:40;
+  width: 450px;
+  background-image: url('img/phbbg.png');
+  padding: 10px;
+  z-index: 40;
   padding: 10px;
 }
 
-.secondary_tooltip>p{
-  text-align:left;
-  -webkit-text-stroke-width:0.25px;
+.secondary_tooltip>p {
+  text-align: left;
+  -webkit-text-stroke-width: 0.25px;
   -webkit-text-fill-color: black;
-  font-size:14px;
+  font-size: 14px;
   font-family: "roboto condensed";
-  
   white-space: normal;
 }
-.secondary_tooltipped:hover .secondary_tooltip{
-  display:block;
+
+.secondary_tooltipped:hover .secondary_tooltip {
+  display: block;
 }

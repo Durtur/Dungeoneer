@@ -368,12 +368,13 @@ ipcRenderer.on('monster-killed', function (evt, arg) {
 
 ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
     var list = JSON.parse(arg);
-
+    console.log(list);
     list.forEach(param => {
         var pawn = loadedMonstersFromMain.find(x => x.index_in_main_window == param.rowIndex);
         if(!pawn)return;
         pawn.setAttribute("data-mob_size", param.remaining);
-        pawn.setAttribute("data-mob_dead_count", param.dead);
+  
+        pawn.setAttribute("data-mob_dead_count", parseInt(param.dead));
         refreshMobBackgroundImages(pawn);
         resizePawns();
     });
@@ -426,6 +427,7 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
     console.log("Loading monsters")
     remote.getCurrentWindow().focus();
     var monsterArray = JSON.parse(arg);
+    console.log(monsterArray)
     //Analísera til að dreifa litum
     var counterArray = [];
     var inArray = false, indexInArray = 0;;
@@ -2122,10 +2124,13 @@ function setPawnMobBackgroundImages(pawn, path) {
 }
 
 function refreshMobBackgroundImages(pawn) {
-    var mobSize = parseInt(pawn.getAttribute("data-mob_size"));
- 
+    
+    var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
+    var mobSize = parseInt(pawn.getAttribute("data-mob_size")) + shouldBeDead;
+    console.log("mob size: " + mobSize)
     var tokenPaths = JSON.parse(pawn.getAttribute("data-token_paths"));
     var mobsToAdd = mobSize - pawn.querySelectorAll(".mob_token").length;
+
     var container = pawn.querySelector(".mob_token_container");
     if(mobsToAdd < 0){
         for(var i = 0 ; i > mobsToAdd ; i--){
@@ -2147,22 +2152,32 @@ function refreshMobBackgroundImages(pawn) {
     }
 
     var allTokens = [... pawn.querySelectorAll(".mob_token")];
+    if(allTokens.length == 0)return removePawn(pawn);
     //Make them dead  
-    var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
 
+    console.log("Should be dead: " + shouldBeDead)
     var alivePawns = allTokens.filter(x=> !x.classList.contains("mob_token_dead"));
-
+    console.log(alivePawns, allTokens)
     for(var i = 0 ; i< shouldBeDead; i++){
         var next = alivePawns.pop();
+        console.log("Kill " , next)
         if(!next)break;
         next.classList.add("mob_token_dead");
         var currLocation = next.getBoundingClientRect();
         next.parentNode.removeChild(next);
+
+        next.dnd_width = pawn.dnd_hexes * 5;
+        next.dnd_height = pawn.dnd_hexes * 5;
         effects.push(next);
         next.classList.add("sfx_effect");
         next.style.top = currLocation.top + "px";
         next.style.left = currLocation.left + "px";
         tokenLayer.appendChild(next);
+       
+    }
+    resizeEffects();
+    if( [... pawn.querySelectorAll(".mob_token")].length == 0){
+        return removePawn(pawn);
     }
 
     var deltaMax = 2;
@@ -2341,30 +2356,32 @@ function elevatePawn() {
 
 }
 
-function removePawn() {
+function removeSelectedPawn() {
     while (selectedPawns.length > 0) {
-        removePawnHelper(selectedPawns.pop());
+        removePawn(selectedPawns.pop());
     }
 
-    function removePawnHelper(element) {
-        var isPlayer = isPlayerPawn(element);
-        if (!isPlayer) {
-            var indexInLoadedMonsters = -1;
-            for (var i = 0; i < loadedMonsters.length; i++) {
-                if (loadedMonsters[i][0] === element) {
-                    indexInLoadedMonsters = i;
-                }
-            }
 
-            if (loadedMonstersFromMain.indexOf(element) >= 0) {
-                loadedMonstersFromMain.splice(loadedMonstersFromMain.indexOf(element), 1);
-            }
+}
 
-            loadedMonsters.splice(indexInLoadedMonsters - 1, 1);
-            pawns.monsters.splice(pawns.monsters.indexOf(element), 1);
+function removePawn(element){
+    var isPlayer = isPlayerPawn(element);
+    if (!isPlayer) {
+        var indexInLoadedMonsters = -1;
+        for (var i = 0; i < loadedMonsters.length; i++) {
+            if (loadedMonsters[i][0] === element) {
+                indexInLoadedMonsters = i;
+            }
         }
-        element.parentNode.removeChild(element);
+
+        if (loadedMonstersFromMain.indexOf(element) >= 0) {
+            loadedMonstersFromMain.splice(loadedMonstersFromMain.indexOf(element), 1);
+        }
+
+        loadedMonsters.splice(indexInLoadedMonsters - 1, 1);
+        pawns.monsters.splice(pawns.monsters.indexOf(element), 1);
     }
+    element.parentNode.removeChild(element);
 }
 function killOrRevivePawn() {
     var btn = document.getElementById("kill_or_revive_button")

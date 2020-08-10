@@ -512,6 +512,7 @@ function applySettings() {
     if (!mobController)
       mobController = new MobController(mobcontroller_element, diceRoller);
     mobcontroller_element.parentElement.classList.remove("hidden");
+    document.getElementById("mobPanelLoadButton").classList.remove("hidden");
   } else {
     mobcontroller_element.parentElement.classList.add("hidden");
     document.getElementById("mobPanelLoadButton").classList.add("hidden");
@@ -945,6 +946,11 @@ var initiative = function () {
     $(".initiativeNode").removeClass("initiative_node_active");
     $(".initiativeNode").addClass("initiative_node_inactive");
     $(".initiativeNode:nth-child(" + roundCounter[1] + ")").removeClass("initiative_node_inactive");
+    var current = order[roundCounter[1] - 1];
+    if (!current[3]) //is player
+      frameHistoryButtons.clickButtonNamed(current[0]);
+    console.log(order[roundCounter[1] - 1])
+   
     $(".initiativeNode:nth-child(" + roundCounter[1] + ")").addClass("initiative_node_active");
     if ($(".initiativeNode:nth-child(" + roundCounter[1] + ")").hasClass("initiative_node_action_readied")) {
       $(".initiativeNode:nth-child(" + roundCounter[1] + ")").removeClass("initiative_node_action_readied");
@@ -1498,7 +1504,7 @@ var combatLoader = function () {
     var allRows = document.querySelectorAll(".combatRow");
     if (allRows.length <= numMonstersLoaded) {
 
-      var newRow = $(".combatRow:nth-child(1)").clone();
+      var newRow = $(".combatRow:first-of-type").clone();
       newRow.attr("data-dnd_conditions", "");
       newRow.attr("data-dnd_monster_index", forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum);
       addLogPopupHandler(newRow[0]);
@@ -1622,7 +1628,7 @@ var combatLoader = function () {
       (action.damage_bonus == null ? "" : (action.damage_dice != null ? "+" : "") + action.damage_bonus)
   }
   function clear() {
-    $(".combatRow:not(:first-child)").remove();
+    $(".combatRow:not(:first-of-type)").remove();
     $(".combatRow:first-child").removeClass("hidden");
     $(".combatRow:first-child").attr("data-dnd_monster_index", 1);
     $(".combatRow:first-child").attr("data-dnd_conditions", "");
@@ -1900,11 +1906,24 @@ var frameHistoryButtons = function () {
 
     button.classList.add("frame_history_button_toggled");
   }
+
+  function clickButtonNamed(targetName) {
+    var buttons = document.getElementsByClassName("frame_history_button");
+    console.log("Clicking " + targetName)
+    for (var i = 0; i < buttons.length; i++) {
+      if (buttons[i].innerHTML == targetName) {
+        buttons[i].click();
+        return;
+      }
+    }
+  }
+
   return {
     deleteButtonIfExists: deleteButtonIfExists,
     createButtonIfNotExists: createButtonIfNotExists,
     unToggleButtonsExcept: unToggleButtonsExcept,
-    clearAll: clearAll
+    clearAll: clearAll,
+    clickButtonNamed: clickButtonNamed
   }
 }();
 
@@ -2062,7 +2081,7 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       lastSearched = key;
       if (key == "monsters" || key == "encounters" || key == "homebrew") {
         document.getElementById("loaderButton").classList.remove("hidden");
-        if (settings.enabled.mobController)
+        if (settings.enable.mobController)
           document.getElementById("mobPanelLoadButton").classList.remove("hidden");
       } else {
         document.getElementById("loaderButton").classList.add("hidden");
