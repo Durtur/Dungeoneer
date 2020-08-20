@@ -236,8 +236,12 @@ var fovLighting = function () {
             filters: [{ name: 'Dungeondraft map', extensions: ['dungeondraft_map'] }]
         });
         if (!path[0]) return;
+        resetEverything();
+        resetZoom();
+       
+        
         dataAccess.readFile(path[0], function (data) {
-            // resetZoom(); something needs to be done about this
+
             var wallArray = data.world.levels["0"].walls;
 
             var ddWidth = parseInt(data.world.width) * dungeonDraftCellSize;
@@ -319,7 +323,6 @@ var fovLighting = function () {
 
                 //Normalize and add
                 wallLines.forEach(line => {
-                    console.log(line)
                     line.a.x = line.a.x * widthDiff + offsetX;
                     line.b.x = line.b.x * widthDiff + offsetX;
                     line.a.y = line.a.y * heightDiff + offsetY;

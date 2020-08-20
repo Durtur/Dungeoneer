@@ -5,7 +5,7 @@
   "description": "A tool for Dungeon Masters running 5th edition D&D games.",
   "main": "main.js",
   "scripts": {
-    "start": "npm install && electron .",
+    "start": "electron .",
     "build": "electron-builder build --win --publish never",
     "deploy": "electron-builder build --win --publish always"
   },
