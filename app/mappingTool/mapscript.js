@@ -347,22 +347,33 @@ ipcRenderer.on('token-condition-added', function (evt, list, index) {
 });
 
 
-ipcRenderer.on('monster-killed', function (evt, arg) {
-    var index = parseInt(arg);
+ipcRenderer.on('monster-health-changed', function (evt, arg) {
+    var index = parseInt(arg.index);
 
-    var killedPawn = null;
+    var pawn = null;
     for (var i = 0; i < loadedMonstersFromMain.length; i++) {
 
         if (loadedMonstersFromMain[i].index_in_main_window == index) {
-            killedPawn = loadedMonstersFromMain[i];
+            pawn = loadedMonstersFromMain[i];
             break;
         }
     }
+    if(!pawn)return;
+    var woundEle = pawn.querySelector(".token_status");
+    constants.creatureWounds.forEach(woundType => woundEle.classList.remove(woundType.className));
+    var woundType = constants.creatureWounds.find(x=> arg.healthPercentage < x.percentage);
+    console.log(woundType, constants.creatureWounds, arg.healthPercentage);
+    if(woundType){
+        woundEle.classList.add(woundType.className);
 
+    }
 
-    killedPawn.dead = "true";
-    killedPawn.stateHasChanged = 1;
-    refreshPawnToolTips();
+    if(arg.dead){
+        pawn.dead = "true";
+        pawn.stateHasChanged = 1;
+        refreshPawnToolTips();
+    }
+
 
 });
 
@@ -1984,6 +1995,10 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             var newPawnImg = document.createElement("div");
             newPawnImg.className = "token_photo";
             newPawn.appendChild(newPawnImg);
+
+            var newPawnStatus = document.createElement("div");
+            newPawnStatus.className = "token_status";
+            newPawn.appendChild(newPawnStatus);
 
             //Checka hvort gefið hafi verið input fæll
             optionalPaths = pawn.bgPhoto;

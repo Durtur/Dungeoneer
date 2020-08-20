@@ -950,7 +950,7 @@ var initiative = function () {
     if (!current[3]) //is player
       frameHistoryButtons.clickButtonNamed(current[0]);
     console.log(order[roundCounter[1] - 1])
-   
+
     $(".initiativeNode:nth-child(" + roundCounter[1] + ")").addClass("initiative_node_active");
     if ($(".initiativeNode:nth-child(" + roundCounter[1] + ")").hasClass("initiative_node_action_readied")) {
       $(".initiativeNode:nth-child(" + roundCounter[1] + ")").removeClass("initiative_node_action_readied");
@@ -1262,12 +1262,7 @@ var combatLoader = function () {
         logText += (dmg > 0 ? "Damaged for " : "Healed for ") + Math.abs(dmg);
         addToCombatLog(allRows[i], logText);
       }
-
-      if (hp <= 0) {
-        kill(["", allRows[i].getAttribute("data-dnd_monster_index")])
-
-      }
-
+      healthChanged(["", allRows[i].getAttribute("data-dnd_monster_index")])
       dmgField.value = "";
 
     }
@@ -1290,31 +1285,48 @@ var combatLoader = function () {
     frameHistoryButtons.createButtonIfNotExists(arr[0]);
     search("monsters", false, arr[0]);
   }
-  function kill(arr, originMaptool) {
+  function kill(arr) {
+    for (var i = 0; i < allRows.length; i++) {
+      var row = allRows[i];
+      var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
+      if (monsterIndex != arr[1])
+        continue;
+      row.classList.add("hidden");
+      row.setAttribute("data-dnd_conditions", "");
+      initiative.removeLoadedMonsterInfo();
+      if (loadedMonsterQueue.find(x => x.index == monsterIndex)) {
+        loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x => x.index == monsterIndex), 1);
+        loadedMonsterQueue.propertyChanged();
+      }
 
+      numMonstersLoaded--;
+      frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
+      return;
+    }
+  }
+
+  function healthChanged(arr) {
     var allRows = document.querySelectorAll(".combatRow");
     for (var i = 0; i < allRows.length; i++) {
       var row = allRows[i];
       var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
-      if (monsterIndex == arr[1]) {
-        row.classList.add("hidden");
-        row.setAttribute("data-dnd_conditions", "");
-        initiative.removeLoadedMonsterInfo();
-        if (loadedMonsterQueue.find(x => x.index == monsterIndex)) {
-          loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x => x.index == monsterIndex), 1);
-          loadedMonsterQueue.propertyChanged();
-        }
+      if (monsterIndex != arr[1])
+        continue;
 
-        numMonstersLoaded--;
-        frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
-        if (originMaptool)
-          return;
-        let window2 = remote.getGlobal('maptoolWindow');
-        if (window2) window2.webContents.send('monster-killed', monsterIndex);
-        return
-      }
+      var originalHp = row.getAttribute("data-dnd_original_hp");
+      var currentHp = row.querySelector(".hp_field").value;
+      var hpPercentage = parseInt(currentHp) / parseInt(originalHp);
+      console.log("current: " + currentHp + " original " + originalHp);
+      var isDead = currentHp <= 0;
+
+      if (isDead)
+        kill(arr, false)
+
+      let window2 = remote.getGlobal('maptoolWindow');
+      if (window2) window2.webContents.send('monster-health-changed', { index: monsterIndex, healthPercentage: hpPercentage, dead: isDead });
+      return
+
     }
-
   }
   function loadDamageFieldHandlers() {
     var allFields = document.getElementsByClassName("damage_field");
@@ -1478,7 +1490,7 @@ var combatLoader = function () {
   /*
       Inserts a monster previously loaded from @code search(),
       filling in text fields in the combat loader section.
-  
+   
   */
 
   function insertIntoTable() {
@@ -1545,11 +1557,11 @@ var combatLoader = function () {
     //Validate
     if (!monster.size) monster.size = "medium";
 
-    //"Bandit", 11, 12, Array(2), "Medium"]
     if (settings.enable.mapTool) {
       nameField.value = monster.name;
       row.setAttribute("data-dnd_monster_index", (forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum));
       row.setAttribute("data-dnd_monster_name", monster.name);
+      row.setAttribute("data-dnd_original_hp", monster.hit_points);
       row.setAttribute("data-dnd_monster_size", monster.size.toLowerCase());
       forcedMonsterIndexNum = null;
     }
@@ -1617,7 +1629,7 @@ var combatLoader = function () {
 
 
     if (monster.name != "") {
-      loadedMonsterQueue.push({ name: monster.name, size: monster.size.toLowerCase(), index: forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum });
+      loadedMonsterQueue.push({ name: monster.name, hit_points: monster.hit_points, size: monster.size.toLowerCase(), index: forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum });
       initiative.addToLoadedMonsterInfo(monster.name, monster.initiative)
       frameHistoryButtons.createButtonIfNotExists(monster.name);
     }

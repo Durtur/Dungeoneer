@@ -68,6 +68,27 @@
             "titanic"
         ]
     },
+
+    "creatureWounds":
+    [
+         {
+            "percentage":0.25,
+            "text":"Near death",
+            "className":"pawn_wound_near_death"
+        },
+       
+        {
+            "percentage":0.5,
+            "text":"Wounded",
+            "className":"pawn_wound_wounded"
+        },
+        {
+            "percentage":0.75,
+            "text":"Bloodied",
+            "className":"pawn_wound_bloodied"
+        }
+        
+    ],
     "dicePossibleSides": [
         100,
         20,

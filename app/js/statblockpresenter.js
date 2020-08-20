@@ -30,7 +30,7 @@ var statblockPresenter = function () {
     while (statblock.firstChild)
       statblock.removeChild(statblock.firstChild);
     values = JSON.parse(JSON.stringify(valueElement));
-    if (["tables", "random_tables","spells", "conditions", "items"].indexOf(statblockType) >= 0) {
+    if (["tables", "random_tables", "spells", "conditions", "items"].indexOf(statblockType) >= 0) {
       statblock.classList.add("single_column");
     } else {
       statblock.classList.remove("single_column");
@@ -115,10 +115,10 @@ var statblockPresenter = function () {
     if (values.armor_class)
       createCol("armor_class");
     if (values.challenge_rating)
-    createCol("challenge_rating", "CR", (encounterModule ? encounterModule : new EncounterModule()).getXpValueForCR(values.challenge_rating)+ " xp");
+      createCol("challenge_rating", "CR", (encounterModule ? encounterModule : new EncounterModule()).getXpValueForCR(values.challenge_rating) + " xp");
 
     statblock.appendChild(hpAndACRow);
-   
+
     function createCol(prop, showName, title) {
       if (values[prop] == null) return;
       var newCol = document.createElement("div");
@@ -127,7 +127,7 @@ var statblockPresenter = function () {
       newP.classList = "statblock_key_stats statblock_" + prop;
       newP.innerHTML = values[prop];
       newP.title = title ? title : prop.replace(/_/g, " ").toProperCase();
-      if(showName){
+      if (showName) {
         var strP = document.createElement("p");
         strP.style.textAlign = "center";
         strP.style.margin = "0";
@@ -136,13 +136,13 @@ var statblockPresenter = function () {
         strP.appendChild(str);
         newCol.appendChild(strP);
       }
-    
+
       newCol.appendChild(newP);
       delete values[prop];
       hpAndACRow.appendChild(newCol);
     }
 
-   
+
   }
   function morphActions() {
     if (!values.actions)
@@ -228,8 +228,8 @@ var statblockPresenter = function () {
   function addSpellProperties() {
     var divCont = document.createElement("div");
     divCont.classList = "spell_statblock_properties";
-    if(values["level"])
-      if(values.level == 0 || values.level == "0")values.level = "Cantrip";
+    if (values["level"])
+      if (values.level == 0 || values.level == "0") values.level = "Cantrip";
     var props = ["level", "school", "range", "casting_time",
       "duration", "components"];
     var col, hasAnySpellProp = false;
@@ -254,8 +254,8 @@ var statblockPresenter = function () {
     }
     if (hasAnySpellProp)
       statblock.appendChild(divCont);
-    function processProp(){
-      
+    function processProp() {
+
     }
   }
 
@@ -321,7 +321,7 @@ var statblockPresenter = function () {
   }
   function createTypeDescription() {
     var str = values.size != null ? values.size
-                                  : (values.rarity != null ? values.rarity : "");
+      : (values.rarity != null ? values.rarity : "");
     delete values.size;
     delete values.rarity;
     if (values.type) {
@@ -497,14 +497,15 @@ var statblockPresenter = function () {
         spellcastingAttribute += " ";
 
         if (!currAttribute) {
-          foundMonster.special_abilities.forEach(function (ability) {
+          if (foundMonster.special_abilities)
+            foundMonster.special_abilities.forEach(function (ability) {
 
-            if (ability[node]) {
+              if (ability[node]) {
 
-              spellcastingAttribute += ability[node].toLowerCase();
-            }
+                spellcastingAttribute += ability[node].toLowerCase();
+              }
 
-          })
+            })
         } else {
           spellcastingAttribute += currAttribute;
         }

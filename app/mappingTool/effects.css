@@ -386,3 +386,22 @@
     background-size: contain;
     background-repeat: repeat;
 }
+
+.token_status{
+    pointer-events:none;
+    opacity:0.6;
+    background-size:cover;
+}
+.pawn_wound_near_death{
+    background-image:url("../css/img/wound.png");
+    width:100%;
+}
+.pawn_wound_wounded{
+    background-image:url("../css/img/wound.png");
+    width:55%;
+}
+
+.pawn_wound_bloodied{
+    background-image:url("../css/img/wound.png");
+    width:40%;
+}
