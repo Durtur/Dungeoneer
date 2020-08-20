@@ -12,7 +12,7 @@
   "author": "durtur@github ",
   "license": "CC-BY-NC-4.0",
   "devDependencies": {
-    "electron": "^1.8.8",
+    "electron": "^7.2.4",
     "electron-builder": "^20.44.4",
     "electron-packager": "^10.1.2"
   },
