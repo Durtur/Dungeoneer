@@ -476,6 +476,7 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
             name: monsterArray[i].name,
             size: monsterArray[i].size,
             indexInMain: monsterArray[i].index,
+            monsterId : monsterArray[i].monsterId,
             isMob: monsterArray[i].isMob == true,
             mobCountDead: 0,
             mobSize: monsterArray[i].mobSize
@@ -2006,7 +2007,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
                 setPawnBackgroundFromPathArray(newPawn, optionalPaths);
             } else {
                 monsters ?
-                    setPawnImageWithDefaultPath(newPawn, pawn.name.toLowerCase())
+                    setPawnImageWithDefaultPath(newPawn, pawn.monsterId)
                     : setPlayerPawnImage(newPawn, pawn.id)
             }
         }
