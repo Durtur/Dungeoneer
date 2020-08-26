@@ -2058,7 +2058,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
       var newPawnImg = document.createElement("div");
       newPawnImg.className = "mob_token_container";
       newPawn.appendChild(newPawnImg);
-      setPawnMobBackgroundImages(newPawn, pawn.name.toLowerCase());
+      setPawnMobBackgroundImages(newPawn, pawn.monsterId);
     } else {
       var newPawnImg = document.createElement("div");
       newPawnImg.className = "token_photo";

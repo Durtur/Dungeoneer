@@ -20,7 +20,7 @@ class MobController {
         this.count++;
         var index = this.createRow(monsterData);
         console.log("Inserting", monsterData);
-        this.loadedMobs.push({ name: monsterData.name, size: monsterData.size ? monsterData.size.toLowerCase() : "medium", index: index, isMob: true, mobSize: this.DEFAULT_MOB_SIZE })
+        this.loadedMobs.push({ name: monsterData.name, size: monsterData.size ? monsterData.size.toLowerCase() : "medium", index: index, isMob: true, mobSize: this.DEFAULT_MOB_SIZE, monsterId: monsterData.id })
     }
 
     createRow(cret) {
@@ -290,7 +290,6 @@ class MobController {
         row.setAttribute("data-dead_buffer", deadCount - oldDeadCount);
         this.mobSizeChanged({target:row.querySelector(".mobcontroller_count")});
         row.setAttribute("data-dead_buffer", "0");
-        //this.notifyMapToolMobChanged(row.getAttribute("data-dnd_monster_index"), deadCount, remainingCreatures)
     }
     loadedMobRemoved() {
         this.updateButton();
@@ -368,7 +367,7 @@ class MobController {
             console.log(mobSize);
             if (isNaN(mobSize)) mobSize = this.DEFAULT_MOB_SIZE;
 
-            this.loadedMobs.push({ name: monsterData.name, size: monsterData.size ? monsterData.size.toLowerCase() : "medium", index: index, isMob: true, mobSize: mobSize, mobCountDead: deadCount })
+            this.loadedMobs.push({ name: monsterData.name, size: monsterData.size ? monsterData.size.toLowerCase() : "medium", index: index, isMob: true, mobSize: mobSize, mobCountDead: deadCount, monsterId: monsterData.id })
         });
 
     }
