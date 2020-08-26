@@ -618,6 +618,12 @@ input, textarea, .cell_row {
   background-size: 35px;
 }
 
+#mobPanelLoadButton{
+  background-image:url("img/mob_load.png");
+  background-position: center;
+  background-size: 35px;
+}
+
 .initiative {
   color: white;
 }
