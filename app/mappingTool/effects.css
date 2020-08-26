@@ -391,6 +391,9 @@
     pointer-events:none;
     opacity:0.6;
     background-size:cover;
+    overflow: visible;
+    width: 100%;
+    height: 100%;
 }
 .pawn_wound_near_death{
     background-image:url("../css/img/wound.png");

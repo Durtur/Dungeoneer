@@ -12,6 +12,12 @@ var _require = require('electron'),
     ipcRenderer = _require.ipcRenderer,
     webFrame = _require.webFrame;
 
+var path = require("path");
+
+var Awesomplete = require(path.resolve('app/awesomplete/awesomplete.js'));
+
+var marked = require('marked');
+
 var cellSize = 35,
     minCellsize = 10,
     maxCellsize = 150,
@@ -377,6 +383,11 @@ ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
 ipcRenderer.on('notify-effects-changed', function (evt, arg) {
   createEffectMenus();
 });
+ipcRenderer.on("notify-main-reloaded", function () {
+  pawns.players.forEach(function (pawn) {
+    return raiseConditionsChanged(pawn[0]);
+  });
+});
 ipcRenderer.on('token-condition-added', function (evt, list, index) {
   var pawn = _toConsumableArray(document.querySelectorAll(".pawn_numbered")).filter(function (pw) {
     return pw.index_in_main_window == index;
@@ -622,12 +633,28 @@ document.addEventListener("DOMContentLoaded", function () {
     newButton.onclick = removeAllConditionsHandler;
     newButton.innerHTML = "Clear all";
     parentNode.appendChild(newButton);
-    conditionList.forEach(function (condition) {
-      newButton = document.createElement("button");
-      newButton.classList.add("button_style");
-      newButton.onclick = addOrRemoveConditionHandler;
-      newButton.innerHTML = condition.name;
-      parentNode.appendChild(newButton);
+    var input = parentNode.querySelector(".conditions_menu_input");
+    var list = conditionList.map(function (x) {
+      return x.name;
+    }).sort();
+    new Awesomplete(input, {
+      list: list,
+      autoFirst: true,
+      minChars: 0,
+      maxItems: 25
+    });
+    input.addEventListener('awesomplete-selectcomplete', function (e) {
+      var condition = e.text.value;
+      input.value = "";
+      console.log(condition);
+      var condition = conditionList.find(function (c) {
+        return c.name == condition;
+      });
+      createConditionButton(condition.name);
+      selectedPawns.forEach(function (pawn) {
+        setPawnCondition(pawn, condition);
+        raiseConditionsChanged(pawn);
+      });
     });
   });
   populateSizeDropdown();
@@ -2287,28 +2314,11 @@ function removeAllConditionsHandler(event) {
     var conditions = _toConsumableArray(pawn.getElementsByClassName("condition_effect"));
 
     while (conditions.length > 0) {
-      pawn.removeChild(conditions.pop());
+      var condition = conditions.pop();
+      condition.parentNode.removeChild(condition);
     }
 
     hideAllTooltips();
-    raiseConditionsChanged(pawn);
-  });
-}
-
-function addOrRemoveConditionHandler(event) {
-  var condition = conditionList.filter(function (c) {
-    return c.name == event.target.innerHTML;
-  })[0];
-  var toggled = event.target.classList.contains("toggle_button_toggled");
-  selectedPawns.forEach(function (pawn) {
-    if (!toggled) {
-      setPawnCondition(pawn, condition);
-      event.target.classList.add("toggle_button_toggled");
-    } else {
-      removePawnCondition(pawn, condition);
-      event.target.classList.remove("toggle_button_toggled");
-    }
-
     raiseConditionsChanged(pawn);
   });
 }
@@ -2319,7 +2329,6 @@ function setPawnCondition(pawnElement, condition) {
   pawnElement["data-dnd_conditions"].push(conditionString);
   var newDiv = document.createElement("div");
   var para = document.createElement("p");
-  para.innerHTML = conditionString[0];
   newDiv.classList.add("condition_effect");
   newDiv.appendChild(para);
 
@@ -2336,9 +2345,19 @@ function setPawnCondition(pawnElement, condition) {
     newDiv.style.backgroundImage = "url('" + condition.condition_background_location.replace(/\\/g, "/") + "')";
   }
 
-  newDiv.title = conditionString + (condition.description ? "\n" + condition.description : "");
+  var text = document.createElement("div");
+  text.innerHTML = marked("## " + condition.name + "\n\n" + condition.description);
+
+  if (condition.condition_background_location) {
+    var img = document.createElement("img");
+    img.setAttribute("src", condition.condition_background_location);
+    text.prepend(img);
+  }
+
+  text.className = "condition_text";
+  newDiv.appendChild(text);
   newDiv.setAttribute("data-dnd_condition_full_name", conditionString);
-  pawnElement.appendChild(newDiv);
+  pawnElement.querySelector(".token_status").appendChild(newDiv);
 }
 
 function removeAllPawnConditions(pawnElement) {
@@ -2369,6 +2388,7 @@ function removePawnConditionHelper(pawnElement, conditionObj, deleteAll) {
 }
 
 function raiseConditionsChanged(pawn) {
+  console.log("Raising conditions changed", pawn, pawn["data-dnd_conditions"]);
   var window2 = remote.getGlobal('mainWindow');
   if (window2) window2.webContents.send('condition-list-changed', pawn["data-dnd_conditions"], pawn.index_in_main_window ? pawn.index_in_main_window : pawn.title);
 }
@@ -2867,6 +2887,25 @@ function showLightSourceTooltip(event) {
   }, 200);
 }
 
+function createConditionButton(condition) {
+  var menuWindow = document.getElementById("conditions_menu");
+  var btn = document.createElement("button");
+  btn.className = "button_style condition_button";
+
+  btn.onclick = function (e) {
+    var name = e.target.innerHTML;
+    selectedPawns.forEach(function (pawn) {
+      return removePawnCondition(pawn, conditionList.find(function (x) {
+        return x.name == name;
+      }));
+    });
+    e.target.parentNode.removeChild(e.target);
+  };
+
+  btn.innerHTML = condition;
+  menuWindow.appendChild(btn);
+}
+
 function showConditionsMenu(event) {
   var oldGridLayerOnClick = gridLayer.onclick;
   Util.showOrHide("conditions_menu", 1);
@@ -2876,19 +2915,23 @@ function showConditionsMenu(event) {
   menuWindow.style.left = event.clientX + "px";
   menuWindow.style.top = event.clientY + "px";
 
-  var buttons = _toConsumableArray(menuWindow.getElementsByClassName("button_style"));
+  var buttons = _toConsumableArray(menuWindow.getElementsByClassName("condition_button"));
 
   buttons.forEach(function (button) {
-    return button.classList.remove("toggle_button_toggled");
+    return button.parentNode.removeChild(button);
   });
+  var conditionsAdded = [];
   selectedPawns.forEach(function (pawn) {
     if (!pawn["data-dnd_conditions"]) return;
     pawn["data-dnd_conditions"].forEach(function (condition) {
-      buttons.forEach(function (button) {
-        if (button.innerHTML == condition) button.classList.add("toggle_button_toggled");
-      });
+      if (conditionsAdded.find(function (x) {
+        return x == condition;
+      })) return;
+      createConditionButton(condition);
+      conditionsAdded.push(condition);
     });
   });
+  menuWindow.querySelector("input").focus();
   window.setTimeout(function () {
     gridLayer.onclick = function (event) {
       hideAllTooltips();

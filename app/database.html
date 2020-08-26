@@ -76,7 +76,8 @@
             </section>
 
             <section id="listFrame__monsters" class="listWrap hidden marginTop center_items">
-                <button id = "add_entry_button" class="button button_style traybutton" title="Add monsters" onclick="newItem('tab')">+</button>
+                <button id="add_entry_button" class="button button_style traybutton" title="Add monsters"
+                    onclick="newItem('tab')">+</button>
                 <div></div>
                 <div class="row">
                     <input type="text" class="listSearch center" id="monsters_list_search">
@@ -89,9 +90,10 @@
                         <input type="text" value="HP" readonly></input>
                     </div>
                     <div class=" button_row">
-                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
-                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
-                        <button class="remove_button"  onclick = "removeParentHandler(this)"  title="Delete from database"></button>
+                        <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick="removeParentHandler(this)"
+                            title="Delete from database"></button>
 
                     </div>
                 </div>
@@ -115,9 +117,10 @@
                         <input type="text" value="Level" readonly></input>
                     </div>
                     <div class=" button_row">
-                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
-                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
-                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+                        <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick="removeParentHandler(this)"
+                            title="Delete from database"></button>
 
                     </div>
                 </div>
@@ -138,9 +141,10 @@
                         <input type="text" value="Rarity" readonly></input>
                     </div>
                     <div class=" button_row">
-                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
-                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
-                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+                        <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick="removeParentHandler(this)"
+                            title="Delete from database"></button>
 
                     </div>
                 </div>
@@ -159,9 +163,10 @@
                         <input type="text" value="Name" readonly></input>
                     </div>
                     <div class=" button_row">
-                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
-                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
-                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+                        <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick="removeParentHandler(this)"
+                            title="Delete from database"></button>
 
                     </div>
                 </div>
@@ -169,7 +174,8 @@
             </section>
 
             <section id="listFrame__encounters" class="listWrap hidden marginTop center_items">
-                <button class="button button_style traybutton" title="Add encounters" onclick="newItem('tab')">+</button>
+                <button class="button button_style traybutton" title="Add encounters"
+                    onclick="newItem('tab')">+</button>
                 <div></div>
                 <div class="row">
                     <input type="text" class="listSearch center" id="encounters_list_search">
@@ -179,9 +185,10 @@
                         <input type="text" value="Name" readonly class="wider">
                     </div>
                     <div class=" button_row">
-                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
-                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
-                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+                        <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick="removeParentHandler(this)"
+                            title="Delete from database"></button>
 
                     </div>
                 </div>
@@ -198,9 +205,10 @@
                         <input type="text" value="Name" readonly class="wider">
                     </div>
                     <div class=" button_row">
-                        <button class="copy_button" onclick = "copyParentHandler(this)" title="Copy"></button>
-                        <button class="edit_button" onclick = "editParentHandler(this)" title="Edit"></button>
-                        <button class="remove_button" onclick = "removeParentHandler(this)" title="Delete from database"></button>
+                        <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button" onclick="removeParentHandler(this)"
+                            title="Delete from database"></button>
 
                     </div>
                 </div>
@@ -213,13 +221,13 @@
                         <div class="row">
                             <input type="text" class="jsonAttributeT brown " title="Attribute" value="Name"
                                 readonly></input>
-                            <input type="text" class="jsonValueT db_name_field object_nameT" > </input>
+                            <input type="text" class="jsonValueT db_name_field object_nameT"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeT brown" title="Attribute" value="Description"
                                 readonly></input>
-                            <textarea class="jsonValueT" >  </textarea>
+                            <textarea class="jsonValueT">  </textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -268,7 +276,8 @@
 
                         <button class="button button_style brown"
                             onclick="return doneAdding('addtables')">Close</button>
-                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
+                        <button class="button button_style brown save_button" disabled
+                            onclick="return saveHomebrew(true)">Save</button>
                     </div>
                 </div>
             </section>
@@ -277,62 +286,70 @@
 
             <section id="addconditions" class="hidden  addframe section__show marginTop wide">
                 <h2 class="edit_header_name">New condition</h2>
-                <div class="column">
-                    <div class="addRowC">
-                        <div class="row">
-                            <input type="text" class="jsonAttributeC brown " title="Attribute" value="Name" readonly>
-                            <input type="text" class="jsonValueC db_name_field object_nameC" >
+                <div class="row">
+
+                    <div class="column" style = "flex:4">
+                        <div class="addRowC">
+                            <div class="row">
+                                <input type="text" class="jsonAttributeC brown " title="Attribute" value="Name"
+                                    readonly>
+                                <input type="text" class="jsonValueC db_name_field object_nameC">
+                            </div>
+
+                            <div class="row">
+                                <input type="text" class="jsonAttributeC brown" title="Attribute" value="Description"
+                                    readonly>
+                                <textarea class="jsonValueC">  </textarea>
+                            </div>
+
+
+
+                            <div class="infobox hidden" id="markdowninfoconditions">
+                                <p>Use this form to save your homebrew houserules, conditions or notes. After you have
+                                    saved
+                                    the entry it
+                                    will be
+                                    available via standard search.</p>
+                                <p>
+                                    <strong>The database cannot support multiple entries with the same
+                                        name.</strong>Refrain
+                                    from saving
+                                    two conditions
+                                    or rules under the same name, as you will not be able to access them. </p>
+                                <p>You can use Markdown to style your entries. For example, a spell list for an NPC can
+                                    be
+                                    made
+                                    with a
+                                    markdown
+                                    list:
+                                    <br> * 1st level
+                                    <br> * 2nd level
+                                    <br> will render as
+                                <ul>
+                                    <li>1st level </li>
+                                    <li>Second level </li>
+                                </ul>Emphasis can be added with ** A very important word **, which will render as
+                                <strong>A very important word</strong>
+                                </p>
+                                <p>Google Markdown syntax for more information on styling with Markdown.</p>
+                                <button class="floating" onclick="hide('markdowninfoconditions')">x</button>
+
+                            </div>
+                            <button class="small interactive floating help_icon"
+                                onclick="showBlock('markdowninfoconditions')">?</button>
+                          
                         </div>
-
-                        <div class="row">
-                            <input type="text" class="jsonAttributeC brown" title="Attribute" value="Description"
-                                readonly>
-                            <textarea class="jsonValueC" >  </textarea>
-                        </div>
-        
-                        <div class="condition_icon_container">
-                                <input type="text" id="condition_color_picker" value='rgba(255,255,255,1)'
-                                title="Condition color" readonly>
-                         
-                            <img id="condition_image_picker">
-
                     </div>
-
-                    <div class="infobox hidden" id="markdowninfoconditions">
-                        <p>Use this form to save your homebrew houserules, conditions or notes. After you have saved
-                            the entry it
-                            will be
-                            available via standard search.</p>
-                        <p>
-                            <strong>The database cannot support multiple entries with the same name.</strong>Refrain
-                            from saving
-                            two conditions
-                            or rules under the same name, as you will not be able to access them. </p>
-                        <p>You can use Markdown to style your entries. For example, a spell list for an NPC can be made
-                            with a
-                            markdown
-                            list:
-                            <br> * 1st level
-                            <br> * 2nd level
-                            <br> will render as
-                            <ul>
-                                <li>1st level </li>
-                                <li>Second level </li>
-                            </ul>Emphasis can be added with ** A very important word **, which will render as
-                            <strong>A very important word</strong>
-                        </p>
-                        <p>Google Markdown syntax for more information on styling with Markdown.</p>
-                        <button class="floating" onclick="hide('markdowninfoconditions')">x</button>
-
+                    <div class="condition_icon_container">
+                        <img id="condition_image_picker">
                     </div>
-                    <button class="small interactive floating help_icon"
-                        onclick="showBlock('markdowninfoconditions')">?</button>
-                    <div class="float_right_group">
+                </div>
+                <div class="float_right_group">
 
-                        <button class="button button_style brown"
-                            onclick="return doneAdding('addconditions')">Close</button>
-                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
-                    </div>
+                    <button class="button button_style brown"
+                        onclick="return doneAdding('addconditions')">Close</button>
+                    <button class="button button_style brown save_button" disabled
+                        onclick="return saveHomebrew(true)">Save</button>
                 </div>
             </section>
 
@@ -343,25 +360,25 @@
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown " title="Attribute" value="Name"
                                 readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI" > </input>
+                            <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown" title="Attribute" value="Rarity"
                                 readonly></input>
-                            <input type="text" tabindex=1  class="jsonValueI" id="item_rarity_input" > </input>
+                            <input type="text" tabindex=1 class="jsonValueI" id="item_rarity_input"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown" title="Attribute" value="Type"
                                 readonly></input>
-                            <input type="text" tabindex=1  class="jsonValueI" id="item_type_input" > </input>
+                            <input type="text" tabindex=1 class="jsonValueI" id="item_type_input"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeI brown" title="Attribute" value="Description"
                                 readonly></input>
-                            <textarea  tabindex=1  class="jsonValueI" >  </textarea>
+                            <textarea tabindex=1 class="jsonValueI">  </textarea>
                         </div>
                     </div>
                     <div class="row">
@@ -409,7 +426,8 @@
                     <div class="float_right_group">
 
                         <button class="button button_style brown" onclick="return doneAdding('additems')">Close</button>
-                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
+                        <button class="button button_style brown save_button" disabled
+                            onclick="return saveHomebrew(true)">Save</button>
                     </div>
                 </div>
             </section>
@@ -421,7 +439,7 @@
                         <div class="row" id="spell_class_row">
                             <input type="text" class="jsonAttributeClasses brown" title="Attribute" value="Classes"
                                 readonly></input>
-                            <input  tabindex=1  type="text" class="jsonValueClasses" > </input>
+                            <input tabindex=1 type="text" class="jsonValueClasses"> </input>
                             <button class="small brown interactive" title="Add class"
                                 onclick="addClassTextBoxForSpells()">
                                 + </button>
@@ -430,37 +448,37 @@
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown " title="Attribute" value="Name"
                                 readonly></input>
-                            <input type="text"  tabindex=1  class="jsonValueS db_name_field object_nameS" > </input>
+                            <input type="text" tabindex=1 class="jsonValueS db_name_field object_nameS"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Level"
                                 readonly></input>
-                            <input type="text"  tabindex=1  class="jsonValueS" > </input>
+                            <input type="text" tabindex=1 class="jsonValueS"> </input>
                         </div>
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="School"
                                 readonly></input>
-                            <input type="text"  tabindex=1  class="jsonValueS" id="spell_school_input" > </input>
+                            <input type="text" tabindex=1 class="jsonValueS" id="spell_school_input"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Description"
                                 readonly></input>
-                            <textarea  tabindex=1 class="jsonValueS" >  </textarea>
+                            <textarea tabindex=1 class="jsonValueS">  </textarea>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Higher levels"
                                 readonly></input>
-                            <textarea  tabindex=1  class="jsonValueS" >  </textarea>
+                            <textarea tabindex=1 class="jsonValueS">  </textarea>
                         </div>
 
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Components"
                                 readonly></input>
-                            <input  tabindex=1  type="text" class="jsonValueS" > </input>
+                            <input tabindex=1 type="text" class="jsonValueS"> </input>
                         </div>
 
 
@@ -468,28 +486,28 @@
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Range"
                                 readonly></input>
-                            <input type="text"  tabindex=1  class="jsonValueS" > </input>
+                            <input type="text" tabindex=1 class="jsonValueS"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Casting time"
                                 readonly></input>
-                            <input type="text" tabindex=1  class="jsonValueS" > </input>
+                            <input type="text" tabindex=1 class="jsonValueS"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttributeS brown" title="Attribute" value="Duration"
                                 readonly></input>
-                            <input type="text" tabindex=1  class="jsonValueS" > </input>
+                            <input type="text" tabindex=1 class="jsonValueS"> </input>
                         </div>
 
                         <div class="row">
-                            <input type="text" class=" brown" title="Attribute" value="Ritual casting"
-                                readonly></input>
-                                <label class="container_for_checkbox">
-                                        <input type="checkbox" tabindex=1  class="center " id = "ritual_casting_spell_checkbox" title="Ritual casting">
-                                        <span class="checkmark"></span>
-                                      </label>
+                            <input type="text" class=" brown" title="Attribute" value="Ritual casting" readonly></input>
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" tabindex=1 class="center " id="ritual_casting_spell_checkbox"
+                                    title="Ritual casting">
+                                <span class="checkmark"></span>
+                            </label>
                         </div>
 
                     </div>
@@ -518,7 +536,8 @@
 
                         <button class="button button_style brown"
                             onclick="return doneAdding('addspells')">Close</button>
-                        <button class="button button_style brown save_button"  disabled onclick="return saveHomebrew(true)">Save</button>
+                        <button class="button button_style brown save_button" disabled
+                            onclick="return saveHomebrew(true)">Save</button>
                     </div>
                 </div>
             </section>
@@ -528,7 +547,7 @@
                 <div class="top_right_corner">
 
                     <button class=" button_style " onclick="return doneAdding('addencounters')">Close</button>
-                    <button class=" button_style save_button"  disabled style="margin-left: 5px;"
+                    <button class=" button_style save_button" disabled style="margin-left: 5px;"
                         onclick="return saveHomebrew(true)">Save</button>
                 </div>
                 <div class="column">
@@ -540,14 +559,14 @@
                                     <input type="text" class="jsonAttributeE brown " title="Attribute" value="Name"
                                         readonly></input>
 
-                                    <input type="text" class="jsonValueE db_name_field object_nameE" > </input>
+                                    <input type="text" class="jsonValueE db_name_field object_nameE"> </input>
 
                                 </div>
 
                                 <div class="row">
                                     <input type="text" class="jsonAttributeE brown" title="Attribute"
                                         value="Description" readonly>
-                                    <textarea class="jsonValueE" 
+                                    <textarea class="jsonValueE"
                                         style="width: 400px; height: 250px; margin: 0px;">  </textarea>
                                 </div>
 
@@ -630,17 +649,17 @@
                                 </div>
 
                                 <div class="row">
-                                    <input type="text" class="specialjsonAttributeE"  title="Creature name"
+                                    <input type="text" class="specialjsonAttributeE" title="Creature name"
                                         placeholder="Creature"></input>
-                                    <input type="number" class="specialjsonValueE smaller" > </input>
+                                    <input type="number" class="specialjsonValueE smaller"> </input>
                                     <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
                                         max="30">
                                 </div>
 
                                 <div class="row">
-                                    <input type="text" class="specialjsonAttributeE"  title="Creature name"
+                                    <input type="text" class="specialjsonAttributeE" title="Creature name"
                                         placeholder="Creature"></input>
-                                    <input type="number" class="specialjsonValueE smaller" > </input>
+                                    <input type="number" class="specialjsonValueE smaller"> </input>
                                     <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
                                         max="30">
                                 </div>
@@ -724,143 +743,143 @@
                     <div class="addRow">
                         <div class="row">
                             <input type="text" class="attr brown " title="Attribute" value="Name" readonly></input>
-                            <input type="text" class=" object_name db_name_field addmonster_name" > </input>
+                            <input type="text" class=" object_name db_name_field addmonster_name"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Description"
                                 readonly></input>
-                            <textarea class=" addmonster_description" >  </textarea>
+                            <textarea class=" addmonster_description">  </textarea>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Size" readonly></input>
-                            <input type="text" class=" addmonster_size" > </input>
+                            <input type="text" class=" addmonster_size"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Type" readonly></input>
-                            <input type="text" id="addmonster_type" class=" addmonster_type" > </input>
+                            <input type="text" id="addmonster_type" class=" addmonster_type"> </input>
                         </div>
 
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Subtype" readonly></input>
-                            <input type="text" class=" addmonster_subtype" > </input>
+                            <input type="text" class=" addmonster_subtype"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Alignment" readonly></input>
-                            <input type="text" class=" addmonster_alignment" > </input>
+                            <input type="text" class=" addmonster_alignment"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Armor class"
                                 readonly></input>
-                            <input type="text" class=" monsterCR addmonster_armor_class"  id="homebrewAC">
+                            <input type="text" class=" monsterCR addmonster_armor_class" id="homebrewAC">
                             </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Hit points" readonly></input>
-                            <input type="text" class=" monsterCR addmonster_hit_points"  id="homebrewHP">
+                            <input type="text" class=" monsterCR addmonster_hit_points" id="homebrewHP">
                             </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Hit dice" readonly></input>
-                            <input type="text" class=" addmonster_hit_dice" > </input>
+                            <input type="text" class=" addmonster_hit_dice"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Speed" readonly></input>
-                            <input type="text" class=" addmonster_speed" > </input>
+                            <input type="text" class=" addmonster_speed"> </input>
                         </div>
 
                         <span></span>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Strength" readonly></input>
-                            <input type="text" class=" addmonster_strength" > </input>
+                            <input type="text" class=" addmonster_strength"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Dexterity" readonly></input>
-                            <input type="text" class=" addmonster_dexterity" > </input>
+                            <input type="text" class=" addmonster_dexterity"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown " title="Attribute" value="Constitution"
                                 readonly></input>
-                            <input type="text" class=" addmonster_constitution" > </input>
+                            <input type="text" class=" addmonster_constitution"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Intelligence"
                                 readonly></input>
-                            <input type="text" class=" addmonster_intelligence" > </input>
+                            <input type="text" class=" addmonster_intelligence"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Wisdom" readonly></input>
-                            <input type="text" class=" addmonster_wisdom" > </input>
+                            <input type="text" class=" addmonster_wisdom"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Charisma" readonly></input>
-                            <input type="text" class=" addmonster_charisma" > </input>
+                            <input type="text" class=" addmonster_charisma"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Senses" readonly></input>
-                            <input type="text" class=" addmonster_senses" > </input>
+                            <input type="text" class=" addmonster_senses"> </input>
                         </div>
 
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Languages" readonly></input>
-                            <input type="text" class=" addmonster_languages" > </input>
+                            <input type="text" class=" addmonster_languages"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="attr brown" title="Attribute" value="Challenge rating"
                                 readonly></input>
-                            <input type="text" class=" addmonster_challenge_rating" > </input>
+                            <input type="text" class=" addmonster_challenge_rating"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttribute" title="Attribute" value="Saving throws"></input>
-                            <input type="text" class="jsonValue" > </input>
+                            <input type="text" class="jsonValue"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttribute" title="Attribute" value="Skills"></input>
-                            <input type="text" class="jsonValue" > </input>
+                            <input type="text" class="jsonValue"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttribute" title="Attribute"
                                 value="Damage vulnerabilities"></input>
-                            <input type="text" class="jsonValue" > </input>
+                            <input type="text" class="jsonValue"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttribute" title="Attribute"
                                 value="Damage resistances"></input>
-                            <input type="text" class="jsonValue" > </input>
+                            <input type="text" class="jsonValue"> </input>
                         </div>
 
                         <div class="row">
                             <input type="text" class="jsonAttribute" title="Attribute"
                                 value="Damage immunities"></input>
-                            <input type="text" class="jsonValue" > </input>
+                            <input type="text" class="jsonValue"> </input>
                         </div>
 
 
                         <div class="row">
                             <input type="text" class="jsonAttribute" title="Attribute"
                                 value="Condition immunities"></input>
-                            <input type="text" class="jsonValue" > </input>
+                            <input type="text" class="jsonValue"> </input>
                         </div>
                     </div>
                     <button class="small brown interactive" title="Add attribute" onclick="addRow()"> + </button>
@@ -875,12 +894,12 @@
                         <div class="row">
                             <input type="text" class="specialjsonAttribute" title="Attribute"
                                 value="Amphibious"></input>
-                            <textarea class="specialjsonValue" > </textarea>
+                            <textarea class="specialjsonValue"> </textarea>
                         </div>
                         <div class="row">
                             <input type="text" class="specialjsonAttribute" title="Attribute"
                                 value="Incorporeal"></input>
-                            <textarea class="specialjsonValue" > </textarea>
+                            <textarea class="specialjsonValue"> </textarea>
                         </div>
                     </div>
 
@@ -901,44 +920,44 @@
                         <div class="row action_row">
                             <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Name"
                                 readonly></input>
-                            <input type="text" class="actionjsonValue action_name"  value="Slam"></input>
+                            <input type="text" class="actionjsonValue action_name" value="Slam"></input>
 
                             <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Attack bonus"
                                 readonly></input>
-                            <input type="number" class="actionjsonValue action_attack_bonus" > </input>
+                            <input type="number" class="actionjsonValue action_attack_bonus"> </input>
 
                             <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage dice"
                                 readonly></input>
-                            <input type="text" class="actionjsonValue action_damage_dice" > </input>
+                            <input type="text" class="actionjsonValue action_damage_dice"> </input>
 
                             <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage bonus"
                                 readonly></input>
-                            <input type="number" class="actionjsonValue action_damage_bonus" > </input>
+                            <input type="number" class="actionjsonValue action_damage_bonus"> </input>
 
                             <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Description"
                                 readonly></input>
-                            <textarea class="actionjsonValue action_description action_description" > </textarea>
+                            <textarea class="actionjsonValue action_description action_description"> </textarea>
                         </div>
                         <div class="row action_row">
                             <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Name"
-                            readonly></input>
-                        <input type="text" class="actionjsonValue action_name"  value="Slam"></input>
+                                readonly></input>
+                            <input type="text" class="actionjsonValue action_name" value="Slam"></input>
 
-                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Attack bonus"
-                            readonly></input>
-                        <input type="number" class="actionjsonValue action_attack_bonus" > </input>
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Attack bonus"
+                                readonly></input>
+                            <input type="number" class="actionjsonValue action_attack_bonus"> </input>
 
-                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage dice"
-                            readonly></input>
-                        <input type="text" class="actionjsonValue action_damage_dice" > </input>
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage dice"
+                                readonly></input>
+                            <input type="text" class="actionjsonValue action_damage_dice"> </input>
 
-                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage bonus"
-                            readonly></input>
-                        <input type="number" class="actionjsonValue action_damage_bonus" > </input>
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage bonus"
+                                readonly></input>
+                            <input type="number" class="actionjsonValue action_damage_bonus"> </input>
 
-                        <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Description"
-                            readonly></input>
-                        <textarea class="actionjsonValue action_description action_description" > </textarea>
+                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Description"
+                                readonly></input>
+                            <textarea class="actionjsonValue action_description action_description"> </textarea>
                         </div>
 
 
@@ -961,24 +980,24 @@
                         <div class="row legendary_action_row">
                             <input type="text" class="legendaryjsonAttribute brown" title="Attribute" value="Name"
                                 readonly></input>
-                            <input type="text" class="legendaryjsonValue action_name"  value=""></input>
+                            <input type="text" class="legendaryjsonValue action_name" value=""></input>
 
                             <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
                                 value="Attack bonus" readonly></input>
-                            <input type="number" class="legendaryjsonValue action_attack_bonus" > </input>
+                            <input type="number" class="legendaryjsonValue action_attack_bonus"> </input>
 
 
                             <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
                                 value="Damage dice" readonly></input>
-                            <input type="text" class="legendaryjsonValue action_damage_dice" > </input>
+                            <input type="text" class="legendaryjsonValue action_damage_dice"> </input>
 
                             <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
                                 value="Damage bonus" readonly></input>
-                            <input type="number" class="legendaryjsonValue action_damage_bonus" > </input>
+                            <input type="number" class="legendaryjsonValue action_damage_bonus"> </input>
 
                             <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
                                 value="Description" readonly></input>
-                            <textarea class="legendaryjsonValue action_description" > </textarea>
+                            <textarea class="legendaryjsonValue action_description"> </textarea>
 
                         </div>
 
@@ -1013,12 +1032,12 @@
                             <br> * 1st level
                             <br> * 2nd level
                             <br> will render as
-                            <ul>
-                                <li>1st level </li>
-                                <li>Second level </li>
-                            </ul>
-                            Emphasis can be added with ** A very important thingy **, which will render as
-                            <strong>A very important thingy</strong>
+                        <ul>
+                            <li>1st level </li>
+                            <li>Second level </li>
+                        </ul>
+                        Emphasis can be added with ** A very important thingy **, which will render as
+                        <strong>A very important thingy</strong>
                         </p>
                         <p>Google Markdown syntax for more information on styling with Markdown.</p>
                         <button class="floating" onclick="hide('markdowninfomonsters')">x</button>
@@ -1028,7 +1047,7 @@
 
                         <button class="button button_style brown"
                             onclick="return doneAdding('addmonsters')">Close</button>
-                        <button class="button button_style brown save_button"  disabled
+                        <button class="button button_style brown save_button" disabled
                             onclick="return saveHomebrew(true)">Save</button>
                     </div>
                 </div>

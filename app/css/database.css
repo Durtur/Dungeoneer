@@ -526,7 +526,7 @@ textarea {
 }
 
 .condition_icon_container {
-  position: absolute;
+  
   z-index: 2;
   display:flex;
 }
@@ -557,10 +557,16 @@ textarea {
 
 
 #condition_image_picker {
-  background: white;
-  height: 32px;
-  margin-left: 12px;
+  height: 50px;
+
   cursor: pointer;
+}
+
+#condition_image_picker[src = ""] {
+  background-color:white;
+  width: 50px;
+  border-radius:50%;
+
 }
 
 .encounter_cr_filters>input {

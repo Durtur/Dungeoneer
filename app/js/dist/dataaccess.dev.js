@@ -17,6 +17,8 @@ var defaultGeneratorResourcePath = pathModule.join(pathModule.dirname(__dirname)
 var generatorResourcePath = pathModule.join(app.getPath("userData"), "data", "generators");
 var defaultTokenPath = pathModule.join(app.getPath("userData"), "data", "maptool_tokens");
 var defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "maptool_effects");
+var conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
+var conditionResourcePath = pathModule.join(pathModule.dirname(__dirname), 'app', 'mappingTool', 'tokens', 'conditions');
 
 var dataAccess = function () {
   function initializeData() {
@@ -27,6 +29,22 @@ var dataAccess = function () {
     if (!fs.existsSync(settingsPath)) fs.mkdirSync(settingsPath);
     if (!fs.existsSync(generatorResourcePath)) fs.mkdirSync(generatorResourcePath);
     if (!fs.existsSync(defaultEffectPath)) fs.mkdirSync(defaultEffectPath);
+
+    if (!fs.existsSync(conditionImagePath)) {
+      fs.mkdirSync(conditionImagePath);
+      getConditions(function (conditions) {
+        conditions.forEach(function (condition) {
+          var condResourcePath = pathModule.join(conditionResourcePath, condition.name.toLowerCase() + ".png");
+          var condStorePath = pathModule.join(conditionImagePath, condition.name.toLowerCase() + ".png");
+
+          if (fs.existsSync(condResourcePath)) {
+            fs.createReadStream(condResourcePath).pipe(fs.createWriteStream(condStorePath));
+            condition.condition_background_location = condStorePath;
+          }
+        });
+        setConditions(conditions);
+      });
+    }
   }
 
   function writeAutofillData(data, callback) {

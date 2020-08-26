@@ -1155,12 +1155,12 @@ button:disabled {
   font-size: 18px;
   background-color: rgba(255, 255, 255, 0.25);
   display: flex;
-  font-family: 'nodesto';
+
   text-align: center;
-  -webkit-text-fill-color: white;
+
   background-size: contain;
   z-index: 6;
-  -webkit-text-stroke-width: 1px;
+
   cursor: "help";
 }
 
@@ -1175,17 +1175,32 @@ button:disabled {
   display: none;
   position: absolute;
   width: 450px;
-  background-image: url('img/phbbg.png');
-  padding: 10px;
+  /* background-image: url(img/phbbg.png); */
+  background-color: rgba(0,0,0,1);
+  opacity:0.8;
+  /* padding: 10px; */
   z-index: 40;
+  border-radius: 5px;
   padding: 10px;
+  color: white;
+}
+.secondary_tooltip h2{
+  text-align:center;
 }
 
-.secondary_tooltip>p {
+.secondary_tooltip img{
+  width:30px;
+  margin:auto;
+}
+.secondary_tooltip *{
+  color:white;
+  font-family: "roboto condensed";
+}
+.secondary_tooltip p {
   text-align: left;
-  -webkit-text-stroke-width: 0.25px;
-  -webkit-text-fill-color: black;
+  color: white;
   font-size: 14px;
+  margin: 5px;
   font-family: "roboto condensed";
   white-space: normal;
 }

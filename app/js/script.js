@@ -45,7 +45,7 @@ ipcRenderer.on('update-autofill', function () {
 
 });
 ipcRenderer.on('condition-list-changed', function (evt, conditionList, index) {
-
+  console.log(conditionList, index)
   var combatRow = [...document.querySelectorAll(".combatRow")].filter(x => x.getAttribute("data-dnd_monster_index") == index)[0];
   if (combatRow) {
     combatLoader.setConditionList(combatRow, conditionList.map(x => x.toLowerCase()));
@@ -133,6 +133,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   randomizer.initialize();
+  window.setTimeout(()=>{
+    let window2=remote.getGlobal('maptoolWindow')
+    if (window2 ) window2.webContents.send('notify-main-reloaded');
+  },1000)
   combatLoader.clear();
   combatLoader.initialize();
   $('.initiativeNode').on("click", initiative.roll);
@@ -213,35 +217,17 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   //DEBUG AND TESTING
   designTimeAndDebug();
-
-
 });
 
 function designTimeAndDebug() {
   //
   search("monsters", true, "bandit", true);
-  dataAccess.getHomebrewMonsters((data)=>{
-    var fileEnding = ".png"
-    data.forEach(entry => {
-      var append = "";
-      for(var i = -1 ; i < 10 ; i++){
-        var path = defaultTokenPath+"/" + entry.name.toLowerCase()+append +".png";
-        if(fs.existsSync(path)){
-          fs.rename(path, defaultTokenPath+"/" + entry.id+append +".png")
-        }
-    
-        append = i;
-      }
-    });
-
-  });
-
-
 
 }
 
 function setPcNodeConditions(pcNode, conditionList) {
   clearPcNodeConditions(pcNode);
+ 
   conditionList.forEach(cond => addPcNodeCondition(pcNode, cond));
 
 }
@@ -255,7 +241,7 @@ function addPcNodeCondition(node, condition) {
 
   var newDiv = document.createElement("div");
   var para = document.createElement("p");
-  para.innerHTML = condition[0];
+
   newDiv.classList.add("condition_effect");
   newDiv.classList.add("secondary_tooltipped");
   newDiv.appendChild(para);
@@ -275,9 +261,14 @@ function addPcNodeCondition(node, condition) {
   }
   var secTooltip = document.createElement("div");
   secTooltip.classList.add("secondary_tooltip");
-  var para = document.createElement("p");
+  var para = document.createElement("div");
   para.innerHTML = marked("## " + condition + (conditionObj.description ? "\n" + conditionObj.description : ""));
   if (para.innerHTML.length > 0) {
+    if(conditionObj.condition_background_location){
+      var img = document.createElement("img");
+      img.setAttribute("src" ,conditionObj.condition_background_location);
+      para.prepend(img);
+    }
     secTooltip.appendChild(para);
     newDiv.appendChild(secTooltip);
   }

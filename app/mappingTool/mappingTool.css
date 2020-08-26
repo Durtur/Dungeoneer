@@ -100,7 +100,7 @@ body {
 li {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+
     padding: 5px;
     font-family: "bookSanity";
 }
@@ -350,24 +350,56 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 }
 
 
-
-.condition_effect {
-    height: 40%;
-    width: 40%;
+.condition_effect:hover .condition_text{
+    display: flex;
+    margin-bottom: -160%;
+    position: absolute;
+    font-size: 16px;
+    border-radius: 5px;
+    top: 100%;
     pointer-events: none;
-    overflow: hidden;
+    left: 100%;
+    z-index:99;
+    padding: 5px;
+    flex-flow: column nowrap;
+    background-color: black;
+    min-width: 238px;
+}
+.condition_text *{
+    color:white;
+}
+.condition_text img{
+    width: 30px;
+    margin: auto;
+}
+.condition_text h2{
+    margin: 0;
+    font-family: "Impact, fantasy";
+}
+
+.condition_effect ul{
+    margin: 0;
+    padding: 0;
+}
+.condition_text{
+    display:none;
+}
+.condition_effect {
+    height: 50%;
+    width: 50%;
+    position: relative;
+    margin-left: -30%;
+    pointer-events: all;
     border-radius: 50%;
     display: flex;
     font-size: 18px;
     background-color: rgba(255, 255, 255, 0.25);
     display: flex;
-    font-family: 'nodesto';
     text-align: center;
-    -webkit-text-fill-color: white;
+
     background-size: contain;
     z-index: 6;
-    -webkit-text-stroke-width: 1px;
-    cursor: "help";
+  
 }
 
 .condition_effect>p {
@@ -397,9 +429,13 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 #conditions_menu>button {
     font-size: 12px;
 }
+#conditions_menu input{
+    height:20px;
+    width: 110px;
+    padding: 5px;
+}
 
 #conditions_menu {
-    overflow-y: scroll;
     max-height: 500px;
 }
 

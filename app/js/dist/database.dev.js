@@ -102,7 +102,7 @@ function fixSpells() {
 }
 */
 
-var conditionImagePath;
+var selectedConditionImagePath;
 $(document).ready(function () {
   dataAccess.getSettings(function (sett) {
     settings = sett;
@@ -117,16 +117,9 @@ $(document).ready(function () {
     if (tab == "monsters" || tab == "homebrew") document.getElementById("addTokenButton").disabled = nothingPresent;
   });
   document.querySelector("#encounter_table_header_row").addEventListener("click", sortEncounterMasterList);
-  $("#condition_color_picker").spectrum({
-    preferredFormat: "rgb",
-    allowEmpty: false,
-    showAlpha: true,
-    chooseText: "ok",
-    showInput: true
-  });
 
   document.getElementById("condition_image_picker").onclick = function (e) {
-    conditionImagePath = dialog.showOpenDialog(remote.getCurrentWindow(), {
+    selectedConditionImagePath = dialog.showOpenDialog(remote.getCurrentWindow(), {
       properties: ['openFile'],
       message: "Choose picture location",
       filters: [{
@@ -134,9 +127,9 @@ $(document).ready(function () {
         extensions: ['jpg', 'png', 'gif']
       }]
     });
-    if (conditionImagePath == null) return;
+    if (selectedConditionImagePath == null) return;
     var imgEle = document.getElementById("condition_image_picker");
-    imgEle.setAttribute("src", conditionImagePath);
+    imgEle.setAttribute("src", selectedConditionImagePath);
   };
 
   $(".listSearch").on("keyup paste", filterDataListFromSearch);
@@ -1451,6 +1444,7 @@ function clearAddForm() {
   if (letter == "") document.querySelectorAll(".token").forEach(function (tok) {
     return tok.parentNode.removeChild(tok);
   });
+  if (letter == "C") document.getElementById("condition_image_picker").setAttribute("src", "");
 }
 
 function getLetterFromTabName() {
@@ -1515,7 +1509,6 @@ function editObject(dataObject, letter) {
   var loadedKeys = Object.keys(dataObject);
   var loadedValues = Object.values(dataObject);
   document.getElementById("condition_image_picker").setAttribute("src", "");
-  document.getElementById("condition_color_picker").value = "#fff";
   checkIfTableExistsAndRemove(loadedKeys, loadedValues);
   removeFromObject("condition_color_value", loadedKeys, loadedValues);
   removeFromObject("condition_background_location", loadedKeys, loadedValues);
@@ -1604,10 +1597,7 @@ function editObject(dataObject, letter) {
   } else if (tab == "conditions") {
     if (dataObject["condition_background_location"]) {
       document.getElementById("condition_image_picker").setAttribute("src", dataObject["condition_background_location"]);
-      document.getElementById("condition_image_label").innerHTML = dataObject["condition_background_location"];
     }
-
-    if (dataObject["condition_color_value"]) document.getElementById("condition_color_picker").value = dataObject["condition_color_value"];
   }
 
   calculateSuggestedCR();
@@ -2221,8 +2211,7 @@ function saveHomebrew() {
       thingyToSave.description = thingyToSave.description;
       if (Object.keys(tableObject).length != 0) thingyToSave.table = tableObject;
     } else if (tab == "conditions") {
-      thingyToSave.condition_color_value = document.getElementById("condition_color_picker").value;
-      thingyToSave.condition_background_location = conditionImagePath;
+      thingyToSave.condition_background_location = selectedConditionImagePath;
     } //Search for existing entry
 
 

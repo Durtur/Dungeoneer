@@ -36,10 +36,6 @@
 		"description": "A charmed creature can’t Attack the charmer or target the charmer with harmful Abilities or magical effects. \n\nThe charmer has advantage on any ability check to interact socially with the creature.\n\n\n\n"
 	},
 	{
-		"name": "Blessed",
-		"description": "A blessed creature adds 1d4 to attack rolls and saving throws. \n\n\n"
-	},
-	{
 		"name": "Poisoned",
 		"description": "\n\n* A poisoned creature has disadvantage on Attack rolls and Ability Checks.\n\n\n\n"
 	},
