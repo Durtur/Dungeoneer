@@ -12,22 +12,6 @@ html {
   height: 0 !important;
 }
 
-form {
-  display: flex;
-  flex-flow: row nowrap;
-  width: 300px;
-  max-width: 300px;
-}
-
-input {
-  width: 150px;
-}
-
-textarea {
-  width: 220px;
-  height: 120px;
-}
-
 .listRow__inner>input[type="text"]:first-child {
   min-width: 210px;
 }
@@ -261,11 +245,73 @@ textarea {
   margin-right: 20px;
   border-radius: 3px;
   padding: 10px;
-  width: 1000px;
+  width: 95vw;
 }
 
 .selected_row>.button_row {
   display: inline-block !important;
+}
+
+.cr_calculator_wrap input {
+  width: 45px !important;
+  height: 45px !important;
+  border-radius: 5px;
+}
+
+.object_name, .action_name{
+  font-size: 1.2em;
+}
+
+.cr_calculator_wrap p {
+  font-family: "roboto condensed";
+  color: black;
+  line-height: 1.5;
+  margin: auto;
+  margin-left: 0;
+}
+
+.cr_calculator_wrap .row {
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.saving_throw_label {
+  color: black;
+  font-size: 0.8em;
+  background-color: transparent;
+  width: 80px;
+  padding: 5px;
+}
+
+.saving_throw_input {
+  width: 35px;
+  height: 35px;
+  padding: 5px;
+}
+
+.attribute_input_container, .saving_throw_input_container {
+  justify-content: space-around;
+}
+
+.attribute_input_container>.column {
+  justify-content: center;
+  ;
+}
+
+.attribute_input_container input:not(:read-only), .saving_throw_input_container input:not(:read-only) {
+  width: 35px;
+  padding: 5px;
+  margin: auto;
+}
+
+#admonster_description {
+  min-height: 120px;
+}
+
+.monster_attribute_chapter_label {
+  border-radius: 5px;
+  margin-top: 1.5em;
+  width: 120px;
 }
 
 .attribute_label {
@@ -286,7 +332,8 @@ textarea {
   width: 18px;
   z-index: 1;
 }
-.remove_button:hover{
+
+.remove_button:hover {
   background-image: url(img/redXH.png);
 }
 
@@ -331,7 +378,7 @@ textarea {
   z-index: 1;
 }
 
-.copy_button:hover{
+.copy_button:hover {
   background-image: url("img/copyH.png");
 }
 
@@ -357,21 +404,120 @@ textarea {
 .pageframe_wrap {
   padding: 30px;
   position: relative;
+  width: 90vw;
 }
 
 #dnd_beyond_crawler_input {
-  width: 200px;
+  border-radius: 5px;
   padding: 5px;
-  margin-left: -16px;
 }
 
-.actionjsonValue, .legendaryjsonValue {
-  width: 50px;
+.monster_util_column {
+  flex: 1;
 }
 
-.action_description {
-  height: 60px;
-  width: 250px;
+.readonly_monster_attr {
+  user-select: none;
+  background-color: transparent;
+  font-family: roboto;
+  text-align: center;
+  font-size: 1em;
+}
+
+.monster_stat_column {
+  flex: 3;
+  max-width: 600px;
+  padding: 5px;
+  margin: 0 2em 2em 0;
+}
+
+.monster_stat_row {
+  justify-content: space-between;
+}
+
+.monster_stat_row>.column {
+  margin: 5px;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.monster_stat_row>.column>input:not(:read-only) {
+  width: 100%;
+}
+
+.monster_stat_column>.column {
+  padding: 5px;
+}
+
+.addframe textarea {
+  border-radius: 5px;
+  width: 100%;
+  resize: vertical;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))
+}
+
+.addframe input {
+  border-radius: 5px;
+  height: 25px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5))
+}
+
+.special_ability_column:not(:first-child) {
+  margin-top: 1em;
+}
+
+.special_ability_column {
+  flex-flow: column nowrap !important;
+}
+
+.specialjsonAttribute {
+  width: 210px;
+}
+
+.jsonAttribute {
+  flex: 1;
+}
+
+.jsonValue {
+  flex: 2;
+}
+
+.monster_stat_column textarea {
+  width: 100%;
+}
+
+.monster_action_container textarea {
+  width: 97.5%;
+}
+
+.action_row:not(:first-child), .legendary_action_row:not(:first-child) {
+  margin-top: 1em;
+}
+
+.action_row, .legendary_action_row {
+  flex-flow: column nowrap !important;
+}
+
+.monster_action_container {
+  width: 95%
+}
+
+#addmonsters {
+  justify-content: space-between;
+}
+
+.addmonster_description{
+  min-height:120px;
+}
+
+.addRow_actions .column, .addRow_legendary_actions .column {
+  justify-content: flex-end;
+  ;
+}
+
+.addRow_actions input[type=number], .addRow_legendary_actions input[type=number] {
+  width: 8em;
+  margin: auto;
 }
 
 .jsonValueClasses {
@@ -401,6 +547,10 @@ textarea {
   box-sizing: border-box;
 }
 
+.circular_button:hover {
+  background-color: var(--main-emphasis-color);
+}
+
 .interactive:hover {
   opacity: 0.7;
 }
@@ -415,14 +565,6 @@ textarea {
 
 .table_row {
   flex: 1;
-}
-
-.action_description {
-  min-width: 100px;
-}
-
-.action_name {
-  width: 100px;
 }
 
 .addframe {
@@ -509,26 +651,13 @@ textarea {
   font-size: 20px;
 }
 
-.addRow_actions>div>input[type=number], .addRow_legendary_actions>div>input[type=number] {
-  width: 55px;
-}
-
-.addRow_actions>div>input:read-only, .addRow_legendary_actions>div>input:read-only {
-  width: 67px;
-}
-
-.addRow_actions>div>input, .addRow_legendary_actions>div>input {
-  z-index: 1;
-}
-
-.addRow_actions>div>textarea, .addRow_legendary_actions>div>textarea {
-  z-index: 1;
+.addRow_actions, .addRow_legendary_actions {
+  margin-top: 1em;
 }
 
 .condition_icon_container {
-  
   z-index: 2;
-  display:flex;
+  display: flex;
 }
 
 .addRowC>.row>.sp-replacer {
@@ -555,18 +684,15 @@ textarea {
   display: none !important;
 }
 
-
 #condition_image_picker {
   height: 50px;
-
   cursor: pointer;
 }
 
-#condition_image_picker[src = ""] {
-  background-color:white;
+#condition_image_picker[src=""] {
+  background-color: white;
   width: 50px;
-  border-radius:50%;
-
+  border-radius: 50%;
 }
 
 .encounter_cr_filters>input {

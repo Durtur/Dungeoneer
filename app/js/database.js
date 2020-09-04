@@ -42,53 +42,6 @@ ipcRenderer.on('update-autofill-complete', function () {
   updateAutoFill();
 
 });
-/*
-function fixSpells() {
- 
-  fs.readFile(resourcePath + "spells.json", function read(err, data) {
-    if (err) {
-      return console.log(err);
-    }
-
-    data = JSON.parse(data);
-    for(var i = 0 ;  i<data.length ; i++) {
-      var element = data[i];
-      if(element.higher_levels == null)element.higher_levels= "";
-      if(element.name == null)element.name= "";
-      if(element.level == null)element.level= "";
-      if(element.school == null)element.school= "";
-      if(element.description == null)element.description= "";
-      if(element.components == null)element.components= "";
-      if(element.range == null)element.range= "";
-      if(element.casting_time == null)element.casting_time= "";
-      if(element.duration == null)element.duration= "";
-      if(element.ritual == null)element.ritual= "";
-      var newEle = {};
-      newEle.classes = element.classes;
-      newEle.name = element.name;
-      newEle.level = element.level;
-      newEle.school = element.school;
-      newEle.description = element.description;
-      newEle.higher_levels = element.higher_levels;
-      newEle.components = element.components;
-      newEle.range = element.range;
-      newEle.casting_time = element.casting_time;
-      newEle.duration = element.duration;
-      newEle.ritual = element.ritual;
-      data[i] = newEle;
-
-
-     
-
-    }
-    fs.writeFile(resourcePath + "spells.json", JSON.stringify(data, null, "\t"), function (err) {
-      if (err) {
-        return console.log(err);
-      }
-    });
-  });
-}
-*/
 
 var selectedConditionImagePath;
 $(document).ready(function () {
@@ -365,7 +318,7 @@ function doneAdding(elname) {
 
 function newItem() {
   var element = document.getElementById("add" + tabElementNameSuffix);
-  element.getElementsByClassName("edit_header_name")[0].innerHTML = "New " + tab;
+  element.getElementsByClassName("edit_header_name")[0].innerHTML =  "New " + (tab.charAt(tab.length-1) === "s" ? tab.substring(0, tab.length - 1) : tab);
   element.classList.remove("hidden");
   clearAddForm();
 
@@ -1381,7 +1334,7 @@ function editCopyHelper(entryId, isEdit) {
     currentEntry = { name: entry.name, id: entryId };
     $("#add" + tabElementNameSuffix + ">.edit_header_name").html("Editing " + entry.name);
   } else {
-    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + tab.substring(0, tab.length - 1));
+    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length-1) === "s" ? tab.substring(0, tab.length - 1) : tab));
   }
   showAddForm("tab");
 
@@ -1578,7 +1531,20 @@ function editObject(dataObject, letter) {
 
     //Sértilfelli fyrir NPC og monster þar sem það eru nokkrir fields sem þurfa að vera til staðar
     ["name", "size", "description", "type", "hit_dice", "speed", "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "senses", "languages"
-      , "challenge_rating", "subtype", "alignment", "armor_class", "hit_points"].forEach(entry => fillFieldAndRemoveFromObject(entry, keyArray, valueArray));
+      , "challenge_rating", "subtype", "alignment", "armor_class", "hit_points", "skills",
+      "damage_resistances","damage_immunities","condition_immunities", "damage_vulnerabilities"].forEach(entry => fillFieldAndRemoveFromObject(entry, keyArray, valueArray));
+
+    var savingThrowInputs = [... document.querySelectorAll(".saving_throw_input")];
+    savingThrowInputs.forEach(inp=> {
+      var attr = inp.getAttribute("data-dnd_attr");
+      for(var i = 0 ; i < keyArray.length ; i++){
+        if(keyArray[i] !=attr)continue;
+        inp.value = valueArray[i];
+        removeFromObject(attr, keyArray, valueArray);
+        break;
+      }
+    
+    });
     valuesElements.forEach(function (x) { x.value = "" });
     keysElements.forEach(function (x) { x.value = "" });
     actionFields.forEach(function (x) { x.value = "" })
@@ -1979,10 +1945,10 @@ function addAttributeArray(valueBoxes, attributeBoxes, attributeKey, thingyToSav
   var specialActions = [];
   var specialAction = {};
 
-
+  
   for (var i = 0; i < valueBoxes.length; i++) {
     if (attributeBoxes[i].value != "" && valueBoxes[i].value != "" && valueBoxes[i].value != " ") {
-      attribute = attributeBoxes[i].value.serialize();
+      attribute = (attributeBoxes[i].value || attributeBoxes[i].innerHTML).serialize();
       specialAction[attribute] = valueBoxes[i].value;
     }
     if ((i + 1) % 5 == 0 && i > 0 && specialAction != null && specialAction != [] && !isEmpty(specialAction)) {
@@ -2011,7 +1977,6 @@ function indexOfProp(data, key, prop) {
   var index = 0;
   if (data == null || key == null || data.length == 0) return -1;
   while (data[index][prop] != key) {
-    console.log(data[index][prop])
     index++;
     if (index >= data.length) {
       return -1;
@@ -2066,9 +2031,20 @@ function saveHomebrew() {
     addProperty("wisdom", thingyToSave)
     addProperty("charisma", thingyToSave)
     addProperty("senses", thingyToSave)
+    addProperty("damage_resistances", thingyToSave)
+    addProperty("damage_immunities", thingyToSave);
+    addProperty("damage_vulnerabilities", thingyToSave)
+    addProperty("condition_immunities", thingyToSave)
     addProperty("languages", thingyToSave)
+    addProperty("skills", thingyToSave);
     addProperty("challenge_rating", thingyToSave, 0)
-
+    var savingThrowInputs = [... document.querySelectorAll(".saving_throw_input")];
+    savingThrowInputs.forEach(inp=> {
+      var attr = inp.getAttribute("data-dnd_attr");
+      if(inp.value != null && inp.value != "" && inp.value != "0"){
+        thingyToSave[attr]= inp.value;
+      }
+    });
   } else if (tab == "encounters") {
     thingyToSave.encounter_xp_value = parseInt(document.querySelector("#encounter_challenge_calculator_value").value);
   }
@@ -2139,7 +2115,7 @@ function saveHomebrew() {
 
 
     thingyToSave.source = "Homebrew";
-    thingyToSave.description = thingyToSave.description;
+
     if (Object.keys(tableObject).length != 0) thingyToSave.table = tableObject;
   } else if (tab == "conditions") {
     thingyToSave.condition_background_location = selectedConditionImagePath;
@@ -2220,20 +2196,15 @@ function saveHomebrew() {
     }
 
     currentEntry = null;
-    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + tab.substring(0, tab.length - 1));
+    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length-1) === "s" ? tab.substring(0, tab.length - 1) : tab));
     loadAll();
   }
   function addProperty(property, object, fallbackValue) {
 
     var valueElement = document.getElementsByClassName("addmonster_" + property)[0];
-    var keyElement = valueElement.parentNode.getElementsByClassName("attr")[0];
-    //Awesomplete haxxx
-    if (keyElement == null) {
-      keyElement = valueElement.parentNode.parentNode.getElementsByClassName("attr")[0];
-    }
-
+    console.log(valueElement, property)
     if (valueElement.value == "" && !fallbackValue) return;
-    object[serialize(keyElement.value)] = valueElement.value ? valueElement.value : fallbackValue;
+    object[property] = valueElement.value ? valueElement.value : fallbackValue;
   }
 }
 

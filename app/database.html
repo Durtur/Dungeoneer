@@ -84,10 +84,10 @@
                 </div>
                 <div class="listRow">
                     <div class="listRow__inner">
-                        <input type="text" value="Name" readonly></input>
-                        <input type="text" value="CR" readonly></input>
-                        <input type="text" value="Type" readonly></input>
-                        <input type="text" value="HP" readonly></input>
+                        <input type="text" value="Name" readonly tabindex="-1">
+                        <input type="text" value="CR" readonly tabindex="-1">
+                        <input type="text" value="Type" readonly tabindex="-1">
+                        <input type="text" value="HP" readonly tabindex="-1">
                     </div>
                     <div class=" button_row">
                         <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
@@ -111,10 +111,10 @@
                 </div>
                 <div class="listRow">
                     <div class="listRow__inner">
-                        <input type="text" value="Name" readonly></input>
-                        <input type="text" value="Cast time" readonly></input>
-                        <input type="text" value="School" readonly></input>
-                        <input type="text" value="Level" readonly></input>
+                        <input type="text" value="Name" readonly tabindex="-1">
+                        <input type="text" value="Cast time" readonly tabindex="-1">
+                        <input type="text" value="School" readonly tabindex="-1">
+                        <input type="text" value="Level" readonly tabindex="-1">
                     </div>
                     <div class=" button_row">
                         <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
@@ -136,9 +136,9 @@
                 </div>
                 <div class="listRow">
                     <div class="listRow__inner">
-                        <input type="text" value="Name" readonly></input>
-                        <input type="text" value="Type" readonly></input>
-                        <input type="text" value="Rarity" readonly></input>
+                        <input type="text" value="Name" readonly tabindex="-1">
+                        <input type="text" value="Type" readonly tabindex="-1">
+                        <input type="text" value="Rarity" readonly tabindex="-1">
                     </div>
                     <div class=" button_row">
                         <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
@@ -160,7 +160,7 @@
                 </div>
                 <div class="listRow">
                     <div class="listRow__inner">
-                        <input type="text" value="Name" readonly></input>
+                        <input type="text" value="Name" readonly tabindex="-1">
                     </div>
                     <div class=" button_row">
                         <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
@@ -182,7 +182,7 @@
                 </div>
                 <div class="listRow">
                     <div class="listRow__inner listRow_inner_encounters">
-                        <input type="text" value="Name" readonly class="wider">
+                        <input type="text" value="Name" readonly tabindex="-1" class="wider">
                     </div>
                     <div class=" button_row">
                         <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
@@ -202,7 +202,7 @@
                 </div>
                 <div class="listRow">
                     <div class="listRow__inner listRow_inner_encounters">
-                        <input type="text" value="Name" readonly class="wider">
+                        <input type="text" value="Name" readonly tabindex="-1" class="wider">
                     </div>
                     <div class=" button_row">
                         <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
@@ -214,19 +214,19 @@
                 </div>
             </section>
 
-            <section id="addtables" class="hidden  pageframe_wrap listWrap marginTop wide">
+            <section id="addtables" class="hidden addframe pageframe_wrap listWrap marginTop ">
                 <h2 class="edit_header_name">New table / Note</h2>
                 <div class="column">
                     <div class="addRowT">
                         <div class="row">
-                            <input type="text" class="jsonAttributeT brown " title="Attribute" value="Name"
-                                readonly></input>
-                            <input type="text" class="jsonValueT db_name_field object_nameT"> </input>
+                            <input type="text" class="jsonAttributeT brown " title="Attribute"
+                                placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                            <input type="text" class="jsonValueT db_name_field object_nameT">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeT brown" title="Attribute" value="Description"
-                                readonly></input>
+                            <input type="text" class="jsonAttributeT brown" title="Attribute"
+                                placeholder="Attribute name" value="Description" readonly tabindex="-1">
                             <textarea class="jsonValueT">  </textarea>
                         </div>
                     </div>
@@ -284,21 +284,21 @@
 
 
 
-            <section id="addconditions" class="hidden  addframe section__show marginTop wide">
+            <section id="addconditions" class="hidden  addframe section__show marginTop ">
                 <h2 class="edit_header_name">New condition</h2>
                 <div class="row">
 
-                    <div class="column" style = "flex:4">
+                    <div class="column" style="flex:4">
                         <div class="addRowC">
                             <div class="row">
-                                <input type="text" class="jsonAttributeC brown " title="Attribute" value="Name"
-                                    readonly>
+                                <input type="text" class="jsonAttributeC brown " title="Attribute"
+                                    placeholder="Attribute name" value="Name" readonly tabindex="-1">
                                 <input type="text" class="jsonValueC db_name_field object_nameC">
                             </div>
 
                             <div class="row">
-                                <input type="text" class="jsonAttributeC brown" title="Attribute" value="Description"
-                                    readonly>
+                                <input type="text" class="jsonAttributeC brown" title="Attribute"
+                                    placeholder="Attribute name" value="Description" readonly tabindex="-1">
                                 <textarea class="jsonValueC">  </textarea>
                             </div>
 
@@ -337,7 +337,7 @@
                             </div>
                             <button class="small interactive floating help_icon"
                                 onclick="showBlock('markdowninfoconditions')">?</button>
-                          
+
                         </div>
                     </div>
                     <div class="condition_icon_container">
@@ -353,31 +353,31 @@
                 </div>
             </section>
 
-            <section id="additems" class="hidden  pageframe_wrap marginTop wide">
+            <section id="additems" class="hidden addframe pageframe_wrap marginTop ">
                 <h2 class="edit_header_name">New item</h2>
                 <div class="column">
                     <div class="addRowI">
                         <div class="row">
-                            <input type="text" class="jsonAttributeI brown " title="Attribute" value="Name"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI"> </input>
+                            <input type="text" class="jsonAttributeI brown " title="Attribute"
+                                placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeI brown" title="Attribute" value="Rarity"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueI" id="item_rarity_input"> </input>
+                            <input type="text" class="jsonAttributeI brown" title="Attribute"
+                                placeholder="Attribute name" value="Rarity" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueI" id="item_rarity_input">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeI brown" title="Attribute" value="Type"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueI" id="item_type_input"> </input>
+                            <input type="text" class="jsonAttributeI brown" title="Attribute"
+                                placeholder="Attribute name" value="Type" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueI" id="item_type_input">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeI brown" title="Attribute" value="Description"
-                                readonly></input>
+                            <input type="text" class="jsonAttributeI brown" title="Attribute"
+                                placeholder="Attribute name" value="Description" readonly tabindex="-1">
                             <textarea tabindex=1 class="jsonValueI">  </textarea>
                         </div>
                     </div>
@@ -432,77 +432,78 @@
                 </div>
             </section>
 
-            <section id="addspells" class="hidden addframe section__show marginTop wide">
+            <section id="addspells" class="hidden addframe section__show marginTop ">
                 <h2 class="edit_header_name">New spell</h2>
                 <div class="column">
                     <div class="addRowS">
                         <div class="row" id="spell_class_row">
-                            <input type="text" class="jsonAttributeClasses brown" title="Attribute" value="Classes"
-                                readonly></input>
-                            <input tabindex=1 type="text" class="jsonValueClasses"> </input>
-                            <button class="small brown interactive" title="Add class"
+                            <input type="text" class="jsonAttributeClasses brown" title="Attribute"
+                                placeholder="Attribute name" value="Classes" readonly tabindex="-1">
+                            <input tabindex=1 type="text" class="jsonValueClasses">
+                            <button class="small brown circular_button" title="Add class"
                                 onclick="addClassTextBoxForSpells()">
                                 + </button>
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown " title="Attribute" value="Name"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueS db_name_field object_nameS"> </input>
+                            <input type="text" class="jsonAttributeS brown " title="Attribute"
+                                placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueS db_name_field object_nameS">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Level"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueS"> </input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="Level" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueS">
                         </div>
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="School"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueS" id="spell_school_input"> </input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="School" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueS" id="spell_school_input">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Description"
-                                readonly></input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="Description" readonly tabindex="-1">
                             <textarea tabindex=1 class="jsonValueS">  </textarea>
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Higher levels"
-                                readonly></input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="Higher levels" readonly tabindex="-1">
                             <textarea tabindex=1 class="jsonValueS">  </textarea>
                         </div>
 
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Components"
-                                readonly></input>
-                            <input tabindex=1 type="text" class="jsonValueS"> </input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="Components" readonly tabindex="-1">
+                            <input tabindex=1 type="text" class="jsonValueS">
                         </div>
 
 
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Range"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueS"> </input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="Range" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueS">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Casting time"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueS"> </input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="Casting time" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueS">
                         </div>
 
                         <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute" value="Duration"
-                                readonly></input>
-                            <input type="text" tabindex=1 class="jsonValueS"> </input>
+                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                                placeholder="Attribute name" value="Duration" readonly tabindex="-1">
+                            <input type="text" tabindex=1 class="jsonValueS">
                         </div>
 
                         <div class="row">
-                            <input type="text" class=" brown" title="Attribute" value="Ritual casting" readonly></input>
+                            <input type="text" class=" brown" title="Attribute" placeholder="Attribute name"
+                                value="Ritual casting" readonly tabindex="-1">
                             <label class="container_for_checkbox">
                                 <input type="checkbox" tabindex=1 class="center " id="ritual_casting_spell_checkbox"
                                     title="Ritual casting">
@@ -542,7 +543,7 @@
                 </div>
             </section>
 
-            <section id="addencounters" class="hidden section__show addframe  marginTop wide">
+            <section id="addencounters" class="hidden section__show addframe  marginTop ">
                 <h2 class="edit_header_name">New encounter</h2>
                 <div class="top_right_corner">
 
@@ -556,16 +557,16 @@
                         <div class="column">
                             <div class="addRowE">
                                 <div class="row">
-                                    <input type="text" class="jsonAttributeE brown " title="Attribute" value="Name"
-                                        readonly></input>
+                                    <input type="text" class="jsonAttributeE brown " title="Attribute"
+                                        placeholder="Attribute name" value="Name" readonly tabindex="-1">
 
-                                    <input type="text" class="jsonValueE db_name_field object_nameE"> </input>
+                                    <input type="text" class="jsonValueE db_name_field object_nameE">
 
                                 </div>
 
                                 <div class="row">
                                     <input type="text" class="jsonAttributeE brown" title="Attribute"
-                                        value="Description" readonly>
+                                        placeholder="Attribute name" value="Description" readonly tabindex="-1">
                                     <textarea class="jsonValueE"
                                         style="width: 400px; height: 250px; margin: 0px;">  </textarea>
                                 </div>
@@ -582,11 +583,13 @@
                                     <label for="encounter_challenge_calculator_value_unadjusted">
                                         Total XP
                                     </label>
-                                    <input type="number" id="encounter_challenge_calculator_value_unadjusted" readonly>
+                                    <input type="number" id="encounter_challenge_calculator_value_unadjusted" readonly
+                                        tabindex="-1">
                                     <label for="encounter_challenge_calculator_value">
                                         Adjusted total XP
                                     </label>
-                                    <input type="number" id="encounter_challenge_calculator_value" readonly>
+                                    <input type="number" id="encounter_challenge_calculator_value" readonly
+                                        tabindex="-1">
                                     <div class="row">
                                         <label for="userCurrentPartyForEncounterDiff"
                                             id="userCurrentPartyForEncounterDiffLabel">Use current party levels</label>
@@ -640,31 +643,31 @@
 
                             <div class="addRowE addRow_creatures" id="encounter_row_container">
                                 <div class="row marginTop">
-                                    <input type="text" class="brown" title="Attribute" value="Creatures"
-                                        readonly></input>
-                                    <input type="text" class="brown smaller" title="Attribute" value="Number"
-                                        readonly></input>
-                                    <input type="text" class="brown smaller" title="Attribute" value="CR"
-                                        readonly></input>
+                                    <input type="text" class="brown" title="Attribute" placeholder="Attribute name"
+                                        value="Creatures" readonly tabindex="-1">
+                                    <input type="text" class="brown smaller" title="Attribute"
+                                        placeholder="Attribute name" value="Number" readonly tabindex="-1">
+                                    <input type="text" class="brown smaller" title="Attribute"
+                                        placeholder="Attribute name" value="CR" readonly tabindex="-1">
                                 </div>
 
                                 <div class="row">
                                     <input type="text" class="specialjsonAttributeE" title="Creature name"
-                                        placeholder="Creature"></input>
-                                    <input type="number" class="specialjsonValueE smaller"> </input>
+                                        placeholder="Creature">
+                                    <input type="number" class="specialjsonValueE smaller">
                                     <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
                                         max="30">
                                 </div>
 
                                 <div class="row">
                                     <input type="text" class="specialjsonAttributeE" title="Creature name"
-                                        placeholder="Creature"></input>
-                                    <input type="number" class="specialjsonValueE smaller"> </input>
+                                        placeholder="Creature">
+                                    <input type="number" class="specialjsonValueE smaller">
                                     <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
                                         max="30">
                                 </div>
                             </div>
-                            <button class="small brown interactive" title="Add creatures" onclick="addRow()"> +
+                            <button class="small brown circular_button" title="Add creatures" onclick="addRow()"> +
                             </button>
                         </div>
 
@@ -736,276 +739,452 @@
             </section>
 
 
-            <section id="addmonsters" class="hidden pageframe_wrap marginTop row wide">
+            <section id="addmonsters" class="hidden pageframe_wrap addframe marginTop column ">
                 <h2 class="edit_header_name">New monster</h2>
+                <div class="row">
+                    <div class="column monster_stat_column">
+                        <div class="addRow">
+                            <div class="column">
+                                <input type="text" class="attr brown monster_attribute_chapter_label" title="Attribute"
+                                    placeholder="Attribute name" value="Name" readonly tabindex="-1" />
+                                <input type="text" class=" object_name db_name_field addmonster_name"
+                                    id="addmonster_name">
+                            </div>
+                            <div class="row monster_stat_row">
 
-                <div class="column">
-                    <div class="addRow">
-                        <div class="row">
-                            <input type="text" class="attr brown " title="Attribute" value="Name" readonly></input>
-                            <input type="text" class=" object_name db_name_field addmonster_name"> </input>
+                         
+                                <div class="column">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_type">Type</label>
+                                    <input type="text" id="addmonster_type" class=" addmonster_type"
+                                        id="addmonster_type">
+                                </div>
+
+                                <div class="column">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_subtype">Subtype</label>
+                                    <input type="text" class=" addmonster_subtype" id="addmonster_subtype">
+                                </div>
+                            </div>
+                            <div class="row monster_stat_row">
+                                <div class="column">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_size">Size</label>
+                                    <input type="text" class=" addmonster_size" id="addmonster_size">
+                                </div>
+                                <div class="column">
+                                    <label class="attr readonly_monster_attr" tabindex="-1"
+                                        for="addmonster_alignment">Alignment</label>
+                                    <input type="text" class=" addmonster_alignment" id="addmonster_alignment">
+                                </div>
+
+                            </div>
+
+                            <div class="row monster_stat_row">
+                                
+                                <div class="column">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_senses">Senses</label>
+                                    <input type="text" class=" addmonster_senses" id="addmonster_senses">
+                                </div>
+
+
+                                <div class="column">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_languages">Languages</label>
+                                    <input type="text" class=" addmonster_languages" id="addmonster_languages">
+                                </div>
+
+                            </div>
+
+
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr " style="text-align:left" tabindex="-1"
+                                        for="addmonster_description">Description</label>
+                                    <textarea class=" addmonster_description" id="addmonster_description">  </textarea>
+                                </div>
+                            </div>
+
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1" for="homebrewAC">Armor
+                                        class</label>
+                                    <input type="number" class=" monsterCR addmonster_armor_class" id="homebrewAC">
+                                </div>
+
+
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1" for="homebrewHP">Hit
+                                        points</label>
+                                    <input type="number" class=" monsterCR addmonster_hit_points" id="homebrewHP">
+                                </div>
+
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_hit_dice">Hit dice</label>
+                                    <input type="text" class=" addmonster_hit_dice" id="addmonster_hit_dice">
+                                </div>
+
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_speed">Speed</label>
+                                    <input type="text" class=" addmonster_speed" id="addmonster_speed">
+                                </div>
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_challenge_rating">Challenge rating</label>
+                                    <input type="number" class=" addmonster_challenge_rating"
+                                        id="addmonster_challenge_rating">
+                                </div>
+                            </div>
+
+
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:1">
+                                    <input type="text" class="attr brown monster_attribute_chapter_label"
+                                        title="Attribute" placeholder="Attribute name" value="Attributes" readonly
+                                        tabindex="-1" />
+                                    <div class="row attribute_input_container">
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label attr" title="Attribute"
+                                                placeholder="Attribute name" value="Strength" readonly tabindex="-1" />
+                                            <input type="number" class=" addmonster_strength" />
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label attr" title="Attribute"
+                                                placeholder="Attribute name" value="Dexterity" readonly tabindex="-1" />
+                                            <input type="number" class=" addmonster_dexterity" />
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label attr" title="Attribute"
+                                                placeholder="Attribute name" value="Constitution" readonly
+                                                tabindex="-1" />
+                                            <input type="number" class=" addmonster_constitution" />
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label attr" title="Attribute"
+                                                placeholder="Attribute name" value="Intelligence" readonly
+                                                tabindex="-1" />
+                                            <input type="number" class=" addmonster_intelligence" />
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label attr" title="Attribute"
+                                                placeholder="Attribute name" value="Wisdom" readonly tabindex="-1" />
+                                            <input type="text" class=" addmonster_wisdom">
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label attr" title="Attribute"
+                                                placeholder="Attribute name" value="Charisma" readonly tabindex="-1" />
+                                            <input type="text" class=" addmonster_charisma">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:1">
+                                    <input type="text" class="attr brown monster_attribute_chapter_label"
+                                        title="Attribute" placeholder="Attribute name" value="Saving throws" readonly
+                                        tabindex="-1" />
+                                    <div class="row saving_throw_input_container">
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label" title="Attribute"
+                                                placeholder="Attribute name" value="Strength" readonly tabindex="-1" />
+                                            <input type="number" class="saving_throw_input"
+                                                data-dnd_attr="strength_save">
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label" title="Attribute"
+                                                placeholder="Attribute name" value="Dexterity" readonly tabindex="-1" />
+                                            <input type="number" class="saving_throw_input "
+                                                data-dnd_attr="dexterity_save">
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label" title="Attribute"
+                                                placeholder="Attribute name" value="Constitution" readonly
+                                                tabindex="-1" />
+                                            <input type="number" class="saving_throw_input"
+                                                data-dnd_attr="constitution_save">
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label" title="Attribute"
+                                                placeholder="Attribute name" value="Intelligence" readonly
+                                                tabindex="-1" />
+                                            <input type="number" class="saving_throw_input"
+                                                data-dnd_attr="intelligence_save">
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label" title="Attribute"
+                                                placeholder="Attribute name" value="Wisdom" readonly tabindex="-1" />
+                                            <input type="number" class="saving_throw_input" data-dnd_attr="wisdom_save">
+                                        </div>
+                                        <div class=column>
+                                            <input type="text" class="saving_throw_label" title="Attribute"
+                                                placeholder="Attribute name" value="Charisma" readonly tabindex="-1" />
+                                            <input type="number" class="saving_throw_input"
+                                                data-dnd_attr="charisma_save">
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr " tabindex="-1" style="text-align:left"
+                                        for="addmonster_skills">Skills</label>
+                                    <input type="text" class=" addmonster_skills" id="addmonster_skills">
+                                </div>
+                            </div>
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_damage_resistances">Damage resistances</label>
+                                    <input type="text" class=" addmonster_damage_resistances"
+                                        id="addmonster_damage_resistances">
+                                </div>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_damage_immunities">Damage immunities</label>
+                                    <input type="text" class=" addmonster_damage_immunities"
+                                        id="addmonster_damage_immunities">
+                                </div>
+
+                            </div>
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_condition_immunities">Condition immunities</label>
+                                    <input type="text" class=" addmonster_condition_immunities"
+                                        id="addmonster_condition_immunities">
+                                </div>
+
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_damage_vulnerabilities">Damage vulnarabilities</label>
+                                    <input type="text" class=" addmonster_damage_vulnerabilities"
+                                        id="addmonster_damage_vulnerabilities">
+                                </div>
+                            </div>
+                            <div class = "row">
+                                <input type="text" class="attr brown monster_attribute_chapter_label"
+                                title="Other custom attribute" value="Other attributes" readonly tabindex="-1" />
+                                <button class="small brown circular_button" style = "  margin-top:1.5em;" title="Add row" onclick="addRow()"> + </button>
+                            </div>
+            
+                            <div class="row">
+                                <input type="text" class="jsonAttribute" title="Attribute" placeholder="Attribute name"
+                                    value="">
+                                <input type="text" class="jsonValue">
+                            </div>
+
+                            <div class="row">
+                                <input type="text" class="jsonAttribute" title="Attribute" placeholder="Attribute name"
+                                    value="">
+                                <input type="text" class="jsonValue">
+                            </div>
+
+                        </div>
+            
+
+                        <span style="margin-top:1.5em"></span>
+                        <div class = "row">
+                            <input type="text" class="special_abilities_array brown" value="Special abilities" readonly
+                                tabindex="-1">
+
+                            <button class="small brown circular_button" title="Add attribute"
+                                onclick="addRow('special_abilities')">
+                                +
+                            </button>
                         </div>
 
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Description"
-                                readonly></input>
-                            <textarea class=" addmonster_description">  </textarea>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Size" readonly></input>
-                            <input type="text" class=" addmonster_size"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Type" readonly></input>
-                            <input type="text" id="addmonster_type" class=" addmonster_type"> </input>
-                        </div>
-
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Subtype" readonly></input>
-                            <input type="text" class=" addmonster_subtype"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Alignment" readonly></input>
-                            <input type="text" class=" addmonster_alignment"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Armor class"
-                                readonly></input>
-                            <input type="text" class=" monsterCR addmonster_armor_class" id="homebrewAC">
-                            </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Hit points" readonly></input>
-                            <input type="text" class=" monsterCR addmonster_hit_points" id="homebrewHP">
-                            </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Hit dice" readonly></input>
-                            <input type="text" class=" addmonster_hit_dice"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Speed" readonly></input>
-                            <input type="text" class=" addmonster_speed"> </input>
+                        <div class="addRow_special_abilities">
+                            <div class="row special_ability_column">
+                                <input type="text" class="specialjsonAttribute" title="Attribute"
+                                    placeholder="Ability name" value="Amphibious">
+                                <textarea class="specialjsonValue"> </textarea>
+                            </div>
+                            <div class="row special_ability_column">
+                                <input type="text" class="specialjsonAttribute" title="Attribute"
+                                    placeholder="Ability name" value="Incorporeal">
+                                <textarea class="specialjsonValue"> </textarea>
+                            </div>
                         </div>
 
                         <span></span>
 
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Strength" readonly></input>
-                            <input type="text" class=" addmonster_strength"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Dexterity" readonly></input>
-                            <input type="text" class=" addmonster_dexterity"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown " title="Attribute" value="Constitution"
-                                readonly></input>
-                            <input type="text" class=" addmonster_constitution"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Intelligence"
-                                readonly></input>
-                            <input type="text" class=" addmonster_intelligence"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Wisdom" readonly></input>
-                            <input type="text" class=" addmonster_wisdom"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Charisma" readonly></input>
-                            <input type="text" class=" addmonster_charisma"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Senses" readonly></input>
-                            <input type="text" class=" addmonster_senses"> </input>
-                        </div>
-
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Languages" readonly></input>
-                            <input type="text" class=" addmonster_languages"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="attr brown" title="Attribute" value="Challenge rating"
-                                readonly></input>
-                            <input type="text" class=" addmonster_challenge_rating"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="jsonAttribute" title="Attribute" value="Saving throws"></input>
-                            <input type="text" class="jsonValue"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="jsonAttribute" title="Attribute" value="Skills"></input>
-                            <input type="text" class="jsonValue"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="jsonAttribute" title="Attribute"
-                                value="Damage vulnerabilities"></input>
-                            <input type="text" class="jsonValue"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="jsonAttribute" title="Attribute"
-                                value="Damage resistances"></input>
-                            <input type="text" class="jsonValue"> </input>
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="jsonAttribute" title="Attribute"
-                                value="Damage immunities"></input>
-                            <input type="text" class="jsonValue"> </input>
-                        </div>
-
-
-                        <div class="row">
-                            <input type="text" class="jsonAttribute" title="Attribute"
-                                value="Condition immunities"></input>
-                            <input type="text" class="jsonValue"> </input>
-                        </div>
-                    </div>
-                    <button class="small brown interactive" title="Add attribute" onclick="addRow()"> + </button>
-
-                    <span></span>
-                    <div>
-                        <input type="text" class="special_abilities_array brown" value="Special abilities"
-                            readonly></input>
                     </div>
 
-                    <div class="addRow_special_abilities">
-                        <div class="row">
-                            <input type="text" class="specialjsonAttribute" title="Attribute"
-                                value="Amphibious"></input>
-                            <textarea class="specialjsonValue"> </textarea>
+                    <div class="column monster_util_column">
+                        <div class=column>
+                            <div class="column">
+                                <label for="dnd_beyond_crawler_input" style="font-size: 14px;">
+                                    Copy from DnD beyond:
+                                </label>
+                                <input id="dnd_beyond_crawler_input" placeholder="Paste an url to a monster here">
+
+                            </div>
+                            <section class="cr_calculator_wrap column">
+                                <h2>Challenge rating calculator</h2>
+                                <div class="row">
+                                    <label for="predictedDamageOutput">Predicted damage per round</label>
+                                    <input type="number" id="predictedDamageOutput" placeholder="?" class="monsterCR">
+                                </div>
+                                <div class="row">
+                                    <label for="mainAttackBonus">Main attack bonus</label>
+                                    <input type="number" placeholder="?" id="mainAttackBonus" class="monsterCR">
+                                </div>
+                                <div class="row">
+                                    <label for="OCR">Offensive challenge rating </label>
+                                    <input type="text" id="OCR" readonly tabindex="-1">
+                                </div>
+                                <div class="row">
+                                    <label for="DCR">Defensive challenge rating </label>
+                                    <input type="text" id="DCR" readonly tabindex="-1">
+                                </div>
+                                <div class="row">
+                                    <label for="suggestedCR">Suggested challenge rating </label>
+                                    <input type="text" id="suggestedCR" readonly tabindex="-1">
+                                </div>
+
+                                <div class="column token_column" style="margin-top:5em">
+                                    <div class="row">
+                                        <h2 style="margin:0;">Tokens</h2>
+                                        <button class="small brown circular_button" id="addTokenButton" disabled
+                                            title="Add tokens" onclick="addTokensToCurrentMonster()">
+                                            +
+                                        </button>
+                                    </div>
+                                    <p class="explanation_text">These are tokens used by the Map Tool.</p>
+                                    <div id="maptool_token_container"></div>
+                                </div>
+
+
+                            </section>
                         </div>
-                        <div class="row">
-                            <input type="text" class="specialjsonAttribute" title="Attribute"
-                                value="Incorporeal"></input>
-                            <textarea class="specialjsonValue"> </textarea>
-                        </div>
+
                     </div>
-
-                    <button class="small brown interactive" title="Add attribute" onclick="addRow('special_abilities')">
-                        +
-                    </button>
-
-
-
-                    <span></span>
-
-
-                    <div>
-                        <input type="text" class="actions_array brown" value="Actions" readonly></input>
+                </div>
+                <div class="monster_action_container">
+                    <div class="row">
+                        <input type="text" class="actions_array brown" value="Actions" readonly tabindex="-1">
+                        <button class="small brown circular_button" title="Add attribute" onclick="addRow('actions')"> +
+                        </button>
                     </div>
 
                     <div class="addRow_actions">
                         <div class="row action_row">
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Name"
-                                readonly></input>
-                            <input type="text" class="actionjsonValue action_name" value="Slam"></input>
+                            <div class="row spread_children">
+                                <div class="column" style="flex:2">
+                                    <input type="text" class=" brown actionjsonAttribute" style="width:6em;" value="Name" readonly
+                                        tabindex="-1">
+                                    <input type="text" class="actionjsonValue  action_name" value="Slam">
+                                </div>
 
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Attack bonus"
-                                readonly></input>
-                            <input type="number" class="actionjsonValue action_attack_bonus"> </input>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Attack bonus</label>
+                                    <input type="number" class="actionjsonValue action_attack_bonus">
+                                </div>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage dice</label>
+                                    <input type="text" class="actionjsonValue action_damage_dice">
+                                </div>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage bonus</label>
+                                    <input type="number" class="actionjsonValue action_damage_bonus">
+                                </div>
+                            </div>
 
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage dice"
-                                readonly></input>
-                            <input type="text" class="actionjsonValue action_damage_dice"> </input>
 
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage bonus"
-                                readonly></input>
-                            <input type="number" class="actionjsonValue action_damage_bonus"> </input>
-
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Description"
-                                readonly></input>
-                            <textarea class="actionjsonValue action_description action_description"> </textarea>
+                            <div class="column" style="flex:2">
+                                <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1"
+                                    style="text-align:left">Description</label>
+                                <textarea class="actionjsonValue action_description action_description"> </textarea>
+                            </div>
                         </div>
                         <div class="row action_row">
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Name"
-                                readonly></input>
-                            <input type="text" class="actionjsonValue action_name" value="Slam"></input>
+                            <div class="row spread_children">
+                                <div class="column" style="flex:2">
+                                    <input type="text" class=" brown actionjsonAttribute" style="width:6em;" value="Name" readonly
+                                        tabindex="-1">
+                                    <input type="text" class="actionjsonValue action_name" value="Slam">
+                                </div>
 
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Attack bonus"
-                                readonly></input>
-                            <input type="number" class="actionjsonValue action_attack_bonus"> </input>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Attack bonus</label>
+                                    <input type="number" class="actionjsonValue action_attack_bonus">
+                                </div>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage dice</label>
+                                    <input type="text" class="actionjsonValue action_damage_dice">
+                                </div>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage bonus</label>
+                                    <input type="number" class="actionjsonValue action_damage_bonus">
+                                </div>
+                            </div>
 
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage dice"
-                                readonly></input>
-                            <input type="text" class="actionjsonValue action_damage_dice"> </input>
 
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Damage bonus"
-                                readonly></input>
-                            <input type="number" class="actionjsonValue action_damage_bonus"> </input>
-
-                            <input type="text" class="actionjsonAttribute brown" title="Attribute" value="Description"
-                                readonly></input>
-                            <textarea class="actionjsonValue action_description action_description"> </textarea>
+                            <div class="column" style="flex:2">
+                                <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1"
+                                    style="text-align:left">Description</label>
+                                <textarea class="actionjsonValue action_description action_description"> </textarea>
+                            </div>
                         </div>
 
 
 
                     </div>
-                    <button class="small brown interactive" title="Add attribute" onclick="addRow('actions')"> +
-                    </button>
 
 
 
                     <span></span>
 
-                    <div>
-                        <input type="text" class="legendary_actions_array brown" value="Legendary actions "
-                            readonly></input>
+                    <div class="row" style = "margin-top:2em;">
+                        <input type="text" class="legendary_actions_array brown" value="Legendary actions " readonly
+                            tabindex="-1">
+                        <button class="small brown circular_button" title="Add attribute"
+                            onclick="addRow('legendary_actions')">
+                            +
+                        </button>
                     </div>
 
 
                     <div class="addRow_legendary_actions">
                         <div class="row legendary_action_row">
-                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute" value="Name"
-                                readonly></input>
-                            <input type="text" class="legendaryjsonValue action_name" value=""></input>
+                            <div class="row spread_children">
+                                <div class="column" style="flex:2">
+                                    <input type="text" class="legendaryjsonAttribute brown" value="Name" readonly
+                                        tabindex="-1" style = "width:6em;">
+                                    <input type="text" class="legendaryjsonValue action_name" value="">
+                                </div>
 
-                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
-                                value="Attack bonus" readonly></input>
-                            <input type="number" class="legendaryjsonValue action_attack_bonus"> </input>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr legendaryjsonAttribute" tabindex="-1">Attack bonus</label>
+                                    <input type="number" class="legendaryjsonValue action_attack_bonus">
+                                </div>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr legendaryjsonAttribute" tabindex="-1">Damage dice</label>
+                                    <input type="text" class="legendaryjsonValue action_damage_dice">
+                                </div>
+                                <div class="column" style="flex:1">
+                                    <label class="attr readonly_monster_attr legendaryjsonAttribute" tabindex="-1">Damage bonus</label>
+                                    <input type="number" class="legendaryjsonValue action_damage_bonus">
+                                </div>
+                            </div>
 
 
-                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
-                                value="Damage dice" readonly></input>
-                            <input type="text" class="legendaryjsonValue action_damage_dice"> </input>
-
-                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
-                                value="Damage bonus" readonly></input>
-                            <input type="number" class="legendaryjsonValue action_damage_bonus"> </input>
-
-                            <input type="text" class="legendaryjsonAttribute brown" title="Attribute"
-                                value="Description" readonly></input>
-                            <textarea class="legendaryjsonValue action_description"> </textarea>
-
+                            <div class="column" style="flex:2">
+                                <label class="attr readonly_monster_attr legendaryjsonAttribute" tabindex="-1"
+                                    style="text-align:left">Description</label>
+                                <textarea class="legendaryjsonValue action_description"> </textarea>
+                            </div>
                         </div>
 
 
                     </div>
-                    <button class="small brown interactive" title="Add attribute" onclick="addRow('legendary_actions')">
-                        +
-                    </button>
+
 
 
 
@@ -1049,41 +1228,6 @@
                             onclick="return doneAdding('addmonsters')">Close</button>
                         <button class="button button_style brown save_button" disabled
                             onclick="return saveHomebrew(true)">Save</button>
-                    </div>
-                </div>
-                <div class="row" style="margin-left:-300px">
-                    <div class=column>
-                        <div class="column">
-                            <label for="dnd_beyond_crawler_input" style="font-size: 14px;">
-                                Copy from DnD beyond:
-                            </label>
-                            <input id="dnd_beyond_crawler_input" placeholder="Paste an url to a monster here">
-
-                        </div>
-                        <section class="cr_calculator_wrap column">
-                            <h2>Challenge rating calculator</h2>
-                            <label for="predictedDamageOutput">Predicted damage per round</label>
-                            <input type="number" id="predictedDamageOutput" placeholder="?" class="monsterCR">
-                            <label for="mainAttackBonus">Main attack bonus</label>
-                            <input type="number" placeholder="?" id="mainAttackBonus" class="monsterCR">
-                            <label for="OCR">Offensive challenge rating </label>
-                            <input type="text" id="OCR" readonly>
-                            <label for="DCR">Defensive challenge rating </label>
-                            <input type="text" id="DCR" readonly>
-                            <label for="suggestedCR">Suggested challenge rating </label>
-                            <input type="text" id="suggestedCR" readonly>
-                        </section>
-                    </div>
-                    <div class="column token_column" style="margin-left:100px;">
-                        <div class="row">
-                            <h2 style="margin:0;">Tokens</h2>
-                            <button class="small brown interactive" id="addTokenButton" disabled title="Add tokens"
-                                onclick="addTokensToCurrentMonster()">
-                                +
-                            </button>
-                        </div>
-                        <p class="explanation_text">These are tokens used by the Map Tool.</p>
-                        <div id="maptool_token_container"></div>
                     </div>
                 </div>
     </div>
