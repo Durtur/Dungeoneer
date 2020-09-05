@@ -287,7 +287,7 @@ function populateSpellClassDropdown() {
         if (option.name != "All classes") classList.push(option.name)
       });
       $("#spell_class_dropdown").chosen({
-        width: "180px",
+        width: "188px",
         placeholder_text_multiple: "All classes"
       });
 
@@ -349,12 +349,13 @@ function addClassTextBoxForSpells() {
   var newInput = document.createElement("input");
   newInput.classList.add("jsonValueClasses");
   var parentNode = document.getElementById("spell_class_row");
-  parentNode.insertBefore(newInput, parentNode.getElementsByClassName("awesomplete")[0])
+  parentNode.appendChild(newInput, parentNode.getElementsByClassName("awesomplete")[0])
 
   newInput.setAttribute("tabindex", 1)
 
   new Awesomplete(
-    newInput, { list: classList, autoFirst: true, minChars: 0 })
+    newInput, { list: classList, autoFirst: true, minChars: 0 });
+    newInput.focus();
 }
 
 var readDataFunction, writeDataFunction;
@@ -533,6 +534,7 @@ function updateMonsterLists() {
       displayAddEncounterMonsterList();
       var types = [];
       monsterMasterList.forEach(mon => {
+        if(!mon.type)return;
         var type = mon.type.trim();
         type = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase()
         if (types.indexOf(type) < 0)
@@ -1103,8 +1105,8 @@ function fillEncounterDifficultyLevels(levelArray) {
 
 
 //Lists all elements of Homebrew database in rows.
-function
-  loadAll() {
+function loadAll() {
+  console.log("Load all", readDataFunction);
   readDataFunction(function (data) {
     loadedData = data;
     //skítamix þartil ég bæti við id á öðru
@@ -1128,7 +1130,7 @@ function
 
 
 function listAll() {
-
+  console.log("List all")
   if (listedData == null) {
     listedData = loadedData;
   }

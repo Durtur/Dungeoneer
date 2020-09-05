@@ -436,80 +436,95 @@
                 <h2 class="edit_header_name">New spell</h2>
                 <div class="column">
                     <div class="addRowS">
-                        <div class="row" id="spell_class_row">
-                            <input type="text" class="jsonAttributeClasses brown" title="Attribute"
+                        <div class = "column">
+                            <div class = "row">
+                                <input type="text" class="jsonAttributeClasses brown monster_attribute_chapter_label" title="Attribute"
                                 placeholder="Attribute name" value="Classes" readonly tabindex="-1">
-                            <input tabindex=1 type="text" class="jsonValueClasses">
-                            <button class="small brown circular_button" title="Add class"
+                                <button class="small brown circular_button" style = "margin-top:1.5em" title="Add class"
                                 onclick="addClassTextBoxForSpells()">
                                 + </button>
+                            </div>
+                            <div class="row" id="spell_class_row">
+                   
+                                <input tabindex=1 type="text" class="jsonValueClasses">
+                            
+                            </div>
                         </div>
+            
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown " title="Attribute"
-                                placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                        <div class="column">
+                            <input type="text" class="jsonAttributeS brown monster_attribute_chapter_label "
+                                title="Attribute" value="Name" readonly tabindex="-1">
                             <input type="text" tabindex=1 class="jsonValueS db_name_field object_nameS">
                         </div>
+                        <div class="row monster_stat_row">
+                            <div class="column" style="width: 40px;">
+                                <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
+                                    placeholder="Attribute name" value="Level" readonly tabindex="-1">
+                                <input type="text" tabindex=1 class="jsonValueS">
+                            </div>
+                            <div class="column" style="flex:2">
+                                <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
+                                    placeholder="Attribute name" value="School" readonly tabindex="-1">
+                                <input type="text" tabindex=1 class="jsonValueS" id="spell_school_input">
+                            </div>
+                            <div class="column" style="width: 40px;">
+                                <input type="text" class=" readonly_monster_attr" value="Ritual" readonly tabindex="-1">
+                                <label class="container_for_checkbox">
+                                    <input type="checkbox" tabindex=1 class="center " id="ritual_casting_spell_checkbox"
+                                        title="Ritual casting">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
-                                placeholder="Attribute name" value="Level" readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueS">
                         </div>
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
-                                placeholder="Attribute name" value="School" readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueS" id="spell_school_input">
+                        <div class="row monster_stat_row">
+                            <div class="column">
+                                <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
+                                    placeholder="Attribute name" value="Range" readonly tabindex="-1">
+                                <input type="text" tabindex=1 class="jsonValueS">
+                            </div>
+
+                            <div class="column">
+                                <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
+                                    placeholder="Attribute name" value="Components" readonly tabindex="-1">
+                                <input tabindex=1 type="text" class="jsonValueS">
+                            </div>
                         </div>
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
-                                placeholder="Attribute name" value="Description" readonly tabindex="-1">
-                            <textarea tabindex=1 class="jsonValueS">  </textarea>
+                        <div class="row monster_stat_row">
+                            <div class="column">
+                                <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
+                                    placeholder="Attribute name" value="Casting time" readonly tabindex="-1">
+                                <input type="text" tabindex=1 class="jsonValueS">
+                            </div>
+    
+                            <div class="column">
+                                <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
+                                    placeholder="Attribute name" value="Duration" readonly tabindex="-1">
+                                <input type="text" tabindex=1 class="jsonValueS">
+                            </div>
+    
+                        </div>
+                        
+                        <div class="column">
+                            <input type="text" class="jsonAttributeS monster_attribute_chapter_label brown" title="Attribute"
+                            value="Description" readonly tabindex="-1">
+                            <textarea  style = "min-height:120px;"  tabindex=1 class="jsonValueS">  </textarea>
                         </div>
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
+                        <div class="column">
+                            <input type="text" class="jsonAttributeS monster_attribute_chapter_label brown" title="Attribute"
                                 placeholder="Attribute name" value="Higher levels" readonly tabindex="-1">
                             <textarea tabindex=1 class="jsonValueS">  </textarea>
                         </div>
 
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
-                                placeholder="Attribute name" value="Components" readonly tabindex="-1">
-                            <input tabindex=1 type="text" class="jsonValueS">
-                        </div>
 
 
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
-                                placeholder="Attribute name" value="Range" readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueS">
-                        </div>
+                     
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
-                                placeholder="Attribute name" value="Casting time" readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueS">
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class="jsonAttributeS brown" title="Attribute"
-                                placeholder="Attribute name" value="Duration" readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueS">
-                        </div>
-
-                        <div class="row">
-                            <input type="text" class=" brown" title="Attribute" placeholder="Attribute name"
-                                value="Ritual casting" readonly tabindex="-1">
-                            <label class="container_for_checkbox">
-                                <input type="checkbox" tabindex=1 class="center " id="ritual_casting_spell_checkbox"
-                                    title="Ritual casting">
-                                <span class="checkmark"></span>
-                            </label>
-                        </div>
 
                     </div>
 
@@ -751,8 +766,6 @@
                                     id="addmonster_name">
                             </div>
                             <div class="row monster_stat_row">
-
-                         
                                 <div class="column">
                                     <label class="attr readonly_monster_attr " tabindex="-1"
                                         for="addmonster_type">Type</label>
@@ -781,7 +794,7 @@
                             </div>
 
                             <div class="row monster_stat_row">
-                                
+
                                 <div class="column">
                                     <label class="attr readonly_monster_attr " tabindex="-1"
                                         for="addmonster_senses">Senses</label>
@@ -967,12 +980,13 @@
                                         id="addmonster_damage_vulnerabilities">
                                 </div>
                             </div>
-                            <div class = "row">
+                            <div class="row">
                                 <input type="text" class="attr brown monster_attribute_chapter_label"
-                                title="Other custom attribute" value="Other attributes" readonly tabindex="-1" />
-                                <button class="small brown circular_button" style = "  margin-top:1.5em;" title="Add row" onclick="addRow()"> + </button>
+                                    title="Other custom attribute" value="Other attributes" readonly tabindex="-1" />
+                                <button class="small brown circular_button" style="  margin-top:1.5em;" title="Add row"
+                                    onclick="addRow()"> + </button>
                             </div>
-            
+
                             <div class="row">
                                 <input type="text" class="jsonAttribute" title="Attribute" placeholder="Attribute name"
                                     value="">
@@ -986,10 +1000,10 @@
                             </div>
 
                         </div>
-            
+
 
                         <span style="margin-top:1.5em"></span>
-                        <div class = "row">
+                        <div class="row">
                             <input type="text" class="special_abilities_array brown" value="Special abilities" readonly
                                 tabindex="-1">
 
@@ -1077,21 +1091,24 @@
                         <div class="row action_row">
                             <div class="row spread_children">
                                 <div class="column" style="flex:2">
-                                    <input type="text" class=" brown actionjsonAttribute" style="width:6em;" value="Name" readonly
-                                        tabindex="-1">
+                                    <input type="text" class=" brown actionjsonAttribute" style="width:6em;"
+                                        value="Name" readonly tabindex="-1">
                                     <input type="text" class="actionjsonValue  action_name" value="Slam">
                                 </div>
 
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Attack bonus</label>
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Attack
+                                        bonus</label>
                                     <input type="number" class="actionjsonValue action_attack_bonus">
                                 </div>
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage dice</label>
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage
+                                        dice</label>
                                     <input type="text" class="actionjsonValue action_damage_dice">
                                 </div>
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage bonus</label>
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage
+                                        bonus</label>
                                     <input type="number" class="actionjsonValue action_damage_bonus">
                                 </div>
                             </div>
@@ -1106,21 +1123,24 @@
                         <div class="row action_row">
                             <div class="row spread_children">
                                 <div class="column" style="flex:2">
-                                    <input type="text" class=" brown actionjsonAttribute" style="width:6em;" value="Name" readonly
-                                        tabindex="-1">
+                                    <input type="text" class=" brown actionjsonAttribute" style="width:6em;"
+                                        value="Name" readonly tabindex="-1">
                                     <input type="text" class="actionjsonValue action_name" value="Slam">
                                 </div>
 
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Attack bonus</label>
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Attack
+                                        bonus</label>
                                     <input type="number" class="actionjsonValue action_attack_bonus">
                                 </div>
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage dice</label>
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage
+                                        dice</label>
                                     <input type="text" class="actionjsonValue action_damage_dice">
                                 </div>
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage bonus</label>
+                                    <label class="attr readonly_monster_attr actionjsonAttribute" tabindex="-1">Damage
+                                        bonus</label>
                                     <input type="number" class="actionjsonValue action_damage_bonus">
                                 </div>
                             </div>
@@ -1141,7 +1161,7 @@
 
                     <span></span>
 
-                    <div class="row" style = "margin-top:2em;">
+                    <div class="row" style="margin-top:2em;">
                         <input type="text" class="legendary_actions_array brown" value="Legendary actions " readonly
                             tabindex="-1">
                         <button class="small brown circular_button" title="Add attribute"
@@ -1156,20 +1176,23 @@
                             <div class="row spread_children">
                                 <div class="column" style="flex:2">
                                     <input type="text" class="legendaryjsonAttribute brown" value="Name" readonly
-                                        tabindex="-1" style = "width:6em;">
+                                        tabindex="-1" style="width:6em;">
                                     <input type="text" class="legendaryjsonValue action_name" value="">
                                 </div>
 
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr legendaryjsonAttribute" tabindex="-1">Attack bonus</label>
+                                    <label class="attr readonly_monster_attr legendaryjsonAttribute"
+                                        tabindex="-1">Attack bonus</label>
                                     <input type="number" class="legendaryjsonValue action_attack_bonus">
                                 </div>
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr legendaryjsonAttribute" tabindex="-1">Damage dice</label>
+                                    <label class="attr readonly_monster_attr legendaryjsonAttribute"
+                                        tabindex="-1">Damage dice</label>
                                     <input type="text" class="legendaryjsonValue action_damage_dice">
                                 </div>
                                 <div class="column" style="flex:1">
-                                    <label class="attr readonly_monster_attr legendaryjsonAttribute" tabindex="-1">Damage bonus</label>
+                                    <label class="attr readonly_monster_attr legendaryjsonAttribute"
+                                        tabindex="-1">Damage bonus</label>
                                     <input type="number" class="legendaryjsonValue action_damage_bonus">
                                 </div>
                             </div>

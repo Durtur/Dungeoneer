@@ -136,5 +136,15 @@
         "Humanoid",
         "Monstrosity",
         "Ooze"
+    ],
+    "spellSchools":[
+        "Abjuration",
+        "Conjuration",
+        "Divination",
+        "Enchantment",
+        "Evocation",
+        "Illusion",
+        "Necromancy",
+        "Transmutation"
     ]
 }

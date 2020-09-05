@@ -1,0 +1,54 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js
+
+PATH: 
+  C:\Users\notandi\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\notandi\bin;C:\Python38\Scripts;C:\Python38;C:\Python34\Lib\site-packages\PyQt4;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Lenovo\FusionEngine;C:\Program Files (x86)\Intel\iCLS Client;C:\Program Files\Intel\iCLS Client;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Lenovo\Motion Control;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Skype\Phone;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\Git\cmd;C:\Program Files\PuTTY;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\dotnet;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Program Files (x86)\Yarn\bin;C:\Program Files\nodejs;C:\ProgramData\chocolatey\bin;C:\Users\notandi\.windows-build-tools\python27;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Users\notandi\AppData\Roaming\npm\node_modules\windows-build-tools\node_modules\.bin;C:\Users\notandi\AppData\Roaming\npm\node_modules\.bin;C:\Users\notandi\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Users\notandi\AppData\Local\atom\bin;C:\Users\notandi\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl;C:\Users\notandi\AppData\Local\Microsoft\WindowsApps;C:\Users\notandi\AppData\Local\Yarn\bin;C:\Users\notandi\AppData\Roaming\npm;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.18.3
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EBUSY: resource busy or locked, unlink 'C:\Users\notandi\OneDrive\Forritun\HTMLogJAVASCRIPT\Electron\DMTool\node_modules\electron\dist\content_resources_200_percent.pak'
+
+npm manifest: 
+  {
+    "name": "dungeoneer",
+    "productName": "Dungeoneer",
+    "version": "1.0.0",
+    "description": "A tool for Dungeon Masters running 5th edition D&D games.",
+    "main": "main.js",
+    "scripts": {
+      "start": "electron .",
+      "build": "electron-builder build --win --publish never",
+      "deploy": "electron-builder build --win --publish always"
+    },
+    "author": "durtur@github ",
+    "license": "CC-BY-NC-4.0",
+    "devDependencies": {
+      "electron": "^1.8.8",
+      "electron-builder": "^20.44.4",
+      "electron-packager": "^10.1.2"
+    },
+    "dependencies": {
+      "electron-prompt": "^1.3.1",
+      "electron-updater": "^4.1.2",
+      "file-system": "^2.2.2",
+      "marked": "^0.3.18",
+      "nouislider": "^14.0.2",
+      "turndown": "^5.0.3",
+      "uniqid": "^5.2.0"
+    },
+    "postinstall": "electron-builder install-app-deps"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

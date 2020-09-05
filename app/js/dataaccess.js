@@ -241,7 +241,9 @@ var dataAccess = function () {
     }
 
     function baseGetWithFullPath(path, callback, fallbackValue, fallbackPath) {
+  
         fs.readFile(path, function (err, data) {
+      
             if (err) {
                 console.log("Error getting file", err, fallbackValue)
 
@@ -258,8 +260,10 @@ var dataAccess = function () {
                 }
 
             } else {
-                data = JSON.parse(data);
-                callback(data);
+         
+                var ret = JSON.parse(data);
+           
+                callback(ret);
             }
             if (typeof (callback) != "function") console.log("Attempted to open " + path + " without a callback function, received " + callback);
         });

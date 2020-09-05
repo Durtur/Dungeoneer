@@ -4,6 +4,7 @@ var forcedMonsterIndexNum = null;
 var loadedMonster = {};
 var loadedMonsterQueue = [];
 var loadedEncounter = [];
+
 var marked = require('marked');
 const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');

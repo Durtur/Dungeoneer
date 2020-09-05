@@ -237,6 +237,11 @@ html {
   border-top-right-radius: 0;
 }
 
+#addspells .container_for_checkbox {
+  margin: auto;
+  margin-top: 0;
+}
+
 .listWrap {
   display: flex;
   position: relative;
@@ -258,7 +263,7 @@ html {
   border-radius: 5px;
 }
 
-.object_name, .action_name{
+.db_name_field, .action_name {
   font-size: 1.2em;
 }
 
@@ -506,8 +511,8 @@ html {
   justify-content: space-between;
 }
 
-.addmonster_description{
-  min-height:120px;
+.addmonster_description {
+  min-height: 120px;
 }
 
 .addRow_actions .column, .addRow_legendary_actions .column {
@@ -520,9 +525,9 @@ html {
   margin: auto;
 }
 
-.jsonValueClasses {
-  width: 50px;
-  height: 80%;
+.addframe .jsonValueClasses {
+  width: 60px;
+
 }
 
 .hidden {

@@ -11,7 +11,7 @@
   --rounded-corners: 5px;
 }
 
-input:focus, textarea:focus {
+input:not(:read-only):focus, textarea:focus {
   outline: 2px dashed #555 !important;
 }
 

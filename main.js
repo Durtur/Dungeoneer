@@ -4,7 +4,7 @@ const { ipcMain } = require('electron')
 var fs = require('fs');
 const { autoUpdater } = require('electron-updater');
 
-
+app.allowRendererProcessReuse = false;
 
 // Module to control application life.
 //const app = electron.app
@@ -129,6 +129,7 @@ ipcMain.on('open-database-window', function () {
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule:true
     }
   });
 
@@ -166,6 +167,7 @@ ipcMain.on("open-maptool-backdrop-window",function(){
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule:true
     }
   });
 
@@ -228,6 +230,7 @@ ipcMain.on('open-generator-window', function () {
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule:true
     }
   });
 
@@ -249,7 +252,11 @@ function openAddMapToolStuffWindow(){
     resizable: true,
     width: 1200,
     frame: false,
-    icon: "./app/css/img/icon.png"
+    icon: "./app/css/img/icon.png",
+    webPreferences:{
+      nodeIntegration:true,
+      enableRemoteModule:true
+    }
   });
 
   mapToolAddWindow.loadURL('file://' + __dirname + '/app/addMapToolStuff.html');
@@ -270,7 +277,11 @@ function openAboutWindow() {
     resizable: true,
     width: 400,
     frame: false,
-    icon: "./app/css/img/icon.png"
+    icon: "./app/css/img/icon.png",
+    webPreferences:{
+      nodeIntegration:true,
+      enableRemoteModule:true
+    }
   });
 
   aboutWindow.loadURL('file://' + __dirname + '/app/about/about.html');
@@ -293,7 +304,8 @@ function openSettingsWindow() {
     frame: false,
     icon: "./app/css/img/settings.png",
     webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration:true,
+      enableRemoteModule:true
     }
   });
 
@@ -314,12 +326,19 @@ function createWindow() {
   // Create the browser window.
   loading = new BrowserWindow({
     width: 150, height: 150, show: false, frame: false, transparent: true, icon: "./app/css/img/icon.png", webPreferences: {
-      nodeIntegration: true,
+      nodeIntegration:true,
+      enableRemoteModule:true
     }
   });
 
   loading.once('show', () => {
-    mainWindow = new BrowserWindow({ width: 1250, frame: false, height: 850, icon: "./app/css/img/icon.png", show: false });
+    mainWindow = new BrowserWindow(
+      { width: 1250, frame: false, height: 850, icon: "./app/css/img/icon.png", show: false ,
+      webPreferences:{
+        nodeIntegration:true,
+        enableRemoteModule:true
+      }
+    });
 
     mainWindow.webContents.once('dom-ready', () => {
 
@@ -406,6 +425,7 @@ function createMapToolWindow(callback) {
       transparent: transparentWindow,
       webPreferences: {
         nodeIntegration: true,
+        enableRemoteModule:true
       }
     }));
 
