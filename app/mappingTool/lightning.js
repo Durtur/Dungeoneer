@@ -230,7 +230,7 @@ var fovLighting = function () {
     function importDungeondraftWalls() {
         var dungeonDraftCellSize = 256;
         difference = cellSize / dungeonDraftCellSize;
-        var path = dialog.showOpenDialog(remote.getCurrentWindow(), {
+        var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
             properties: ['openFile', 'multiSelections'],
             message: "Choose dungeondraft map location",
             filters: [{ name: 'Dungeondraft map', extensions: ['dungeondraft_map'] }]

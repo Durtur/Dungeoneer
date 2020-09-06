@@ -66,5 +66,5 @@ function setDrawer(index) {
 }
 
 function openDataFolder(){
-     shell.openItem(resourcePath);
+     shell.openPath(resourcePath);
 }

@@ -2236,7 +2236,7 @@ function addPlayerRow() {
 function pickPlayerToken(evt) {
   var charId = evt.target.closest(".pcRow").getAttribute("data-char_id");
 
-  var tokenPath = dialog.showOpenDialog(
+  var tokenPath = dialog.showOpenDialogSync(
     remote.getCurrentWindow(), {
       properties: ['openFile'],
       message: "Choose picture location",

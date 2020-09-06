@@ -50,7 +50,7 @@ function startEditingEntry() {
     previewEffectClasses();
 }
 function addArtToEffect() {
-    var imagePaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
+    var imagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
         properties: ['openFile', 'multiSelections'],
         message: "Choose picture location",
         filters: [{ name: 'Images', extensions: ['png', "jpg", "gif"] }]

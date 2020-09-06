@@ -551,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("icon_load_button_add_pawn").onclick = function () {
 
-        addPawnImagePaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
+        addPawnImagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
             properties: ['openFile', 'multiSelections'],
             message: "Choose picture location",
             filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
@@ -773,7 +773,7 @@ function onSettingsLoaded() {
     gridLayer.onmousedown = generalMousedowngridLayer;
 
     document.getElementById("file_load_button").onclick = function (e) {
-        var path = dialog.showOpenDialog(remote.getCurrentWindow(), {
+        var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
             properties: ['openFile'],
             message: "Choose map",
             filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
@@ -847,7 +847,7 @@ function onSettingsLoaded() {
         ipcRenderer.send("open-maptool-backdrop-window");
     };
     document.querySelector("#map_edge_button").onclick = function (e) {
-        var imgPath = dialog.showOpenDialog(remote.getCurrentWindow(),
+        var imgPath = dialog.showOpenDialogSync(remote.getCurrentWindow(),
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
@@ -861,7 +861,7 @@ function onSettingsLoaded() {
     }
 
     document.getElementById("load_map_button").onclick = function (e) {
-        var path = dialog.showOpenDialog(
+        var path = dialog.showOpenDialogSync(
 
             remote.getCurrentWindow(),
             {
@@ -1178,7 +1178,7 @@ function effectDropdownChange(event) {
 
     } else if (event.target == sfxDropdown) {
         if ($("#add_sfx_dropdown").val() == "custom") {
-            var sfxPath = dialog.showOpenDialog(remote.getCurrentWindow(),
+            var sfxPath = dialog.showOpenDialogSync(remote.getCurrentWindow(),
                 {
                     properties: ['openFile'],
                     message: "Choose picture location",
@@ -2516,7 +2516,7 @@ function startAddingFromQueue() {
 var measurementFillStylePath;
 function setFillStyle() {
     measurementFillStylePath =
-        dialog.showOpenDialog(remote.getCurrentWindow(),
+        dialog.showOpenDialogSync(remote.getCurrentWindow(),
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
@@ -2654,7 +2654,7 @@ function setTokenImageHandler(e) {
     var input = document.getElementById("icon_load_button");
     var facetButton = document.getElementById("add_token_facet_button");
 
-    var imagePaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
+    var imagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
         properties: ['openFile', 'multiSelections'],
         message: "Choose picture location",
         filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]

@@ -71,7 +71,7 @@ $(document).ready(function () {
   document.querySelector("#encounter_table_header_row").addEventListener("click", sortEncounterMasterList);
 
   document.getElementById("condition_image_picker").onclick = function (e) {
-    selectedConditionImagePath = dialog.showOpenDialog(remote.getCurrentWindow(), {
+    selectedConditionImagePath = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
       properties: ['openFile'],
       message: "Choose picture location",
       filters: [{
@@ -1288,7 +1288,7 @@ function listAll() {
 }
 
 function addTokensToCurrentMonster() {
-  var imagePaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
+  var imagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
     properties: ['openFile', 'multiSelections'],
     message: "Choose picture location",
     filters: [{

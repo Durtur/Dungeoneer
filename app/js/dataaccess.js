@@ -15,7 +15,7 @@ const generatorResourcePath = pathModule.join(app.getPath("userData"), "data", "
 const defaultTokenPath = pathModule.join(app.getPath("userData"), "data", "maptool_tokens");
 const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "maptool_effects");
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
-const conditionResourcePath = pathModule.join(pathModule.dirname(__dirname),'app', 'mappingTool', 'tokens', 'conditions');
+const conditionResourcePath = pathModule.join(pathModule.dirname(__dirname), 'app', 'mappingTool', 'tokens', 'conditions');
 var dataAccess = function () {
     function initializeData() {
         console.log("Initalizing data...");
@@ -31,18 +31,18 @@ var dataAccess = function () {
 
         if (!fs.existsSync(generatorResourcePath))
             fs.mkdirSync(generatorResourcePath);
-            
+
         if (!fs.existsSync(defaultEffectPath))
             fs.mkdirSync(defaultEffectPath);
 
-        if (!fs.existsSync(conditionImagePath)){
+        if (!fs.existsSync(conditionImagePath)) {
             fs.mkdirSync(conditionImagePath);
-            getConditions((conditions)=>{          
-                conditions.forEach(condition=>{
+            getConditions((conditions) => {
+                conditions.forEach(condition => {
                     var condResourcePath = pathModule.join(conditionResourcePath, condition.name.toLowerCase() + ".png");
                     var condStorePath = pathModule.join(conditionImagePath, condition.name.toLowerCase() + ".png");
-      
-                    if(fs.existsSync(condResourcePath)){
+
+                    if (fs.existsSync(condResourcePath)) {
                         fs.createReadStream(condResourcePath).pipe(fs.createWriteStream(condStorePath));
                         condition.condition_background_location = condStorePath;
                     }
@@ -50,7 +50,7 @@ var dataAccess = function () {
                 setConditions(conditions);
             });
         }
-            
+
     }
 
     function writeAutofillData(data, callback) {
@@ -67,7 +67,7 @@ var dataAccess = function () {
         return baseGetPredefined("monsters.json", callback);
     }
     function setMonsters(data, callback) {
-        return baseSet("monsters.json", data, callback);
+         return baseSet("monsters.json", data, callback);
     }
     function getTables(callback) {
         return baseGetPredefined("tables.json", callback);
@@ -157,7 +157,7 @@ var dataAccess = function () {
     function setGeneratorData(data, callback) {
         if (!fs.existsSync(generatorResourcePath))
             fs.mkdirSync(generatorResourcePath);
-        return baseSetWithFullPath(pathModule.join(generatorResourcePath, "names.json"),data, callback);
+        return baseSetWithFullPath(pathModule.join(generatorResourcePath, "names.json"), data, callback);
     }
 
     function getGeneratorHookData(callback) {
@@ -241,9 +241,9 @@ var dataAccess = function () {
     }
 
     function baseGetWithFullPath(path, callback, fallbackValue, fallbackPath) {
-  
+
         fs.readFile(path, function (err, data) {
-      
+
             if (err) {
                 console.log("Error getting file", err, fallbackValue)
 
@@ -260,24 +260,26 @@ var dataAccess = function () {
                 }
 
             } else {
-         
+
                 var ret = JSON.parse(data);
-           
+
                 callback(ret);
             }
             if (typeof (callback) != "function") console.log("Attempted to open " + path + " without a callback function, received " + callback);
         });
     }
 
-    function readFile(path, callback){
+    function readFile(path, callback) {
         fs.readFile(path, function (err, data) {
             if (err)
-               throw err;
+                throw err;
             callback(JSON.parse(data));
         });
     }
+
+
     return {
-        readFile : readFile,
+        readFile: readFile,
         getTokenPath: getTokenPath,
         saveToken: saveToken,
         setMapToolData: setMapToolData,

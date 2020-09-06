@@ -62,7 +62,7 @@ $(document).ready(function () {
   document.querySelector("#encounter_table_header_row").addEventListener("click", sortEncounterMasterList);
 
   document.getElementById("condition_image_picker").onclick = function (e) {
-    selectedConditionImagePath = dialog.showOpenDialog(
+    selectedConditionImagePath = dialog.showOpenDialogSync(
       remote.getCurrentWindow(), {
       properties: ['openFile'],
       message: "Choose picture location",
@@ -318,7 +318,7 @@ function doneAdding(elname) {
 
 function newItem() {
   var element = document.getElementById("add" + tabElementNameSuffix);
-  element.getElementsByClassName("edit_header_name")[0].innerHTML =  "New " + (tab.charAt(tab.length-1) === "s" ? tab.substring(0, tab.length - 1) : tab);
+  element.getElementsByClassName("edit_header_name")[0].innerHTML = "New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab);
   element.classList.remove("hidden");
   clearAddForm();
 
@@ -355,7 +355,7 @@ function addClassTextBoxForSpells() {
 
   new Awesomplete(
     newInput, { list: classList, autoFirst: true, minChars: 0 });
-    newInput.focus();
+  newInput.focus();
 }
 
 var readDataFunction, writeDataFunction;
@@ -534,7 +534,7 @@ function updateMonsterLists() {
       displayAddEncounterMonsterList();
       var types = [];
       monsterMasterList.forEach(mon => {
-        if(!mon.type)return;
+        if (!mon.type) return;
         var type = mon.type.trim();
         type = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase()
         if (types.indexOf(type) < 0)
@@ -1212,7 +1212,7 @@ function listAll() {
 }
 
 function addTokensToCurrentMonster() {
-  var imagePaths = dialog.showOpenDialog(remote.getCurrentWindow(), {
+  var imagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
     properties: ['openFile', 'multiSelections'],
     message: "Choose picture location",
     filters: [{ name: 'Images', extensions: ['png'] }]
@@ -1225,8 +1225,9 @@ function addTokensToCurrentMonster() {
 
 function fillCurrentMonsterTokens(entryId) {
   document.querySelectorAll(".token").forEach(tok => tok.parentNode.removeChild(tok));
-  var i = 0;
+
   var paths = getAllTokenPaths(entryId);
+  console.log("All token paths for token " + entryId, paths)
   paths.forEach(p => {
     createToken(p, true)
   })
@@ -1312,7 +1313,7 @@ function clearAddForm() {
   currentEntry = null;
   var letter = getLetterFromTabName();
   if (letter == "") document.querySelectorAll(".token").forEach(tok => tok.parentNode.removeChild(tok));
-  if(letter == "C") document.getElementById("condition_image_picker").setAttribute("src", "");
+  if (letter == "C") document.getElementById("condition_image_picker").setAttribute("src", "");
 
 }
 
@@ -1336,7 +1337,7 @@ function editCopyHelper(entryId, isEdit) {
     currentEntry = { name: entry.name, id: entryId };
     $("#add" + tabElementNameSuffix + ">.edit_header_name").html("Editing " + entry.name);
   } else {
-    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length-1) === "s" ? tab.substring(0, tab.length - 1) : tab));
+    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
   }
   showAddForm("tab");
 
@@ -1354,10 +1355,6 @@ function editCopyHelper(entryId, isEdit) {
 
 const hiddenAttributes = ["source", "id"];
 function editObject(dataObject, letter) {
-  if (dataObject == null) {
-    console.log("No data obj")
-    return;
-  }
   var valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
   var keysElements = [...document.querySelectorAll(".jsonAttribute" + letter)];
   keysElements.forEach(x => x.value = "");
@@ -1397,6 +1394,7 @@ function editObject(dataObject, letter) {
       if (loadedKeys[i] == "actions" || loadedKeys[i] == "legendary_actions") {
         var actionRows = document.querySelectorAll(loadedKeys[i] == "actions" ? ".action_row" : ".legendary_action_row");
         var difference = loadedValues[i].length - actionRows.length;
+        console.log(difference + " row difference")
         //Tékka hvort það séu nógu margir fields og bæta við ef þarf. 
         if (difference > 0) {
           for (var diff = 0; diff < difference; diff++) {
@@ -1405,8 +1403,8 @@ function editObject(dataObject, letter) {
           actionRows = document.querySelectorAll(loadedKeys[i] == "actions" ? ".action_row" : ".legendary_action_row");
         }
 
+
         for (var j = 0; j < loadedValues[i].length; j++) {
-          console.log(loadedValues[i])
           var currentAction = loadedValues[i][j];
           if (currentAction.name != null) actionRows[j].getElementsByClassName("action_name")[0].value = currentAction.name;
           if (currentAction.attack_bonus != null) actionRows[j].getElementsByClassName("action_attack_bonus")[0].value = currentAction.attack_bonus;
@@ -1534,18 +1532,18 @@ function editObject(dataObject, letter) {
     //Sértilfelli fyrir NPC og monster þar sem það eru nokkrir fields sem þurfa að vera til staðar
     ["name", "size", "description", "type", "hit_dice", "speed", "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "senses", "languages"
       , "challenge_rating", "subtype", "alignment", "armor_class", "hit_points", "skills",
-      "damage_resistances","damage_immunities","condition_immunities", "damage_vulnerabilities"].forEach(entry => fillFieldAndRemoveFromObject(entry, keyArray, valueArray));
+      "damage_resistances", "damage_immunities", "condition_immunities", "damage_vulnerabilities"].forEach(entry => fillFieldAndRemoveFromObject(entry, keyArray, valueArray));
 
-    var savingThrowInputs = [... document.querySelectorAll(".saving_throw_input")];
-    savingThrowInputs.forEach(inp=> {
+    var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
+    savingThrowInputs.forEach(inp => {
       var attr = inp.getAttribute("data-dnd_attr");
-      for(var i = 0 ; i < keyArray.length ; i++){
-        if(keyArray[i] !=attr)continue;
+      for (var i = 0; i < keyArray.length; i++) {
+        if (keyArray[i] != attr) continue;
         inp.value = valueArray[i];
         removeFromObject(attr, keyArray, valueArray);
         break;
       }
-    
+
     });
     valuesElements.forEach(function (x) { x.value = "" });
     keysElements.forEach(function (x) { x.value = "" });
@@ -1943,22 +1941,20 @@ function addRow(str) {
 
 
 
-function addAttributeArray(valueBoxes, attributeBoxes, attributeKey, thingyToSave) {
-  var specialActions = [];
-  var specialAction = {};
+function AddActionArray(attributeKey, rowElementClass, thingyToSave) {
+  var rows = document.querySelectorAll(rowElementClass);
+  var actionArr = [];
+  rows.forEach(row => {
+    var obj = {};
+    ["name", "attack_bonus", "damage_dice", "damage_bonus", "description"].forEach(property => {
+      var value = row.querySelector(".action_" + property).value;
+      if (value != "" && value != null) obj[property] = value;
+    });
+    actionArr.push(obj);
+  });
 
-  
-  for (var i = 0; i < valueBoxes.length; i++) {
-    if (attributeBoxes[i].value != "" && valueBoxes[i].value != "" && valueBoxes[i].value != " ") {
-      attribute = (attributeBoxes[i].value || attributeBoxes[i].innerHTML).serialize();
-      specialAction[attribute] = valueBoxes[i].value;
-    }
-    if ((i + 1) % 5 == 0 && i > 0 && specialAction != null && specialAction != [] && !isEmpty(specialAction)) {
-      specialActions.push(specialAction);
-      specialAction = {};
-    }
-  }
-  if (specialActions.length != 0) thingyToSave[attributeKey] = specialActions;
+
+  if (actionArr.length != 0) thingyToSave[attributeKey.serialize()] = actionArr;
 }
 
 
@@ -2000,7 +1996,8 @@ function saveHomebrew() {
     window.scroll(0, 0);
     return;
   }
-  var thingyToSave = {};
+  var thingyToSave = { id: currentEntry ? currentEntry.id : null };
+
   var attribute;
 
   if (tab == "spells") {
@@ -2040,11 +2037,11 @@ function saveHomebrew() {
     addProperty("languages", thingyToSave)
     addProperty("skills", thingyToSave);
     addProperty("challenge_rating", thingyToSave, 0)
-    var savingThrowInputs = [... document.querySelectorAll(".saving_throw_input")];
-    savingThrowInputs.forEach(inp=> {
+    var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
+    savingThrowInputs.forEach(inp => {
       var attr = inp.getAttribute("data-dnd_attr");
-      if(inp.value != null && inp.value != "" && inp.value != "0"){
-        thingyToSave[attr]= inp.value;
+      if (inp.value != null && inp.value != "" && inp.value != "0") {
+        thingyToSave[attr] = inp.value;
       }
     });
   } else if (tab == "encounters") {
@@ -2070,11 +2067,11 @@ function saveHomebrew() {
     var attribute = "special_abilities";
 
     //populate actions
-    addAttributeArray(document.getElementsByClassName("actionjsonValue"), document.getElementsByClassName("actionjsonAttribute"), "actions", thingyToSave);
+    AddActionArray("actions", ".action_row", thingyToSave);
 
 
     //populate legendary actions
-    addAttributeArray(document.getElementsByClassName("legendaryjsonValue"), document.getElementsByClassName("legendaryjsonAttribute"), "legendary_actions", thingyToSave);
+    AddActionArray("legendary_actions", ".legendary_action_row", thingyToSave);
   } else if (tab == "encounters") {
     valueBoxes = document.getElementsByClassName("specialjsonValueE");
     attributeBoxes = document.getElementsByClassName("specialjsonAttributeE");
@@ -2198,13 +2195,12 @@ function saveHomebrew() {
     }
 
     currentEntry = null;
-    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length-1) === "s" ? tab.substring(0, tab.length - 1) : tab));
+    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
     loadAll();
   }
   function addProperty(property, object, fallbackValue) {
 
     var valueElement = document.getElementsByClassName("addmonster_" + property)[0];
-    console.log(valueElement, property)
     if (valueElement.value == "" && !fallbackValue) return;
     object[property] = valueElement.value ? valueElement.value : fallbackValue;
   }

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     buttonContainer = document.querySelector(".button_cont");
   
     document.querySelector("#choose_file").onclick = function (e) {
-        var imgPath = dialog.showOpenDialog(remote.getCurrentWindow(),
+        var imgPath = dialog.showOpenDialogSync(remote.getCurrentWindow(),
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
