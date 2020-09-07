@@ -1352,17 +1352,46 @@ function editCopyHelper(entryId, isEdit) {
   editObject(entry, letter);
 }
 
+function editSpell(dataObject) {
+  fillClasses(dataObject);
+  ["name", "level", "description", "casting_time", "duration", "higher_levels", "range", "components", "school"].
+    forEach(prop => {
+      var box = document.querySelector(".spell_" + prop);
+      box.value = dataObject[prop];
+   
+    });
 
+    function fillClasses(dataObject) {
+      var classes = dataObject.classes;
+      if (classes == null) return;
+  
+      var classBoxes = document.querySelectorAll(".jsonValueClasses");
+      var difference = classes.length - classBoxes.length;
+  
+      if (difference > 0) {
+        for (var k = 0; k < difference; k++) {
+          addClassTextBoxForSpells();
+        }
+      }
+      classBoxes = document.querySelectorAll(".jsonValueClasses");
+      for (var k = 0; k < classes.length; k++) {
+        classBoxes[k].value = classes[k];
+      }
+      delete dataObject.classes;
+    }
+}
 const hiddenAttributes = ["source", "id"];
 function editObject(dataObject, letter) {
+  if (letter == "S")
+    return editSpell(dataObject);
   var valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
   var keysElements = [...document.querySelectorAll(".jsonAttribute" + letter)];
   keysElements.forEach(x => x.value = "");
   valuesElements.forEach(x => x.value = "");
 
   hiddenAttributes.forEach(attr => { if (dataObject[attr]) delete dataObject[attr] })
-  if (letter === "S")
-    fillClasses(dataObject);
+
+
   var loadedKeys = Object.keys(dataObject);
   var loadedValues = Object.values(dataObject);
 
@@ -1373,8 +1402,9 @@ function editObject(dataObject, letter) {
   removeFromObject("condition_background_location", loadedKeys, loadedValues);
   removeFromObject("encounter_xp_value", loadedKeys, loadedValues);
 
-  if (letter === "")
+  if (letter === "") {
     fillNpcRequiredStats(loadedKeys, loadedValues);
+  }
 
   //Refetch
   if (addFieldsIfNeeded(loadedKeys.length - valuesElements.length)) {
@@ -1474,24 +1504,7 @@ function editObject(dataObject, letter) {
     valueElement.value = val ? val : "";
   }
 
-  function fillClasses(dataObject) {
-    var classes = dataObject.classes;
-    if (classes == null) return;
 
-    var classBoxes = document.querySelectorAll(".jsonValueClasses");
-    var difference = classes.length - classBoxes.length;
-
-    if (difference > 0) {
-      for (var k = 0; k < difference; k++) {
-        addClassTextBoxForSpells();
-      }
-    }
-    classBoxes = document.querySelectorAll(".jsonValueClasses");
-    for (var k = 0; k < classes.length; k++) {
-      classBoxes[k].value = classes[k];
-    }
-    delete dataObject.classes;
-  }
 
   function removeFromObject(property, keys, values) {
     var i;
@@ -2009,7 +2022,15 @@ function saveHomebrew() {
     });
     thingyToSave.classes = classes;
     thingyToSave.ritual = document.getElementById("ritual_casting_spell_checkbox").checked;
-
+    addProperty("name", thingyToSave, null, "spell_");
+    addProperty("description", thingyToSave, null, "spell_");
+    addProperty("school", thingyToSave, null, "spell_");
+    addProperty("range", thingyToSave, null, "spell_");
+    addProperty("duration", thingyToSave, null, "spell_");
+    addProperty("level", thingyToSave, null, "spell_");
+    addProperty("components", thingyToSave, null, "spell_");
+    addProperty("casting_time", thingyToSave, null, "spell_");
+    addProperty("higher_levels", thingyToSave, null, "spell_");
   }
   if (tab == "monsters" || tab == "homebrew") {
     //Sértilfelli fyrir NPC og monster þar sem það eru nokkrir fields sem þurfa að vera til staðar
@@ -2198,9 +2219,10 @@ function saveHomebrew() {
     $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
     loadAll();
   }
-  function addProperty(property, object, fallbackValue) {
-
-    var valueElement = document.getElementsByClassName("addmonster_" + property)[0];
+  function addProperty(property, object, fallbackValue, classPrefix) {
+   
+    var valueElement = document.getElementsByClassName((classPrefix ? classPrefix : "addmonster_") + property)[0];
+    console.log(property, valueElement, classPrefix)
     if (valueElement.value == "" && !fallbackValue) return;
     object[property] = valueElement.value ? valueElement.value : fallbackValue;
   }
