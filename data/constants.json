@@ -68,26 +68,22 @@
             "titanic"
         ]
     },
-
-    "creatureWounds":
-    [
-         {
-            "percentage":0.25,
-            "text":"Near death",
-            "className":"pawn_wound_near_death"
-        },
-       
+    "creatureWounds": [
         {
-            "percentage":0.5,
-            "text":"Wounded",
-            "className":"pawn_wound_wounded"
+            "percentage": 0.25,
+            "text": "Near death",
+            "className": "pawn_wound_near_death"
         },
         {
-            "percentage":0.75,
-            "text":"Bloodied",
-            "className":"pawn_wound_bloodied"
+            "percentage": 0.5,
+            "text": "Wounded",
+            "className": "pawn_wound_wounded"
+        },
+        {
+            "percentage": 0.75,
+            "text": "Bloodied",
+            "className": "pawn_wound_bloodied"
         }
-        
     ],
     "dicePossibleSides": [
         100,
@@ -110,7 +106,6 @@
         "Weapon",
         "Wand",
         "Armor",
-        "List",
         "Wondrous item",
         "Potion",
         "Scroll",
@@ -137,7 +132,7 @@
         "Monstrosity",
         "Ooze"
     ],
-    "spellSchools":[
+    "spellSchools": [
         "Abjuration",
         "Conjuration",
         "Divination",
@@ -146,5 +141,25 @@
         "Illusion",
         "Necromancy",
         "Transmutation"
+    ],
+    "skills": [
+        "Athletics",
+        "Acrobatics",
+        "Sleight of Hand",
+        "Stealth",
+        "Arcana",
+        "History",
+        "Investigation",
+        "Nature",
+        "Religion",
+        "Animal Handling",
+        "Insight",
+        "Medicine",
+        "Perception",
+        "Survival",
+        "Deception",
+        "Intimidation",
+        "Performance",
+        "Persuasion"
     ]
 }

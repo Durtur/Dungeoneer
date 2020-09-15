@@ -107,6 +107,7 @@ function loadSettings() {
         filterDd.selectedIndex = parseInt(filterValue);
         setBackgroundFilter();
         if (settings.currentMap) {
+            console.log(settings.currentMap);
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 

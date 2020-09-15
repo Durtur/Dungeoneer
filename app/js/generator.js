@@ -1,3 +1,5 @@
+const dataAccess = require("./js/dataaccess");
+
 
 module.exports = {
     saySomething: function () {
@@ -82,7 +84,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     document.getElementById("reroll_shop_button").addEventListener("click", function (devt) {
-        dataAccess.getItems(data => generateShopInventory(data, false));
+        dataAccess.getItems(data => generateShop(data, false));
     });
     document.getElementById("regenerate_name_button").addEventListener("click", function (e) {
         rerollNpc("name");
@@ -131,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelector("#generate_shop_button").addEventListener("click", function () {
         dataAccess.getItems(function (data) {
             document.getElementById("reroll_shop_button").classList.remove("hidden");
-            generateShopInventory(data, true);
+            generateShop(data, true);
         });
 
     });
@@ -562,7 +564,7 @@ function createCreatureTreeList(object) {
 }
 
 
-function generateShopInventory(data, generateDescription) {
+function generateShop(data, generateDescription) {
     var shopWealthDropdown = document.querySelector("#shop_wealth");
     var shopWealth = shopWealthDropdown.selectedIndex;
     var shopTypeDropdown = document.querySelector("#shop_type");
@@ -671,6 +673,7 @@ function emptyAndCreateTable() {
     while (tableContainer.firstChild) {
         tableContainer.removeChild(tableContainer.firstChild);
     }
+    tableContainer.setAttribute("data-shop_inventory", JSON.stringify(shopInventory));
     tableContainer.appendChild(table)
 
 
@@ -1380,8 +1383,8 @@ function generateTavern() {
 
 
         var ownerName = tavernOwner.lastname;
-        if (ownerName != "") ownerName = " " + ownerName;
-        description += "<br><br>The owner, " + tavernOwner.firstname + ownerName + "," + tavernOwner.tavernKeepDescription;
+        if (ownerName != "" && ownerName != null) ownerName = " " + ownerName;
+        description += "<br><br>The owner, " + tavernOwner.firstname + (ownerName || "") + "," + tavernOwner.tavernKeepDescription;
 
         document.getElementById("tavern_description").innerHTML = description;
 
@@ -1608,7 +1611,7 @@ function generateShopDescription(shopType, shopWealth, inventorySize) {
         }
 
         var ownerLastName;
-        if (shopOwner.lastname != "") {
+        if (shopOwner.lastname) {
             ownerLastName = shopOwner.lastname;
         } else {
             ownerLastName = shopOwner.firstname;
@@ -1681,8 +1684,8 @@ function generateShopDescription(shopType, shopWealth, inventorySize) {
 
         }
         var ownerName = shopOwner.lastname;
-        if (ownerName != "") ownerName = " " + ownerName;
-        description += "<br><br>The owner, " + shopOwner.firstname + ownerName + "," + creatureString + commaString + shopOwner.shopKeepDescription;
+        if (ownerName) ownerName = " " + ownerName;
+        description += "<br><br>The owner, " + shopOwner.firstname + (ownerName || "") + "," + creatureString + commaString + shopOwner.shopKeepDescription;
         headerBox.innerHTML = shopName;
         var shopHeaderCurve = document.querySelector("#curve_shop_name");
         var shopNameHeaderBox = document.querySelector("#shop_name_headerbox");

@@ -1,6 +1,6 @@
 
-
-const constants = dataAccess.getConstantsSync();
+const constants = require("./js/dataaccess").getConstantsSync();
+const remoteModule = require("electron").remote;
 //const generatorResourcePath = "./resources/app/app/generators/";
 
 /*
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
 /*Henda þessu siðan */
 window.addEventListener('mousedown', (e) => {
   if (e.ctrlKey && e.button == 1)
-    remote.getCurrentWindow().inspectElement(e.clientX, e.clientY);
+  remoteModule.getCurrentWindow().inspectElement(e.clientX, e.clientY);
 
 }, false)
 function generateHTMLTable(jsonObj) {
@@ -192,6 +192,7 @@ function loadDefaultSettings() {
       "applyDarkvisionFilter": true,
       "fogOfWarHue": "#000000",
       "currentFilter": 0,
+      "currentMap": __dirname.replaceAll("\\", "/") + "/mappingTool/default.png",
       "gridSettings": {
         "showGrid": true,
         "cellSize": 35

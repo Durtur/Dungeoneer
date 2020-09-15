@@ -312,8 +312,22 @@ hr {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
-  border-bottom: 2px solid var(--main-color);
-  border-top: 2px solid var(--main-color);
+
+}
+.statblock_speed{
+  background-image: url(./img/speed.png);
+  margin: 0;
+  display: flex;
+
+  justify-content: center;
+  background-size: 26px;
+  background-position: 19px 3px;
+  background-repeat: no-repeat;
+
+  padding: 0.67em;
+  padding-bottom: 0;
+  padding-top: 1.5em;
+ 
 }
 
 .statblock_hit_points{
@@ -410,8 +424,16 @@ hr {
   column-count: 1 !important;
 }
 
+.pageframe h2, .pageframe h3, .pageframe h4{
+  font-family: "roboto";
+}
+
+.pageframe h3{
+  color:black;
+}
 .pageframe>h1 {
   font-family: "mrEaves";
+    letter-spacing: 2px;
   color: var(--main-color);
 }
 
@@ -440,9 +462,15 @@ hr {
   padding:10px;
 }
 
-.ability_row>ul>li>p:first-of-type {
+.ability_row>ul>li:first-of-type>p {
   color: var(--main-color);
   font-weight: bold;
+  
+}
+
+.ability_row>ul>li:not(:first-of-type)>p {
+  font-size:16px;
+  color: var(--main-color);
 }
 
 .ability_row>ul>li:nth-child(n+2)>p {
@@ -462,13 +490,48 @@ hr {
 .ability_row>ul>li {
   margin: 0;
 }
+.statblock_saving_throw_row p{
+  margin:0;
+  font-size: 16px;
+  color:var(--main-color);
+
+  
+}
+
+.statblock_seperator_line{
+  margin-top: 0.7em;
+  height: 4px;
+  width: 100%;
+  background: url(img/seperator.png);
+  background-size:100% 100%;
+
+  margin-bottom: 0.7em;
+
+}
+
+.statblock_saving_throw_row_container{
+  width:90%;
+
+}
+.statblock_saving_throw_row{
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  transform:translate(-666 -479);
+  height: 25px;
+  justify-content: space-around;
+}
+.statblock_saves_label{
+  color: var(--main-color);
+  font-weight: bold;
+  font-size:14px;
+}
 
 .ability_row {
   width: 90%;
   display: flex;
   flex-flow: row nowrap;
-  border-bottom: 2px solid #451A17;
-  border-top: 2px solid #451A17;
+
   height: 90px;
   justify-content: space-around;
 }
@@ -781,7 +844,7 @@ input, textarea, .cell_row {
   -webkit-app-region: drag;
   position: fixed;
   z-index: 40;
-  width: 102%;
+  width: 100vw;
   top: 0;
   height: 30px;
   min-height: 30px;
@@ -880,7 +943,8 @@ header {
   border-bottom: 3px solid rgb(108, 67, 45);
   padding: 10px;
   background-image: url("./img/phbbg.png");
-  width: 100%;
+  background-size: cover;
+  width: 100vw;
   /* Full width */
   height: 100px;
   min-height: 20px;
@@ -907,7 +971,8 @@ header {
 .section__show {
   background-image: url("./img/phbbg.png");
   border: none;
-  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  background-size: cover;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
   position: relative;
   border-bottom: 3px solid rgb(108, 67, 45);
 }

@@ -1,6 +1,7 @@
 
-document.addEventListener("DOMContentLoaded", function () {
 
+document.addEventListener("DOMContentLoaded", function () {
+    const remote = require('electron').remote;
 
     var checkBoxes = document.querySelectorAll("input[type=checkbox]");
     var closeAppButton, closeWindowButton;

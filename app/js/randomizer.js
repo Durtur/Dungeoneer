@@ -279,9 +279,10 @@ var randomizer = function () {
         dataAccess.getMonsters(monsters => {
             dataAccess.getHomebrewMonsters(hbMonsters => {
                 if (hbMonsters) monsters = monsters.concat(hbMonsters);
+                console.log(monsters);
                 creatureTypeList = [];
                 monsters.forEach(mon => {
-                    if (creatureTypeList.indexOf(mon.type.toLowerCase().trim()) < 0) {
+                    if (mon.type && creatureTypeList.indexOf(mon.type.toLowerCase().trim()) < 0) {
                         creatureTypeList.push(mon.type.toLowerCase().trim());
                     }
                 });

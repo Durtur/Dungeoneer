@@ -214,36 +214,39 @@
                 </div>
             </section>
 
-            <section id="addtables" class="hidden addframe pageframe_wrap listWrap marginTop ">
+            <section id="addtables" class="hidden addframe section__show  marginTop ">
                 <h2 class="edit_header_name">New table / Note</h2>
                 <div class="column">
                     <div class="addRowT">
-                        <div class="row">
-                            <input type="text" class="jsonAttributeT brown " title="Attribute"
-                                placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                        <div class="column">
+                            <input type="text" class="jsonAttributeT brown monster_attribute_chapter_label"
+                                title="Attribute" placeholder="Attribute name" value="Name" readonly tabindex="-1">
                             <input type="text" class="jsonValueT db_name_field object_nameT">
                         </div>
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeT brown" title="Attribute"
-                                placeholder="Attribute name" value="Description" readonly tabindex="-1">
+                        <div class="column">
+                            <input type="text" class="jsonAttributeT brown monster_attribute_chapter_label"
+                                title="Attribute" placeholder="Attribute name" value="Description" readonly
+                                tabindex="-1">
                             <textarea class="jsonValueT">  </textarea>
                         </div>
                     </div>
-                    <div class="row">
-                        <button class="button_style toggle_button" toggled="false" toggleGroup="1"
-                            onclick="showTableElements()">Table</button>
-                        <button class="jsonTableControl_up jsonTableControlT button_style hidden"
-                            onclick="resizeTable(1,0)">🠹</button>
-                        <button class="jsonTableControl_down jsonTableControlT button_style hidden"
-                            onclick="resizeTable(1,1)">🠻</button>
-                        <button class="jsonTableControl_left jsonTableControlT button_style hidden"
-                            onclick="resizeTable(0,0)">🠸</button>
-                        <button class="jsonTableControl_right jsonTableControlT button_style hidden"
-                            onclick="resizeTable(0,1)">🠺</button>
+                    <div class="row addframe_table_controls">
+                        <button class="button_style toggle_button " toggled="false"
+                            toggleGroup="1" onclick="showTableElements()">Table</button>
+                        <div class="row">
+                            <button class="jsonTableControl_up jsonTableControlT button_style hidden"
+                                onclick="resizeTable(1,0)">🠹</button>
+                            <button class="jsonTableControl_down jsonTableControlT button_style hidden"
+                                onclick="resizeTable(1,1)">🠻</button>
+                            <button class="jsonTableControl_left jsonTableControlT button_style hidden"
+                                onclick="resizeTable(0,0)">🠸</button>
+                            <button class="jsonTableControl_right jsonTableControlT button_style hidden"
+                                onclick="resizeTable(0,1)">🠺</button>
+                        </div>
                     </div>
 
-                    <div class="column jsonTableT hidden">
+                    <div class="column addframe_table jsonTableT hidden">
                         <div class="jsonTableHeaderT row">
                             <input class="add_table_header table_headerT" placeholder="Header">
                             <input class="add_table_header table_headerT" placeholder="Header">
@@ -290,15 +293,16 @@
 
                     <div class="column" style="flex:4">
                         <div class="addRowC">
-                            <div class="row">
-                                <input type="text" class="jsonAttributeC brown " title="Attribute"
-                                    placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                            <div class="column">
+                                <input type="text" class="jsonAttributeC monster_attribute_chapter_label brown "
+                                    title="Attribute" placeholder="Attribute name" value="Name" readonly tabindex="-1">
                                 <input type="text" class="jsonValueC db_name_field object_nameC">
                             </div>
 
-                            <div class="row">
-                                <input type="text" class="jsonAttributeC brown" title="Attribute"
-                                    placeholder="Attribute name" value="Description" readonly tabindex="-1">
+                            <div class="column">
+                                <input type="text" class="jsonAttributeC monster_attribute_chapter_label brown"
+                                    title="Attribute" placeholder="Attribute name" value="Description" readonly
+                                    tabindex="-1">
                                 <textarea class="jsonValueC">  </textarea>
                             </div>
 
@@ -341,7 +345,7 @@
                         </div>
                     </div>
                     <div class="condition_icon_container">
-                        <img id="condition_image_picker">
+                        <img id="condition_image_picker" >
                     </div>
                 </div>
                 <div class="float_right_group">
@@ -353,48 +357,54 @@
                 </div>
             </section>
 
-            <section id="additems" class="hidden addframe pageframe_wrap marginTop ">
+            <section id="additems" class="hidden addframe section__show marginTop ">
                 <h2 class="edit_header_name">New item</h2>
                 <div class="column">
                     <div class="addRowI">
-                        <div class="row">
-                            <input type="text" class="jsonAttributeI brown " title="Attribute"
-                                placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                        <div class="column">
+                            <input type="text" class="jsonAttributeI brown monster_attribute_chapter_label" value="Name"
+                                readonly tabindex="-1">
                             <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI">
                         </div>
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeI brown" title="Attribute"
-                                placeholder="Attribute name" value="Rarity" readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueI" id="item_rarity_input">
-                        </div>
+                        <div class="row monster_stat_row">
+                            <div class="column">
+                                <input type="text" class="jsonAttributeI readonly_monster_attr" value="Rarity" readonly
+                                    tabindex="-1">
+                                <input type="text" tabindex=1 class="jsonValueI" id="item_rarity_input">
+                            </div>
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeI brown" title="Attribute"
-                                placeholder="Attribute name" value="Type" readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueI" id="item_type_input">
-                        </div>
+                            <div class="column">
+                                <input type="text" class="jsonAttributeI readonly_monster_attr" title="Attribute"
+                                    placeholder="Attribute name" value="Type" readonly tabindex="-1">
+                                <input type="text" tabindex=1 class="jsonValueI" id="item_type_input">
+                            </div>
 
-                        <div class="row">
-                            <input type="text" class="jsonAttributeI brown" title="Attribute"
-                                placeholder="Attribute name" value="Description" readonly tabindex="-1">
+
+                        </div>
+                        <div class="column">
+                            <input type="text" class="jsonAttributeI brown monster_attribute_chapter_label"
+                                value="Description" readonly tabindex="-1">
                             <textarea tabindex=1 class="jsonValueI">  </textarea>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row addframe_table_controls">
                         <button class="button_style toggle_button" toggled="false" toggleGroup="2"
                             onclick="showTableElements()">Table</button>
-                        <button class="jsonTableControl_up jsonTableControlI button_style hidden"
-                            onclick="resizeTable(1,0)">🠹</button>
-                        <button class="jsonTableControl_down jsonTableControlI button_style hidden"
-                            onclick="resizeTable(1,1)">🠻</button>
-                        <button class="jsonTableControl_left jsonTableControlI button_style hidden"
-                            onclick="resizeTable(0,0)">🠸</button>
-                        <button class="jsonTableControl_right jsonTableControlI button_style hidden"
-                            onclick="resizeTable(0,1)">🠺</button>
+                        <div class="row">
+                            <button class="jsonTableControl_up jsonTableControlI button_style hidden"
+                                onclick="resizeTable(1,0)">🠹</button>
+                            <button class="jsonTableControl_down jsonTableControlI button_style hidden"
+                                onclick="resizeTable(1,1)">🠻</button>
+                            <button class="jsonTableControl_left jsonTableControlI button_style hidden"
+                                onclick="resizeTable(0,0)">🠸</button>
+                            <button class="jsonTableControl_right jsonTableControlI button_style hidden"
+                                onclick="resizeTable(0,1)">🠺</button>
+                        </div>
+
                     </div>
 
-                    <div class="column jsonTableI hidden">
+                    <div class="column addframe_table jsonTableI hidden">
                         <div class="jsonTableHeaderI row">
                             <input class="add_table_header required_input table_headerI" required placeholder="Header">
                             <input class="add_table_header required_input table_headerI" required placeholder="Header">
@@ -436,32 +446,33 @@
                 <h2 class="edit_header_name">New spell</h2>
                 <div class="column">
                     <div class="addRowS">
-                        <div class = "column">
-                            <div class = "row">
-                                <input type="text" class="jsonAttributeClasses brown monster_attribute_chapter_label" title="Attribute"
-                                placeholder="Attribute name" value="Classes" readonly tabindex="-1">
-                                <button class="small brown circular_button" style = "margin-top:1.5em" title="Add class"
-                                onclick="addClassTextBoxForSpells()">
-                                + </button>
+                        <div class="column">
+                            <div class="row">
+                                <input type="text" class="jsonAttributeClasses brown monster_attribute_chapter_label"
+                                    title="Attribute" placeholder="Attribute name" value="Classes" readonly
+                                    tabindex="-1">
+                                <button class="small brown circular_button" style="margin-top:1.5em" title="Add class"
+                                    onclick="addClassTextBoxForSpells()">
+                                    + </button>
                             </div>
                             <div class="row" id="spell_class_row">
-                   
+
                                 <input tabindex=1 type="text" class="jsonValueClasses">
-                            
+
                             </div>
                         </div>
-            
+
 
                         <div class="column">
                             <input type="text" class="jsonAttributeS brown monster_attribute_chapter_label "
-                               value="Name" readonly tabindex="-1">
+                                value="Name" readonly tabindex="-1">
                             <input type="text" tabindex=1 class=" db_name_field object_nameS spell_name">
                         </div>
                         <div class="row monster_stat_row">
                             <div class="column" style="width: 40px;">
                                 <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
                                     placeholder="Attribute name" value="Level" readonly tabindex="-1">
-                                <input type="text" tabindex=1 class=" spell_level" >
+                                <input type="text" tabindex=1 class=" spell_level">
                             </div>
                             <div class="column" style="flex:2">
                                 <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
@@ -498,24 +509,25 @@
                                     placeholder="Attribute name" value="Casting time" readonly tabindex="-1">
                                 <input type="text" tabindex=1 class="spell_casting_time">
                             </div>
-    
+
                             <div class="column">
                                 <input type="text" class="jsonAttributeS readonly_monster_attr" title="Attribute"
                                     placeholder="Attribute name" value="Duration" readonly tabindex="-1">
                                 <input type="text" tabindex=1 class="spell_duration">
                             </div>
-    
-                        </div>
-                        
-                        <div class="column">
-                            <input type="text" class="jsonAttributeS monster_attribute_chapter_label brown" title="Attribute"
-                            value="Description" readonly tabindex="-1">
-                            <textarea  style = "min-height:120px;"  tabindex=1 class="spell_description">  </textarea>
+
                         </div>
 
                         <div class="column">
-                            <input type="text" class="jsonAttributeS monster_attribute_chapter_label brown" title="Attribute"
-                                placeholder="Attribute name" value="Higher levels" readonly tabindex="-1">
+                            <input type="text" class="jsonAttributeS monster_attribute_chapter_label brown"
+                                title="Attribute" value="Description" readonly tabindex="-1">
+                            <textarea style="min-height:120px;" tabindex=1 class="spell_description">  </textarea>
+                        </div>
+
+                        <div class="column">
+                            <input type="text" class="jsonAttributeS monster_attribute_chapter_label brown"
+                                title="Attribute" placeholder="Attribute name" value="Higher levels" readonly
+                                tabindex="-1">
                             <textarea tabindex=1 class="spell_higher_levels">  </textarea>
                         </div>
 
@@ -523,7 +535,7 @@
 
 
 
-                     
+
 
 
                     </div>
@@ -558,7 +570,7 @@
                 </div>
             </section>
 
-            <section id="addencounters" class="hidden section__show addframe  marginTop ">
+            <section id="addencounters" style="width:100vw;" class="hidden section__show addframe  marginTop ">
                 <h2 class="edit_header_name">New encounter</h2>
                 <div class="top_right_corner">
 
@@ -571,18 +583,20 @@
                     <div class="row spread_children">
                         <div class="column">
                             <div class="addRowE">
-                                <div class="row">
-                                    <input type="text" class="jsonAttributeE brown " title="Attribute"
-                                        placeholder="Attribute name" value="Name" readonly tabindex="-1">
+                                <div class="column">
+                                    <input type="text" class="jsonAttributeE brown monster_attribute_chapter_label"
+                                        value="Name" readonly
+                                        tabindex="-1">
 
                                     <input type="text" class="jsonValueE db_name_field object_nameE">
 
                                 </div>
 
-                                <div class="row">
-                                    <input type="text" class="jsonAttributeE brown" title="Attribute"
-                                        placeholder="Attribute name" value="Description" readonly tabindex="-1">
-                                    <textarea class="jsonValueE"
+                                <div class="column">
+                                    <input type="text" class="jsonAttributeE brown monster_attribute_chapter_label"
+                                        title="Attribute" placeholder="Attribute name" value="Description" readonly
+                                        tabindex="-1">
+                                    <textarea class="jsonValueE add_encounter_description"
                                         style="width: 400px; height: 250px; margin: 0px;">  </textarea>
                                 </div>
 
@@ -658,12 +672,12 @@
 
                             <div class="addRowE addRow_creatures" id="encounter_row_container">
                                 <div class="row marginTop">
-                                    <input type="text" class="brown" title="Attribute" placeholder="Attribute name"
+                                    <input type="text" class="" title="Attribute" placeholder="Attribute name"
                                         value="Creatures" readonly tabindex="-1">
-                                    <input type="text" class="brown smaller" title="Attribute"
-                                        placeholder="Attribute name" value="Number" readonly tabindex="-1">
-                                    <input type="text" class="brown smaller" title="Attribute"
-                                        placeholder="Attribute name" value="CR" readonly tabindex="-1">
+                                    <input type="text" class=" smaller" title="Attribute" placeholder="Attribute name"
+                                        value="Number" readonly tabindex="-1">
+                                    <input type="text" class=" smaller" title="Attribute" placeholder="Attribute name"
+                                        value="CR" readonly tabindex="-1">
                                 </div>
 
                                 <div class="row">
@@ -1321,7 +1335,7 @@
 <script>
     window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
 </script>
-<script src="js/dataaccess.js"></script>
+
 <script src="js/constants.js"></script>
 
 <script src="awesomplete/awesomplete.js"></script>

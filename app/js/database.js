@@ -2,7 +2,9 @@
 var tab = "monsters", tabElementNameSuffix = "monsters";
 const { ipcRenderer } = require('electron');
 const uniqueID = require('uniqid');
-
+const dataAccess = require("./js/dataaccess");
+const pathModule = require('path');
+const fs = require('fs');
 var marked = require('marked');
 var noUiSlider = require('nouislider');
 marked.setOptions({
@@ -16,7 +18,7 @@ marked.setOptions({
   smartypants: true
 });
 
-var tokenFilePath;
+var tokenFilePath = dataAccess.tokenFilePath;
 
 const encounterModule = new EncounterModule();
 
@@ -47,7 +49,6 @@ var selectedConditionImagePath;
 $(document).ready(function () {
   dataAccess.getSettings(sett => {
     settings = sett;
-    tokenFilePath = defaultTokenPath;
   })
   populateSpellClassDropdown();
   populateDropdowns();
@@ -572,7 +573,9 @@ function searchMasterListAfterInput() {
 function displayAddEncounterMonsterList() {
   var table = document.querySelector(".encounter_table");
   var tbody = table.querySelector("tbody");
-
+  var statblock = document.getElementById("statblock");
+  statblock.classList.add("hidden");
+  document.body.appendChild(statblock);
   while (tbody.firstChild) {
     tbody.removeChild(tbody.firstChild);
   }
@@ -675,7 +678,9 @@ function displayAddEncounterMonsterList() {
 
 function addMonsterFromListToEncounter(e) {
   var monName = e.target.parentNode.querySelector("td:first-child").innerHTML;
+
   var freeNameInputs = [...document.querySelectorAll(".specialjsonAttributeE")].filter(x => x.value == "" || x.value == monName);
+  console.log(monName, "Free inputs" , freeNameInputs.length)
   if (freeNameInputs.length == 0) {
     addRow();
     freeNameInputs = [...document.querySelectorAll(".specialjsonAttributeE")].filter(x => x.value == "");
@@ -768,14 +773,6 @@ function closeListFrame() {
 }
 
 function getRandomEncounter() {
-  if (
-    dialog.showMessageBox(remote.getCurrentWindow(), {
-      type: "question",
-      buttons: ["Ok", "Cancel"],
-      title: "Generate random encounter?",
-      message: "Do you wish to randomize an encounter and fill the form? Any unsaved information will be lost."
-    }) == 1) return;
-
   var allowedMonsters = [];
   var nameEles = document.querySelectorAll(".encounter_table td:first-child");
   nameEles.forEach(name => allowedMonsters.push(name.innerHTML));
@@ -790,6 +787,11 @@ function getRandomEncounter() {
     allowedMonsters,
     null,
     function (enc) {
+      console.log(enc.creatures)
+      var encName = document.querySelector(".object_nameE").value;
+      var description = document.querySelector(".add_encounter_description").value;
+      if(encName)enc.name = encName;
+      if(description)enc.description = description;
       editObject(enc, "E");
     }
   )
@@ -1407,7 +1409,8 @@ function editObject(dataObject, letter) {
   }
 
   //Refetch
-  if (addFieldsIfNeeded(loadedKeys.length - valuesElements.length)) {
+ 
+  if (letter == "" && addFieldsIfNeeded(loadedKeys.length - valuesElements.length)) {
     valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
     keysElements = [...document.querySelectorAll(".jsonAttribute" + letter)];
   }
@@ -1519,6 +1522,7 @@ function editObject(dataObject, letter) {
   }
   function addFieldsIfNeeded(diff) {
     var added = false;
+    console.log("Adding fields " + diff)
     for (var diffi = 0; diffi < diff; diffi++) {
       addRow();
       added = true;

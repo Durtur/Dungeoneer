@@ -20,6 +20,64 @@ html {
   min-width: 210px;
 }
 
+.addframe_table_controls{
+  margin-top:1.5em;
+  justify-content: space-between;
+}
+.addframe_table_controls .toggle_button{
+  border-radius: 5px;
+  min-height: 25px;
+  width: 120px;
+  
+}
+
+.addframe_table_controls .button_style:not(.toggle_button){
+  font-size:1.5em;
+}
+
+.addRow_creatures input{
+  border-radius:0 !important;
+}
+.addRow_creatures .row:first-child input{
+  background-color: #451A17;
+  color:white;
+}
+
+
+.addframe_table input{
+  border-radius:0 !important;
+}
+.addframe_table .row:first-child input:first-child{
+  border-top-left-radius:5px !important;
+}
+
+.addframe_table .row:first-child input:last-child{
+  border-top-right-radius:5px !important;
+}
+
+.addframe_table .row:last-child input:first-child{
+  border-top-left-radius:5px !important;
+}
+
+.addframe_table .row:last-child input:last-child{
+  border-bottom-right-radius:5px !important;
+}
+
+.addRow_creatures .row:first-child input:first-child{
+
+  border-bottom-left-radius:5px !important;
+}
+
+.addRow_creatures .row:first-child input:last-child{
+  border-top-right-radius:5px !important;
+}
+.addRow_creatures .row:last-child input:last-child{
+  border-bottom-right-radius:5px !important;
+}
+
+.addRow_creatures .row:last-child input:first-child{
+  border-bottom-left-radius:5px !important;
+}
 @media (min-width: 820px) {
   #encounter_cr_slider {
     width: 212px;
@@ -370,8 +428,9 @@ html {
 
 .edit_header_name {
   position: absolute;
-  top: 0;
+  top: 0.5em;
   margin: 0;
+  opacity: 0.7;
   left: 10px;
 }
 
@@ -565,8 +624,8 @@ html {
 }
 
 .add_table_header {
-  font-family: "mrEaves";
-  font-size: 13px;
+  box-sizing: border-box;
+  font-size: 14px;
   flex: 1;
   color: black;
   font-weight: normal;
@@ -579,6 +638,7 @@ html {
 .addframe {
   padding: 30px;
   position: relative;
+  min-width: 28em;
 }
 
 .infobox {
@@ -666,7 +726,10 @@ html {
 
 .condition_icon_container {
   z-index: 2;
+  position: absolute;
   display: flex;
+  right: 5%;
+  top: 5%;
 }
 
 .addRowC>.row>.sp-replacer {

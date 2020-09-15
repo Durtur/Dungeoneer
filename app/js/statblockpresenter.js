@@ -17,7 +17,7 @@ var statblockPresenter = function () {
   var encounterModule;
   var values;
   var statblock;
-
+  var abilityScores = {};
   const attributeNamesToIgnore = ["condition_color_value", "condition_background_location", "source", "id"];
   const attributeNamesToHeader = ["name"]
   const attributesWithoutNames = [" ", "description"];
@@ -37,15 +37,19 @@ var statblockPresenter = function () {
     }
 
     validateEntry(valueElement);
-
+    abilityScores = {};
     [
       addClasses,
       addName,
+     
       addRitual,
       addSpellProperties,
       storeDescription,
       createTypeDescription,
-      addHpAndAc,
+ 
+      addRequiredProperties,
+      addSpeed,
+      addSavingThrowRow,
       addAbilityRow,
       morphActions,
       storeTable,
@@ -93,20 +97,28 @@ var statblockPresenter = function () {
   }
 
   function addDescription() {
-    if (statblockDescriptionText == null)
+    if (!statblockDescriptionText)
       return;
     var p = document.createElement("p");
     p.innerHTML = marked(statblockDescriptionText);
+    createSeperator();
     statblock.appendChild(p);
   }
 
   function addTable() {
-    if (statblock_table == null) return;
+    if (!statblock_table) return;
     statblock.append(generateHTMLTable(statblock_table));
   }
-  function addHpAndAc() {
-    if (!values.hit_points && !values.armor_class)
-      return;
+
+  function addSpeed(){
+    if(!values.speed)return;
+    var p = document.createElement("p");
+    p.innerHTML = "<strong>Speed.</strong> " + values.speed;
+    statblock.appendChild(p);
+    delete values.speed;
+  }
+  function addRequiredProperties() {
+    if(!(values.hit_points || values.armor_class || values.challenge_rating))return;
     var hpAndACRow = document.createElement("div");
     hpAndACRow.classList = "statblock_hp_and_ac_row";
     if (values.hit_points)
@@ -116,7 +128,6 @@ var statblockPresenter = function () {
       createCol("armor_class");
     if (values.challenge_rating)
       createCol("challenge_rating", "CR", (encounterModule ? encounterModule : new EncounterModule()).getXpValueForCR(values.challenge_rating) + " xp");
-
     statblock.appendChild(hpAndACRow);
 
     function createCol(prop, showName, title) {
@@ -195,10 +206,48 @@ var statblockPresenter = function () {
     delete values.classes;
   }
 
+  function addSavingThrowRow() {
+    var monsterSavingthrowValues = [];
+    ["strength_save", "dexterity_save", "constitution_save", "intelligence_save", "wisdom_save", "charisma_save"].forEach(attr => {
+      if (!values[attr]) {
+        if (values[attr.replace("_save", "")])
+          monsterSavingthrowValues.push({ name: attr, value: getAbilityScoreModifier(values[attr.replace("_save", "")]) });
+        return;
+      }
+      monsterSavingthrowValues.push({ name: attr, value: values[attr] });
+      delete values[attr];
+    });
+ 
+    if (monsterSavingthrowValues.length == 0) return;
+    var abilityRow = document.createElement("div");
+    abilityRow.classList.add("statblock_saving_throw_row")
+    monsterSavingthrowValues.forEach(save => {
+
+      var element = document.createElement("div");
+      var modifier = parseInt(save.value);
+      modifier = modifier < 0 ? modifier : "+" + modifier;
+      element.innerHTML = "<p>" + modifier + "</p>";
+      element.title = save.name.deserialize();
+
+      abilityRow.appendChild(element);
+
+    });
+    var cont = document.createElement("div");
+    cont.classList = "column statblock_saving_throw_row_container";
+    var p = document.createElement("p");
+    p.innerHTML = "SAVES";
+    p.classList = "center statblock_saves_label"
+    cont.appendChild(p);
+    cont.append(abilityRow);
+    createSeperator();
+    statblock.append(cont);
+  }
+
   function addAbilityRow() {
     var monsterAbilityValues = [];
     ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach(attr => {
       if (values[attr] == null) return;
+      abilityScores[attr] = values[attr];
       monsterAbilityValues.push({ name: attr, value: values[attr] });
       delete values[attr];
     });
@@ -210,6 +259,7 @@ var statblockPresenter = function () {
       var scoreEle = document.createElement("li");
       var nameEle = document.createElement("li");
       var modEle = document.createElement("li");
+      modEle.classList = "statblock_modifier";
       var modifier = getAbilityScoreModifier(ability.value);
       modifier = modifier < 0 ? modifier : "+" + modifier;
       modEle.innerHTML = "<p>" + modifier + "</p>";
@@ -223,7 +273,18 @@ var statblockPresenter = function () {
     });
 
     statblock.append(abilityRow);
+    createSeperator();
 
+  }
+
+  function createSeperator(append = true) {
+
+
+    var seperator = document.createElement("div");
+
+    seperator.classList = "statblock_seperator_line";
+    if(append)statblock.appendChild(seperator);
+    return seperator;
   }
   function addSpellProperties() {
     var divCont = document.createElement("div");
@@ -252,11 +313,10 @@ var statblockPresenter = function () {
       col.appendChild(colInner);
       delete values[prop];
     }
-    if (hasAnySpellProp)
+    if (!hasAnySpellProp)return;
+      createSeperator();
       statblock.appendChild(divCont);
-    function processProp() {
 
-    }
   }
 
   function createAndAddEncounterDescription() {
@@ -332,11 +392,12 @@ var statblockPresenter = function () {
         delete values.subtype;
       }
     }
-    if (str == null) return;
+    if (!str) return;
     var em = document.createElement("em");
     var p = document.createElement("p");
     em.innerHTML = str;
     p.appendChild(em);
+   // createSeperator();
     statblock.appendChild(p);
   }
 
@@ -344,7 +405,11 @@ var statblockPresenter = function () {
     if (obj.speed = null) obj.speed = "-";
   }
   function createHeader(text) {
-    return createHeaderHelper(text, "h2");
+    var seperator = createSeperator(false);
+    var cont = document.createElement("div");
+    cont.appendChild(createHeaderHelper(text, "h2"));
+    cont.appendChild(seperator);
+    return cont;
   }
 
   function createHeaderSmaller(text) {
@@ -354,6 +419,7 @@ var statblockPresenter = function () {
   function createHeaderHelper(text, size) {
     text = text.replace(/_/g, " ");
     var h2 = document.createElement(size);
+    h2.classList = "statblock_"+text;
     h2.innerHTML = text.toProperCase()
     return h2;
   }
@@ -368,7 +434,7 @@ var statblockPresenter = function () {
   function createParaAndBold(boldText, paraText) {
     paraText = paraText + "";
     var newDiv = document.createElement("p");
-    boldText += boldText.substring(boldText.length - 1) == "." ? " " : ". ";
+    boldText += boldText.substring(boldText.length - 1) == "." ? "" : ".";
     boldText = boldText.deserialize();
 
     newDiv.innerHTML = marked("**" + boldText + "** " + paraText.substring(0, 1).toUpperCase() + paraText.substring(1));

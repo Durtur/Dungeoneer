@@ -6,26 +6,15 @@ var loadedMonsterQueue = [];
 var loadedEncounter = [];
 
 var marked = require('marked');
+const dataAccess = require("./js/dataaccess");
+const remote = require('electron').remote;
+const app = remote.app;
 const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
 marked.setOptions({
   renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: true,
-  pedantic: false,
-  sanitize: false,
-  smartLists: true,
-  headerIds: false,
-  smartypants: true
+
 });
-
-
-//BÖGGAR
-//TVÖ awesomplete í gangi þegar db er uppfært.
-/**
- * IMPORTS AND HELP
- */
 
 const { ipcRenderer } = require('electron');
 
@@ -38,6 +27,30 @@ var partyArray, partyInformationList, partyInputAwesomeplete, conditionList;
 var partyAlternativeACArray;
 var roundCounter;
 
+// function fixSkills(){
+//   var skills = dataAccess.getConstantsSync().skills;
+//   console.log(skills);
+//   dataAccess.getMonsters(monsters => {
+//     monsters.forEach(monster=>{
+//       var skillStr = "";
+//       skills.forEach(skill => {
+//         if(monster[skill.serialize()]){
+//             var value = monster[skill.serialize()];
+//             skillStr+=skill + " +" + value + ", ";
+//             delete monster[skill.serialize()];
+//         }
+
+//       });
+//       if(skillStr){
+
+//         skillStr = skillStr.substring(0, skillStr.length-2);
+//         monster.skills = skillStr;
+//       }
+//     });
+//     dataAccess.setMonsters(monsters, ()=> {});
+ 
+//   });
+// }
 
 /* #region IPC */
 ipcRenderer.on('update-autofill', function () {
@@ -134,10 +147,10 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   randomizer.initialize();
-  window.setTimeout(()=>{
-    let window2=remote.getGlobal('maptoolWindow')
-    if (window2 ) window2.webContents.send('notify-main-reloaded');
-  },1000)
+  window.setTimeout(() => {
+    let window2 = remote.getGlobal('maptoolWindow')
+    if (window2) window2.webContents.send('notify-main-reloaded');
+  }, 1000)
   combatLoader.clear();
   combatLoader.initialize();
   $('.initiativeNode').on("click", initiative.roll);
@@ -228,7 +241,7 @@ function designTimeAndDebug() {
 
 function setPcNodeConditions(pcNode, conditionList) {
   clearPcNodeConditions(pcNode);
- 
+
   conditionList.forEach(cond => addPcNodeCondition(pcNode, cond));
 
 }
@@ -265,9 +278,9 @@ function addPcNodeCondition(node, condition) {
   var para = document.createElement("div");
   para.innerHTML = marked("## " + condition + (conditionObj.description ? "\n" + conditionObj.description : ""));
   if (para.innerHTML.length > 0) {
-    if(conditionObj.condition_background_location){
+    if (conditionObj.condition_background_location) {
       var img = document.createElement("img");
-      img.setAttribute("src" ,conditionObj.condition_background_location);
+      img.setAttribute("src", conditionObj.condition_background_location);
       para.prepend(img);
     }
     secTooltip.appendChild(para);
@@ -325,7 +338,7 @@ var autofill = function () {
 
       dataAccess.getHomebrewMonsters(function (hbdata) {
         hbdata.forEach(function (i) {
-          arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating  + " (hb)", i.name]);
+          arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating + " (hb)", i.name]);
         });
         dataAccess.getEncounters(function (endata) {
           endata.forEach(function (i) {
@@ -2238,10 +2251,10 @@ function pickPlayerToken(evt) {
 
   var tokenPath = dialog.showOpenDialogSync(
     remote.getCurrentWindow(), {
-      properties: ['openFile'],
-      message: "Choose picture location",
-      filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-    });
+    properties: ['openFile'],
+    message: "Choose picture location",
+    filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+  });
   if (tokenPath == null)
     return;
   tokenPath = tokenPath[0];

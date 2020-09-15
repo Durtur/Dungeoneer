@@ -9,14 +9,14 @@ var pathModule = require('path');
 
 const settingsPath = pathModule.join(app.getPath("userData"), "data", "settings");
 const resourcePath = pathModule.join(app.getPath("userData"), 'data');
-const defaultResourcePath = pathModule.join(pathModule.dirname(__dirname), 'data');
+const defaultResourcePath = pathModule.join(app.getAppPath(), 'data');
 const defaultGeneratorResourcePath = pathModule.join(pathModule.dirname(__dirname), "data", "generators");
 const generatorResourcePath = pathModule.join(app.getPath("userData"), "data", "generators");
 const defaultTokenPath = pathModule.join(app.getPath("userData"), "data", "maptool_tokens");
 const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "maptool_effects");
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(pathModule.dirname(__dirname), 'app', 'mappingTool', 'tokens', 'conditions');
-var dataAccess = function () {
+module.exports = function () {
     function initializeData() {
         console.log("Initalizing data...");
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
@@ -67,7 +67,8 @@ var dataAccess = function () {
         return baseGetPredefined("monsters.json", callback);
     }
     function setMonsters(data, callback) {
-         return baseSet("monsters.json", data, callback);
+        return baseSetWithFullPath(pathModule.join(defaultResourcePath, "monsters.json"), data, callback)
+        // return baseSet("monsters.json", data, callback);
     }
     function getTables(callback) {
         return baseGetPredefined("tables.json", callback);
@@ -313,7 +314,9 @@ var dataAccess = function () {
         getScrolls: getScrolls,
         setScrolls: setScrolls,
         getTables: getTables,
-        setTables: setTables
+        setTables: setTables,
+        tokenFilePath : defaultTokenPath
     }
 }();
+
 
