@@ -495,7 +495,7 @@ function updateAutoFill() {
       data = data.filter(value => value[0].substring(0, 10) != "Encounter:");
       monsterNames = data;
       fields = document.querySelectorAll(".specialjsonAttributeE");
-      console.log(fields)
+
       fields.forEach(function (i) {
         awesomePletes.push(new Awesomplete(i, { list: monsterNames, autoFirst: true }));
         i.addEventListener("awesomplete-selectcomplete", updateCRHandler);
@@ -517,7 +517,7 @@ function updateAutoFill() {
   }
   var updateCRHandlerDelayed_Delay;
   function updateCRHandlerDelayed(event) {
-    console.log(event)
+
     window.clearTimeout(updateCRHandlerDelayed_Delay);
     updateCRHandlerDelayed_Delay = window.setTimeout(function () {
       showCRForCreature(event.target);
@@ -546,7 +546,7 @@ function updateMonsterLists() {
         if (types.indexOf(type) < 0)
           types.push(type);
       });
-      console.log(types)
+
       var selectBox = document.getElementById("monster_type_select");
       types.forEach(type => {
         var select = document.createElement("option");
@@ -574,18 +574,18 @@ function searchMasterListAfterInput() {
 }
 
 
-function fetchTagList(){
-  if(monsterTags.awesomplete)return;
-  dataAccess.getTags(function(tags){
+function fetchTagList() {
+  if (monsterTags.awesomplete) return;
+  dataAccess.getTags(function (tags) {
     monsterTags.list = tags;
     var input = document.querySelector("#addmonster_tag_input");
-    monsterTags.awesomplete = new Awesomplete(input,{ list: tags, autoFirst: true, minChars: 0, sort: true })
-    input.addEventListener("awesomplete-selectcomplete", function(e){
+    monsterTags.awesomplete = new Awesomplete(input, { list: tags, autoFirst: true, minChars: 0, sort: false })
+    input.addEventListener("awesomplete-selectcomplete", function (e) {
       addNpcTag(e.text);
       e.target.value = "";
     });
-    input.addEventListener("keydown", (e)=>{
-      if(e.key != "Enter")return;
+    input.addEventListener("keydown", (e) => {
+      if (e.key != "Enter") return;
       addNpcTag(e.target.value);
       e.target.value = "";
     });
@@ -657,7 +657,7 @@ function displayAddEncounterMonsterList() {
       return x.type && selectedTypes.indexOf(x.type.toLowerCase()) >= 0;
     })
   }
-  console.log(filtered, monsterMasterList.filter(x => x.name.includes("Duergar")))
+
   filtered.forEach(entry => {
     if (!entry.challenge_rating) entry.challenge_rating = 0;
     tr = document.createElement("tr");
@@ -687,7 +687,7 @@ function displayAddEncounterMonsterList() {
       return;
     }
     var string = $(this).find(':first-child').html();
-    console.log(string)
+
     var foundMonster = monsterMasterList.filter(x => x.name == string)[0];
     statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, tab)
     showAddForm("statblock");
@@ -704,7 +704,7 @@ function addMonsterFromListToEncounter(e) {
   var monName = e.target.parentNode.querySelector("td:first-child").innerHTML;
 
   var freeNameInputs = [...document.querySelectorAll(".specialjsonAttributeE")].filter(x => x.value == "" || x.value == monName);
-  console.log(monName, "Free inputs", freeNameInputs.length)
+
   if (freeNameInputs.length == 0) {
     addRow();
     freeNameInputs = [...document.querySelectorAll(".specialjsonAttributeE")].filter(x => x.value == "");
@@ -811,7 +811,7 @@ function getRandomEncounter() {
     allowedMonsters,
     null,
     function (enc) {
-      console.log(enc.creatures)
+
       var encName = document.querySelector(".object_nameE").value;
       var description = document.querySelector(".add_encounter_description").value;
       if (encName) enc.name = encName;
@@ -1339,7 +1339,11 @@ function clearAddForm() {
   });
   currentEntry = null;
   var letter = getLetterFromTabName();
-  if (letter == "") document.querySelectorAll(".token").forEach(tok => tok.parentNode.removeChild(tok));
+  if (letter == "") {
+    document.querySelectorAll(".token").forEach(tok => tok.parentNode.removeChild(tok));
+    var tagCont = document.querySelector("#addmonster_tag_container");
+    while (tagCont.firstChild) tagCont.removeChild(tagCont.firstChild);
+  }
   if (letter == "C") document.getElementById("condition_image_picker").setAttribute("src", "");
 
 }
@@ -1408,9 +1412,9 @@ function editSpell(dataObject) {
 
 const hiddenAttributes = ["source", "id"];
 function editObject(dataObject, letter) {
-  if (letter == "S"){
+  if (letter == "S") {
     return editSpell(dataObject);
-  }else if(letter === ""){
+  } else if (letter === "") {
     addTags(dataObject);
   }
 
@@ -1454,7 +1458,7 @@ function editObject(dataObject, letter) {
       if (loadedKeys[i] == "actions" || loadedKeys[i] == "legendary_actions") {
         var actionRows = document.querySelectorAll(loadedKeys[i] == "actions" ? ".action_row" : ".legendary_action_row");
         var difference = loadedValues[i].length - actionRows.length;
-        console.log(difference + " row difference")
+
         //Tékka hvort það séu nógu margir fields og bæta við ef þarf. 
         if (difference > 0) {
           for (var diff = 0; diff < difference; diff++) {
@@ -1525,13 +1529,13 @@ function editObject(dataObject, letter) {
   calculateSuggestedCR();
   window.scrollTo(0, document.body.scrollHeight);
 
-  function addTags(dataObject){
+  function addTags(dataObject) {
     var tags = [];
-    if(dataObject.tags && dataObject.tags.length > 0){
+    if (dataObject.tags && dataObject.tags.length > 0) {
       tags = dataObject.tags;
       delete dataObject.tags;
     }
-    monsterTags.awesomplete.list = [...monsterTags.list.filter(x=> tags.indexOf(x) < 0)];
+    monsterTags.awesomplete.list = [...monsterTags.list.filter(x => tags.indexOf(x) < 0)];
     tags.forEach(tag => addNpcTag(tag))
   }
 
@@ -1611,11 +1615,11 @@ function editObject(dataObject, letter) {
 }
 
 
-function addNpcTag(tagName){
-  if(!tagName)return;
+function addNpcTag(tagName) {
+  if (!tagName) return;
   var cont = document.querySelector("#addmonster_tag_container");
   cont.appendChild(elementCreator.createDeletableParagraph(tagName));
-  if(monsterTags.list.indexOf(tagName) < 0)
+  if (monsterTags.list.indexOf(tagName) < 0)
     monsterTags.list.push(tagName);
 }
 
@@ -2008,8 +2012,9 @@ function AddActionArray(attributeKey, rowElementClass, thingyToSave) {
     var obj = {};
     ["name", "attack_bonus", "damage_dice", "damage_bonus", "description"].forEach(property => {
       var value = row.querySelector(".action_" + property).value;
-      if (value != "" && value != null) obj[property] = value;
+      if (value) obj[property] = value;
     });
+    if(Object.keys(obj).length === 0 && obj.constructor === Object)return;
     actionArr.push(obj);
   });
 
@@ -2103,11 +2108,8 @@ function saveHomebrew() {
     addProperty("languages", thingyToSave)
     addProperty("skills", thingyToSave);
     addProperty("challenge_rating", thingyToSave, 0);
-     getTags();
-    function getTags(){
-      var tags = [... document.querySelectorAll("#addmonster_tag_container p")].map(x=>x.innerHTML);
-      console.log(tags)
-    }
+    thingyToSave.tags = [...document.querySelectorAll("#addmonster_tag_container para")].map(x => x.innerHTML);
+
     thingyToSave.unique = document.querySelector("#addmonster_unique").checked;
     var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
     savingThrowInputs.forEach(inp => {
@@ -2247,6 +2249,11 @@ function saveHomebrew() {
           tokenRemoveQueue = [];
           let window2 = remote.getGlobal('mainWindow');
           if (window2) window2.webContents.send('update-autofill');
+          window.setTimeout(function () {
+            dataAccess.getTags(function (tags) {
+              monsterTags.list = tags;
+            });
+          }, 2500)
         });
 
       })
@@ -2257,10 +2264,18 @@ function saveHomebrew() {
     //Move tokens
     if (tab == "monsters" || tab == "homebrew") {
       var tokens = [...document.querySelectorAll(".token")];
+      tokens = tokens.filter(x => x.getAttribute("data-is_new_token"));
+      if(tokens.length == 0)return;
+      console.log(tokens);
       var i = 0;
+      while (fs.existsSync(pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png")))
+        i++;
       tokens.forEach(tok => {
-        var oldPath = tok.getAttribute("data-file_path");
-        var newPath = tokenFilePath + "/" + newId.toLowerCase() + i + ".png";
+        var oldPath = pathModule.resolve(tok.getAttribute("data-file_path"));
+        var newPath = pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png");
+        if (newPath == oldPath) return;
+
+
         fs.createReadStream(oldPath).pipe(fs.createWriteStream(newPath));
         i++;
       });
@@ -2273,7 +2288,7 @@ function saveHomebrew() {
   function addProperty(property, object, fallbackValue, classPrefix) {
 
     var valueElement = document.getElementsByClassName((classPrefix ? classPrefix : "addmonster_") + property)[0];
-    console.log(property, valueElement, classPrefix)
+
     if (valueElement.value == "" && !fallbackValue) return;
     object[property] = valueElement.value ? valueElement.value : fallbackValue;
   }

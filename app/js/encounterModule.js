@@ -175,7 +175,7 @@ class EncounterModule {
         })(encounterType);
         dataAccess.getMonsters(monsterArray => {
             dataAccess.getHomebrewMonsters(homebrewMonsters => {
-                monsterArray = monsterArray.concat(homebrewMonsters);
+                monsterArray = monsterArray.concat(homebrewMonsters).filter(x=> !x.unique);
 
                 if (allowedMonsters) {
                     allowedMonsters = allowedMonsters.map(x => x.toLowerCase());
