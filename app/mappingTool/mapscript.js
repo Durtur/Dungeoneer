@@ -1,6 +1,7 @@
 const { ipcRenderer, webFrame } = require('electron');
 const path = require("path");
 const Awesomplete  = require(path.resolve('app/awesomplete/awesomplete.js'));
+const dataAccess = require("./js/dataaccess");
 
 const marked = require('marked');
 

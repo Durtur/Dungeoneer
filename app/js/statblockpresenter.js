@@ -18,7 +18,7 @@ var statblockPresenter = function () {
   var values;
   var statblock;
   var abilityScores = {};
-  const attributeNamesToIgnore = ["condition_color_value", "condition_background_location", "source", "id"];
+  const attributeNamesToIgnore = ["condition_color_value", "condition_background_location", "id"];
   const attributeNamesToHeader = ["name"]
   const attributesWithoutNames = [" ", "description"];
   var spellCastingRootNodes = [];
@@ -41,7 +41,6 @@ var statblockPresenter = function () {
     [
       addClasses,
       addName,
-     
       addRitual,
       addSpellProperties,
       storeDescription,
@@ -88,6 +87,9 @@ var statblockPresenter = function () {
     var h2 = document.createElement("h1");
     h2.innerHTML = values.name;
     statblock.appendChild(h2);
+    if(dataAccess.getTokenPath(values.id)){
+      console.log(dataAccess.getTokenPath(values.id))
+    }
     delete values.name;
   }
   var statblockDescriptionText;
@@ -444,7 +446,7 @@ var statblockPresenter = function () {
   function populateStats(k, v, statblock) {
     if (Array.isArray(v)) {
 
-      if (v.length > 0)
+      if (v.length > 0 && v.constructor != Object)
         statblock.appendChild(createHeader(k));
       for (var i = 0; i < v.length; i++) {
         populateStats(i, v[i], statblock);

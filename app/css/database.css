@@ -574,6 +574,12 @@ html {
   justify-content: space-between;
 }
 
+#addmonster_tag_container{
+  display: flex;
+  flex-flow: row wrap;
+  padding: 0.25em;
+  color: rgba(0,0,0,0.8);
+}
 .addmonster_description {
   min-height: 120px;
 }

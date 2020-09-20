@@ -2,8 +2,8 @@
 var fs = require('fs');
 const remote = require('electron').remote;
 const app = remote.app;
-const dialog = require('electron').remote.dialog;
 
+const uniqueID = require('uniqid');
 var pathModule = require('path');
 
 
@@ -53,6 +53,19 @@ module.exports = function () {
 
     }
 
+    function getTags(callback){
+        return baseGet("npc_tags.json", callback, []);
+    }
+    function setTags(data, callback){
+        var tagSet = new Set();
+        data.forEach(npc=>{
+            if(!npc.tags)return;
+            npc.tags.forEach(tag=>tagSet.add(tag));
+        });
+
+        return baseSet("npc_tags.json", [...tagSet], callback);
+    }
+
     function writeAutofillData(data, callback) {
         baseSet("autofill_data.json", data, callback);
     }
@@ -67,8 +80,10 @@ module.exports = function () {
         return baseGetPredefined("monsters.json", callback);
     }
     function setMonsters(data, callback) {
-        return baseSetWithFullPath(pathModule.join(defaultResourcePath, "monsters.json"), data, callback)
-        // return baseSet("monsters.json", data, callback);
+        getHomebrewMonsters(hbList=>{
+            setTags(data.concat(hbList));
+        });
+        return baseSet("monsters.json", data, callback);
     }
     function getTables(callback) {
         return baseGetPredefined("tables.json", callback);
@@ -80,6 +95,9 @@ module.exports = function () {
         return baseGet("homebrew.json", callback);
     }
     function setHomebrewMonsters(data, callback) {
+        getMonsters(hbList=>{
+            setTags(data.concat(hbList));
+        });
         baseSet("homebrew.json", data, callback);
     }
 
@@ -189,16 +207,16 @@ module.exports = function () {
         });
     }
 
-    function getTokenPath(creatureName) {
+    function getTokenPath(creatureId) {
         var fileEndings = [".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];
-            var path = pathModule.join(defaultTokenPath, creatureName + fileEnding);
+            var path = pathModule.join(defaultTokenPath, creatureId + fileEnding);
             if (fs.existsSync(path))
                 return path;
 
         }
-        console.log("Getting token path for ", creatureName);
+        console.log("Getting token path for ", creatureId);
         return null;
     }
 
@@ -278,7 +296,7 @@ module.exports = function () {
         });
     }
 
-
+ 
     return {
         readFile: readFile,
         getTokenPath: getTokenPath,
@@ -315,7 +333,8 @@ module.exports = function () {
         setScrolls: setScrolls,
         getTables: getTables,
         setTables: setTables,
-        tokenFilePath : defaultTokenPath
+        getTags: getTags,
+        tokenFilePath: defaultTokenPath
     }
 }();
 

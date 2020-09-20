@@ -270,10 +270,13 @@ function serializeToAtt(string) {
     return x;
 
 }
-
+function turndown(string){
+    return turndownService.turndown(string);
+}
 return {
     checkDndBeyond: checkDndBeyond,
-    mineSpells: mineSpells
+    mineSpells: mineSpells,
+    turndown: turndown
 }
 }();
 

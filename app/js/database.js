@@ -3,6 +3,9 @@ var tab = "monsters", tabElementNameSuffix = "monsters";
 const { ipcRenderer } = require('electron');
 const uniqueID = require('uniqid');
 const dataAccess = require("./js/dataaccess");
+const elementCreator = require("./js/lib/elementCreator");
+const remote = require('electron').remote;
+const dialog = require('electron').remote.dialog;
 const pathModule = require('path');
 const fs = require('fs');
 var marked = require('marked');
@@ -33,7 +36,7 @@ var writeToHomebrew = true;
 var listedData;
 var monsterMasterList;
 var classList = [];
-var settings;
+const monsterTags = {};
 var partyArray;
 var currentEntry;
 
@@ -380,11 +383,13 @@ function setTab(x) {
     case "homebrew":
       readDataFunction = dataAccess.getHomebrewMonsters;
       writeDataFunction = dataAccess.setHomebrewMonsters;
+      fetchTagList();
       break;
     case "monsters":
       readDataFunction = dataAccess.getMonsters;
       writeDataFunction = dataAccess.setMonsters;
       document.querySelector("#add_entry_button").classList.add("hidden");
+      fetchTagList();
       break;
     case "encounters":
       readDataFunction = dataAccess.getEncounters;
@@ -569,6 +574,25 @@ function searchMasterListAfterInput() {
 }
 
 
+function fetchTagList(){
+  if(monsterTags.awesomplete)return;
+  dataAccess.getTags(function(tags){
+    monsterTags.list = tags;
+    var input = document.querySelector("#addmonster_tag_input");
+    monsterTags.awesomplete = new Awesomplete(input,{ list: tags, autoFirst: true, minChars: 0, sort: true })
+    input.addEventListener("awesomplete-selectcomplete", function(e){
+      addNpcTag(e.text);
+      e.target.value = "";
+    });
+    input.addEventListener("keydown", (e)=>{
+      if(e.key != "Enter")return;
+      addNpcTag(e.target.value);
+      e.target.value = "";
+    });
+  });
+
+}
+
 
 function displayAddEncounterMonsterList() {
   var table = document.querySelector(".encounter_table");
@@ -680,7 +704,7 @@ function addMonsterFromListToEncounter(e) {
   var monName = e.target.parentNode.querySelector("td:first-child").innerHTML;
 
   var freeNameInputs = [...document.querySelectorAll(".specialjsonAttributeE")].filter(x => x.value == "" || x.value == monName);
-  console.log(monName, "Free inputs" , freeNameInputs.length)
+  console.log(monName, "Free inputs", freeNameInputs.length)
   if (freeNameInputs.length == 0) {
     addRow();
     freeNameInputs = [...document.querySelectorAll(".specialjsonAttributeE")].filter(x => x.value == "");
@@ -790,8 +814,8 @@ function getRandomEncounter() {
       console.log(enc.creatures)
       var encName = document.querySelector(".object_nameE").value;
       var description = document.querySelector(".add_encounter_description").value;
-      if(encName)enc.name = encName;
-      if(description)enc.description = description;
+      if (encName) enc.name = encName;
+      if (description) enc.description = description;
       editObject(enc, "E");
     }
   )
@@ -1219,7 +1243,8 @@ function addTokensToCurrentMonster() {
     message: "Choose picture location",
     filters: [{ name: 'Images', extensions: ['png'] }]
   });
-
+  console.log(imagePaths)
+  if (!imagePaths) return;
   imagePaths.forEach(path => {
     createToken(path.replace(/\\/g, "/"));
   })
@@ -1349,8 +1374,6 @@ function editCopyHelper(entryId, isEdit) {
     document.getElementById("addTokenButton").disabled = false;
     fillCurrentMonsterTokens(entryId);
   }
-
-
   editObject(entry, letter);
 }
 
@@ -1360,32 +1383,37 @@ function editSpell(dataObject) {
     forEach(prop => {
       var box = document.querySelector(".spell_" + prop);
       box.value = dataObject[prop];
-   
+
     });
 
-    function fillClasses(dataObject) {
-      var classes = dataObject.classes;
-      if (classes == null) return;
-  
-      var classBoxes = document.querySelectorAll(".jsonValueClasses");
-      var difference = classes.length - classBoxes.length;
-  
-      if (difference > 0) {
-        for (var k = 0; k < difference; k++) {
-          addClassTextBoxForSpells();
-        }
+  function fillClasses(dataObject) {
+    var classes = dataObject.classes;
+    if (classes == null) return;
+
+    var classBoxes = document.querySelectorAll(".jsonValueClasses");
+    var difference = classes.length - classBoxes.length;
+
+    if (difference > 0) {
+      for (var k = 0; k < difference; k++) {
+        addClassTextBoxForSpells();
       }
-      classBoxes = document.querySelectorAll(".jsonValueClasses");
-      for (var k = 0; k < classes.length; k++) {
-        classBoxes[k].value = classes[k];
-      }
-      delete dataObject.classes;
     }
+    classBoxes = document.querySelectorAll(".jsonValueClasses");
+    for (var k = 0; k < classes.length; k++) {
+      classBoxes[k].value = classes[k];
+    }
+    delete dataObject.classes;
+  }
 }
+
 const hiddenAttributes = ["source", "id"];
 function editObject(dataObject, letter) {
-  if (letter == "S")
+  if (letter == "S"){
     return editSpell(dataObject);
+  }else if(letter === ""){
+    addTags(dataObject);
+  }
+
   var valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
   var keysElements = [...document.querySelectorAll(".jsonAttribute" + letter)];
   keysElements.forEach(x => x.value = "");
@@ -1408,8 +1436,7 @@ function editObject(dataObject, letter) {
     fillNpcRequiredStats(loadedKeys, loadedValues);
   }
 
-  //Refetch
- 
+
   if (letter == "" && addFieldsIfNeeded(loadedKeys.length - valuesElements.length)) {
     valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
     keysElements = [...document.querySelectorAll(".jsonAttribute" + letter)];
@@ -1498,6 +1525,16 @@ function editObject(dataObject, letter) {
   calculateSuggestedCR();
   window.scrollTo(0, document.body.scrollHeight);
 
+  function addTags(dataObject){
+    var tags = [];
+    if(dataObject.tags && dataObject.tags.length > 0){
+      tags = dataObject.tags;
+      delete dataObject.tags;
+    }
+    monsterTags.awesomplete.list = [...monsterTags.list.filter(x=> tags.indexOf(x) < 0)];
+    tags.forEach(tag => addNpcTag(tag))
+  }
+
   function fillFieldAndRemoveFromObject(property, keys, values) {
     var valueElement = document.getElementsByClassName("addmonster_" + property)[0];
     if (valueElement == null) {
@@ -1551,6 +1588,8 @@ function editObject(dataObject, letter) {
       , "challenge_rating", "subtype", "alignment", "armor_class", "hit_points", "skills",
       "damage_resistances", "damage_immunities", "condition_immunities", "damage_vulnerabilities"].forEach(entry => fillFieldAndRemoveFromObject(entry, keyArray, valueArray));
 
+    document.querySelector("#addmonster_unique").checked = removeFromObject("unique", keyArray, valueArray);
+
     var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
     savingThrowInputs.forEach(inp => {
       var attr = inp.getAttribute("data-dnd_attr");
@@ -1572,7 +1611,13 @@ function editObject(dataObject, letter) {
 }
 
 
-
+function addNpcTag(tagName){
+  if(!tagName)return;
+  var cont = document.querySelector("#addmonster_tag_container");
+  cont.appendChild(elementCreator.createDeletableParagraph(tagName));
+  if(monsterTags.list.indexOf(tagName) < 0)
+    monsterTags.list.push(tagName);
+}
 
 function populateTable(tableArray) {
   showTableElements();
@@ -1956,8 +2001,6 @@ function addRow(str) {
 }
 
 
-
-
 function AddActionArray(attributeKey, rowElementClass, thingyToSave) {
   var rows = document.querySelectorAll(rowElementClass);
   var actionArr = [];
@@ -1973,8 +2016,6 @@ function AddActionArray(attributeKey, rowElementClass, thingyToSave) {
 
   if (actionArr.length != 0) thingyToSave[attributeKey.serialize()] = actionArr;
 }
-
-
 
 //Data has name attribute, return index  of
 // entry with key name. Returns -1 if not found.
@@ -2061,7 +2102,13 @@ function saveHomebrew() {
     addProperty("condition_immunities", thingyToSave)
     addProperty("languages", thingyToSave)
     addProperty("skills", thingyToSave);
-    addProperty("challenge_rating", thingyToSave, 0)
+    addProperty("challenge_rating", thingyToSave, 0);
+     getTags();
+    function getTags(){
+      var tags = [... document.querySelectorAll("#addmonster_tag_container p")].map(x=>x.innerHTML);
+      console.log(tags)
+    }
+    thingyToSave.unique = document.querySelector("#addmonster_unique").checked;
     var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
     savingThrowInputs.forEach(inp => {
       var attr = inp.getAttribute("data-dnd_attr");
@@ -2224,7 +2271,7 @@ function saveHomebrew() {
     loadAll();
   }
   function addProperty(property, object, fallbackValue, classPrefix) {
-   
+
     var valueElement = document.getElementsByClassName((classPrefix ? classPrefix : "addmonster_") + property)[0];
     console.log(property, valueElement, classPrefix)
     if (valueElement.value == "" && !fallbackValue) return;

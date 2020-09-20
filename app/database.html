@@ -232,8 +232,8 @@
                         </div>
                     </div>
                     <div class="row addframe_table_controls">
-                        <button class="button_style toggle_button " toggled="false"
-                            toggleGroup="1" onclick="showTableElements()">Table</button>
+                        <button class="button_style toggle_button " toggled="false" toggleGroup="1"
+                            onclick="showTableElements()">Table</button>
                         <div class="row">
                             <button class="jsonTableControl_up jsonTableControlT button_style hidden"
                                 onclick="resizeTable(1,0)">🠹</button>
@@ -345,7 +345,7 @@
                         </div>
                     </div>
                     <div class="condition_icon_container">
-                        <img id="condition_image_picker" >
+                        <img id="condition_image_picker">
                     </div>
                 </div>
                 <div class="float_right_group">
@@ -585,8 +585,7 @@
                             <div class="addRowE">
                                 <div class="column">
                                     <input type="text" class="jsonAttributeE brown monster_attribute_chapter_label"
-                                        value="Name" readonly
-                                        tabindex="-1">
+                                        value="Name" readonly tabindex="-1">
 
                                     <input type="text" class="jsonValueE db_name_field object_nameE">
 
@@ -773,12 +772,38 @@
                 <div class="row">
                     <div class="column monster_stat_column">
                         <div class="addRow">
+                            <div class="row space_between">
+
+                                <div class="row">
+                                    <label type="text" style = "width: 4em;"
+                                        title="Unique NPC's or monsters will not be used in encounter generation"
+                                        >Unique</label>
+                                    <label class="container_for_checkbox">
+                                        <input type="checkbox" tabindex=1 class="center " id="addmonster_unique"
+                                            title="Unique NPC's or monsters will not be used in encounter generation">
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </div>
+                                <input id="addmonster_tag_input" style = "max-width: 200px;"  placeholder="Add tag...">
+                                
+
+
+                            </div>
+                            <div class = "row">
+                                <label
+                                title="Tagging creatures allows for easier grouping" style="width: 4em; padding: 0.25em 0 0 0;" 
+                              >Tags</label>
+                                <div id= "addmonster_tag_container">
+
+                                </div>
+                            </div>
                             <div class="column">
                                 <input type="text" class="attr brown monster_attribute_chapter_label" title="Attribute"
                                     placeholder="Attribute name" value="Name" readonly tabindex="-1" />
                                 <input type="text" class=" object_name db_name_field addmonster_name"
                                     id="addmonster_name">
                             </div>
+
                             <div class="row monster_stat_row">
                                 <div class="column">
                                     <label class="attr readonly_monster_attr " tabindex="-1"
@@ -861,7 +886,7 @@
                                 <div class="column" style="flex:1;">
                                     <label class="attr readonly_monster_attr " tabindex="-1"
                                         for="addmonster_challenge_rating">Challenge rating</label>
-                                    <input type="number" class=" addmonster_challenge_rating"
+                                    <input type="text" class=" addmonster_challenge_rating"
                                         id="addmonster_challenge_rating">
                                 </div>
                             </div>

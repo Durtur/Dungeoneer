@@ -16,6 +16,7 @@ marked.setOptions({
 
 });
 
+
 const { ipcRenderer } = require('electron');
 
 var mobController;
@@ -338,7 +339,7 @@ var autofill = function () {
 
       dataAccess.getHomebrewMonsters(function (hbdata) {
         hbdata.forEach(function (i) {
-          arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating + " (hb)", i.name]);
+          arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating + (i.source ? " " + i.source + " " : null|| " (hb)"), i.name]);
         });
         dataAccess.getEncounters(function (endata) {
           endata.forEach(function (i) {
