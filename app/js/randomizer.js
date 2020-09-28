@@ -23,7 +23,7 @@ var randomizer = function () {
         randomizerEncounterDangerSelect.classList.add("hidden");
         randomizerEncounterCreatureNumberSelect.classList.add("hidden");
 
-        if (searchSet.substring(0, 10) == "Encounter:")
+        if (searchSet.substring(0, 9) == "Encounter")
             return generateRandomEncounter(searchSet);
 
         if (itemTypeValues.indexOf(searchSet) >= 0 || searchSet == "Magic item") {
@@ -37,39 +37,44 @@ var randomizer = function () {
         })
 
     }
-    function generateRandomEncounter(searchSet) {
+    function generateRandomEncounter(searchString) {
         randomizerEncounterDangerSelect.classList.remove("hidden");
         randomizerEncounterCreatureNumberSelect.classList.remove("hidden");
         var selectedNumber = randomizerEncounterCreatureNumberSelect.options[randomizerEncounterCreatureNumberSelect.selectedIndex].value;
         var difficulty = randomizerEncounterDangerSelect.options[randomizerEncounterDangerSelect.selectedIndex].value;
         if (difficulty == "any")
-            difficulty = pickOne([... randomizerEncounterDangerSelect.options].map(x=> x.value).filter(x=> x != "any"));
+            difficulty = pickOne([...randomizerEncounterDangerSelect.options].map(x => x.value).filter(x => x != "any"));
 
-        if(selectedNumber == "any")
-            selectedNumber = pickOne([... randomizerEncounterCreatureNumberSelect.options].map(x=> x.value).filter(x=> x != "any"))
-       
+        if (selectedNumber == "any")
+            selectedNumber = pickOne([...randomizerEncounterCreatureNumberSelect.options].map(x => x.value).filter(x => x != "any"))
 
-        var searchSet = searchSet.substring(11);
-        var monsterSet = null;
+        var encounterDescription = searchString.substring(0, searchString.indexOf(":")+2);
+        var searchSet = searchString.substring(searchString.indexOf(":")+2);
+        var filterTypes = encounterDescription.indexOf("(type)") >= 0;
+        var filterTags = encounterDescription.indexOf("(tag)") >= 0;
+ 
+        var monsterSet = null, monsterTags;
         var forcedType = null;
         if (userDefinedEncounterSets) {
             monsterSet = userDefinedEncounterSets[searchSet];
         }
 
-        if (monsterSet == null)
+        if (filterTypes)
             forcedType = searchSet != "Any" ? searchSet : null;
+        if(filterTags)
+            monsterTags = searchSet;
 
         var pcLevels = [];
         partyArray.forEach(pmember => pcLevels.push(pmember.level))
 
-        encounterModule.getRandomEncounter(pcLevels, difficulty, selectedNumber, monsterSet, forcedType, (encounter) => {
+        encounterModule.getRandomEncounter(pcLevels, difficulty, selectedNumber, monsterSet, forcedType, monsterTags, (encounter) => {
 
             console.log("Generated encounter ", encounter)
             if (!encounter.error) {
                 loadEncounter(encounter);
                 encounterIsLoaded = true;
                 statblockPresenter.createStatblock(document.getElementById("statblock"), encounter, false);
-                if( document.getElementById("loaderButton")) document.getElementById("loaderButton").classList.remove("hidden");
+                if (document.getElementById("loaderButton")) document.getElementById("loaderButton").classList.remove("hidden");
                 document.getElementById("iframewrapper").style.display = "block";
                 showEntry({
                     title: "",
@@ -126,7 +131,7 @@ var randomizer = function () {
 
     }
     function selectFromItemSetAndShow(data) {
-      
+
         var rand = Math.floor(Math.random() * data.length);
         if (data[rand] == null) return showEntry({ title: "", content: "No items fit the criteria" }, 0)
         if (!data[rand].description) data[rand].description = "";
@@ -135,7 +140,7 @@ var randomizer = function () {
 
         showEntry({
             title: data[rand].name,
-            content: cont != "" ?  marked(cont) : "No items fit the criteria"
+            content: cont != "" ? marked(cont) : "No items fit the criteria"
         }, rand / 100)
 
     }
@@ -216,7 +221,7 @@ var randomizer = function () {
                 userDefinedEncounterSets = obj.encounter_sets;
 
                 generateEncounterLookupValues(obj.encounter_sets, function (encounterValues) {
-                    
+
                     values = values.concat(encounterValues)
                     values = [...new Set(values)];
                     new Awesomplete(randomizerInput, { list: values, autoFirst: true, minChars: 0, maxItems: 99 });
@@ -241,7 +246,7 @@ var randomizer = function () {
 
                     }
                 }
-          
+
 
 
             });
@@ -278,19 +283,24 @@ var randomizer = function () {
         if (encounterSets) Object.keys(encounterSets).forEach(set => allValues.push("Encounter: " + set))
         dataAccess.getMonsters(monsters => {
             dataAccess.getHomebrewMonsters(hbMonsters => {
-                if (hbMonsters) monsters = monsters.concat(hbMonsters);
-                console.log(monsters);
-                creatureTypeList = [];
-                monsters.forEach(mon => {
-                    if (mon.type && creatureTypeList.indexOf(mon.type.toLowerCase().trim()) < 0) {
-                        creatureTypeList.push(mon.type.toLowerCase().trim());
-                    }
-                });
-                creatureTypeList = creatureTypeList.map(elem => elem.substring(0, 1).toUpperCase() + elem.substring(1));
-                creatureTypeList.forEach(type => {
-                    allValues.push("Encounter: " + type);
-                });
-                callback(allValues);
+                dataAccess.getTags(tags => {
+
+                    if (hbMonsters) monsters = monsters.concat(hbMonsters);
+                    
+                    creatureTypeList = [];
+                    monsters.forEach(mon => {
+                        if (mon.type && creatureTypeList.indexOf(mon.type.toLowerCase().trim()) < 0) {
+                            creatureTypeList.push(mon.type.toLowerCase().trim());
+                        }
+                    });
+                    tags.forEach(tag => {allValues.push("Encounter(tag): " + tag)});
+                    creatureTypeList = creatureTypeList.map(elem => elem.substring(0, 1).toUpperCase() + elem.substring(1));
+                    creatureTypeList.forEach(type => {
+                        allValues.push("Encounter(type): " + type);
+                    });
+                    callback(allValues);
+
+                })
             })
         })
 

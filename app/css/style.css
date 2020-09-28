@@ -172,8 +172,8 @@ h1 {
 }
 
 .combat_log_conditions {
-  position: absolute;
-  right: 80px;
+  width:100%;
+
 }
 
 .combat_log_title {

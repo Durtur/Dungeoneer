@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (evt.keyCode == 13) rollSaves();
     })
   })
-
+  console.log( document.getElementById("active_party_input"))
   document.getElementById("active_party_input").addEventListener('awesomplete-selectcomplete', function (e) {
     filterPcRowsBySelectedParty();
 
@@ -1705,7 +1705,7 @@ var combatLoader = function () {
         selectEle.appendChild(option)
       });
       $("#condition_list_dd").chosen({
-        width: "180px",
+        width: "100%",
         placeholder_text_multiple: "Active conditions"
       });
     });
@@ -1722,6 +1722,10 @@ var combatLoader = function () {
   }
   var hpFieldDelay, lastHpFieldValue;
   function addLogPopupHandler(row) {
+    document.querySelector("#combat_log_notes").addEventListener("keyup",function(e){
+     
+      selectedRow.setAttribute("data-combat_log_notes", e.target.value);
+    });
     row.querySelector(".name_field").onmousedown = function (e) {
       if (e.button != 0) return;
 
@@ -1771,9 +1775,9 @@ var combatLoader = function () {
     var conditions = selectedRow.parentNode.getAttribute("data-dnd_conditions");
 
     $("#condition_list_dd").val(conditions ? conditions.split(",") : "");
-
     var combatLog = selectedRow.getAttribute("data-combat_log");
-
+    var notes = selectedRow.getAttribute("data-combat_log_notes") || "";
+    document.querySelector("#combat_log_notes").value = notes;
     combatLog = combatLog == null ? [] : JSON.parse(combatLog);
     populateLogPopup(combatLog);
 

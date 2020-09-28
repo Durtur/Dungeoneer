@@ -1,6 +1,7 @@
 
 var tab = "monsters", tabElementNameSuffix = "monsters";
 const { ipcRenderer } = require('electron');
+
 const uniqueID = require('uniqid');
 const dataAccess = require("./js/dataaccess");
 const elementCreator = require("./js/lib/elementCreator");
@@ -10,6 +11,7 @@ const pathModule = require('path');
 const fs = require('fs');
 var marked = require('marked');
 var noUiSlider = require('nouislider');
+
 marked.setOptions({
   renderer: new marked.Renderer(),
   gfm: true,
@@ -1250,13 +1252,13 @@ function addTokensToCurrentMonster() {
   })
 }
 
-function fillCurrentMonsterTokens(entryId) {
+function fillCurrentMonsterTokens(entryId, isCopy) {
   document.querySelectorAll(".token").forEach(tok => tok.parentNode.removeChild(tok));
 
   var paths = getAllTokenPaths(entryId);
-  console.log("All token paths for token " + entryId, paths)
+  console.log("All token paths for token " + entryId, paths);
   paths.forEach(p => {
-    createToken(p, true)
+    createToken(p, true, isCopy)
   })
 }
 
@@ -1277,12 +1279,12 @@ function getAllTokenPaths(entryId) {
   }
 }
 var tokenRemoveQueue = [];
-function createToken(pathStr, isOldToken) {
+function createToken(pathStr, isOldToken, isCopy) {
   console.log("Creating token", pathStr)
   var token = document.createElement("div");
   token.classList.add("token");
   token.setAttribute("data-file_path", pathStr);
-  if (!isOldToken) {
+  if (!isOldToken || isCopy) {
     token.setAttribute("data-is_new_token", "t");
   }
   token.style.backgroundImage = "url('" + pathStr.replace(/\\/g, "/") + "')";
@@ -1376,7 +1378,7 @@ function editCopyHelper(entryId, isEdit) {
   var letter = getLetterFromTabName();
   if (letter == "") {
     document.getElementById("addTokenButton").disabled = false;
-    fillCurrentMonsterTokens(entryId);
+    fillCurrentMonsterTokens(entryId, !isEdit);
   }
   editObject(entry, letter);
 }
@@ -1839,8 +1841,10 @@ function sortBy(sorter) {
         };
       } else {
         sortFunction = function (a, b) {
-          var s = a.type.toLowerCase();
-          var k = b.type.toLowerCase();
+          var s = a.type?.toLowerCase();
+          var k = b.type?.toLowerCase();
+          if (!k) return 1;
+          if (!s) return -1;
           if (s < k) return 1;
           if (s > k) return -1;
           if (a.name.toLowerCase() > b.name.toLowerCase()) return -1;
@@ -2014,7 +2018,7 @@ function AddActionArray(attributeKey, rowElementClass, thingyToSave) {
       var value = row.querySelector(".action_" + property).value;
       if (value) obj[property] = value;
     });
-    if(Object.keys(obj).length === 0 && obj.constructor === Object)return;
+    if (Object.keys(obj).length === 0 && obj.constructor === Object) return;
     actionArr.push(obj);
   });
 
@@ -2214,7 +2218,7 @@ function saveHomebrew() {
         }
         console.log(thingyToSave.name)
         var collisionIndex = indexOfName(data, thingyToSave.name);
-        console.log(collisionIndex)
+  
         if (collisionIndex != -1) {
           if (window.confirm(thingyToSave.name + " already found in database. Do you wish to overwrite?")) {
             data.splice(collisionIndex, 1);
@@ -2259,13 +2263,13 @@ function saveHomebrew() {
       })
     }
   }
-  function saveTokens(newId) {
+   function saveTokens(newId) {
 
     //Move tokens
     if (tab == "monsters" || tab == "homebrew") {
       var tokens = [...document.querySelectorAll(".token")];
       tokens = tokens.filter(x => x.getAttribute("data-is_new_token"));
-      if(tokens.length == 0)return;
+      if (tokens.length == 0) return;
       console.log(tokens);
       var i = 0;
       while (fs.existsSync(pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png")))
@@ -2274,9 +2278,7 @@ function saveHomebrew() {
         var oldPath = pathModule.resolve(tok.getAttribute("data-file_path"));
         var newPath = pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png");
         if (newPath == oldPath) return;
-
-
-        fs.createReadStream(oldPath).pipe(fs.createWriteStream(newPath));
+        dataAccess.saveToken( newId.toLowerCase() + i, oldPath);
         i++;
       });
     }
@@ -2284,6 +2286,8 @@ function saveHomebrew() {
     currentEntry = null;
     $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
     loadAll();
+
+   
   }
   function addProperty(property, object, fallbackValue, classPrefix) {
 

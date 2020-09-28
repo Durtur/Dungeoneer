@@ -22,6 +22,7 @@
     "file-system": "^2.2.2",
     "marked": "^1.1.1",
     "nouislider": "^14.0.2",
+    "sharp": "^0.26.1",
     "turndown": "^5.0.3",
     "uniqid": "^5.2.0"
   },

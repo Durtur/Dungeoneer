@@ -3,6 +3,7 @@ const path = require("path");
 const Awesomplete  = require(path.resolve('app/awesomplete/awesomplete.js'));
 const dataAccess = require("./js/dataaccess");
 
+const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 
 var cellSize = 35, minCellsize = 10, maxCellsize = 150, originalCellSize = cellSize;

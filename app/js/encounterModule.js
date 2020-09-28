@@ -149,7 +149,7 @@ class EncounterModule {
     }
     //difficulty : ["easy", "medium", "hard", "deadly", "2x deadly"]
     //encounterType : ["solitary", "squad", "mob"]
-    getRandomEncounter(pcLevels, difficulty, encounterType, allowedMonsters, allowedType, callback) {
+    getRandomEncounter(pcLevels, difficulty, encounterType, allowedMonsters, allowedType, monsterTag = null, callback) {
         pcLevels = pcLevels.filter(x => x > 0);
         if (pcLevels.length == 0)
             return callback(createEncounterReturnError("<p>Unable to generate an encounter. There are no active party members with a level.</p>"));
@@ -175,7 +175,7 @@ class EncounterModule {
         })(encounterType);
         dataAccess.getMonsters(monsterArray => {
             dataAccess.getHomebrewMonsters(homebrewMonsters => {
-                monsterArray = monsterArray.concat(homebrewMonsters).filter(x=> !x.unique);
+                monsterArray = monsterArray.concat(homebrewMonsters).filter(x => !x.unique);
 
                 if (allowedMonsters) {
                     allowedMonsters = allowedMonsters.map(x => x.toLowerCase());
@@ -185,7 +185,8 @@ class EncounterModule {
                 if (allowedType)
                     monsterArray = monsterArray.filter(x => x.type.toLowerCase().trim() == allowedType.toLowerCase().trim());
 
-
+                if (monsterTag)
+                    monsterArray = monsterArray.filter(x => x.tags && x.tags.includes(monsterTag));
                 console.log("Generating encounter for ", XPCeiling, "xp");
                 var remainingXp = XPCeiling / this.getMultiplierForCreatureNumber(monsterCount, pcLevels.length);
 
@@ -222,8 +223,8 @@ class EncounterModule {
                         iterations--;
                         remainingXp -= this.pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs);
                     }
-                  
-                    var totalXp = this.getXpSumForEncounter(pickedMonsters.map(x=> (x.challenge_rating)), pcLevels.length).adjusted;
+
+                    var totalXp = this.getXpSumForEncounter(pickedMonsters.map(x => (x.challenge_rating)), pcLevels.length).adjusted;
                     console.log("total xp", totalXp)
                     return callback({
                         name: "Generated encounter",
@@ -234,28 +235,32 @@ class EncounterModule {
                 }
 
                 //>= 3 creatures
-                var withLieutenant = Math.random() > (0.45 - monsterCount/10) && monsterCount > 1;
-                console.log( (0.45 - monsterCount/10) , "prop", withLieutenant)
+                var withLieutenant = Math.random() > (0.45 - monsterCount / 10) && monsterCount > 1;
+                console.log((0.45 - monsterCount / 10), "prop", withLieutenant)
                 if (withLieutenant) {
                     var availablePool = remainingXp / 1.5; //2/3 of xp
                     if (this.getOptimalCrForCreatureNumber(monsterCount - 1, allAvailableCrs, remainingXp - availablePool) >= 0)
                         remainingXp -= this.pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs, true);
                 }
 
-             
+
                 var remainingCreaturesToAdd = monsterCount - 1;
                 var availablePool = remainingXp / remainingCreaturesToAdd;
 
                 var costForOne = this.pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs);
-                var pickedCreature = pickedMonsters[pickedMonsters.length-1];
+                var pickedCreature = pickedMonsters[pickedMonsters.length - 1];
                 remainingCreaturesToAdd--;
-                while (remainingCreaturesToAdd > 0) {
+                var infiniLoopGuard = 2000;
+                while (remainingCreaturesToAdd > 0 && infiniLoopGuard > 0) {
                     remainingXp -= costForOne;
                     remainingCreaturesToAdd--;
-                    pickedMonsters.push(pickedCreature);
+                    if (pickedCreature)
+                        pickedMonsters.push(pickedCreature);
+                    infiniLoopGuard--;
+                    if(infiniLoopGuard == 0)console.log("Infinite loop")
                 }
 
-                var totalXp =  this.getXpSumForEncounter(pickedMonsters.map(x=> (x.challenge_rating)), pcLevels.length).adjusted;
+                var totalXp = this.getXpSumForEncounter(pickedMonsters.map(x => (x.challenge_rating)), pcLevels.length).adjusted;
                 return callback({
                     name: "Generated encounter",
                     description: "A generated encounter",
@@ -263,16 +268,16 @@ class EncounterModule {
                     encounter_xp_value: totalXp
                 });
 
-                function toEncounter(monsters){
+                function toEncounter(monsters) {
                     var creatures = [];
                     var nameList = [];
-                    monsters.forEach(x=>{
+                    monsters.forEach(x => {
                         nameList.push(x.name);
                     });
                     var uniqueNames = [... new Set(nameList)];
-                    uniqueNames.forEach(name=>{
+                    uniqueNames.forEach(name => {
                         var obj = {};
-                        obj[name] = nameList.filter(x=> x==name).length;
+                        obj[name] = nameList.filter(x => x == name).length;
                         creatures.push(obj);
                     });
                     return creatures;
@@ -296,7 +301,7 @@ class EncounterModule {
         console.log("Highest available CR: ", encounterCalculatorTable.xpByCR[highestAvailable]);
         var lietenantCreature = pickOne(monsterArray.filter(x => this.getXpValueForCR(x.challenge_rating) == encounterCalculatorTable.xpByCR[highestAvailable]));
         if (lietenantCreature) {
-            if(removeFromSet)monsterArray = monsterArray.splice(monsterArray.indexOf(lietenantCreature), 1);
+            if (removeFromSet) monsterArray = monsterArray.splice(monsterArray.indexOf(lietenantCreature), 1);
             pickedMonsters.push(lietenantCreature);
             return this.getXpValueForCR(lietenantCreature.challenge_rating);
         }

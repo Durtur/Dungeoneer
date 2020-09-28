@@ -94,17 +94,25 @@ var statblockPresenter = function () {
   }
   var statblockDescriptionText;
   function storeDescription() {
-    statblockDescriptionText = values.description;
+    statblockDescriptionText = values.description ||"";
+    if(values.tags && values.tags.length > 0){
+      statblockDescriptionText= "**Tags.** *" + values.tags.join(", ") + "*\n\n" + statblockDescriptionText;
+    }
     delete values.description;
+    delete values.tags;
   }
 
   function addDescription() {
     if (!statblockDescriptionText)
       return;
     var p = document.createElement("p");
+
     p.innerHTML = marked(statblockDescriptionText);
     createSeperator();
+  
     statblock.appendChild(p);
+ 
+
   }
 
   function addTable() {

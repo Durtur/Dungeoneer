@@ -5,10 +5,11 @@ const app = remote.app;
 
 const uniqueID = require('uniqid');
 var pathModule = require('path');
-
+const sharp = require("sharp");
 
 const settingsPath = pathModule.join(app.getPath("userData"), "data", "settings");
 const resourcePath = pathModule.join(app.getPath("userData"), 'data');
+const baseTokenSize = 280;
 const defaultResourcePath = pathModule.join(app.getAppPath(), 'data');
 const defaultGeneratorResourcePath = pathModule.join(pathModule.dirname(__dirname), "data", "generators");
 const generatorResourcePath = pathModule.join(app.getPath("userData"), "data", "generators");
@@ -53,14 +54,14 @@ module.exports = function () {
 
     }
 
-    function getTags(callback){
+    function getTags(callback) {
         return baseGet("npc_tags.json", callback, []);
     }
-    function setTags(data, callback){
+    function setTags(data, callback) {
         var tagSet = new Set();
-        data.forEach(npc=>{
-            if(!npc.tags)return;
-            npc.tags.forEach(tag=>tagSet.add(tag));
+        data.forEach(npc => {
+            if (!npc.tags) return;
+            npc.tags.forEach(tag => tagSet.add(tag));
         });
 
         return baseSet("npc_tags.json", [...tagSet], callback);
@@ -80,7 +81,7 @@ module.exports = function () {
         return baseGetPredefined("monsters.json", callback);
     }
     function setMonsters(data, callback) {
-        getHomebrewMonsters(hbList=>{
+        getHomebrewMonsters(hbList => {
             setTags(data.concat(hbList));
         });
         return baseSet("monsters.json", data, callback);
@@ -95,7 +96,7 @@ module.exports = function () {
         return baseGet("homebrew.json", callback);
     }
     function setHomebrewMonsters(data, callback) {
-        getMonsters(hbList=>{
+        getMonsters(hbList => {
             setTags(data.concat(hbList));
         });
         baseSet("homebrew.json", data, callback);
@@ -220,11 +221,24 @@ module.exports = function () {
         return null;
     }
 
-    function saveToken(tokenName, currentPath) {
+    async function saveToken(tokenName, currentPath) {
         console.log("Saving token", tokenName)
         var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));
         var savePath = pathModule.join(defaultTokenPath, tokenName + fileEnding);
-        fs.createReadStream(currentPath).pipe(fs.createWriteStream(savePath));
+
+        let buffer = await sharp(currentPath)
+            .resize(
+                {
+                    width: baseTokenSize,
+                    height: baseTokenSize
+                })
+            .png()
+            .toBuffer();
+
+        await sharp(buffer)
+            .trim(0.5)
+            .toFile(pathModule.resolve(savePath));
+
     }
 
     function saveSettings(settings, callback) {
@@ -239,6 +253,46 @@ module.exports = function () {
         if (!fs.existsSync(resourcePath)) {
             fs.mkdirSync(resourcePath);
         }
+        if (!fs.existsSync(pathModule.join(resourcePath, "backups")))
+            fs.mkdirSync(pathModule.join(resourcePath, "backups"));
+        fs.readFile(pathModule.join(resourcePath, "backups", "backupstatus.json"), function (err, backupstatusData) {
+            if (err)
+                backupdata = {};
+            else
+                try {
+                    backupdata = JSON.parse(backupstatusData);
+                } catch{
+                    backupdata = {};
+                }
+
+            var now = new Date();
+            if (backupdata[path]) {
+                var lastBackedUp = new Date(backupdata[path]?.date);
+
+                if (now.getDate() === lastBackedUp.getDate())
+                    return;
+
+            }
+
+            var i = 0;
+            var backupDataPath = pathModule.join(resourcePath, "backups", i + path);
+
+
+            while (!fs.existsSync(backupDataPath)) {
+                i++;
+                if (i > 10) {
+                    i = 0;
+                    backupDataPath = pathModule.join(resourcePath, "backups", i + path);
+                    break;
+                }
+                backupDataPath = pathModule.join(resourcePath, "backups", i + path);
+            }
+            backupdata[path] = { date: now.toString(), index: i };
+            fs.writeFile(backupDataPath, JSON.stringify(data), (err) => { if (err) throw err });
+            fs.writeFile(pathModule.join(resourcePath, "backups","backupstatus.json"), JSON.stringify(backupdata), (err) => { if (err) throw err });
+
+        });
+
         return baseSetWithFullPath(pathModule.join(resourcePath, path), data, callback);
     }
 
@@ -296,7 +350,7 @@ module.exports = function () {
         });
     }
 
- 
+
     return {
         readFile: readFile,
         getTokenPath: getTokenPath,
@@ -334,7 +388,8 @@ module.exports = function () {
         getTables: getTables,
         setTables: setTables,
         getTags: getTags,
-        tokenFilePath: defaultTokenPath
+        tokenFilePath: defaultTokenPath,
+        baseTokenSize: baseTokenSize
     }
 }();
 

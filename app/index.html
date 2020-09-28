@@ -183,7 +183,7 @@
 
         <div class="column section__tool section__show">
           <section class="combatGUI" id="mobcontroller_element">
-              <p class="no_data_text">Search for creatures to add mobs</p>
+            <p class="no_data_text">Search for creatures to add mobs</p>
           </section>
           <div class="row float_up combat_toolbar">
             <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
@@ -370,21 +370,31 @@
 
       </div>
       <div id="combat_log_popup" class="combat_log_popup_window hidden">
-        <div class="column combat_loader_log_column" style="width: 90%">
+        <div class="column combat_loader_log_column" style="width: 86.6%">
 
 
 
 
-          <h3 class="combat_log_title combat_log_title_main">Log</h3>
-          <div class="combat_log_conditions">
-            <select id="condition_list_dd" multiple>
+          <div class="column">
 
-            </select>
+
+            <div class="combat_log_conditions">
+              <select id="condition_list_dd" multiple>
+
+              </select>
+            </div>
+            <div class="row">
+              <div class="column" style="flex:1">
+                <h3 class="combat_log_title combat_log_title_main">Log</h3>
+                <div class="combat_log_content"></div>
+              </div>
+              <div class="column" style="flex:1">
+                <h3 class="combat_log_title combat_log_title_main">Notes</h3>
+                <textarea id="combat_log_notes"></textarea>
+              </div>
+            </div>
           </div>
 
-
-
-          <div class="combat_log_content"></div>
         </div>
         <div class="column " style="width: 12%;">
           <h3 class="combat_log_title">Actions</h3>
