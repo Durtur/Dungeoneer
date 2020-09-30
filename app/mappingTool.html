@@ -35,36 +35,51 @@
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content">
-                        <a class="button_style" id="file_load_button" href="#">Foreground</a>
+                        <a class="button_style" id="foreground_button" href="#">Foreground</a>
+                        <a class="button_style context_menu_button"
+                            data-menu_item="context_menu_background">Background</a>
                         <a class="button_style" id="save_map_button" href="#"
                             title="Saves the map in the current state, excluding tokens.">Save map</a>
                         <a class="button_style" id="load_map_button" href="#"
                             title="Loads an earlier map in the same state, excluding tokens.">Load map</a>
                         <div class="menu_seperator"></div>
-                        <a class="button_style context_menu_button" data-menu_item="context_menu_background">Background</a>
+
                         <a class="button_style" id="backdrop_window_button" href="#"
                             title="Launches a backdrop window, useful if running in transparent mode.">Backdrop
                             window</a>
+                        <a class="button_style" id="map_edge_button" href="#"
+                            title="Sets the art for the map edge.">Map edge</a>
                     </div>
                 </div>
-            
-                    <div id="context_menu_background" class="context_menu hidden">
-                            <button class="button_style" id="map_edge_button" href="#" title="Sets the art for the map ede.">Background image</button>
-                            <div class="menu_seperator"></div>
-                            <div class = "row">
-                                    <label class = "button_style_label" style = "width: 100%;" for="slide_speed_input">
-                                        Slide duration:
-                                    </label>
-                                        <input style = "text-align: center; width:60px; " type="number" onchange="backgroundLoop.updateSlideSpeed()" id = "slide_speed_input" value = "1" step = "0.1">
-                                </div>
-                            <button class = "button_style toggle_button"  toggled="true"  toggleGroup=15 onclick = "backgroundLoop.setBackgroundSlide(this)" data-slide="" title = "Removes the background slide">No slide</button>
-                            <button class = "button_style toggle_button" toggled="false"  toggleGroup=15 onclick = "backgroundLoop.setBackgroundSlide(this)" data-slide="slideX" >Horizontal slide</button>
-                            <button class = "button_style toggle_button" toggled="false"  toggleGroup=15 onclick = "backgroundLoop.setBackgroundSlide(this)" data-slide="slideXReverse" title = "Removes the background slide">Horizontal reverse slide</button>
-                            <button class = "button_style toggle_button" toggled="false"  toggleGroup=15 onclick = "backgroundLoop.setBackgroundSlide(this)" data-slide="slideY" title = "Removes the background slide">Vertical slide</button>
-                            <button class = "button_style toggle_button" toggled="false"  toggleGroup=15 onclick = "backgroundLoop.setBackgroundSlide(this)" data-slide="slideYReverse" title = "Removes the background slide">Vertical reverse slide</button>
-                 
-                
-                        </div>
+
+                <div id="context_menu_background" class="context_menu hidden">
+                    <button class="button_style" id="background_button" href="#"
+                        title="Sets the art for the map edge.">Background image</button>
+                    <div class="menu_seperator"></div>
+                    <div class="row">
+                        <label class="button_style_label" style="width: 100%;" for="slide_speed_input">
+                            Slide speed:
+                        </label>
+                        <input style="text-align: center; width:60px; " type="number"
+                            onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input" value="1" step="0.1">
+                    </div>
+                    <button class="button_style toggle_button" toggled="true" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
+                        title="Removes the background slide">No slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideX">Horizontal slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideXReverse"
+                        title="Removes the background slide">Horizontal reverse slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
+                        title="Removes the background slide">Vertical slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideYReverse"
+                        title="Removes the background slide">Vertical reverse slide</button>
+
+
+                </div>
                 <div class="show_overflow">
                     <button title="Change map size" class="toggle_button button_style " toggleGroup="3" toggled="false"
                         onclick="showMapSizeSlider(this)">Size</button>
@@ -154,7 +169,12 @@
                 title="Add monsters from combat table." onclick="startAddingFromQueue()">+</button>
         </div>
         <div class="slidecontainer hidden" id="map_size_slider_container">
-            <input type="range" min="100" max="9000" class="slider" id="map_size_slider" title="Map size">
+            <h4>Foreground</h4>
+            <input type="range" min="100" max="9000" class="slider" id="foreground_size_slider" title="Map size">
+            <h4>Background</h4>
+            <input type="range" min="100" max="18000" class="slider" id="background_size_slider" title="Map size">
+        
+         
         </div>
 
         <!-- #region popups-->
@@ -311,12 +331,16 @@
         </div>
 
         <div id="conditions_menu" class="popup_menu hidden">
-            <input class = "conditions_menu_input">
+            <input class="conditions_menu_input">
         </div>
         <!-- #endregion popups-->
         <div class="canvas_wrapper">
-            <div  class="maptool_body"></div>
-            <canvas id="background" class="canvas_layer"></canvas>
+            <div class="maptool_body"></div>
+            <div id = "map_layer_container">
+                <canvas id="background" class="canvas_layer"></canvas>
+                <canvas id="foreground" class="canvas_layer"></canvas>
+            </div>
+       
             <canvas id="effects" class="canvas_layer"></canvas>
             <div id="tokens" class="canvas_layer"></div>
             <canvas id="fog_of_war" class="canvas_layer" width="100%" height="100%"></canvas>
@@ -361,10 +385,10 @@
               0 0 0 1.8 0" />
         </filter>
         <filter id="red_hue_filter">
-            <feColorMatrix type="matrix"  values="0.78     0     0     0     0
+            <feColorMatrix type="matrix" values="0.78     0     0     0     0
             0     0.04     0     0     0
             0     0     0.04     0     0
-            0     0     0     1     0 "/>
+            0     0     0     1     0 " />
         </filter>
         <filter id="daylight">
             <!--Blur effect-->

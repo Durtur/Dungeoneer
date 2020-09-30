@@ -1,6 +1,6 @@
 const { ipcRenderer, webFrame } = require('electron');
 const path = require("path");
-const Awesomplete  = require(path.resolve('app/awesomplete/awesomplete.js'));
+const Awesomplete = require(path.resolve('app/awesomplete/awesomplete.js'));
 const dataAccess = require("./js/dataaccess");
 
 const dialog = require('electron').remote.dialog;
@@ -32,7 +32,7 @@ var fovSegmentLayerContext = document.getElementById("fog_of_war_segments").getC
 var moveOffsetX = 0, moveOffsetY = 0, offsetChangeX = 0, offsetChangeY = 0, canvasMoveRate = 2;
 var resetMoveIncrementTimer;
 
-var backgroundCanvas;
+var mapContainer, foregroundCanvas, backgroundCanvas;
 //Tokens
 var loadedMonsters = [], partyArray, loadedMonstersFromMain = [];
 var settings, fogOfWarEnabled, filtered = false, lastBackgroundFilter, effectFilePath;
@@ -98,10 +98,10 @@ function loadSettings() {
 
         if (!settings.enableGrid) settings.snapToGrid = false;
         if (!settings.applyDarkvisionFilter) {
-            $("#background").css("filter", "none");
+            $("#map_layer_container").css("filter", "none");
         } else {
             if (activeViewerHasDarkvision) {
-                $("#background").css("filter", "grayscale(100%)");
+                $("#map_layer_container").css("filter", "grayscale(100%)");
             }
         }
         var filterValue = settings.currentFilter ? settings.currentFilter : 0;
@@ -149,13 +149,13 @@ function setBackgroundFilter() {
             return;
         }
 
-        $("#background").css("filter", filterValue);
+        $("#map_layer_container").css("filter", filterValue);
     } else {
         if (activeViewerHasDarkvision) {
             lastBackgroundFilter = "none";
             return;
         }
-        $("#background").css("filter", "none");
+        $("#map_layer_container").css("filter", "none");
     }
 
     settings.currentFilter = filterDd.selectedIndex;
@@ -167,14 +167,14 @@ function switchActiveViewer() {
     refreshFogOfWar();
     if (settings.applyDarkvisionFilter) {
         if (activeViewerHasDarkvision) {
-            var filter = $("#background").css("filter");
+            var filter = $("#map_layer_container").css("filter");
             if (filter == null) filter = "none";
             if (filter != "grayscale(100%)") {
                 lastBackgroundFilter = filter;
             }
-            $("#background").css("filter", "grayscale(100%)");
+            $("#map_layer_container").css("filter", "grayscale(100%)");
         } else {
-            $("#background").css("filter", lastBackgroundFilter);
+            $("#map_layer_container").css("filter", lastBackgroundFilter);
 
         }
 
@@ -201,7 +201,7 @@ function setFogOfWar() {
         document.getElementById("active_viewer_button").classList.remove("hidden");
     } else {
         fogOfWarEnabled = false;
-        $("#background").css("filter", lastBackgroundFilter);
+        $("map_layer_container").css("filter", lastBackgroundFilter);
         document.getElementById("vision_button").classList.add("hidden");
         document.getElementById("fog_of_war_toolbar").classList.add("hidden");
     }
@@ -240,7 +240,7 @@ function showVisibilityLayer() {
     } else {
         fovLighting.setVisibilityLayerVisible(false);
         visibilityLayerVisible = false;
-        $("#background").css("filter", lastBackgroundFilter);
+        $("#map_layer_container").css("filter", lastBackgroundFilter);
         var visToolbox = [...document.getElementsByClassName("visibility_toolbox")];
         visToolbox.forEach((ele) => ele.classList.remove("hidden"));
         document.getElementById("line_tool").classList.remove("hidden");
@@ -342,8 +342,8 @@ ipcRenderer.on('notify-effects-changed', function (evt, arg) {
     createEffectMenus();
 });
 
-ipcRenderer.on("notify-main-reloaded", function(){
-    pawns.players.forEach(pawn=> raiseConditionsChanged(pawn[0]))
+ipcRenderer.on("notify-main-reloaded", function () {
+    pawns.players.forEach(pawn => raiseConditionsChanged(pawn[0]))
 
 });
 
@@ -368,17 +368,17 @@ ipcRenderer.on('monster-health-changed', function (evt, arg) {
             break;
         }
     }
-    if(!pawn)return;
+    if (!pawn) return;
     var woundEle = pawn.querySelector(".token_status");
     constants.creatureWounds.forEach(woundType => woundEle.classList.remove(woundType.className));
-    var woundType = constants.creatureWounds.find(x=> arg.healthPercentage < x.percentage);
+    var woundType = constants.creatureWounds.find(x => arg.healthPercentage < x.percentage);
     console.log(woundType, constants.creatureWounds, arg.healthPercentage);
-    if(woundType){
+    if (woundType) {
         woundEle.classList.add(woundType.className);
 
     }
 
-    if(arg.dead){
+    if (arg.dead) {
         pawn.dead = "true";
         pawn.stateHasChanged = 1;
         refreshPawnToolTips();
@@ -486,7 +486,7 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
             name: monsterArray[i].name,
             size: monsterArray[i].size,
             indexInMain: monsterArray[i].index,
-            monsterId : monsterArray[i].monsterId,
+            monsterId: monsterArray[i].monsterId,
             isMob: monsterArray[i].isMob == true,
             mobCountDead: 0,
             mobSize: monsterArray[i].mobSize
@@ -507,23 +507,31 @@ function resumeAllAnimations() {
     $(".pawn, .sfx_effect, .light_effect").removeClass("animation_paused");
 }
 document.addEventListener("DOMContentLoaded", function () {
+    mapContainer = document.querySelector("#map_layer_container");
     backgroundCanvas = document.querySelector("#background");
-    backgroundCanvas.data_bg_scale = 1;
-    backgroundCanvas.data_transform_x = 0;
-    backgroundCanvas.data_transform_y = 0;
+    foregroundCanvas = document.querySelector("#foreground");
+    mapContainer.data_bg_scale = 1;
+    mapContainer.data_transform_x = 0;
+    mapContainer.data_transform_y = 0;
+    foregroundCanvas.data_transform_x = 0;
+    foregroundCanvas.data_transform_y = 0;
     loadSettings();
     let window2 = remote.getGlobal('mainWindow');
     if (window2) window2.webContents.send('maptool-initialized');
-    var bgSize = parseInt($("#background").css("background-size"));
-    var slider = document.getElementById("map_size_slider") <
-        document.addEventListener("visibilitychange", function () {
-            if (document.hidden) {
-                suspendAllAnimations();
-            } else {
-                resumeAllAnimations();
-            }
-        }, false);
+    var bgSize = parseInt($("#foreground").css("background-size"));
+    var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
+
+
+
+    document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+            suspendAllAnimations();
+        } else {
+            resumeAllAnimations();
+        }
+    }, false);
+ 
     $("#background_color_button_add_pawn").spectrum({
         preferredFormat: "rgb",
         allowEmpty: false,
@@ -540,11 +548,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     $("#background_color_button_change_pawn")
-    document.getElementById("map_size_slider").oninput = function (event) {
+    document.getElementById("foreground_size_slider").oninput = function (event) {
 
-        resizeMap(event.target.value);
-        var rect = backgroundCanvas.getBoundingClientRect();
+        resizeForeground(event.target.value);
+        var rect = mapContainer.getBoundingClientRect();
         fovLighting.resizeSegments(rect.left, rect.top);
+    }
+
+    $("#background_color_button_change_pawn")
+    document.getElementById("background_size_slider").oninput = function (event) {
+        resizeBackground(event.target.value);
+
     }
 
     function pawnBgColorChosen(color) {
@@ -592,8 +606,8 @@ document.addEventListener("DOMContentLoaded", function () {
         newButton.innerHTML = "Clear all";
         parentNode.appendChild(newButton);
         var input = parentNode.querySelector(".conditions_menu_input");
-        var list = conditionList.map(x=> x.name).sort();
-        new Awesomplete(input, { list: list, autoFirst: true , minChars:0, maxItems:25})
+        var list = conditionList.map(x => x.name).sort();
+        new Awesomplete(input, { list: list, autoFirst: true, minChars: 0, maxItems: 25 })
         input.addEventListener('awesomplete-selectcomplete', function (e) {
             var condition = e.text.value;
             input.value = "";
@@ -604,7 +618,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 setPawnCondition(pawn, condition);
                 raiseConditionsChanged(pawn);
             });
-          });
+        });
 
     });
 
@@ -624,13 +638,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+function moveForeground(x, y) {
+    console.log("Move foreground ", x, y)
+    foregroundCanvas.data_transform_x = x;
+    foregroundCanvas.data_transform_y = y;
+    foregroundCanvas.style.transform = `translate(${x}px, ${y}px)`
+
+}
+
 function moveMap(x, y) {
-    [backgroundCanvas].forEach(layer => {
-        layer.data_transform_x = x;
-        layer.data_transform_y = y;
-        layer.style.setProperty("--bg-translate-x", x);
-        layer.style.setProperty("--bg-translate-y", y);
-    })
+
+    mapContainer.data_transform_x = x;
+    mapContainer.data_transform_y = y;
+    mapContainer.style.setProperty("--bg-translate-x", x);
+    mapContainer.style.setProperty("--bg-translate-y", y);
+
 }
 
 function resetEverything() {
@@ -648,7 +670,7 @@ function onSettingsLoaded() {
     refreshPawns();
     window.onresize = function () { window.requestAnimationFrame(resizeAndDrawGrid) }
 
-    resizeMap(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth)
+    resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth)
     setupGridLayer();
     resizeAndDrawGrid();
     refreshFogOfWar();
@@ -682,12 +704,14 @@ function onSettingsLoaded() {
             canvasMoveRate = 2;
         }, 600)
 
-        var bgX = backgroundCanvas.data_transform_x;
-        var bgY = backgroundCanvas.data_transform_y;
 
+        var bgX = mapContainer.data_transform_x;
+        var bgY = mapContainer.data_transform_y;
         offsetChangeX = moveOffsetX;
         offsetChangeY = moveOffsetY;
         if (event.shiftKey) {
+            bgX = foregroundCanvas.data_transform_x;
+            bgY = foregroundCanvas.data_transform_y;
             if (event.keyCode == 37) {
                 bgX -= canvasMoveRate;
             } else if (event.keyCode == 39) {
@@ -697,7 +721,8 @@ function onSettingsLoaded() {
             } else if (event.keyCode == 40) {
                 bgY += canvasMoveRate;
             }
-            moveMap(bgX, bgY)
+            console.log(canvasMoveRate)
+            moveForeground(bgX, bgY)
 
             if (canvasMoveRate < 80) canvasMoveRate++;
             return;
@@ -726,7 +751,7 @@ function onSettingsLoaded() {
         drawGrid();
         offsetChangeX = moveOffsetX - offsetChangeX;
         offsetChangeY = moveOffsetY - offsetChangeY;
-
+        console.log("Offset change: " + offsetChangeX + " " + offsetChangeY)
         fovLighting.nudgeSegments(offsetChangeX, offsetChangeY);
         fovLighting.drawSegments();
         window.requestAnimationFrame(refreshFogOfWar);
@@ -775,7 +800,7 @@ function onSettingsLoaded() {
 
     gridLayer.onmousedown = generalMousedowngridLayer;
 
-    document.getElementById("file_load_button").onclick = function (e) {
+    document.getElementById("foreground_button").onclick = function (e) {
         var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
             properties: ['openFile'],
             message: "Choose map",
@@ -783,13 +808,26 @@ function onSettingsLoaded() {
         })[0].replace(/\\/g, "/");
 
         if (path) {
-            setMapForeground(path, settings.defaultMapSize);
+            setMapForeground(path, settings.defaultMapSize, true);
             resetGridOffset()
             settings.currentMap = path;
             settings.gridSettings.mapSize = null;
             saveSettings();
         }
     };
+
+    document.getElementById("background_button").onclick = function (e) {
+        var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
+            properties: ['openFile'],
+            message: "Choose map",
+            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+        })[0].replace(/\\/g, "/");
+
+        if (path) {
+            setMapBackground(path, settings.defaultMapSize);
+        }
+    };
+
     var iconLoadButtons = [...document.querySelectorAll(".icon_load_button")];
     iconLoadButtons.forEach(button => {
         button.onclick = setTokenImageHandler;
@@ -834,13 +872,13 @@ function onSettingsLoaded() {
                 data.effects[i].data_y = effects[i].style.top;
             }
             data.map = settings.currentMap;
-            data.bgX = backgroundCanvas.data_transform_x;
-            data.bgY = backgroundCanvas.data_transform_y;
+            data.bgX = mapContainer.data_transform_x;
+            data.bgY = mapContainer.data_transform_y;
 
             data.segments = fovLighting.getSegments();
-            data.bg_scale = backgroundCanvas.data_bg_scale;
-            data.bg_height_width_ratio = backgroundCanvas.heightToWidthRatio;
-            data.bg_width = parseFloat(backgroundCanvas.style.width);
+            data.bg_scale = mapContainer.data_bg_scale;
+            data.bg_height_width_ratio = foregroundCanvas.heightToWidthRatio;
+            data.bg_width = parseFloat(mapContainer.style.width);
             fs.writeFile(path, JSON.stringify(data), (err) => {
                 if (err) return console.log(err)
             });
@@ -886,13 +924,13 @@ function onSettingsLoaded() {
                 moveOffsetY = data.moveOffsetY;
 
 
-                backgroundCanvas.data_bg_scale = data.bg_scale;
-                backgroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
-                backgroundCanvas.style.setProperty("--bg-scale", data.bg_scale);
-                resizeMap(data.bg_width);
+                mapContainer.data_bg_scale = data.bg_scale;
+                foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
+                mapContainer.style.setProperty("--bg-scale", data.bg_scale);
+                resizeForeground(data.bg_width);
                 settings.currentMap = data.map;
-                $('#background').css('background-image', 'url("' + data.map + '")');
-                $("#background").css("background-size", data.bgSize);
+                $('#foreground').css('background-image', 'url("' + data.map + '")');
+                $("#foreground").css("background-size", data.bgSize);
                 moveMap(data.bgX, data.bgY);
 
 
@@ -1000,9 +1038,8 @@ function restoreEffect(effect) {
 
 }
 
-function setMapForeground(path, width) {
+function setMapBackground(path, width) {
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
-    console.log("Setting foreground " + width)
     var img = new Image();
 
     img.onload = function () {
@@ -1013,8 +1050,28 @@ function setMapForeground(path, width) {
         var height = img.height * imgWidthToOldWidth;
 
         backgroundCanvas.style.width = mapWidth + "px";
-        backgroundCanvas.style.height = height + "px";
-        document.getElementById("map_size_slider").value = img.width;
+        //backgroundCanvas.style.height = height + "px";
+        document.getElementById("background_size_slider").value = img.width;
+    }
+    img.src = path;
+}
+
+function setMapForeground(path, width, resizeOnChange) {
+    foregroundCanvas.style.backgroundImage = 'url("' + path + '")';
+    if(!resizeOnChange)return;
+    console.log("Setting foreground " + width)
+    var img = new Image();
+
+    img.onload = function () {
+        foregroundCanvas.heightToWidthRatio = img.height / img.width;
+
+        var mapWidth = width ? width : img.width;
+        var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
+        var height = img.height * imgWidthToOldWidth;
+
+        foregroundCanvas.style.width = mapWidth + "px";
+        foregroundCanvas.style.height = height + "px";
+        document.getElementById("foreground_size_slider").value = img.width;
     }
     img.src = path;
 }
@@ -1023,16 +1080,24 @@ function setMapForeground(path, width) {
  * Resizes map only
  */
 
-function resizeMap(newWidth) {
-    console.log("Map width " + newWidth)
-    backgroundCanvas.style.width = newWidth + "px";
-    backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
-    document.getElementById("map_size_slider").value = newWidth;
+function resizeForeground(newWidth) {
+    console.log("Foreground width " + newWidth)
+    foregroundCanvas.style.width = newWidth + "px";
+    foregroundCanvas.style.height = newWidth * mapContainer.heightToWidthRatio + "px";
+    document.getElementById("foreground_size_slider").value = newWidth;
 }
+
+function resizeBackground(newWidth) {
+    console.log("Background width " + newWidth)
+    backgroundCanvas.style.width = newWidth + "px";
+    backgroundCanvas.style.height = newWidth * mapContainer.heightToWidthRatio + "px";
+    document.getElementById("background_size_slider").value = newWidth;
+}
+
 function resetZoom() {
-    var currentScale = backgroundCanvas.data_bg_scale;
+    var currentScale = mapContainer.data_bg_scale;
     var resizeAmount = (10 - currentScale * 10) / 10;
-  zoomIntoMap(null, resizeAmount);
+    zoomIntoMap(null, resizeAmount);
 }
 
 var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
@@ -1052,17 +1117,17 @@ function zoomIntoMap(event, resizeAmount) {
         MAP_RESIZE_BUFFER = 0;
         LAST_MAP_RESIZE = ts;
 
-        var oldRect = backgroundCanvas.getBoundingClientRect();
+        var oldRect = foregroundCanvas.getBoundingClientRect();
 
-        var backgroundSizeBeforeResize = backgroundCanvas.data_bg_scale;
+        var backgroundSizeBeforeResize = mapContainer.data_bg_scale;
         var newSize = backgroundSizeBeforeResize + resizeAmount;
 
         if (newSize > MAX_BG_SIZE) newSize = MAX_BG_SIZE;
         if (newSize < 0.1) newSize = 0.1;
-        backgroundCanvas.data_bg_scale = newSize;
-        backgroundCanvas.style.setProperty("--bg-scale", newSize);
+        mapContainer.data_bg_scale = newSize;
+        mapContainer.style.setProperty("--bg-scale", newSize);
 
-        var newRect = backgroundCanvas.getBoundingClientRect();
+        var newRect = foregroundCanvas.getBoundingClientRect();
         moveOffsetX += newRect.left - oldRect.left;
         moveOffsetY += newRect.top - oldRect.top;
         cellSize = originalCellSize * newSize;
@@ -1103,8 +1168,12 @@ function onEffectSizeChanged(event) {
 var backgroundLoop = function () {
     var background_slide_animation_frame;
     var background_slide_speed = 1, direction;
-    var slideCanvas = document.querySelector(".maptool_body")
+    var styleClasses = ["background_repeat_x", "background_repeat_y"]
+    var slideCanvas = document.querySelector("#background");
     function setBackgroundSlide(button) {
+        console.log(slideCanvas)
+     
+        var cls;
         var animation = button.getAttribute("data-slide");
         if (background_slide_animation_frame) {
             window.cancelAnimationFrame(background_slide_animation_frame);
@@ -1115,29 +1184,40 @@ var backgroundLoop = function () {
         if (!slideCanvas.style.backgroundPositionY)
             slideCanvas.style.backgroundPositionY = "0";
         var loop;
+
         switch (animation) {
             case "slideXReverse": {
                 loop = slideLoopX;
                 direction = -1;
+                cls = styleClasses[0];
                 break;
             }
             case "slideX": {
                 loop = slideLoopX;
                 direction = 1;
+                cls = styleClasses[0];
                 break;
             }
             case "slideYReverse": {
                 loop = slideLoopY;
                 direction = -1;
+                cls = styleClasses[1];
                 break;
             }
             case "slideY": {
                 loop = slideLoopY;
                 direction = 1;
+                cls = styleClasses[1];
                 break;
             }
-            default: return;
+            default: {
+                // slideCanvas.style.backgroundPositionX = 0 + "px";
+                // slideCanvas.style.backgroundPositionY = 0 + "px";
+                return;
+            }
+       
         }
+        slideCanvas.classList.add(cls);
         background_slide_animation_frame = window.requestAnimationFrame(loop);
         function slideLoopX() {
             var curr = parseFloat(slideCanvas.style.backgroundPositionX);
@@ -1211,6 +1291,8 @@ function generalMousedowngridLayer(event) {
             startMovingMap(event);
         }
 
+    }else if (event.button == 1){
+        startMovingMap(event);
     }
 }
 
@@ -2289,7 +2371,7 @@ function setPawnCondition(pawnElement, condition) {
 
     var text = document.createElement("div");
     text.innerHTML = marked("## " + condition.name + "\n\n" + condition.description);
-    if(condition.condition_background_location){
+    if (condition.condition_background_location) {
         var img = document.createElement("img");
         img.setAttribute("src", condition.condition_background_location);
         text.prepend(img);
@@ -2805,14 +2887,14 @@ function showLightSourceTooltip(event) {
     }, 200)
 }
 
-function createConditionButton(condition){
+function createConditionButton(condition) {
     var menuWindow = document.getElementById("conditions_menu");
     var btn = document.createElement("button");
     btn.className = "button_style condition_button";
-    btn.onclick = function(e){
+    btn.onclick = function (e) {
         var name = e.target.innerHTML;
-       
-        selectedPawns.forEach(pawn => removePawnCondition(pawn, conditionList.find(x=> x.name == name)));
+
+        selectedPawns.forEach(pawn => removePawnCondition(pawn, conditionList.find(x => x.name == name)));
         e.target.parentNode.removeChild(e.target);
     }
     btn.innerHTML = condition;
@@ -2833,7 +2915,7 @@ function showConditionsMenu(event) {
     selectedPawns.forEach(function (pawn) {
         if (!pawn["data-dnd_conditions"]) return;
         pawn["data-dnd_conditions"].forEach(function (condition) {
-            if(conditionsAdded.find(x=> x== condition))return;
+            if (conditionsAdded.find(x => x == condition)) return;
             createConditionButton(condition);
             conditionsAdded.push(condition);
         });
@@ -2965,7 +3047,7 @@ function startMovingMap(e) {
 
     var dragMoveTimestamp;
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    var bg = $("#background");
+
     pos3 = e.clientX;
     pos4 = e.clientY;
     document.onmouseup = function (event) {
@@ -2989,8 +3071,8 @@ function startMovingMap(e) {
             pos3 = e.clientX;
             pos4 = e.clientY;
             // Move bg
-            var bgX = backgroundCanvas.data_transform_x;
-            var bgY = backgroundCanvas.data_transform_y;
+            var bgX = mapContainer.data_transform_x;
+            var bgY = mapContainer.data_transform_y;
             bgY -= pos2;
             bgX -= pos1;
             moveOffsetX -= pos1;
@@ -3362,7 +3444,7 @@ function resizeAndDrawGrid(timestamp, event) {
         function () {
             settings.gridSettings = {}
             settings.gridSettings.cellSize = cellSize;
-            settings.gridSettings.mapSize = parseInt($("#background").css("width"));;
+            settings.gridSettings.mapSize = parseInt($("#foreground").css("width"));;
             saveSettings();
         }, 7000
     );

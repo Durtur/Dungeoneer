@@ -5,6 +5,8 @@
     --z-index-pawn: 5;
     --bg-translate-x: 0;
     --bg-translate-y: 0;
+    --fg-translate-x: 0;
+    --fg-translate-y: 0;
     --bg-scale: 1;
     --pawn-scale: 1;
     --pawn-rotate: 0;
@@ -27,12 +29,12 @@ html {
 .maptool_body {
     background-color: transparent;
     background-image: none;
-    width: 300vw;
+    width: 100vw;
     background-repeat: repeat;
     background-position-x: 0;
     background-position-y: 0;
-    height: 300vh;
-
+    background-size: contain;
+    height: 100vh;
     position: absolute;
 
   
@@ -235,17 +237,36 @@ li {
     padding-left: 21px;
     width: 60px;
 }
+#background{
+    background-repeat: no-repeat;
+    transform-origin: center;
+}
 
-#background {
+.background_repeat_x{
+    background-repeat:repeat-x !important;
+}
+
+.background_repeat_y{
+    background-repeat:repeat-y !important;
+}
+#foreground{
+    background-repeat: no-repeat;
+    transform-origin: center;
+}
+
+#foreground, #background {
     height:auto;
     background-color: transparent;
     background-size: contain;
-    background-repeat: no-repeat;
+    width:100%;
     transition: -webkit-filter 1s;
     transition-timing-function: ease-in;
-    /*
-matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
-*/
+
+
+
+}
+
+#map_layer_container{
     transform: matrix( calc( var(--bg-scale)), 0, 0, calc( var(--bg-scale)), calc(var(--bg-translate-x)), calc(var(--bg-translate-y)));
 }
 
@@ -502,7 +523,18 @@ matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY())
 }
 
 #map_size_slider_container {
+    width: 300px;
     position: absolute;
+    background-color: #000000ba;
+    padding: 1em;
+}
+#map_size_slider_container h4{
+    margin:0;
+    font-size:1em;
+    padding:1em;
+    font-family:roboto;
+    text-align: center;
+    color:white;
 }
 
 .show_overflow {

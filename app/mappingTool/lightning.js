@@ -91,8 +91,8 @@ var fovLighting = function () {
         var pawnX, pawnY;
         pawnX = parseFloat(currentPawn.style.left) + currentPawn.clientWidth / 2;
         pawnY = parseFloat(currentPawn.style.top) + currentPawn.clientHeight / 2;
-        if (pawnY < -200 || pawnY > window.clientHeight + 200 || pawnX < -200 || pawnX > window.clientHeight + 200)
-            return;
+        // if (pawnY < -200 || pawnY > window.clientHeight + 200 || pawnX < -200 || pawnX > window.clientHeight + 200)
+        //     return;
 
         fogOfWarLayerContext.globalCompositeOperation = 'destination-out';
 
@@ -246,11 +246,11 @@ var fovLighting = function () {
 
             var ddWidth = parseInt(data.world.width) * dungeonDraftCellSize;
             var ddHeigth = parseInt(data.world.height) * dungeonDraftCellSize;
-            var widthDiff = parseFloat(backgroundCanvas.style.width) / ddWidth;
-            var heightDiff = parseFloat(backgroundCanvas.style.height) / ddHeigth;
+            var widthDiff = parseFloat(foregroundCanvas.style.width) / ddWidth;
+            var heightDiff = parseFloat(foregroundCanvas.style.height) / ddHeigth;
 
-            var offsetX = backgroundCanvas.data_transform_x;
-            var offsetY = backgroundCanvas.data_transform_y;
+            var offsetX = foregroundCanvas.data_transform_x;
+            var offsetY = foregroundCanvas.data_transform_y;
 
             wallArray.forEach(wall => {
                 var lastPoint;
@@ -357,9 +357,10 @@ var fovLighting = function () {
         return {x:point.x, y:point.y};
     }
     function addWindowBorderToSegments() {
-        var offset = -500;
+        var offset = -2000;
         var boxHeight = canvasHeight - offset;
         var boxWidth = canvasWidth - offset;
+        console.log(boxHeight, boxWidth, canvasHeight, canvasWidth);
         segments[0] = { a: { x: offset, y: offset }, b: { x: boxWidth, y: offset } };
         segments[1] = { a: { x: boxWidth, y: offset }, b: { x: boxWidth, y: canvasHeight } };
         segments[2] = { a: { x: boxWidth, y: boxHeight }, b: { x: offset, y: boxHeight } };
