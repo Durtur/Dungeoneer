@@ -808,7 +808,7 @@ function onSettingsLoaded() {
         })[0].replace(/\\/g, "/");
 
         if (path) {
-            setMapForeground(path, settings.defaultMapSize, true);
+            setMapForeground(path, settings.defaultMapSize);
             resetGridOffset()
             settings.currentMap = path;
             settings.gridSettings.mapSize = null;
@@ -1050,16 +1050,14 @@ function setMapBackground(path, width) {
         var height = img.height * imgWidthToOldWidth;
 
         backgroundCanvas.style.width = mapWidth + "px";
-        //backgroundCanvas.style.height = height + "px";
         document.getElementById("background_size_slider").value = img.width;
     }
     img.src = path;
 }
 
-function setMapForeground(path, width, resizeOnChange) {
+function setMapForeground(path, width) {
     foregroundCanvas.style.backgroundImage = 'url("' + path + '")';
-    if(!resizeOnChange)return;
-    console.log("Setting foreground " + width)
+
     var img = new Image();
 
     img.onload = function () {
@@ -1069,11 +1067,16 @@ function setMapForeground(path, width, resizeOnChange) {
         var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
         var height = img.height * imgWidthToOldWidth;
 
+        foregroundCanvas.setAttribute("data-original_height", height);
+        foregroundCanvas.setAttribute("data-original_width", mapWidth);
+        console.log("Map size " + height + " " + mapWidth)
+
         foregroundCanvas.style.width = mapWidth + "px";
         foregroundCanvas.style.height = height + "px";
         document.getElementById("foreground_size_slider").value = img.width;
     }
     img.src = path;
+    
 }
 
 /***
@@ -1085,6 +1088,7 @@ function resizeForeground(newWidth) {
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * mapContainer.heightToWidthRatio + "px";
     document.getElementById("foreground_size_slider").value = newWidth;
+    settings.gridSettings.mapSize = newWidth;
 }
 
 function resizeBackground(newWidth) {

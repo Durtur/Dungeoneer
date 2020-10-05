@@ -49,7 +49,7 @@ var roundCounter;
 //       }
 //     });
 //     dataAccess.setMonsters(monsters, ()=> {});
- 
+
 //   });
 // }
 
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (evt.keyCode == 13) rollSaves();
     })
   })
-  console.log( document.getElementById("active_party_input"))
+  console.log(document.getElementById("active_party_input"))
   document.getElementById("active_party_input").addEventListener('awesomplete-selectcomplete', function (e) {
     filterPcRowsBySelectedParty();
 
@@ -339,7 +339,7 @@ var autofill = function () {
 
       dataAccess.getHomebrewMonsters(function (hbdata) {
         hbdata.forEach(function (i) {
-          arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating + (i.source ? " " + i.source + " " : null|| " (hb)"), i.name]);
+          arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating + (i.source ? " " + i.source + " " : null || " (hb)"), i.name]);
         });
         dataAccess.getEncounters(function (endata) {
           endata.forEach(function (i) {
@@ -782,6 +782,35 @@ var initiative = function () {
       }
     });
   }
+
+  function editCurrentNode() {
+    var nodeName = currentNode.getElementsByClassName("initiative_name_node")[0].innerHTML;
+    console.log("Edit " + nodeName);
+
+    var i = 0;
+    for (i = 0; i < order.length; i++) {
+      if (order[i][0] == nodeName) break;
+    }
+
+    prompt({
+      title: 'New initiative score',
+      label: 'Initiative score for ' + nodeName + ':',
+      icon: "./app/css/img/icon.png",
+      customStylesheet: "./app/css/prompt.css",
+      inputAttrs: { // attrs to be set if using 'input'
+        type: 'number'
+      }
+
+    })
+      .then((value) => {
+        //Break if user cancels
+        if (value == null) return false;
+        order[i][1] = value;
+        sortAndDisplay();
+      });
+
+    console.log(i)
+  }
   function removeCurrentNode() {
 
     if ($("#initBar .initiativeNode").length > 1) {
@@ -1082,6 +1111,7 @@ var initiative = function () {
     loadEventHandlers: loadEventHandlers,
     removeCurrentNode: removeCurrentNode,
     roll: roll,
+    editCurrentNode: editCurrentNode,
     setReadyAction: setReadyAction,
     nextRound: nextRound,
     add: add,
@@ -1722,8 +1752,8 @@ var combatLoader = function () {
   }
   var hpFieldDelay, lastHpFieldValue;
   function addLogPopupHandler(row) {
-    document.querySelector("#combat_log_notes").addEventListener("keyup",function(e){
-     
+    document.querySelector("#combat_log_notes").addEventListener("keyup", function (e) {
+
       selectedRow.setAttribute("data-combat_log_notes", e.target.value);
     });
     row.querySelector(".name_field").onmousedown = function (e) {

@@ -344,6 +344,7 @@
         <div class="initiative_actions column">
           <button class=" button_style" title="Close initiative" onclick="initiative.setReadyAction()">Ready
             action</button>
+            <button class=" button_style" title="Close initiative" onclick="initiative.editCurrentNode()">Edit</button>
           <button class=" button_style" title="Set readied action"
             onclick="initiative.removeCurrentNode()">Remove</button>
           <span class="separator"></span>
@@ -409,8 +410,9 @@
 
       </div>
       <div id="spell_popup" class="spell_popup_window semi_hidden">
-        <h2 class="center" id="spell_popup_name">
-          </h4>
+        <h2 class="center" id="spell_popup_name"> </h2>
+          <div class="statblock_seperator_line"></div>
+         
           <h4 id="spell_popup_ritual"></h4>
           <div class="row_wrap spell_attribute_row">
             <div class="column">
@@ -427,6 +429,7 @@
             </div>
 
           </div>
+          <div class="statblock_seperator_line"></div>
           <div class="row_wrap spell_attribute_row">
 
             <div class="column">

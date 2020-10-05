@@ -246,8 +246,12 @@ var fovLighting = function () {
 
             var ddWidth = parseInt(data.world.width) * dungeonDraftCellSize;
             var ddHeigth = parseInt(data.world.height) * dungeonDraftCellSize;
-            var widthDiff = parseFloat(foregroundCanvas.style.width) / ddWidth;
-            var heightDiff = parseFloat(foregroundCanvas.style.height) / ddHeigth;
+
+            var width = parseFloat(foregroundCanvas.getAttribute("data-original_width"));
+            var height = parseFloat(foregroundCanvas.getAttribute("data-original_height"));
+            console.log(width, height);
+            var widthDiff = width / ddWidth;
+            var heightDiff = height / ddHeigth;
 
             var offsetX = foregroundCanvas.data_transform_x;
             var offsetY = foregroundCanvas.data_transform_y;
@@ -370,6 +374,7 @@ var fovLighting = function () {
     }
 
     function addSegment(a, b) {
+        console.log("Adding segment" , a,b)
         segments.push({ a: a, b: b })
     }
 

@@ -1248,7 +1248,7 @@ header {
 .spell_attribute_row {
   justify-content: space-between;
   text-align: center;
-  border-top: solid 4px var(--main-color);
+
   padding: 5px;
 }
 

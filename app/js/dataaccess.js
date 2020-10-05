@@ -18,6 +18,7 @@ const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "mapt
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(pathModule.dirname(__dirname), 'app', 'mappingTool', 'tokens', 'conditions');
 module.exports = function () {
+   
     function initializeData() {
         console.log("Initalizing data...");
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
@@ -261,14 +262,14 @@ module.exports = function () {
             else
                 try {
                     backupdata = JSON.parse(backupstatusData);
-                } catch{
+                } catch {
                     backupdata = {};
                 }
 
             var now = new Date();
             if (backupdata[path]) {
                 var lastBackedUp = new Date(backupdata[path]?.date);
-
+                console.log(now.getDate(),lastBackedUp.getDate());
                 if (now.getDate() === lastBackedUp.getDate())
                     return;
 
@@ -278,7 +279,7 @@ module.exports = function () {
             var backupDataPath = pathModule.join(resourcePath, "backups", i + path);
 
 
-            while (!fs.existsSync(backupDataPath)) {
+            while (fs.existsSync(backupDataPath)) {
                 i++;
                 if (i > 10) {
                     i = 0;
@@ -289,7 +290,7 @@ module.exports = function () {
             }
             backupdata[path] = { date: now.toString(), index: i };
             fs.writeFile(backupDataPath, JSON.stringify(data), (err) => { if (err) throw err });
-            fs.writeFile(pathModule.join(resourcePath, "backups","backupstatus.json"), JSON.stringify(backupdata), (err) => { if (err) throw err });
+            fs.writeFile(pathModule.join(resourcePath, "backups", "backupstatus.json"), JSON.stringify(backupdata), (err) => { if (err) throw err });
 
         });
 
@@ -349,7 +350,6 @@ module.exports = function () {
             callback(JSON.parse(data));
         });
     }
-
 
     return {
         readFile: readFile,
