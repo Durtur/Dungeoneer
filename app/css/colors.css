@@ -500,7 +500,9 @@ hr {
 
   
 }
-
+.statblock_challenge_rating{
+  cursor:help;
+}
 .statblock_seperator_line{
   margin-top: 0.7em;
   height: 4px;

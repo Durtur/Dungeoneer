@@ -11,12 +11,12 @@ const settingsPath = pathModule.join(app.getPath("userData"), "data", "settings"
 const resourcePath = pathModule.join(app.getPath("userData"), 'data');
 const baseTokenSize = 280;
 const defaultResourcePath = pathModule.join(app.getAppPath(), 'data');
-const defaultGeneratorResourcePath = pathModule.join(pathModule.dirname(__dirname), "data", "generators");
+const defaultGeneratorResourcePath = pathModule.join(app.getAppPath(), "data", "generators");
 const generatorResourcePath = pathModule.join(app.getPath("userData"), "data", "generators");
 const defaultTokenPath = pathModule.join(app.getPath("userData"), "data", "maptool_tokens");
 const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "maptool_effects");
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
-const conditionResourcePath = pathModule.join(pathModule.dirname(__dirname), 'app', 'mappingTool', 'tokens', 'conditions');
+const conditionResourcePath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
 module.exports = function () {
    
     function initializeData() {
@@ -324,6 +324,7 @@ module.exports = function () {
                 if (fallbackPath != null) {
                     console.log("Falling back on ", fallbackPath)
                     fs.readFile(fallbackPath, function (err, fallbackData) {
+                        console.log(fallbackData)
                         baseSetWithFullPath(path, JSON.parse(fallbackData), (err) => { })
                         callback(JSON.parse(fallbackData));
                     });

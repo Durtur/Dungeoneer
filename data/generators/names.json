@@ -4,6 +4,7 @@
 			"male": [
 				"Aldus",
 				"Abel",
+				"Arthorian",
 				"Alan",
 				"Alannthar",
 				"Algithras",
@@ -14,6 +15,8 @@
 				"Alveran",
 				"Alvyn",
 				"Athyn",
+				"Arthur",
+				"Arwad",
 				"Baern",
 				"Barthok",
 				"Basil",
@@ -62,8 +65,11 @@
 				"Horth",
 				"Jacob",
 				"Jarod",
+				"Jaster",
 				"Jonn",
 				"Joseph",
+				"James",
+				"Jereb",
 				"Julius",
 				"Jural",
 				"Lann",
@@ -109,11 +115,15 @@
 				"Victor",
 				"Vann",
 				"Victus",
+				"Vared",
 				"Warrel",
+				"Worid",
 				"Wallace",
 				"Willem",
 				"Willum",
-				"Wilhelm"
+				"Wilhelm",
+				"Yegg",
+				"Yorn"
 			],
 			"female": [
 				"Alanna",
@@ -1301,7 +1311,23 @@
 		"sylvan beans",
 		"kobold's caps",
 		"devil's squash",
-		"seatubers"
+		"seatubers",
+		"goblin tuft",
+		"ripplebark",
+		"bluestalk"
+	],
+	"exotic_meat": [
+		"drakebelly",
+		"drakeflank",
+		"wyvern",
+		"ankheg",
+		"griffon",
+		"cave fisher",
+		"displacer beast",
+		"wyrm",
+		"roper",
+		"hyppogriff",
+		"girallon"
 	],
 	"generated_creatures": {
 		"humanoid": {
@@ -2998,33 +3024,51 @@
 					[
 						"An assortment of roasted _exotic_vegetables",
 						"Roasted _exotic_vegetables",
-						"Boiled  _exotic_vegetables"
+						"Boiled  _exotic_vegetables",
+						"Fungus nuts with firebrand powder",
+						"Assorted shark fins"
 					],
 					[
-						"A sliver of roasted pork with cold potatoes",
-						"Salted pork with a side of boiled parsnip",
-						""
+						"Detoxified ghoul flank",
+						"Braised _meat in ooze ichor",
+						"Frostburned _meat with bloatfly caviar",
+						"Grilled Ripplebark"
 					]
 				],
 				[
 					[
-						"A plate of cold meats and cheeses, with pickled onions and peppers",
-						"A plate of pickled onions and grapes"
+						"Violet fungus with assorted goat cheese",
+						"Sauteed frostroot in hellwasp butter",
+						"Roasted owlbear beak in a tart mushroom sauce",
+						"Flail snail sashimi",
+						"Sauteéd shrieker mushroom with sea salt",
+						"Treant-smoked quipper",
+						"Brown (mold) cheese"
 					],
 					[
-						"A sliver of roasted pork with cold potatoes",
-						"Salted pork with a side of boiled parsnip",
-						""
+						"Thrice roasted wyvern lung",
+						"Drake's eye in a hearty bone stock with boiled _exotic_vegetables",
+						"Black garlic, sauteed with vampire dust",
+						"Pickled _exoticmeat with _exotic_vegetables",
+						"Roasted Ankheg legs with powdered goblin tuft",
+						"_exoticxmeat in sweetened ooze ichor",
+						"Gelatinous cube jelly",
+						"Grilled _exotic_vegetables with grapes of the netherwine"
 					]
 				],
 				[
 					[
-						"A plate of fine cheeses, sausages and grapes"
+						"Brown (mold) cheese"
 					],
 					[
-						"A sliver of roasted pork with cold potatoes",
-						"Salted pork with a side of boiled parsnip",
-						""
+						"Thrice roasted wyvern lung",
+						"Drake's eye in a hearty bone stock",
+						"Black garlic, sauteed with vampire dust",
+						"Pickled _exoticmeat with _exotic_vegetables",
+						"Roasted Ankheg legs with powdered _exotic_vegetables ",
+						"_exoticmeat in sweetened ooze ichor",
+						"Gelatinous cube jelly",
+						"Grilled _exotic_vegetables with grapes of the netherwine"
 					]
 				],
 				[
@@ -3032,9 +3076,13 @@
 						"A plate of olives, fine bread and jams"
 					],
 					[
-						"A sliver of roasted pork with cold potatoes",
-						"Salted pork with a side of boiled parsnip",
-						""
+						"Thrice roasted wyvern lung",
+						"Drake's eye in a hearty bone stock",
+						"Black garlic, sauteed with vampire dust",
+						"Pickled _exoticmeat with firebrand peppers",
+						"Roasted Ankheg legs with powdered _exotic_vegetables",
+						"_exoticmeat in sweetened ooze ichor with _2exotic_vegetables",
+						"Gelatinous cube jelly and _exotic_vegetables"
 					]
 				]
 			]
@@ -3352,6 +3400,11 @@
 		"Old man _lastname was a warrior once, it is said. He mumbles about lost treasures when in his cups",
 		"It's said that _name is the best weaponsmith in the land",
 		"None can craft armor like _name",
+		"The infamous highwayman, _name, is said to be inhabiting a nearby _locale",
+		"A vicious band of _creatures have been raiding merchant trains nearby",
+		"A raiding band of _creatures has been wreaking havoc, and they are led by _monster",
+		"You should visit the mystic, for she can turn anything into gold. Anything...",
+		"A grim man rode into town yesterday, and headed towards a nearby _locale. Something was off about him...",
 		"The best armorsmith in the known land is _femalename _lastname, a local!",
 		"A dark wind swept across the land a fortnight ago, causing panic amongst livestock and a feeling of dark foreboding in the villagefolk",
 		"An incessant scribbling can be heard at night from the sewers",
@@ -3367,6 +3420,7 @@
 		"A mysterious fungal growth has been taking root in the town's graveyard, causing the gravekeeper much dismay",
 		"A local alchemist is said to be making vile experiments in his workshop. Some say he is trying to create life",
 		"The village idiot has been speaking in tongues for a few days now. Most dismiss it, but the locals are uneasy about it",
-		"A pair of mages have been battling close to a neraby _locale for some weeks now, and neither one seems to gain the upper hand"
+		"A pair of mages have been battling close to a nearby _locale for some weeks now, and neither one seems to gain the upper hand",
+		"A pair of artificers have been battling and laying waste to a nearby _locale for some weeks now, and neither one seems to gain the upper hand"
 	]
 }

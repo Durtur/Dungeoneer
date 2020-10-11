@@ -24,6 +24,7 @@ var diceRoller = function () {
     return rollFromStringHelper(inputString, true);
   }
   function rollFromString(inputString) {
+    if(!inputString)return 0;
     return rollFromStringHelper(inputString, false);
   }
 
@@ -66,7 +67,7 @@ var diceRoller = function () {
       sum += result;
     })
 
-    return sum;
+    return isNaN(sum) ? 0 : sum;
   }
 
   function zeroIfNull(value) {

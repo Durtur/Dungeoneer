@@ -1230,7 +1230,7 @@ var combatLoader = function () {
       var row = buttons[i].parentNode;
       ac = parseInt(row.getElementsByClassName("code_ac")[0].value);
       if (ac != "") {
-        mod = parseInt(row.getElementsByClassName("attack_field")[0].value);
+        mod = parseInt(row.getElementsByClassName("attack_field")[0].value) || 0;
         advantage = row.getElementsByClassName("combat_loader_advantage")[0].checked;
         disadvantage = row.getElementsByClassName("combat_loader_disadvantage")[0].checked;
         if (advantage) {
@@ -2278,7 +2278,17 @@ function addPlayerRow() {
   changePartyButton.classList.add("no_party_loaded");
   changePartyButton.onclick = changePartyHandler;
   addRemoveHandlersPopupPCStats();
+  addColorPickerHandlers();
 
+}
+
+function addColorPickerHandlers(){
+  var rows = document.querySelectorAll(".pc_input_background_color");
+  rows.forEach(row => {
+    row.onchange = function(evt){
+      console.log(evt.target.value)
+    }
+  });
 }
 
 function pickPlayerToken(evt) {
@@ -2331,11 +2341,13 @@ function fillPartyPopup() {
         row.setAttribute("data-pc_party", members[index].party);
         row.setAttribute("data-char_id", members[index].id);
         row.getElementsByClassName("checkbox_party_menu")[0].checked = members[index].active;
+        row.querySelector(".pc_input_background_color").value = members[index].color;
         index++;
       });
     }
 
     addRemoveHandlersPopupPCStats();
+    addColorPickerHandlers();
     var pcInput = document.getElementById("active_party_input");
     pcInput.value = settings.current_party ? settings.current_party : "Any";
     if (partyInputAwesomeplete)
@@ -2460,6 +2472,8 @@ function saveParty(showWarnings) {
         pcObject[field] = row.getElementsByClassName("pc_input_" + field)[0].value;
       })
     pcObject.active = row.getElementsByClassName("checkbox_party_menu")[0].checked;
+    var pcColor = 
+    pcObject.color = row.querySelector(".pc_input_background_color").value;
     pcObject.party = row.getAttribute("data-pc_party");
     if (parseInt(pcObject.level) <= 0) pcObject.level = "1";
     tempArr.push(pcObject);

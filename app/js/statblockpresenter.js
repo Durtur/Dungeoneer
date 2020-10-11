@@ -503,21 +503,18 @@ var statblockPresenter = function () {
       var paragraphs = [...statblock.getElementsByTagName("p")];
       paragraphs.forEach(paragraph => {
         //dx and dx + x strings
-        paragraph.innerHTML = paragraph.innerHTML.replace(/[0-9]+d[0-9]+( ?[+-]+ ?([0-9]+d[0-9])*([0-9]|[1-9]d[0-9]+))*/g, function (match, p1, offset, string) {
+
+        paragraph.innerHTML = paragraph.innerHTML.replace(/[0-9]+d[0-9]+( ?[+-]+ ?([0-9]+d[0-9])*([0-9]|[1-9]d[0-9])+)*/g, function (match, p1, offset, string) {
           var newEle = document.createElement("a");
           newEle.classList.add("dice_roller_link");
           newEle.innerHTML = match;
           return newEle.outerHTML;
 
         });
-        paragraph.innerHTML = paragraph.innerHTML.replace(/([+-]+ ?[0-9]+)+(?!(<\/a>))|(save<\/strong>\. \d)/g, function (match, p1, p2, offset, string) {
+        paragraph.innerHTML = paragraph.innerHTML.replace(/(?<=\D)[+-]\s?\d+(?!\s*\d*\s*\<\/a)/g, function (match, p1, p2, offset, string) {
 
           var nonHTML = "";
-
-          if (match.substring(0, 4) == "save") {
-            nonHTML = "save</strong>. ";
-            match = match.substring(14);
-          }
+          
           var newD = document.createElement("a");
           newD.innerHTML = match;
           newD.classList.add("d20_roll_link");

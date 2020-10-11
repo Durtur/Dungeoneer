@@ -1437,8 +1437,10 @@ function generateTavernRumorsAndMenu(data) {
             dish = dish.replace(/_exotic_vegetables/g, pickOne(data.exotic_vegetables));
             dish = dish.replace(/_vegetables/g, pickOne(data.vegetables));
             dish = dish.replace(/_meat/g, pickOne(data.meat));
+            dish = dish.replace(/_exoticmeat/g, pickOne(data.exotic_meat));
             dish = dish.replace(/_fish/g, pickOne(data.fish));
             dish = dish.replace(/_dessert/g, pickOne(data.tavern.desserts));
+            dish = dish.toProperCase();
             finalMenuArray.push(dish);
             finalPrice = i * priceBase;
             pricesArray.push(convertAmountToHighestCurrencty(finalPrice, coinString));

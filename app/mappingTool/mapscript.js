@@ -1977,7 +1977,7 @@ function loadParty() {
                             name: data[i].character_name,
                             id: data[i].id,
                             size: "medium",
-                            color: null,
+                            color: hexToRGBA(data[i].color, 0.4),
                             bgPhoto: null,
                             darkVisionRadius: data[i].darkvision
                         }
@@ -2050,7 +2050,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             pawns.lightSources.push(newPawn);
             pawns.players.push([newPawn, pawn.name])
             if (settings.colorTokenBases) {
-                newPawn.style.backgroundColor = colorPalette[lastColorIndex++];
+                newPawn.style.backgroundColor = pawn.color || colorPalette[lastColorIndex++];
             } else {
                 newPawn.style.backgroundColor = "transparent";
 
@@ -2350,7 +2350,9 @@ function removeAllConditionsHandler(event) {
     });
 
 }
-
+function hexToRGBA(hex, opacity) {
+    return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
+}
 function setPawnCondition(pawnElement, condition) {
     var conditionString = condition.name;
     if (!conditionString || pawnElement["data-dnd_conditions"].indexOf(conditionString) > -1)

@@ -76,16 +76,28 @@
   flex-flow: row nowrap;
   justify-content: flex-start;
 }
-
+.pc_input_character_token:hover{
+  filter:drop-shadow(0 0 3px white);
+}
 .pc_input_character_token {
   object-fit: contain;
   width: 35px;
   height: 35px;
   margin:auto;
-  cursor: pointer;
+
   border-radius: 50%;
 }
+.pc_input_background_color{
+  border-radius: 50%;
+  max-width: 25px !important;
+  min-width: 25px !important;
+  max-height: 25px !important;
 
+  min-height: 25px !important;
+  margin: 0.5em;
+ 
+
+}
 .playerRow__expl>input {
   max-width: 90px;
   background-color: transparent;
@@ -103,8 +115,8 @@
   background-image: url("img/partyRed.png");
   background-repeat: no-repeat;
   background-size: contain;
-  height: 20px;
-  width: 20px;
+  min-height: 20px;
+  min-width: 20px;
   margin-left: 10px;
   background-color: transparent;
   border: none;
@@ -121,8 +133,8 @@
   background-image: url("img/redx.png");
   background-repeat: no-repeat;
   background-size: contain;
-  height: 20px;
-  width: 20px;
+  min-height: 20px;
+  min-width: 20px;
 }
 
 .kill__button:hover {
