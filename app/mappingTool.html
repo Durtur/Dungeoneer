@@ -47,8 +47,8 @@
                         <a class="button_style" id="backdrop_window_button" href="#"
                             title="Launches a backdrop window, useful if running in transparent mode.">Backdrop
                             window</a>
-                        <a class="button_style" id="map_edge_button" href="#"
-                            title="Sets the art for the map edge.">Map edge</a>
+                        <a class="button_style" id="map_edge_button" href="#" title="Sets the art for the map edge.">Map
+                            edge</a>
                     </div>
                 </div>
 
@@ -83,11 +83,7 @@
                 <div class="show_overflow">
                     <button title="Change map size" class="toggle_button button_style " toggleGroup="3" toggled="false"
                         onclick="showMapSizeSlider(this)">Size</button>
-
                 </div>
-
-                <button class="toggle_button button_style" id="fov_tool" toggled="false" title="Toggle fog of war"
-                    onclick="setFogOfWar()">Fog</button>
 
                 <select title="Filter" style="width: 60px" id="filter_tool" onchange="setBackgroundFilter">
                     <option value="none" selected>No filter</option>
@@ -104,8 +100,22 @@
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content">
+                        <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
+                        title="Map is in darkness" id="map_darkness_button" onclick="switchMapLighting()">Map in
+                        darkness</a>
+                    <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
+                        title="Map is in low light" id="map_lowlight_button" onclick="switchMapLighting()">Map in
+                        low light</a>
+                        <input type="color" id="fog_of_war_hue_selector" style="height:0 !important; margin:0 !important; padding:0 !important;" value="#000000" class="invisible">
+                        <a class="toggle_button button_style" toggled="false" title="Current viewer has darkvision"
+                            id="active_viewer_button" onclick="switchActiveViewer()">Darkvision</a>
+                        <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Fog color</label>
+                  
+                     
+                        <div class="menu_seperator"></div>
+
                         <a class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer
-                        Lights placed here are not visible normally. " onclick="showVisibilityLayer()">Show visibility
+                        Lights placed here are not visible normally. " onclick="toggleVisibilityLayer()">Show visibility
                             layer</a>
 
                         <a class=" button_style " title="Import walls from dungeondraft map"
@@ -147,16 +157,10 @@
 
             </div>
         </div>
-        <div class="toolbar toolbar_right hidden" id="fog_of_war_toolbar">
+        <div class="toolbar toolbar_right ">
             <select title="Forced perspective" id="fov_perspective_dropdown" onchange="fovLighting.setPerspective()">
                 <option value="0" selected>All</option>
             </select>
-            <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Hue</label>
-            <input type="color" id="fog_of_war_hue_selector" value="#000000" class="hidden">
-            <button class="toggle_button button_style" toggled="false" title="Current viewer has darkvision"
-                id="active_viewer_button" onclick="switchActiveViewer()">DV</button>
-            <button class="toggle_button button_style" toggled="false" title="Map is in darkness"
-                id="active_viewer_button" onclick="switchMapLighting()">Dark</button>
         </div>
         <button id="minimize_app_button"></button>
         <button id="min_max_button"></button>
@@ -173,8 +177,8 @@
             <input type="range" min="100" max="9000" class="slider" id="foreground_size_slider" title="Map size">
             <h4>Background</h4>
             <input type="range" min="100" max="18000" class="slider" id="background_size_slider" title="Map size">
-        
-         
+
+
         </div>
 
         <!-- #region popups-->
@@ -336,11 +340,11 @@
         <!-- #endregion popups-->
         <div class="canvas_wrapper">
             <div class="maptool_body"></div>
-            <div id = "map_layer_container">
+            <div id="map_layer_container">
                 <canvas id="background" class="canvas_layer"></canvas>
                 <canvas id="foreground" class="canvas_layer"></canvas>
             </div>
-       
+
             <canvas id="effects" class="canvas_layer"></canvas>
             <div id="tokens" class="canvas_layer"></div>
             <canvas id="fog_of_war" class="canvas_layer" width="100%" height="100%"></canvas>

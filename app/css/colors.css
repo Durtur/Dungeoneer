@@ -465,35 +465,14 @@ hr {
   padding:10px;
 }
 
-.ability_row>ul>li:first-of-type>p {
-  color: var(--main-color);
-  font-weight: bold;
-  
-}
 
-.ability_row>ul>li:not(:first-of-type)>p {
-  font-size:16px;
-  color: var(--main-color);
-}
 
-.ability_row>ul>li:nth-child(n+2)>p {
-  margin-top: -10px;
-  padding: 0;
-}
-
-.ability_row>ul>li>p:first-of-type {
-  margin-left: -42px;
-}
-
-.ability_row>ul>li>p {
-  margin-left: -42px;
-  text-align: center;
-}
-
-.ability_row>ul>li {
+.ability_row>ul>li{
   margin: 0;
 }
-.statblock_saving_throw_row p{
+
+
+.statblock_saving_throw_row p, .statblock_saving_throw_row a{
   margin:0;
   font-size: 16px;
   color:var(--main-color);
@@ -526,27 +505,40 @@ hr {
   height: 25px;
   justify-content: space-around;
 }
-.statblock_saves_label{
+.statblock_saves_label, .statblock_ability_name{
   color: var(--main-color);
   font-weight: bold;
   font-size:14px;
 }
 
+.statblock_modifier{
+  display:flex;
+  justify-content: center;
+}
+
+
+
 .ability_row {
   width: 90%;
   display: flex;
   flex-flow: row nowrap;
-
+  color:var(--main-color);
   height: 90px;
-  justify-content: space-around;
+  justify-content: center;
 }
 
-.ability_row>ul {
+.ability_row>div {
   list-style: none;
-  max-width: 11px;
+  display: flex;
+  flex-flow: column nowrap;
   flex: 1;
-  font-size: 14px;
-  margin-top: -8px;
+}
+
+.ability_row p, .ability_row a {
+  margin:0;
+  color:var(--main-color);
+ text-align: center;
+ 
 }
 
 .pcnode__passiveperception {
@@ -1564,7 +1556,7 @@ header {
 
 /* Links inside the dropdown */
 
-.dropdown-content a {
+.dropdown-content a, .dropdown-content label {
   float: none;
   color: white;
   padding: 12px 16px;

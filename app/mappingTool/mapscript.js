@@ -35,7 +35,7 @@ var resetMoveIncrementTimer;
 var mapContainer, foregroundCanvas, backgroundCanvas;
 //Tokens
 var loadedMonsters = [], partyArray, loadedMonstersFromMain = [];
-var settings, fogOfWarEnabled, filtered = false, lastBackgroundFilter, effectFilePath;
+var settings, fogOfWarEnabled = true, filtered = false, lastBackgroundFilter, effectFilePath;
 var addPawnImagePaths;
 //Measurements
 var visibilityLayerVisible = false;
@@ -44,7 +44,7 @@ var lastMeasuredPoint = null;
 var effectData;
 var MAX_BG_SIZE = 10;
 //Visibility
-var activeViewerHasDarkvision = false, mapInDarkness = false;
+
 var effects = [], currentlySelectedEffectDropdown;
 var pawns = (function () {
     var medium, large, huge, gargantuan, colossal, all;
@@ -100,7 +100,7 @@ function loadSettings() {
         if (!settings.applyDarkvisionFilter) {
             $("#map_layer_container").css("filter", "none");
         } else {
-            if (activeViewerHasDarkvision) {
+            if (fovLighting.viewerHasDarkvision()) {
                 $("#map_layer_container").css("filter", "grayscale(100%)");
             }
         }
@@ -144,14 +144,14 @@ function setBackgroundFilter() {
     }
 
     if (filtered) {
-        if (activeViewerHasDarkvision) {
+        if (fovLighting.viewerHasDarkvision()) {
             lastBackgroundFilter = filterValue;
             return;
         }
 
         $("#map_layer_container").css("filter", filterValue);
     } else {
-        if (activeViewerHasDarkvision) {
+        if (fovLighting.viewerHasDarkvision()) {
             lastBackgroundFilter = "none";
             return;
         }
@@ -163,10 +163,10 @@ function setBackgroundFilter() {
 
 }
 function switchActiveViewer() {
-    activeViewerHasDarkvision = !activeViewerHasDarkvision;
+    fovLighting.toggleDarkvision();
     refreshFogOfWar();
     if (settings.applyDarkvisionFilter) {
-        if (activeViewerHasDarkvision) {
+        if (fovLighting.viewerHasDarkvision()) {
             var filter = $("#map_layer_container").css("filter");
             if (filter == null) filter = "none";
             if (filter != "grayscale(100%)") {
@@ -182,35 +182,29 @@ function switchActiveViewer() {
 
 }
 
-function switchMapLighting() {
-    mapInDarkness = !mapInDarkness;
-    refreshFogOfWar();
-}
 
-
-function setFogOfWar() {
-    var fovEnabled = document.getElementById("fov_tool").getAttribute("toggled");
-
-    if (fovEnabled == "false") {
-        if (visibilityLayerVisible) {
-            document.getElementById("visiblity_tool").click();
+function switchMapLighting(index) {
+    window.setTimeout(function () {
+        var isLowLight = document.getElementById("map_lowlight_button").getAttribute("toggled") === "true";
+        var isDarkness = document.getElementById("map_darkness_button").getAttribute("toggled") === "true";
+        console.log(isLowLight)
+        if (isLowLight) {
+            fovLighting.setFogStyle(fovLighting.MapFogType.LowLight);
+        } else if (isDarkness) {
+            console.log("yo")
+            fovLighting.setFogStyle(fovLighting.MapFogType.Dark);
+        } else {
+            fovLighting.setFogStyle(fovLighting.MapFogType.None);
         }
-        fogOfWarEnabled = true;
-        document.getElementById("vision_button").classList.remove("hidden");
-        document.getElementById("fog_of_war_toolbar").classList.remove("hidden");
-        document.getElementById("active_viewer_button").classList.remove("hidden");
-    } else {
-        fogOfWarEnabled = false;
-        $("map_layer_container").css("filter", lastBackgroundFilter);
-        document.getElementById("vision_button").classList.add("hidden");
-        document.getElementById("fog_of_war_toolbar").classList.add("hidden");
-    }
-    refreshFogOfWar();
-
+        var visibilityLayerEnabled = document.getElementById("visiblity_tool").getAttribute("toggled") == "true";
+        if (visibilityLayerEnabled) document.getElementById("visiblity_tool").click();
+        refreshFogOfWar();
+    }, 200);
 
 }
 
-function showVisibilityLayer() {
+
+function toggleVisibilityLayer() {
     var visibilityLayerEnabled = document.getElementById("visiblity_tool").getAttribute("toggled");
 
     turnAllToolboxButtonsOff();
@@ -235,8 +229,7 @@ function showVisibilityLayer() {
         effectsToShow.forEach((effect) => effect.classList.remove("hidden"));
 
         if (fogOfWarEnabled)
-            document.getElementById("fov_tool").click();
-
+            fogOfWarEnabled = false;
     } else {
         fovLighting.setVisibilityLayerVisible(false);
         visibilityLayerVisible = false;
@@ -259,9 +252,10 @@ function showVisibilityLayer() {
 
         var effectsToShow = [...document.getElementsByClassName("light_source_normal_layer")]
         effectsToShow.forEach((effect) => effect.classList.remove("hidden"));
-
+        fogOfWarEnabled = true;
     }
     fovLighting.drawSegments();
+    refreshFogOfWar();
 }
 
 function setTool(source, toolIndex) {
@@ -438,9 +432,7 @@ ipcRenderer.on("next-player-round", function (evt, params) {
     } else {
         forcedPerpspectiveDD.selectedIndex = 0;
     }
-    if (!fogOfWarEnabled) {
-        return;
-    }
+
     fovLighting.setPerspective();
 
 });
@@ -531,7 +523,7 @@ document.addEventListener("DOMContentLoaded", function () {
             resumeAllAnimations();
         }
     }, false);
- 
+
     $("#background_color_button_add_pawn").spectrum({
         preferredFormat: "rgb",
         allowEmpty: false,
@@ -1076,7 +1068,7 @@ function setMapForeground(path, width) {
         document.getElementById("foreground_size_slider").value = img.width;
     }
     img.src = path;
-    
+
 }
 
 /***
@@ -1158,10 +1150,9 @@ function zoomIntoMap(event, resizeAmount) {
 
             }
         });
-
         resizeAndDrawGrid(null, event);
-        fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
         window.requestAnimationFrame(refreshFogOfWar);
+        fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
     });
 }
 
@@ -1176,7 +1167,7 @@ var backgroundLoop = function () {
     var slideCanvas = document.querySelector("#background");
     function setBackgroundSlide(button) {
         console.log(slideCanvas)
-     
+
         var cls;
         var animation = button.getAttribute("data-slide");
         if (background_slide_animation_frame) {
@@ -1219,7 +1210,7 @@ var backgroundLoop = function () {
                 // slideCanvas.style.backgroundPositionY = 0 + "px";
                 return;
             }
-       
+
         }
         slideCanvas.classList.add(cls);
         background_slide_animation_frame = window.requestAnimationFrame(loop);
@@ -1295,7 +1286,7 @@ function generalMousedowngridLayer(event) {
             startMovingMap(event);
         }
 
-    }else if (event.button == 1){
+    } else if (event.button == 1) {
         startMovingMap(event);
     }
 }
@@ -1316,7 +1307,7 @@ function startDeletingSegments() {
             }
 
             fovLighting.attemptToDeleteSegment({ x: event.clientX, y: event.clientY });
-            if (fogOfWarEnabled) refreshFogOfWar();
+            refreshFogOfWar();
         };
     } else {
         gridLayer.onmousedown = generalMousedowngridLayer;
@@ -2718,7 +2709,7 @@ function addLightEffectHandler(e, isPreviewElement) {
 
     pawns.lightSources.push(newEffect);
     tokenLayer.appendChild(newEffect);
-    if (fogOfWarEnabled && currentlySelectedEffectDropdown == 1) refreshFogOfWar();
+    if (currentlySelectedEffectDropdown == 1) refreshFogOfWar();
     return newEffect;
 }
 function setTokenNextFacetHandler(e) {
@@ -3497,7 +3488,6 @@ function refreshFogOfWar(timestamp) {
         return
     }
     fogOfWarLastRefreshed_Timestamp = timestamp;
-
     if (fogOfWarEnabled) {
         fovLighting.drawFogOfWar();
     } else {

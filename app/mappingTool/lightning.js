@@ -31,6 +31,24 @@ function setFovVisibilityTool(source, toolIndex) {
 }
 
 var fovLighting = function () {
+    const MapFogEnum = {
+        Dark : 1,
+        LowLight : 0,
+        None: 2
+    }
+    var activeFogType = MapFogEnum.None;
+    var activeViewerHasDarkvision = false;
+    function setFogStyle(fogStyle) {
+        activeFogType = fogStyle;
+    }
+
+    function toggleDarkvision() {
+        activeViewerHasDarkvision = !activeViewerHasDarkvision;
+    }
+
+    function viewerHasDarkvision(){
+        return activeViewerHasDarkvision;
+    }
 
     // DRAWING
     var segments = [];
@@ -38,25 +56,28 @@ var fovLighting = function () {
     function drawFogOfWar() {
         clearFogOfWar();
         var fogColor;
-        if (mapInDarkness) {
-            fogColor = settings.fogOfWarHue;
+        if (activeFogType == MapFogEnum.LowLight) {
+            fogColor = hexToRGBA(settings.fogOfWarHue, 0.8);
         } else {
-            fogColor = hexToRGBA(settings.fogOfWarHue, 0.9);
+            fogColor = settings.fogOfWarHue;
         }
+
         // Draw segments
         if (showVisibilityLayer) {
             drawSegments();
         }
 
         //Base black
-        fogOfWarLayerContext.globalCompositeOperation = 'source-out';
-        fogOfWarLayerContext.beginPath();
-        fogOfWarLayerContext.fillStyle = fogColor;
-        fogOfWarLayerContext.fillRect(0, 0, gridLayer.width, gridLayer.height);
-        fogOfWarLayerContext.stroke();
+        if ([MapFogEnum.Dark, MapFogEnum.LowLight].includes(activeFogType)) {
+            fogOfWarLayerContext.globalCompositeOperation = 'source-out';
+            fogOfWarLayerContext.beginPath();
+            fogOfWarLayerContext.fillStyle = fogColor;
+            fogOfWarLayerContext.fillRect(0, 0, gridLayer.width, gridLayer.height);
+            fogOfWarLayerContext.stroke();
 
-        for (var i = 0; i < pawns.lightSources.length; i++) {
-            draw(pawns.lightSources[i]);
+            for (var i = 0; i < pawns.lightSources.length; i++) {
+                draw(pawns.lightSources[i]);
+            }
         }
         if (!forcedPerspectiveOrigin)
             return;
@@ -68,7 +89,7 @@ var fovLighting = function () {
         maskCanvas.width = fogOfWarLayerCanvas.width;
         maskCanvas.height = fogOfWarLayerCanvas.height;
 
-        maskCtx.fillStyle = fogColor;
+        maskCtx.fillStyle = settings.fogOfWarHue;
         maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
         maskCtx.globalCompositeOperation = 'xor';
 
@@ -238,8 +259,8 @@ var fovLighting = function () {
         if (!path[0]) return;
         resetEverything();
         resetZoom();
-       
-        
+
+
         dataAccess.readFile(path[0], function (data) {
 
             var wallArray = data.world.levels["0"].walls;
@@ -249,7 +270,7 @@ var fovLighting = function () {
 
             var width = parseFloat(foregroundCanvas.getAttribute("data-original_width"));
             var height = parseFloat(foregroundCanvas.getAttribute("data-original_height"));
-            console.log(width, height);
+
             var widthDiff = width / ddWidth;
             var heightDiff = height / ddHeigth;
 
@@ -293,35 +314,34 @@ var fovLighting = function () {
 
                 //Create separate segments for portals
                 var portals = createPortals(wall);
-                if(portals)
-                {
-                  
-                    portals.forEach(portal =>{
-                        wallLines.forEach(line=>{
-                            if(!pointIsOnLine(line.a, line.b, portal))
-                              return;
+                if (portals) {
+
+                    portals.forEach(portal => {
+                        wallLines.forEach(line => {
+                            if (!pointIsOnLine(line.a, line.b, portal))
+                                return;
                             //Shorten first by radius
-                            var portalBegin = createPointDistanceTowardsAnother(portal.radius,  {x:portal.x, y:portal.y},line.a);
-                            var portalEnd = createPointDistanceTowardsAnother(portal.radius,  {x:portal.x, y:portal.y},line.b);
-                           // line.b.x = portalBegin.x;
+                            var portalBegin = createPointDistanceTowardsAnother(portal.radius, { x: portal.x, y: portal.y }, line.a);
+                            var portalEnd = createPointDistanceTowardsAnother(portal.radius, { x: portal.x, y: portal.y }, line.b);
+                            // line.b.x = portalBegin.x;
                             //line.b.y = portalBegin.y;
                             var wallEnd = line.b;
                             line.b = copyPoint(portalBegin);
-                            console.log(portalBegin, portalEnd)
-                            wallLines.push({a: copyPoint(portalBegin), b: copyPoint(portalEnd)});
-                        //    wallLines.push({a: copyPoint(line.a), b: copyPoint(portalBegin)});
-                            wallLines.push({a: copyPoint(wallEnd), b: copyPoint(portalEnd)});
+         
+                            wallLines.push({ a: copyPoint(portalBegin), b: copyPoint(portalEnd) });
+                            //    wallLines.push({a: copyPoint(line.a), b: copyPoint(portalBegin)});
+                            wallLines.push({ a: copyPoint(wallEnd), b: copyPoint(portalEnd) });
 
 
                         });
                     });
-                   // while(segmentsToAdd.length > 0)
-                      //  wallLines.push(segmentsToAdd.pop());
-                    function createPointDistanceTowardsAnother(moveDistance, pointA, pointB){
+                    // while(segmentsToAdd.length > 0)
+                    //  wallLines.push(segmentsToAdd.pop());
+                    function createPointDistanceTowardsAnother(moveDistance, pointA, pointB) {
                         var distanceBetween = distance(pointA, pointB);
-                        var x = pointA.x - (moveDistance*(pointA.x - pointB.x))/distanceBetween;
-                        var y = pointA.y -  (moveDistance*(pointA.y - pointB.y))/distanceBetween;
-                        return {x:x, y:y};
+                        var x = pointA.x - (moveDistance * (pointA.x - pointB.x)) / distanceBetween;
+                        var y = pointA.y - (moveDistance * (pointA.y - pointB.y)) / distanceBetween;
+                        return { x: x, y: y };
                     }
                 }
 
@@ -357,14 +377,14 @@ var fovLighting = function () {
     }
 
 
-    function copyPoint(point){
-        return {x:point.x, y:point.y};
+    function copyPoint(point) {
+        return { x: point.x, y: point.y };
     }
     function addWindowBorderToSegments() {
         var offset = -2000;
         var boxHeight = canvasHeight - offset;
         var boxWidth = canvasWidth - offset;
-        console.log(boxHeight, boxWidth, canvasHeight, canvasWidth);
+
         segments[0] = { a: { x: offset, y: offset }, b: { x: boxWidth, y: offset } };
         segments[1] = { a: { x: boxWidth, y: offset }, b: { x: boxWidth, y: canvasHeight } };
         segments[2] = { a: { x: boxWidth, y: boxHeight }, b: { x: offset, y: boxHeight } };
@@ -374,7 +394,7 @@ var fovLighting = function () {
     }
 
     function addSegment(a, b) {
-        console.log("Adding segment" , a,b)
+
         segments.push({ a: a, b: b })
     }
 
@@ -611,6 +631,10 @@ var fovLighting = function () {
         importDungeondraftWalls: importDungeondraftWalls,
         clearFogOfWar: clearFogOfWar,
         drawFogOfWar: drawFogOfWar,
+        setFogStyle: setFogStyle,
+        MapFogType : MapFogEnum,
+        toggleDarkvision : toggleDarkvision,
+        viewerHasDarkvision : viewerHasDarkvision,
         nudgeSegments: nudgeSegments,
         addWindowBorderToSegments: addWindowBorderToSegments,
         resizeSegments: resizeSegments,

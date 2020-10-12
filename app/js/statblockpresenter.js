@@ -235,10 +235,13 @@ var statblockPresenter = function () {
 
       var element = document.createElement("div");
       var modifier = parseInt(save.value);
-      modifier = modifier < 0 ? modifier : "+" + modifier;
-      element.innerHTML = "<p>" + modifier + "</p>";
+      modifier = modifier < 0 ? modifier : "+" + modifier; 
+      var inner = document.createElement("a");
+      inner.classList = "d20_roll_link";
+      inner.innerHTML = modifier;
+      element.appendChild(inner);
       element.title = save.name.deserialize();
-
+    
       abilityRow.appendChild(element);
 
     });
@@ -265,14 +268,20 @@ var statblockPresenter = function () {
     var abilityRow = document.createElement("div");
     abilityRow.classList.add("ability_row")
     monsterAbilityValues.forEach(ability => {
-      var wrapper = document.createElement("ul");
-      var scoreEle = document.createElement("li");
-      var nameEle = document.createElement("li");
-      var modEle = document.createElement("li");
+      var wrapper = document.createElement("div");
+      var scoreEle = document.createElement("div");
+      var nameEle = document.createElement("div");
+      nameEle.classList = "statblock_ability_name";
+      var modEle = document.createElement("div");
       modEle.classList = "statblock_modifier";
       var modifier = getAbilityScoreModifier(ability.value);
       modifier = modifier < 0 ? modifier : "+" + modifier;
-      modEle.innerHTML = "<p>" + modifier + "</p>";
+
+      var inner = document.createElement("a");
+      inner.classList = "d20_roll_link";
+      inner.innerHTML = modifier;
+      modEle.appendChild(inner);
+
       scoreEle.innerHTML = "<p>" + ability.value + "</p>";
       nameEle.innerHTML = "<p>" + ability.name.substring(0, 3).toUpperCase() + "</p>";
       wrapper.appendChild(nameEle);
@@ -521,8 +530,6 @@ var statblockPresenter = function () {
           return nonHTML + newD.outerHTML;
 
         });
-
-
       });
 
 
