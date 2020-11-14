@@ -3,11 +3,14 @@
 var forcedMonsterIndexNum = null;
 var loadedMonster = {};
 var loadedMonsterQueue = [];
+
 var loadedEncounter = [];
 
 var marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const remote = require('electron').remote;
+
+const dialog = require('electron').remote.dialog;
 const app = remote.app;
 const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
@@ -21,7 +24,7 @@ const { ipcRenderer } = require('electron');
 
 var mobController;
 
-var statblockType; //Segir til um hvort verið sé að hlaða  monster.
+var statblockType; //Segir til um hvort verið sé að hlaða  monster. 
 var encounterIsLoaded;
 
 var partyArray, partyInformationList, partyInputAwesomeplete, conditionList;
@@ -61,7 +64,7 @@ ipcRenderer.on('update-autofill', function () {
 });
 ipcRenderer.on('condition-list-changed', function (evt, conditionList, index) {
   console.log(conditionList, index)
-  var combatRow = [...document.querySelectorAll(".combatRow")].filter(x => x.getAttribute("data-dnd_monster_index") == index)[0];
+  var combatRow = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => x.getAttribute("data-dnd_monster_index") == index)[0];
   if (combatRow) {
     combatLoader.setConditionList(combatRow, conditionList.map(x => x.toLowerCase()));
   } else {
@@ -80,10 +83,10 @@ ipcRenderer.on('monster-revived', function (evt, arg) {
 ipcRenderer.on('maptool-initialized', function (evt, arg) {
   if (!settings.maptool.syncToCombatPanel) return;
   //Verify queue integrity
-  var allRows = document.querySelectorAll(".combatRow");
+  var allRows = document.querySelectorAll("#combatMain .combatRow");
   //Empty queue, add all
   loadedMonsterQueue.length = 0;
-  document.getElementById("maptool_notify_button").title = "Opens the map tool with loaded creatures.";
+ 
   for (var i = 0; i < allRows.length; i++) {
     var name = allRows[i].getElementsByClassName("name_field")[0].value;
     var index = allRows[i].getAttribute("data-dnd_monster_index");
@@ -92,11 +95,11 @@ ipcRenderer.on('maptool-initialized', function (evt, arg) {
     if (name == "" || allRows[i].classList.contains("hidden"))
       continue;
 
-    document.getElementById("maptool_notify_button").title = document.getElementById("maptool_notify_button").title + "\n" + name;
 
     loadedMonsterQueue.push({ monsterId: monsterId, name: name, size: size, index: index });
 
   }
+  loadedMonsterQueue.update();
   mobController.mapToolInitialized();
 
 
@@ -134,17 +137,7 @@ ipcRenderer.on('look-up-spell', function (evt, arg) {
 document.addEventListener("DOMContentLoaded", function () {
   loadSettings();
   observeArrayChanges(loadedMonsterQueue, function () {
-    var button = document.getElementById("maptool_notify_button");
-    button.title = "Opens the map tool with loaded creatures.";
-    if (loadedMonsterQueue.length > 0) {
-      button.disabled = false;
-      loadedMonsterQueue.forEach(a => {
-        button.title += "\n" + a.name;
-      });
-    } else {
-      button.disabled = true;
-    }
-
+    loadedMonsterQueue.update();
   });
 
   randomizer.initialize();
@@ -152,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let window2 = remote.getGlobal('maptoolWindow')
     if (window2) window2.webContents.send('notify-main-reloaded');
   }, 1000)
-  combatLoader.clear();
+
   combatLoader.initialize();
   $('.initiativeNode').on("click", initiative.roll);
   document.querySelectorAll("#initiative_control_bar button").forEach(button => {
@@ -1290,7 +1283,7 @@ var combatLoader = function () {
   function applyDmg() {
     var hp, name;
     var dmg, creatureDamage;
-    var allRows = document.querySelectorAll(".combatRow");
+    var allRows = document.querySelectorAll("#combatMain .combatRow");
     var hpField, dmgField;
 
 
@@ -1324,7 +1317,7 @@ var combatLoader = function () {
   }
 
   function revive(arr) {
-    var allRows = document.querySelectorAll(".combatRow");
+    var allRows = document.querySelectorAll("#combatMain .combatRow");
     for (var i = 0; i < allRows.length; i++) {
       if (parseInt(allRows[i].getAttribute("data-dnd_monster_index")) == arr[1]) {
         var currHp = parseInt(allRows[i].getElementsByClassName("hp_field")[0].value);
@@ -1341,7 +1334,7 @@ var combatLoader = function () {
     search("monsters", false, arr[0]);
   }
   function kill(arr) {
-    var allRows = document.querySelectorAll(".combatRow");
+    var allRows = document.querySelectorAll("#combatMain .combatRow");
     for (var i = 0; i < allRows.length; i++) {
       var row = allRows[i];
       var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
@@ -1362,7 +1355,7 @@ var combatLoader = function () {
   }
 
   function healthChanged(arr) {
-    var allRows = document.querySelectorAll(".combatRow");
+    var allRows = document.querySelectorAll("#combatMain .combatRow");
     for (var i = 0; i < allRows.length; i++) {
       var row = allRows[i];
       var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
@@ -1551,17 +1544,7 @@ var combatLoader = function () {
 
   function insertIntoTable() {
     if (forcedMonsterIndexNum == null) lastIndex++;
-    if (numMonstersLoaded > 0) {
-      addRow();
-    } else if (numMonstersLoaded === 0) {
-      var fields = document.querySelectorAll(".combatRow:nth-child(1)>input");
-      for (var i = 0; i < fields.length; i++) {
-        if (fields[i].value != "") {
-          addRow();
-          break;
-        }
-      }
-    }
+    addRow();
     numMonstersLoaded++;
     load(loadedMonster);
     return false;
@@ -1569,10 +1552,10 @@ var combatLoader = function () {
   }
   var rowToFill;
   function addRow() {
-    var allRows = document.querySelectorAll(".combatRow");
+    var allRows = document.querySelectorAll("#combatMain .combatRow");
     if (allRows.length <= numMonstersLoaded) {
 
-      var newRow = $(".combatRow:first-of-type").clone();
+      var newRow = $("#combat_loader_template").clone();
       newRow.attr("data-dnd_conditions", "");
       newRow.attr("data-dnd_monster_index", forcedMonsterIndexNum == null ? lastIndex : forcedMonsterIndexNum);
       addLogPopupHandler(newRow[0]);
@@ -1595,7 +1578,7 @@ var combatLoader = function () {
   function load(monster) {
     var row;
     if (rowToFill == null) {
-      var rows = document.querySelectorAll(".combatRow");
+      var rows = document.querySelectorAll("#combatMain .combatRow");
       row = rows[numMonstersLoaded - 1]
     } else {
       row = rowToFill;
@@ -1697,34 +1680,31 @@ var combatLoader = function () {
       (action.damage_bonus == null ? "" : (action.damage_dice != null ? "+" : "") + action.damage_bonus)
   }
   function clear() {
-    $(".combatRow:not(:first-of-type)").remove();
-    $(".combatRow:first-child").removeClass("hidden");
-    $(".combatRow:first-child").attr("data-dnd_monster_index", 1);
-    $(".combatRow:first-child").attr("data-dnd_conditions", "");
+    $("#combatMain .combatRow").remove();
     numMonstersLoaded = 0;
     lastIndex = 0;
-    for (var j = 0; j < 4; j++) {
-      // $(".combatRow:nth-child(" + (i) + ")>*:nth-child(" + (j + 3) + ")").val(a[j]);
-      $(".combatRow:nth-child(1)>*:nth-child(" + (j + 3) + ")").val("");
-    }
     frameHistoryButtons.clearAll();
     initiative.clearLoadedMonsterInfo();
-    $(".combatRow:nth-child(1)>*:nth-child(9)").html("Creature damage");
-    $(".combatRow:nth-child(1)>*:nth-child(9)").removeClass("tooltipped");
-    $(".combatRow:nth-child(1) .damage_field").addClass("label_inactive");
-    $(".combatRow:nth-child(1) .text_upper_damage_label").html("");
-    $(".combatRow:nth-child(1)").attr("data-dnd_actions", null);
-    $(".combatRow:nth-child(1)").attr("data-dnd_current_action", null);
-
     loadedMonsterQueue.length = 0;
-
+    loadedMonsterQueue.update();
+   
     let window2 = remote.getGlobal('maptoolWindow');
     if (window2) window2.webContents.send('monster-list-cleared');
-
   }
   var selectedRow;
   function initialize() {
-
+    loadedMonsterQueue.update = function(){
+      var button = document.getElementById("maptool_notify_button");
+      button.title = "Opens the map tool with loaded creatures.";
+      if(loadedMonsterQueue.length == 0){
+        button.disabled = true;
+        return;
+      }
+      button.disabled = false;
+      var str =  button.title;
+      loadedMonsterQueue.forEach(x=> str+="\n" + x.name);
+      button.title = str;
+    }
     addLogPopupHandler(document.querySelector(".combatRow"));
     dataAccess.getConditions(function (data) {
       var selectEle = document.getElementById("condition_list_dd");
@@ -2265,18 +2245,20 @@ function addPlayerRow() {
   row[0].getElementsByClassName("pc_input_character_token")[0].src = null;
   row.appendTo("#party--stats");
 
-  if (settings.currentParty != "Any") {
-    row.attr("data-pc_party", settings.currentParty);
+  var changePartyButton = row[0].getElementsByClassName("change_party_button")[0];
+  changePartyButton.onclick = changePartyHandler;
+
+  if (settings.current_party != "Any") {
+    row.attr("data-pc_party", settings.current_party);
   } else {
     row.attr("data-pc_party", "");
+    changePartyButton.classList.add("no_party_loaded");
   }
 
   [...row[0].getElementsByTagName("input")].forEach(input => input.value = "");
   row[0].getElementsByClassName("pc_input_player_name")[0].focus();
   row[0].classList.remove("hidden");
-  var changePartyButton = row[0].getElementsByClassName("change_party_button")[0];
-  changePartyButton.classList.add("no_party_loaded");
-  changePartyButton.onclick = changePartyHandler;
+ 
   addRemoveHandlersPopupPCStats();
   addColorPickerHandlers();
 

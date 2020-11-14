@@ -827,13 +827,14 @@ function onSettingsLoaded() {
     document.getElementById("next_facet_button").onclick = setTokenNextFacetHandler;
 
     document.getElementById("save_map_button").onclick = function (e) {
-        var path = dialog.showSaveDialog(
+        var path = dialog.showSaveDialogSync(
             remote.getCurrentWindow(),
             {
-                filters: [{ name: 'Map', extensions: ['map'] }],
+                filters: [{ name: 'Map', extensions: ['dungeoneer_map'] }],
                 title: "Save",
                 defaultPath: "map"
             });
+
         if (path != null) {
             var data = {};
             /*
@@ -870,7 +871,7 @@ function onSettingsLoaded() {
             data.segments = fovLighting.getSegments();
             data.bg_scale = mapContainer.data_bg_scale;
             data.bg_height_width_ratio = foregroundCanvas.heightToWidthRatio;
-            data.bg_width = parseFloat(mapContainer.style.width);
+            data.bg_width = parseFloat(foregroundCanvas.style.width);
             fs.writeFile(path, JSON.stringify(data), (err) => {
                 if (err) return console.log(err)
             });
@@ -900,7 +901,7 @@ function onSettingsLoaded() {
             {
                 properties: ['openFile'],
                 message: "Choose map",
-                filters: [{ name: 'Map', extensions: ['map'] }]
+                filters: [{ name: 'Map', extensions: ['dungeoneer_map'] }]
             })[0];
         if (path != null) {
             fs.readFile(path, function (err, data) {
@@ -915,7 +916,7 @@ function onSettingsLoaded() {
                 moveOffsetX = data.moveOffsetX;
                 moveOffsetY = data.moveOffsetY;
 
-
+                console.log(data)
                 mapContainer.data_bg_scale = data.bg_scale;
                 foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
                 mapContainer.style.setProperty("--bg-scale", data.bg_scale);
@@ -1076,7 +1077,6 @@ function setMapForeground(path, width) {
  */
 
 function resizeForeground(newWidth) {
-    console.log("Foreground width " + newWidth)
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * mapContainer.heightToWidthRatio + "px";
     document.getElementById("foreground_size_slider").value = newWidth;

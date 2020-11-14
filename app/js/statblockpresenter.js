@@ -39,13 +39,13 @@ var statblockPresenter = function () {
     validateEntry(valueElement);
     abilityScores = {};
     [
+      addTokens,
       addClasses,
       addName,
       addRitual,
       addSpellProperties,
       storeDescription,
       createTypeDescription,
- 
       addRequiredProperties,
       addSpeed,
       addSavingThrowRow,
@@ -82,6 +82,20 @@ var statblockPresenter = function () {
     statblock_table = values.table;
     delete values.table;
   }
+
+  function addTokens(){
+    console.log(values.id + "0")
+    var path = dataAccess.getTokenPath(values.id +"0");
+    console.log("Token:" + path)
+    if(!path)return;
+
+    var tokenEle = document.createElement("img");
+    tokenEle.classList = "statblock_token";
+    tokenEle.src = path;
+    statblock.appendChild(tokenEle);
+
+  }
+
   function addName() {
     if (values.name == null) return;
     var h2 = document.createElement("h1");
@@ -722,6 +736,7 @@ var statblockPresenter = function () {
         var spellIndex = textTemplate.indexOf(spell.name.toLowerCase());
 
         if (spellIndex >= 0) {
+          console.log("Found " + spell.name + " " + spellIndex)
           var charBefore = spellIndex != 0 ? textTemplate.substring(spellIndex - 1, spellIndex) : null;
           var charAfter = spellIndex != textTemplate.length ? textTemplate.substring(spellIndex + spell.name.length, spellIndex + spell.name.length + 1) : null;
           if (isLetterOrNum(charBefore) || isLetterOrNum(charAfter)) {

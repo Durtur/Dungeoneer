@@ -1416,6 +1416,8 @@ const hiddenAttributes = ["source", "id"];
 function editObject(dataObject, letter) {
   if (letter == "S") {
     return editSpell(dataObject);
+  } else if (letter === "E") {
+    return editEncounter(dataObject)
   } else if (letter === "") {
     addTags(dataObject);
   }
@@ -1494,6 +1496,7 @@ function editObject(dataObject, letter) {
           subvalues = document.querySelectorAll(".specialjsonValue" + letter);
           subkeys = document.querySelectorAll(".specialjsonAttribute" + letter);
         }
+
         for (var j = 0; j < specialAction.length; j++) {
           subvalues[j].value = Object.values(specialAction[j])[0];
           subkeys[j].value = Object.keys(specialAction[j])[0].deserialize();
@@ -1520,10 +1523,7 @@ function editObject(dataObject, letter) {
     }
 
   }
-  if (tab == "encounters") {
-    var fields = document.getElementsByClassName("specialjsonAttributeE");
-    [...fields].forEach(element => showCRForCreature(element))
-  } else if (tab == "conditions") {
+  if (tab == "conditions") {
     if (dataObject["condition_background_location"]) {
       document.getElementById("condition_image_picker").setAttribute("src", dataObject["condition_background_location"]);
     }
@@ -1550,7 +1550,25 @@ function editObject(dataObject, letter) {
     valueElement.value = val ? val : "";
   }
 
+  function editEncounter(dataObject) {
+    console.log(dataObject)
+    var nameField = document.querySelector(".object_nameE");
+    nameField.value = dataObject.name;
+    document.querySelector(".add_encounter_description").value = dataObject.description;
 
+    var diff = dataObject.creatures.length - document.querySelectorAll(".specialjsonAttributeE").length;
+    addFieldsIfNeeded(diff);
+    var nameFields = document.querySelectorAll(".specialjsonAttributeE");
+    var countFields = document.querySelectorAll(".specialjsonValueE");
+    for (var i = 0; i < nameFields.length; i++) {
+
+      var name = Object.keys(dataObject.creatures[i])[0].toProperCase();
+      var count = Object.values(dataObject.creatures[i])[0];
+      nameFields[i].value = name;
+      countFields[i].value = count;
+      showCRForCreature(nameFields[i]);
+    }
+  }
 
   function removeFromObject(property, keys, values) {
     var i;
@@ -1712,7 +1730,7 @@ function addLookupHandlers() {
       return;
     }
     window.scrollTo(0, 110);
-    searchFor($(this).find(':first-child').val());
+    searchFor($(this).parent().attr("data-entry_id"));
     document.querySelectorAll(".selected_row").forEach(e => e.classList.remove("selected_row"));
 
     $(this).parent().addClass("selected_row");
@@ -1933,22 +1951,10 @@ function sortBy(sorter) {
 }
 
 
+function searchFor(id) {
 
-
-function homebrewSearch() {
-  var searchstring = document.getElementById("settingsSearch").value;
-  searchFor(searchstring);
-
-
-  return false;
-}
-
-
-function searchFor(searchstring) {
   readDataFunction(function (data) {
-    if (!lookFor(searchstring, true, data, true, $("#statblock"))) {
-      lookFor(searchstring, false, data, true, $("#statblock"))
-    }
+    lookFor(id, data);
     document.getElementById("iframeWrapper").classList.remove("hidden");
   });
 
@@ -2218,7 +2224,7 @@ function saveHomebrew() {
         }
         console.log(thingyToSave.name)
         var collisionIndex = indexOfName(data, thingyToSave.name);
-  
+
         if (collisionIndex != -1) {
           if (window.confirm(thingyToSave.name + " already found in database. Do you wish to overwrite?")) {
             data.splice(collisionIndex, 1);
@@ -2234,9 +2240,9 @@ function saveHomebrew() {
           return 0;
         })
         setFunction(data, function (err) {
-          hide('add' + tabElementNameSuffix);
+         // hide('add' + tabElementNameSuffix);
           $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
-          window.scroll(0, 0);
+          document.querySelector("#save_success").scrollIntoView({block: "end", inline: "nearest"});
 
           if (tokenRemoveQueue.length == 0) {
             saveTokens(thingyToSave.id);
@@ -2257,14 +2263,14 @@ function saveHomebrew() {
             dataAccess.getTags(function (tags) {
               monsterTags.list = tags;
             });
-          }, 2500)
+          }, 1500)
         });
 
       })
     }
   }
-   function saveTokens(newId) {
-
+  function saveTokens(newId) {
+    
     //Move tokens
     if (tab == "monsters" || tab == "homebrew") {
       var tokens = [...document.querySelectorAll(".token")];
@@ -2278,7 +2284,7 @@ function saveHomebrew() {
         var oldPath = pathModule.resolve(tok.getAttribute("data-file_path"));
         var newPath = pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png");
         if (newPath == oldPath) return;
-        dataAccess.saveToken( newId.toLowerCase() + i, oldPath);
+        dataAccess.saveToken(newId.toLowerCase() + i, oldPath, document.querySelector("#trim_token_checkbox").checked);
         i++;
       });
     }
@@ -2287,7 +2293,7 @@ function saveHomebrew() {
     $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
     loadAll();
 
-   
+
   }
   function addProperty(property, object, fallbackValue, classPrefix) {
 
@@ -2298,16 +2304,14 @@ function saveHomebrew() {
   }
 }
 
-//Searchstring: String to search for
-// fullMatch: boolean : whether the string should be fully matched or not.
+
 // data: Dataset to look in, must contain attribute "name".
 //combat: Whether the entity should be loaded into combat system.
 
-function lookFor(searchstring, fullMatch, data, combat, statblock) {
+function lookFor(id, data) {
   for (var i = 0; i < Object.keys(data).length; i++) {
 
-    if ((data[i].name.toLowerCase() == searchstring.toLowerCase() && fullMatch)
-      || (data[i].name.toLowerCase().includes(searchstring.toLowerCase()) && !fullMatch)) {
+    if (data[i].id == id) {
 
       foundMonster = data[i];
       statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, (tab == "monsters" || tab == "homebrew") ? "monsters" : tab)

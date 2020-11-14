@@ -18,7 +18,7 @@ const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "mapt
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
 module.exports = function () {
-   
+
     function initializeData() {
         console.log("Initalizing data...");
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
@@ -210,6 +210,7 @@ module.exports = function () {
     }
 
     function getTokenPath(creatureId) {
+        console.group("Getting token for  " + creatureId)
         var fileEndings = [".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];
@@ -218,12 +219,11 @@ module.exports = function () {
                 return path;
 
         }
-        console.log("Getting token path for ", creatureId);
         return null;
     }
 
-    async function saveToken(tokenName, currentPath) {
-        console.log("Saving token", tokenName)
+    async function saveToken(tokenName, currentPath, trim) {
+        console.log("Saving token", tokenName, "trim:" + trim)
         var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));
         var savePath = pathModule.join(defaultTokenPath, tokenName + fileEnding);
 
@@ -235,10 +235,13 @@ module.exports = function () {
                 })
             .png()
             .toBuffer();
-
-        await sharp(buffer)
-            .trim(0.5)
-            .toFile(pathModule.resolve(savePath));
+        if (trim)
+            await sharp(buffer)
+                .trim(0.5)
+                .toFile(pathModule.resolve(savePath));
+        else
+            await sharp(buffer)
+                .toFile(pathModule.resolve(savePath));
 
     }
 
@@ -269,7 +272,7 @@ module.exports = function () {
             var now = new Date();
             if (backupdata[path]) {
                 var lastBackedUp = new Date(backupdata[path]?.date);
-                console.log(now.getDate(),lastBackedUp.getDate());
+                console.log(now.getDate(), lastBackedUp.getDate());
                 if (now.getDate() === lastBackedUp.getDate())
                     return;
 

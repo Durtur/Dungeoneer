@@ -133,45 +133,7 @@
         <div class="column section__tool section__show">
           <section class="combatGUI" id="combatMain">
             <p class="no_data_text">Search for creatures to add them to this panel</p>
-            <div class="combatRow" data-dnd_monster_index=1>
-              <input type="number" placeholder="Dmg" class="dmg_field multi_selectable_field_num"
-                title="Damage to Apply" tabindex="2">
-              <button class="button button_style dmg_button" onclick="combatLoader.applyDmg()"
-                title="Apply damage">Apply</button>
-              <input type="text" placeholder="Creature name" class="name_field" title="Creature name">
-              <input type="number" placeholder="HP" class="hp_field" title="Creature HP">
-              <input type="number" placeholder="AC" class="ac_field" title="Creature Armor Class">
-              <input type="number" placeholder="Atk+" class="attack_field" title="Creature Attack Modifier">
-              <button class="die_d20 die_combatRoller die_d20_normal" onclick="combatLoader.roll()"
-                title="Click to roll for attack">1</button>
-              <input type="number" placeholder="vs AC" title="AC of target" tabindex="1"
-                class="code_ac multi_selectable_field_num">
-              <label class=" cell_row damage_field label_inactive" data-tooltip=""
-                onclick=combatLoader.setDamageFieldNextAction(event)>Creature damage</label>
-              <label class="text_upper_damage_label"></label>
-              <div class="checkbox_row row">
-
-
-                <div class="column save_roller_checkbox_container">
-                  <label class="small_font checbox_label_saveroller" title="Advantage">Adv</label>
-                  <label class="container_for_checkbox">
-                    <input type="checkbox" onchange="advantageCheckboxChanged(event)"
-                      class="center combat_loader_advantage" title="Advantage">
-                    <span class="checkmark"></span>
-                  </label>
-
-                </div>
-                <div class="column save_roller_checkbox_container">
-                  <label class="small_font checbox_label_saveroller" title="Disadvantage">Dis</label>
-                  <label class="container_for_checkbox">
-                    <input type="checkbox" onchange="disadvantageCheckboxChanged(event)"
-                      class="center combat_loader_disadvantage" title="Disadvantage">
-                    <span class="checkmark"></span>
-                  </label>
-
-                </div>
-              </div>
-            </div>
+    
           </section>
           <div class="row float_up combat_toolbar">
 
@@ -458,7 +420,45 @@
       <button class="button_style " onclick="combatLoader.showLog()">Combat log</button>
 
     </div>
+    <div class="combatRow hidden" data-dnd_monster_index=0 id = "combat_loader_template"> 
+      <input type="number" placeholder="Dmg" class="dmg_field multi_selectable_field_num"
+        title="Damage to Apply" tabindex="2">
+      <button class="button button_style dmg_button" onclick="combatLoader.applyDmg()"
+        title="Apply damage">Apply</button>
+      <input type="text" placeholder="Creature name" class="name_field" title="Creature name">
+      <input type="number" placeholder="HP" class="hp_field" title="Creature HP">
+      <input type="number" placeholder="AC" class="ac_field" title="Creature Armor Class">
+      <input type="number" placeholder="Atk+" class="attack_field" title="Creature Attack Modifier">
+      <button class="die_d20 die_combatRoller die_d20_normal" onclick="combatLoader.roll()"
+        title="Click to roll for attack">1</button>
+      <input type="number" placeholder="vs AC" title="AC of target" tabindex="1"
+        class="code_ac multi_selectable_field_num">
+      <label class=" cell_row damage_field label_inactive" data-tooltip=""
+        onclick=combatLoader.setDamageFieldNextAction(event)>Creature damage</label>
+      <label class="text_upper_damage_label"></label>
+      <div class="checkbox_row row">
 
+
+        <div class="column save_roller_checkbox_container">
+          <label class="small_font checbox_label_saveroller" title="Advantage">Adv</label>
+          <label class="container_for_checkbox">
+            <input type="checkbox" onchange="advantageCheckboxChanged(event)"
+              class="center combat_loader_advantage" title="Advantage">
+            <span class="checkmark"></span>
+          </label>
+
+        </div>
+        <div class="column save_roller_checkbox_container">
+          <label class="small_font checbox_label_saveroller" title="Disadvantage">Dis</label>
+          <label class="container_for_checkbox">
+            <input type="checkbox" onchange="disadvantageCheckboxChanged(event)"
+              class="center combat_loader_disadvantage" title="Disadvantage">
+            <span class="checkmark"></span>
+          </label>
+
+        </div>
+      </div>
+    </div>
     <div class="column hidden mobcontroller_row" id="mobcontroller_row_template" data-dnd_creature="">
 
       <div class="row ">

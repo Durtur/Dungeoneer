@@ -684,7 +684,7 @@
                                         placeholder="Creature">
                                     <input type="number" class="specialjsonValueE smaller">
                                     <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
-                                        max="30">
+                                        max="30" readonly>
                                 </div>
 
                                 <div class="row">
@@ -692,7 +692,7 @@
                                         placeholder="Creature">
                                     <input type="number" class="specialjsonValueE smaller">
                                     <input type="number" class="encounter_creature_cr smaller" placeholder="CR" min="0"
-                                        max="30">
+                                        max="30" readonly>
                                 </div>
                             </div>
                             <button class="small brown circular_button" title="Add creatures" onclick="addRow()"> +
@@ -775,25 +775,23 @@
                             <div class="row space_between">
 
                                 <div class="row">
-                                    <label type="text" style = "width: 4em;"
-                                        title="Unique NPC's or monsters will not be used in encounter generation"
-                                        >Unique</label>
+                                    <label type="text" style="width: 4em;"
+                                        title="Unique NPC's or monsters will not be used in encounter generation">Unique</label>
                                     <label class="container_for_checkbox">
                                         <input type="checkbox" tabindex=1 class="center " id="addmonster_unique"
                                             title="Unique NPC's or monsters will not be used in encounter generation">
                                         <span class="checkmark"></span>
                                     </label>
                                 </div>
-                                <input id="addmonster_tag_input" style = "max-width: 200px;"  placeholder="Add tag...">
-                                
+                                <input id="addmonster_tag_input" style="max-width: 200px;" placeholder="Add tag...">
+
 
 
                             </div>
-                            <div class = "row">
-                                <label
-                                title="Tagging creatures allows for easier grouping" style="width: 4em; padding: 0.25em 0 0 0;" 
-                              >Tags</label>
-                                <div id= "addmonster_tag_container">
+                            <div class="row">
+                                <label title="Tagging creatures allows for easier grouping"
+                                    style="width: 4em; padding: 0.25em 0 0 0;">Tags</label>
+                                <div id="addmonster_tag_container">
 
                                 </div>
                             </div>
@@ -1103,7 +1101,19 @@
 
                                 <div class="column token_column" style="margin-top:5em">
                                     <div class="row">
-                                        <h2 style="margin:0;">Tokens</h2>
+                                        <div class="row">
+                                            <h2 style="margin:0;">Tokens</h2>
+                                            <label for="trim_token_checkbox" style = "margin: 3px 0px 3px 16px;" title="Trimming removes whitespace from the edge of the image." >Trim</label>
+                                            <label class="container_for_checkbox" for="trim_token_checkbox" style = "margin: 3px">
+
+                                                <input type="checkbox" tabindex=-1 class="center "
+                                                    id="trim_token_checkbox"
+                                                    checked
+                                                    title="Trimming removes whitespace from the edge of the image.">
+                                                <span class="checkmark"></span>
+                                            </label>
+                                        </div>
+
                                         <button class="small brown circular_button" id="addTokenButton" disabled
                                             title="Add tokens" onclick="addTokensToCurrentMonster()">
                                             +

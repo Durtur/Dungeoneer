@@ -16,7 +16,10 @@
 
 .popup-inner {
   margin-bottom: 10px;
-  max-width: 1000px;
+  max-width: 85vw;
+  max-height: 90vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
   width: 90%;
   padding: 40px;
   position: absolute;
@@ -26,7 +29,7 @@
   transform: translate(-50%, -50%);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 1);
   border-radius: 3px;
-  background-image: url("./img/phbbg.png");
+  background-image: url(./img/phbbg.png);
 }
 
 .popup-inner>h2 {

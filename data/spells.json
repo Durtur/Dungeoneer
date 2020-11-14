@@ -14,7 +14,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfst"
 	},
 	{
 		"classes": [
@@ -31,7 +32,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfsu"
 	},
 	{
 		"classes": [
@@ -49,7 +51,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfsv"
 	},
 	{
 		"classes": [
@@ -66,7 +69,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfsw"
 	},
 	{
 		"classes": [
@@ -85,7 +89,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfsx"
 	},
 	{
 		"classes": [
@@ -102,7 +107,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfsy"
 	},
 	{
 		"classes": [
@@ -119,7 +125,8 @@
 		"range": "Self (15-foot cone)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfsz"
 	},
 	{
 		"classes": [
@@ -140,7 +147,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft0"
 	},
 	{
 		"classes": [
@@ -158,7 +166,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft1"
 	},
 	{
 		"classes": [
@@ -175,7 +184,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft2"
 	},
 	{
 		"classes": [
@@ -192,7 +202,8 @@
 		"range": "Self (15-foot cone)",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft3"
 	},
 	{
 		"classes": [
@@ -209,7 +220,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft4"
 	},
 	{
 		"classes": [
@@ -225,7 +237,8 @@
 		"range": "30 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft5"
 	},
 	{
 		"classes": [
@@ -244,7 +257,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yft6"
 	},
 	{
 		"classes": [
@@ -261,7 +275,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft7"
 	},
 	{
 		"classes": [
@@ -281,7 +296,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft8"
 	},
 	{
 		"classes": [
@@ -299,7 +315,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yft9"
 	},
 	{
 		"classes": [
@@ -316,7 +333,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfta"
 	},
 	{
 		"classes": [
@@ -338,7 +356,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yftb"
 	},
 	{
 		"classes": [
@@ -357,7 +376,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yftc"
 	},
 	{
 		"classes": [
@@ -376,7 +396,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftd"
 	},
 	{
 		"classes": [
@@ -392,7 +413,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfte"
 	},
 	{
 		"classes": [
@@ -408,7 +430,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftf"
 	},
 	{
 		"classes": [
@@ -424,7 +447,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftg"
 	},
 	{
 		"classes": [
@@ -440,7 +464,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfth"
 	},
 	{
 		"classes": [
@@ -456,7 +481,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfti"
 	},
 	{
 		"classes": [
@@ -472,7 +498,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftj"
 	},
 	{
 		"classes": [
@@ -489,7 +516,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftk"
 	},
 	{
 		"classes": [
@@ -507,7 +535,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftl"
 	},
 	{
 		"classes": [
@@ -524,7 +553,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftm"
 	},
 	{
 		"classes": [
@@ -542,7 +572,8 @@
 		"range": "60 feet",
 		"casting_time": "1 reaction, which you take when you or a creature within 60 feet of you falls",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftn"
 	},
 	{
 		"classes": [
@@ -558,7 +589,8 @@
 		"range": "10 feet",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfto"
 	},
 	{
 		"classes": [
@@ -575,7 +607,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftp"
 	},
 	{
 		"classes": [
@@ -594,7 +627,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftq"
 	},
 	{
 		"classes": [
@@ -613,7 +647,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftr"
 	},
 	{
 		"classes": [
@@ -630,7 +665,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfts"
 	},
 	{
 		"classes": [
@@ -646,7 +682,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftt"
 	},
 	{
 		"classes": [
@@ -663,7 +700,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftu"
 	},
 	{
 		"classes": [
@@ -679,7 +717,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftv"
 	},
 	{
 		"classes": [
@@ -695,7 +734,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftw"
 	},
 	{
 		"classes": [
@@ -713,7 +753,8 @@
 		"range": "60 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftx"
 	},
 	{
 		"classes": [
@@ -729,7 +770,8 @@
 		"range": "60 feet",
 		"casting_time": "1 reaction, which you take in response to being damaged by a creature within 60 feet of you that you can see.",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfty"
 	},
 	{
 		"classes": [
@@ -745,7 +787,8 @@
 		"range": "90 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yftz"
 	},
 	{
 		"classes": [
@@ -762,7 +805,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu0"
 	},
 	{
 		"classes": [
@@ -778,7 +822,8 @@
 		"range": "90 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu1"
 	},
 	{
 		"classes": [
@@ -795,7 +840,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfu2"
 	},
 	{
 		"classes": [
@@ -813,7 +859,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "10 days",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfu3"
 	},
 	{
 		"classes": [
@@ -829,7 +876,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu4"
 	},
 	{
 		"classes": [
@@ -848,7 +896,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu5"
 	},
 	{
 		"classes": [
@@ -867,7 +916,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu6"
 	},
 	{
 		"classes": [
@@ -886,7 +936,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu7"
 	},
 	{
 		"classes": [
@@ -903,7 +954,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu8"
 	},
 	{
 		"classes": [
@@ -922,7 +974,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfu9"
 	},
 	{
 		"classes": [
@@ -939,7 +992,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfua"
 	},
 	{
 		"classes": [
@@ -959,7 +1013,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfub"
 	},
 	{
 		"classes": [
@@ -977,7 +1032,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuc"
 	},
 	{
 		"classes": [
@@ -996,7 +1052,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfud"
 	},
 	{
 		"classes": [
@@ -1015,7 +1072,8 @@
 		"range": "10 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfue"
 	},
 	{
 		"classes": [
@@ -1034,7 +1092,8 @@
 		"range": "10 feet",
 		"casting_time": "1 action",
 		"duration": "Up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuf"
 	},
 	{
 		"classes": [
@@ -1050,7 +1109,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfug"
 	},
 	{
 		"classes": [
@@ -1069,7 +1129,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuh"
 	},
 	{
 		"classes": [
@@ -1087,7 +1148,8 @@
 		"range": "10 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfui"
 	},
 	{
 		"classes": [
@@ -1104,7 +1166,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuj"
 	},
 	{
 		"classes": [
@@ -1121,7 +1184,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuk"
 	},
 	{
 		"classes": [
@@ -1140,7 +1204,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yful"
 	},
 	{
 		"classes": [
@@ -1157,7 +1222,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfum"
 	},
 	{
 		"classes": [
@@ -1173,7 +1239,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfun"
 	},
 	{
 		"classes": [
@@ -1189,7 +1256,8 @@
 		"range": "30 feet",
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuo"
 	},
 	{
 		"classes": [
@@ -1206,7 +1274,8 @@
 		"range": "60 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfup"
 	},
 	{
 		"classes": [
@@ -1216,13 +1285,14 @@
 		"level": "1",
 		"school": "Evocation",
 		"source": "SRD",
-		"description": "The next time you hit a creature wiht a melee weapon attack during the spell's duration, your weapon flares with white-hot intensity, and the attack deals an extra 1d6 fire damage to the target and causes the target to ignite in flames. At the start of each of its turns until the spell ends, the target must make a Constitution saving throw. On a failed save, it takes 1d6 fire damage. On a successful save, the spell ends. If the target or a creature within 5 feet of it uses an action to put out the flames, or if some other effect douses the flames (such as the target being submerged in water), the spell ends.",
+		"description": "The next time you hit a creature with a melee weapon attack during the spell's duration, your weapon flares with white-hot intensity, and the attack deals an extra 1d6 fire damage to the target and causes the target to ignite in flames. At the start of each of its turns until the spell ends, the target must make a Constitution saving throw. On a failed save, it takes 1d6 fire damage. On a successful save, the spell ends. If the target or a creature within 5 feet of it uses an action to put out the flames, or if some other effect douses the flames (such as the target being submerged in water), the spell ends.",
 		"higher_levels": "When you cast this spell using a spell slot of 2nd level or higher, the initial extra damage dealt by the attack increases by 1d6 for each slot level above 1st.",
 		"components": "V",
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuq"
 	},
 	{
 		"classes": [
@@ -1239,7 +1309,8 @@
 		"range": "Self",
 		"casting_time": "1 reaction, which you take when you are hit by an attack or targeted by the magic missile spell",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfur"
 	},
 	{
 		"classes": [
@@ -1255,7 +1326,8 @@
 		"range": "Touch",
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfus"
 	},
 	{
 		"classes": [
@@ -1272,7 +1344,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfut"
 	},
 	{
 		"classes": [
@@ -1290,7 +1363,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuu"
 	},
 	{
 		"classes": [
@@ -1308,7 +1382,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuv"
 	},
 	{
 		"classes": [
@@ -1324,7 +1399,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuw"
 	},
 	{
 		"classes": [
@@ -1342,7 +1418,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfux"
 	},
 	{
 		"classes": [
@@ -1358,7 +1435,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuy"
 	},
 	{
 		"classes": [
@@ -1374,7 +1452,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfuz"
 	},
 	{
 		"classes": [
@@ -1390,7 +1469,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv0"
 	},
 	{
 		"classes": [
@@ -1409,7 +1489,8 @@
 		"range": "Self (15-foot cube)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv1"
 	},
 	{
 		"classes": [
@@ -1428,7 +1509,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv2"
 	},
 	{
 		"classes": [
@@ -1446,7 +1528,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfv3"
 	},
 	{
 		"classes": [
@@ -1462,7 +1545,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv4"
 	},
 	{
 		"classes": [
@@ -1480,7 +1564,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv5"
 	},
 	{
 		"classes": [
@@ -1496,7 +1581,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv6"
 	},
 	{
 		"classes": [
@@ -1513,7 +1599,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv7"
 	},
 	{
 		"classes": [
@@ -1531,7 +1618,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "24 hours",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfv8"
 	},
 	{
 		"classes": [
@@ -1550,7 +1638,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfv9"
 	},
 	{
 		"classes": [
@@ -1566,7 +1655,8 @@
 		"range": "Self",
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfva"
 	},
 	{
 		"classes": [
@@ -1583,7 +1673,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvb"
 	},
 	{
 		"classes": [
@@ -1604,7 +1695,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfvc"
 	},
 	{
 		"classes": [
@@ -1624,7 +1716,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvd"
 	},
 	{
 		"classes": [
@@ -1640,7 +1733,8 @@
 		"range": "30 feet",
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfve"
 	},
 	{
 		"classes": [
@@ -1658,7 +1752,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfvf"
 	},
 	{
 		"classes": [
@@ -1674,7 +1769,8 @@
 		"range": "60 feet",
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvg"
 	},
 	{
 		"classes": [
@@ -1690,7 +1786,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvh"
 	},
 	{
 		"classes": [
@@ -1707,7 +1804,8 @@
 		"range": "10 feet",
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvi"
 	},
 	{
 		"classes": [
@@ -1723,7 +1821,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvj"
 	},
 	{
 		"classes": [
@@ -1739,7 +1838,8 @@
 		"range": "Self (30-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvk"
 	},
 	{
 		"classes": [
@@ -1755,7 +1855,8 @@
 		"range": "Self (30-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvl"
 	},
 	{
 		"classes": [
@@ -1771,7 +1872,8 @@
 		"range": "Self (30-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvm"
 	},
 	{
 		"classes": [
@@ -1791,7 +1893,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvn"
 	},
 	{
 		"classes": [
@@ -1807,7 +1910,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvo"
 	},
 	{
 		"classes": [
@@ -1826,7 +1930,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvp"
 	},
 	{
 		"classes": [
@@ -1844,7 +1949,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvq"
 	},
 	{
 		"classes": [
@@ -1860,7 +1966,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvr"
 	},
 	{
 		"classes": [
@@ -1877,7 +1984,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvs"
 	},
 	{
 		"classes": [
@@ -1893,7 +2001,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvt"
 	},
 	{
 		"classes": [
@@ -1912,7 +2021,8 @@
 		"range": "1 mile",
 		"casting_time": "10 minutes",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvu"
 	},
 	{
 		"classes": [
@@ -1931,7 +2041,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvv"
 	},
 	{
 		"classes": [
@@ -1947,7 +2058,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvw"
 	},
 	{
 		"classes": [
@@ -1964,7 +2076,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvx"
 	},
 	{
 		"classes": [
@@ -1980,7 +2093,8 @@
 		"range": "Self (60-foot cone)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvy"
 	},
 	{
 		"classes": [
@@ -1998,7 +2112,8 @@
 		"range": "60 feet",
 		"casting_time": "1 reaction, which you take when you see a creature within 60 feet of you casting a spell.",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfvz"
 	},
 	{
 		"classes": [
@@ -2015,7 +2130,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw0"
 	},
 	{
 		"classes": [
@@ -2031,7 +2147,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw1"
 	},
 	{
 		"classes": [
@@ -2050,7 +2167,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw2"
 	},
 	{
 		"classes": [
@@ -2072,7 +2190,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw3"
 	},
 	{
 		"classes": [
@@ -2088,7 +2207,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw4"
 	},
 	{
 		"classes": [
@@ -2107,7 +2227,8 @@
 		"range": "Self (30-foot cone)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw5"
 	},
 	{
 		"classes": [
@@ -2126,7 +2247,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfw6"
 	},
 	{
 		"classes": [
@@ -2143,7 +2265,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw7"
 	},
 	{
 		"classes": [
@@ -2161,7 +2284,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw8"
 	},
 	{
 		"classes": [
@@ -2178,7 +2302,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfw9"
 	},
 	{
 		"classes": [
@@ -2195,7 +2320,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwa"
 	},
 	{
 		"classes": [
@@ -2214,7 +2340,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwb"
 	},
 	{
 		"classes": [
@@ -2230,7 +2357,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwc"
 	},
 	{
 		"classes": [
@@ -2249,7 +2377,8 @@
 		"range": "10 feet",
 		"casting_time": "1 minute",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwd"
 	},
 	{
 		"classes": [
@@ -2268,7 +2397,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwe"
 	},
 	{
 		"classes": [
@@ -2284,7 +2414,8 @@
 		"range": "60 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwf"
 	},
 	{
 		"classes": [
@@ -2301,7 +2432,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwg"
 	},
 	{
 		"classes": [
@@ -2317,7 +2449,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwh"
 	},
 	{
 		"classes": [
@@ -2334,7 +2467,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwi"
 	},
 	{
 		"classes": [
@@ -2352,7 +2486,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwj"
 	},
 	{
 		"classes": [
@@ -2369,7 +2504,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfwk"
 	},
 	{
 		"classes": [
@@ -2385,7 +2521,8 @@
 		"range": "30 feet",
 		"casting_time": "1 minute",
 		"duration": "1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfwl"
 	},
 	{
 		"classes": [
@@ -2403,7 +2540,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action or 8 hours",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwm"
 	},
 	{
 		"classes": [
@@ -2423,7 +2561,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwn"
 	},
 	{
 		"classes": [
@@ -2440,7 +2579,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwo"
 	},
 	{
 		"classes": [
@@ -2458,7 +2598,8 @@
 		"range": "Unlimited",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwp"
 	},
 	{
 		"classes": [
@@ -2476,7 +2617,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwq"
 	},
 	{
 		"classes": [
@@ -2493,7 +2635,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwr"
 	},
 	{
 		"classes": [
@@ -2510,7 +2653,8 @@
 		"range": "10 feet",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfws"
 	},
 	{
 		"classes": [
@@ -2528,7 +2672,8 @@
 		"range": "Self (30-foot radius",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwt"
 	},
 	{
 		"classes": [
@@ -2544,7 +2689,8 @@
 		"range": "Self (15-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwu"
 	},
 	{
 		"classes": [
@@ -2562,7 +2708,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwv"
 	},
 	{
 		"classes": [
@@ -2581,7 +2728,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfww"
 	},
 	{
 		"classes": [
@@ -2598,7 +2746,8 @@
 		"range": "90 feet",
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwx"
 	},
 	{
 		"classes": [
@@ -2616,7 +2765,8 @@
 		"range": "300 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwy"
 	},
 	{
 		"classes": [
@@ -2633,7 +2783,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfwz"
 	},
 	{
 		"classes": [
@@ -2650,7 +2801,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx0"
 	},
 	{
 		"classes": [
@@ -2670,7 +2822,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx1"
 	},
 	{
 		"classes": [
@@ -2687,7 +2840,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfx2"
 	},
 	{
 		"classes": [
@@ -2704,7 +2858,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx3"
 	},
 	{
 		"classes": [
@@ -2720,7 +2875,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx4"
 	},
 	{
 		"classes": [
@@ -2736,7 +2892,8 @@
 		"range": "5 feet",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx5"
 	},
 	{
 		"classes": [
@@ -2755,7 +2912,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx6"
 	},
 	{
 		"classes": [
@@ -2773,7 +2931,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx7"
 	},
 	{
 		"classes": [
@@ -2792,7 +2951,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx8"
 	},
 	{
 		"classes": [
@@ -2810,7 +2970,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfx9"
 	},
 	{
 		"classes": [
@@ -2826,7 +2987,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxa"
 	},
 	{
 		"classes": [
@@ -2843,7 +3005,8 @@
 		"range": "Self (10-foot-radius sphere)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxb"
 	},
 	{
 		"classes": [
@@ -2860,7 +3023,8 @@
 		"range": "60 feet",
 		"casting_time": "1 hour",
 		"duration": "10 days",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxc"
 	},
 	{
 		"classes": [
@@ -2878,7 +3042,8 @@
 		"range": "10 feet",
 		"casting_time": "1 hour",
 		"duration": "Special",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxd"
 	},
 	{
 		"classes": [
@@ -2894,7 +3059,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxe"
 	},
 	{
 		"classes": [
@@ -2912,7 +3078,8 @@
 		"range": "Self (5-mile radius)",
 		"casting_time": "10 minutes",
 		"duration": "Concentration, up to 8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxf"
 	},
 	{
 		"classes": [
@@ -2929,7 +3096,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxg"
 	},
 	{
 		"classes": [
@@ -2948,7 +3116,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxh"
 	},
 	{
 		"classes": [
@@ -2966,7 +3135,8 @@
 		"range": "500 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxi"
 	},
 	{
 		"classes": [
@@ -2985,7 +3155,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxj"
 	},
 	{
 		"classes": [
@@ -3004,7 +3175,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxk"
 	},
 	{
 		"classes": [
@@ -3022,7 +3194,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxl"
 	},
 	{
 		"classes": [
@@ -3039,7 +3212,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxm"
 	},
 	{
 		"classes": [
@@ -3055,7 +3229,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxn"
 	},
 	{
 		"classes": [
@@ -3072,7 +3247,8 @@
 		"range": "30 feet",
 		"casting_time": "1 minute",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxo"
 	},
 	{
 		"classes": [
@@ -3089,7 +3265,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxp"
 	},
 	{
 		"classes": [
@@ -3105,7 +3282,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxq"
 	},
 	{
 		"classes": [
@@ -3121,7 +3299,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxr"
 	},
 	{
 		"classes": [
@@ -3138,7 +3317,8 @@
 		"range": "1 mile",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxs"
 	},
 	{
 		"classes": [
@@ -3155,7 +3335,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxt"
 	},
 	{
 		"classes": [
@@ -3171,7 +3352,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxu"
 	},
 	{
 		"classes": [
@@ -3190,7 +3372,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxv"
 	},
 	{
 		"classes": [
@@ -3209,7 +3392,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxw"
 	},
 	{
 		"classes": [
@@ -3225,7 +3409,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxx"
 	},
 	{
 		"classes": [
@@ -3242,7 +3427,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxy"
 	},
 	{
 		"classes": [
@@ -3258,7 +3444,8 @@
 		"range": "Sight",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfxz"
 	},
 	{
 		"classes": [
@@ -3274,7 +3461,8 @@
 		"range": "Unlimited",
 		"casting_time": "1 action",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy0"
 	},
 	{
 		"classes": [
@@ -3292,7 +3480,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy1"
 	},
 	{
 		"classes": [
@@ -3309,7 +3498,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy2"
 	},
 	{
 		"classes": [
@@ -3327,7 +3517,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy3"
 	},
 	{
 		"classes": [
@@ -3343,7 +3534,8 @@
 		"range": "Sight",
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 6 rounds",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy4"
 	},
 	{
 		"classes": [
@@ -3360,7 +3552,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy5"
 	},
 	{
 		"classes": [
@@ -3376,7 +3569,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy6"
 	},
 	{
 		"classes": [
@@ -3393,7 +3587,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy7"
 	},
 	{
 		"classes": [
@@ -3409,7 +3604,8 @@
 		"range": "90 feet",
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy8"
 	},
 	{
 		"classes": [
@@ -3426,7 +3622,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfy9"
 	},
 	{
 		"classes": [
@@ -3445,7 +3642,8 @@
 		"range": "500 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfya"
 	},
 	{
 		"classes": [
@@ -3461,7 +3659,8 @@
 		"range": "30 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyb"
 	},
 	{
 		"classes": [
@@ -3481,7 +3680,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Up to 8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyc"
 	},
 	{
 		"classes": [
@@ -3499,7 +3699,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyd"
 	},
 	{
 		"classes": [
@@ -3517,7 +3718,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfye"
 	},
 	{
 		"classes": [
@@ -3535,7 +3737,8 @@
 		"range": "100 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyf"
 	},
 	{
 		"classes": [
@@ -3553,7 +3756,8 @@
 		"range": "Sight",
 		"casting_time": "10 minutes",
 		"duration": "10 days",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyg"
 	},
 	{
 		"classes": [
@@ -3570,7 +3774,8 @@
 		"range": "Self (60-foot cone)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyh"
 	},
 	{
 		"classes": [
@@ -3587,7 +3792,8 @@
 		"range": "500 miles",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 day",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyi"
 	},
 	{
 		"classes": [
@@ -3607,7 +3813,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyj"
 	},
 	{
 		"classes": [
@@ -3625,7 +3832,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyk"
 	},
 	{
 		"classes": [
@@ -3643,7 +3851,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyl"
 	},
 	{
 		"classes": [
@@ -3661,7 +3870,8 @@
 		"range": "100 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfym"
 	},
 	{
 		"classes": [
@@ -3677,7 +3887,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyn"
 	},
 	{
 		"classes": [
@@ -3693,7 +3904,8 @@
 		"range": "Touch",
 		"casting_time": "12 hours",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyo"
 	},
 	{
 		"classes": [
@@ -3710,7 +3922,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "Until dispelled or triggered",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyp"
 	},
 	{
 		"classes": [
@@ -3729,7 +3942,8 @@
 		"range": "10 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyq"
 	},
 	{
 		"classes": [
@@ -3748,7 +3962,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyr"
 	},
 	{
 		"classes": [
@@ -3767,7 +3982,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfys"
 	},
 	{
 		"classes": [
@@ -3836,7 +4052,8 @@
 				"10",
 				"6"
 			]
-		}
+		},
+		"id": "cacvjpc94kgy0yfyt"
 	},
 	{
 		"classes": [
@@ -3852,7 +4069,8 @@
 		"range": "Self (10-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyu"
 	},
 	{
 		"classes": [
@@ -3870,7 +4088,8 @@
 		"range": "500 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyv"
 	},
 	{
 		"classes": [
@@ -3887,7 +4106,8 @@
 		"range": "Touch",
 		"casting_time": "8 hours",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyw"
 	},
 	{
 		"classes": [
@@ -3903,7 +4123,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyx"
 	},
 	{
 		"classes": [
@@ -3920,7 +4141,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyy"
 	},
 	{
 		"classes": [
@@ -3936,7 +4158,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfyz"
 	},
 	{
 		"classes": [
@@ -3954,7 +4177,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfz0"
 	},
 	{
 		"classes": [
@@ -3970,7 +4194,8 @@
 		"range": "Self (30-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfz1"
 	},
 	{
 		"classes": [
@@ -3987,7 +4212,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfz2"
 	},
 	{
 		"classes": [
@@ -4004,7 +4230,8 @@
 		"range": "Self",
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfz3"
 	},
 	{
 		"classes": [
@@ -4020,7 +4247,8 @@
 		"range": "Self",
 		"casting_time": "1 minute",
 		"duration": "1 minute",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfz4"
 	},
 	{
 		"classes": [
@@ -4037,7 +4265,8 @@
 		"range": "Self (60-foot cone)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfz5"
 	},
 	{
 		"classes": [
@@ -4054,7 +4283,8 @@
 		"range": "90 feet",
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfz6"
 	},
 	{
 		"classes": [
@@ -4071,7 +4301,8 @@
 		"range": "90 feet",
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfz7"
 	},
 	{
 		"classes": [
@@ -4087,7 +4318,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfz8"
 	},
 	{
 		"classes": [
@@ -4104,7 +4336,8 @@
 		"range": "Self",
 		"casting_time": "1 minute",
 		"duration": "1 minute",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfz9"
 	},
 	{
 		"classes": [
@@ -4121,7 +4354,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "7 days",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfza"
 	},
 	{
 		"classes": [
@@ -4137,7 +4371,8 @@
 		"range": "Self",
 		"casting_time": "10 minutes",
 		"duration": "10 days",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzb"
 	},
 	{
 		"classes": [
@@ -4155,7 +4390,8 @@
 		"range": "10 feet",
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzc"
 	},
 	{
 		"classes": [
@@ -4172,7 +4408,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzd"
 	},
 	{
 		"classes": [
@@ -4189,7 +4426,8 @@
 		"range": "30 feet",
 		"casting_time": "1 minute",
 		"duration": "Special",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfze"
 	},
 	{
 		"classes": [
@@ -4205,7 +4443,8 @@
 		"range": "Self (30-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzf"
 	},
 	{
 		"classes": [
@@ -4222,7 +4461,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzg"
 	},
 	{
 		"classes": [
@@ -4238,7 +4478,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfzh"
 	},
 	{
 		"classes": [
@@ -4249,13 +4490,14 @@
 		"level": "5",
 		"school": "Abjuration",
 		"source": "SRD",
-		"description": "Shimmering energy surrounds and protects you from fey, undead, and creatures originating from beyond the Material Plane. For the duration, celestials, elementals, fey, fiends, and undead have disadvantage on attack rolls against you.\n\nYou can end the spell early by using either of the following special functions.",
+		"description": "Shimmering energy surrounds and protects you from fey, undead, and creatures originating from beyond the Material Plane. For the duration, celestials, elementals, fey, fiends, and undead have disadvantage on attack rolls against you.\n\nYou can end the spell early by using either of the following special functions. \n\nBreak Enchantment: As your action, you touch a creature you can reach that is Charmed, Frightened, or possessed by a Celestial, an elemental, a fey, a fiend, or an Undead. The creature you touch is no longer Charmed, Frightened, or possessed by such creatures.\n\nDismissal: As your action, make a melee spell Attack against a Celestial, an elemental, a fey, a fiend, or an Undead you can reach. On a hit, you attempt to drive the creature back to its home plane. The creature must succeed on a Charisma saving throw or be sent back to its home plane (if it isn't there already). If they aren't on their home plane, Undead are sent to the Shadowfell, and fey are sent to the Feywild. ",
 		"higher_levels": "",
 		"components": "V, S, M (holy water or powdered silver and iron)",
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzi"
 	},
 	{
 		"classes": [
@@ -4272,7 +4514,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzj"
 	},
 	{
 		"classes": [
@@ -4290,7 +4533,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzk"
 	},
 	{
 		"classes": [
@@ -4308,7 +4552,8 @@
 		"range": "Special",
 		"casting_time": "1 minute",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzl"
 	},
 	{
 		"classes": [
@@ -4327,7 +4572,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzm"
 	},
 	{
 		"classes": [
@@ -4344,7 +4590,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzn"
 	},
 	{
 		"classes": [
@@ -4361,7 +4608,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzo"
 	},
 	{
 		"classes": [
@@ -4377,7 +4625,8 @@
 		"range": "120 feet",
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzp"
 	},
 	{
 		"classes": [
@@ -4396,7 +4645,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzq"
 	},
 	{
 		"classes": [
@@ -4412,7 +4662,8 @@
 		"range": "30 feet",
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzr"
 	},
 	{
 		"classes": [
@@ -4430,7 +4681,8 @@
 		"range": "Self",
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 day",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzs"
 	},
 	{
 		"classes": [
@@ -4448,7 +4700,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzt"
 	},
 	{
 		"classes": [
@@ -4464,7 +4717,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzu"
 	},
 	{
 		"classes": [
@@ -4480,7 +4734,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzv"
 	},
 	{
 		"classes": [
@@ -4496,7 +4751,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzw"
 	},
 	{
 		"classes": [
@@ -4513,7 +4769,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzx"
 	},
 	{
 		"classes": [
@@ -4530,7 +4787,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yfzy"
 	},
 	{
 		"classes": [
@@ -4546,7 +4804,8 @@
 		"range": "Touch",
 		"casting_time": "10 minutes",
 		"duration": "1 day",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yfzz"
 	},
 	{
 		"classes": [
@@ -4565,7 +4824,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg00"
 	},
 	{
 		"classes": [
@@ -4585,7 +4845,8 @@
 		"range": "60 feet",
 		"casting_time": "1 minute",
 		"duration": "30 days",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg01"
 	},
 	{
 		"classes": [
@@ -4602,7 +4863,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "10 days",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg02"
 	},
 	{
 		"classes": [
@@ -4618,7 +4880,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg03"
 	},
 	{
 		"classes": [
@@ -4635,7 +4898,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg04"
 	},
 	{
 		"classes": [
@@ -4653,7 +4917,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Until dispelled or triggered",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg05"
 	},
 	{
 		"classes": [
@@ -4670,7 +4935,8 @@
 		"range": "30 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg06"
 	},
 	{
 		"classes": [
@@ -4688,7 +4954,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg07"
 	},
 	{
 		"classes": [
@@ -4706,7 +4973,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg08"
 	},
 	{
 		"classes": [
@@ -4722,7 +4990,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg09"
 	},
 	{
 		"classes": [
@@ -4739,7 +5008,8 @@
 		"range": "Touch",
 		"casting_time": "10 minutes",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0a"
 	},
 	{
 		"classes": [
@@ -4757,7 +5027,8 @@
 		"range": "Self (60-foot line)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0b"
 	},
 	{
 		"classes": [
@@ -4776,7 +5047,8 @@
 		"range": "300 feet",
 		"casting_time": "10 minutes",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0c"
 	},
 	{
 		"classes": [
@@ -4792,7 +5064,8 @@
 		"range": "Touch",
 		"casting_time": "24 hours",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0d"
 	},
 	{
 		"classes": [
@@ -4808,7 +5081,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0e"
 	},
 	{
 		"classes": [
@@ -4825,7 +5099,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0f"
 	},
 	{
 		"classes": [
@@ -4842,7 +5117,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0g"
 	},
 	{
 		"classes": [
@@ -4859,7 +5135,8 @@
 		"range": "30 feet",
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0h"
 	},
 	{
 		"classes": [
@@ -4878,7 +5155,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0i"
 	},
 	{
 		"classes": [
@@ -4896,7 +5174,8 @@
 		"range": "300 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0j"
 	},
 	{
 		"classes": [
@@ -4914,7 +5193,8 @@
 		"range": "300 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0k"
 	},
 	{
 		"classes": [
@@ -4932,7 +5212,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0l"
 	},
 	{
 		"classes": [
@@ -4950,7 +5231,8 @@
 		"range": "Self",
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0m"
 	},
 	{
 		"classes": [
@@ -4967,7 +5249,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0n"
 	},
 	{
 		"classes": [
@@ -4985,7 +5268,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg0o"
 	},
 	{
 		"classes": [
@@ -5002,7 +5286,8 @@
 		"range": "Self (100-foot line)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0p"
 	},
 	{
 		"classes": [
@@ -5023,7 +5308,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0q"
 	},
 	{
 		"classes": [
@@ -5044,7 +5330,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0r"
 	},
 	{
 		"classes": [
@@ -5060,7 +5347,8 @@
 		"range": "Self",
 		"casting_time": "1 minute",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0s"
 	},
 	{
 		"classes": [
@@ -5077,7 +5365,8 @@
 		"range": "Touch",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0t"
 	},
 	{
 		"classes": [
@@ -5094,7 +5383,8 @@
 		"range": "30 feet",
 		"casting_time": "1 minute",
 		"duration": "Until dispelled",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg0u"
 	},
 	{
 		"classes": [
@@ -5112,7 +5402,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0v"
 	},
 	{
 		"classes": [
@@ -5131,7 +5422,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0w"
 	},
 	{
 		"classes": [
@@ -5149,7 +5441,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0x"
 	},
 	{
 		"classes": [
@@ -5166,7 +5459,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0y"
 	},
 	{
 		"classes": [
@@ -5184,7 +5478,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg0z"
 	},
 	{
 		"classes": [
@@ -5201,7 +5496,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg10"
 	},
 	{
 		"classes": [
@@ -5217,7 +5513,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg11"
 	},
 	{
 		"classes": [
@@ -5235,7 +5532,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 2 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg12"
 	},
 	{
 		"classes": [
@@ -5252,7 +5550,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg13"
 	},
 	{
 		"classes": [
@@ -5268,7 +5567,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg14"
 	},
 	{
 		"classes": [
@@ -5284,7 +5584,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg15"
 	},
 	{
 		"classes": [
@@ -5302,7 +5603,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg16"
 	},
 	{
 		"classes": [
@@ -5318,7 +5620,8 @@
 		"range": "60 feet",
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg17"
 	},
 	{
 		"classes": [
@@ -5337,7 +5640,8 @@
 		"range": "60 feet",
 		"casting_time": "1 hour",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg18"
 	},
 	{
 		"classes": [
@@ -5356,7 +5660,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg19"
 	},
 	{
 		"classes": [
@@ -5373,7 +5678,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1a"
 	},
 	{
 		"classes": [
@@ -5391,7 +5697,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1b"
 	},
 	{
 		"classes": [
@@ -5410,7 +5717,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1c"
 	},
 	{
 		"classes": [
@@ -5427,7 +5735,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1d"
 	},
 	{
 		"classes": [
@@ -5443,7 +5752,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1e"
 	},
 	{
 		"classes": [
@@ -5459,7 +5769,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1f"
 	},
 	{
 		"classes": [
@@ -5476,7 +5787,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1g"
 	},
 	{
 		"classes": [
@@ -5496,7 +5808,8 @@
 		"range": "Self",
 		"casting_time": "10 minutes",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1h"
 	},
 	{
 		"classes": [
@@ -5514,7 +5827,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1i"
 	},
 	{
 		"classes": [
@@ -5532,7 +5846,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1j"
 	},
 	{
 		"classes": [
@@ -5550,7 +5865,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1k"
 	},
 	{
 		"classes": [
@@ -5568,7 +5884,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1l"
 	},
 	{
 		"classes": [
@@ -5585,7 +5902,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1m"
 	},
 	{
 		"classes": [
@@ -5601,7 +5919,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1n"
 	},
 	{
 		"classes": [
@@ -5619,7 +5938,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1o"
 	},
 	{
 		"classes": [
@@ -5637,7 +5957,8 @@
 		"range": "Self (60-foot line)",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1p"
 	},
 	{
 		"classes": [
@@ -5656,7 +5977,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1q"
 	},
 	{
 		"classes": [
@@ -5672,7 +5994,8 @@
 		"range": "Touch",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1r"
 	},
 	{
 		"classes": [
@@ -5689,7 +6012,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1s"
 	},
 	{
 		"classes": [
@@ -5707,7 +6031,8 @@
 		"range": "10 feet",
 		"casting_time": "1 minute",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1t"
 	},
 	{
 		"classes": [
@@ -5723,7 +6048,8 @@
 		"range": "10 feet",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1u"
 	},
 	{
 		"classes": [
@@ -5740,7 +6066,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1v"
 	},
 	{
 		"classes": [
@@ -5760,7 +6087,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1w"
 	},
 	{
 		"classes": [
@@ -5777,7 +6105,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1x"
 	},
 	{
 		"classes": [
@@ -5795,7 +6124,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1y"
 	},
 	{
 		"classes": [
@@ -5811,7 +6141,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg1z"
 	},
 	{
 		"classes": [
@@ -5827,7 +6158,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg20"
 	},
 	{
 		"classes": [
@@ -5845,7 +6177,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg21"
 	},
 	{
 		"classes": [
@@ -5861,7 +6194,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg22"
 	},
 	{
 		"classes": [
@@ -5880,7 +6214,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "24 hours",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg23"
 	},
 	{
 		"classes": [
@@ -5899,7 +6234,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg24"
 	},
 	{
 		"classes": [
@@ -5916,7 +6252,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg25"
 	},
 	{
 		"classes": [
@@ -5932,7 +6269,8 @@
 		"range": "30 feet",
 		"casting_time": "1 minute",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg26"
 	},
 	{
 		"classes": [
@@ -5949,7 +6287,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg27"
 	},
 	{
 		"classes": [
@@ -5965,7 +6304,8 @@
 		"range": "5 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg28"
 	},
 	{
 		"classes": [
@@ -5983,7 +6323,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg29"
 	},
 	{
 		"classes": [
@@ -6002,7 +6343,8 @@
 		"range": "Self (10-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2a"
 	},
 	{
 		"classes": [
@@ -6020,7 +6362,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2b"
 	},
 	{
 		"classes": [
@@ -6038,7 +6381,8 @@
 		"range": "Sight",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg2c"
 	},
 	{
 		"classes": [
@@ -6058,7 +6402,8 @@
 		"range": "Self (5-foot radius)",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2d"
 	},
 	{
 		"classes": [
@@ -6076,7 +6421,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2e"
 	},
 	{
 		"classes": [
@@ -6094,7 +6440,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous or 1 hour (see below)",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2f"
 	},
 	{
 		"classes": [
@@ -6113,7 +6460,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2g"
 	},
 	{
 		"classes": [
@@ -6132,7 +6480,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2h"
 	},
 	{
 		"classes": [
@@ -6150,7 +6499,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2i"
 	},
 	{
 		"classes": [
@@ -6167,7 +6517,8 @@
 		"range": "Touch",
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2j"
 	},
 	{
 		"classes": [
@@ -6185,7 +6536,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous or 1 hour (see below)",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2k"
 	},
 	{
 		"classes": [
@@ -6203,7 +6555,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous or 1 hour (see below)",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2l"
 	},
 	{
 		"classes": [
@@ -6221,7 +6574,8 @@
 		"range": "Self",
 		"casting_time": "1 reaction, which you take when you take acid, cold, fire, lightning, or thunder damage",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2m"
 	},
 	{
 		"classes": [
@@ -6238,7 +6592,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2n"
 	},
 	{
 		"classes": [
@@ -6256,7 +6611,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2o"
 	},
 	{
 		"classes": [
@@ -6275,7 +6631,8 @@
 		"range": "300 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2p"
 	},
 	{
 		"classes": [
@@ -6293,7 +6650,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2q"
 	},
 	{
 		"classes": [
@@ -6310,7 +6668,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2r"
 	},
 	{
 		"classes": [
@@ -6328,7 +6687,8 @@
 		"range": "300 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2s"
 	},
 	{
 		"classes": [
@@ -6344,7 +6704,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2t"
 	},
 	{
 		"classes": [
@@ -6362,7 +6723,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2u"
 	},
 	{
 		"classes": [
@@ -6380,7 +6742,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2v"
 	},
 	{
 		"classes": [
@@ -6399,7 +6762,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2w"
 	},
 	{
 		"classes": [
@@ -6418,7 +6782,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2x"
 	},
 	{
 		"classes": [
@@ -6437,7 +6802,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2y"
 	},
 	{
 		"classes": [
@@ -6456,7 +6822,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg2z"
 	},
 	{
 		"classes": [
@@ -6475,7 +6842,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg30"
 	},
 	{
 		"classes": [
@@ -6491,7 +6859,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg31"
 	},
 	{
 		"classes": [
@@ -6507,7 +6876,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg32"
 	},
 	{
 		"classes": [
@@ -6524,7 +6894,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg33"
 	},
 	{
 		"classes": [
@@ -6541,7 +6912,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg34"
 	},
 	{
 		"classes": [
@@ -6559,7 +6931,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg35"
 	},
 	{
 		"classes": [
@@ -6577,7 +6950,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg36"
 	},
 	{
 		"classes": [
@@ -6594,7 +6968,8 @@
 		"range": "300 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg37"
 	},
 	{
 		"classes": [
@@ -6611,7 +6986,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg38"
 	},
 	{
 		"classes": [
@@ -6628,7 +7004,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg39"
 	},
 	{
 		"classes": [
@@ -6645,7 +7022,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3a"
 	},
 	{
 		"classes": [
@@ -6661,7 +7039,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3b"
 	},
 	{
 		"name": "Booming Blade",
@@ -6678,7 +7057,8 @@
 		"range": "5 feet",
 		"casting_time": "1 action",
 		"duration": "1 round",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3c"
 	},
 	{
 		"name": "Green-flame Blade",
@@ -6696,7 +7076,8 @@
 		"range": "5 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3d"
 	},
 	{
 		"name": "Infestation",
@@ -6715,7 +7096,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3e"
 	},
 	{
 		"name": "Lightning Lure",
@@ -6733,7 +7115,8 @@
 		"range": "15 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3f"
 	},
 	{
 		"name": "Primal Savagery",
@@ -6749,7 +7132,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3g"
 	},
 	{
 		"name": "Sword Burst",
@@ -6767,7 +7151,8 @@
 		"range": "5 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3h"
 	},
 	{
 		"name": "Toll The Dead",
@@ -6785,7 +7170,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3i"
 	},
 	{
 		"name": "Word Of Radiance",
@@ -6801,7 +7187,8 @@
 		"range": "5 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3j"
 	},
 	{
 		"name": "Arcane Weapon",
@@ -6817,7 +7204,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3k"
 	},
 	{
 		"name": "Armor Of Agathys",
@@ -6833,7 +7221,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3l"
 	},
 	{
 		"name": "Arms Of Hadar",
@@ -6849,7 +7238,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3m"
 	},
 	{
 		"name": "Cause Fear",
@@ -6866,7 +7256,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3n"
 	},
 	{
 		"name": "Ceremony",
@@ -6883,7 +7274,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg3o"
 	},
 	{
 		"name": "Chaos Bolt",
@@ -6899,7 +7291,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3p"
 	},
 	{
 		"name": "Detect Poison And Disease",
@@ -6918,7 +7311,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg3q"
 	},
 	{
 		"name": "Snare",
@@ -6937,7 +7331,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3r"
 	},
 	{
 		"name": "Hideous Laughter",
@@ -6954,7 +7349,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3s"
 	},
 	{
 		"name": "Floating Disk",
@@ -6970,7 +7366,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg3t"
 	},
 	{
 		"name": "Zephyr Strike",
@@ -6986,7 +7383,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3u"
 	},
 	{
 		"name": "Aganazzar's Scorcher",
@@ -7003,7 +7401,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3v"
 	},
 	{
 		"name": "Dragon's Breath",
@@ -7020,7 +7419,8 @@
 		"range": "Touch",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3w"
 	},
 	{
 		"name": "Healing Spirit",
@@ -7037,7 +7437,8 @@
 		"range": "60 feet",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3x"
 	},
 	{
 		"name": "Maximilian's Earthen Grasp",
@@ -7054,7 +7455,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3y"
 	},
 	{
 		"name": "Melf's Acid Arrow",
@@ -7070,7 +7472,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg3z"
 	},
 	{
 		"name": "Mind Spike",
@@ -7088,7 +7491,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg40"
 	},
 	{
 		"name": "Arcanist's Magic aura",
@@ -7104,7 +7508,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg41"
 	},
 	{
 		"name": "Shadow Blade",
@@ -7122,7 +7527,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg42"
 	},
 	{
 		"name": "Snilloc's Snowball Swarm",
@@ -7139,7 +7545,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg43"
 	},
 	{
 		"name": "Catnap",
@@ -7158,7 +7565,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg44"
 	},
 	{
 		"name": "Crusader's Mantle",
@@ -7174,7 +7582,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg45"
 	},
 	{
 		"name": "Enemies Abound",
@@ -7193,7 +7602,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg46"
 	},
 	{
 		"name": "Hunger Of Hadar",
@@ -7209,7 +7619,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg47"
 	},
 	{
 		"name": "Tiny Hut",
@@ -7226,7 +7637,8 @@
 		"range": "Self",
 		"casting_time": "1 minute",
 		"duration": "8 hours",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg48"
 	},
 	{
 		"name": "Life Transference",
@@ -7243,7 +7655,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg49"
 	},
 	{
 		"name": "Melf's Minute Meteors",
@@ -7260,7 +7673,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4a"
 	},
 	{
 		"name": "Summon Lesser Demons",
@@ -7277,7 +7691,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Conjuration, for up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4b"
 	},
 	{
 		"name": "Thunder Step",
@@ -7295,7 +7710,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4c"
 	},
 	{
 		"name": "Tiny Servant",
@@ -7312,7 +7728,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4d"
 	},
 	{
 		"name": "Charm Monster",
@@ -7332,7 +7749,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4e"
 	},
 	{
 		"name": "Black Tentacles",
@@ -7348,7 +7766,8 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4f"
 	},
 	{
 		"name": "Find Greater Steed",
@@ -7364,7 +7783,8 @@
 		"range": "30 feet",
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4g"
 	},
 	{
 		"name": "Guardian Of Nature",
@@ -7381,7 +7801,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4h"
 	},
 	{
 		"name": "Secret Chest",
@@ -7398,7 +7819,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4i"
 	},
 	{
 		"name": "Faithful Hound",
@@ -7415,7 +7837,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4j"
 	},
 	{
 		"name": "Private Sanctum",
@@ -7432,7 +7855,8 @@
 		"range": "120 feet",
 		"casting_time": "10 minutes",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4k"
 	},
 	{
 		"name": "Resilient Sphere",
@@ -7449,7 +7873,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4l"
 	},
 	{
 		"name": "Shadow Of Moil",
@@ -7465,7 +7890,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4m"
 	},
 	{
 		"name": "Sickening Radiance",
@@ -7483,7 +7909,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4n"
 	},
 	{
 		"name": "Summon Greater Demon",
@@ -7500,7 +7927,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4o"
 	},
 	{
 		"name": "Arcane Hand",
@@ -7517,7 +7945,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4p"
 	},
 	{
 		"name": "Danse Macabre",
@@ -7534,7 +7963,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4q"
 	},
 	{
 		"name": "Dawn",
@@ -7551,7 +7981,8 @@
 		"range": "",
 		"casting_time": "1 action",
 		"duration": "",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4r"
 	},
 	{
 		"name": "Enervation",
@@ -7569,7 +8000,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4s"
 	},
 	{
 		"name": "Far Step",
@@ -7587,7 +8019,8 @@
 		"range": "Self",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4t"
 	},
 	{
 		"name": "Holy Weapon",
@@ -7604,7 +8037,8 @@
 		"range": "Touch",
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, for up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4u"
 	},
 	{
 		"name": "Infernal Calling",
@@ -7621,7 +8055,8 @@
 		"range": "90 feet",
 		"casting_time": "1 minute",
 		"duration": "Concentration, for up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4v"
 	},
 	{
 		"name": "Negative Energy Flood",
@@ -7638,7 +8073,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4w"
 	},
 	{
 		"name": "Rary's Telepathic Bond",
@@ -7654,7 +8090,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg4x"
 	},
 	{
 		"name": "Skill Empowerment",
@@ -7673,7 +8110,8 @@
 		"range": "Touch",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4y"
 	},
 	{
 		"name": "Steel Wind Strike",
@@ -7690,7 +8128,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg4z"
 	},
 	{
 		"name": "Synaptic Static",
@@ -7709,7 +8148,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg50"
 	},
 	{
 		"name": "Wall Of Light",
@@ -7727,7 +8167,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg51"
 	},
 	{
 		"name": "Wrath Of Nature",
@@ -7744,7 +8185,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg52"
 	},
 	{
 		"name": "Create Homunculus",
@@ -7760,7 +8202,8 @@
 		"range": "Touch",
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg53"
 	},
 	{
 		"name": "Instant Summons",
@@ -7776,7 +8219,8 @@
 		"range": "Touch",
 		"casting_time": "1 minute",
 		"duration": "Until dispelled",
-		"ritual": true
+		"ritual": true,
+		"id": "cacvjpc94kgy0yg54"
 	},
 	{
 		"name": "Druid Grove",
@@ -7792,7 +8236,8 @@
 		"range": "Touch",
 		"casting_time": "10 minutes",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg55"
 	},
 	{
 		"name": "Mental Prison",
@@ -7810,7 +8255,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg56"
 	},
 	{
 		"name": "Freezing Sphere",
@@ -7826,7 +8272,8 @@
 		"range": "300 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg57"
 	},
 	{
 		"name": "Irresistible Dance ",
@@ -7843,7 +8290,8 @@
 		"range": "",
 		"casting_time": "1 action",
 		"duration": "",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg58"
 	},
 	{
 		"name": "Scatter",
@@ -7861,7 +8309,8 @@
 		"range": "30 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg59"
 	},
 	{
 		"name": "Soul Cage",
@@ -7878,7 +8327,8 @@
 		"range": "60 fet",
 		"casting_time": "1 reaction",
 		"duration": "8 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5a"
 	},
 	{
 		"name": "Tenser's Transformation",
@@ -7894,7 +8344,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5b"
 	},
 	{
 		"name": "Crown Of Stars",
@@ -7912,7 +8363,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5c"
 	},
 	{
 		"name": "Magnificent Mansion",
@@ -7929,7 +8381,8 @@
 		"range": "300 feet",
 		"casting_time": "1 minute",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5d"
 	},
 	{
 		"name": "Arcane Sword",
@@ -7946,7 +8399,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5e"
 	},
 	{
 		"name": "Power Word Pain",
@@ -7964,7 +8418,8 @@
 		"range": "60 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5f"
 	},
 	{
 		"name": "Temple Of The Gods",
@@ -7980,7 +8435,8 @@
 		"range": "120 feet",
 		"casting_time": "1 hour",
 		"duration": "24 hours",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5g"
 	},
 	{
 		"name": "Abi-dalzim's Horrid Wilting",
@@ -7997,7 +8453,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5h"
 	},
 	{
 		"name": "Illusory Dragon",
@@ -8013,7 +8470,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5i"
 	},
 	{
 		"name": "Maddening Darkness",
@@ -8030,7 +8488,8 @@
 		"range": "150 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5j"
 	},
 	{
 		"name": "Mighty Fortress",
@@ -8046,7 +8505,8 @@
 		"range": "1 mile",
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5k"
 	},
 	{
 		"name": "Invulnerability",
@@ -8062,7 +8522,8 @@
 		"range": "Self",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5l"
 	},
 	{
 		"name": "Mass Polymorph",
@@ -8080,7 +8541,8 @@
 		"range": "120 feet",
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5m"
 	},
 	{
 		"name": "Psychic Scream",
@@ -8099,6 +8561,7 @@
 		"range": "90 feet",
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
-		"ritual": false
+		"ritual": false,
+		"id": "cacvjpc94kgy0yg5n"
 	}
 ]
