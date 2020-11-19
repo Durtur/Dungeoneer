@@ -701,12 +701,10 @@ input, textarea, .cell_row {
 
 .initiativeNode {
   border:none;
+  transition: all 300ms;
+  
 }
 
-
-.initiative_node_active {
-  background-color: #85A215;
-}
 
 .dmg_button {
   background-image: url("img/blood.png");

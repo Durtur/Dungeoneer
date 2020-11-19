@@ -101,21 +101,24 @@
                     </button>
                     <div class="dropdown-content">
                         <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
-                        title="Map is in darkness" id="map_darkness_button" onclick="switchMapLighting()">Map in
-                        darkness</a>
-                    <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
-                        title="Map is in low light" id="map_lowlight_button" onclick="switchMapLighting()">Map in
-                        low light</a>
-                        <input type="color" id="fog_of_war_hue_selector" style="height:0 !important; margin:0 !important; padding:0 !important;" value="#000000" class="invisible">
+                            title="Map is in darkness" id="map_darkness_button" onclick="switchMapLighting()">Map in
+                            darkness</a>
+                        <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
+                            title="Map is in low light" id="map_lowlight_button" onclick="switchMapLighting()">Map in
+                            low light</a>
+                        <input type="color" id="fog_of_war_hue_selector"
+                            style="height:0 !important; margin:0 !important; padding:0 !important;" value="#000000"
+                            class="invisible">
                         <a class="toggle_button button_style" toggled="false" title="Current viewer has darkvision"
                             id="active_viewer_button" onclick="switchActiveViewer()">Darkvision</a>
                         <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Fog color</label>
-                  
-                     
+
+
                         <div class="menu_seperator"></div>
 
                         <a class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer
-                        Lights placed here are not visible normally. " onclick="toggleVisibilityLayer()">Show visibility
+                        Lights placed here are not visible normally. " onclick="toggleVisibilityLayer()">Show
+                            visibility
                             layer</a>
 
                         <a class=" button_style " title="Import walls from dungeondraft map"
@@ -338,6 +341,12 @@
             <input class="conditions_menu_input">
         </div>
         <!-- #endregion popups-->
+        <div class="initiative" id="initBar">
+            <div class="initiativeNode init_not_started init--PC">
+                <p class="initiative_name_node"></p>
+        
+            </div>
+        </div>
         <div class="canvas_wrapper">
             <div class="maptool_body"></div>
             <div id="map_layer_container">

@@ -101,9 +101,7 @@ var statblockPresenter = function () {
     var h2 = document.createElement("h1");
     h2.innerHTML = values.name;
     statblock.appendChild(h2);
-    if(dataAccess.getTokenPath(values.id)){
-      console.log(dataAccess.getTokenPath(values.id))
-    }
+  
     delete values.name;
   }
   var statblockDescriptionText;

@@ -2,7 +2,7 @@ const { ipcRenderer, webFrame } = require('electron');
 const path = require("path");
 const Awesomplete = require(path.resolve('app/awesomplete/awesomplete.js'));
 const dataAccess = require("./js/dataaccess");
-
+const initiative = require("./js/initiative")
 const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 
@@ -12,6 +12,7 @@ var canvasHeight = 400;
 var zIndexPawnCap = 9;
 var conditionList;
 
+var frameHistoryButtons = null; //dirty hack 
 //Stillibreytur
 var pauseAlternativeKeyboardMoveMap = false;
 //
@@ -329,6 +330,18 @@ function notifyTokenAdded(tokenIndex, name) {
     if (mainWindow) mainWindow.webContents.send('notify-token-added-in-maptool', [tokenIndex, name]);
 }
 
+ipcRenderer.on("intiative-updated", function (evt, arg) {
+    console.log(arg);
+    if (arg.order) {
+        arg.order.forEach(x => {
+            if (!x.isPlayer)
+                x.name = "???";
+        });
+        return initiative.setOrder(arg.order);
+    }
+    if (arg.round_increment) return initiative.nextRound(arg.round_increment);
+    if (arg.empty) return initiative.empty();
+})
 ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
     loadParty();
 });

@@ -133,7 +133,7 @@
         <div class="column section__tool section__show">
           <section class="combatGUI" id="combatMain">
             <p class="no_data_text">Search for creatures to add them to this panel</p>
-    
+
           </section>
           <div class="row float_up combat_toolbar">
 
@@ -306,7 +306,7 @@
         <div class="initiative_actions column">
           <button class=" button_style" title="Close initiative" onclick="initiative.setReadyAction()">Ready
             action</button>
-            <button class=" button_style" title="Close initiative" onclick="initiative.editCurrentNode()">Edit</button>
+          <button class=" button_style" title="Close initiative" onclick="initiative.editCurrentNode()">Edit</button>
           <button class=" button_style" title="Set readied action"
             onclick="initiative.removeCurrentNode()">Remove</button>
           <span class="separator"></span>
@@ -373,43 +373,43 @@
       </div>
       <div id="spell_popup" class="spell_popup_window semi_hidden">
         <h2 class="center" id="spell_popup_name"> </h2>
-          <div class="statblock_seperator_line"></div>
-         
-          <h4 id="spell_popup_ritual"></h4>
-          <div class="row_wrap spell_attribute_row">
-            <div class="column">
-              <strong>School</strong>
-              <p id="spell_popup_school"></p>
-            </div>
-            <div class="column">
-              <strong>Level</strong>
-              <p id="spell_popup_level"></p>
-            </div>
-            <div class="column">
-              <strong>Range</strong>
-              <p id="spell_popup_range"></p>
-            </div>
+        <div class="statblock_seperator_line"></div>
 
+        <h4 id="spell_popup_ritual"></h4>
+        <div class="row_wrap spell_attribute_row">
+          <div class="column">
+            <strong>School</strong>
+            <p id="spell_popup_school"></p>
           </div>
-          <div class="statblock_seperator_line"></div>
-          <div class="row_wrap spell_attribute_row">
+          <div class="column">
+            <strong>Level</strong>
+            <p id="spell_popup_level"></p>
+          </div>
+          <div class="column">
+            <strong>Range</strong>
+            <p id="spell_popup_range"></p>
+          </div>
 
-            <div class="column">
-              <strong>Casting time</strong>
-              <p id="spell_popup_casting_time"></p>
-            </div>
-            <div class="column">
-              <strong>Duration</strong>
-              <p id="spell_popup_duration"></p>
-            </div>
-            <div class="column">
-              <strong>Components</strong>
-              <p id="spell_popup_components"></p>
-            </div>
+        </div>
+        <div class="statblock_seperator_line"></div>
+        <div class="row_wrap spell_attribute_row">
+
+          <div class="column">
+            <strong>Casting time</strong>
+            <p id="spell_popup_casting_time"></p>
           </div>
-          <span></span>
-          <p id="spell_popup_description"></p>
-          <p id="spell_popup_higher_levels"></p>
+          <div class="column">
+            <strong>Duration</strong>
+            <p id="spell_popup_duration"></p>
+          </div>
+          <div class="column">
+            <strong>Components</strong>
+            <p id="spell_popup_components"></p>
+          </div>
+        </div>
+        <span></span>
+        <p id="spell_popup_description"></p>
+        <p id="spell_popup_higher_levels"></p>
       </div>
 
 
@@ -420,9 +420,9 @@
       <button class="button_style " onclick="combatLoader.showLog()">Combat log</button>
 
     </div>
-    <div class="combatRow hidden" data-dnd_monster_index=0 id = "combat_loader_template"> 
-      <input type="number" placeholder="Dmg" class="dmg_field multi_selectable_field_num"
-        title="Damage to Apply" tabindex="2">
+    <div class="combatRow hidden" data-dnd_monster_index=0 id="combat_loader_template">
+      <input type="number" placeholder="Dmg" class="dmg_field multi_selectable_field_num" title="Damage to Apply"
+        tabindex="2">
       <button class="button button_style dmg_button" onclick="combatLoader.applyDmg()"
         title="Apply damage">Apply</button>
       <input type="text" placeholder="Creature name" class="name_field" title="Creature name">
@@ -442,8 +442,8 @@
         <div class="column save_roller_checkbox_container">
           <label class="small_font checbox_label_saveroller" title="Advantage">Adv</label>
           <label class="container_for_checkbox">
-            <input type="checkbox" onchange="advantageCheckboxChanged(event)"
-              class="center combat_loader_advantage" title="Advantage">
+            <input type="checkbox" onchange="advantageCheckboxChanged(event)" class="center combat_loader_advantage"
+              title="Advantage">
             <span class="checkmark"></span>
           </label>
 
@@ -547,7 +547,7 @@
                 <input type=text class="pc_input_character_name" placeholder="Character name"
                   title="Character name"></input>
                 <img class="pc_input_character_token">
-                <input type="color" class = "pc_input_background_color" value="#ffffff" >
+                <input type="color" class="pc_input_background_color" value="#ffffff">
                 <input type=number class="pc_input_dexterity" placeholder="Dex (Initiative)"
                   title="Dex (Initiative)"></input>
                 <input type=number class="pc_input_perception" placeholder="Perception" title="Perception"></input>

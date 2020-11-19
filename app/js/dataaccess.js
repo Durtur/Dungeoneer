@@ -393,7 +393,7 @@ module.exports = function () {
         setTables: setTables,
         getTags: getTags,
         tokenFilePath: defaultTokenPath,
-        baseTokenSize: baseTokenSize
+        baseTokenSize: baseTokenSize,
     }
 }();
 

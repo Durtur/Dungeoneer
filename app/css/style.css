@@ -834,6 +834,10 @@ h1 {
   text-decoration: underline;
 }
 
+.initiative_node_active {
+  background-color: #85A215 !important;
+}
+
 .initiativeNode:hover>.initiative_explanation_text_node, .initiative_node_active>.initiative_explanation_text_node {
   display: block;
 }
@@ -865,6 +869,7 @@ h1 {
 }
 
 .initiative_name_node {
+ 
   margin: 0;
   margin-top: 9px;
   font-size: 12px;
@@ -874,6 +879,7 @@ h1 {
 }
 
 .initiativeNode {
+ 
   text-align: center;
   margin-top: -10px;
   border-radius: 50%;
@@ -889,11 +895,12 @@ h1 {
   cursor: pointer;
   filter: drop-shadow(0 0 5px white);
   width: 70px;
+  background-color: transparent !important;
   background-image: url(img/d20normal.png);
   background-size: contain;
 }
 
-.init_not_started:hover {}
+
 
 .init_not_started>p {
   color: white;

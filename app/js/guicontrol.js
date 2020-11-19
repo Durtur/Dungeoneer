@@ -1,4 +1,4 @@
-
+var Util = require("./js/util");
 
 document.addEventListener("DOMContentLoaded", function () {
     const remote = require('electron').remote;
@@ -117,113 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
-
-var Util = function () {
-
-    function showBubblyText(text, point, smallfont) {
-        var newEle = document.createElement("div");
-
-        newEle.innerHTML = text;
-        newEle.classList.add("roll_result_effect");
-        [...document.getElementsByClassName("roll_result_effect")].forEach(ele => ele.parentNode.removeChild(ele));
-        document.body.appendChild(newEle);
-        if (smallfont)
-            newEle.style.fontSize = "18px";
-        newEle.style.top = point.y - newEle.clientHeight / 2 + "px";
-        newEle.style.left = point.x - newEle.clientWidth / 2 + "px";
-
-        window.setTimeout(function (evt) {
-            newEle.classList.add("fade_out");
-            if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
-        }, 3000);
-    }
-
-    function showSuccessMessage(text) {
-        showMessage(text, "success");
-    }
-
-    function showFailedMessage(text) {
-        showMessage(text, "failed");
-    }
-
-    function showMessage(text, messageType){
-        var newEle = document.createElement("p");
-        newEle.innerHTML = text;
-        newEle.classList.add("popup_message");
-        newEle.classList.add(messageType+"_message");
-        document.body.appendChild(newEle);
-
-        window.setTimeout(function (evt) {
-            newEle.classList.add("fade_out");
-            newEle.parentNode.removeChild(newEle);
-        }, 3000);
-    }
-
-    function balanceCheckBoxGroup() {
-        var group = this.getAttribute("group");
-        var checkBoxes = document.querySelectorAll("input[type=checkbox]");
-        var thisCheckbox = this;
-        checkBoxes.forEach(function (checkbox) {
-            if (!checkbox.isEqualNode(thisCheckbox) && checkbox.getAttribute("group") === group) {
-                checkbox.checked = false;
-            }
-        });
-    }
-
-    function showOrHide(elementId, hideOrShowInt, callBack) {
-        if (hideOrShowInt > 0) {
-            document.getElementById(elementId).classList.remove("hidden");
-        } else {
-            document.getElementById(elementId).classList.add("hidden");
-        }
-        if (callBack) callBack();
-    }
-
-    function makeUIElementDraggable(elmnt, callback) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        elmnt.onmousedown = dragMouseDown;
-
-        function dragMouseDown(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            // stop moving when mouse button is released:
-            document.onmouseup = null;
-            document.onmousemove = null;
-            if (callback) callback();
-        }
-    
-    }
-    return{
-        showSuccessMessage:showSuccessMessage,
-        showFailedMessage:showFailedMessage,
-        showBubblyText : showBubblyText,
-        showOrHide:showOrHide,
-        balanceCheckBoxGroup:balanceCheckBoxGroup,
-        makeUIElementDraggable:makeUIElementDraggable
-    }
-}();
 
 
 

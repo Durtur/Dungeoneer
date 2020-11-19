@@ -1076,6 +1076,30 @@
                                 <input id="dnd_beyond_crawler_input" placeholder="Paste an url to a monster here">
 
                             </div>
+                            <div class="column token_column" style="margin-top:5em">
+                                <div class="row">
+                                    <div class="row">
+                                        <h2 style="margin:0;">Tokens</h2>
+                                        <label for="trim_token_checkbox" style = "margin: 3px 0px 3px 16px;" title="Trimming removes whitespace from the edge of the image." >Trim</label>
+                                        <label class="container_for_checkbox" for="trim_token_checkbox" style = "margin: 3px">
+
+                                            <input type="checkbox" tabindex=-1 class="center "
+                                                id="trim_token_checkbox"
+                                                checked
+                                                title="Trimming removes whitespace from the edge of the image.">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+
+                                    <button class="small brown circular_button" id="addTokenButton" disabled
+                                        title="Add tokens" onclick="addTokensToCurrentMonster()">
+                                        +
+                                    </button>
+                                </div>
+                                <p class="explanation_text">These are tokens used by the Map Tool.</p>
+                                <div id="maptool_token_container"></div>
+                            </div>
+
                             <section class="cr_calculator_wrap column">
                                 <h2>Challenge rating calculator</h2>
                                 <div class="row">
@@ -1088,41 +1112,18 @@
                                 </div>
                                 <div class="row">
                                     <label for="OCR">Offensive challenge rating </label>
-                                    <input type="text" id="OCR" readonly tabindex="-1">
+                                    <input type="text" id="OCR" tabindex="-1">
                                 </div>
                                 <div class="row">
                                     <label for="DCR">Defensive challenge rating </label>
-                                    <input type="text" id="DCR" readonly tabindex="-1">
+                                    <input type="text" id="DCR" tabindex="-1">
                                 </div>
                                 <div class="row">
                                     <label for="suggestedCR">Suggested challenge rating </label>
                                     <input type="text" id="suggestedCR" readonly tabindex="-1">
                                 </div>
 
-                                <div class="column token_column" style="margin-top:5em">
-                                    <div class="row">
-                                        <div class="row">
-                                            <h2 style="margin:0;">Tokens</h2>
-                                            <label for="trim_token_checkbox" style = "margin: 3px 0px 3px 16px;" title="Trimming removes whitespace from the edge of the image." >Trim</label>
-                                            <label class="container_for_checkbox" for="trim_token_checkbox" style = "margin: 3px">
-
-                                                <input type="checkbox" tabindex=-1 class="center "
-                                                    id="trim_token_checkbox"
-                                                    checked
-                                                    title="Trimming removes whitespace from the edge of the image.">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </div>
-
-                                        <button class="small brown circular_button" id="addTokenButton" disabled
-                                            title="Add tokens" onclick="addTokensToCurrentMonster()">
-                                            +
-                                        </button>
-                                    </div>
-                                    <p class="explanation_text">These are tokens used by the Map Tool.</p>
-                                    <div id="maptool_token_container"></div>
-                                </div>
-
+                   
 
                             </section>
                         </div>

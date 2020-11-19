@@ -1,5 +1,6 @@
 :root {
     --z-index-tooltip: 12;
+    --z-index-initiative:11;
     --z-index-fov: 10;
     --z-index-measurements: 3;
     --z-index-pawn: 5;
@@ -535,6 +536,63 @@ li {
     font-family:roboto;
     text-align: center;
     color:white;
+}
+.init_not_started{
+    display:none;
+}
+
+.initiativeNode{
+    margin:10px;
+    opacity:0.7;
+    border-radius:50%;
+    
+}
+
+.initiative_node_active{
+    width: 4em;
+    display: flex;
+    height: 4em;
+    justify-content: center;
+    margin-top: -6px;
+
+}
+
+.initiative_node_active p{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 1.1em;
+}
+
+.initiative_node_inactive p{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    padding-left: 10px;
+    padding-top: 2px;
+    margin: auto;
+    text-align: center;
+    font-size: 1.2em;
+
+    visibility: hidden;
+}
+.initiative_node_inactive p::first-letter{
+
+    visibility: visible;
+}
+.initiative_node_inactive{
+    width:2em;
+    height:2em;
+}
+.initiative{
+    pointer-events: none;
+    position: absolute;
+    display: flex;
+    flex-flow: row nowrap;
+    bottom: -10px;
+  
+    z-index: var(--z-index-initiative);
 }
 
 .show_overflow {
