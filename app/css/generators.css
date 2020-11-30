@@ -58,7 +58,7 @@
 }
 
 select {
-    font-family: "roboto condensed";
+    font-family: var(--basic-font);
 }
 
 #random_table_dump {
@@ -221,7 +221,7 @@ th {
 .treeview_attribute>p {
     margin: 2px;
     color: var(--main-color);
-    font-family: "roboto";
+    font-family: var(--basic-font);
 }
 
 /* Tree view */
@@ -248,14 +248,14 @@ th {
 .treeview_caret {
     cursor: pointer;
     color: black;
-    font-family: "roboto";
+    font-family: var(--basic-font);
     user-select: none;
     flex: 0 0 100%;
 
 }
 
 .treeview_caret li {
-    font-family: "roboto";
+    font-family: var(--basic-font);
     font-weight: normaL;
 }
 

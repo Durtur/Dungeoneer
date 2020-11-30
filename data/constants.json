@@ -102,6 +102,86 @@
         "Legendary",
         "Artifact"
     ],
+    "armorTypes": [
+        {
+            "type": "natural armor",
+            "mod": null
+        },
+        {
+            "type": "studded leather armor",
+            "mod": 2
+        },
+        {
+            "type": "shield",
+            "mod": 2
+        },
+        {
+            "type": "leather armor",
+            "mod": 1
+          
+        },
+        {
+            "type": "hide armor",
+            "mod": 2,
+            "maxDex":2
+        },
+        {
+            "type": "chain shirt",
+            "mod": 3,
+            "maxDex":2
+        },
+        {
+            "type": "barkskin",
+            "mod": null
+        },
+        {
+            "type": "scale mail",
+            "mod": 4,
+            "maxDex":2
+        },
+        {
+            "type": "plate armor",
+            "mod": 8,
+            "maxDex":0
+        },
+        {
+            "type": "patchwork armor",
+            "mod": null
+        },
+        {
+            "type": "chain mail",
+            "mod": 6,
+            "maxDex":0
+        },
+        {
+            "type": "breastplate",
+            "mod": 4,
+            "maxDex":2
+        },
+        {
+            "type": "armor scraps",
+            "mod": null
+        },
+        {
+            "type": "splint armor",
+            "mod": 7,
+            "maxDex":0
+        },
+        {
+            "type": "ring mail",
+            "mod": 4,
+            "maxDex":0
+        },
+        {
+            "type": "half plate armor",
+            "mod": 5,
+            "maxDex":2
+        },
+        {
+            "type": "padded armor",
+            "mod": 1
+        }
+    ],
     "itemTypeValues": [
         "Weapon",
         "Wand",
@@ -114,6 +194,7 @@
         "Shield",
         "Ring",
         "Ammunition",
+        "Tattoo",
         "Adventuring gear"
     ],
     "defaultCreatureTypes": [

@@ -598,7 +598,7 @@ function generateShop(data, generateDescription) {
                 currentScrollRarity = [];
                 for (var j = 0; j < scrollData.length; j++) {
                     if (evaluateRarity(scrollData[j].rarity) == i) {
-                        currentScrollRarity.push([scrollData[j].name, scrollData[j].rarity, scrollData[j].type, scrollData[j].description])
+                        currentScrollRarity.push([scrollData[j].name, scrollData[j].rarity, scrollData[j].type, {description:scrollData[j].description}])
 
                     }
                 }
@@ -613,7 +613,9 @@ function generateShop(data, generateDescription) {
             currentRarity = [];
             for (var j = 0; j < data.length; j++) {
                 if (evaluateRarity(data[j].rarity) == i) {
-                    currentRarity.push([data[j].name, data[j].rarity, data[j].type, data[j].description])
+                    currentRarity.push([data[j].name, data[j].rarity, data[j].type, 
+                        {description:data[j].description, 
+                            attunement: (data[j].requires_attunement ? `(requires attunement${data[j].requires_attunement_by ? " " + data[j].requires_attunement_by : "" })` : "" ) }])
                 }
 
             }
@@ -636,9 +638,10 @@ function generateShop(data, generateDescription) {
                 str = str.substring(0, 1200);
                 str = str.substring(0, str.lastIndexOf(" ")) + " ...";
             }
-            console.log(str);
+
             // tooltipsForTable.push(str.replace(/(\*\* || \*\*\* )/g, ""));
-            tooltipsForTable.push(str.replace(/\*/g, " -- "));
+            var tooltip = str.attunement? `-- ${str.attunement} -- \n\n ${str.description.replace(/\*/g, " -- ")}` : str.description.replace(/\*/g, " -- ");
+            tooltipsForTable.push(tooltip);
             shopInventoryArray[i].splice(3, 1);
         }
 

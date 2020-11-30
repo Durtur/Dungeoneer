@@ -228,7 +228,7 @@
 
 
           <div class="column">
-            <h2 id="saveRollerHeader">Save roller</h2>
+            <h2 id="saveRollerHeader" class = "frontpage_heading">Save roller</h2>
             <div class="section__show semislim row saveRoller " id="saveRoller">
               <input class="saveRoller_input" id="saveRollsNo" type="number" min="0" title="Number of rolls"
                 placeholder="# of rolls">
@@ -266,7 +266,7 @@
           </div>
 
           <div class="column">
-            <h2 id="lootRollerHeader">Loot</h2>
+            <h2 id="lootRollerHeader" class = "frontpage_heading">Loot</h2>
             <section class="lootgenerator marginTop section__show searchMain slimmest" id="lootRoller">
 
               <div class="row">
@@ -335,10 +335,7 @@
       <div id="combat_log_popup" class="combat_log_popup_window hidden">
         <div class="column combat_loader_log_column" style="width: 86.6%">
 
-
-
-
-          <div class="column">
+          <div class="column" style = "flex-grow:1">
 
 
             <div class="combat_log_conditions">
@@ -346,14 +343,14 @@
 
               </select>
             </div>
-            <div class="row">
+            <div class="row"  style = "flex-grow:1">
               <div class="column" style="flex:1">
                 <h3 class="combat_log_title combat_log_title_main">Log</h3>
                 <div class="combat_log_content"></div>
               </div>
               <div class="column" style="flex:1">
                 <h3 class="combat_log_title combat_log_title_main">Notes</h3>
-                <textarea id="combat_log_notes"></textarea>
+                <textarea id="combat_log_notes"  style = "flex-grow:1"></textarea>
               </div>
             </div>
           </div>

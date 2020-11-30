@@ -3,7 +3,7 @@
     background-image:url("img/phbbg.png") !important;
     background-size:cover;
     background-color: transparent;
-    font-family: "roboto condensed";
+    font-family: var(--basic-font);
 }
 #cancel, #ok{
 

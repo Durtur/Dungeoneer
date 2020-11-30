@@ -4,6 +4,7 @@ const { ipcRenderer } = require('electron');
 
 const uniqueID = require('uniqid');
 const dataAccess = require("./js/dataaccess");
+const CRCalculator = require("./js/CRCalculator");
 const elementCreator = require("./js/lib/elementCreator");
 const remote = require('electron').remote;
 const dialog = require('electron').remote.dialog;
@@ -79,11 +80,11 @@ $(document).ready(function () {
     var imgEle = document.getElementById("condition_image_picker");
     imgEle.setAttribute("src", selectedConditionImagePath);
   }
-  $(".listSearch").on("keyup paste", filterDataListFromSearch)
+  $(".listSearch").on("keyup paste", filterListAndShow)
   $("#encounter_monster_list_search").on("keyup paste", searchMasterListAfterInput)
-  $("#spell_class_dropdown").on("change", filterDataListFromSearch)
-
+  $("#spell_class_dropdown").on("change", filterListAndShow)
   $(".monsterCR").on("change keyup paste", calculateSuggestedCR);
+  document.getElementById("OCR").addEventListener("change", updateOffensiveChallengeRatingValues);
   $("#encounter_challenge_calculator_character_size").on("input", calculateEncounterDifficulty);
   $("#encounter_challenge_calculator_character_level").on("input", calculateEncounterDifficulty);
 
@@ -181,8 +182,37 @@ function populateDropdowns() {
 
 }
 
+function createTagsDropdown(tags) {
+
+  console.log(monsterTags)
+  var dropDown = document.getElementById("monsters_list_tag_select");
+  while (dropDown.firstChild) {
+    dropDown.removeChild(dropDown.firstChild);
+  }
+  var jqryElement = $("#monsters_list_tag_select");
+  jqryElement.chosen("destroy");
+  if (tags.length == 0) return;
+
+  tags.forEach(tag => {
+    createOption(tag, tag);
+  });
+  jqryElement.chosen({
+    width: "200px"
+  });
+
+  jqryElement.on("change", function (e) {
+    filterDataListExecute();
+  });
+  function createOption(value, dispay) {
+    var newOption = document.createElement("option");
+    newOption.setAttribute("value", value);
+    newOption.innerHTML = dispay;
+    dropDown.appendChild(newOption);
+  }
+}
+
 var filterDataListTimeout;
-function filterDataListFromSearch() {
+function filterListAndShow() {
   window.clearTimeout(filterDataListTimeout);
   filterDataListTimeout = window.setTimeout(function () {
     filterDataListExecute();
@@ -191,7 +221,7 @@ function filterDataListFromSearch() {
 
 function filterDataListExecute() {
 
-  var searchstring, name;
+  var searchstring;
   if (tab == "monsters" || tab == "homebrew") {
     filterMonsters();
   } else if (tab == "spells") {
@@ -283,7 +313,7 @@ function populateSpellClassDropdown() {
 
     worker.onmessage = function (e) {
 
-      var dropDownValues = event.data;
+      var dropDownValues = e.data;
       var dropDown = document.getElementById("spell_class_dropdown");
       dropDownValues.forEach(function (option) {
         var newOption = document.createElement("option");
@@ -293,7 +323,7 @@ function populateSpellClassDropdown() {
         if (option.name != "All classes") classList.push(option.name)
       });
       $("#spell_class_dropdown").chosen({
-        width: "188px",
+        width: "200px",
         placeholder_text_multiple: "All classes"
       });
 
@@ -305,7 +335,6 @@ function populateSpellClassDropdown() {
     }
   });
 }
-
 //#region GUI stuff
 function hide(element) {
 
@@ -577,8 +606,10 @@ function searchMasterListAfterInput() {
 
 
 function fetchTagList() {
-  if (monsterTags.awesomplete) return;
+
   dataAccess.getTags(function (tags) {
+    createTagsDropdown(tags);
+    if (monsterTags.awesomplete) return;
     monsterTags.list = tags;
     var input = document.querySelector("#addmonster_tag_input");
     monsterTags.awesomplete = new Awesomplete(input, { list: tags, autoFirst: true, minChars: 0, sort: false })
@@ -743,6 +774,10 @@ function splitAndCheckSpellAttributes(searchString, attributes, motherList) {
 }
 
 function splitAndCheckAttributes(searchString, attributes, motherList) {
+  var tags = $("#monsters_list_tag_select").val();
+  if (tags.length > 0) {
+    motherList = motherList.filter(x => x.tags && x.tags.find(y => tags.includes(y)));
+  }
   var filterTextSplt = searchString.split("&");
   return motherList.filter(
     entry => {
@@ -840,6 +875,7 @@ function deleteFromHomebrew(toRemove) {
     }
     //Write json
     writeDataFunction(data, function () { window.setTimeout(() => loadAll(), 200) });
+    createTagsDropdown();
     hide("statblock");
 
 
@@ -913,137 +949,35 @@ function addEncounterCalculatorHandlers() {
 
 
 function calculateSuggestedCR() {
-  var cr = 0;
   var hp = parseInt($("#homebrewHP").val());
   var predictedDmg = parseInt($("#predictedDamageOutput").val());
   var attackBonus = parseInt($("#mainAttackBonus").val());
+  var saveDc = parseInt(document.querySelector("#cr_calculator_save_dc").value);
   var ac = parseInt($("#homebrewAC").val());
-  if (predictedDmg == null) predictedDmg = 0;
-  if (hp == null) hp = 0;
-  if (attackBonus == null) attackBonus = 0;
-  if (ac == null) ac = 0;
-  var dCr;
-  var oCr;
-  var curr;
-  var currHp;
-  if (hp < 70) {
-    dCr = 1 / 2;
-    if (hp < 50) {
-      dCr = 1 / 4;
-      if (hp < 36) {
-        dCr = 1 / 8;
-        if (hp < 7) {
-          dCr = 0;
-        }
-      }
-    }
-  } else if (hp < 356) {
-    dCr = 20;
-    currHp = 356;
-    while (currHp > hp) {
-      currHp -= 15;
-      dCr--;
-    }
-  }
-  var expectedAC;
-  if (dCr <= 30) {
-    expectedAC = 19;
-    if (dCr <= 16) {
-      expectedAC = 18;
-      if (dCr <= 12) {
-        expectedAC = 17;
-        if (dCr <= 9) {
-          expectedAC = 16;
-          if (dCr <= 7) {
-            expectedAC = 15;
-            if (dCr <= 4) {
-              expectedAC = 14;
-              if (dCr <= 3) {
-                expectedAC = 13;
-              }
-            }
-          }
-        }
-      }
-    }
+  if (!attackBonus && !predictedDmg && !saveDc && !hp && !ac) {
+    document.querySelector(".cr_calculator_results").classList.add("hidden");
+    return;
   }
 
+  var res = CRCalculator.calculateCR(ac, hp, attackBonus, predictedDmg, saveDc);
+  console.log(res)
+  document.querySelector("#DCR").innerHTML = res.dcr_entry.cr;
+  document.querySelector("#OCR").innerHTML = res.ocr_entry.cr;
+  document.querySelector("#suggestedCR").innerHTML = res.cr_entry.cr;
 
-  if (Math.abs(expectedAC - ac) >= 2) {
-    dCr -= Math.floor((expectedAC - ac) / 2);
-  }
-
-
-
-  if (predictedDmg < 9) {
-    oCr = 1 / 2;
-    if (predictedDmg < 6) {
-      oCr = 1 / 4;
-      if (predictedDmg < 5) {
-        oCr = 1 / 8;
-        if (predictedDmg < 4) {
-          oCr = 0;
-        }
-      }
-    }
-  } else if (predictedDmg < 123) {
-    oCr = 20;
-    currHp = 122;
-    while (currHp > predictedDmg) {
-      currHp -= 6;
-      oCr--;
-    }
-  } else {
-    oCr = 0;
-  }
+  document.querySelector(".cr_calculator_results").classList.remove("hidden");
+  document.querySelector("#offensive_cr_row .attack_bonus_cr_calculator").innerHTML = `+ ${res.ocr_entry.attack_bonus_string || res.ocr_entry.attack_bonus}`;
+  document.querySelector("#offensive_cr_row .average_damage_cr_calculator").innerHTML = `${res.ocr_entry.minDmg} - ${res.ocr_entry.maxDmg}`;
+  document.querySelector("#offensive_cr_row .save_dc_cr_calculator").innerHTML = `${res.ocr_entry.saveDc_string || res.ocr_entry.saveDc}`;
+  document.querySelector("#offensive_cr_row .proficiency_bonus_cr_calculator").innerHTML = `+${res.ocr_entry.profBonus}`;
 
 
+  document.querySelector("#defensive_cr_row .armor_class_cr_calculator").innerHTML = `${res.dcr_entry.ac_string || res.dcr_entry.ac}`;
+  document.querySelector("#defensive_cr_row .hit_points_cr_calculator").innerHTML = `${res.dcr_entry.minHP}-${res.dcr_entry.maxHP}`;
+}
 
-  if (oCr <= 20) {
-    expectedAC = 10;
-    if (oCr <= 16) {
-      expectedAC = 9;
-      if (oCr <= 15) {
-        expectedAC = 8;
-        if (oCr <= 10) {
-          expectedAC = 7;
-          if (oCr <= 7) {
-            expectedAC = 6;
-            if (oCr <= 4) {
-              expectedAC = 5;
-              if (oCr <= 3) {
-                expectedAC = 4;
-                if (oCr <= 2) {
-                  expectedAC = 3;
+function updateOffensiveChallengeRatingValues() {
 
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-
-
-  if (Math.abs(expectedAC - attackBonus) >= 2) {
-    oCr -= Math.floor((expectedAC - attackBonus) / 2);
-  }
-
-  if (dCr != null && oCr != null) {
-    cr = Math.ceil((dCr + oCr) / 2);
-    $("#DCR").val(dCr);
-    $("#OCR").val(oCr);
-  } else if (dCr != null) {
-    cr = dCr;
-    $("#DCR").val(dCr);
-  } else {
-    cr = oCr;
-    $("#OCR").val(oCr);
-
-  }
-
-  $("#suggestedCR").val(cr);
 }
 
 function calculateEncounterDifficulty() {
@@ -1141,7 +1075,7 @@ function loadAll() {
     data.map(x => { if (!x.id) x.id = x.name });
     listLength = loadedData.length;
     listedData = null;
-    listAll();
+    filterListAndShow();
 
     $(".listRow:nth-child(4)>button").prop('title', '');
     addSorters();
@@ -1158,10 +1092,11 @@ function loadAll() {
 
 
 function listAll() {
-  console.log("List all")
+
   if (listedData == null) {
     listedData = loadedData;
   }
+
   var data = listedData;
   var tabElementName = tab == "homebrew" ? "monsters" : tab;
   if (sortFunction != null) {
@@ -2240,9 +2175,9 @@ function saveHomebrew() {
           return 0;
         })
         setFunction(data, function (err) {
-         // hide('add' + tabElementNameSuffix);
+          // hide('add' + tabElementNameSuffix);
           $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
-          document.querySelector("#save_success").scrollIntoView({block: "end", inline: "nearest"});
+          document.querySelector("#save_success").scrollIntoView({ block: "end", inline: "nearest" });
 
           if (tokenRemoveQueue.length == 0) {
             saveTokens(thingyToSave.id);
@@ -2262,6 +2197,7 @@ function saveHomebrew() {
           window.setTimeout(function () {
             dataAccess.getTags(function (tags) {
               monsterTags.list = tags;
+              createTagsDropdown(tags);
             });
           }, 1500)
         });
@@ -2270,7 +2206,7 @@ function saveHomebrew() {
     }
   }
   function saveTokens(newId) {
-    
+
     //Move tokens
     if (tab == "monsters" || tab == "homebrew") {
       var tokens = [...document.querySelectorAll(".token")];

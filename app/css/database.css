@@ -272,13 +272,17 @@ html {
 .listRow:nth-child(4)>button {
   opacity: 0;
 }
+#monsters_list_tag_select{
+  margin-left:1em;
+}
 
 .listSearch {
   background: white url(img/searchG.png) no-repeat scroll 7px 0;
   background-size: contain;
-  padding-left: 30px;
+  padding-left: 3em;
   text-align: left;
-  border-radius: 10px;
+  height: 2em;
+  border-radius: 5px;
 }
 
 #listFrame__spells>div>.chosen-container-multi {
@@ -319,18 +323,69 @@ html {
   display: inline-block !important;
 }
 
-.cr_calculator_wrap input {
-  width: 45px !important;
-  height: 45px !important;
-  border-radius: 5px;
+.cr_calculator_results{
+  display:flex;
+  flex-flow:column nowrap;
+
 }
+.cr_calculator_wrap{
+  max-width: 600px;
+  background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 5px;
+    padding: 1em;
+    text-align: center;
+}
+
+.cr_result_row{
+  display:flex;
+  flex-flow:row;
+  margin-top:1.2em;
+}
+.cr_calculator_result_value{
+  background-color: white;
+  text-align: center;
+  border-radius: 10px;
+  padding: 10px;
+  display: inline;
+  width: 1.5em;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  font-size: 1.2em;
+}
+.cr_calculator_results .monster_attribute_chapter_label{
+  padding: 10px;
+    width: 200px;
+    margin-top:0;
+}
+
+.challenge_rating_values>.row{
+    border: 1px solid rgba(0, 0 ,0 ,0.5);
+    border-radius:5px;
+}
+
+.challenge_rating_values{
+  justify-content: flex-start;
+  display:flex;
+  flex-flow:row;
+  font-size: 0.8em;
+}
+
+.challenge_rating_values label{
+  font-weight: 500;
+  margin-left:1em;
+}
+
+.cr_calculator_result_header{
+  font-size:2em;
+  font-weight:bold;
+}
+
 
 .db_name_field, .action_name {
   font-size: 1.2em;
 }
 
 .cr_calculator_wrap p {
-  font-family: "roboto condensed";
+  font-family: var(--basic-font);
   color: black;
   line-height: 1.5;
   margin: auto;
@@ -379,6 +434,7 @@ html {
   border-radius: 5px;
   margin-top: 1.5em;
   width: 120px;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
 }
 
 .attribute_label {
@@ -446,6 +502,15 @@ html {
   z-index: 1;
 }
 
+.statblock_token{
+  background-size: contain;
+  position: absolute;
+  left: 2%;
+  top: 2px;
+  width: 50px;
+  height: 50px;
+}
+
 .copy_button:hover {
   background-image: url("img/copyH.png");
 }
@@ -487,7 +552,7 @@ html {
 .readonly_monster_attr {
   user-select: none;
   background-color: transparent;
-  font-family: roboto;
+  font-family: var(--basic-font);
   text-align: center;
   font-size: 1em;
 }
@@ -616,6 +681,16 @@ html {
   color: white;
   border-style: solid;
   border-color: #3F0E0B;
+  border: 1px solid #3F0E0B;
+  padding: 1px;
+  box-sizing: border-box;
+}
+
+.black{
+  background-color: #222;
+  color: white;
+  border-style: solid;
+ 
   border: 1px solid #3F0E0B;
   padding: 1px;
   box-sizing: border-box;

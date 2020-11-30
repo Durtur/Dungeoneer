@@ -146,8 +146,11 @@ var statblockPresenter = function () {
     if (values.hit_points)
       createCol("hit_points");
 
-    if (values.armor_class)
-      createCol("armor_class");
+    if (values.armor_class){
+      var acDesc = values.ac_source?.join(", ")?.toProperCase();
+      delete values.ac_source;
+      createCol("armor_class", false, acDesc);
+    }
     if (values.challenge_rating)
       createCol("challenge_rating", "CR", (encounterModule ? encounterModule : new EncounterModule()).getXpValueForCR(values.challenge_rating) + " xp");
     statblock.appendChild(hpAndACRow);
@@ -157,9 +160,9 @@ var statblockPresenter = function () {
       var newCol = document.createElement("div");
       newCol.classList = "column";
       var newP = document.createElement("p");
-      newP.classList = "statblock_key_stats statblock_" + prop;
+      newP.classList = "statblock_key_stats statblock_" + prop + (title ? " tooltipped" : "");
       newP.innerHTML = values[prop];
-      newP.title = title ? title : prop.replace(/_/g, " ").toProperCase();
+      newP.setAttribute("data-tooltip", title ? title : prop.replace(/_/g, " ").toProperCase());
       if (showName) {
         var strP = document.createElement("p");
         strP.style.textAlign = "center";
@@ -411,10 +414,11 @@ var statblockPresenter = function () {
     delete values.ritual;
   }
   function createTypeDescription() {
-    var str = values.size != null ? values.size
-      : (values.rarity != null ? values.rarity : "");
+    var str = `${values.size || ""}${values.rarity || ""}`
+     
     delete values.size;
     delete values.rarity;
+
     if (values.type) {
       str += " " + values.type;
       delete values.type;
@@ -422,6 +426,11 @@ var statblockPresenter = function () {
         str += " (" + values.subtype + ")";
         delete values.subtype;
       }
+    }
+    if(values.requires_attunement){
+      str+= ` (requires attunement${(values.requires_attunement_by ? " " + values.requires_attunement_by : "") })`;
+      delete values.requires_attunement;
+      delete values.requires_attunement_by;
     }
     if (!str) return;
     var em = document.createElement("em");

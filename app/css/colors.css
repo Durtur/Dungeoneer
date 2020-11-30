@@ -9,6 +9,7 @@
   --transition-delay: 300ms;
   --base-margin: 10px;
   --rounded-corners: 5px;
+  --basic-font: "roboto";
 }
 
 input:not(:read-only):focus, textarea:focus {
@@ -75,12 +76,12 @@ main, body {
 }
 
 h1, h2, h3, h4, h5, .header_text {
-  font-family: "nodesto";
+  font-family: "mrEaves";
   color: var(--main-color);
 }
 
 select {
-  font-family: "roboto condensed";
+  font-family: "var(--basic-font)";
   padding: 5px;
   color: white;
   background-color: var(--main-color);
@@ -106,7 +107,7 @@ button {
 }
 
 p, label {
-  font-family: "roboto condensed";
+  font-family: "var(--basic-font)";
   color: black;
   line-height: 1.5;
 }
@@ -257,7 +258,7 @@ hr {
 .toggle_button[toggled="true"] {
   background-color: var(--main-emphasis-color);
   color: white;
-  font-family: "roboto condensed";
+  font-family: "var(--basic-font)";
   border: none;
 }
 
@@ -283,15 +284,6 @@ hr {
 
 .header__pane>h2 {
   margin: 0;
-}
-
-.statblock_token{
-  background-size: contain;
-  position: absolute;
-  left: 16%;
-  top: -25px;
-  width: 50px;
-  height: 50px;
 }
 
 .statblock_hp_and_ac_row>div{
@@ -423,7 +415,7 @@ hr {
 }
 
 .pageframe {
-  font-family: "roboto condensed";
+  font-family: "var(--basic-font)";
   line-height: 1.5;
   column-count: 2;
   column-gap: 20px;
@@ -434,7 +426,7 @@ hr {
 }
 
 .pageframe h2, .pageframe h3, .pageframe h4{
-  font-family: "roboto";
+  font-family: "var(--basic-font)";
 }
 
 .pageframe h3{
@@ -488,7 +480,7 @@ hr {
 
   
 }
-.statblock_challenge_rating{
+.statblock_challenge_rating, .statblock_armor_class{
   cursor:help;
 }
 .statblock_seperator_line{
@@ -613,7 +605,7 @@ hr {
 }
 
 input, textarea, .cell_row {
-  font-family: "roboto condensed";
+  font-family: "var(--basic-font)";
   background-color: #FFFFFF;
   border: none;
 
@@ -1145,7 +1137,7 @@ header {
   opacity: 0;
   pointer-events: none;
   animation-timing-function: ease-out;
-  font-family: 'roboto';
+  font-family: 'var(--basic-font)';
   font-size: 18px;
   top:45%;
   right:45%;
@@ -1162,7 +1154,7 @@ header {
   opacity: 0;
   pointer-events: none;
   animation-timing-function: ease-out;
-  font-family: 'roboto';
+  font-family: 'var(--basic-font)';
   font-size: 60px;
   color: var(--main-emphasis-color);
   z-index: 20;

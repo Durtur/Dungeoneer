@@ -79,8 +79,11 @@
                 <button id="add_entry_button" class="button button_style traybutton" title="Add monsters"
                     onclick="newItem('tab')">+</button>
                 <div></div>
-                <div class="row">
-                    <input type="text" class="listSearch center" id="monsters_list_search">
+                <div class="row center" style="justify-content: center;">
+                    <input type="text" class="listSearch " style = "margin-left: 200px;" id="monsters_list_search">
+                    <div style = "margin-left:1em;">
+                        <select id = "monsters_list_tag_select" data-placeholder="Filter tags" multiple></select>
+                    </div>
                 </div>
                 <div class="listRow">
                     <div class="listRow__inner">
@@ -1069,24 +1072,24 @@
 
                     <div class="column monster_util_column">
                         <div class=column>
-                            <div class="column">
+                            <div class="column" >
                                 <label for="dnd_beyond_crawler_input" style="font-size: 14px;">
                                     Copy from DnD beyond:
                                 </label>
                                 <input id="dnd_beyond_crawler_input" placeholder="Paste an url to a monster here">
 
                             </div>
-                            <div class="column token_column" style="margin-top:5em">
+                            <div class="column token_column"  style="margin-top:5em">
                                 <div class="row">
                                     <div class="row">
                                         <h2 style="margin:0;">Tokens</h2>
-                                        <label for="trim_token_checkbox" style = "margin: 3px 0px 3px 16px;" title="Trimming removes whitespace from the edge of the image." >Trim</label>
-                                        <label class="container_for_checkbox" for="trim_token_checkbox" style = "margin: 3px">
+                                        <label for="trim_token_checkbox" style="margin: 3px 0px 3px 16px;"
+                                            title="Trimming removes whitespace from the edge of the image.">Trim</label>
+                                        <label class="container_for_checkbox" for="trim_token_checkbox"
+                                            style="margin: 3px">
 
-                                            <input type="checkbox" tabindex=-1 class="center "
-                                                id="trim_token_checkbox"
-                                                checked
-                                                title="Trimming removes whitespace from the edge of the image.">
+                                            <input type="checkbox" tabindex=-1 class="center " id="trim_token_checkbox"
+                                                checked title="Trimming removes whitespace from the edge of the image.">
                                             <span class="checkmark"></span>
                                         </label>
                                     </div>
@@ -1101,31 +1104,76 @@
                             </div>
 
                             <section class="cr_calculator_wrap column">
-                                <h2>Challenge rating calculator</h2>
-                                <div class="row">
-                                    <label for="predictedDamageOutput">Predicted damage per round</label>
-                                    <input type="number" id="predictedDamageOutput" placeholder="?" class="monsterCR">
-                                </div>
-                                <div class="row">
-                                    <label for="mainAttackBonus">Main attack bonus</label>
-                                    <input type="number" placeholder="?" id="mainAttackBonus" class="monsterCR">
-                                </div>
-                                <div class="row">
-                                    <label for="OCR">Offensive challenge rating </label>
-                                    <input type="text" id="OCR" tabindex="-1">
-                                </div>
-                                <div class="row">
-                                    <label for="DCR">Defensive challenge rating </label>
-                                    <input type="text" id="DCR" tabindex="-1">
-                                </div>
-                                <div class="row">
-                                    <label for="suggestedCR">Suggested challenge rating </label>
-                                    <input type="text" id="suggestedCR" readonly tabindex="-1">
-                                </div>
+                                <h2 style = "color:black">Challenge rating calculator</h2>
+                                <div class="cr_result_row" style = "    justify-content: space-around;">
+                                    <div class="column">
+                                        <input style="cursor:help" class="tooltipped black"
+                                            data-tooltip="Assume all attacks hit, use the highest number of attacks available, and take the average of all dice."
+                                            readonly value="Predicted damage per round" tabindex="-1">
+                                        <input type="number" id="predictedDamageOutput" placeholder="1" min = "0" max = "320" class="monsterCR">
+                                    </div>
+                                    <div class="column" style="    margin-left: 1em;">
+                                        <input class=" black" readonly value="Main attack bonus" tabindex="-1">
+                                        <input type="number" id="mainAttackBonus" placeholder="0" min ="0" max = "100" class="monsterCR">
+                                    </div>
 
-                   
+                                    <div class="column" style="margin-left: 1em;">
+                                        <input class=" black" readonly value="Save DC" tabindex="-1">
+                                        <input type="number" id="cr_calculator_save_dc" placeholder="12" min ="0" max = "100" class="monsterCR">
+                                    </div>
+                                </div>
+                                <div class="cr_calculator_results hidden">
+                                    <div class="cr_result_row">
+                                        <div class=" black monster_attribute_chapter_label">Offensive challenge rating
+                                        </div>
+                                        <div class="cr_calculator_result_value" id="OCR"></div>
+                                    </div>
+                                    <div class=" challenge_rating_values " id="offensive_cr_row">
+                                        <div class="row">
+                                            <label>Attack bonus: </label>
+                                            <p class="attack_bonus_cr_calculator"></p>
+                                        </div>
+                                        <div class="row">
+                                            <label>Save DC: </label>
+                                            <p class="save_dc_cr_calculator"></p>
+                                        </div>
+                                        <div class="row">
+                                            <label>Damage per round: </label>
+                                            <p class="average_damage_cr_calculator"></p>
+                                        </div>
+                                        <div class="row">
+                                            <label>Proficiency bonus: </label>
+                                            <p class="proficiency_bonus_cr_calculator"></p>
+                                        </div>
+                                    </div>
+                                    <div class="cr_result_row">
+                                        <div class=" black monster_attribute_chapter_label">Defensive challenge rating
+                                        </div>
+                                        <div class="cr_calculator_result_value" id="DCR"></div>
+                                    </div>
+                                    <div class=" challenge_rating_values " id="defensive_cr_row">
+                                        <div class="row">
+                                            <label>AC: </label>
+                                            <p class="armor_class_cr_calculator"></p>
+                                        </div>
+
+                                        <div class="row">
+                                            <label>Hit points: </label>
+                                            <p class="hit_points_cr_calculator"></p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="cr_result_row">
+                                        <div class="black monster_attribute_chapter_label">Suggested challenge rating
+                                        </div>
+                                        <div class="cr_calculator_result_value" id="suggestedCR"></div>
+                                    </div>
+
+                                </div>
 
                             </section>
+                          
                         </div>
 
                     </div>

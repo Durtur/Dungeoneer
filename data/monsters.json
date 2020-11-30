@@ -72,7 +72,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4i",
-		"skills": "History +12, Perception +10"
+		"skills": "History +12, Perception +10",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Acolyte",
@@ -194,7 +197,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4k",
-		"skills": "Stealth +7, Perception +11"
+		"skills": "Stealth +7, Perception +11",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Blue Dracolich",
@@ -278,7 +284,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4l",
-		"skills": "Perception +12"
+		"skills": "Perception +12",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Blue Dragon",
@@ -430,7 +439,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4n",
-		"skills": "Stealth +5, History +7, Perception +11, Persuasion +8"
+		"skills": "Stealth +5, History +7, Perception +11, Persuasion +8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Bronze Dragon",
@@ -516,7 +528,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4o",
-		"skills": "Stealth +5, Insight +7, Perception +12"
+		"skills": "Stealth +5, Insight +7, Perception +12",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Copper Dragon",
@@ -599,7 +614,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4p",
-		"skills": "Stealth +6, Perception +12, Deception +8"
+		"skills": "Stealth +6, Perception +12, Deception +8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Gold Dragon",
@@ -685,7 +703,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4q",
-		"skills": "Stealth +8, Insight +8, Perception +14, Persuasion +13"
+		"skills": "Stealth +8, Insight +8, Perception +14, Persuasion +13",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Green Dragon",
@@ -772,7 +793,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4r",
-		"skills": "Stealth +6, Insight +7, Perception +12, Deception +8, Persuasion +8"
+		"skills": "Stealth +6, Insight +7, Perception +12, Deception +8, Persuasion +8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Red Dragon",
@@ -860,7 +884,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4s",
-		"skills": "Stealth +6, Perception +13"
+		"skills": "Stealth +6, Perception +13",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult Silver Dragon",
@@ -943,7 +970,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4t",
-		"skills": "Stealth +5, Arcana +8, History +8, Perception +11"
+		"skills": "Stealth +5, Arcana +8, History +8, Perception +11",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Adult White Dragon",
@@ -1029,7 +1059,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4u",
-		"skills": "Stealth +5, Perception +11"
+		"skills": "Stealth +5, Perception +11",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Air Elemental",
@@ -1164,7 +1197,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4w",
-		"skills": "Stealth +9, Perception +16"
+		"skills": "Stealth +9, Perception +16",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Blue Dragon",
@@ -1242,7 +1278,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4x",
-		"skills": "Stealth +7, Perception +17"
+		"skills": "Stealth +7, Perception +17",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Brass Dragon",
@@ -1329,7 +1368,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4y",
-		"skills": "Stealth +6, History +9, Perception +14, Persuasion +10"
+		"skills": "Stealth +6, History +9, Perception +14, Persuasion +10",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Bronze Dragon",
@@ -1418,7 +1460,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4z",
-		"skills": "Stealth +7, Insight +10, Perception +17"
+		"skills": "Stealth +7, Insight +10, Perception +17",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Copper Dragon",
@@ -1505,7 +1550,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m50",
-		"skills": "Stealth +8, Perception +17, Deception +11"
+		"skills": "Stealth +8, Perception +17, Deception +11",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Gold Dragon",
@@ -1595,7 +1643,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m51",
-		"skills": "Stealth +9, Insight +10, Perception +17, Persuasion +16"
+		"skills": "Stealth +9, Insight +10, Perception +17, Persuasion +16",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Green Dragon",
@@ -1682,7 +1733,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m52",
-		"skills": "Stealth +8, Insight +10, Perception +17, Deception +11, Persuasion +11"
+		"skills": "Stealth +8, Insight +10, Perception +17, Deception +11, Persuasion +11",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Red Dragon",
@@ -1765,7 +1819,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m53",
-		"skills": "Stealth +7, Perception +16"
+		"skills": "Stealth +7, Perception +16",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient Silver Dragon",
@@ -1852,7 +1909,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m54",
-		"skills": "Stealth +7, Arcana +11, History +11, Perception +16"
+		"skills": "Stealth +7, Arcana +11, History +11, Perception +16",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ancient White Dragon",
@@ -1924,7 +1984,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m55",
-		"skills": "Stealth +6, Perception +13"
+		"skills": "Stealth +6, Perception +13",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Androsphinx",
@@ -1995,7 +2058,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m56",
-		"skills": "Arcana +9, Religion +15, Perception +10"
+		"skills": "Arcana +9, Religion +15, Perception +10",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Animated Armor",
@@ -2040,7 +2106,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m57"
+		"id": "cacvjp7lwke8q3m57",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ankheg",
@@ -2076,7 +2145,10 @@
 				"description": "The ankheg spits acid in a line that is 30 ft. long and 5 ft. wide, provided that it has no creature grappled. Each creature in that line must make a DC 13 Dexterity saving throw, taking 10 (3d6) acid damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3m58"
+		"id": "cacvjp7lwke8q3m58",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ape",
@@ -2219,7 +2291,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5b",
-		"skills": "Acrobatics +6, Stealth +9, Perception +3, Deception +3"
+		"skills": "Acrobatics +6, Stealth +9, Perception +3, Deception +3",
+		"ac_source": [
+			"studded leather armor"
+		]
 	},
 	{
 		"name": "Awakened Shrub",
@@ -2295,7 +2370,10 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 10 ft., one target. Hit: 14 (3d6 + 4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5d"
+		"id": "cacvjp7lwke8q3m5d",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Axe Beak",
@@ -2371,7 +2449,11 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) bludgeoning damage, or 8 (1d10 + 3) bludgeoning damage if used with two hands to make a melee attack, plus 3 (1d6) fire damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5f"
+		"id": "cacvjp7lwke8q3m5f",
+		"ac_source": [
+			"natural armor",
+			"shield"
+		]
 	},
 	{
 		"name": "Baboon",
@@ -2513,45 +2595,53 @@
 				"description": "The demon chooses what to summon and attempts a magical summoning.\nA balor has a 50 percent chance of summoning 1d8 vrocks, 1d6 hezrous, 1d4 glabrezus, 1d3 nalfeshnees, 1d2 mariliths, or one goristro.\nA summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5i"
+		"id": "cacvjp7lwke8q3m5i",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3m5j",
 		"name": "Bandit",
-		"description": "",
 		"size": "Medium",
 		"type": "Humanoid",
 		"subtype": "any race",
 		"alignment": "any non-lawful alignment",
-		"armor_class": 12,
-		"hit_points": 11,
+		"armor_class": "12",
+		"hit_points": "11",
 		"hit_dice": "2d8",
 		"speed": "30 ft.",
-		"strength": 11,
-		"dexterity": 12,
-		"constitution": 12,
-		"intelligence": 10,
-		"wisdom": 10,
-		"charisma": 10,
+		"strength": "11",
+		"dexterity": "12",
+		"constitution": "12",
+		"intelligence": "10",
+		"wisdom": "10",
+		"charisma": "10",
 		"senses": "passive Perception 10",
 		"languages": "any one language (usually Common)",
 		"challenge_rating": "1/8",
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Scimitar",
-				"attack_bonus": 3,
+				"attack_bonus": "3",
 				"damage_dice": "1d6",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) slashing damage."
 			},
 			{
 				"name": "Light Crossbow",
-				"attack_bonus": 3,
+				"attack_bonus": "3",
 				"damage_dice": "1d8",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Ranged Weapon Attack: +3 to hit, range 80 ft./320 ft., one target. Hit: 5 (1d8 + 1) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5j"
+		"special_abilities": [],
+		"ac_source": [
+			"leather armor"
+		]
 	},
 	{
 		"name": "Bandit Captain",
@@ -2604,7 +2694,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5k",
-		"skills": "Athletics +4, Deception +4"
+		"skills": "Athletics +4, Deception +4",
+		"ac_source": [
+			"studded leather armor"
+		]
 	},
 	{
 		"name": "Barbed Devil",
@@ -2671,7 +2764,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5l",
-		"skills": "Insight +5, Perception +8, Deception +5"
+		"skills": "Insight +5, Perception +8, Deception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Basilisk",
@@ -2707,7 +2803,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) piercing damage plus 7 (2d6) poison damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5m"
+		"id": "cacvjp7lwke8q3m5m",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Bat",
@@ -2804,7 +2903,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 10 ft., one target. Hit: 8 (1d10 + 3) slashing damage. If the target is a creature other than an undead or a construct, it must succeed on a DC 12 Constitution saving throw or lose 5 (1d10) hit points at the start of each of its turns due to an infernal wound. Each time the devil hits the wounded target with this attack, the damage dealt by the wound increases by 5 (1d10). Any creature can take an action to stanch the wound with a successful DC 12 Wisdom (Medicine) check. The wound also closes if the target receives magical healing."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5o"
+		"id": "cacvjp7lwke8q3m5o",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Behir",
@@ -2858,7 +2960,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5p",
-		"skills": "Stealth +7, Perception +6"
+		"skills": "Stealth +7, Perception +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Berserker",
@@ -2894,7 +2999,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 9 (1d12 + 3) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5q"
+		"id": "cacvjp7lwke8q3m5q",
+		"ac_source": [
+			"hide armor"
+		]
 	},
 	{
 		"name": "Black Bear",
@@ -2941,7 +3049,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 7 (2d4 + 2) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5r"
+		"id": "cacvjp7lwke8q3m5r",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Black Dragon Wyrmling",
@@ -2988,7 +3099,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5s",
-		"skills": "Stealth +4, Perception +4"
+		"skills": "Stealth +4, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Black Pudding",
@@ -3162,7 +3276,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5w",
-		"skills": "Stealth +2, Perception +4"
+		"skills": "Stealth +2, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Boar",
@@ -3201,7 +3318,10 @@
 				"description": "Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5x"
+		"id": "cacvjp7lwke8q3m5x",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Bone Devil",
@@ -3276,7 +3396,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5y",
-		"skills": "Insight +6, Deception +7"
+		"skills": "Insight +6, Deception +7",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Brass Dragon Wyrmling",
@@ -3318,7 +3441,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5z",
-		"skills": "Stealth +2, Perception +4"
+		"skills": "Stealth +2, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Bronze Dragon Wyrmling",
@@ -3365,7 +3491,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m60",
-		"skills": "Stealth +2, Perception +4"
+		"skills": "Stealth +2, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Brown Bear",
@@ -3413,7 +3542,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m61",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Bugbear",
@@ -3460,7 +3592,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m62",
-		"skills": "Stealth +6, Survival +2"
+		"skills": "Stealth +6, Survival +2",
+		"ac_source": [
+			"hide armor",
+			"shield"
+		]
 	},
 	{
 		"name": "Bulette",
@@ -3501,7 +3637,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m63",
-		"skills": "Perception +6"
+		"skills": "Perception +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Camel",
@@ -3582,7 +3721,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m65",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Cat",
@@ -3665,7 +3807,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m67",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Centaur",
@@ -3777,7 +3922,10 @@
 				"attack_bonus": 0
 			}
 		],
-		"id": "cacvjp7lwke8q3m69"
+		"id": "cacvjp7lwke8q3m69",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Chimera",
@@ -3832,7 +3980,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6a",
-		"skills": "Perception +8"
+		"skills": "Perception +8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Chuul",
@@ -3882,7 +4033,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6b",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Clay Golem",
@@ -3940,7 +4094,10 @@
 				"description": "Until the end of its next turn, the golem magically gains a +2 bonus to its AC, has advantage on Dexterity saving throws, and can use its slam attack as a bonus action."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6c"
+		"id": "cacvjp7lwke8q3m6c",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Cloaker",
@@ -4002,7 +4159,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6d",
-		"skills": "Stealth +5"
+		"skills": "Stealth +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Cloud Giant",
@@ -4056,7 +4216,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6e",
-		"skills": "Insight +7, Perception +7"
+		"skills": "Insight +7, Perception +7",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Cockatrice",
@@ -4197,7 +4360,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6i",
-		"skills": "Stealth +3, Perception +4"
+		"skills": "Stealth +3, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Couatl",
@@ -4255,7 +4421,10 @@
 				"description": "The couatl magically polymorphs into a humanoid or beast that has a challenge rating equal to or less than its own, or back into its true form. It reverts to its true form if it dies. Any equipment it is wearing or carrying is absorbed or borne by the new form (the couatl's choice).\nIn a new form, the couatl retains its game statistics and ability to speak, but its AC, movement modes, Strength, Dexterity, and other actions are replaced by those of the new form, and it gains any statistics and capabilities (except class features, legendary actions, and lair actions) that the new form has but that it lacks. If the new form has a bite attack, the couatl can use its bite in that form."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6j"
+		"id": "cacvjp7lwke8q3m6j",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Crab",
@@ -4290,7 +4459,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6k",
-		"skills": "Stealth +2"
+		"skills": "Stealth +2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Crocodile",
@@ -4327,7 +4499,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6l",
-		"skills": "Stealth +2"
+		"skills": "Stealth +2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Cult Fanatic",
@@ -4371,7 +4546,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6m",
-		"skills": "Religion +2, Deception +4, Persuasion +4"
+		"skills": "Religion +2, Deception +4, Persuasion +4",
+		"ac_source": [
+			"leather armor"
+		]
 	},
 	{
 		"name": "Cultist",
@@ -4408,7 +4586,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6n",
-		"skills": "Religion +2, Deception +2"
+		"skills": "Religion +2, Deception +2",
+		"ac_source": [
+			"leather armor"
+		]
 	},
 	{
 		"name": "Darkmantle",
@@ -4543,7 +4724,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6q",
-		"skills": "Stealth +4, Investigation +3, Perception +2"
+		"skills": "Stealth +4, Investigation +3, Perception +2",
+		"ac_source": [
+			"chain shirt"
+		]
 	},
 	{
 		"name": "Deer",
@@ -4632,7 +4816,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6s",
-		"skills": "Insight +9, Perception +9"
+		"skills": "Insight +9, Perception +9",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Dire Wolf",
@@ -4672,7 +4859,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6t",
-		"skills": "Stealth +4, Perception +3"
+		"skills": "Stealth +4, Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Djinni",
@@ -4726,7 +4916,10 @@
 				"description": "A 5-foot-radius, 30-foot-tall cylinder of swirling air magically forms on a point the djinni can see within 120 feet of it. The whirlwind lasts as long as the djinni maintains concentration (as if concentrating on a spell). Any creature but the djinni that enters the whirlwind must succeed on a DC 18 Strength saving throw or be restrained by it. The djinni can move the whirlwind up to 60 feet as an action, and creatures restrained by the whirlwind move with it. The whirlwind ends if the djinni loses sight of it.\nA creature can use its action to free a creature restrained by the whirlwind, including itself, by succeeding on a DC 18 Strength check. If the check succeeds, the creature is no longer restrained and moves to the nearest space outside the whirlwind."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6u"
+		"id": "cacvjp7lwke8q3m6u",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Doppelganger",
@@ -4872,7 +5065,10 @@
 				"description": "The dragon turtle exhales scalding steam in a 60-foot cone. Each creature in that area must make a DC 18 Constitution saving throw, taking 52 (15d6) fire damage on a failed save, or half as much damage on a successful one. Being underwater doesn't grant resistance against this damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6x"
+		"id": "cacvjp7lwke8q3m6x",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Dretch",
@@ -4919,7 +5115,10 @@
 				"description": "A 10-foot radius of disgusting green gas extends out from the dretch. The gas spreads around corners, and its area is lightly obscured. It lasts for 1 minute or until a strong wind disperses it. Any creature that starts its turn in that area must succeed on a DC 11 Constitution saving throw or be poisoned until the start of its next turn. While poisoned in this way, the target can take either an action or a bonus action on its turn, not both, and can't take reactions."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6y"
+		"id": "cacvjp7lwke8q3m6y",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Drider",
@@ -4986,7 +5185,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6z",
-		"skills": "Stealth +9, Perception +5"
+		"skills": "Stealth +9, Perception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Drow",
@@ -5036,7 +5238,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m70",
-		"skills": "Stealth +4, Perception +2"
+		"skills": "Stealth +4, Perception +2",
+		"ac_source": [
+			"chain shirt"
+		]
 	},
 	{
 		"name": "Druid",
@@ -5072,7 +5277,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m71",
-		"skills": "Nature +3, Medicine +4, Perception +4"
+		"skills": "Nature +3, Medicine +4, Perception +4",
+		"ac_source": [
+			"barkskin"
+		]
 	},
 	{
 		"name": "Dryad",
@@ -5121,7 +5329,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m72",
-		"skills": "Stealth +5, Perception +4"
+		"skills": "Stealth +5, Perception +4",
+		"ac_source": [
+			"barkskin"
+		]
 	},
 	{
 		"name": "Duergar",
@@ -5176,7 +5387,11 @@
 				"description": "The duergar magically turns invisible until it attacks, casts a spell, or uses its Enlarge, or until its concentration is broken, up to 1 hour (as if concentrating on a spell). Any equipment the duergar wears or carries is invisible with it ."
 			}
 		],
-		"id": "cacvjp7lwke8q3m73"
+		"id": "cacvjp7lwke8q3m73",
+		"ac_source": [
+			"scale mail",
+			"shield"
+		]
 	},
 	{
 		"name": "Dust Mephit",
@@ -5311,7 +5526,10 @@
 				"description": "Melee Weapon Attack: +8 to hit, reach 10 ft., one target. Hit: 14 (2d8 + 5) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m76"
+		"id": "cacvjp7lwke8q3m76",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Efreeti",
@@ -5367,7 +5585,10 @@
 				"description": "Ranged Spell Attack: +7 to hit, range 120 ft., one target. Hit: 17 (5d6) fire damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m77"
+		"id": "cacvjp7lwke8q3m77",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Elephant",
@@ -5410,7 +5631,10 @@
 				"description": "Melee Weapon Attack: +8 to hit, reach 5 ft., one prone creature. Hit: 22 (3d10 + 6) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m78"
+		"id": "cacvjp7lwke8q3m78",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Elk",
@@ -5515,7 +5739,10 @@
 				"attack_bonus": 0
 			}
 		],
-		"id": "cacvjp7lwke8q3m7a"
+		"id": "cacvjp7lwke8q3m7a",
+		"ac_source": [
+			"plate armor"
+		]
 	},
 	{
 		"name": "Ettercap",
@@ -5580,7 +5807,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7b",
-		"skills": "Stealth +4, Perception +3, Survival +3"
+		"skills": "Stealth +4, Perception +3, Survival +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ettin",
@@ -5631,7 +5861,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7c",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Fire Elemental",
@@ -5727,7 +5960,61 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7e",
-		"skills": "Athletics +11, Perception +6"
+		"skills": "Athletics +11, Perception +6",
+		"ac_source": [
+			"plate armor"
+		]
+	},
+	{
+		"name": "Flameskull",
+		"size": "Tiny",
+		"description": "Blazing green flames and mad, echoing laughter surround an undead flameskull. This disembodied skull blasts foes with fiery rays from its eyes and dreadful spells called up from the dark recesses of its memory.",
+		"type": "undead",
+		"alignment": " neutral evil",
+		"armor_class": "13",
+		"hit_points": "40",
+		"hit_dice": "                    9d4 + 18                ",
+		"speed": "0 ft., fly 40 ft. (hover)",
+		"strength": "1",
+		"dexterity": "17",
+		"constitution": "14",
+		"intelligence": "16",
+		"wisdom": "10",
+		"charisma": "11",
+		"senses": "Darkvision 60 ft., Passive Perception 12",
+		"languages": "Common",
+		"challenge_rating": "4",
+		"skills": "Arcana +5, Perception +2",
+		"damage_resistances": "Lightning, Necrotic, Piercing",
+		"damage_immunities": "Cold, Fire, Poison",
+		"condition_immunities": "Charmed, Frightened, Paralyzed, Poisoned, Prone",
+		"actions": [
+			{
+				"name": "Multiattack",
+				"description": "The flameskull uses Fire Ray twice."
+			},
+			{
+				"name": "Fire Ray",
+				"attack_bonus": "5",
+				"damage_dice": "3d6",
+				"description": "+5 to hit, range 30 ft., one target. _Hit:_ 10 (3d6) fire damage."
+			}
+		],
+		"special_abilities": [
+			{
+				"illumination": "The flameskull sheds either dim light in a 15-foot radius, or bright light in a 15-foot radius and dim light for an additional 15 feet. It can switch between the options as an action."
+			},
+			{
+				"magic_resistance": "The flameskull has advantage on saving throws against spells and other magical effects."
+			},
+			{
+				"rejuvenation": "If the flameskull is destroyed, it regains all its hit points in 1 hour unless holy water is sprinkled on its remains or a dispel magic or remove curse spell is cast on them."
+			},
+			{
+				"spellcasting": "The flameskull is a 5th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). It requires no somatic or material components to cast its spells. The flameskull has the following wizard spells prepared:\n\nCantrip (at will): mage hand\n\n1st level (3 slots): magic missile, shield\n\n2nd level (2 slots): blur, flaming sphere\n\n3rd level (1 slot): fireball"
+			}
+		],
+		"id": "cacvjp50gke8yzign"
 	},
 	{
 		"name": "Flesh Golem",
@@ -5861,7 +6148,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 5 (1d8 + 1) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7h"
+		"id": "cacvjp7lwke8q3m7h",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Frog",
@@ -5939,7 +6229,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7j",
-		"skills": "Athletics +9, Perception +3"
+		"skills": "Athletics +9, Perception +3",
+		"ac_source": [
+			"patchwork armor"
+		]
 	},
 	{
 		"name": "Gargoyle",
@@ -5989,7 +6282,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7k"
+		"id": "cacvjp7lwke8q3m7k",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Gelatinous Cube",
@@ -6338,7 +6634,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7s"
+		"id": "cacvjp7lwke8q3m7s",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Centipede",
@@ -6369,7 +6668,10 @@
 				"description": "Bite. Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 4 (1d4 + 2) piercing damage, and the target must succeed on a DC 11 Constitution saving throw or take 10 (3d6) poison damage. If the poison damage reduces the target to 0 hit points, the target is stable but poisoned for 1 hour, even after regaining hit points, and is paralyzed while poisoned in this way."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7t"
+		"id": "cacvjp7lwke8q3m7t",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Constrictor Snake",
@@ -6445,7 +6747,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7v",
-		"skills": "Stealth +4"
+		"skills": "Stealth +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Crocodile",
@@ -6493,7 +6798,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7w",
-		"skills": "Stealth +5"
+		"skills": "Stealth +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Eagle",
@@ -6585,7 +6893,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7y",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Fire Beetle",
@@ -6621,7 +6932,10 @@
 				"description": "Melee Weapon Attack: +1 to hit, reach 5 ft., one target. Hit: 2 (1d6 — 1) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7z"
+		"id": "cacvjp7lwke8q3m7z",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Frog",
@@ -6668,43 +6982,45 @@
 		"skills": "Stealth +3, Perception +2"
 	},
 	{
+		"id": "cacvjp7lwke8q3m81",
 		"name": "Giant Goat",
-		"description": "",
 		"size": "Large",
 		"type": "Beast",
-		"subtype": "",
 		"alignment": "unaligned",
-		"armor_class": 11,
-		"hit_points": 19,
+		"armor_class": "11",
+		"hit_points": "19",
 		"hit_dice": "3d10",
 		"speed": "40 ft.",
-		"strength": 17,
-		"dexterity": 11,
-		"constitution": 12,
-		"intelligence": 3,
-		"wisdom": 12,
-		"charisma": 6,
+		"strength": "17",
+		"dexterity": "11",
+		"constitution": "12",
+		"intelligence": "3",
+		"wisdom": "12",
+		"charisma": "6",
 		"senses": "passive Perception 11",
-		"languages": "",
 		"challenge_rating": "1/2",
-		"special_abilities": [
-			{
-				"Charge": "If the goat moves at least 20 ft. straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 5 (2d4) bludgeoning damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
-			},
-			{
-				"Sure-Footed": "The goat has advantage on Strength and Dexterity saving throws made against effects that would knock it prone."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Ram",
-				"attack_bonus": 5,
+				"attack_bonus": "5",
 				"damage_dice": "2d4",
-				"damage_bonus": 3,
+				"damage_bonus": "3",
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m81"
+		"special_abilities": [
+			{
+				"charge": "If the goat moves at least 20 ft. straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 5 (2d4) bludgeoning damage. If the target is a creature, it must succeed on a DC 13 Strength saving throw or be knocked prone."
+			},
+			{
+				"sure-footed": "The goat has advantage on Strength and Dexterity saving throws made against effects that would knock it prone."
+			}
+		],
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Hyena",
@@ -6780,7 +7096,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m83"
+		"id": "cacvjp7lwke8q3m83",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Octopus",
@@ -6830,44 +7149,44 @@
 		"skills": "Stealth +5, Perception +4"
 	},
 	{
+		"id": "cacvjp7lwke8q3m85",
 		"name": "Giant Owl",
-		"description": "",
 		"size": "Large",
 		"type": "Beast",
-		"subtype": "",
 		"alignment": "neutral",
-		"armor_class": 12,
-		"hit_points": 19,
+		"armor_class": "12",
+		"hit_points": "19",
 		"hit_dice": "3d10",
 		"speed": "5 ft., fly 60 ft.",
-		"strength": 13,
-		"dexterity": 15,
-		"constitution": 12,
-		"intelligence": 8,
-		"wisdom": 13,
-		"charisma": 10,
+		"strength": "13",
+		"dexterity": "15",
+		"constitution": "12",
+		"intelligence": "8",
+		"wisdom": "13",
+		"charisma": "10",
 		"senses": "darkvision 120 ft., passive Perception 15",
 		"languages": "Giant Owl, understands Common, Elvish, and Sylvan but can't speak",
+		"skills": "Stealth +4, Perception +5",
 		"challenge_rating": "1/4",
-		"special_abilities": [
-			{
-				"Flyby": "The owl doesn't provoke opportunity attacks when it flies out of an enemy's reach."
-			},
-			{
-				"Keen Hearing and Sight": "The owl has advantage on Wisdom (Perception) checks that rely on hearing or sight."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Talons",
-				"attack_bonus": 3,
+				"attack_bonus": "3",
 				"damage_dice": "2d6",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 8 (2d6 + 1) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m85",
-		"skills": "Stealth +4, Perception +5"
+		"special_abilities": [
+			{
+				"flyby": "The owl doesn't provoke opportunity attacks when it flies out of an enemy's reach."
+			},
+			{
+				"keen_hearing_and_sight": "The owl has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+			}
+		]
 	},
 	{
 		"name": "Giant Poisonous Snake",
@@ -7011,7 +7330,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 7 (1d10 + 2) piercing damage, and the target must make a DC 12 Constitution saving throw, taking 22 (4d10) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3m89"
+		"id": "cacvjp7lwke8q3m89",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Sea Horse",
@@ -7050,7 +7372,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8a"
+		"id": "cacvjp7lwke8q3m8a",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Shark",
@@ -7090,7 +7415,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8b",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Spider",
@@ -7138,7 +7466,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8c",
-		"skills": "Stealth +7"
+		"skills": "Stealth +7",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Giant Toad",
@@ -7451,7 +7782,10 @@
 				"description": "The demon chooses what to summon and attempts a magical summoning.\nA glabrezu has a 30 percent chance of summoning 1d3 vrocks, 1d2 hezrous, or one glabrezu.\nA summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8j"
+		"id": "cacvjp7lwke8q3m8j",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Gladiator",
@@ -7512,7 +7846,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8k",
-		"skills": "Athletics +10, Intimidation +5"
+		"skills": "Athletics +10, Intimidation +5",
+		"ac_source": [
+			"studded leather armor",
+			"shield"
+		]
 	},
 	{
 		"name": "Gnoll",
@@ -7562,7 +7900,11 @@
 				"description": "Ranged Weapon Attack: +3 to hit, range 150/600 ft., one target. Hit: 5 (1d8 + 1) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8l"
+		"id": "cacvjp7lwke8q3m8l",
+		"ac_source": [
+			"hide armor",
+			"shield"
+		]
 	},
 	{
 		"name": "Goat",
@@ -7645,7 +7987,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8n",
-		"skills": "Stealth +6"
+		"skills": "Stealth +6",
+		"ac_source": [
+			"leather armor",
+			"shield"
+		]
 	},
 	{
 		"name": "Gold Dragon Wyrmling",
@@ -7692,7 +8038,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8o",
-		"skills": "Stealth +4, Perception +4"
+		"skills": "Stealth +4, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Gorgon",
@@ -7741,7 +8090,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8p",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Gray Ooze",
@@ -7834,7 +8186,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8r",
-		"skills": "Stealth +3, Perception +4"
+		"skills": "Stealth +3, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Green Hag",
@@ -7894,7 +8249,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8s",
-		"skills": "Stealth +3, Arcana +3, Perception +4, Deception +4"
+		"skills": "Stealth +3, Arcana +3, Perception +4, Deception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Grick",
@@ -7942,33 +8300,32 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8t"
+		"id": "cacvjp7lwke8q3m8t",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3m8u",
 		"name": "Griffon",
-		"description": "",
 		"size": "Large",
 		"type": "Monstrosity",
-		"subtype": "",
 		"alignment": "unaligned",
-		"armor_class": 12,
-		"hit_points": 59,
+		"armor_class": "12",
+		"hit_points": "59",
 		"hit_dice": "7d10",
 		"speed": "30 ft., fly 80 ft.",
-		"strength": 18,
-		"dexterity": 15,
-		"constitution": 16,
-		"intelligence": 2,
-		"wisdom": 13,
-		"charisma": 8,
+		"strength": "18",
+		"dexterity": "15",
+		"constitution": "16",
+		"intelligence": "2",
+		"wisdom": "13",
+		"charisma": "8",
 		"senses": "darkvision 60 ft., passive Perception 15",
-		"languages": "",
+		"skills": "Perception +5",
 		"challenge_rating": "2",
-		"special_abilities": [
-			{
-				"Keen Sight": "The griffon has advantage on Wisdom (Perception) checks that rely on sight."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Multiattack",
@@ -7976,21 +8333,24 @@
 			},
 			{
 				"name": "Beak",
-				"attack_bonus": 6,
+				"attack_bonus": "6",
 				"damage_dice": "1d8",
-				"damage_bonus": 4,
+				"damage_bonus": "4",
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 8 (1d8 + 4) piercing damage."
 			},
 			{
 				"name": "Claws",
-				"attack_bonus": 6,
+				"attack_bonus": "6",
 				"damage_dice": "2d6",
-				"damage_bonus": 4,
+				"damage_bonus": "4",
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8u",
-		"skills": "Perception +5"
+		"special_abilities": [
+			{
+				"keen_sight": "The griffon has advantage on Wisdom (Perception) checks that rely on sight."
+			}
+		]
 	},
 	{
 		"name": "Grimlock",
@@ -8066,7 +8426,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8w",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"ac_source": [
+			"chain shirt",
+			"shield"
+		]
 	},
 	{
 		"name": "Guardian Naga",
@@ -8118,7 +8482,10 @@
 				"description": "Ranged Weapon Attack: +8 to hit, range 15/30 ft., one creature. Hit: The target must make a DC 15 Constitution saving throw, taking 45 (10d8) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8x"
+		"id": "cacvjp7lwke8q3m8x",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Gynosphinx",
@@ -8182,7 +8549,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8y",
-		"skills": "Arcana +12, History +12, Religion +8, Perception +8"
+		"skills": "Arcana +12, History +12, Religion +8, Perception +8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Half-Red Dragon Veteran",
@@ -8237,7 +8607,10 @@
 				"description": "The veteran exhales fire in a 15-foot cone. Each creature in that area must make a DC 15 Dexterity saving throw, taking 24 (7d6) fire damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8z"
+		"id": "cacvjp7lwke8q3m8z",
+		"ac_source": [
+			"plate armor"
+		]
 	},
 	{
 		"name": "Harpy",
@@ -8365,7 +8738,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m92",
-		"skills": "Perception +5"
+		"skills": "Perception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Hezrou",
@@ -8425,7 +8801,10 @@
 				"description": "The demon chooses what to summon and attempts a magical summoning.\nA hezrou has a 30 percent chance of summoning 2d6 dretches or one hezrou.\nA summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 			}
 		],
-		"id": "cacvjp7lwke8q3m93"
+		"id": "cacvjp7lwke8q3m93",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Hill Giant",
@@ -8468,7 +8847,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m94",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Hippogriff",
@@ -8559,7 +8941,11 @@
 				"description": "Ranged Weapon Attack: +3 to hit, range 150/600 ft., one target. Hit: 5 (1d8 + 1) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m96"
+		"id": "cacvjp7lwke8q3m96",
+		"ac_source": [
+			"chain mail",
+			"shield"
+		]
 	},
 	{
 		"name": "Homunculus",
@@ -8596,7 +8982,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 1 piercing damage, and the target must succeed on a DC 10 Constitution saving throw or be poisoned for 1 minute. If the saving throw fails by 5 or more, the target is instead poisoned for 5 (1d10) minutes and unconscious while poisoned in this way."
 			}
 		],
-		"id": "cacvjp7lwke8q3m97"
+		"id": "cacvjp7lwke8q3m97",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Horned Devil",
@@ -8659,7 +9048,10 @@
 				"description": "Ranged Spell Attack: +7 to hit, range 150 ft., one target. Hit: 14 (4d6) fire damage. If the target is a flammable object that isn't being worn or carried, it also catches fire."
 			}
 		],
-		"id": "cacvjp7lwke8q3m98"
+		"id": "cacvjp7lwke8q3m98",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Hunter Shark",
@@ -8699,7 +9091,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m99",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Hydra",
@@ -8749,7 +9144,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9a",
-		"skills": "Perception +6"
+		"skills": "Perception +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Hyena",
@@ -8853,7 +9251,10 @@
 				"description": "The devil magically forms an opaque wall of ice on a solid surface it can see within 60 feet of it. The wall is 1 foot thick and up to 30 feet long and 10 feet high, or it's a hemispherical dome up to 20 feet in diameter.\nWhen the wall appears, each creature in its space is pushed out of it by the shortest route. The creature chooses which side of the wall to end up on, unless the creature is incapacitated. The creature then makes a DC 17 Dexterity saving throw, taking 35 (10d6) cold damage on a failed save, or half as much damage on a successful one.\nThe wall lasts for 1 minute or until the devil is incapacitated or dies. The wall can be damaged and breached; each 10-foot section has AC 5, 30 hit points, vulnerability to fire damage, and immunity to acid, cold, necrotic, poison, and psychic damage. If a section is destroyed, it leaves behind a sheet of frigid air in the space the wall occupied. Whenever a creature finishes moving through the frigid air on a turn, willingly or otherwise, the creature must make a DC 17 Constitution saving throw, taking 17 (5d6) cold damage on a failed save, or half as much damage on a successful one. The frigid air dissipates when the rest of the wall vanishes."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9c"
+		"id": "cacvjp7lwke8q3m9c",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Ice Mephit",
@@ -9070,7 +9471,10 @@
 				"description": "The golem exhales poisonous gas in a 15-foot cone. Each creature in that area must make a DC 19 Constitution saving throw, taking 45 (l0d8) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9g"
+		"id": "cacvjp7lwke8q3m9g",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Jackal",
@@ -9150,35 +9554,35 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9i",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3m9j",
 		"name": "Knight",
-		"description": "",
 		"size": "Medium",
 		"type": "Humanoid",
 		"subtype": "any race",
 		"alignment": "any alignment",
-		"armor_class": 18,
-		"hit_points": 52,
+		"armor_class": "18",
+		"hit_points": "52",
 		"hit_dice": "8d8",
 		"speed": "30 ft.",
-		"strength": 16,
-		"dexterity": 11,
-		"constitution": 14,
-		"intelligence": 11,
-		"wisdom": 11,
-		"charisma": 15,
-		"constitution_save": 4,
-		"wisdom_save": 2,
+		"strength": "16",
+		"dexterity": "11",
+		"constitution": "14",
+		"intelligence": "11",
+		"wisdom": "11",
+		"charisma": "15",
 		"senses": "passive Perception 10",
 		"languages": "any one language (usually Common)",
 		"challenge_rating": "3",
-		"special_abilities": [
-			{
-				"Brave": "The knight has advantage on saving throws against being frightened."
-			}
-		],
+		"tags": [],
+		"unique": false,
+		"constitution_save": "4",
+		"wisdom_save": "2",
 		"actions": [
 			{
 				"name": "Multiattack",
@@ -9186,14 +9590,14 @@
 			},
 			{
 				"name": "Greatsword",
-				"attack_bonus": 5,
+				"attack_bonus": "5",
 				"damage_dice": "2d6",
-				"damage_bonus": 3,
+				"damage_bonus": "3",
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage."
 			},
 			{
 				"name": "Heavy Crossbow",
-				"attack_bonus": 2,
+				"attack_bonus": "2",
 				"damage_dice": "1d10",
 				"description": "Ranged Weapon Attack: +2 to hit, range 100/400 ft., one target. Hit: 5 (1d10) piercing damage."
 			},
@@ -9202,14 +9606,14 @@
 				"description": "For 1 minute, the knight can utter a special command or warning whenever a nonhostile creature that it can see within 30 ft. of it makes an attack roll or a saving throw. The creature can add a d4 to its roll provided it can hear and understand the knight. A creature can benefit from only one Leadership die at a time. This effect ends if the knight is incapacitated."
 			}
 		],
-		"reactions": [
+		"special_abilities": [
 			{
-				"name": "Parry",
-				"desc": "The knight adds 2 to its AC against one melee attack that would hit it. To do so, the knight must see the attacker and be wielding a melee weapon.",
-				"attack_bonus": 0
+				"brave": "The knight has advantage on saving throws against being frightened."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9j"
+		"ac_source": [
+			"plate armor"
+		]
 	},
 	{
 		"name": "Kobold",
@@ -9338,7 +9742,10 @@
 				"description": "While underwater, the kraken expels an ink cloud in a 60-foot radius. The cloud spreads around corners, and that area is heavily obscured to creatures other than the kraken. Each creature other than the kraken that ends its turn there must succeed on a DC 23 Constitution saving throw, taking 16 (3d10) poison damage on a failed save, or half as much damage on a successful one. A strong current disperses the cloud, which otherwise disappears at the end of the kraken's next turn."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9l"
+		"id": "cacvjp7lwke8q3m9l",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Lamia",
@@ -9390,7 +9797,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9m",
-		"skills": "Stealth +3, Insight +4, Deception +7"
+		"skills": "Stealth +3, Insight +4, Deception +7",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Lemure",
@@ -9501,7 +9911,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9o",
-		"skills": "Arcana +18, History +12, Insight +9, Perception +9"
+		"skills": "Arcana +18, History +12, Insight +9, Perception +9",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Lion",
@@ -9645,7 +10058,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9r",
-		"skills": "Stealth +4, Perception +3, Survival +5"
+		"skills": "Stealth +4, Perception +3, Survival +5",
+		"ac_source": [
+			"natural armor",
+			"shield"
+		]
 	},
 	{
 		"name": "Mage",
@@ -9741,57 +10158,6 @@
 		"skills": "Stealth +3"
 	},
 	{
-		"name": "Flameskull",
-		"size": "Tiny",
-		"description": "Blazing green flames and mad, echoing laughter surround an undead flameskull. This disembodied skull blasts foes with fiery rays from its eyes and dreadful spells called up from the dark recesses of its memory.",
-		"type": "undead",
-		"alignment": " neutral evil",
-		"armor_class": "13",
-		"hit_points": "40",
-		"hit_dice": "                    9d4 + 18                ",
-		"speed": "0 ft., fly 40 ft. (hover)",
-		"strength": "1",
-		"dexterity": "17",
-		"constitution": "14",
-		"intelligence": "16",
-		"wisdom": "10",
-		"charisma": "11",
-		"senses": "Darkvision 60 ft., Passive Perception 12",
-		"languages": "Common",
-		"challenge_rating": "4",
-		"skills": "Arcana +5, Perception +2",
-		"damage_resistances": "Lightning, Necrotic, Piercing",
-		"damage_immunities": "Cold, Fire, Poison",
-		"condition_immunities": "Charmed, Frightened, Paralyzed, Poisoned, Prone",
-		"actions": [
-			{
-				"name": "Multiattack",
-				"description": "The flameskull uses Fire Ray twice."
-			},
-			{
-				"name": "Fire Ray",
-				"attack_bonus": "5",
-				"damage_dice": "3d6",
-				"description": "+5 to hit, range 30 ft., one target. _Hit:_ 10 (3d6) fire damage."
-			}
-		],
-		"special_abilities": [
-			{
-				"illumination": "The flameskull sheds either dim light in a 15-foot radius, or bright light in a 15-foot radius and dim light for an additional 15 feet. It can switch between the options as an action."
-			},
-			{
-				"magic_resistance": "The flameskull has advantage on saving throws against spells and other magical effects."
-			},
-			{
-				"rejuvenation": "If the flameskull is destroyed, it regains all its hit points in 1 hour unless holy water is sprinkled on its remains or a dispel magic or remove curse spell is cast on them."
-			},
-			{
-				"spellcasting": "The flameskull is a 5th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). It requires no somatic or material components to cast its spells. The flameskull has the following wizard spells prepared:\n\nCantrip (at will): mage hand\n\n1st level (3 slots): magic missile, shield\n\n2nd level (2 slots): blur, flaming sphere\n\n3rd level (1 slot): fireball"
-			}
-		],
-		"id": "cacvjp50gke8yzign"
-	},
-	{
 		"name": "Magmin",
 		"description": "",
 		"size": "Small",
@@ -9829,7 +10195,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (2d6) fire damage. If the target is a creature or a flammable object, it ignites. Until a target takes an action to douse the fire, the target takes 3 (1d6) fire damage at the end of each of its turns."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9u"
+		"id": "cacvjp7lwke8q3m9u",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Mammoth",
@@ -9872,7 +10241,10 @@
 				"description": "Melee Weapon Attack: +10 to hit, reach 5 ft., one prone creature. Hit: 29 (4d10 + 7) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9v"
+		"id": "cacvjp7lwke8q3m9v",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Manticore",
@@ -9926,7 +10298,10 @@
 				"description": "Ranged Weapon Attack: +5 to hit, range 100/200 ft., one target. Hit: 7 (1d8 + 3) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9w"
+		"id": "cacvjp7lwke8q3m9w",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Marilith",
@@ -10001,44 +10376,46 @@
 				"attack_bonus": 0
 			}
 		],
-		"id": "cacvjp7lwke8q3m9x"
+		"id": "cacvjp7lwke8q3m9x",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3m9y",
 		"name": "Mastiff",
-		"description": "",
 		"size": "Medium",
 		"type": "Beast",
-		"subtype": "",
 		"alignment": "unaligned",
-		"armor_class": 12,
-		"hit_points": 5,
+		"armor_class": "12",
+		"hit_points": "5",
 		"hit_dice": "1d8",
 		"speed": "40 ft.",
-		"strength": 13,
-		"dexterity": 14,
-		"constitution": 12,
-		"intelligence": 3,
-		"wisdom": 12,
-		"charisma": 7,
+		"strength": "13",
+		"dexterity": "14",
+		"constitution": "12",
+		"intelligence": "3",
+		"wisdom": "12",
+		"charisma": "7",
 		"senses": "passive Perception 13",
-		"languages": "",
+		"skills": "Perception +3",
 		"challenge_rating": "1/8",
-		"special_abilities": [
-			{
-				"Keen Hearing and Smell": "The mastiff has advantage on Wisdom (Perception) checks that rely on hearing or smell."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Bite",
-				"attack_bonus": 3,
+				"attack_bonus": "3",
 				"damage_dice": "1d6",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) piercing damage. If the target is a creature, it must succeed on a DC 11 Strength saving throw or be knocked prone."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9y",
-		"skills": "Perception +3"
+		"special_abilities": [
+			{
+				"keen_hearing_and_smell": "The mastiff has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+			}
+		]
 	},
 	{
 		"name": "Medusa",
@@ -10092,7 +10469,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9z",
-		"skills": "Stealth +5, Insight +4, Perception +4, Deception +5"
+		"skills": "Stealth +5, Insight +4, Perception +4, Deception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Merfolk",
@@ -10182,7 +10562,10 @@
 				"description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 11 (2d6 + 4) piercing damage. If the target is a Huge or smaller creature, it must succeed on a Strength contest against the merrow or be pulled up to 20 feet toward the merrow."
 			}
 		],
-		"id": "cacvjp7lwke8q3ma1"
+		"id": "cacvjp7lwke8q3ma1",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Mimic",
@@ -10237,7 +10620,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3ma2",
-		"skills": "Stealth +5"
+		"skills": "Stealth +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Minotaur",
@@ -10287,7 +10673,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3ma3",
-		"skills": "Perception +7"
+		"skills": "Perception +7",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Minotaur Skeleton",
@@ -10333,7 +10722,10 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3ma4"
+		"id": "cacvjp7lwke8q3ma4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Mule",
@@ -10415,7 +10807,10 @@
 				"description": "The mummy targets one creature it can see within 60 ft. of it. If the target can see the mummy, it must succeed on a DC 11 Wisdom saving throw against this magic or become frightened until the end of the mummy's next turn. If the target fails the saving throw by 5 or more, it is also paralyzed for the same duration. A target that succeeds on the saving throw is immune to the Dreadful Glare of all mummies (but not mummy lords) for the next 24 hours."
 			}
 		],
-		"id": "cacvjp7lwke8q3ma6"
+		"id": "cacvjp7lwke8q3ma6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Mummy Lord",
@@ -10495,7 +10890,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3ma7",
-		"skills": "History +5, Religion +5"
+		"skills": "History +5, Religion +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Nalfeshnee",
@@ -10561,56 +10959,41 @@
 				"description": "The demon chooses what to summon and attempts a magical summoning.\nA nalfeshnee has a 50 percent chance of summoning 1d4 vrocks, 1d3 hezrous, 1d2 glabrezus, or one nalfeshnee.\nA summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 			}
 		],
-		"id": "cacvjp7lwke8q3ma8"
+		"id": "cacvjp7lwke8q3ma8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3ma9",
 		"name": "Night Hag",
-		"description": "",
 		"size": "Medium",
 		"type": "Fiend",
-		"subtype": "",
 		"alignment": "neutral evil",
-		"armor_class": 17,
-		"hit_points": 112,
+		"armor_class": "17",
+		"hit_points": "112",
 		"hit_dice": "15d8",
 		"speed": "30 ft.",
-		"strength": 18,
-		"dexterity": 15,
-		"constitution": 16,
-		"intelligence": 16,
-		"wisdom": 14,
-		"charisma": 16,
+		"strength": "18",
+		"dexterity": "15",
+		"constitution": "16",
+		"intelligence": "16",
+		"wisdom": "14",
+		"charisma": "16",
+		"senses": "darkvision 120 ft., passive Perception 16",
 		"damage_resistances": "cold, fire; bludgeoning, piercing, and slashing from nonmagical weapons that aren't silvered",
 		"condition_immunities": "charmed",
-		"senses": "darkvision 120 ft., passive Perception 16",
 		"languages": "Abyssal, Common, Infernal, Primordial",
+		"skills": "Stealth +6, Insight +6, Perception +6, Deception +7",
 		"challenge_rating": "5",
-		"special_abilities": [
-			{
-				"Innate Spellcasting": "The hag's innate spellcasting ability is Charisma (spell save DC 14, +6 to hit with spell attacks). She can innately cast the following spells, requiring no material components:\n\nAt will: detect magic, magic missile\n2/day each: plane shift (self only), ray of enfeeblement, sleep"
-			},
-			{
-				"Magic Resistance": "The hag has advantage on saving throws against spells and other magical effects."
-			},
-			{
-				"Night Hag Items": "A night hag carries two very rare magic items that she must craft for herself If either object is lost, the night hag will go to great lengths to retrieve it, as creating a new tool takes time and effort.\nHeartstone: This lustrous black gem allows a night hag to become ethereal while it is in her possession. The touch of a heartstone also cures any disease. Crafting a heartstone takes 30 days.\nSoul Bag: When an evil humanoid dies as a result of a night hag's Nightmare Haunting, the hag catches the soul in this black sack made of stitched flesh. A soul bag can hold only one evil soul at a time, and only the night hag who crafted the bag can catch a soul with it. Crafting a soul bag takes 7 days and a humanoid sacrifice (whose flesh is used to make the bag)."
-			},
-			{
-				"Hag Coven": "When hags must work together, they form covens, in spite of their selfish natures. A coven is made up of hags of any type, all of whom are equals within the group. However, each of the hags continues to desire more personal power.\nA coven consists of three hags so that any arguments between two hags can be settled by the third. If more than three hags ever come together, as might happen if two covens come into conflict, the result is usually chaos."
-			},
-			{
-				"Shared Spellcasting (Coven Only)": "While all three members of a hag coven are within 30 feet of one another, they can each cast the following spells from the wizard's spell list but must share the spell slots among themselves:\n\n• 1st level (4 slots): identify, ray of sickness\n• 2nd level (3 slots): hold person, locate object\n• 3rd level (3 slots): bestow curse, counterspell, lightning bolt\n• 4th level (3 slots): phantasmal killer, polymorph\n• 5th level (2 slots): contact other plane, scrying\n• 6th level (1 slot): eyebite\n\nFor casting these spells, each hag is a 12th-level spellcaster that uses Intelligence as her spellcasting ability. The spell save DC is 12+the hag's Intelligence modifier, and the spell attack bonus is 4+the hag's Intelligence modifier."
-			},
-			{
-				"Hag Eye (Coven Only)": "A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes 3d10 psychic damage and is blinded for 24 hours.\nA hag coven can have only one hag eye at a time, and creating a new one requires all three members of the coven to perform a ritual. The ritual takes 1 hour, and the hags can't perform it while blinded. During the ritual, if the hags take any action other than performing the ritual, they must start over."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Claws (Hag Form Only)",
-				"attack_bonus": 7,
+				"attack_bonus": "7",
 				"damage_dice": "2d8",
-				"damage_bonus": 4,
+				"damage_bonus": "4",
 				"description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) slashing damage."
 			},
 			{
@@ -10626,8 +11009,29 @@
 				"description": "While on the Ethereal Plane, the hag magically touches a sleeping humanoid on the Material Plane. A protection from evil and good spell cast on the target prevents this contact, as does a magic circle. As long as the contact persists, the target has dreadful visions. If these visions last for at least 1 hour, the target gains no benefit from its rest, and its hit point maximum is reduced by 5 (1d10). If this effect reduces the target's hit point maximum to 0, the target dies, and if the target was evil, its soul is trapped in the hag's soul bag. The reduction to the target's hit point maximum lasts until removed by the greater restoration spell or similar magic."
 			}
 		],
-		"id": "cacvjp7lwke8q3ma9",
-		"skills": "Stealth +6, Insight +6, Perception +6, Deception +7"
+		"special_abilities": [
+			{
+				"innate_spellcasting": "The hag's innate spellcasting ability is Charisma (spell save DC 14, +6 to hit with spell attacks). She can innately cast the following spells, requiring no material components:\n\nAt will: detect magic, magic missile\n2/day each: plane shift (self only), ray of enfeeblement, sleep"
+			},
+			{
+				"magic_resistance": "The hag has advantage on saving throws against spells and other magical effects."
+			},
+			{
+				"night_hag_items": "A night hag carries two very rare magic items that she must craft for herself If either object is lost, the night hag will go to great lengths to retrieve it, as creating a new tool takes time and effort.\nHeartstone: This lustrous black gem allows a night hag to become ethereal while it is in her possession. The touch of a heartstone also cures any disease. Crafting a heartstone takes 30 days.\nSoul Bag: When an evil humanoid dies as a result of a night hag's Nightmare Haunting, the hag catches the soul in this black sack made of stitched flesh. A soul bag can hold only one evil soul at a time, and only the night hag who crafted the bag can catch a soul with it. Crafting a soul bag takes 7 days and a humanoid sacrifice (whose flesh is used to make the bag)."
+			},
+			{
+				"hag_coven": "When hags must work together, they form covens, in spite of their selfish natures. A coven is made up of hags of any type, all of whom are equals within the group. However, each of the hags continues to desire more personal power.\nA coven consists of three hags so that any arguments between two hags can be settled by the third. If more than three hags ever come together, as might happen if two covens come into conflict, the result is usually chaos."
+			},
+			{
+				"shared_spellcasting_(coven_only)": "While all three members of a hag coven are within 30 feet of one another, they can each cast the following spells from the wizard's spell list but must share the spell slots among themselves:\n\n• 1st level (4 slots): identify, ray of sickness\n• 2nd level (3 slots): hold person, locate object\n• 3rd level (3 slots): bestow curse, counterspell, lightning bolt\n• 4th level (3 slots): phantasmal killer, polymorph\n• 5th level (2 slots): contact other plane, scrying\n• 6th level (1 slot): eyebite\n\nFor casting these spells, each hag is a 12th-level spellcaster that uses Intelligence as her spellcasting ability. The spell save DC is 12+the hag's Intelligence modifier, and the spell attack bonus is 4+the hag's Intelligence modifier."
+			},
+			{
+				"hag_eye_(coven_only)": "A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes 3d10 psychic damage and is blinded for 24 hours.\nA hag coven can have only one hag eye at a time, and creating a new one requires all three members of the coven to perform a ritual. The ritual takes 1 hour, and the hags can't perform it while blinded. During the ritual, if the hags take any action other than performing the ritual, they must start over."
+			}
+		],
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Nightmare",
@@ -10671,7 +11075,10 @@
 				"description": "The nightmare and up to three willing creatures within 5 feet of it magically enter the Ethereal Plane from the Material Plane, or vice versa."
 			}
 		],
-		"id": "cacvjp7lwke8q3maa"
+		"id": "cacvjp7lwke8q3maa",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Noble",
@@ -10710,7 +11117,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mab",
-		"skills": "Insight +4, Deception +5, Persuasion +5"
+		"skills": "Insight +4, Deception +5, Persuasion +5",
+		"ac_source": [
+			"breastplate"
+		]
 	},
 	{
 		"name": "Ochre Jelly",
@@ -10843,7 +11253,10 @@
 				"description": "Melee or Ranged Weapon Attack: +6 to hit, reach 5 ft. or range 30/120 ft., one target. Hit: 11 (2d6 + 4) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mae"
+		"id": "cacvjp7lwke8q3mae",
+		"ac_source": [
+			"hide armor"
+		]
 	},
 	{
 		"name": "Ogre Zombie",
@@ -10944,7 +11357,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mag",
-		"skills": "Arcana +5, Perception +4, Deception +8"
+		"skills": "Arcana +5, Perception +4, Deception +8",
+		"ac_source": [
+			"chain mail"
+		]
 	},
 	{
 		"name": "Orc",
@@ -10988,7 +11404,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mah",
-		"skills": "Intimidation +2"
+		"skills": "Intimidation +2",
+		"ac_source": [
+			"hide armor"
+		]
 	},
 	{
 		"name": "Otyugh",
@@ -11040,46 +11459,48 @@
 				"description": "The otyugh slams creatures grappled by it into each other or a solid surface. Each creature must succeed on a DC 14 Constitution saving throw or take 10 (2d6 + 3) bludgeoning damage and be stunned until the end of the otyugh's next turn. On a successful save, the target takes half the bludgeoning damage and isn't stunned."
 			}
 		],
-		"id": "cacvjp7lwke8q3mai"
+		"id": "cacvjp7lwke8q3mai",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3maj",
 		"name": "Owl",
-		"description": "",
 		"size": "Tiny",
 		"type": "Beast",
-		"subtype": "",
 		"alignment": "unaligned",
-		"armor_class": 11,
-		"hit_points": 1,
+		"armor_class": "11",
+		"hit_points": "1",
 		"hit_dice": "1d4",
 		"speed": "5 ft., fly 60 ft.",
-		"strength": 3,
-		"dexterity": 13,
-		"constitution": 8,
-		"intelligence": 2,
-		"wisdom": 12,
-		"charisma": 7,
+		"strength": "3",
+		"dexterity": "13",
+		"constitution": "8",
+		"intelligence": "2",
+		"wisdom": "12",
+		"charisma": "7",
 		"senses": "darkvision 120 ft., passive Perception 13",
-		"languages": "",
+		"skills": "Stealth +3, Perception +3",
 		"challenge_rating": "0",
-		"special_abilities": [
-			{
-				"Flyby": "The owl doesn't provoke opportunity attacks when it flies out of an enemy's reach."
-			},
-			{
-				"Keen Hearing and Sight": "The owl has advantage on Wisdom (Perception) checks that rely on hearing or sight."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Talons",
-				"attack_bonus": 3,
-				"damage_bonus": 1,
+				"attack_bonus": "3",
+				"damage_bonus": "1",
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 1 slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3maj",
-		"skills": "Stealth +3, Perception +3"
+		"special_abilities": [
+			{
+				"flyby": "The owl doesn't provoke opportunity attacks when it flies out of an enemy's reach."
+			},
+			{
+				"keen_hearing_and_sight": "The owl has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+			}
+		]
 	},
 	{
 		"name": "Owlbear",
@@ -11127,7 +11548,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mak",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Panther",
@@ -11252,7 +11676,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3man",
-		"skills": "Stealth +6"
+		"skills": "Stealth +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Pit Fiend",
@@ -11328,7 +11755,10 @@
 				"description": "Melee Weapon Attack: +14 to hit, reach 10ft., one target. Hit: 24 (3d1O + 8) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mao"
+		"id": "cacvjp7lwke8q3mao",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Planetar",
@@ -11387,7 +11817,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3map",
-		"skills": "Perception +11"
+		"skills": "Perception +11",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Plesiosaurus",
@@ -11424,7 +11857,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3maq",
-		"skills": "Stealth +4, Perception +3"
+		"skills": "Stealth +4, Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Poisonous Snake",
@@ -11502,7 +11938,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mas",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Pony",
@@ -11536,43 +11975,49 @@
 		"id": "cacvjp7lwke8q3mat"
 	},
 	{
+		"id": "cacvjp7lwke8q3mau",
 		"name": "Priest",
-		"description": "",
 		"size": "Medium",
 		"type": "Humanoid",
 		"subtype": "any race",
 		"alignment": "any alignment",
-		"armor_class": 13,
-		"hit_points": 27,
+		"armor_class": "13",
+		"hit_points": "27",
 		"hit_dice": "5d8",
 		"speed": "25 ft.",
-		"strength": 10,
-		"dexterity": 10,
-		"constitution": 12,
-		"intelligence": 13,
-		"wisdom": 16,
-		"charisma": 13,
+		"strength": "10",
+		"dexterity": "10",
+		"constitution": "12",
+		"intelligence": "13",
+		"wisdom": "16",
+		"charisma": "13",
 		"senses": "passive Perception 13",
 		"languages": "any two languages",
+		"skills": "Religion +4, Medicine +7, Persuasion +3",
 		"challenge_rating": "2",
-		"special_abilities": [
-			{
-				"Divine Eminence": "As a bonus action, the priest can expend a spell slot to cause its melee weapon attacks to magically deal an extra 10 (3d6) radiant damage to a target on a hit. This benefit lasts until the end of the turn. If the priest expends a spell slot of 2nd level or higher, the extra damage increases by 1d6 for each level above 1st."
-			},
-			{
-				"Spellcasting": "The priest is a 5th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 13, +5 to hit with spell attacks). The priest has the following cleric spells prepared:\n\n• Cantrips (at will): light, sacred flame, thaumaturgy\n• 1st level (4 slots): cure wounds, guiding bolt, sanctuary\n• 2nd level (3 slots): lesser restoration, spiritual weapon\n• 3rd level (2 slots): dispel magic, spirit guardians"
-			}
+		"tags": [
+			"The Holy Triumvirate"
 		],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Mace",
-				"attack_bonus": 2,
+				"attack_bonus": "2",
 				"damage_dice": "1d6",
 				"description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 3 (1d6) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mau",
-		"skills": "Religion +4, Medicine +7, Persuasion +3"
+		"special_abilities": [
+			{
+				"divine_eminence": "As a bonus action, the priest can expend a spell slot to cause its melee weapon attacks to magically deal an extra 10 (3d6) radiant damage to a target on a hit. This benefit lasts until the end of the turn. If the priest expends a spell slot of 2nd level or higher, the extra damage increases by 1d6 for each level above 1st."
+			},
+			{
+				"spellcasting": "The priest is a 5th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 13, +5 to hit with spell attacks). The priest has the following cleric spells prepared:\n\n• Cantrips (at will): light, sacred flame, thaumaturgy\n• 1st level (4 slots): cure wounds, guiding bolt, sanctuary\n• 2nd level (3 slots): lesser restoration, spiritual weapon\n• 3rd level (2 slots): dispel magic, spirit guardians"
+			}
+		],
+		"ac_source": [
+			"chain shirt"
+		]
 	},
 	{
 		"name": "Pseudodragon",
@@ -11674,7 +12119,10 @@
 				"description": "Melee Weapon Attack: +9 to hit, reach 10 ft., one creature. Hit: 19 (3d6 + 9) piercing damage, and the target must make a DC 19 Constitution saving throw, taking 42 (12d6) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3maw"
+		"id": "cacvjp7lwke8q3maw",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Quasit",
@@ -11812,41 +12260,43 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3maz",
-		"skills": "Insight +8, Deception +10"
+		"skills": "Insight +8, Deception +10",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3mb0",
 		"name": "Rat",
-		"description": "",
 		"size": "Tiny",
 		"type": "Beast",
-		"subtype": "",
 		"alignment": "unaligned",
-		"armor_class": 10,
-		"hit_points": 1,
+		"armor_class": "10",
+		"hit_points": "1",
 		"hit_dice": "1d4",
 		"speed": "20 ft.",
-		"strength": 2,
-		"dexterity": 11,
-		"constitution": 9,
-		"intelligence": 2,
-		"wisdom": 10,
-		"charisma": 4,
+		"strength": "2",
+		"dexterity": "11",
+		"constitution": "9",
+		"intelligence": "2",
+		"wisdom": "10",
+		"charisma": "4",
 		"senses": "darkvision 30 ft., passive Perception 10",
-		"languages": "",
 		"challenge_rating": "0",
-		"special_abilities": [
-			{
-				"Keen Smell": "The rat has advantage on Wisdom (Perception) checks that rely on smell."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Bite",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Melee Weapon Attack: +0 to hit, reach 5 ft., one target. Hit: 1 piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mb0"
+		"special_abilities": [
+			{
+				"keen_smell": "The rat has advantage on Wisdom (Perception) checks that rely on smell."
+			}
+		]
 	},
 	{
 		"name": "Raven",
@@ -11922,7 +12372,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mb2",
-		"skills": "Stealth +2, Perception +4"
+		"skills": "Stealth +2, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Reef Shark",
@@ -11962,7 +12415,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mb3",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Remorhaz",
@@ -12003,7 +12459,10 @@
 				"description": "The remorhaz makes one bite attack against a Medium or smaller creature it is grappling. If the attack hits, that creature takes the bite's damage and is swallowed, and the grapple ends. While swallowed, the creature is blinded and restrained, it has total cover against attacks and other effects outside the remorhaz, and it takes 21 (6d6) acid damage at the start of each of the remorhaz's turns.\nIf the remorhaz takes 30 damage or more on a single turn from a creature inside it, the remorhaz must succeed on a DC 15 Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall prone in a space within 10 feet oft he remorhaz. If the remorhaz dies, a swallowed creature is no longer restrained by it and can escape from the corpse using 15 feet of movement, exiting prone."
 			}
 		],
-		"id": "cacvjp7lwke8q3mb4"
+		"id": "cacvjp7lwke8q3mb4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Rhinoceros",
@@ -12039,7 +12498,10 @@
 				"description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 14 (2d8 + 5) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mb5"
+		"id": "cacvjp7lwke8q3mb5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Riding Horse",
@@ -12122,7 +12584,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mb7",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Roper",
@@ -12178,7 +12643,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mb8",
-		"skills": "Stealth +5, Perception +6"
+		"skills": "Stealth +5, Perception +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Rug of Smothering",
@@ -12264,7 +12732,10 @@
 				"description": "The rust monster corrodes a nonmagical ferrous metal object it can see within 5 feet of it. If the object isn't being worn or carried, the touch destroys a 1-foot cube of it. If the object is being worn or carried by a creature, the creature can make a DC 11 Dexterity saving throw to avoid the rust monster's touch.\nIf the object touched is either metal armor or a metal shield being worn or carried, its takes a permanent and cumulative -1 penalty to the AC it offers. Armor reduced to an AC of 10 or a shield that drops to a +0 bonus is destroyed. If the object touched is a held metal weapon, it rusts as described in the Rust Metal trait."
 			}
 		],
-		"id": "cacvjp7lwke8q3mba"
+		"id": "cacvjp7lwke8q3mba",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Saber-Toothed Tiger",
@@ -12372,7 +12843,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbc",
-		"skills": "Perception +5"
+		"skills": "Perception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Salamander",
@@ -12425,7 +12899,10 @@
 				"description": "Melee Weapon Attack: +7 to hit, reach 10 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage plus 7 (2d6) fire damage, and the target is grappled (escape DC 14). Until this grapple ends, the target is restrained, the salamander can automatically hit the target with its tail, and the salamander can't make tail attacks against other targets."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbd"
+		"id": "cacvjp7lwke8q3mbd",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Satyr",
@@ -12480,7 +12957,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbe",
-		"skills": "Stealth +5, Perception +2, Performance +6"
+		"skills": "Stealth +5, Perception +2, Performance +6",
+		"ac_source": [
+			"leather armor"
+		]
 	},
 	{
 		"name": "Scorpion",
@@ -12510,7 +12990,10 @@
 				"description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one creature. Hit: 1 piercing damage, and the target must make a DC 9 Constitution saving throw, taking 4 (1d8) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbf"
+		"id": "cacvjp7lwke8q3mbf",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Scout",
@@ -12558,7 +13041,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbg",
-		"skills": "Stealth +6, Nature +4, Perception +5, Survival +5"
+		"skills": "Stealth +6, Nature +4, Perception +5, Survival +5",
+		"ac_source": [
+			"leather armor"
+		]
 	},
 	{
 		"name": "Sea Hag",
@@ -12614,7 +13100,10 @@
 				"description": "The hag covers herself and anything she is wearing or carrying with a magical illusion that makes her look like an ugly creature of her general size and humanoid shape. The effect ends if the hag takes a bonus action to end it or if she dies.\nThe changes wrought by this effect fail to hold up to physical inspection. For example, the hag could appear to have no claws, but someone touching her hand might feel the claws. Otherwise, a creature must take an action to visually inspect the illusion and succeed on a DC 16 Intelligence (Investigation) check to discern that the hag is disguised."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbh"
+		"id": "cacvjp7lwke8q3mbh",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Sea Horse",
@@ -12736,7 +13225,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbk",
-		"skills": "Stealth +2"
+		"skills": "Stealth +2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Shield Guardian",
@@ -12791,7 +13283,10 @@
 				"attack_bonus": 0
 			}
 		],
-		"id": "cacvjp7lwke8q3mbl"
+		"id": "cacvjp7lwke8q3mbl",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Shrieker",
@@ -12867,7 +13362,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbn",
-		"skills": "Stealth +2, Perception +4"
+		"skills": "Stealth +2, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Skeleton",
@@ -12907,7 +13405,10 @@
 				"description": "Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbo"
+		"id": "cacvjp7lwke8q3mbo",
+		"ac_source": [
+			"armor scraps"
+		]
 	},
 	{
 		"name": "Solar",
@@ -12992,7 +13493,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbp",
-		"skills": "Perception +14"
+		"skills": "Perception +14",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Specter",
@@ -13120,7 +13624,10 @@
 				"description": "Melee Weapon Attack: +7 to hit, reach 10 ft., one creature. Hit: 7 (1d6 + 4) piercing damage, and the target must make a DC 13 Constitution saving throw, taking 31 (7d8) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbs"
+		"id": "cacvjp7lwke8q3mbs",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Sprite",
@@ -13165,7 +13672,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbt",
-		"skills": "Stealth +8, Perception +3"
+		"skills": "Stealth +8, Perception +3",
+		"ac_source": [
+			"leather armor"
+		]
 	},
 	{
 		"name": "Spy",
@@ -13295,7 +13805,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one creature. Hit: 5 (1d4 + 3) piercing damage, and the stirge attaches to the target. While attached, the stirge doesn't attack. Instead, at the start of each of the stirge's turns, the target loses 5 (1d4 + 3) hit points due to blood loss.\nThe stirge can detach itself by spending 5 feet of its movement. It does so after it drains 10 hit points of blood from the target or the target dies. A creature, including the target, can use its action to detach the stirge."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbw"
+		"id": "cacvjp7lwke8q3mbw",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Stone Giant",
@@ -13353,7 +13866,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbx",
-		"skills": "Athletics +12, Perception +4"
+		"skills": "Athletics +12, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Stone Golem",
@@ -13405,7 +13921,10 @@
 				"description": "The golem targets one or more creatures it can see within 10 ft. of it. Each target must make a DC 17 Wisdom saving throw against this magic. On a failed save, a target can't use reactions, its speed is halved, and it can't make more than one attack on its turn. In addition, the target can take either an action or a bonus action on its turn, not both. These effects last for 1 minute. A target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 			}
 		],
-		"id": "cacvjp7lwke8q3mby"
+		"id": "cacvjp7lwke8q3mby",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Storm Giant",
@@ -13467,7 +13986,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbz",
-		"skills": "Athletics +14, Arcana +8, History +8, Perception +9"
+		"skills": "Athletics +14, Arcana +8, History +8, Perception +9",
+		"ac_source": [
+			"scale mail"
+		]
 	},
 	{
 		"name": "Succubus/Incubus",
@@ -13602,7 +14124,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc2"
+		"id": "cacvjp7lwke8q3mc2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Swarm of Centipedes",
@@ -13639,7 +14164,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm has half of its hit points or fewer.\nA creature reduced to 0 hit points by a swarm of centipedes is stable but poisoned for 1 hour, even after regaining hit points, and paralyzed while poisoned in this way."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc3"
+		"id": "cacvjp7lwke8q3mc3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Swarm of Insects",
@@ -13676,7 +14204,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc4"
+		"id": "cacvjp7lwke8q3mc4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Swarm of Poisonous Snakes",
@@ -13879,7 +14410,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc9"
+		"id": "cacvjp7lwke8q3mc9",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Swarm of Wasps",
@@ -13916,7 +14450,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 0 ft., one target in the swarm's space. Hit: 10 (4d4) piercing damage, or 5 (2d4) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mca"
+		"id": "cacvjp7lwke8q3mca",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Tarrasque",
@@ -14013,7 +14550,10 @@
 				"description": "The tarrasque makes one bite attack or uses its Swallow."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcb"
+		"id": "cacvjp7lwke8q3mcb",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Thug",
@@ -14060,7 +14600,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcc",
-		"skills": "Intimidation +2"
+		"skills": "Intimidation +2",
+		"ac_source": [
+			"leather armor"
+		]
 	},
 	{
 		"name": "Tiger",
@@ -14160,7 +14703,10 @@
 				"description": "The treant magically animates one or two trees it can see within 60 feet of it. These trees have the same statistics as a treant, except they have Intelligence and Charisma scores of 1, they can't speak, and they have only the Slam action option. An animated tree acts as an ally of the treant. The tree remains animate for 1 day or until it dies; until the treant dies or is more than 120 feet from the tree; or until the treant takes a bonus action to turn it back into an inanimate tree. The tree then takes root if possible."
 			}
 		],
-		"id": "cacvjp7lwke8q3mce"
+		"id": "cacvjp7lwke8q3mce",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Tribal Warrior",
@@ -14196,7 +14742,10 @@
 				"description": "Melee or Ranged Weapon Attack: +3 to hit, reach 5 ft. or range 20/60 ft., one target. Hit: 4 (1d6 + 1) piercing damage, or 5 (1d8 + 1) piercing damage if used with two hands to make a melee attack."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcf"
+		"id": "cacvjp7lwke8q3mcf",
+		"ac_source": [
+			"hide armor"
+		]
 	},
 	{
 		"name": "Triceratops",
@@ -14239,7 +14788,10 @@
 				"description": "Melee Weapon Attack: +9 to hit, reach 5 ft., one prone creature. Hit: 22 (3d10 + 6) bludgeoning damage"
 			}
 		],
-		"id": "cacvjp7lwke8q3mcg"
+		"id": "cacvjp7lwke8q3mcg",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Troll",
@@ -14293,7 +14845,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mch",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Tyrannosaurus Rex",
@@ -14336,7 +14891,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mci",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Unicorn",
@@ -14505,7 +15063,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mck",
-		"skills": "Stealth +9, Perception +7"
+		"skills": "Stealth +9, Perception +7",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Vampire Spawn",
@@ -14560,28 +15121,34 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcl",
-		"skills": "Stealth +6, Perception +3"
+		"skills": "Stealth +6, Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3mcm",
 		"name": "Veteran",
-		"description": "",
 		"size": "Medium",
 		"type": "Humanoid",
 		"subtype": "any race",
 		"alignment": "any alignment",
-		"armor_class": 17,
-		"hit_points": 58,
+		"armor_class": "17",
+		"hit_points": "58",
 		"hit_dice": "9d8",
 		"speed": "30 ft.",
-		"strength": 16,
-		"dexterity": 13,
-		"constitution": 14,
-		"intelligence": 10,
-		"wisdom": 11,
-		"charisma": 10,
+		"strength": "16",
+		"dexterity": "13",
+		"constitution": "14",
+		"intelligence": "10",
+		"wisdom": "11",
+		"charisma": "10",
 		"senses": "passive Perception 12",
 		"languages": "any one language (usually Common)",
+		"skills": "Athletics +5, Perception +2",
 		"challenge_rating": "3",
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Multiattack",
@@ -14589,28 +15156,30 @@
 			},
 			{
 				"name": "Longsword",
-				"attack_bonus": 5,
+				"attack_bonus": "5",
 				"damage_dice": "1d8",
-				"damage_bonus": 3,
+				"damage_bonus": "3",
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 7 (1d8 + 3) slashing damage, or 8 (1d10 + 3) slashing damage if used with two hands."
 			},
 			{
 				"name": "Shortsword",
-				"attack_bonus": 5,
+				"attack_bonus": "5",
 				"damage_dice": "1d6",
-				"damage_bonus": 3,
+				"damage_bonus": "3",
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 6 (1d6 + 3) piercing damage."
 			},
 			{
 				"name": "Heavy Crossbow",
-				"attack_bonus": 3,
+				"attack_bonus": "3",
 				"damage_dice": "1d10",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Ranged Weapon Attack: +3 to hit, range 100/400 ft., one target. Hit: 6 (1d10 + 1) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcm",
-		"skills": "Athletics +5, Perception +2"
+		"special_abilities": [],
+		"ac_source": [
+			"splint armor"
+		]
 	},
 	{
 		"name": "Violet Fungus",
@@ -14715,7 +15284,10 @@
 				"description": "The demon chooses what to summon and attempts a magical summoning.\nA vrock has a 30 percent chance of summoning 2d4 dretches or one vrock.\nA summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 			}
 		],
-		"id": "cacvjp7lwke8q3mco"
+		"id": "cacvjp7lwke8q3mco",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Vulture",
@@ -14824,7 +15396,10 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcr"
+		"id": "cacvjp7lwke8q3mcr",
+		"ac_source": [
+			"barding scraps"
+		]
 	},
 	{
 		"name": "Water Elemental",
@@ -14874,7 +15449,10 @@
 				"description": "Each creature in the elemental's space must make a DC 15 Strength saving throw. On a failure, a target takes 13 (2d8 + 4) bludgeoning damage. If it is Large or smaller, it is also grappled (escape DC 14). Until this grapple ends, the target is restrained and unable to breathe unless it can breathe water. If the saving throw is successful, the target is pushed out of the elemental's space.\nThe elemental can grapple one Large creature or up to two Medium or smaller creatures at one time. At the start of each of the elemental's turns, each target grappled by it takes 13 (2d8 + 4) bludgeoning damage. A creature within 5 feet of the elemental can pull a creature or object out of it by taking an action to make a DC 14 Strength and succeeding."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcs"
+		"id": "cacvjp7lwke8q3mcs",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Weasel",
@@ -15253,7 +15831,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcz",
-		"skills": "Stealth +2, Perception +4"
+		"skills": "Stealth +2, Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Wight",
@@ -15310,7 +15891,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3md0",
-		"skills": "Stealth +4, Perception +3"
+		"skills": "Stealth +4, Perception +3",
+		"ac_source": [
+			"studded leather armor"
+		]
 	},
 	{
 		"name": "Will-o'-Wisp",
@@ -15410,7 +15994,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3md2",
-		"skills": "Stealth +3, Perception +5"
+		"skills": "Stealth +3, Perception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Wolf",
@@ -15450,7 +16037,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3md3",
-		"skills": "Stealth +4, Perception +3"
+		"skills": "Stealth +4, Perception +3",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Worg",
@@ -15487,7 +16077,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3md4",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Wraith",
@@ -15536,25 +16129,26 @@
 		"id": "cacvjp7lwke8q3md5"
 	},
 	{
+		"id": "cacvjp7lwke8q3md6",
 		"name": "Wyvern",
-		"description": "",
 		"size": "Large",
 		"type": "Dragon",
-		"subtype": "",
 		"alignment": "unaligned",
-		"armor_class": 13,
-		"hit_points": 110,
+		"armor_class": "13",
+		"hit_points": "110",
 		"hit_dice": "13d10",
 		"speed": "20 ft., fly 80 ft.",
-		"strength": 19,
-		"dexterity": 10,
-		"constitution": 16,
-		"intelligence": 5,
-		"wisdom": 12,
-		"charisma": 6,
+		"strength": "19",
+		"dexterity": "10",
+		"constitution": "16",
+		"intelligence": "5",
+		"wisdom": "12",
+		"charisma": "6",
 		"senses": "darkvision 60 ft., passive Perception 14",
-		"languages": "",
+		"skills": "Perception +4",
 		"challenge_rating": "6",
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Multiattack",
@@ -15562,28 +16156,30 @@
 			},
 			{
 				"name": "Bite",
-				"attack_bonus": 7,
+				"attack_bonus": "7",
 				"damage_dice": "2d6",
-				"damage_bonus": 4,
+				"damage_bonus": "4",
 				"description": "Melee Weapon Attack: +7 to hit, reach 10 ft., one creature. Hit: 11 (2d6 + 4) piercing damage."
 			},
 			{
 				"name": "Claws",
-				"attack_bonus": 7,
+				"attack_bonus": "7",
 				"damage_dice": "2d8",
-				"damage_bonus": 4,
+				"damage_bonus": "4",
 				"description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) slashing damage."
 			},
 			{
 				"name": "Stinger",
-				"attack_bonus": 7,
+				"attack_bonus": "7",
 				"damage_dice": "2d6",
-				"damage_bonus": 4,
+				"damage_bonus": "4",
 				"description": "Melee Weapon Attack: +7 to hit, reach 10 ft., one creature. Hit: 11 (2d6 + 4) piercing damage. The target must make a DC 15 Constitution saving throw, taking 24 (7d6) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3md6",
-		"skills": "Perception +4"
+		"special_abilities": [],
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Xorn",
@@ -15638,7 +16234,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3md7",
-		"skills": "Stealth +3, Perception +6"
+		"skills": "Stealth +3, Perception +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Black Dragon",
@@ -15696,7 +16295,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3md8",
-		"skills": "Stealth +5, Perception +6"
+		"skills": "Stealth +5, Perception +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Blue Dragon",
@@ -15749,7 +16351,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3md9",
-		"skills": "Stealth +4, Perception +9"
+		"skills": "Stealth +4, Perception +9",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Brass Dragon",
@@ -15802,7 +16407,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mda",
-		"skills": "Stealth +3, Perception +6, Persuasion +5"
+		"skills": "Stealth +3, Perception +6, Persuasion +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Bronze Dragon",
@@ -15860,7 +16468,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mdb",
-		"skills": "Stealth +3, Insight +4, Perception +7"
+		"skills": "Stealth +3, Insight +4, Perception +7",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Copper Dragon",
@@ -15913,7 +16524,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mdc",
-		"skills": "Stealth +4, Perception +7, Deception +5"
+		"skills": "Stealth +4, Perception +7, Deception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Gold Dragon",
@@ -15971,7 +16585,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mdd",
-		"skills": "Stealth +6, Insight +5, Perception +9, Persuasion +9"
+		"skills": "Stealth +6, Insight +5, Perception +9, Persuasion +9",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Green Dragon",
@@ -16030,7 +16647,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mde",
-		"skills": "Stealth +4, Perception +7, Deception +5"
+		"skills": "Stealth +4, Perception +7, Deception +5",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Red Dragon",
@@ -16083,7 +16703,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mdf",
-		"skills": "Stealth +4, Perception +8"
+		"skills": "Stealth +4, Perception +8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young Silver Dragon",
@@ -16136,7 +16759,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mdg",
-		"skills": "Stealth +4, Arcana +6, History +6, Perception +8"
+		"skills": "Stealth +4, Arcana +6, History +6, Perception +8",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
 		"name": "Young White Dragon",
@@ -16194,44 +16820,46 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mdh",
-		"skills": "Stealth +3, Perception +6"
+		"skills": "Stealth +3, Perception +6",
+		"ac_source": [
+			"natural armor"
+		]
 	},
 	{
+		"id": "cacvjp7lwke8q3mdi",
 		"name": "Zombie",
-		"description": "",
 		"size": "Medium",
 		"type": "Undead",
-		"subtype": "",
 		"alignment": "neutral evil",
-		"armor_class": 8,
-		"hit_points": 22,
+		"armor_class": "8",
+		"hit_points": "22",
 		"hit_dice": "3d8",
 		"speed": "20 ft.",
-		"strength": 13,
-		"dexterity": 6,
-		"constitution": 16,
-		"intelligence": 3,
-		"wisdom": 6,
-		"charisma": 5,
-		"wisdom_save": 0,
-		"condition_immunities": "poisoned",
+		"strength": "13",
+		"dexterity": "6",
+		"constitution": "16",
+		"intelligence": "3",
+		"wisdom": "6",
+		"charisma": "5",
 		"senses": "darkvision 60 ft., passive Perception 8",
+		"condition_immunities": "poisoned",
 		"languages": "understands all languages it spoke in life but can't speak",
 		"challenge_rating": "1/4",
-		"special_abilities": [
-			{
-				"Undead Fortitude": "If damage reduces the zombie to 0 hit points, it must make a Constitution saving throw with a DC of 5+the damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 hit point instead."
-			}
-		],
+		"tags": [],
+		"unique": false,
 		"actions": [
 			{
 				"name": "Slam",
-				"attack_bonus": 3,
+				"attack_bonus": "3",
 				"damage_dice": "1d6",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mdi"
+		"special_abilities": [
+			{
+				"undead_fortitude": "If damage reduces the zombie to 0 hit points, it must make a Constitution saving throw with a DC of 5+the damage taken, unless the damage is radiant or from a critical hit. On a success, the zombie drops to 1 hit point instead."
+			}
+		]
 	}
 ]
