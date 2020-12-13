@@ -19,7 +19,7 @@ module.exports = function () {
         for (var i = 0; i < allRows.length; i++) {
             var charName = allRows[i].getElementsByTagName("label")[0].innerHTML;
             var charDex = parseInt(allRows[i].getAttribute("data-dex-mod"));
-            var color =  allRows[i].getAttribute("data-color");
+            var color = allRows[i].getAttribute("data-color");
             if (isNaN(charDex)) charDex = 0;
             var initRoll = allRows[i].getElementsByTagName("input")[0].value;
             order.push({
@@ -28,7 +28,7 @@ module.exports = function () {
                 dex: charDex,
                 isPlayer: true,
                 color: color == defaultPlayerColor ? playerColor : color
-                
+
             });
         }
 
@@ -95,8 +95,10 @@ module.exports = function () {
 
         if ($("#initBar .initiativeNode").length > 1) {
             var nameToRemove = currentNode.getElementsByClassName("initiative_name_node")[0].innerHTML;
-            order = order.filter(x => x[0] != nameToRemove);
-            currentNode.parentNode.removeChild(currentNode);
+            console.log(`Remove node ${nameToRemove}`)
+            order = order.filter(x => x.name != nameToRemove);
+            console.log(order);
+            sortAndDisplay();
             initiative.nextRound(-1);
 
         } else {
@@ -132,13 +134,15 @@ module.exports = function () {
         inp.setAttribute("placeholder", "Initiative score")
         newRow.classList.add("initiative_input_row");
         newRow.setAttribute("data-dex-mod", dexMod ? dexMod : "0");
- 
+
         newRow.setAttribute("data-color", color);
         newRow.appendChild(inp);
         return newRow;
     }
     function roll() {
         order = [];
+        if (settings.countRounds)
+            roundCounter = [1, 0];
         if (settings.autoInitiative) {
             autoRollPlayers();
             rollForMonsters();
@@ -168,7 +172,7 @@ module.exports = function () {
                         roll: (d(20) + parseInt(partyArray[i].dexterity)),
                         dex: parseInt(partyArray[i].dexterity),
                         isPlayer: true,
-                        color:partyArray[i].color == defaultPlayerColor ? playerColor : partyArray[i].color
+                        color: partyArray[i].color == defaultPlayerColor ? playerColor : partyArray[i].color
                     });
             }
         }
@@ -179,7 +183,7 @@ module.exports = function () {
                     roll: d(20),
                     dex: 0,
                     isPlayer: false,
-            
+
                 });
             } else {
                 for (var i = 0; i < loadedMonsterInfo.length; i++) {
@@ -200,7 +204,6 @@ module.exports = function () {
 
     function emptyInitiative() {
         console.log("Clear initiative")
-        roundCounter = [1, 0];
         $('.initiativeNode:not(:first-child)').remove();
         $(".initiativeNode:nth-child(1)>.init_value_node").html("");
         $(".initiativeNode:nth-child(1)>.initiative_name_node").html("Roll initiative");
@@ -270,7 +273,7 @@ module.exports = function () {
         if (settings.countRounds) {
 
             $("#round_counter_container").removeClass("hidden");
-            roundCounter = [1, 0];
+
             $(".roundcounter__value").html(roundCounter[0]);
             if (!roundcounter__handlers__added) {
                 $("#roundright").on("click", function () { nextRound(1) });
@@ -281,9 +284,9 @@ module.exports = function () {
             nextRound(1);
         }
 
-        function getColor(entry){
-            if(entry.color)return Util.hexToHSL(entry.color, 40);
-            if(entry.isPlayer)return playerColor;
+        function getColor(entry) {
+            if (entry.color) return Util.hexToHSL(entry.color, 40);
+            if (entry.isPlayer) return playerColor;
             return monsterColor;
         }
     }
@@ -322,9 +325,14 @@ module.exports = function () {
             $(".initiativeNode:nth-child(" + roundCounter[1] + ")").removeClass("initiative_node_action_readied");
         }
         if (isMainWindow) {
-            publishEvent({ round_increment: sign });
+            publishEvent({ round_increment: roundCounter });
             notifyMapToolNextPlayer();
         }
+    }
+
+    function setRoundCounter(counter){
+        roundCounter = counter;
+        nextRound(0);
     }
 
     function notifyMapToolNextPlayer() {
@@ -417,7 +425,6 @@ module.exports = function () {
     }
 
     function setOrder(orderArr) {
-        console.log("Set order", orderArr)
         order = orderArr;
         sortAndDisplay();
         nextRound(0);
@@ -455,7 +462,8 @@ module.exports = function () {
         finishRoll: finishRoll,
         cancelRoll: cancelRoll,
         refreshInputFields: refreshInputFields,
-        clearLoadedMonsterInfo: clearLoadedMonsterInfo
+        clearLoadedMonsterInfo: clearLoadedMonsterInfo,
+        setRoundCounter:setRoundCounter
     }
 
 }();

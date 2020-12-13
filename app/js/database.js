@@ -234,6 +234,9 @@ function filterDataListExecute() {
     searchstring = searchstring.toLowerCase();
     listedData = loadedData.filter(x => { return notNullAndContains(x.name, searchstring) })
 
+  }else {
+    var searchbox = document.getElementById(`${tab}_list_search`);
+    listedData = searchbox.value ? loadedData.filter(x=> x.name.toLowerCase().includes(searchbox.value)): loadedData;
   }
 
   listedLength = listedData.length;

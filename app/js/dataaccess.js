@@ -21,7 +21,7 @@ module.exports = function () {
     function import5eItems() {
         baseGet("bestiary-sublist-data.json", function (data) {
             console.log(data)
-            getMonsters(monsters=>{
+            getHomebrewMonsters(monsters=>{
             
                 monsters.forEach(monster=>{
                     var found = data.find(x=> x.name.toLowerCase() === monster.name.toLowerCase());
@@ -37,7 +37,7 @@ module.exports = function () {
                     
                    
                 });
-                setMonsters(monsters);
+                setHomebrewMonsters(monsters);
           
             });
 
@@ -362,6 +362,7 @@ module.exports = function () {
                     baseSetWithFullPath(path, fallbackData, (err) => { })
                     callback(fallbackData);
                 }
+                initializeData();
 
             } else {
 

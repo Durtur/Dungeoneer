@@ -50,6 +50,11 @@
 		"id": "cacvjpffgkgzd237s"
 	},
 	{
+		"name": "Shielded",
+		"description": "A shielded creature has an increased AC. ",
+		"id": "cacvjp7l0kin9inm0"
+	},
+	{
 		"name": "Poisoned",
 		"description": "\n\n* A poisoned creature has disadvantage on Attack rolls and Ability Checks.\n\n\n\n",
 		"id": "cacvjpffgkgzd237t"

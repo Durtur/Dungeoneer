@@ -304,7 +304,8 @@ function refreshPawnToolTips() {
 function refreshPawnToolTipsHelper(arr, monster) {
     for (var i = 0; i < arr.length; i++) {
         element = arr[i][0];
-        if (element.stateHasChanged) {
+        var changed =  element.getAttribute("data-state_changed");
+        if (changed) {
 
             flyingHeight = parseInt(element.flying_height);
             element.title = arr[i][1];
@@ -317,7 +318,7 @@ function refreshPawnToolTipsHelper(arr, monster) {
 
                 element.classList.remove("pawn_dead");
             }
-            element.stateHasChanged = null;
+            element.setAttribute("data-state_changed", null);
         }
 
     }
@@ -339,7 +340,7 @@ ipcRenderer.on("intiative-updated", function (evt, arg) {
         });
         return initiative.setOrder(arg.order);
     }
-    if (arg.round_increment) return initiative.nextRound(arg.round_increment);
+    if (arg.round_increment) return initiative.setRoundCounter(arg.round_increment);
     if (arg.empty) return initiative.empty();
 })
 ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
@@ -387,7 +388,7 @@ ipcRenderer.on('monster-health-changed', function (evt, arg) {
 
     if (arg.dead) {
         pawn.dead = "true";
-        pawn.stateHasChanged = 1;
+        pawn.setAttribute("data-state_changed", 1);
         refreshPawnToolTips();
     }
 
@@ -2125,7 +2126,6 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
         newPawn.flying_height = 0;
         newPawn["data-dnd_conditions"] = [];
-        newPawn.stateHasChanged = null;
         if (optionalSpawnPoint) {
             newPawn.style.top = optionalSpawnPoint.y + "px";
             newPawn.style.left = optionalSpawnPoint.x + "px";
@@ -2165,16 +2165,8 @@ function addToPawnBackgrounds(element, paths) {
     var currentPaths = element.getElementsByClassName("token_photo")[0].getAttribute("data-token_facets");
     currentPaths = JSON.parse(currentPaths);
     paths.forEach(path => {
-        path = "url('" + path.replace(/\\/g, "/") + "')";
-        var currentIndex = -1;
-        for (var i = 0; i < currentPaths.length; i++) {
-            if (currentPaths[i].replace(/["']/g, "") == path.replace(/["']/g, "")) {
-                currentIndex = i;
-                break;
-            }
-
-        }
-        if (currentIndex < 0)
+        path = path.replace(/\\/g, "/");
+        if (!currentPaths.find(x => x == path))
             currentPaths.push(path);
     })
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths))
@@ -2202,7 +2194,9 @@ function setPlayerPawnImage(pawnElement, path) {
     var path = dataAccess.getTokenPath(path);
 
     if (path != null) {
-        tokenPath = "url('" + path.replace(/\\/g, "/") + "')";
+        path = path.replace(/\\/g, "/")
+        tokenPath = `url('${path}')`;
+        pawnElement.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify([path]));
     } else {
         tokenPath = " url('mappingTool/tokens/default.png')";
     }
@@ -2520,12 +2514,8 @@ function killOrRevivePawn() {
     refreshPawnToolTips();
 
     function killOrReviveHelper(pawnElement) {
-        var isPlayer = false;
-        pawns.players.forEach(function (arr) {
-            if (arr[0] == pawnElement) {
-                isPlayer = true;
-            }
-        });
+        var isPlayer = isPlayerPawn(pawnElement);
+        
         if (revivePawn) {
             if (pawnElement.dead == "false")
                 return;
@@ -2547,7 +2537,7 @@ function killOrRevivePawn() {
                 }
             }
         }
-        pawnElement.stateHasChanged = 1;
+        pawnElement.setAttribute("data-state_changed", 1);
     }
 }
 function closeAddPawnDialogue() {
@@ -2728,19 +2718,13 @@ function addLightEffectHandler(e, isPreviewElement) {
 function setTokenNextFacetHandler(e) {
     selectedPawns.forEach(pawn => {
         var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
-        var images = pawnPhoto.getAttribute("data-token_facets");
-        images = JSON.parse(images);
-        var currentIndex = 0
-        for (var i = 0; i < images.length; i++) {
-            if (images[i].replace(/["']/g, "") == pawnPhoto.style.backgroundImage.replace(/["']/g, "")) {
-                currentIndex = i;
-                break;
-            }
-        }
+        var images = JSON.parse(pawnPhoto.getAttribute("data-token_facets"));
+        var currentIndex = parseInt(pawnPhoto.getAttribute("data-token_current_facet")) || 0;
         currentIndex++;
         if (currentIndex >= images.length) currentIndex = 0;
 
-        pawnPhoto.style.backgroundImage = images[currentIndex];
+        pawnPhoto.style.backgroundImage = `url('${images[currentIndex]}')`;
+        pawnPhoto.setAttribute("data-token_current_facet", currentIndex)
 
     })
 
@@ -2754,6 +2738,7 @@ function setTokenImageHandler(e) {
         message: "Choose picture location",
         filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
     });
+
 
     if (imagePaths != null) {
         if (e.target == input) {
@@ -2845,6 +2830,18 @@ function showPopupMenuPawn(x, y) {
         killButton.innerHTML = "Kill";
     }
     document.getElementById("background_color_button_change_pawn").value = selectedPawns[0].backgroundColor;
+
+    var hasFacets = 1, isMob = -1;
+    selectedPawns.forEach(pawn => {
+        if (!pawn.querySelector(".token_photo")?.getAttribute("data-token_facets"))
+            hasFacets = 0;
+        if(pawn.classList.contains("pawn_mob"))
+            isMob = 1;
+    });
+    Util.showOrHide("pawn_token_menu_button", -1*isMob);
+    Util.showOrHide("next_facet_button", hasFacets);
+
+
     popup.classList.remove("hidden");
     popup.style.left = x + "px";
     popup.style.top = y + "px";
@@ -3149,24 +3146,20 @@ function dragPawn(elmnt) {
         }
         if (e.buttons == 1) {
             //Multiple select
-            if (event.ctrlKey) {
-                if (isSelectedPawn(event.target) < 0) {
-                    selectedPawns.push(event.target);
-                    event.target.classList.add("pawn_selected");
+            if (e.ctrlKey) {
+                if (isPawn(e.target) && isSelectedPawn(e.target) < 0) {
+                    selectedPawns.push(e.target);
+                    e.target.classList.add("pawn_selected");
                 }
                 gridLayer.onmousedown = function (event) {
                     clearSelectedPawns();
                     gridLayer.onmousedown = generalMousedowngridLayer;
                 }
             } else {
-                if (selectedPawns.length == 0) {
-                    setupMeasurements();
-                    originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop };
-                    measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
-                    showToolTip(e, "0 ft", "tooltip")
-                }
-
-
+                setupMeasurements();
+                originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop };
+                measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
+                showToolTip(e, "0 ft", "tooltip")
                 e = e || window.event;
                 e.preventDefault();
                 // get the mouse cursor position at startup:
@@ -3183,7 +3176,7 @@ function dragPawn(elmnt) {
 
             if (selectedPawns.length == 1)
                 clearSelectedPawns();
-            if (isSelectedPawn(e.target) < 0) {
+            if (isPawn(e.target) && isSelectedPawn(e.target) < 0) {
                 selectedPawns.push(e.target);
                 e.target.classList.add("pawn_selected")
             }
@@ -3237,43 +3230,43 @@ function dragPawn(elmnt) {
                     obj.style.top = (obj.offsetTop - pos2) + "px";
                     obj.style.left = (obj.offsetLeft - pos1) + "px";
                 });
-
-                //Clear old
-                if (oldLine != null) {
-                    measurements.eraseModeOn();
-                    measurementsLayerContext.beginPath();
-                    measurementsLayerContext.moveTo(oldLine.a.x, oldLine.a.y);
-                    measurementsLayerContext.lineTo(oldLine.b.x, oldLine.b.y);
-                    measurementsLayerContext.stroke();
-                    measurements.eraseModeOff();
-                } else {
-                    oldLine = {};
-                }
-
-
-                measurementsLayerContext.beginPath();
-                offsetX = ((cellSize / 2) * elmnt.dnd_hexes);
-                offsetY = ((cellSize / 2) * elmnt.dnd_hexes);
-                measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
-                measurementsLayerContext.lineTo(elmnt.offsetLeft + offsetX, elmnt.offsetTop + offsetY);
-                measurementsLayerContext.stroke();
-                var a = {
-                    x: originPosition.x + offsetX,
-                    y: originPosition.y + offsetY
-                }
-                var b = {
-                    x: elmnt.offsetLeft + offsetX,
-                    y: elmnt.offsetTop + offsetY
-                }
-                oldLine.a = a;
-                oldLine.b = b;
-                distance = Math.round(
-                    Math.sqrt(
-                        Math.pow(elmnt.offsetLeft - originPosition.x, 2) +
-                        Math.pow(elmnt.offsetTop - originPosition.y, 2)
-                    ) / cellSize * 5);
-                tooltip.innerHTML = distance + " ft";
             }
+            //Clear old
+            if (oldLine != null) {
+                measurements.eraseModeOn();
+                measurementsLayerContext.beginPath();
+                measurementsLayerContext.moveTo(oldLine.a.x, oldLine.a.y);
+                measurementsLayerContext.lineTo(oldLine.b.x, oldLine.b.y);
+                measurementsLayerContext.stroke();
+                measurements.eraseModeOff();
+            } else {
+                oldLine = {};
+            }
+
+
+            measurementsLayerContext.beginPath();
+            offsetX = ((cellSize / 2) * elmnt.dnd_hexes);
+            offsetY = ((cellSize / 2) * elmnt.dnd_hexes);
+            measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
+            measurementsLayerContext.lineTo(elmnt.offsetLeft + offsetX, elmnt.offsetTop + offsetY);
+            measurementsLayerContext.stroke();
+            var a = {
+                x: originPosition.x + offsetX,
+                y: originPosition.y + offsetY
+            }
+            var b = {
+                x: elmnt.offsetLeft + offsetX,
+                y: elmnt.offsetTop + offsetY
+            }
+            oldLine.a = a;
+            oldLine.b = b;
+            distance = Math.round(
+                Math.sqrt(
+                    Math.pow(elmnt.offsetLeft - originPosition.x, 2) +
+                    Math.pow(elmnt.offsetTop - originPosition.y, 2)
+                ) / cellSize * 5);
+            tooltip.innerHTML = distance + " ft";
+
         })
 
 
@@ -3324,7 +3317,7 @@ function addPawnListeners() {
 
                 refreshMeasurementTooltip();
 
-                event.target.stateHasChanged = 1;
+                event.target.setAttribute("data-state_changed", 1);
                 refreshPawnToolTips();
                 showToolTip(event, "Flying height: " + event.target.flying_height + " ft", "tooltip2");
 
@@ -3372,6 +3365,9 @@ function resizePawns() {
 
 }
 
+function isPawn(element) {
+    return element.classList.contains("pawn");
+}
 function resizeHelper(arr) {
     for (var i = 0; i < arr.length; i++) {
         var pawn = arr[i];
