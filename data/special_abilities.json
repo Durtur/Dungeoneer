@@ -1,0 +1,561 @@
+[
+	{
+		"name": "Amphibious",
+		"description": "@{CREATURE_NAME} can breathe air and water."
+	},
+	{
+		"name": "Mucous Cloud",
+		"description": "While underwater, @{CREATURE_NAME} is surrounded by transformative mucus. A creature that touches @{CREATURE_NAME} or that hits it with a melee attack while within 5 ft. of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater."
+	},
+	{
+		"name": "Probing Telepathy",
+		"description": "If a creature communicates telepathically with @{CREATURE_NAME}, @{CREATURE_NAME} learns the creature's greatest desires if @{CREATURE_NAME} can see the creature."
+	},
+	{
+		"name": "Spellcasting",
+		"description": "@{CREATURE_NAME} is a X-level spellcaster. Its spellcasting ability is Wisdom (spell save DC X, +X to hit with spell attacks). @{CREATURE_NAME} has following  spells prepared:\n\n* Cantrips (at will):\n* 1st level (3 slots): \n* 2nd level (2 slots):"
+	},
+	{
+		"name": "Legendary Resistance (3/day)",
+		"description": "If @{CREATURE_NAME} fails a saving throw, it can choose to succeed instead."
+	},
+	{
+		"name": "Magic Resistance",
+		"description": "@{CREATURE_NAME} has advantage on saving throws against spells and other magical effects."
+	},
+	{
+		"name": "Ice Walk",
+		"description": "@{CREATURE_NAME} can move across and climb icy surfaces without needing to make an ability check. Additionally, difficult terrain composed of ice or snow doesn't cost it extra moment."
+	},
+	{
+		"name": "Air Form",
+		"description": "@{CREATURE_NAME} can enter a hostile creature's space and stop there. It can move through a space as narrow as 1 inch wide without squeezing."
+	},
+	{
+		"name": "Inscrutable",
+		"description": "@{CREATURE_NAME} is immune to any effect that would sense its emotions or read its thoughts, as well as any divination spell that it refuses. Wisdom (Insight) checks made to ascertain it's intentions or sincerity have disadvantage."
+	},
+	{
+		"name": "Magic Weapons",
+		"description": "@{CREATURE_NAME} weapon attacks are magical."
+	},
+	{
+		"name": "Antimagic Susceptibility",
+		"description": "@{CREATURE_NAME} is incapacitated while in the area of an antimagic field. If targeted by dispel magic, the armor must succeed on a Constitution saving throw against the caster's spell save DC or fall unconscious for 1 minute."
+	},
+	{
+		"name": "False Appearance",
+		"description": "While @{CREATURE_NAME} remains motionless, it is indistinguishable from a XX."
+	},
+	{
+		"name": "Assassinate",
+		"description": "During its first turn, @{CREATURE_NAME} has advantage on attack rolls against any creature that hasn't taken a turn. Any hit @{CREATURE_NAME} scores against a surprised creature is a critical hit."
+	},
+	{
+		"name": "Evasion",
+		"description": "If @{CREATURE_NAME} is subjected to an effect that allows it to make a Dexterity saving throw to take only half damage, @{CREATURE_NAME} instead takes no damage if it succeeds on the saving throw, and only half damage if it fails."
+	},
+	{
+		"name": "Sneak Attack (1/turn)",
+		"description": "@{CREATURE_NAME} deals an extra 13 (4d6) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 ft. of an ally of @{CREATURE_NAME} that isn't incapacitated and @{CREATURE_NAME} doesn't have disadvantage on the attack roll."
+	},
+	{
+		"name": "Heated Body",
+		"description": "A creature that touches @{CREATURE_NAME} or hits it with a melee attack while within 5 ft. of it takes 5 (1d10) fire damage."
+	},
+	{
+		"name": "Heated Weapons",
+		"description": "When @{CREATURE_NAME} hits with a metal melee weapon, it deals an extra 3 (1d6) fire damage (included in the attack)."
+	},
+	{
+		"name": "Illumination",
+		"description": "@{CREATURE_NAME} sheds bright light in a 10-foot radius and dim light for an additional 10 ft.."
+	},
+	{
+		"name": "Pack Tactics",
+		"description": "@{CREATURE_NAME} has advantage on an attack roll against a creature if at least one of @{CREATURE_NAME}'s allies is within 5 ft. of the creature and the ally isn't incapacitated."
+	},
+	{
+		"name": "Keen Smell",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks that rely on smell."
+	},
+	{
+		"name": "Death Throes",
+		"description": "When @{CREATURE_NAME} dies, it explodes, and each creature within 30 feet of it must make a DC 20 Dexterity saving throw, taking 70 (20d6) fire damage on a failed save, or half as much damage on a successful one. The explosion ignites flammable objects in that area that aren't being worn or carried, and it destroys @{CREATURE_NAME}'s weapons."
+	},
+	{
+		"name": "Fire Aura",
+		"description": "At the start of each of @{CREATURE_NAME}'s turns, each creature within 5 feet of it takes 10 (3d6) fire damage, and flammable objects in the aura that aren't being worn or carried ignite. A creature that touches @{CREATURE_NAME} or hits it with a melee attack while within 5 feet of it takes 10 (3d6) fire damage."
+	},
+	{
+		"name": "Barbed Hide",
+		"description": "At the start of each of its turns, @{CREATURE_NAME} deals 5 (1d10) piercing damage to any creature grappling it."
+	},
+	{
+		"name": "Devil's Sight",
+		"description": "Magical darkness doesn't impede the devil's darkvision."
+	},
+	{
+		"name": "Petrifying Gaze",
+		"description": "If a creature starts its turn within 30 ft. of @{CREATURE_NAME} and the two of them can see each other, @{CREATURE_NAME} can force the creature to make a DC 12 Constitution saving throw if @{CREATURE_NAME} isn't incapacitated. On a failed save, the creature magically begins to turn to stone and is restrained. It must repeat the saving throw at the end of its next turn. On a success, the effect ends. On a failure, the creature is petrified until freed by the greater restoration spell or other magic.\nA creature that isn't surprised can avert its eyes to avoid the saving throw at the start of its turn. If it does so, it can't see @{CREATURE_NAME} until the start of its next turn, when it can avert its eyes again. If it looks at @{CREATURE_NAME} in the meantime, it must immediately make the save.\nIf @{CREATURE_NAME} sees its reflection within 30 ft. of it in bright light, it mistakes itself for a rival and targets itself with its gaze."
+	},
+	{
+		"name": "Echolocation",
+		"description": "@{CREATURE_NAME} can't use its blindsight while deafened."
+	},
+	{
+		"name": "Keen Hearing",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks that rely on hearing."
+	},
+	{
+		"name": "Steadfast",
+		"description": "The devil can't be frightened while it can see an allied creature within 30 feet of it."
+	},
+	{
+		"name": "Reckless",
+		"description": "At the start of its turn, @{CREATURE_NAME} can gain advantage on all melee weapon attack rolls during that turn, but attack rolls against it have advantage until the start of its next turn."
+	},
+	{
+		"name": "Amorphous",
+		"description": "@{CREATURE_NAME} can move through a space as narrow as 1 inch wide without squeezing."
+	},
+	{
+		"name": "Corrosive Form",
+		"description": "A creature that touches @{CREATURE_NAME} or hits it with a melee attack while within 5 feet of it takes 4 (1d8) acid damage. Any nonmagical weapon made of metal or wood that hits @{CREATURE_NAME} corrodes. After dealing damage, the weapon takes a permanent and cumulative -1 penalty to damage rolls. If its penalty drops to -5, the weapon is destroyed. Nonmagical ammunition made of metal or wood that hits @{CREATURE_NAME} is destroyed after dealing damage. @{CREATURE_NAME} can eat through 2-inch-thick, nonmagical wood or metal in 1 round."
+	},
+	{
+		"name": "Spider Climb",
+		"description": "@{CREATURE_NAME} can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+	},
+	{
+		"name": "Keen Hearing And Smell",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks that rely on hearing or smell."
+	},
+	{
+		"name": "Keen Sight",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks that rely on sight."
+	},
+	{
+		"name": "Charge",
+		"description": "If @{CREATURE_NAME} moves at least 20 ft. straight toward a target and then hits it with a tusk attack on the same turn, the target takes an extra 3 (1d6) slashing damage. If the target is a creature, it must succeed on a DC 11 Strength saving throw or be knocked prone."
+	},
+	{
+		"name": "Relentless (Recharges After A Short Or Long Rest)",
+		"description": "If @{CREATURE_NAME} takes 7 damage or less that would reduce it to 0 hit points, it is reduced to 1 hit point instead."
+	},
+	{
+		"name": "Brute",
+		"description": "A melee weapon deals one extra die of its damage when @{CREATURE_NAME} hits with it (included in the attack)."
+	},
+	{
+		"name": "Surprise Attack",
+		"description": "If @{CREATURE_NAME} surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 (2d6) damage from the attack."
+	},
+	{
+		"name": "Standing Leap",
+		"description": "@{CREATURE_NAME}'s long jump is up to 30 ft. and its high jump is up to 15 ft., with or without a running start."
+	},
+	{
+		"name": "Sense Magic",
+		"description": "@{CREATURE_NAME} senses magic within 120 feet of it at will. This trait otherwise works like the detect magic spell but isn't itself magical."
+	},
+	{
+		"name": "Acid Absorption",
+		"description": "Whenever @{CREATURE_NAME} is subjected to acid damage, it takes no damage and instead regains a number of hit points equal to the acid damage dealt."
+	},
+	{
+		"name": "Berserk",
+		"description": "Whenever @{CREATURE_NAME} starts its turn with 60 hit points or fewer, roll a d6. On a 6, @{CREATURE_NAME} goes berserk. On each of its turns while berserk, @{CREATURE_NAME} attacks the nearest creature it can see. If no creature is near enough to move to and attack, @{CREATURE_NAME} attacks an object, with preference for an object smaller than itself. Once @{CREATURE_NAME} goes berserk, it continues to do so until it is destroyed or regains all its hit points."
+	},
+	{
+		"name": "Immutable Form",
+		"description": "@{CREATURE_NAME} is immune to any spell or effect that would alter its form."
+	},
+	{
+		"name": "Damage Transfer",
+		"description": "While attached to a creature, @{CREATURE_NAME} takes only half the damage dealt to it (rounded down). and that creature takes the other half."
+	},
+	{
+		"name": "Light Sensitivity",
+		"description": "While in bright light, @{CREATURE_NAME} has disadvantage on attack rolls and Wisdom (Perception) checks that rely on sight."
+	},
+	{
+		"name": "Innate Spellcasting",
+		"description": "@{CREATURE_NAME}'s innate spellcasting ability is Charisma. It can innately cast the following spells, requiring no material components:\n\nAt will: \n3/day each: \n1/day each: "
+	},
+	{
+		"name": "Shielded Mind",
+		"description": "@{CREATURE_NAME} is immune to scrying and to any effect that would sense its emotions, read its thoughts, or detect its location."
+	},
+	{
+		"name": "Hold Breath",
+		"description": "@{CREATURE_NAME} can hold its breath for 15 minutes."
+	},
+	{
+		"name": "Dark Devotion",
+		"description": "@{CREATURE_NAME} has advantage on saving throws against being charmed or frightened."
+	},
+	{
+		"name": "Two-headed",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks and on saving throws against being blinded, charmed, deafened, frightened, stunned, or knocked unconscious."
+	},
+	{
+		"name": "Stone Camouflage",
+		"description": "@{CREATURE_NAME} has advantage on Dexterity (Stealth) checks made to hide in rocky terrain."
+	},
+	{
+		"name": "Gnome Cunning",
+		"description": "The gnome has advantage on Intelligence, Wisdom, and Charisma saving throws against magic."
+	},
+	{
+		"name": "Angelic Weapons",
+		"description": "@{CREATURE_NAME}'s weapon attacks are magical. When @{CREATURE_NAME} hits with any weapon, the weapon deals an extra 4d8 radiant damage (included in the attack)."
+	},
+	{
+		"name": "Elemental Demise",
+		"description": "If @{CREATURE_NAME} dies, its body disintegrates into a warm breeze, leaving behind only equipment @{CREATURE_NAME} was wearing or carrying."
+	},
+	{
+		"name": "Shapechanger",
+		"description": "@{CREATURE_NAME} can use its action to polymorph into a Small or Medium humanoid it has seen, or back into its true form. Its statistics, other than its size, are the same in each form. Any equipment it is wearing or carrying isn't transformed. It reverts to its true form if it dies."
+	},
+	{
+		"name": "Ambusher",
+		"description": "@{CREATURE_NAME} has advantage on attack rolls against any creature it has surprised."
+	},
+	{
+		"name": "Fey Ancestry",
+		"description": "@{CREATURE_NAME} has advantage on saving throws against being charmed, and magic can't put @{CREATURE_NAME} to sleep."
+	},
+	{
+		"name": "Sunlight Sensitivity",
+		"description": "While in sunlight, @{CREATURE_NAME} has disadvantage on attack rolls, as well as on Wisdom (Perception) checks that rely on sight."
+	},
+	{
+		"name": "Web Walker",
+		"description": "@{CREATURE_NAME} ignores movement restrictions caused by webbing."
+	},
+	{
+		"name": "Speak With Beasts And Plants",
+		"description": "@{CREATURE_NAME} can communicate with beasts and plants as if they shared a language."
+	},
+	{
+		"name": "Tree Stride",
+		"description": "Once on her turn, @{CREATURE_NAME} can use 10 ft. of her movement to step magically into one living tree within her reach and emerge from a second living tree within 60 ft. of the first tree, appearing in an unoccupied space within 5 ft. of the second tree. Both trees must be large or bigger."
+	},
+	{
+		"name": "Duergar Resilience",
+		"description": "@{CREATURE_NAME} has advantage on saving throws against poison, spells, and illusions, as well as to resist being charmed or paralyzed."
+	},
+	{
+		"name": "Death Burst",
+		"description": "When @{CREATURE_NAME} dies, it explodes in a burst of dust. Each creature within 5 ft. of it must then succeed on a DC 10 Constitution saving throw or be blinded for 1 minute. A blinded creature can repeat the saving throw on each of its turns, ending the effect on itself on a success."
+	},
+	{
+		"name": "Earth Glide",
+		"description": "@{CREATURE_NAME} can burrow through nonmagical, unworked earth and stone. While doing so, @{CREATURE_NAME} doesn't disturb the material it moves through."
+	},
+	{
+		"name": "Siege Monster",
+		"description": "@{CREATURE_NAME} deals double damage to objects and structures."
+	},
+	{
+		"name": "Trampling Charge",
+		"description": "If @{CREATURE_NAME} moves at least 20 ft. straight toward a creature and then hits it with a an attack on the same turn, that target must succeed on a DC 12 Strength saving throw or be knocked prone. If the target is prone, @{CREATURE_NAME} can make one stomp attack against it as a bonus action."
+	},
+	{
+		"name": "Hellish Weapons",
+		"description": "@{CREATURE_NAME}'s weapon attacks are magical and deal an extra 13 (3d8) poison damage on a hit (included in the attacks)."
+	},
+	{
+		"name": "Web Sense",
+		"description": "While in contact with a web, @{CREATURE_NAME} knows the exact location of any other creature in contact with the same web."
+	},
+	{
+		"name": "Two Heads",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks and on saving throws against being blinded, charmed, deafened, frightened, stunned, and knocked unconscious."
+	},
+
+	{
+		"name": "Fire Form",
+		"description": "@{CREATURE_NAME} can move through a space as narrow as 1 inch wide without squeezing. A creature that touches @{CREATURE_NAME} or hits it with a melee attack while within 5 ft. of it takes 5 (1d10) fire damage. In addition, @{CREATURE_NAME} can enter a hostile creature's space and stop there. The first time it enters a creature's space on a turn, that creature takes 5 (1d10) fire damage and catches fire; until someone takes an action to douse the fire, the creature takes 5 (1d10) fire damage at the start of each of its turns."
+	},
+	{
+		"name": "Water Susceptibility",
+		"description": "For every 5 ft. @{CREATURE_NAME} moves in water, or for every gallon of water splashed on it, it takes 1 cold damage."
+	},
+	{
+		"name": "Rejuvenation",
+		"description": "If @{CREATURE_NAME} is destroyed, it regains all its hit points in 1 hour unless holy water is sprinkled on its remains or a dispel magic or remove curse spell is cast on them."
+	},
+	{
+		"name": "Aversion Of Fire",
+		"description": "If @{CREATURE_NAME} takes fire damage, it has disadvantage on attack rolls and ability checks until the end of its next turn."
+	},
+	{
+		"name": "Lightning Absorption",
+		"description": "Whenever @{CREATURE_NAME} is subjected to lightning damage, it takes no damage and instead regains a number of hit points equal to the lightning damage dealt."
+	},
+	{
+		"name": "Flyby",
+		"description": "@{CREATURE_NAME}doesn't provoke opportunity attacks when it flies out of an enemy's reach."
+	},
+	{
+		"name": "Stench",
+		"description": "Any creature that starts its turn within 5 ft. of @{CREATURE_NAME} must succeed on a DC 10 Constitution saving throw or be poisoned until the start of its next turn. On a successful saving throw, the creature is immune to @{CREATURE_NAME}'s Stench for 24 hours."
+	},
+	{
+		"name": "Turn Defiance",
+		"description": "@{CREATURE_NAME} and any creatures within 30 ft. of it have advantage on saving throws against effects that turn undead."
+	},
+	{
+		"name": "Ethereal Sight",
+		"description": "@{CREATURE_NAME} can see 60 ft. into the Ethereal Plane when it is on the Material Plane, and vice versa."
+	},
+	{
+		"name": "Incorporeal Movement",
+		"description": "@{CREATURE_NAME} can move through other creatures and objects as if they were difficult terrain. It takes 5 (1d10) force damage if it ends its turn inside an object."
+	},
+	{
+		"name": "Sure-footed",
+		"description": "@{CREATURE_NAME} has advantage on Strength and Dexterity saving throws made against effects that would knock it prone."
+	},
+	{
+		"name": "Rampage",
+		"description": "When @{CREATURE_NAME} reduces a creature to 0 hit points with a melee attack on its turn, @{CREATURE_NAME} can take a bonus action to move up to half its speed and make a bite attack."
+	},
+	{
+		"name": "Underwater Camouflage",
+		"description": "@{CREATURE_NAME} has advantage on Dexterity (Stealth) checks made while underwater."
+	},
+	{
+		"name": "Water Breathing",
+		"description": "@{CREATURE_NAME} can breathe underwater."
+	},
+	{
+		"name": "Keen Hearing And Sight",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks that rely on hearing or sight."
+	},
+	{
+		"name": "Blood Frenzy",
+		"description": "@{CREATURE_NAME} has advantage on melee attack rolls against any creature that doesn't have all its hit points."
+	},
+	{
+		"name": "Keen Sight And Smell",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks that rely on sight or smell."
+	},
+	{
+		"name": "Aberrant Ground",
+		"description": "The ground in a 10-foot radius around @{CREATURE_NAME} is doughlike difficult terrain. Each creature that starts its turn in that area must succeed on a DC 10 Strength saving throw or have its speed reduced to 0 until the start of its next turn."
+	},
+	{
+		"name": "Brave",
+		"description": "@{CREATURE_NAME} has advantage on saving throws against being frightened."
+	},
+	{
+		"name": "Nimble Escape",
+		"description": "@{CREATURE_NAME} can take the Disengage or Hide action as a bonus action on each of its turns."
+	},
+	{
+		"name": "Corrode Metal",
+		"description": "Any nonmagical weapon made of metal that hits @{CREATURE_NAME} corrodes. After dealing damage, the weapon takes a permanent and cumulative -1 penalty to damage rolls. If its penalty drops to -5, the weapon is destroyed. Nonmagical ammunition made of metal that hits @{CREATURE_NAME} is destroyed after dealing damage.\n@{CREATURE_NAME} can eat through 2-inch-thick, nonmagical metal in 1 round."
+	},
+	{
+		"name": "Mimicry",
+		"description": "@{CREATURE_NAME} can mimic animal sounds and humanoid voices. A creature that hears the sounds can tell they are imitations with a successful DC 14 Wisdom (Insight) check."
+	},
+	{
+		"name": "Blind Senses",
+		"description": "@{CREATURE_NAME} can't use its blindsight while deafened and unable to smell."
+	},
+	{
+		"name": "Martial Advantage",
+		"description": "Once per turn, @{CREATURE_NAME} can deal an extra 7 (2d6) damage to a creature it hits with a weapon attack if that creature is within 5 ft. of an ally of @{CREATURE_NAME} that isn't incapacitated."
+	},
+	{
+		"name": "Telepathic Bond",
+		"description": "While @{CREATURE_NAME} is on the same plane of existence as its master, it can magically convey what it senses to its master, and the two can communicate telepathically."
+	},
+	{
+		"name": "Invisibility",
+		"description": "@{CREATURE_NAME} is invisible."
+	},
+	{
+		"name": "Faultless Tracker",
+		"description": "@{CREATURE_NAME} is given a quarry by its summoner. @{CREATURE_NAME} knows the direction and distance to its quarry as long as the two of them are on the same plane of existence."
+	},
+	{
+		"name": "Fire Absorption",
+		"description": "Whenever @{CREATURE_NAME} is subjected to fire damage, it takes no damage and instead regains a number of hit points equal to the fire damage dealt."
+	},
+	{
+		"name": "Freedom Of Movement",
+		"description": "@{CREATURE_NAME} ignores difficult terrain, and magical effects can't reduce its speed or cause it to be restrained. It can spend 5 feet of movement to escape from nonmagical restraints or being grappled."
+	},
+	{
+		"name": "Hellish Rejuvenation",
+		"description": "A @{CREATURE_NAME} that dies in the Nine Hells comes back to life with all its hit points in 1d10 days unless it is killed by a good-aligned creature with a bless spell cast on that creature or its remains are sprinkled with holy water."
+	},
+	{
+		"name": "Turn Resistance",
+		"description": "@{CREATURE_NAME} has advantage on saving throws against any effect that turns undead."
+	},
+	{
+		"name": "Pounce",
+		"description": "If @{CREATURE_NAME} moves at least 20 ft. straight toward a creature and then hits it with a claw attack on the same turn, that target must succeed on a DC 13 Strength saving throw or be knocked prone. If the target is prone, @{CREATURE_NAME} can make one bite attack against it as a bonus action."
+	},
+	{
+		"name": "Running Leap",
+		"description": "With a 10-foot running start, @{CREATURE_NAME} can long jump up to 25 ft.."
+	},
+	{
+		"name": "Ignited Illumination",
+		"description": "As a bonus action, @{CREATURE_NAME} can set itself ablaze or extinguish its flames. While ablaze, @{CREATURE_NAME} sheds bright light in a 10-foot radius and dim light for an additional 10 ft."
+	},
+	{
+		"name": "Reactive",
+		"description": "@{CREATURE_NAME} can take one reaction on every turn in combat."
+	},
+	{
+		"name": "Grappler",
+		"description": "@{CREATURE_NAME} has advantage on attack rolls against any creature grappled by it."
+	},
+	{
+		"name": "Labyrinthine Recall",
+		"description": "@{CREATURE_NAME} can perfectly recall any path it has traveled."
+	},
+	{
+		"name": "Beast Of Burden",
+		"description": "@{CREATURE_NAME} is considered to be a Large animal for the purpose of determining its carrying capacity."
+	},
+	{
+		"name": "Confer Fire Resistance",
+		"description": "@{CREATURE_NAME} can grant resistance to fire damage to anyone riding it."
+	},
+	{
+		"name": "Undead Fortitude",
+		"description": "If damage reduces @{CREATURE_NAME} to 0 hit points, it must make a Constitution saving throw with a DC of 5+the damage taken, unless the damage is radiant or from a critical hit. On a success, @{CREATURE_NAME} drops to 1 hit point instead."
+	},
+	{
+		"name": "Regeneration",
+		"description": "@{CREATURE_NAME} regains 10 hit points at the start of its turn if it has at least 1 hit point."
+	},
+	{
+		"name": "Aggressive",
+		"description": "As a bonus action, @{CREATURE_NAME} can move up to its speed toward a hostile creature that it can see."
+	},
+	{
+		"name": "Limited Telepathy",
+		"description": "@{CREATURE_NAME} can magically transmit simple messages and images to any creature within 120 ft. of it that can understand a language. This form of telepathy doesn't allow the receiving creature to telepathically respond."
+	},
+	{
+		"name": "Ethereal Jaunt",
+		"description": "As a bonus action,@{CREATURE_NAME} can magically shift from the Material Plane to the Ethereal Plane, or vice versa."
+	},
+	{
+		"name": "Fear Aura",
+		"description": "Any creature hostile to @{CREATURE_NAME} that starts its turn within 20 feet of @{CREATURE_NAME} must make a DC 21 Wisdom saving throw, unless @{CREATURE_NAME} is incapacitated. On a failed save, the creature is frightened until the start of its next turn. If a creature's saving throw is successful, the creature is immune to @{CREATURE_NAME}'s Fear Aura for the next 24 hours."
+	},
+	{
+		"name": "Divine Awareness",
+		"description": "@{CREATURE_NAME} knows if it hears a lie."
+	},
+	{
+		"name": "Divine Eminence",
+		"description": "As a bonus action, @{CREATURE_NAME} can expend a spell slot to cause its melee weapon attacks to magically deal an extra 10 (3d6) radiant damage to a target on a hit. This benefit lasts until the end of the turn. If @{CREATURE_NAME} expends a spell slot of 2nd level or higher, the extra damage increases by 1d6 for each level above 1st."
+	},
+	{
+		"name": "Keen Senses",
+		"description": "@{CREATURE_NAME} has advantage on Wisdom (Perception) checks that rely on sight, hearing, or smell."
+	},
+	{
+		"name": "Tunneler",
+		"description": "@{CREATURE_NAME} can burrow through solid rock at half its burrow speed."
+	},
+	{
+		"name": "Limited Magic Immunity",
+		"description": "@{CREATURE_NAME} can't be affected or detected by spells of 6th level or lower unless it wishes to be. It has advantage on saving throws against all other spells and magical effects."
+	},
+	{
+		"name": "Grasping Tendrils",
+		"description": "@{CREATURE_NAME} can have up to six tendrils at a time. Each tendril can be attacked (AC 20; 10 hit points; immunity to poison and psychic damage). Destroying a tendril deals no damage to @{CREATURE_NAME}, which can extrude a replacement tendril on its next turn. A tendril can also be broken if a creature takes an action and succeeds on a DC 15 Strength check against it."
+	},
+	{
+		"name": "Iron Scent",
+		"description": "@{CREATURE_NAME} can pinpoint, by scent, the location of ferrous metal within 30 feet of it."
+	},
+	{
+		"name": "Rust Metal",
+		"description": "Any nonmagical weapon made of metal that hits @{CREATURE_NAME} corrodes. After dealing damage, the weapon takes a permanent and cumulative -1 penalty to damage rolls. If its penalty drops to -5, the weapon is destroyed. Non magical ammunition made of metal that hits @{CREATURE_NAME} is destroyed after dealing damage."
+	},
+	{
+		"name": "Limited Amphibiousness",
+		"description": "@{CREATURE_NAME} can breathe air and water, but it needs to be submerged at least once every 4 hours to avoid suffocating."
+	},
+	{
+		"name": "Horrific Appearance",
+		"description": "Any humanoid that starts its turn within 30 feet of @{CREATURE_NAME} and can see @{CREATURE_NAME}'s true form must make a DC X Wisdom saving throw. On a failed save, the creature is frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, with disadvantage if @{CREATURE_NAME} is within line of sight, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to @{CREATURE_NAME}'s Horrific Appearance for the next 24 hours.\nUnless the target is surprised or the revelation of @{CREATURE_NAME}'s true form is sudden, the target can avert its eyes and avoid making the initial saving throw. Until the start of its next turn, a creature that averts its eyes has disadvantage on attack rolls against @{CREATURE_NAME}."
+	},
+	{
+		"name": "Shadow Stealth",
+		"description": "While in dim light or darkness, @{CREATURE_NAME} can take the Hide action as a bonus action. Its stealth bonus is also improved to +X."
+	},
+	{
+		"name": "Sunlight Weakness",
+		"description": "While in sunlight, @{CREATURE_NAME} has disadvantage on attack rolls, ability checks, and saving throws."
+	},
+	{
+		"name": "Cunning Action",
+		"description": "On each of its turns, @{CREATURE_NAME} can use a bonus action to take the Dash, Disengage, or Hide action."
+	},
+	{
+		"name": "Swarm",
+		"description": "The swarm can occupy another creature's space and vice versa, and the swarm can move through any opening large enough for a Tiny bat. The swarm can't regain hit points or gain temporary hit points."
+	},
+	{
+		"name": "Reflective Carapace",
+		"description": "Any time @{CREATURE_NAME} is targeted by a magic missile spell, a line spell, or a spell that requires a ranged attack roll, roll a d6. On a 1 to 5, @{CREATURE_NAME} is unaffected. On a 6, @{CREATURE_NAME} is unaffected, and the effect is reflected back at the caster as though it originated from @{CREATURE_NAME}, turning the caster into the target."
+	},
+	{
+		"name": "Loathsome Limbs",
+		"description": "Whenever @{CREATURE_NAME} takes at least 15 slashing damage at one time, roll a d20 to determine what else happens to it:\n1-10: Nothing else happens.\n11-14: One leg is severed from @{CREATURE_NAME} if it has any legs left.\n15- 18: One arm is severed from @{CREATURE_NAME} if it has any arms left.\n19-20: @{CREATURE_NAME} is decapitated, but @{CREATURE_NAME} dies only if it can't regenerate. If it dies, so does the severed head.\nIf @{CREATURE_NAME} finishes a short or long rest without reattaching a severed limb or head, the part regrows. At that point, the severed part dies. Until then, a severed part acts on @{CREATURE_NAME}'s initiative and has its own action and movement. A severed part has AC 13, 10 hit points, and @{CREATURE_NAME}'s Regeneration trait.\nA severed leg is unable to attack and has a speed of 5 feet.\nA severed arm has a speed of 5 feet and can make one claw attack on its turn, with disadvantage on the attack roll unless @{CREATURE_NAME} can see the arm and its target. Each time @{CREATURE_NAME} loses an arm, it loses a claw attack.\nIf its head is severed, @{CREATURE_NAME} loses its bite attack and its body is blinded unless the head can see it. The severed head has a speed of 0 feet and @{CREATURE_NAME}'s Keen Smell trait. It can make a bite attack but only against a target in its space.\n@{CREATURE_NAME}'s speed is halved if it's missing a leg. If it loses both legs, it falls prone. If it has both arms, it can crawl. With only one arm, it can still crawl, but its speed is halved. With no arms or legs, its speed is 0, and it can't benefit from bonuses to speed."
+	},
+	{
+		"name": "Misty Escape",
+		"description": "When it drops to 0 hit points outside its resting place, @{CREATURE_NAME} transforms into a cloud of mist (as in the Shapechanger trait) instead of falling unconscious, provided that it isn't in sunlight or running water. If it can't transform, it is destroyed.\nWhile it has 0 hit points in mist form, it can't revert to its @{CREATURE_NAME} form, and it must reach its resting place within 2 hours or be destroyed. Once in its resting place, it reverts to its @{CREATURE_NAME} form. It is then paralyzed until it regains at least 1 hit point. After spending 1 hour in its resting place with 0 hit points, it regains 1 hit point."
+	},
+	{
+		"name": "Vampire Weaknesses",
+		"description": "@{CREATURE_NAME} has the following flaws:\nForbiddance. @{CREATURE_NAME} can't enter a residence without an invitation from one of the occupants.\nHarmed by Running Water. @{CREATURE_NAME} takes 20 acid damage if it ends its turn in running water.\nStake to the Heart. If a piercing weapon made of wood is driven into @{CREATURE_NAME}'s heart while @{CREATURE_NAME} is incapacitated in its resting place, @{CREATURE_NAME} is paralyzed until the stake is removed.\nSunlight Hypersensitivity. @{CREATURE_NAME} takes 20 radiant damage when it starts its turn in sunlight. While in sunlight, it has disadvantage on attack rolls and ability checks."
+	},
+	{
+		"name": "Water Form",
+		"description": "@{CREATURE_NAME} can enter a hostile creature's space and stop there. It can move through a space as narrow as 1 inch wide without squeezing."
+	},
+	{
+		"name": "Freeze",
+		"description": "If @{CREATURE_NAME} takes cold damage, it partially freezes; its speed is reduced by 20 ft. until the end of its next turn."
+	},
+	
+	
+	{
+		"name": "Consume Life",
+		"description": "As a bonus action, @{CREATURE_NAME} can target one creature it can see within 5 ft. of it that has 0 hit points and is still alive. The target must succeed on a DC 10 Constitution saving throw against this magic or die. If the target dies, @{CREATURE_NAME} regains 10 (3d6) hit points."
+	},
+	{
+		"name": "Ephemeral",
+		"description": "@{CREATURE_NAME} can't wear or carry anything."
+	},
+	{
+		"name": "Variable Illumination",
+		"description": "@{CREATURE_NAME} sheds bright light in a 5- to 20-foot radius and dim light for an additional number of ft. equal to the chosen radius. @{CREATURE_NAME} can alter the radius as a bonus action."
+	},
+	{
+		"name": "Snow Camouflage",
+		"description": "@{CREATURE_NAME} has advantage on Dexterity (Stealth) checks made to hide in snowy terrain."
+	},
+	{
+		"name": "Treasure Sense",
+		"description": "@{CREATURE_NAME} can pinpoint, by scent, the location of precious metals and stones, such as coins and gems, within 60 ft. of it."
+	}
+]

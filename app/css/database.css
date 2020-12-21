@@ -604,7 +604,7 @@ html {
 }
 
 .specialjsonAttribute,.reaction_name {
-  width: 210px;
+  width: 210px !important;
 }
 
 .jsonAttribute {

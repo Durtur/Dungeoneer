@@ -176,6 +176,11 @@ function populateDropdowns() {
   document.getElementById("addmonster_ac_source").addEventListener("awesomplete-selectcomplete", armorSelected)
   new Awesomplete(document.getElementById("spell_school_input"), { list: constants.spellSchools, autoFirst: true, minChars: 0, sort: false });
 
+  var specialAbilityList = constants.specialAbilities.map(x => x.name);
+  [...document.querySelectorAll(".special_ability_column .specialjsonAttribute")].forEach(input => {
+    new Awesomplete(input, { list: specialAbilityList, autoFirst: true, minChars: 0, sort: false });
+    input.addEventListener("awesomplete-selectcomplete", specialAbilitySelected)
+  });
   var sizeList = [];
   creaturePossibleSizes.sizes.forEach(function (size) {
     sizeList.push(size.substring(0, 1).toUpperCase() + size.substring(1))
@@ -183,10 +188,10 @@ function populateDropdowns() {
   new Awesomplete(document.getElementsByClassName("addmonster_size")[0], { list: sizeList, autoFirst: true, minChars: 0, sort: false });
 
   document.getElementById("homebrewAC").oninput = (evt) => { evt.target.setAttribute("data-user_override", true) }
-  document.querySelector(".addmonster_dexterity").oninput = (evt)=>{armorSelected()}
+  document.querySelector(".addmonster_dexterity").oninput = (evt) => { armorSelected() }
   function armorSelected() {
     var acField = document.getElementById("homebrewAC");
-    if (acField.getAttribute("data-user_override")) return console.log("bye");
+    if (acField.getAttribute("data-user_override") && acField.value) return;
 
     var value = document.getElementById("addmonster_ac_source").value;
     var split = value.split(",");
@@ -200,12 +205,12 @@ function populateDropdowns() {
     var shield = selectedArmors.find(x => x.is_shield);
     console.log(baseAc)
     if (!baseAc?.mod) {
-      if(!shield?.mod){
+      if (!shield?.mod) {
         return;
       }
       baseAc = shield;
       shield = null;
-    } 
+    }
     var finalAc = parseInt(baseAc.mod) + 10;
     if (shield) finalAc += parseInt(shield.mod);
     if (baseAc.maxDex != 0) {
@@ -232,6 +237,21 @@ function populateDropdowns() {
 
     });
     return stringValues;
+  }
+
+  function specialAbilitySelected(evt) {
+    var parent = evt.target.closest(".special_ability_column");
+    console.log(evt, constants.specialAbilities)
+    var selectedAbility = constants.specialAbilities.find(x => x.name === evt.text.value);
+    var isUnique = document.querySelector("#addmonster_unique").checked;
+    var creatureName = !isUnique ? `the ${document.querySelector("#addmonster_name").value}` : document.querySelector("#addmonster_name").value;
+    var desc = selectedAbility.description.replace(/@{CREATURE_NAME}/g, function (match, offset, string) {
+      if (offset == 0 || string[offset] == "." || string[Math.max(offset - 1, 0)] == ".")
+        return creatureName.toProperCase();
+      return creatureName;
+
+    });
+    parent.querySelector(".specialjsonValue").value = desc;
   }
 }
 
@@ -1549,10 +1569,10 @@ function editObject(dataObject, letter) {
     monsterTags.awesomplete.list = [...monsterTags.list.filter(x => tags.indexOf(x) < 0)];
     tags.forEach(tag => addNpcTag(tag))
   }
-  function addACSource(dataObject){
+  function addACSource(dataObject) {
     console.log(dataObject.ac_source.join(", "))
-    if(!dataObject.ac_source)return;
-    document.getElementById("addmonster_ac_source").value =  dataObject.ac_source.join(", ").toProperCase();
+    if (!dataObject.ac_source) return;
+    document.getElementById("addmonster_ac_source").value = dataObject.ac_source.join(", ").toProperCase();
     delete dataObject.ac_source;
   }
   function fillFieldAndRemoveFromObject(property, keys, values) {
@@ -1626,7 +1646,7 @@ function editObject(dataObject, letter) {
       "damage_resistances", "damage_immunities", "condition_immunities", "damage_vulnerabilities"].forEach(entry => fillFieldAndRemoveFromObject(entry, keyArray, valueArray));
 
     document.querySelector("#addmonster_unique").checked = removeFromObject("unique", keyArray, valueArray);
-   
+
     var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
     savingThrowInputs.forEach(inp => {
       var attr = inp.getAttribute("data-dnd_attr");
@@ -2123,7 +2143,7 @@ function saveHomebrew() {
       addProperty("dexterity", thingyToSave, 8)
       addProperty("constitution", thingyToSave, 8)
       addProperty("intelligence", thingyToSave, 8)
-      addProperty("wisdom", thingyToSave,8 )
+      addProperty("wisdom", thingyToSave, 8)
       addProperty("charisma", thingyToSave, 8)
       addProperty("senses", thingyToSave)
       addProperty("damage_resistances", thingyToSave)
