@@ -113,7 +113,8 @@
         },
         {
             "type": "shield",
-            "mod": 2
+            "mod": 2,
+            "is_shield":true
         },
         {
             "type": "leather armor",

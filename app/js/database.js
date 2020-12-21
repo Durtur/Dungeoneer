@@ -172,6 +172,8 @@ function populateDropdowns() {
   new Awesomplete(document.getElementById("item_rarity_input"), { list: itemRarityValues, autoFirst: true, minChars: 0, sort: false });
   new Awesomplete(document.getElementById("item_type_input"), { list: itemTypeValues, autoFirst: true, minChars: 0, sort: false });
   new Awesomplete(document.getElementById("addmonster_type"), { list: constants.defaultCreatureTypes, autoFirst: true, minChars: 0, sort: false });
+  new Awesomplete(document.getElementById("addmonster_ac_source"), { list: getArmorTypes(), autoFirst: true, minChars: 0, sort: false });
+  document.getElementById("addmonster_ac_source").addEventListener("awesomplete-selectcomplete", armorSelected)
   new Awesomplete(document.getElementById("spell_school_input"), { list: constants.spellSchools, autoFirst: true, minChars: 0, sort: false });
 
   var sizeList = [];
@@ -180,6 +182,57 @@ function populateDropdowns() {
   })
   new Awesomplete(document.getElementsByClassName("addmonster_size")[0], { list: sizeList, autoFirst: true, minChars: 0, sort: false });
 
+  document.getElementById("homebrewAC").oninput = (evt) => { evt.target.setAttribute("data-user_override", true) }
+  document.querySelector(".addmonster_dexterity").oninput = (evt)=>{armorSelected()}
+  function armorSelected() {
+    var acField = document.getElementById("homebrewAC");
+    if (acField.getAttribute("data-user_override")) return console.log("bye");
+
+    var value = document.getElementById("addmonster_ac_source").value;
+    var split = value.split(",");
+    var selectedArmors = [];
+    split.forEach(armor => {
+      selectedArmors.push(constants.armorTypes.find(x => x.type.toLowerCase().trim() === armor.toLowerCase().trim()));
+    });
+
+
+    var baseAc = selectedArmors.find(x => !x.is_shield);
+    var shield = selectedArmors.find(x => x.is_shield);
+    console.log(baseAc)
+    if (!baseAc?.mod) {
+      if(!shield?.mod){
+        return;
+      }
+      baseAc = shield;
+      shield = null;
+    } 
+    var finalAc = parseInt(baseAc.mod) + 10;
+    if (shield) finalAc += parseInt(shield.mod);
+    if (baseAc.maxDex != 0) {
+      var dex = document.querySelector(".addmonster_dexterity").value;
+      var dexMod = dex ? getAbilityScoreModifier(dex) : 0;
+      finalAc += dexMod;
+    }
+    acField.value = finalAc;
+    calculateSuggestedCR();
+
+  }
+  function getArmorTypes() {
+    var list = constants.armorTypes;
+
+    var stringValues = list.map(x => x.type.toProperCase());
+    var shields = constants.armorTypes.filter(x => x.is_shield);
+
+    constants.armorTypes.forEach(armor => {
+      if (armor.is_shield)
+        return;
+      shields.forEach(shield => {
+        stringValues.push(`${armor.type.toProperCase()}, ${shield.type.toProperCase()}`);
+      })
+
+    });
+    return stringValues;
+  }
 }
 
 function createTagsDropdown(tags) {
@@ -234,9 +287,9 @@ function filterDataListExecute() {
     searchstring = searchstring.toLowerCase();
     listedData = loadedData.filter(x => { return notNullAndContains(x.name, searchstring) })
 
-  }else {
+  } else {
     var searchbox = document.getElementById(`${tab}_list_search`);
-    listedData = searchbox.value ? loadedData.filter(x=> x.name.toLowerCase().includes(searchbox.value)): loadedData;
+    listedData = searchbox.value ? loadedData.filter(x => x.name.toLowerCase().includes(searchbox.value)) : loadedData;
   }
 
   listedLength = listedData.length;
@@ -1277,6 +1330,7 @@ function clearAddForm() {
     if (!input.readOnly)
       input.value = "";
   });
+  document.getElementById("homebrewAC").removeAttribute("data-user_override")
   currentEntry = null;
   var letter = getLetterFromTabName();
   if (letter == "") {
@@ -1358,6 +1412,7 @@ function editObject(dataObject, letter) {
     return editEncounter(dataObject)
   } else if (letter === "") {
     addTags(dataObject);
+    addACSource(dataObject);
   }
 
   var valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
@@ -1389,14 +1444,11 @@ function editObject(dataObject, letter) {
   }
 
   for (var i = 0; i < loadedKeys.length; i++) {
-
     if (["number", "string"].indexOf(typeof loadedValues[i]) != -1) {
       valuesElements[i].value = "" + loadedValues[i];
       keysElements[i].value = "" + loadedKeys[i].deserialize();
 
     } else {
-
-
       if (loadedKeys[i] == "actions" || loadedKeys[i] == "legendary_actions") {
         var actionRows = document.querySelectorAll(loadedKeys[i] == "actions" ? ".action_row" : ".legendary_action_row");
         var difference = loadedValues[i].length - actionRows.length;
@@ -1425,19 +1477,19 @@ function editObject(dataObject, letter) {
 
         subvalues.forEach(function (x) { x.value = "" });
         subkeys.forEach(function (x) { x.value = "" });
-        var specialAction = loadedValues[i];
+        var specialAbility = loadedValues[i];
 
-        if (specialAction.length > subkeys.length) {
-          for (var k = 0; k <= specialAction.length - subkeys.length; k++) {
+        if (specialAbility.length > subkeys.length) {
+          for (var k = 0; k <= specialAbility.length - subkeys.length; k++) {
             addRow(loadedKeys[i]);
           }
           subvalues = document.querySelectorAll(".specialjsonValue" + letter);
           subkeys = document.querySelectorAll(".specialjsonAttribute" + letter);
         }
 
-        for (var j = 0; j < specialAction.length; j++) {
-          subvalues[j].value = Object.values(specialAction[j])[0];
-          subkeys[j].value = Object.keys(specialAction[j])[0].deserialize();
+        for (var j = 0; j < specialAbility.length; j++) {
+          subvalues[j].value = Object.values(specialAbility[j])[0];
+          subkeys[j].value = Object.keys(specialAbility[j])[0].deserialize();
         }
 
       } else if (loadedKeys[i] == "description") {
@@ -1456,6 +1508,8 @@ function editObject(dataObject, letter) {
         }
 
         valuesElements[i].value = descriptionStringCompacted;
+      } else if (loadedKeys[i] === "reactions") {
+        addReactionsToForm(loadedValues[i]);
       }
 
     }
@@ -1469,6 +1523,23 @@ function editObject(dataObject, letter) {
   calculateSuggestedCR();
   window.scrollTo(0, document.body.scrollHeight);
 
+  function addReactionsToForm(reactionArr) {
+    var subvalues = document.querySelectorAll(".reaction_row>.reaction_value");
+    var diff = reactionArr.length - subvalues.length;
+    while (diff > 0) {
+      addRow("reactions");
+      diff--;
+    }
+    subvalues = document.querySelectorAll(".reaction_row>.reaction_value");
+    subkeys = document.querySelectorAll(".reaction_row>.reaction_name");
+    for (var j = 0; j < reactionArr.length; j++) {
+      var name = Object.keys(reactionArr[j])[0];
+      var value = Object.values(reactionArr[j])[0];
+      subvalues[j].value = value;
+      subkeys[j].value = name.deserialize();
+    }
+
+  }
   function addTags(dataObject) {
     var tags = [];
     if (dataObject.tags && dataObject.tags.length > 0) {
@@ -1478,7 +1549,12 @@ function editObject(dataObject, letter) {
     monsterTags.awesomplete.list = [...monsterTags.list.filter(x => tags.indexOf(x) < 0)];
     tags.forEach(tag => addNpcTag(tag))
   }
-
+  function addACSource(dataObject){
+    console.log(dataObject.ac_source.join(", "))
+    if(!dataObject.ac_source)return;
+    document.getElementById("addmonster_ac_source").value =  dataObject.ac_source.join(", ").toProperCase();
+    delete dataObject.ac_source;
+  }
   function fillFieldAndRemoveFromObject(property, keys, values) {
     var valueElement = document.getElementsByClassName("addmonster_" + property)[0];
     if (valueElement == null) {
@@ -1545,13 +1621,12 @@ function editObject(dataObject, letter) {
     var specialAttrFields = document.querySelectorAll(".specialjsonAttribute");
     var specialFields = document.querySelectorAll(".specialjsonValue");
 
-    //Sértilfelli fyrir NPC og monster þar sem það eru nokkrir fields sem þurfa að vera til staðar
     ["name", "size", "description", "type", "hit_dice", "speed", "strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma", "senses", "languages"
       , "challenge_rating", "subtype", "alignment", "armor_class", "hit_points", "skills",
       "damage_resistances", "damage_immunities", "condition_immunities", "damage_vulnerabilities"].forEach(entry => fillFieldAndRemoveFromObject(entry, keyArray, valueArray));
 
     document.querySelector("#addmonster_unique").checked = removeFromObject("unique", keyArray, valueArray);
-
+   
     var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
     savingThrowInputs.forEach(inp => {
       var attr = inp.getAttribute("data-dnd_attr");
@@ -1561,7 +1636,6 @@ function editObject(dataObject, letter) {
         removeFromObject(attr, keyArray, valueArray);
         break;
       }
-
     });
     valuesElements.forEach(function (x) { x.value = "" });
     keysElements.forEach(function (x) { x.value = "" });
@@ -1997,6 +2071,7 @@ function indexOfProp(data, key, prop) {
 
 
 function saveHomebrew() {
+
   var letter = tab == "monsters" || tab == "homebrew" ? "" : tab.substring(0, 1).toUpperCase();
   var valueBoxes = document.getElementsByClassName("jsonValue" + letter);
   var attributeBoxes = document.getElementsByClassName("jsonAttribute" + letter);
@@ -2007,240 +2082,262 @@ function saveHomebrew() {
     window.scroll(0, 0);
     return;
   }
-  var thingyToSave = { id: currentEntry ? currentEntry.id : null };
 
-  var attribute;
+  readDataFunction(data => {
+    var thingyToSave = data.find(x => x.id == currentEntry?.id) || { id: null };
 
-  if (tab == "spells") {
-    //Classes
-    var classValueBoxes = document.querySelectorAll(".jsonValueClasses");
-    var classes = [];
-    classValueBoxes.forEach(function (element) {
-      if (element.value != "") classes.push(element.value.toLowerCase().trim());
-    });
-    thingyToSave.classes = classes;
-    thingyToSave.ritual = document.getElementById("ritual_casting_spell_checkbox").checked;
-    addProperty("name", thingyToSave, null, "spell_");
-    addProperty("description", thingyToSave, null, "spell_");
-    addProperty("school", thingyToSave, null, "spell_");
-    addProperty("range", thingyToSave, null, "spell_");
-    addProperty("duration", thingyToSave, null, "spell_");
-    addProperty("level", thingyToSave, null, "spell_");
-    addProperty("components", thingyToSave, null, "spell_");
-    addProperty("casting_time", thingyToSave, null, "spell_");
-    addProperty("higher_levels", thingyToSave, null, "spell_");
-  }
-  if (tab == "monsters" || tab == "homebrew") {
-    //Sértilfelli fyrir NPC og monster þar sem það eru nokkrir fields sem þurfa að vera til staðar
-    addProperty("name", thingyToSave);
-    addProperty("size", thingyToSave, "Medium");
-    addProperty("description", thingyToSave);
-    addProperty("type", thingyToSave)
-    addProperty("subtype", thingyToSave)
-    addProperty("alignment", thingyToSave, "Unaligned")
-    addProperty("armor_class", thingyToSave)
-    addProperty("hit_points", thingyToSave)
-    addProperty("hit_dice", thingyToSave)
-    addProperty("speed", thingyToSave)
-    addProperty("strength", thingyToSave)
-    addProperty("dexterity", thingyToSave)
-    addProperty("constitution", thingyToSave)
-    addProperty("intelligence", thingyToSave)
-    addProperty("wisdom", thingyToSave)
-    addProperty("charisma", thingyToSave)
-    addProperty("senses", thingyToSave)
-    addProperty("damage_resistances", thingyToSave)
-    addProperty("damage_immunities", thingyToSave);
-    addProperty("damage_vulnerabilities", thingyToSave)
-    addProperty("condition_immunities", thingyToSave)
-    addProperty("languages", thingyToSave)
-    addProperty("skills", thingyToSave);
-    addProperty("challenge_rating", thingyToSave, 0);
-    thingyToSave.tags = [...document.querySelectorAll("#addmonster_tag_container para")].map(x => x.innerHTML);
+    var attribute;
 
-    thingyToSave.unique = document.querySelector("#addmonster_unique").checked;
-    var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
-    savingThrowInputs.forEach(inp => {
-      var attr = inp.getAttribute("data-dnd_attr");
-      if (inp.value != null && inp.value != "" && inp.value != "0") {
-        thingyToSave[attr] = inp.value;
-      }
-    });
-  } else if (tab == "encounters") {
-    thingyToSave.encounter_xp_value = parseInt(document.querySelector("#encounter_challenge_calculator_value").value);
-  }
-  //Populate normal attributes
-
-  for (var i = 0; i < valueBoxes.length; i++) {
-
-    if ((attributeBoxes[i].value != "" && valueBoxes[i].value != "" && valueBoxes[i].value != " ") ||
-      (tab != "monsters" && tab != "homebrew")) {
-      attribute = attributeBoxes[i].value.serialize();
-      thingyToSave[attribute] = valueBoxes[i].value;
-
+    if (tab == "spells") {
+      //Classes
+      var classValueBoxes = document.querySelectorAll(".jsonValueClasses");
+      var classes = [];
+      classValueBoxes.forEach(function (element) {
+        if (element.value != "") classes.push(element.value.toLowerCase().trim());
+      });
+      thingyToSave.classes = classes;
+      thingyToSave.ritual = document.getElementById("ritual_casting_spell_checkbox").checked;
+      addProperty("name", thingyToSave, null, "spell_");
+      addProperty("description", thingyToSave, null, "spell_");
+      addProperty("school", thingyToSave, null, "spell_");
+      addProperty("range", thingyToSave, null, "spell_");
+      addProperty("duration", thingyToSave, null, "spell_");
+      addProperty("level", thingyToSave, null, "spell_");
+      addProperty("components", thingyToSave, null, "spell_");
+      addProperty("casting_time", thingyToSave, null, "spell_");
+      addProperty("higher_levels", thingyToSave, null, "spell_");
     }
-  }
+    if (tab == "monsters" || tab == "homebrew") {
+      addProperty("name", thingyToSave);
+      addProperty("size", thingyToSave, "Medium");
+      addProperty("description", thingyToSave);
+      addProperty("type", thingyToSave)
+      addProperty("subtype", thingyToSave)
+      addProperty("alignment", thingyToSave, "Unaligned")
+      addProperty("armor_class", thingyToSave)
+      addProperty("hit_points", thingyToSave)
+      addProperty("hit_dice", thingyToSave);
+      addProperty("ac_source", thingyToSave)
+      addProperty("speed", thingyToSave)
+      addProperty("strength", thingyToSave, 8)
+      addProperty("dexterity", thingyToSave, 8)
+      addProperty("constitution", thingyToSave, 8)
+      addProperty("intelligence", thingyToSave, 8)
+      addProperty("wisdom", thingyToSave,8 )
+      addProperty("charisma", thingyToSave, 8)
+      addProperty("senses", thingyToSave)
+      addProperty("damage_resistances", thingyToSave)
+      addProperty("damage_immunities", thingyToSave);
+      addProperty("damage_vulnerabilities", thingyToSave)
+      addProperty("condition_immunities", thingyToSave)
+      addProperty("languages", thingyToSave)
+      addProperty("skills", thingyToSave);
+      addProperty("challenge_rating", thingyToSave, 0);
+      thingyToSave.ac_source = document.getElementById("addmonster_ac_source").value.split(",");
+      thingyToSave.tags = [...document.querySelectorAll("#addmonster_tag_container para")].map(x => x.innerHTML);
 
-  //populate special abilities
-  if (tab == "monsters" || tab == "homebrew") {
+      thingyToSave.unique = document.querySelector("#addmonster_unique").checked;
+      var savingThrowInputs = [...document.querySelectorAll(".saving_throw_input")];
+      savingThrowInputs.forEach(inp => {
+        var attr = inp.getAttribute("data-dnd_attr");
+        if (inp.value != null && inp.value != "" && inp.value != "0") {
+          thingyToSave[attr] = inp.value;
+        }
+      });
+    } else if (tab == "encounters") {
+      thingyToSave.encounter_xp_value = parseInt(document.querySelector("#encounter_challenge_calculator_value").value);
+    }
+    //Populate normal attributes
 
-    valueBoxes = document.getElementsByClassName("specialjsonValue");
-    attributeBoxes = document.getElementsByClassName("specialjsonAttribute");
-    var attribute = "special_abilities";
-
-    //populate actions
-    AddActionArray("actions", ".action_row", thingyToSave);
-
-
-    //populate legendary actions
-    AddActionArray("legendary_actions", ".legendary_action_row", thingyToSave);
-  } else if (tab == "encounters") {
-    valueBoxes = document.getElementsByClassName("specialjsonValueE");
-    attributeBoxes = document.getElementsByClassName("specialjsonAttributeE");
-    var attribute = "creatures";
-  }
-
-  if (tab == "monsters" || tab == "encounters" || tab == "homebrew") {
-    var specialActions = [];
-    var specialAction = {};
     for (var i = 0; i < valueBoxes.length; i++) {
 
-      if (attributeBoxes[i].value != "" && valueBoxes[i].value != "" && valueBoxes[i].value != " ") {
-        specialAction = {};
-
-        specialAction[serialize(attributeBoxes[i].value)] = valueBoxes[i].value;
-        specialActions.push(specialAction);
+      if ((attributeBoxes[i].value != "" && valueBoxes[i].value != "" && valueBoxes[i].value != " ") ||
+        (tab != "monsters" && tab != "homebrew")) {
+        attribute = attributeBoxes[i].value.serialize();
+        thingyToSave[attribute] = valueBoxes[i].value;
 
       }
     }
 
-    thingyToSave[attribute] = specialActions;
+    //populate special abilities
+    if (tab == "monsters" || tab == "homebrew") {
 
-  }
-  //Populate tables
-  else if (tab == "items" || tab == "tables") {
-    var tableObject = {};
+      valueBoxes = document.querySelectorAll(".addRow_special_abilities> specialjsonValue");
+      attributeBoxes = document.querySelectorAll(".addRow_special_abilities specialjsonAttribute");
+      var attribute = "special_abilities";
 
-    //Fylla út í töflu
-    rowCells = document.querySelectorAll(".table_element" + letter);
-    headers = document.querySelectorAll(".table_header" + letter);
-    var currentColumn;
-    for (var i = 0; i < headers.length; i++) {
-      currentColumn = [];
-      for (var j = 0; j < rowCells.length / headers.length; j++) {
-        currentColumn.push(rowCells[i + (j * headers.length)].value)
-      }
+      //populate actions
+      AddActionArray("actions", ".action_row", thingyToSave);
+      //populate legendary actions
+      AddActionArray("legendary_actions", ".legendary_action_row", thingyToSave);
 
-      if (headers[i].value != "") tableObject[headers[i].value] = currentColumn;
+      AddReactions(thingyToSave);
+    } else if (tab == "encounters") {
+      valueBoxes = document.getElementsByClassName("specialjsonValueE");
+      attributeBoxes = document.getElementsByClassName("specialjsonAttributeE");
+      var attribute = "creatures";
     }
 
+    if (tab == "monsters" || tab == "encounters" || tab == "homebrew") {
+      var specialActions = [];
+      var specialAction = {};
+      for (var i = 0; i < valueBoxes.length; i++) {
 
-    thingyToSave.source = "Homebrew";
+        if (attributeBoxes[i].value != "" && valueBoxes[i].value != "" && valueBoxes[i].value != " ") {
+          specialAction = {};
 
-    if (Object.keys(tableObject).length != 0) thingyToSave.table = tableObject;
-  } else if (tab == "conditions") {
-    thingyToSave.condition_background_location = selectedConditionImagePath;
-  }
+          specialAction[serialize(attributeBoxes[i].value)] = valueBoxes[i].value;
+          specialActions.push(specialAction);
 
-  //Search for existing entry
-  saveDataObject(thingyToSave);
-
-
-  function saveDataObject(thingyToSave) {
-    console.log("CurrentlyEditing ", currentEntry)
-    if (!thingyToSave.id) thingyToSave.id = uniqueID();
-    if (tab == "monsters" && !currentEntry) {
-      return handleDataSave(thingyToSave, dataAccess.getHomebrewMonsters, dataAccess.setHomebrewMonsters)
-    } else {
-      return handleDataSave(thingyToSave, readDataFunction, writeDataFunction);
-    }
-
-    function handleDataSave(thingyToSave, getFunction, setFunction) {
-      getFunction(function (data) {
-        if (currentEntry) {
-          data = data.filter(d => d.name != currentEntry.name)
         }
-        console.log(thingyToSave.name)
-        var collisionIndex = indexOfName(data, thingyToSave.name);
+      }
 
-        if (collisionIndex != -1) {
-          if (window.confirm(thingyToSave.name + " already found in database. Do you wish to overwrite?")) {
-            data.splice(collisionIndex, 1);
-          } else {
-            return false;
+      thingyToSave[attribute] = specialActions;
+
+    }
+    //Populate tables
+    else if (tab == "items" || tab == "tables") {
+      var tableObject = {};
+
+      //Fylla út í töflu
+      rowCells = document.querySelectorAll(".table_element" + letter);
+      headers = document.querySelectorAll(".table_header" + letter);
+      var currentColumn;
+      for (var i = 0; i < headers.length; i++) {
+        currentColumn = [];
+        for (var j = 0; j < rowCells.length / headers.length; j++) {
+          currentColumn.push(rowCells[i + (j * headers.length)].value)
+        }
+
+        if (headers[i].value != "") tableObject[headers[i].value] = currentColumn;
+      }
+
+
+      thingyToSave.source = thingyToSave.source || "Homebrew";
+
+      if (Object.keys(tableObject).length != 0) thingyToSave.table = tableObject;
+    } else if (tab == "conditions") {
+      thingyToSave.condition_background_location = selectedConditionImagePath;
+    }
+
+    //Search for existing entry
+    saveDataObject(thingyToSave);
+
+
+    function saveDataObject(thingyToSave) {
+      console.log("CurrentlyEditing ", currentEntry)
+      if (!thingyToSave.id) thingyToSave.id = uniqueID();
+      if (tab == "monsters" && !currentEntry) {
+        return handleDataSave(thingyToSave, dataAccess.getHomebrewMonsters, dataAccess.setHomebrewMonsters)
+      } else {
+        return handleDataSave(thingyToSave, readDataFunction, writeDataFunction);
+      }
+
+      function handleDataSave(thingyToSave, getFunction, setFunction) {
+        getFunction(function (data) {
+          if (currentEntry) {
+            data = data.filter(d => d.name != currentEntry.name)
           }
-        }
+          console.log(thingyToSave.name)
+          var collisionIndex = indexOfName(data, thingyToSave.name);
 
-        data.push(thingyToSave);
-        data = data.sort(function (a, b) {
-          if (a.name < b.name) return -1;
-          if (b.name < a.name) return 1;
-          return 0;
-        })
-        setFunction(data, function (err) {
-          // hide('add' + tabElementNameSuffix);
-          $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
-          document.querySelector("#save_success").scrollIntoView({ block: "end", inline: "nearest" });
-
-          if (tokenRemoveQueue.length == 0) {
-            saveTokens(thingyToSave.id);
-          } else {
-            while (tokenRemoveQueue.length > 0) {
-              fs.unlink(tokenRemoveQueue.pop(), (err) => {
-                if (err) throw err;
-                if (tokenRemoveQueue.length == 0)
-                  saveTokens(thingyToSave.id);
-              });
+          if (collisionIndex != -1) {
+            if (window.confirm(thingyToSave.name + " already found in database. Do you wish to overwrite?")) {
+              data.splice(collisionIndex, 1);
+            } else {
+              return false;
             }
           }
 
-          tokenRemoveQueue = [];
-          let window2 = remote.getGlobal('mainWindow');
-          if (window2) window2.webContents.send('update-autofill');
-          window.setTimeout(function () {
-            dataAccess.getTags(function (tags) {
-              monsterTags.list = tags;
-              createTagsDropdown(tags);
-            });
-          }, 1500)
+          data.push(thingyToSave);
+          data = data.sort(function (a, b) {
+            if (a.name < b.name) return -1;
+            if (b.name < a.name) return 1;
+            return 0;
+          })
+          setFunction(data, function (err) {
+            // hide('add' + tabElementNameSuffix);
+            $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
+            document.querySelector("#save_success").scrollIntoView({ block: "end", inline: "nearest" });
+
+            if (tokenRemoveQueue.length == 0) {
+              saveTokens(thingyToSave.id);
+            } else {
+              while (tokenRemoveQueue.length > 0) {
+                fs.unlink(tokenRemoveQueue.pop(), (err) => {
+                  if (err) throw err;
+                  if (tokenRemoveQueue.length == 0)
+                    saveTokens(thingyToSave.id);
+                });
+              }
+            }
+
+            tokenRemoveQueue = [];
+            let window2 = remote.getGlobal('mainWindow');
+            if (window2) window2.webContents.send('update-autofill');
+            window.setTimeout(function () {
+              dataAccess.getTags(function (tags) {
+                monsterTags.list = tags;
+                createTagsDropdown(tags);
+              });
+            }, 1500)
+          });
+
+        })
+      }
+    }
+    function saveTokens(newId) {
+
+      //Move tokens
+      if (tab == "monsters" || tab == "homebrew") {
+        var tokens = [...document.querySelectorAll(".token")];
+        tokens = tokens.filter(x => x.getAttribute("data-is_new_token"));
+        if (tokens.length == 0) return;
+        console.log(tokens);
+        var i = 0;
+        while (fs.existsSync(pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png")))
+          i++;
+        tokens.forEach(tok => {
+          var oldPath = pathModule.resolve(tok.getAttribute("data-file_path"));
+          var newPath = pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png");
+          if (newPath == oldPath) return;
+          dataAccess.saveToken(newId.toLowerCase() + i, oldPath, document.querySelector("#trim_token_checkbox").checked);
+          i++;
         });
+      }
 
-      })
+      currentEntry = null;
+      $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
+      loadAll();
+
+
     }
-  }
-  function saveTokens(newId) {
+    function addProperty(property, object, fallbackValue, classPrefix) {
 
-    //Move tokens
-    if (tab == "monsters" || tab == "homebrew") {
-      var tokens = [...document.querySelectorAll(".token")];
-      tokens = tokens.filter(x => x.getAttribute("data-is_new_token"));
-      if (tokens.length == 0) return;
-      console.log(tokens);
-      var i = 0;
-      while (fs.existsSync(pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png")))
-        i++;
-      tokens.forEach(tok => {
-        var oldPath = pathModule.resolve(tok.getAttribute("data-file_path"));
-        var newPath = pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png");
-        if (newPath == oldPath) return;
-        dataAccess.saveToken(newId.toLowerCase() + i, oldPath, document.querySelector("#trim_token_checkbox").checked);
-        i++;
+      var valueElement = document.getElementsByClassName((classPrefix ? classPrefix : "addmonster_") + property)[0];
+
+      if (valueElement.value == "" && !fallbackValue) return;
+      object[property] = valueElement.value ? valueElement.value : fallbackValue;
+    }
+
+    function AddReactions(thingyToSave) {
+      var reactionRows = [...document.querySelectorAll(".addRow_reactions>.reaction_row")];
+      var reactionArr = [];
+      reactionRows.forEach(row => {
+        var key = row.querySelector(".reaction_name").value;
+        var value = row.querySelector(".reaction_value").value;
+        console.log(key, value)
+        var obj = {};
+        if (key && value) {
+          obj[key.serialize()] = value;
+          reactionArr.push(obj);
+        }
+
       });
+      if (reactionArr.length > 0)
+        thingyToSave.reactions = reactionArr;
     }
-
-    currentEntry = null;
-    $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
-    loadAll();
-
-
-  }
-  function addProperty(property, object, fallbackValue, classPrefix) {
-
-    var valueElement = document.getElementsByClassName((classPrefix ? classPrefix : "addmonster_") + property)[0];
-
-    if (valueElement.value == "" && !fallbackValue) return;
-    object[property] = valueElement.value ? valueElement.value : fallbackValue;
-  }
+  });
 }
 
 

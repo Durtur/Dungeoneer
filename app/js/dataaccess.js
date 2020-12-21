@@ -18,33 +18,7 @@ const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "mapt
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
 module.exports = function () {
-    function import5eItems() {
-        baseGet("bestiary-sublist-data.json", function (data) {
-            console.log(data)
-            getHomebrewMonsters(monsters=>{
-            
-                monsters.forEach(monster=>{
-                    var found = data.find(x=> x.name.toLowerCase() === monster.name.toLowerCase());
-                    if(found && found.ac.length > 1){
-                        found.ac.sort((a,b)=> b.ac-a.ac);
-                        found.ac = found.ac[0];
-                    }
-                    if(!found || !found.ac[0]?.from && !found.ac[0]?.condition)return;
-                    var arr = [];
-                    if(found.ac[0].condition)arr.push(found.ac[0].condition.replace("with", "").trim());
-                    if(found.ac[0].from)arr = arr.concat(found.ac[0].from);
-                    monster.ac_source = arr;
-                    
-                   
-                });
-                setHomebrewMonsters(monsters);
-          
-            });
 
-          
-        }, null)
-
-    }
     function initializeData() {
         console.log("Initalizing data...");
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
@@ -383,7 +357,6 @@ module.exports = function () {
     }
 
     return {
-        import5eItems: import5eItems,
         readFile: readFile,
         getTokenPath: getTokenPath,
         saveToken: saveToken,

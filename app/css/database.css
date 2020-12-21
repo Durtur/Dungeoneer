@@ -603,7 +603,7 @@ html {
   flex-flow: column nowrap !important;
 }
 
-.specialjsonAttribute {
+.specialjsonAttribute,.reaction_name {
   width: 210px;
 }
 

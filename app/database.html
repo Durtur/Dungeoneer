@@ -818,12 +818,24 @@
                                         for="addmonster_subtype">Subtype</label>
                                     <input type="text" class=" addmonster_subtype" id="addmonster_subtype">
                                 </div>
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_challenge_rating">Challenge rating</label>
+                                    <input type="text" class=" addmonster_challenge_rating"
+                                        id="addmonster_challenge_rating">
+                                </div>
                             </div>
                             <div class="row monster_stat_row">
                                 <div class="column">
                                     <label class="attr readonly_monster_attr " tabindex="-1"
                                         for="addmonster_size">Size</label>
                                     <input type="text" class=" addmonster_size" id="addmonster_size">
+                                </div>
+                                
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_speed">Speed</label>
+                                    <input type="text" class=" addmonster_speed" id="addmonster_speed">
                                 </div>
                                 <div class="column">
                                     <label class="attr readonly_monster_attr" tabindex="-1"
@@ -858,40 +870,6 @@
                                     <textarea class=" addmonster_description" id="addmonster_description">  </textarea>
                                 </div>
                             </div>
-
-                            <div class="row monster_stat_row">
-                                <div class="column" style="flex:1;">
-                                    <label class="attr readonly_monster_attr " tabindex="-1" for="homebrewAC">Armor
-                                        class</label>
-                                    <input type="number" class=" monsterCR addmonster_armor_class" id="homebrewAC">
-                                </div>
-
-
-                                <div class="column" style="flex:1;">
-                                    <label class="attr readonly_monster_attr " tabindex="-1" for="homebrewHP">Hit
-                                        points</label>
-                                    <input type="number" class=" monsterCR addmonster_hit_points" id="homebrewHP">
-                                </div>
-
-                                <div class="column" style="flex:1;">
-                                    <label class="attr readonly_monster_attr " tabindex="-1"
-                                        for="addmonster_hit_dice">Hit dice</label>
-                                    <input type="text" class=" addmonster_hit_dice" id="addmonster_hit_dice">
-                                </div>
-
-                                <div class="column" style="flex:1;">
-                                    <label class="attr readonly_monster_attr " tabindex="-1"
-                                        for="addmonster_speed">Speed</label>
-                                    <input type="text" class=" addmonster_speed" id="addmonster_speed">
-                                </div>
-                                <div class="column" style="flex:1;">
-                                    <label class="attr readonly_monster_attr " tabindex="-1"
-                                        for="addmonster_challenge_rating">Challenge rating</label>
-                                    <input type="text" class=" addmonster_challenge_rating"
-                                        id="addmonster_challenge_rating">
-                                </div>
-                            </div>
-
 
                             <div class="row monster_stat_row">
                                 <div class="column" style="flex:1">
@@ -934,7 +912,7 @@
                                     </div>
                                 </div>
                             </div>
-
+   
                             <div class="row monster_stat_row">
                                 <div class="column" style="flex:1">
                                     <input type="text" class="attr brown monster_attribute_chapter_label"
@@ -982,7 +960,31 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row monster_stat_row">
+                                <div class="column" style="flex:2;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1" for="addmonster_ac_source">Armor
+                                        type</label>
+                                    <input class="  addmonster_ac_source" id="addmonster_ac_source">
+                                </div>
 
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1" for="homebrewAC">Armor
+                                        class</label>
+                                    <input type="number" class=" monsterCR addmonster_armor_class" id="homebrewAC">
+                                </div>
+                  
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1" for="homebrewHP">Hit
+                                        points</label>
+                                    <input type="number" class=" monsterCR addmonster_hit_points" id="homebrewHP">
+                                </div>
+
+                                <div class="column" style="flex:1;">
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_hit_dice">Hit dice</label>
+                                    <input type="text" class=" addmonster_hit_dice" id="addmonster_hit_dice">
+                                </div>
+                            </div>
                             <div class="row monster_stat_row">
                                 <div class="column" style="flex:1">
                                     <label class="attr readonly_monster_attr " tabindex="-1" style="text-align:left"
@@ -1064,6 +1066,26 @@
                                     placeholder="Ability name" value="Incorporeal">
                                 <textarea class="specialjsonValue"> </textarea>
                             </div>
+                        </div>
+
+                        <span style="margin-top:1.5em"></span>
+                        <div class="row">
+                            <input type="text" class="special_abilities_array brown" value="Reactions" readonly
+                                tabindex="-1">
+
+                            <button class="small brown circular_button" title="Add attribute"
+                                onclick="addRow('reactions')">
+                                +
+                            </button>
+                        </div>
+
+                        <div class="addRow_reactions">
+                            <div class="row reaction_row special_ability_column">
+                                <input type="text" class="reaction_name" title="Attribute"
+                                    placeholder="Reaction name" value="Amphibious">
+                                <textarea class="reaction_value"> </textarea>
+                            </div>
+                         
                         </div>
 
                         <span></span>
