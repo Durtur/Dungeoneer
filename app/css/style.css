@@ -31,15 +31,21 @@
     right: 7px;
   }
 }
+.statblock_edit_button:hover{
+  background-color:black;
+  color:white;
+}
+.statblock_edit_button_container{
+  float:right;
+}
+.statblock_edit_button{
+  transition: all var(--transition-delay);
+  border:1px solid black;
+  background-color:white;
+  font-family: roboto;
+  color:black;
 
-
-.statblock_token{
-  background-size: contain;
-  position: absolute;
-  left: 16%;
-  top: -25px;
-  width: 50px;
-  height: 50px;
+  border-radius:5px;
 }
 
 
@@ -402,6 +408,7 @@ h1 {
   padding: 30px;
   padding-top: 40px;
   min-width: 350px;
+  flex: 6;
   height: auto;
   margin-top: 20px;
   border-radius: 5px;
@@ -410,7 +417,7 @@ h1 {
 .topContainer {
   display: flex;
   flex-flow: column nowrap;
-  width: 60%;
+  flex: 6;
 }
 
 .pageframe {
@@ -503,8 +510,9 @@ h1 {
   margin-right: 20px;
 }
 
+
 .pageframe>h1:first-of-type {
-  margin-top: 20px;
+
   font-size: 40px;
   z-index: 1;
 }
@@ -672,15 +680,15 @@ h1 {
 
 .history_button_row {
   position: absolute;
-  top: -20px;
-  left: 0;
+  top:0;
+  left: -2px;
   width: 100%;
   display: flex;
   flex-flow: row nowrap;
 }
 
 .frame_history_button {
-  height: 18px;
+  height: 2em;
   margin-bottom: -1px;
   font-size: 12px;
   width: 120px;
@@ -690,8 +698,7 @@ h1 {
 }
 
 .frame_history_button_toggled {
-  height: 30px;
-  margin-top: -10px;
+
   background-color: var(--main-emphasis-color);
 }
 

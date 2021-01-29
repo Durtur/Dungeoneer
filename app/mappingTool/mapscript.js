@@ -6,7 +6,7 @@ const initiative = require("./js/initiative")
 const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 
-var cellSize = 35, minCellsize = 10, maxCellsize = 150, originalCellSize = cellSize;
+var cellSize = 35, originalCellSize = cellSize;
 var canvasWidth = 400;
 var canvasHeight = 400;
 var zIndexPawnCap = 9;
@@ -304,7 +304,7 @@ function refreshPawnToolTips() {
 function refreshPawnToolTipsHelper(arr, monster) {
     for (var i = 0; i < arr.length; i++) {
         element = arr[i][0];
-        var changed =  element.getAttribute("data-state_changed");
+        var changed = element.getAttribute("data-state_changed");
         if (changed) {
 
             flyingHeight = parseInt(element.flying_height);
@@ -557,8 +557,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("foreground_size_slider").oninput = function (event) {
 
         resizeForeground(event.target.value);
-        var rect = mapContainer.getBoundingClientRect();
-        fovLighting.resizeSegments(rect.left, rect.top);
     }
 
     $("#background_color_button_change_pawn")
@@ -915,80 +913,81 @@ function onSettingsLoaded() {
             {
                 properties: ['openFile'],
                 message: "Choose map",
-                filters: [{ name: 'Map', extensions: ['dungeoneer_map'] }]
+                filters: [{ name: 'Map', extensions: ['dungeoneer_map', "dd2vtt"] }]
             })[0];
-        if (path != null) {
-            fs.readFile(path, function (err, data) {
-                if (err) {
-                    dialog.showErrorBox("Unable to open map", "The provided file does not exist");
-
-                }
-                data = JSON.parse(data);
-                //  pawns = data.pawns;
-                fovLighting.setSegments(data.segments);
-
-                moveOffsetX = data.moveOffsetX;
-                moveOffsetY = data.moveOffsetY;
-
-                console.log(data)
-                mapContainer.data_bg_scale = data.bg_scale;
-                foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
-                mapContainer.style.setProperty("--bg-scale", data.bg_scale);
-                resizeForeground(data.bg_width);
-                settings.currentMap = data.map;
-                $('#foreground').css('background-image', 'url("' + data.map + '")');
-                $("#foreground").css("background-size", data.bgSize);
-                moveMap(data.bgX, data.bgY);
-
-
-                //Light effects
-                var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
-                while (oldEffects.length > 0) {
-                    var oldEffect = oldEffects.pop();
-                    pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
-
-                    tokenLayer.removeChild(oldEffect);
-                }
-
-                //Standard effects
-                oldEffects = [...tokenLayer.getElementsByClassName("sfx_effect")];
-                while (oldEffects.length > 0) {
-                    var oldEffect = oldEffects.pop();
-                    pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
-
-                    tokenLayer.removeChild(oldEffect);
-                }
-                if (data.pawns) {
-                    data.pawns.forEach((p) => {
-                        var newP = document.createElement("div");
-
-
-                        if (p.lightEffect)
-                            pawns.lightEffects.push(newP);
-                        newP.sight_radius_bright_light = p.sightRadius.b;
-                        newP.sight_radius_dim_light = p.sightRadius.d;
-                        newP.dnd_hexes = p.dnd_hexes;
-
-                        newP.dnd_size = p.dnd_size;
-                        newP.sight_mode = p.sight_mode;
-                        newP["data-dnd_conditions"] = p["data-dnd_conditions"];
-                        newP.flying_height = p.flying_height;
-                        tokenLayer.appendChild(newP);
-                        newP.outerHTML = p.html;
-                    })
-                    refreshPawns();
-                    resizePawns();
-                    addPawnListeners();
-                    nudgePawns();
-                }
-
-                data.effects.forEach((effect) => restoreEffect(effect))
-                saveSettings();
-
-            });
-
+        if (path == null) return;
+        if (path.substring(path.lastIndexOf(".") + 1) == "dd2vtt") {
+            fovLighting.importDungeondraftVttMap(path);
+            return;
         }
+        fs.readFile(path, function (err, data) {
+            if (err) {
+                dialog.showErrorBox("Unable to open map", "The provided file does not exist");
 
+            }
+            data = JSON.parse(data);
+            //  pawns = data.pawns;
+            fovLighting.setSegments(data.segments);
+
+            moveOffsetX = data.moveOffsetX;
+            moveOffsetY = data.moveOffsetY;
+
+            console.log(data)
+            mapContainer.data_bg_scale = data.bg_scale;
+            foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
+            mapContainer.style.setProperty("--bg-scale", data.bg_scale);
+            resizeForeground(data.bg_width);
+            settings.currentMap = data.map;
+            $('#foreground').css('background-image', 'url("' + data.map + '")');
+            $("#foreground").css("background-size", data.bgSize);
+            moveMap(data.bgX, data.bgY);
+
+
+            //Light effects
+            var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
+            while (oldEffects.length > 0) {
+                var oldEffect = oldEffects.pop();
+                pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
+
+                tokenLayer.removeChild(oldEffect);
+            }
+
+            //Standard effects
+            oldEffects = [...tokenLayer.getElementsByClassName("sfx_effect")];
+            while (oldEffects.length > 0) {
+                var oldEffect = oldEffects.pop();
+                pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
+
+                tokenLayer.removeChild(oldEffect);
+            }
+            if (data.pawns) {
+                data.pawns.forEach((p) => {
+                    var newP = document.createElement("div");
+
+
+                    if (p.lightEffect)
+                        pawns.lightEffects.push(newP);
+                    newP.sight_radius_bright_light = p.sightRadius.b;
+                    newP.sight_radius_dim_light = p.sightRadius.d;
+                    newP.dnd_hexes = p.dnd_hexes;
+
+                    newP.dnd_size = p.dnd_size;
+                    newP.sight_mode = p.sight_mode;
+                    newP["data-dnd_conditions"] = p["data-dnd_conditions"];
+                    newP.flying_height = p.flying_height;
+                    tokenLayer.appendChild(newP);
+                    newP.outerHTML = p.html;
+                })
+                refreshPawns();
+                resizePawns();
+                addPawnListeners();
+                nudgePawns();
+            }
+
+            data.effects.forEach((effect) => restoreEffect(effect))
+            saveSettings();
+
+        });
     }
 }
 
@@ -1091,16 +1090,21 @@ function setMapForeground(path, width) {
  */
 
 function resizeForeground(newWidth) {
+    var oldHeight = parseFloat(foregroundCanvas.style.height);
+    var oldWidth = parseFloat(foregroundCanvas.style.height);
+    var newHeight = newWidth * foregroundCanvas.heightToWidthRatio;
     foregroundCanvas.style.width = newWidth + "px";
-    foregroundCanvas.style.height = newWidth * mapContainer.heightToWidthRatio + "px";
+    foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
+    console.log(mapContainer.heightToWidthRatio)
     document.getElementById("foreground_size_slider").value = newWidth;
     settings.gridSettings.mapSize = newWidth;
+   fovLighting.resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight)
 }
 
 function resizeBackground(newWidth) {
     console.log("Background width " + newWidth)
     backgroundCanvas.style.width = newWidth + "px";
-    backgroundCanvas.style.height = newWidth * mapContainer.heightToWidthRatio + "px";
+    backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
     document.getElementById("background_size_slider").value = newWidth;
 }
 
@@ -2515,7 +2519,7 @@ function killOrRevivePawn() {
 
     function killOrReviveHelper(pawnElement) {
         var isPlayer = isPlayerPawn(pawnElement);
-        
+
         if (revivePawn) {
             if (pawnElement.dead == "false")
                 return;
@@ -2835,10 +2839,10 @@ function showPopupMenuPawn(x, y) {
     selectedPawns.forEach(pawn => {
         if (!pawn.querySelector(".token_photo")?.getAttribute("data-token_facets"))
             hasFacets = 0;
-        if(pawn.classList.contains("pawn_mob"))
+        if (pawn.classList.contains("pawn_mob"))
             isMob = 1;
     });
-    Util.showOrHide("pawn_token_menu_button", -1*isMob);
+    Util.showOrHide("pawn_token_menu_button", -1 * isMob);
     Util.showOrHide("next_facet_button", hasFacets);
 
 

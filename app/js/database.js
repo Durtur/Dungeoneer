@@ -2,9 +2,11 @@
 var tab = "monsters", tabElementNameSuffix = "monsters";
 const { ipcRenderer } = require('electron');
 
+const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
 const dataAccess = require("./js/dataaccess");
 const CRCalculator = require("./js/CRCalculator");
+const statblockEditor = require("./js/statblockEditor");
 const elementCreator = require("./js/lib/elementCreator");
 const remote = require('electron').remote;
 const dialog = require('electron').remote.dialog;
@@ -84,6 +86,7 @@ $(document).ready(function () {
   $("#encounter_monster_list_search").on("keyup paste", searchMasterListAfterInput)
   $("#spell_class_dropdown").on("change", filterListAndShow)
   $(".monsterCR").on("change keyup paste", calculateSuggestedCR);
+  $("#cr_lookup_cr").on("change keyup paste", lookupCrHandler)
   document.getElementById("OCR").addEventListener("change", updateOffensiveChallengeRatingValues);
   $("#encounter_challenge_calculator_character_size").on("input", calculateEncounterDifficulty);
   $("#encounter_challenge_calculator_character_level").on("input", calculateEncounterDifficulty);
@@ -156,16 +159,30 @@ $(document).ready(function () {
     }
   });
 
-  document.getElementById("dnd_beyond_crawler_input").onchange = function (e) {
-    var url = e.target.value;
-    try {
-      webCrawler.checkDndBeyond(url, function (data) {
-        editObject(data, "");
-      })
-    }
-    catch (err) {
-      console.log(err)
-    }
+  document.getElementById("dnd_beyond_statblock_import_button").onclick = function (e) {
+
+    prompt({
+      title: 'Enter URL from DndBeyond',
+      label: 'Url:',
+      icon: "./app/css/img/icon.png",
+      customStylesheet: "./app/css/prompt.css",
+      inputAttrs: { // attrs to be set if using 'input'
+        type: 'string'
+      }
+
+    })
+      .then((url) => {
+        //Break if user cancels
+        if (url == null) return false;
+        try {
+          webCrawler.checkDndBeyond(url, function (data) {
+            editObject(data, "");
+          })
+        }
+        catch (err) {
+          console.log(err)
+        }
+      });
   }
 });
 function populateDropdowns() {
@@ -176,11 +193,7 @@ function populateDropdowns() {
   document.getElementById("addmonster_ac_source").addEventListener("awesomplete-selectcomplete", armorSelected)
   new Awesomplete(document.getElementById("spell_school_input"), { list: constants.spellSchools, autoFirst: true, minChars: 0, sort: false });
 
-  var specialAbilityList = constants.specialAbilities.map(x => x.name);
-  [...document.querySelectorAll(".special_ability_column .specialjsonAttribute")].forEach(input => {
-    new Awesomplete(input, { list: specialAbilityList, autoFirst: true, minChars: 0, sort: false });
-    input.addEventListener("awesomplete-selectcomplete", specialAbilitySelected)
-  });
+  populateAddableFieldDropdowns();
   var sizeList = [];
   creaturePossibleSizes.sizes.forEach(function (size) {
     sizeList.push(size.substring(0, 1).toUpperCase() + size.substring(1))
@@ -239,10 +252,42 @@ function populateDropdowns() {
     return stringValues;
   }
 
+}
+
+const specialAbilityAndActionAwesompletes = []
+function populateAddableFieldDropdowns() {
+  var specialAbilityList = constants.specialAbilities.map(x => x.name);
+  $(".special_ability_column .specialjsonAttribute").off("awesomplete-selectcomplete");
+  [...document.querySelectorAll(".special_ability_column .specialjsonAttribute")].forEach(input => {
+    specialAbilityAndActionAwesompletes.push(new Awesomplete(input, { list: specialAbilityList, autoFirst: true, minChars: 0, sort: false }));
+  });
+  $(".special_ability_column .specialjsonAttribute").on("awesomplete-selectcomplete", specialAbilitySelected);
+
+  $(".action_row .action_name").off("awesomplete-selectcomplete");
+  var weaponList = constants.weapons.map(x => x.name);
+  [...document.querySelectorAll(".action_row .action_name")].forEach(input => {
+    specialAbilityAndActionAwesompletes.push(new Awesomplete(input, { list: weaponList, autoFirst: true, minChars: 2, sort: false }));
+  });
+  $(".action_row .action_name").on("awesomplete-selectcomplete", actionSelected);
+  function actionSelected(evt) {
+
+    var parent = evt.target.closest(".action_row");
+    var selectedWeapon = constants.weapons.find(x => x.name === evt.target.value);
+    var dex = document.querySelector(".addmonster_dexterity").value;
+    var str = document.querySelector(".addmonster_strength").value;
+    var cr = document.querySelector(".addmonster_challenge_rating").value;
+    var specialAbilityList = [...document.querySelectorAll(".addRow_special_abilities .specialjsonAttribute")].map(x => x.value).filter(x => x);
+    var profMod = cr ? CRCalculator.getTableForCrValue(cr)?.profBonus || 2 : 2;
+    var equippedAction = statblockEditor.equipWeapon(getAbilityScoreModifier(dex), getAbilityScoreModifier(str), profMod, selectedWeapon, specialAbilityList)
+    console.log(equippedAction)
+    parent.querySelector(".action_attack_bonus").value = equippedAction.attackBonus;
+    parent.querySelector(".action_damage_dice").value = equippedAction.damageDice;
+    parent.querySelector(".action_damage_bonus").value = equippedAction.damageBonus;
+    parent.querySelector(".action_description").value = equippedAction.description;
+  }
   function specialAbilitySelected(evt) {
     var parent = evt.target.closest(".special_ability_column");
-    console.log(evt, constants.specialAbilities)
-    var selectedAbility = constants.specialAbilities.find(x => x.name === evt.text.value);
+    var selectedAbility = constants.specialAbilities.find(x => x.name === evt.target.value);
     var isUnique = document.querySelector("#addmonster_unique").checked;
     var creatureName = !isUnique ? `the ${document.querySelector("#addmonster_name").value}` : document.querySelector("#addmonster_name").value;
     var desc = selectedAbility.description.replace(/@{CREATURE_NAME}/g, function (match, offset, string) {
@@ -1023,6 +1068,22 @@ function addEncounterCalculatorHandlers() {
 
 }
 
+function lookupCrHandler() {
+  var cr = document.querySelector("#cr_lookup_cr").value;
+  var lookupObj = CRCalculator.getTableForCrValue(cr.trim());
+  document.querySelector(".cr_lookup_results").classList.add("hidden");
+  if (!lookupObj)
+    return;
+  document.querySelector(".cr_lookup_results").classList.remove("hidden");
+  var damageRange = `${lookupObj.minDmg} - ${lookupObj.maxDmg}`;
+  var hpRange = `${lookupObj.minHP} - ${lookupObj.maxHP}`;
+  document.querySelector(".cr_lookup_results .attack_bonus_cr_lookup").innerHTML = lookupObj.attack_bonus_string || lookupObj.attack_bonus;
+  document.querySelector(".cr_lookup_results .save_dc_cr_lookup").innerHTML = lookupObj.saveDc_string || lookupObj.saveDc;
+  document.querySelector(".cr_lookup_results .armor_class_cr_lookup").innerHTML = lookupObj.ac_string || lookupObj.ac;
+  document.querySelector(".cr_lookup_results .average_damage_cr_lookup").innerHTML = damageRange;
+  document.querySelector(".cr_lookup_results .proficiency_bonus_cr_lookup").innerHTML = `+${ lookupObj.profBonus}`;
+  document.querySelector(".cr_lookup_results .hit_points_cr_lookup").innerHTML = hpRange;
+}
 
 function calculateSuggestedCR() {
   var hp = parseInt($("#homebrewHP").val());
@@ -1570,7 +1631,6 @@ function editObject(dataObject, letter) {
     tags.forEach(tag => addNpcTag(tag))
   }
   function addACSource(dataObject) {
-    console.log(dataObject.ac_source.join(", "))
     if (!dataObject.ac_source) return;
     document.getElementById("addmonster_ac_source").value = dataObject.ac_source.join(", ").toProperCase();
     delete dataObject.ac_source;
@@ -1998,8 +2058,15 @@ function addRow(str) {
   var container;
   var className;
   if (str != null) {
-    console.log(str)
-    var newRow = $(".addRow_" + str + ">.row:first-child").first().clone().appendTo($(".addRow_" + str));
+
+    if (str == "special_abilities" || str == "actions") {
+      while (specialAbilityAndActionAwesompletes.length > 0)
+        specialAbilityAndActionAwesompletes.pop().destroy();
+      $(".addRow_" + str + ">.row:first-child").first().clone().appendTo($(".addRow_" + str));;
+
+      return populateAddableFieldDropdowns();
+    }
+    $(".addRow_" + str + ">.row:first-child").first().clone().appendTo($(".addRow_" + str));
     return;
   }
   if (tab == "monsters" || tab == "homebrew") {

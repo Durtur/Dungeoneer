@@ -351,10 +351,11 @@ html {
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
   font-size: 1.2em;
 }
-.cr_calculator_results .monster_attribute_chapter_label{
+.cr_calculator_results .monster_attribute_chapter_label, .cr_calculator_lookup .monster_attribute_chapter_label{
   padding: 10px;
     width: 200px;
     margin-top:0;
+    font-size: 1em;
 }
 
 .challenge_rating_values>.row{
@@ -581,6 +582,20 @@ html {
 .monster_stat_column>.column {
   padding: 5px;
 }
+
+.import_button{
+  position:absolute;
+  top:0;
+  right:0;
+
+  color:white;
+  background-color: var(--main-color);
+}
+.import_button>*{
+  padding:1em;
+}
+
+
 
 .addframe textarea {
   border-radius: 5px;

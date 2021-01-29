@@ -9,6 +9,7 @@ const sharp = require("sharp");
 
 const settingsPath = pathModule.join(app.getPath("userData"), "data", "settings");
 const resourcePath = pathModule.join(app.getPath("userData"), 'data');
+const tempFilePath = pathModule.join(app.getPath("userData"), 'temp');
 const baseTokenSize = 280;
 const defaultResourcePath = pathModule.join(app.getAppPath(), 'data');
 const defaultGeneratorResourcePath = pathModule.join(app.getAppPath(), "data", "generators");
@@ -53,6 +54,18 @@ module.exports = function () {
             });
         }
 
+    }
+
+    function writeTempFile(fileName, dataBuffer, callback) {
+        if (!fs.existsSync(tempFilePath))
+            fs.mkdirSync(tempFilePath);
+        var filePath = pathModule.join(tempFilePath, fileName);
+        fs.writeFile(filePath, dataBuffer, function(err){
+            if(err){
+                throw(err);
+            }
+            callback(filePath);
+        });
     }
 
     function getTags(callback) {
@@ -113,7 +126,8 @@ module.exports = function () {
 
     function getConstantsSync() {
         var data = JSON.parse(fs.readFileSync(pathModule.join(defaultResourcePath, "constants.json")));
-        data.specialAbilities =  JSON.parse(fs.readFileSync(pathModule.join(defaultResourcePath, "special_abilities.json")));
+        data.specialAbilities = JSON.parse(fs.readFileSync(pathModule.join(defaultResourcePath, "special_abilities.json")));
+        data.weapons = JSON.parse(fs.readFileSync(pathModule.join(defaultResourcePath, "weapons.json")));
         return data;
     }
     function setConstants(data, callback) {
@@ -187,6 +201,15 @@ module.exports = function () {
         return baseGetWithFullPath(pathModule.join(generatorResourcePath, "hook.json"), callback, [], pathModule.join(defaultGeneratorResourcePath, "hook.json"));
     }
 
+    function getHomebrewAndMonsters(callback) {
+        getMonsters(data => {
+            getHomebrewMonsters(hbData => {
+                data = data.concat(hbData);
+                callback(data);
+            });
+        });
+    }
+
     function setGeneratorHookData(data, callback) {
         if (!fs.existsSync(generatorResourcePath))
             fs.mkdirSync(generatorResourcePath);
@@ -212,7 +235,6 @@ module.exports = function () {
     }
 
     function getTokenPath(creatureId) {
-        console.group("Getting token for  " + creatureId)
         var fileEndings = [".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];
@@ -395,6 +417,7 @@ module.exports = function () {
         setMonsters: setMonsters,
         getHomebrewMonsters: getHomebrewMonsters,
         setHomebrewMonsters: setHomebrewMonsters,
+        getHomebrewAndMonsters: getHomebrewAndMonsters,
         getEncounters: getEncounters,
         setEncounters: setEncounters,
         writeAutofillData: writeAutofillData,
@@ -422,6 +445,7 @@ module.exports = function () {
         getTables: getTables,
         setTables: setTables,
         getTags: getTags,
+        writeTempFile: writeTempFile,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize,
     }

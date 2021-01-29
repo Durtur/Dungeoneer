@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var placedNode = e.target.parentNode;
 
             var rect = e.target.getBoundingClientRect();
-
+            console.log(rect)
             menuToShow.style.left = rect.left + e.target.clientWidth + "px";
             menuToShow.style.top = rect.top + "px";
 

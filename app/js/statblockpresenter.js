@@ -13,18 +13,25 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 var statblockPresenter = function () {
-  var foundMonster;
+  const statblockEditor = require("./js/statblockEditor");
+  var monster;
   var encounterModule;
   var values;
   var statblock;
   var abilityScores = {};
-  const attributeNamesToIgnore = ["condition_color_value", "condition_background_location", "id"];
+  var editMode = false;
+  const attributeNamesToIgnore = ["condition_color_value", "condition_background_location", "id", "original_name"];
   const attributeNamesToHeader = ["name"]
   const attributesWithoutNames = [" ", "description"];
   var spellCastingRootNodes = [];
 
-  function createStatblock(_statblock, valueElement, statblockType) {
-    foundMonster = valueElement;
+  function createStatblock(_statblock, valueElement, statblockType, editable) {
+    if (editable)
+      editMode = true;
+    else
+      editMode = false;
+
+    monster = valueElement;
     statblock = _statblock;
     console.log(statblock)
     while (statblock.firstChild)
@@ -53,6 +60,7 @@ var statblockPresenter = function () {
       morphActions,
       storeTable,
       storeHigherLevels,
+      addSkills,
       populateRemainingStats,
       addDescription,
       addTable,
@@ -83,16 +91,9 @@ var statblockPresenter = function () {
     delete values.table;
   }
 
-  function addTokens(){
-    console.log(values.id + "0")
-    var path = dataAccess.getTokenPath(values.id +"0");
-    console.log("Token:" + path)
-    if(!path)return;
+  function addTokens() {
 
-    var tokenEle = document.createElement("img");
-    tokenEle.classList = "statblock_token";
-    tokenEle.src = path;
-    statblock.appendChild(tokenEle);
+
 
   }
 
@@ -101,14 +102,23 @@ var statblockPresenter = function () {
     var h2 = document.createElement("h1");
     h2.innerHTML = values.name;
     statblock.appendChild(h2);
-  
+    h2.classList = "statblock_name";
     delete values.name;
+
+    var path = dataAccess.getTokenPath(values.id + "0");
+
+    if (!path) return;
+
+    var tokenEle = document.createElement("img");
+    tokenEle.classList = "statblock_token";
+    tokenEle.src = path;
+    h2.appendChild(tokenEle);
   }
   var statblockDescriptionText;
   function storeDescription() {
-    statblockDescriptionText = values.description ||"";
-    if(values.tags && values.tags.length > 0){
-      statblockDescriptionText= "**Tags.** *" + values.tags.join(", ") + "*\n\n" + statblockDescriptionText;
+    statblockDescriptionText = values.description || "";
+    if (values.tags && values.tags.length > 0) {
+      statblockDescriptionText = "**Tags.** *" + values.tags.join(", ") + "*\n\n" + statblockDescriptionText;
     }
     delete values.description;
     delete values.tags;
@@ -121,9 +131,9 @@ var statblockPresenter = function () {
 
     p.innerHTML = marked(statblockDescriptionText);
     createSeperator();
-  
+
     statblock.appendChild(p);
- 
+
 
   }
 
@@ -132,21 +142,21 @@ var statblockPresenter = function () {
     statblock.append(generateHTMLTable(statblock_table));
   }
 
-  function addSpeed(){
-    if(!values.speed)return;
+  function addSpeed() {
+    if (!values.speed) return;
     var p = document.createElement("p");
     p.innerHTML = "<strong>Speed.</strong> " + values.speed;
     statblock.appendChild(p);
     delete values.speed;
   }
   function addRequiredProperties() {
-    if(!(values.hit_points || values.armor_class || values.challenge_rating))return;
+    if (!(values.hit_points || values.armor_class || values.challenge_rating)) return;
     var hpAndACRow = document.createElement("div");
     hpAndACRow.classList = "statblock_hp_and_ac_row";
     if (values.hit_points)
       createCol("hit_points");
 
-    if (values.armor_class){
+    if (values.armor_class) {
       var acDesc = values.ac_source?.join(", ")?.toProperCase();
       delete values.ac_source;
       createCol("armor_class", false, acDesc);
@@ -242,7 +252,7 @@ var statblockPresenter = function () {
       monsterSavingthrowValues.push({ name: attr, value: values[attr] });
       delete values[attr];
     });
- 
+
     if (monsterSavingthrowValues.length == 0) return;
     var abilityRow = document.createElement("div");
     abilityRow.classList.add("statblock_saving_throw_row")
@@ -250,13 +260,13 @@ var statblockPresenter = function () {
 
       var element = document.createElement("div");
       var modifier = parseInt(save.value);
-      modifier = modifier < 0 ? modifier : "+" + modifier; 
+      modifier = modifier < 0 ? modifier : "+" + modifier;
       var inner = document.createElement("a");
       inner.classList = "d20_roll_link";
       inner.innerHTML = modifier;
       element.appendChild(inner);
       element.title = save.name.deserialize();
-    
+
       abilityRow.appendChild(element);
 
     });
@@ -317,7 +327,7 @@ var statblockPresenter = function () {
     var seperator = document.createElement("div");
 
     seperator.classList = "statblock_seperator_line";
-    if(append)statblock.appendChild(seperator);
+    if (append) statblock.appendChild(seperator);
     return seperator;
   }
   function addSpellProperties() {
@@ -347,9 +357,9 @@ var statblockPresenter = function () {
       col.appendChild(colInner);
       delete values[prop];
     }
-    if (!hasAnySpellProp)return;
-      createSeperator();
-      statblock.appendChild(divCont);
+    if (!hasAnySpellProp) return;
+    createSeperator();
+    statblock.appendChild(divCont);
 
   }
 
@@ -387,6 +397,13 @@ var statblockPresenter = function () {
     }
   }
 
+  function addSkills(){
+    if(values.skills){
+      statblock.appendChild(createParaAndBold("Skills", values.skills));
+      delete values.skills;
+    }
+  }
+
   function populateRemainingStats() {
     var keys = Object.keys(values);
     var div = document.createElement("div");
@@ -415,7 +432,7 @@ var statblockPresenter = function () {
   }
   function createTypeDescription() {
     var str = `${values.size || ""}${values.rarity || ""}`
-     
+
     delete values.size;
     delete values.rarity;
 
@@ -427,8 +444,8 @@ var statblockPresenter = function () {
         delete values.subtype;
       }
     }
-    if(values.requires_attunement){
-      str+= ` (requires attunement${(values.requires_attunement_by ? " " + values.requires_attunement_by : "") })`;
+    if (values.requires_attunement) {
+      str += ` (requires attunement${(values.requires_attunement_by ? " " + values.requires_attunement_by : "")})`;
       delete values.requires_attunement;
       delete values.requires_attunement_by;
     }
@@ -437,7 +454,7 @@ var statblockPresenter = function () {
     var p = document.createElement("p");
     em.innerHTML = str;
     p.appendChild(em);
-   // createSeperator();
+    // createSeperator();
     statblock.appendChild(p);
   }
 
@@ -453,15 +470,50 @@ var statblockPresenter = function () {
   }
 
   function createHeaderSmaller(text) {
-    return createHeaderHelper(text, "h3");
+    var createEditButton = editMode && monster.actions?.find(x=> x.name == text)
+    && constants.weapons.find(x=> x.name.toLowerCase() == text.toLowerCase());
+    return createHeaderHelper(text, "h3", createEditButton);
   }
 
-  function createHeaderHelper(text, size) {
+  function createHeaderHelper(text, size, createEditButton) {
     text = text.replace(/_/g, " ");
     var h2 = document.createElement(size);
-    h2.classList = "statblock_"+text;
-    h2.innerHTML = text.toProperCase()
+    h2.classList = "statblock_" + text;
+   // h2.setAttribute("data-statblock_type")
+    h2.innerHTML = text.toProperCase();
+    h2.setAttribute("data-header_value", text)
+    if(createEditButton){
+      h2.appendChild(createActionEditButton());
+    }
     return h2;
+  }
+
+  function createActionEditButton(){
+    var containerDiv = document.createElement("div");
+    var button = document.createElement("button");
+    containerDiv.appendChild(button);
+    containerDiv.classList = "statblock_edit_button_container";
+    button.classList = "statblock_edit_button";
+    button.innerHTML = "Edit";
+    var input = document.createElement("input");
+    containerDiv.appendChild(input);
+    input.classList = "hidden";
+    button.onclick = ()=>{
+      button.classList.add("hidden");
+      input.classList.remove("hidden");
+      input.focus();
+    }
+    input.addEventListener("focusout", ()=> {input.classList.add("hidden"); button.classList.remove("hidden");})
+    new Awesomplete(input, { list: constants.weapons.map(x=> x.name), autoFirst: true, minChars: 0 });
+    input.addEventListener("awesomplete-selectcomplete",(evt)=> {
+      var selectedWeapon = constants.weapons.find(x=> x.name.toLowerCase() == evt.target.value.toLowerCase());
+      var oldWeapon = constants.weapons.find(x=> x.name.toLowerCase() == evt.target.closest("h3").getAttribute("data-header_value").toLowerCase());
+   
+      statblockEditor.relaceMonsterWeapon(monster, oldWeapon, selectedWeapon);
+      createStatblock(statblock, monster, "monster", true);
+
+    });
+    return containerDiv;
   }
 
   function createPara(text) {
@@ -544,7 +596,7 @@ var statblockPresenter = function () {
         paragraph.innerHTML = paragraph.innerHTML.replace(/(?<=\D)[+-]\s?\d+(?!\s*\d*\s*\<\/a)/g, function (match, p1, p2, offset, string) {
 
           var nonHTML = "";
-          
+
           var newD = document.createElement("a");
           newD.innerHTML = match;
           newD.classList.add("d20_roll_link");
@@ -594,12 +646,12 @@ var statblockPresenter = function () {
       var spellcastingAttribute = "";
 
       spellCastingRootNodes.forEach(node => {
-        var currAttribute = foundMonster[node];
+        var currAttribute = monster[node];
         spellcastingAttribute += " ";
 
         if (!currAttribute) {
-          if (foundMonster.special_abilities)
-            foundMonster.special_abilities.forEach(function (ability) {
+          if (monster.special_abilities)
+            monster.special_abilities.forEach(function (ability) {
 
               if (ability[node]) {
 

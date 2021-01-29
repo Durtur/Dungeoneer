@@ -38,7 +38,7 @@ class MobController {
         row.querySelector(".mobcontroller_creatures_remaining").value = this.DEFAULT_MOB_SIZE;
         row.querySelector(".mobcontroller_creatures_dead").value = 0;
         row.querySelector(".mobcontroller_percentage_attacking").value = 75;
-        this.addActionsData(cret, row);
+        this.addActionsData(JSON.parse(JSON.stringify(cret)), row);
         var controller = this;
         row.querySelector(".dmg_field").onkeydown = function (e) {
             if (e.key == "Enter")

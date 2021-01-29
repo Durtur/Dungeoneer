@@ -32,8 +32,8 @@ function setFovVisibilityTool(source, toolIndex) {
 
 var fovLighting = function () {
     const MapFogEnum = {
-        Dark : 1,
-        LowLight : 0,
+        Dark: 1,
+        LowLight: 0,
         None: 2
     }
     var activeFogType = MapFogEnum.None;
@@ -46,7 +46,7 @@ var fovLighting = function () {
         activeViewerHasDarkvision = !activeViewerHasDarkvision;
     }
 
-    function viewerHasDarkvision(){
+    function viewerHasDarkvision() {
         return activeViewerHasDarkvision;
     }
 
@@ -248,6 +248,103 @@ var fovLighting = function () {
 
     }
 
+    function importDungeondraftVttMap(path) {
+
+        resetEverything();
+        resetZoom();
+
+        dataAccess.readFile(path, function (data) {
+            console.log(path);
+            var wallArray = data.line_of_sight;
+
+            var dungeonDraftCellSize = originalCellSize;//parseInt(data.resolution.pixels_per_grid);
+            var imageData = data.image;
+            var bitmap = Buffer.from(imageData, "base64");
+            dataAccess.writeTempFile("tempmap.png", bitmap, function (path) {
+                setMapForeground(path.replaceAll("\\", "/"), parseFloat(data.resolution.map_size.x) * originalCellSize);
+
+                var offsetX = mapContainer.data_transform_x;
+                var offsetY = mapContainer.data_transform_y;
+                var wallLines = [];
+
+                var count = 0;
+                wallArray.forEach(walls => {
+
+                    for (var i = 0; i < walls.length; i++) {
+                        var wall = walls[i];
+                        count++;
+                        wall.x = parseFloat(wall.x) * dungeonDraftCellSize;
+                        wall.y = parseFloat(wall.y) * dungeonDraftCellSize;
+
+                        if (i >= 1)
+                            wallLines.push({ a: { x: walls[i - 1].x + offsetX, y: walls[i - 1].y + offsetY }, b: { x: walls[i].x + offsetX, y: walls[i].y + offsetY } });
+
+                    }
+                })
+                var portals = data.portals;
+
+                portals.forEach(portal => {
+                    if (portal.closed != true) return;
+                    var bounds = portal.bounds;
+                    bounds.map(point => {
+                        point.x = parseFloat(point.x) * dungeonDraftCellSize + offsetX;
+                        point.y = parseFloat(point.y) * dungeonDraftCellSize + offsetY;
+                        return point;
+                    });
+                    wallLines.push({ a: bounds[0], b: bounds[1] });
+
+                });
+
+
+                //Create separate segments for portals
+                // var portals = createPortals(wall);
+                // if (portals) {
+
+                //     portals.forEach(portal => {
+                //         wallLines.forEach(line => {
+                //             if (!pointIsOnLine(line.a, line.b, portal))
+                //                 return;
+                //             //Shorten first by radius
+                //             var portalBegin = createPointDistanceTowardsAnother(portal.radius, { x: portal.x, y: portal.y }, line.a);
+                //             var portalEnd = createPointDistanceTowardsAnother(portal.radius, { x: portal.x, y: portal.y }, line.b);
+                //             // line.b.x = portalBegin.x;
+                //             //line.b.y = portalBegin.y;
+                //             var wallEnd = line.b;
+                //             line.b = copyPoint(portalBegin);
+
+                //             wallLines.push({ a: copyPoint(portalBegin), b: copyPoint(portalEnd) });
+                //             //    wallLines.push({a: copyPoint(line.a), b: copyPoint(portalBegin)});
+                //             wallLines.push({ a: copyPoint(wallEnd), b: copyPoint(portalEnd) });
+
+
+                //         });
+                //     });
+                //     // while(segmentsToAdd.length > 0)
+                //     //  wallLines.push(segmentsToAdd.pop());
+                //     function createPointDistanceTowardsAnother(moveDistance, pointA, pointB) {
+                //         var distanceBetween = distance(pointA, pointB);
+                //         var x = pointA.x - (moveDistance * (pointA.x - pointB.x)) / distanceBetween;
+                //         var y = pointA.y - (moveDistance * (pointA.y - pointB.y)) / distanceBetween;
+                //         return { x: x, y: y };
+                //     }
+                // }
+
+                //Normalize and add
+                wallLines.forEach(line => {
+                    // line.a.x = line.a.x * widthDiff + offsetX;
+                    // line.b.x = line.b.x * widthDiff + offsetX;
+                    // line.a.y = line.a.y * heightDiff + offsetY;
+                    // line.b.y = line.b.y * heightDiff + offsetY
+                    addSegment(line.a, line.b)
+
+                });
+                console.log(segments)
+                drawSegments();
+            });
+        });
+
+    }
+
     function importDungeondraftWalls() {
         var dungeonDraftCellSize = 256;
         difference = cellSize / dungeonDraftCellSize;
@@ -257,6 +354,7 @@ var fovLighting = function () {
             filters: [{ name: 'Dungeondraft map', extensions: ['dungeondraft_map'] }]
         });
         if (!path[0]) return;
+
         resetEverything();
         resetZoom();
 
@@ -274,8 +372,8 @@ var fovLighting = function () {
             var widthDiff = width / ddWidth;
             var heightDiff = height / ddHeigth;
 
-            var offsetX = foregroundCanvas.data_transform_x;
-            var offsetY = foregroundCanvas.data_transform_y;
+            var offsetX = mapContainer.data_transform_x;
+            var offsetY = mapContainer.data_transform_y;
 
             wallArray.forEach(wall => {
                 var lastPoint;
@@ -327,7 +425,7 @@ var fovLighting = function () {
                             //line.b.y = portalBegin.y;
                             var wallEnd = line.b;
                             line.b = copyPoint(portalBegin);
-         
+
                             wallLines.push({ a: copyPoint(portalBegin), b: copyPoint(portalEnd) });
                             //    wallLines.push({a: copyPoint(line.a), b: copyPoint(portalBegin)});
                             wallLines.push({ a: copyPoint(wallEnd), b: copyPoint(portalEnd) });
@@ -410,7 +508,21 @@ var fovLighting = function () {
 
     }
 
+    function resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight) {
+        var ratioX = newWidth / oldWidth;
+        var ratioY = newHeight / oldHeight;
+        console.log(ratioX, ratioY)
+        for (var i = 4; i < segments.length; i++) {
+            ["a", "b"].forEach(line => {     
+                segments[i][line].x *= ratioX;
+                segments[i][line].y *= ratioY;
+            });
+
+        }
+    }
+
     function resizeSegments(oldBackgroundOrigin, newBackgroundOrigin, backgroundScaleBeforeResize) {
+
         var cellsFromLeft, cellsFromTop;
 
         for (var i = 4; i < segments.length; i++) {
@@ -630,11 +742,12 @@ var fovLighting = function () {
     return {
         importDungeondraftWalls: importDungeondraftWalls,
         clearFogOfWar: clearFogOfWar,
+        importDungeondraftVttMap: importDungeondraftVttMap,
         drawFogOfWar: drawFogOfWar,
         setFogStyle: setFogStyle,
-        MapFogType : MapFogEnum,
-        toggleDarkvision : toggleDarkvision,
-        viewerHasDarkvision : viewerHasDarkvision,
+        MapFogType: MapFogEnum,
+        toggleDarkvision: toggleDarkvision,
+        viewerHasDarkvision: viewerHasDarkvision,
         nudgeSegments: nudgeSegments,
         addWindowBorderToSegments: addWindowBorderToSegments,
         resizeSegments: resizeSegments,
@@ -642,6 +755,7 @@ var fovLighting = function () {
         drawSegments: drawSegments,
         addLineSegment: addLineSegment,
         addRectangleSegment: addRectangleSegment,
+        resizeSegmentsFromMapSizeChanged: resizeSegmentsFromMapSizeChanged,
         addSphereSegment: addSphereSegment,
         attemptToDeleteSegment: attemptToDeleteSegment,
         setPerspective: setPerspective,

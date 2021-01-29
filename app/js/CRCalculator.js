@@ -94,7 +94,10 @@ module.exports = function () {
         return { cr_entry: cr, dcr_entry: dCr, ocr_entry: oCr }
     }
 
-
+    function getTableForCrValue(crValue)
+    {
+        return table.find(x=> x.cr== crValue);
+    }
 
     var table = [
 
@@ -135,7 +138,8 @@ module.exports = function () {
     ]
 
     return {
-        calculateCR: calculateCR
+        calculateCR: calculateCR,
+        getTableForCrValue:getTableForCrValue
     }
 
 }();

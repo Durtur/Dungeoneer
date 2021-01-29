@@ -286,6 +286,21 @@ hr {
   margin: 0;
 }
 
+
+.statblock_token{
+  background-size: contain;
+  float:right;
+  width: 50px;
+  height: 50px;
+}
+
+.statblock_name{
+  display: flex;
+  font-size: 40px;
+  justify-content: space-between;
+  z-index: 1;
+}
+
 .statblock_hp_and_ac_row>div{
   flex:1;
 }
@@ -925,7 +940,7 @@ input, textarea, .cell_row {
     left: 0;
 }
 #close_app_button, #close_window_button {
-  margin-right: 30px;
+  /* margin-right: 30px; */
   background-image: url("img/close.png");
 }
 #reload_button{
@@ -957,9 +972,9 @@ input, textarea, .cell_row {
   background-repeat: no-repeat;
   background-position: center;
   -webkit-app-region: no-drag;
-  height: 30px;
+
   margin-left: 5px;
-  width: 30px;
+  width: 3em;
 }
 
 .title_bar>button:hover, .title_bar_left>button:hover {
@@ -1205,6 +1220,18 @@ header {
   max-width: 500px;
 }
 
+.context_menu_root{
+  display:flex;
+  flex-flow:column nowrap;
+}
+.context_menu_root:hover>.context_menu_item{
+  display:flex;
+}
+.context_menu_item{
+  display:none;
+  width:100%;
+}
+
 .context_menu_button::after {
   content: " ";
   padding: 5px;
@@ -1212,7 +1239,7 @@ header {
   background-repeat: no-repeat;
   right: -15px;
   top: 7px;
-  background-image: url("img/arrow_one.png");
+
   background-size: 80%;
   transform: rotate(90deg);
 }

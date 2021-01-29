@@ -80,9 +80,9 @@
                     onclick="newItem('tab')">+</button>
                 <div></div>
                 <div class="row center" style="justify-content: center;">
-                    <input type="text" class="listSearch " style = "margin-left: 200px;" id="monsters_list_search">
-                    <div style = "margin-left:1em;">
-                        <select id = "monsters_list_tag_select" data-placeholder="Filter tags" multiple></select>
+                    <input type="text" class="listSearch " style="margin-left: 200px;" id="monsters_list_search">
+                    <div style="margin-left:1em;">
+                        <select id="monsters_list_tag_select" data-placeholder="Filter tags" multiple></select>
                     </div>
                 </div>
                 <div class="listRow">
@@ -271,7 +271,8 @@
                             <strong>The database cannot support multiple entries with the same name.</strong> Saving
                             two items
                             under the same
-                            name will overwrite the older one. </p>
+                            name will overwrite the older one.
+                        </p>
                         <p>You can use Markdown to style your entries. </p>
 
                         <button class="floating" onclick="hide('markdowninfotables')">x</button>
@@ -322,7 +323,8 @@
                                         name.</strong>Refrain
                                     from saving
                                     two conditions
-                                    or rules under the same name, as you will not be able to access them. </p>
+                                    or rules under the same name, as you will not be able to access them.
+                                </p>
                                 <p>You can use Markdown to style your entries. For example, a spell list for an NPC can
                                     be
                                     made
@@ -429,7 +431,8 @@
                             <strong>The database cannot support multiple entries with the same name.</strong> Saving
                             two items
                             under the same
-                            name will overwrite the older one. </p>
+                            name will overwrite the older one.
+                        </p>
                         <p>You can use Markdown to style your entries. </p>
 
                         <button class="floating" onclick="hide('markdowninfoitems')">x</button>
@@ -554,7 +557,8 @@
                             <strong>The database cannot support multiple entries with the same name.</strong> Saving
                             two spells
                             under the same
-                            name will overwrite the older one. </p>
+                            name will overwrite the older one.
+                        </p>
                         <p>You can use Markdown to style your entries. </p>
 
                         <button class="floating" onclick="hide('markdowninfospells')">x</button>
@@ -716,7 +720,8 @@
                             <strong>The database cannot support multiple entries with the same name.</strong> Saving
                             two encounters
                             under the
-                            same name will overwrite the older one. </p>
+                            same name will overwrite the older one.
+                        </p>
                         <p>You can use Markdown to style your entries. </p>
                         <p>The calculator on the right will estimate the encounter difficulty, that information is not
                             saved.</p>
@@ -831,7 +836,7 @@
                                         for="addmonster_size">Size</label>
                                     <input type="text" class=" addmonster_size" id="addmonster_size">
                                 </div>
-                                
+
                                 <div class="column" style="flex:1;">
                                     <label class="attr readonly_monster_attr " tabindex="-1"
                                         for="addmonster_speed">Speed</label>
@@ -912,7 +917,7 @@
                                     </div>
                                 </div>
                             </div>
-   
+
                             <div class="row monster_stat_row">
                                 <div class="column" style="flex:1">
                                     <input type="text" class="attr brown monster_attribute_chapter_label"
@@ -962,7 +967,8 @@
                             </div>
                             <div class="row monster_stat_row">
                                 <div class="column" style="flex:2;">
-                                    <label class="attr readonly_monster_attr " tabindex="-1" for="addmonster_ac_source">Armor
+                                    <label class="attr readonly_monster_attr " tabindex="-1"
+                                        for="addmonster_ac_source">Armor
                                         type</label>
                                     <input class="  addmonster_ac_source" id="addmonster_ac_source">
                                 </div>
@@ -972,7 +978,7 @@
                                         class</label>
                                     <input type="number" class=" monsterCR addmonster_armor_class" id="homebrewAC">
                                 </div>
-                  
+
                                 <div class="column" style="flex:1;">
                                     <label class="attr readonly_monster_attr " tabindex="-1" for="homebrewHP">Hit
                                         points</label>
@@ -1081,11 +1087,11 @@
 
                         <div class="addRow_reactions">
                             <div class="row reaction_row special_ability_column">
-                                <input type="text" class="reaction_name" title="Attribute"
-                                    placeholder="Reaction name" value="Amphibious">
+                                <input type="text" class="reaction_name" title="Attribute" placeholder="Reaction name"
+                                    value="Amphibious">
                                 <textarea class="reaction_value"> </textarea>
                             </div>
-                         
+
                         </div>
 
                         <span></span>
@@ -1094,14 +1100,13 @@
 
                     <div class="column monster_util_column">
                         <div class=column>
-                            <div class="column" >
-                                <label for="dnd_beyond_crawler_input" style="font-size: 14px;">
-                                    Copy from DnD beyond:
-                                </label>
-                                <input id="dnd_beyond_crawler_input" placeholder="Paste an url to a monster here">
-
+                            <div class="import_button  context_menu_root" style="width:100px">
+                                <Label style="color:white; font-size:12px; text-align: center;">Import</Label>
+                                <button class="button_style context_menu_item"
+                                    id="dnd_beyond_statblock_import_button">DnDBeyond</button>
                             </div>
-                            <div class="column token_column"  style="margin-top:5em">
+
+                            <div class="column token_column" style="margin-top:5em">
                                 <div class="row">
                                     <div class="row">
                                         <h2 style="margin:0;">Tokens</h2>
@@ -1125,23 +1130,73 @@
                                 <div id="maptool_token_container"></div>
                             </div>
 
+                            <section class="cr_calculator_wrap cr_calculator_lookup column" style="margin-bottom:1em">
+                                <h2 style="color:black">Challenge rating lookup</h2>
+                                <div class="cr_result_row" >
+
+                                    <div class="row" style="margin-bottom: 1em;">
+                                        <div class=" black monster_attribute_chapter_label"  >Challenge rating</div>
+                                        <input id="cr_lookup_cr" placeholder="0" class="cr_calculator_result_value">
+                                    </div>
+                                </div>
+                                <div class="cr_lookup_results hidden">
+                                    <div class=" challenge_rating_values " >
+                                        <div class="row">
+                                            <label>Proficiency bonus: </label>
+                                            <p class="proficiency_bonus_cr_lookup"></p>
+                                        </div>
+                                        <div class="row">
+                                            <label>Attack bonus: </label>
+                                            <p class="attack_bonus_cr_lookup"></p>
+                                        </div>
+                                        <div class="row">
+                                            <label>Save DC: </label>
+                                            <p class="save_dc_cr_lookup"></p>
+                                        </div>
+                                        <div class="row">
+                                            <label>Damage per round: </label>
+                                            <p class="average_damage_cr_lookup"></p>
+                                        </div>
+                       
+                                    </div>
+                                    <div class=" challenge_rating_values " >
+                                        
+                                        <div class="row">
+                                            <label>AC: </label>
+                                            <p class="armor_class_cr_lookup"></p>
+                                        </div>
+
+                                        <div class="row">
+                                            <label>Hit points: </label>
+                                            <p class="hit_points_cr_lookup"></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </section>
+
+
                             <section class="cr_calculator_wrap column">
-                                <h2 style = "color:black">Challenge rating calculator</h2>
-                                <div class="cr_result_row" style = "    justify-content: space-around;">
+                                <h2 style="color:black">Challenge rating calculator</h2>
+                                <div class="cr_result_row" style="    justify-content: space-around;">
                                     <div class="column">
                                         <input style="cursor:help" class="tooltipped black"
                                             data-tooltip="Assume all attacks hit, use the highest number of attacks available, and take the average of all dice."
                                             readonly value="Predicted damage per round" tabindex="-1">
-                                        <input type="number" id="predictedDamageOutput" placeholder="1" min = "0" max = "320" class="monsterCR">
+                                        <input type="number" id="predictedDamageOutput" placeholder="1" min="0"
+                                            max="320" class="monsterCR">
                                     </div>
                                     <div class="column" style="    margin-left: 1em;">
                                         <input class=" black" readonly value="Main attack bonus" tabindex="-1">
-                                        <input type="number" id="mainAttackBonus" placeholder="0" min ="0" max = "100" class="monsterCR">
+                                        <input type="number" id="mainAttackBonus" placeholder="0" min="0" max="100"
+                                            class="monsterCR">
                                     </div>
 
                                     <div class="column" style="margin-left: 1em;">
                                         <input class=" black" readonly value="Save DC" tabindex="-1">
-                                        <input type="number" id="cr_calculator_save_dc" placeholder="12" min ="0" max = "100" class="monsterCR">
+                                        <input type="number" id="cr_calculator_save_dc" placeholder="12" min="0"
+                                            max="100" class="monsterCR">
                                     </div>
                                 </div>
                                 <div class="cr_calculator_results hidden">
@@ -1195,7 +1250,7 @@
                                 </div>
 
                             </section>
-                          
+
                         </div>
 
                     </div>

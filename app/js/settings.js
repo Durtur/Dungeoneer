@@ -5,7 +5,6 @@ const dataAccess = require("./js/dataaccess");
 var playerPlaques = document.querySelector("#showPlayerPlaques");
 var autoRoll = document.querySelector("#autoRollInitiative");
 var roundCounter = document.querySelector("#roundCounterIntitiative");
-var maxEntries = document.querySelector("#maxAutoLoads");
 var addPlayersAutomatically = document.querySelector("#addPlayersAutomatically");
 var snapToGrid = document.querySelector("#snapToGrid");
 var enableGrid = document.getElementById("enableGrid");
@@ -36,8 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
         playerPlaques.checked = data.playerPlaques;
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
-      
-        maxEntries.value = data.maxAutoLoads;
+
         addPlayersAutomatically.checked = data.maptool.addPlayersAutomatically;
         applyDarkvisionFilter.checked = data.maptool.applyDarkvisionFilter;
         snapToGrid.checked = data.maptool.snapToGrid
@@ -98,7 +96,6 @@ function saveSettings(closeImmediately) {
         data.playerPlaques = playerPlaques.checked;
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;
-        data.maxAutoLoads = maxEntries.value;
     
         data.maptool.addPlayersAutomatically = addPlayersAutomatically.checked;
         data.maptool.snapToGrid = snapToGrid.checked;
