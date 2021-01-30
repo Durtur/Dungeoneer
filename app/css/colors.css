@@ -880,7 +880,6 @@ input, textarea, .cell_row {
 }
 .title_bar_left>.button_style{
   width: 70px ;
-  line-height: 2.7;
 }
 .title_bar {
   flex-shrink: 0;
@@ -911,8 +910,8 @@ input, textarea, .cell_row {
 #settings_window_button {
 
   background-image: url("img/settings.png");
-  background-size: 50%;
-  background-position-y: 10px;
+  background-size: 32%;
+  background-position-y: center;
 
   transform: all 300ms ease;
 }
@@ -920,24 +919,19 @@ input, textarea, .cell_row {
 #about_window_button {
   color: white;
   font-family: "nodesto";
-
-  line-height: 2.5;
+  font-size:1em;
   text-emphasis: bold;
 }
 
 #party_stats_button {
- 
-  background-size: 15px;
-  background-position-y: 10px;
-
   background-image: url("img/party.png");
 }
 .title_bar_left{
   display:flex;
+  flex:1;
   flex-flow:row nowrap;
   justify-content: flex-start;
-  position: absolute;
-    left: 0;
+ 
 }
 #close_app_button, #close_window_button {
   /* margin-right: 30px; */
@@ -945,7 +939,6 @@ input, textarea, .cell_row {
 }
 #reload_button{
   background-image:url("img/refresh.png");
-  background-position-y: 10px;
 }
 #minimize_app_button {
   background-image: url("img/minimize.png");
@@ -974,7 +967,7 @@ input, textarea, .cell_row {
   -webkit-app-region: no-drag;
 
   margin-left: 5px;
-  width: 3em;
+  width: 50px;
 }
 
 .title_bar>button:hover, .title_bar_left>button:hover {
