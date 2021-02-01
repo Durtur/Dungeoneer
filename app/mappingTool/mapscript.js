@@ -1142,6 +1142,35 @@ function zoomIntoMap(event, resizeAmount) {
         mapContainer.style.setProperty("--bg-scale", newSize);
 
         var newRect = foregroundCanvas.getBoundingClientRect();
+
+        //Origin is top left
+        var sizeRatioX = newRect.width / oldRect.width;
+        var sizeRatioY = newRect.height / oldRect.height;
+
+        
+        var relativePositionX = event.x - oldRect.x; 
+        var relativePositionY = event.y - oldRect.y; 
+
+        var currentRelativePositionX = event.x - newRect.x; 
+        var currentRelativePositionY = event.y - newRect.y; 
+
+        var newXRelative = relativePositionX*sizeRatioX;
+        var newYRelative = relativePositionY *sizeRatioY;
+
+
+        var moveMapX = newXRelative- currentRelativePositionX ;
+        var moveMapY = newYRelative - currentRelativePositionY ;
+
+     
+        var bgX = mapContainer.data_transform_x;
+        var bgY = mapContainer.data_transform_y;
+        bgY -= moveMapY;
+        bgX -= moveMapX;
+        moveOffsetX -= moveMapX;
+        moveOffsetY -= moveMapY;
+        moveMap(bgX, bgY);
+    
+        newRect = foregroundCanvas.getBoundingClientRect();
         moveOffsetX += newRect.left - oldRect.left;
         moveOffsetY += newRect.top - oldRect.top;
         cellSize = originalCellSize * newSize;

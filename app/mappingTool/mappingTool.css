@@ -240,7 +240,8 @@ li {
 }
 #background{
     background-repeat: no-repeat;
-    transform-origin: center;
+    transform-origin: 0 0 ;
+   
 }
 
 .background_repeat_x{
@@ -252,7 +253,8 @@ li {
 }
 #foreground{
     background-repeat: no-repeat;
-    transform-origin: center;
+    transform-origin: 0 0 ;
+   
 }
 
 #foreground, #background {

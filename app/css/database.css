@@ -12,72 +12,74 @@ html {
   height: 0 !important;
 }
 
-.listRow input:read-only{
-  cursor:pointer;
+.listRow input:read-only {
+  cursor: pointer;
 }
 
 .listRow__inner>input[type="text"]:first-child {
   min-width: 210px;
 }
 
-.addframe_table_controls{
-  margin-top:1.5em;
+.addframe_table_controls {
+  margin-top: 1.5em;
   justify-content: space-between;
 }
-.addframe_table_controls .toggle_button{
+
+.addframe_table_controls .toggle_button {
   border-radius: 5px;
   min-height: 25px;
   width: 120px;
-  
 }
 
-.addframe_table_controls .button_style:not(.toggle_button){
-  font-size:1.5em;
+.addframe_table_controls .button_style:not(.toggle_button) {
+  font-size: 1.5em;
 }
 
-.addRow_creatures input{
-  border-radius:0 !important;
+.addRow_creatures input {
+  border-radius: 0 !important;
 }
-.addRow_creatures .row:first-child input{
+
+.addRow_creatures .row:first-child input {
   background-color: #451A17;
-  color:white;
+  color: white;
 }
 
-
-.addframe_table input{
-  border-radius:0 !important;
-}
-.addframe_table .row:first-child input:first-child{
-  border-top-left-radius:5px !important;
+.addframe_table input {
+  border-radius: 0 !important;
 }
 
-.addframe_table .row:first-child input:last-child{
-  border-top-right-radius:5px !important;
+.addframe_table .row:first-child input:first-child {
+  border-top-left-radius: 5px !important;
 }
 
-.addframe_table .row:last-child input:first-child{
-  border-top-left-radius:5px !important;
+.addframe_table .row:first-child input:last-child {
+  border-top-right-radius: 5px !important;
 }
 
-.addframe_table .row:last-child input:last-child{
-  border-bottom-right-radius:5px !important;
+.addframe_table .row:last-child input:first-child {
+  border-top-left-radius: 5px !important;
 }
 
-.addRow_creatures .row:first-child input:first-child{
-
-  border-bottom-left-radius:5px !important;
+.addframe_table .row:last-child input:last-child {
+  border-bottom-right-radius: 5px !important;
 }
 
-.addRow_creatures .row:first-child input:last-child{
-  border-top-right-radius:5px !important;
-}
-.addRow_creatures .row:last-child input:last-child{
-  border-bottom-right-radius:5px !important;
+.addRow_creatures .row:first-child input:first-child {
+  border-bottom-left-radius: 5px !important;
 }
 
-.addRow_creatures .row:last-child input:first-child{
-  border-bottom-left-radius:5px !important;
+.addRow_creatures .row:first-child input:last-child {
+  border-top-right-radius: 5px !important;
 }
+
+.addRow_creatures .row:last-child input:last-child {
+  border-bottom-right-radius: 5px !important;
+}
+
+.addRow_creatures .row:last-child input:first-child {
+  border-bottom-left-radius: 5px !important;
+}
+
 @media (min-width: 820px) {
   #encounter_cr_slider {
     width: 212px;
@@ -272,8 +274,9 @@ html {
 .listRow:nth-child(4)>button {
   opacity: 0;
 }
-#monsters_list_tag_select{
-  margin-left:1em;
+
+#monsters_list_tag_select {
+  margin-left: 1em;
 }
 
 .listSearch {
@@ -323,25 +326,26 @@ html {
   display: inline-block !important;
 }
 
-.cr_calculator_results{
-  display:flex;
-  flex-flow:column nowrap;
-
+.cr_calculator_results {
+  display: flex;
+  flex-flow: column nowrap;
 }
-.cr_calculator_wrap{
+
+.cr_calculator_wrap {
   max-width: 600px;
   background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 5px;
-    padding: 1em;
-    text-align: center;
+  border-radius: 5px;
+  padding: 1em;
+  text-align: center;
 }
 
-.cr_result_row{
-  display:flex;
-  flex-flow:row;
-  margin-top:1.2em;
+.cr_result_row {
+  display: flex;
+  flex-flow: row;
+  margin-top: 1.2em;
 }
-.cr_calculator_result_value{
+
+.cr_calculator_result_value {
   background-color: white;
   text-align: center;
   border-radius: 10px;
@@ -351,35 +355,35 @@ html {
   filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
   font-size: 1.2em;
 }
-.cr_calculator_results .monster_attribute_chapter_label, .cr_calculator_lookup .monster_attribute_chapter_label{
+
+.cr_calculator_results .monster_attribute_chapter_label, .cr_calculator_lookup .monster_attribute_chapter_label {
   padding: 10px;
-    width: 200px;
-    margin-top:0;
-    font-size: 1em;
+  width: 200px;
+  margin-top: 0;
+  font-size: 1em;
 }
 
-.challenge_rating_values>.row{
-    border: 1px solid rgba(0, 0 ,0 ,0.5);
-    border-radius:5px;
+.challenge_rating_values>.row {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
 }
 
-.challenge_rating_values{
+.challenge_rating_values {
   justify-content: flex-start;
-  display:flex;
-  flex-flow:row;
+  display: flex;
+  flex-flow: row;
   font-size: 0.8em;
 }
 
-.challenge_rating_values label{
+.challenge_rating_values label {
   font-weight: 500;
-  margin-left:1em;
+  margin-left: 1em;
 }
 
-.cr_calculator_result_header{
-  font-size:2em;
-  font-weight:bold;
+.cr_calculator_result_header {
+  font-size: 2em;
+  font-weight: bold;
 }
-
 
 .db_name_field, .action_name {
   font-size: 1.2em;
@@ -503,7 +507,7 @@ html {
   z-index: 1;
 }
 
-.statblock_token{
+.statblock_token {
   background-size: contain;
   position: absolute;
   left: 2%;
@@ -583,19 +587,17 @@ html {
   padding: 5px;
 }
 
-.import_button{
-  position:absolute;
-  top:0;
-  right:0;
-
-  color:white;
+.import_button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
   background-color: var(--main-color);
 }
-.import_button>*{
-  padding:1em;
+
+.import_button>* {
+  padding: 1em;
 }
-
-
 
 .addframe textarea {
   border-radius: 5px;
@@ -618,7 +620,7 @@ html {
   flex-flow: column nowrap !important;
 }
 
-.specialjsonAttribute,.reaction_name {
+.specialjsonAttribute, .reaction_name {
   width: 210px !important;
 }
 
@@ -654,12 +656,13 @@ html {
   justify-content: space-between;
 }
 
-#addmonster_tag_container{
+#addmonster_tag_container {
   display: flex;
   flex-flow: row wrap;
   padding: 0.25em;
-  color: rgba(0,0,0,0.8);
+  color: rgba(0, 0, 0, 0.8);
 }
+
 .addmonster_description {
   min-height: 120px;
 }
@@ -676,7 +679,6 @@ html {
 
 .addframe .jsonValueClasses {
   width: 60px;
-
 }
 
 .hidden {
@@ -701,11 +703,10 @@ html {
   box-sizing: border-box;
 }
 
-.black{
+.black {
   background-color: #222;
   color: white;
   border-style: solid;
- 
   border: 1px solid #3F0E0B;
   padding: 1px;
   box-sizing: border-box;
