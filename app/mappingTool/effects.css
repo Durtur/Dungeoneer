@@ -19,6 +19,11 @@
     }
 }
 
+.dungeondraft_imported_light{
+    background-color:yellow;
+    border:1px solid blue;
+}
+
 .light_effect_torch {
     animation-name: lightEffectTorch;
     animation-iteration-count: infinite;

@@ -137,7 +137,7 @@ var fovLighting = function () {
         } else {
             sightRadiusBright = parseFloat(currentPawn.sight_radius_bright_light) * cellSize / 5;
             sightRadius = sightRadiusBright +
-                parseFloat(currentPawn.sight_radius_dim_light) * cellSize / 5;
+                parseFloat(currentPawn.sight_radius_dim_light || 1) * cellSize / 5;
         }
 
 
@@ -247,7 +247,8 @@ var fovLighting = function () {
         }
 
     }
-
+    const minWallLength = 8;
+    const maxSegmentCount = 900;
     function importDungeondraftVttMap(path) {
 
         resetEverything();
@@ -266,21 +267,51 @@ var fovLighting = function () {
                 var offsetX = mapContainer.data_transform_x;
                 var offsetY = mapContainer.data_transform_y;
                 var wallLines = [];
-
+                getLines(false, true);
+                if (wallLines.length > maxSegmentCount) {
+                    console.log(wallLines.length)
+                    wallLines.length = 0;
+                    getLines(true, false);
+                    console.log(wallLines.length)
+                }
                 var count = 0;
-                wallArray.forEach(walls => {
 
-                    for (var i = 0; i < walls.length; i++) {
-                        var wall = walls[i];
-                        count++;
-                        wall.x = parseFloat(wall.x) * dungeonDraftCellSize;
-                        wall.y = parseFloat(wall.y) * dungeonDraftCellSize;
+                function getLines(combineSmallLines, scaleWalls) {
+                    console.log(`Get lines, constrain ${combineSmallLines}`)
+                    wallArray.forEach(walls => {
+                        var skippedLines = [];
+                        for (var i = 0; i < walls.length; i++) {
+                            var wall = walls[i];
 
-                        if (i >= 1)
-                            wallLines.push({ a: { x: walls[i - 1].x + offsetX, y: walls[i - 1].y + offsetY }, b: { x: walls[i].x + offsetX, y: walls[i].y + offsetY } });
+                            count++;
+                            if (scaleWalls) {
+                                wall.x = parseFloat(wall.x) * dungeonDraftCellSize;
+                                wall.y = parseFloat(wall.y) * dungeonDraftCellSize;
+                            }
 
-                    }
-                })
+
+                            if (i == 0)
+                                continue;
+
+                            var lineA = skippedLines.length > 0 ? skippedLines[0] : { x: walls[i - 1].x + offsetX, y: walls[i - 1].y + offsetY };
+                            var lineB = { x: walls[i].x + offsetX, y: walls[i].y + offsetY };
+                            if (i == walls.length) {
+                                wallLines.push({ a: lineA, b: lineB });
+                            } else {
+
+                                if (distance(lineA, lineB) < minWallLength && combineSmallLines) {
+                                    //Skip this line
+                                    console.log("Skip line")
+                                    skippedLines.push(lineA);
+                                    continue;
+                                }
+                                skippedLines.length = 0;
+                                wallLines.push({ a: lineA, b: lineB });
+                            }
+                        }
+                    })
+                }
+
                 var portals = data.portals;
 
                 portals.forEach(portal => {
@@ -295,50 +326,33 @@ var fovLighting = function () {
 
                 });
 
+                var lights = data.lights;
+                lights.forEach(light => {
+                    var newEffect = document.createElement("div");
+                    newEffect.style.width = cellSize/5 + "px";
+                    newEffect.style.height = cellSize/5 + "px";
+                    newEffect.flying_height = 0;
+                    newEffect.classList.add("light_effect", "dungeondraft_imported_light");
+                    newEffect.classList.add("light_source_visibility_layer");
 
-                //Create separate segments for portals
-                // var portals = createPortals(wall);
-                // if (portals) {
+                    var posX =parseFloat( light.position.x) * dungeonDraftCellSize + offsetX;
+                    var posY =parseFloat( light.position.y) * dungeonDraftCellSize + offsetY;
+                    newEffect.style.top =  posY+ "px";
+                    newEffect.style.left = posX + "px";
+                    var radius = parseFloat(light.range) * 5;
+                    newEffect.sight_radius_bright_light = radius/2;
+                    newEffect.sight_radius_dim_light = radius/2;
+                    effects.push(newEffect)    
+                    pawns.lightSources.push(newEffect);
+                    tokenLayer.appendChild(newEffect);
+                });
 
-                //     portals.forEach(portal => {
-                //         wallLines.forEach(line => {
-                //             if (!pointIsOnLine(line.a, line.b, portal))
-                //                 return;
-                //             //Shorten first by radius
-                //             var portalBegin = createPointDistanceTowardsAnother(portal.radius, { x: portal.x, y: portal.y }, line.a);
-                //             var portalEnd = createPointDistanceTowardsAnother(portal.radius, { x: portal.x, y: portal.y }, line.b);
-                //             // line.b.x = portalBegin.x;
-                //             //line.b.y = portalBegin.y;
-                //             var wallEnd = line.b;
-                //             line.b = copyPoint(portalBegin);
-
-                //             wallLines.push({ a: copyPoint(portalBegin), b: copyPoint(portalEnd) });
-                //             //    wallLines.push({a: copyPoint(line.a), b: copyPoint(portalBegin)});
-                //             wallLines.push({ a: copyPoint(wallEnd), b: copyPoint(portalEnd) });
-
-
-                //         });
-                //     });
-                //     // while(segmentsToAdd.length > 0)
-                //     //  wallLines.push(segmentsToAdd.pop());
-                //     function createPointDistanceTowardsAnother(moveDistance, pointA, pointB) {
-                //         var distanceBetween = distance(pointA, pointB);
-                //         var x = pointA.x - (moveDistance * (pointA.x - pointB.x)) / distanceBetween;
-                //         var y = pointA.y - (moveDistance * (pointA.y - pointB.y)) / distanceBetween;
-                //         return { x: x, y: y };
-                //     }
-                // }
 
                 //Normalize and add
                 wallLines.forEach(line => {
-                    // line.a.x = line.a.x * widthDiff + offsetX;
-                    // line.b.x = line.b.x * widthDiff + offsetX;
-                    // line.a.y = line.a.y * heightDiff + offsetY;
-                    // line.b.y = line.b.y * heightDiff + offsetY
                     addSegment(line.a, line.b)
 
                 });
-                console.log(segments)
                 drawSegments();
             });
         });
@@ -513,7 +527,7 @@ var fovLighting = function () {
         var ratioY = newHeight / oldHeight;
         console.log(ratioX, ratioY)
         for (var i = 4; i < segments.length; i++) {
-            ["a", "b"].forEach(line => {     
+            ["a", "b"].forEach(line => {
                 segments[i][line].x *= ratioX;
                 segments[i][line].y *= ratioY;
             });
@@ -689,6 +703,16 @@ var fovLighting = function () {
         return Math.abs(distanceAb - (distanceBc + distanceAc)) < offset;
 
     }
+    function totalArrDistance(arr) {
+        if (arr.length == 1) return 0;
+        var sum = 0;
+        for (var i = 1; i < arr.length; i++) {
+            sum += distance(arr[i - 1], arr[1]);
+        }
+        console.log(sum, arr);
+        return sum;
+    }
+
     function distance(a, b) {
         return Math.sqrt(
             Math.pow(a.x - b.x, 2)
