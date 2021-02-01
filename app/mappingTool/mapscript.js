@@ -43,7 +43,7 @@ var visibilityLayerVisible = false;
 var lastMeasuredPoint = null;
 
 var effectData;
-var MAX_BG_SIZE = 10;
+var MAX_BG_ZOOM = 10;
 //Visibility
 
 var effects = [], currentlySelectedEffectDropdown;
@@ -1136,7 +1136,7 @@ function zoomIntoMap(event, resizeAmount) {
         var backgroundSizeBeforeResize = mapContainer.data_bg_scale;
         var newSize = backgroundSizeBeforeResize + resizeAmount;
 
-        if (newSize > MAX_BG_SIZE) newSize = MAX_BG_SIZE;
+        if (newSize > MAX_BG_ZOOM) newSize = MAX_BG_ZOOM;
         if (newSize < 0.1) newSize = 0.1;
         mapContainer.data_bg_scale = newSize;
         mapContainer.style.setProperty("--bg-scale", newSize);
@@ -1986,7 +1986,7 @@ function loadParty() {
                             name: data[i].character_name,
                             id: data[i].id,
                             size: "medium",
-                            color: hexToRGBA(data[i].color, 0.4),
+                            color: Util.hexToRGBA(data[i].color, 0.4),
                             bgPhoto: null,
                             darkVisionRadius: data[i].darkvision
                         }
@@ -2352,9 +2352,7 @@ function removeAllConditionsHandler(event) {
     });
 
 }
-function hexToRGBA(hex, opacity) {
-    return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
-}
+
 function setPawnCondition(pawnElement, condition) {
     var conditionString = condition.name;
     if (!conditionString || pawnElement["data-dnd_conditions"].indexOf(conditionString) > -1)

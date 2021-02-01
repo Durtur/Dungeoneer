@@ -141,6 +141,9 @@ module.exports = function () {
 
         return "hsl(" + h + "," + s + "%," + l + "%)";
     }
+    function hexToRGBA(hex, opacity) {
+        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
+    }
     return {
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
@@ -148,7 +151,8 @@ module.exports = function () {
         showOrHide: showOrHide,
         balanceCheckBoxGroup: balanceCheckBoxGroup,
         makeUIElementDraggable: makeUIElementDraggable,
-        hexToHSL: hexToHSL
+        hexToHSL: hexToHSL,
+        hexToRGBA:hexToRGBA
     }
 }();
 

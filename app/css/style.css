@@ -31,23 +31,24 @@
     right: 7px;
   }
 }
-.statblock_edit_button:hover{
-  background-color:black;
-  color:white;
+
+.statblock_edit_button:hover {
+  background-color: black;
+  color: white;
 }
-.statblock_edit_button_container{
-  float:right;
+
+.statblock_edit_button_container {
+  float: right;
 }
-.statblock_edit_button{
+
+.statblock_edit_button {
   transition: all var(--transition-delay);
-  border:1px solid black;
-  background-color:white;
+  border: 1px solid black;
+  background-color: white;
   font-family: roboto;
-  color:black;
-
-  border-radius:5px;
+  color: black;
+  border-radius: 5px;
 }
-
 
 .margin_right {
   margin-right: 10px;
@@ -189,8 +190,7 @@ h1 {
 }
 
 .combat_log_conditions {
-  width:100%;
-
+  width: 100%;
 }
 
 .combat_log_title {
@@ -280,6 +280,25 @@ h1 {
   background-repeat: no-repeat;
   text-align: center;
   font-weight: bold;
+}
+
+.pcnode>div>p {
+  margin-top: 5px;
+  text-align: center;
+  margin: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: mrEaves;
+}
+
+.acnode {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-size: 32px;
+  background-position: center;
+  background-position-x: 5px;
+  text-align: center;
+  padding-left: 5px;
 }
 
 .ac_field {
@@ -432,29 +451,20 @@ h1 {
   margin-bottom: 0;
 }
 
-.pcnode:hover {
-  z-index: 14;
-}
-
 .pcnode_rearrange {
   padding-left: 60px;
   background-position-x: 57px !important;
 }
 
-.pcnode__passiveperception {
-  font-size: 15px;
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 67px;
-  left: -1px;
-}
-
 .pcnode__passiveperception>p {
+  padding-left: 17px;
+  background-image: url(img/eye.png);
+  background-size: 16px;
+  background-position-y: center;
+  background-position-x: 0;
+  background-repeat: no-repeat;
   margin: 0;
-  margin-left: 32px;
-  margin-top: -2px;
+  padding-right: 5px;
 }
 
 #combatMain .name_field {
@@ -464,11 +474,12 @@ h1 {
 
 .acspinner {
   border-radius: 50%;
-  height: 18px;
-  width: 18px;
-  right: 12px;
-  top: 8px;
+  height: 14px;
+  width: 24px;
+  left: 16px;
+  top: -1px;
   position: absolute;
+  filter: grayscale(1);
 }
 
 .acspinner:hover {
@@ -477,32 +488,15 @@ h1 {
 
 .pcnode_name {
   margin-top: 10px;
+  margin-bottom: 6px;
+  font-size: 1.25em;
   white-space: nowrap;
-}
-
-.pcnodeInner {
   position: relative;
-  display: flex;
-  margin-left: 27px;
-  width: 47%;
-  height: 53%;
-}
-
-.pcnodeInner>input {
-  border-radius: 50%;
-  background: none;
-  width: 37px;
-  top: 19px;
-  right: -4px;
-  position: absolute;
-  overflow: visible;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
 }
 
 .pscontainer {
   border-radius: 30%;
+  height: 125px;
 }
 
 .pageframe_wrap {
@@ -510,9 +504,7 @@ h1 {
   margin-right: 20px;
 }
 
-
 .pageframe>h1:first-of-type {
-
   font-size: 40px;
   z-index: 1;
 }
@@ -545,7 +537,7 @@ h1 {
 
 #randomizerInput {
   width: 150px;
-  border-radius:5px;
+  border-radius: 5px;
 }
 
 .diceRollerPanel__container {
@@ -658,7 +650,7 @@ h1 {
 }
 
 .initiative_actions button {
-  padding: 6px;
+  padding: 12px;
   font-size: 14px;
 }
 
@@ -680,7 +672,7 @@ h1 {
 
 .history_button_row {
   position: absolute;
-  top:0;
+  top: 0;
   left: -2px;
   width: 100%;
   display: flex;
@@ -698,7 +690,6 @@ h1 {
 }
 
 .frame_history_button_toggled {
-
   background-color: var(--main-emphasis-color);
 }
 
@@ -823,8 +814,7 @@ h1 {
   text-align: center;
   font-family: booksanity;
   font-size: 15px;
-
-  color:var(--main-color);
+  color: var(--main-color);
 }
 
 .combatRow, .mobcontroller_row {
@@ -887,7 +877,6 @@ h1 {
 }
 
 .initiative_name_node {
- 
   margin: 0;
   margin-top: 9px;
   font-size: 12px;
@@ -897,7 +886,6 @@ h1 {
 }
 
 .initiativeNode {
- 
   text-align: center;
   margin-top: -10px;
   border-radius: 50%;
@@ -917,8 +905,6 @@ h1 {
   background-image: url(img/d20normal.png);
   background-size: contain;
 }
-
-
 
 .init_not_started>p {
   color: white;
@@ -1165,11 +1151,181 @@ button:disabled {
   content: attr(data-dnd_conditions);
 }
 
+.pcnode__passiveperception {
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.pcnodeInner {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+}
+
+.pcnode_color_bar {
+  margin-top: 0.5em;
+  height: 7px;
+}
+
+.pcnodeInner input {
+  background-color: transparent;
+  width: 45px;
+  height: 42px;
+  overflow: visible;
+  border: none;
+  font-size: 22px;
+  font-weight: 400;
+}
+
+/*
+
+.pcnodeInner {
+  position: relative;
+  display: flex;
+  margin-left: 27px;
+  width: 47%;
+  height: 53%;
+}
+
+.pcnodeInner>input {
+  border-radius: 50%;
+  background: none;
+  width: 37px;
+  top: 19px;
+  right: -4px;
+  position: absolute;
+  overflow: visible;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+}
+.pcnode__passiveperception {
+
+  background-size: contain;
+  background-repeat: no-repeat;
+  font-family: "mrEaves";
+  color: white;
+  background-image: url("img/eye.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  font-size: 15px;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 67px;
+  left: -1px;
+}
+
+.pcnode_normal_ac {
+  background-image: url("img/shield.png");
+}
+
+.pcnode_lower_ac {
+  background-image: url("img/shielddown.png");
+}
+
+.pcnode_higher_ac {
+  background-image: url("img/shieldup.png");
+} */
+
+.pcnode_normal_ac {
+  background-image: url(./img/shield_outline.png);
+  color: black;
+}
+
+.pcnode_lower_ac {
+  background-image: url(./img/shield_outline.png);
+  color: #751606;
+}
+
+.pcnode_higher_ac {
+  background-image: url(./img/shield_outline.png);
+  color: #0c7506;
+}
+
+.acspinner {
+  background-image: url("img/arrowh.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.acspinner:hover {
+  background-image: url("img/arrowhhover.png");
+}
+
+.pcnode:hover {
+  height: 122px;
+  background-color: var(--dark-transparent-bg);
+}
+
+.pcnode {
+  margin: 0.5em;
+  color: white;
+  border-radius: var(--rounded-corners);
+  font-family: "mrEaves";
+  background-color: rgba(0, 0, 0, 0.1);
+  display: flex;
+  height: 115px;
+  /* background-colo;r: transparent
+  background-image: url("img/scrollv.png");
+  background-size: 93px !important;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-family: "mrEaves";
+  max-width: 90px;
+  min-width: 90px;
+  max-height: 130px;
+  min-height: 130px;
+  border: none;
+  background-size: contain;
+  transition: all 300ms;
+  background-repeat: no-repeat;
+  background-position: center; */
+}
+
+.pcnode .pcnode_notes_container{
+  background-image: url(img/phbbgbig.png);
+  overflow: hidden;
+  display:flex;
+  height: 0px;
+
+  width: 200px;
+  /* max-height: 50px; */
+  position: absolute;
+  top: 78px;
+  left: 0;
+  z-index: 18;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  
+  
+}
+
+.pcnode .pcnode_notes {
+  flex:1;
+  background-color: var(--dark-transparent-bg);
+  padding: 5px;
+  margin: 0;
+  z-index:1;
+}
+
+.pcnode:hover .pcnode_color_bar {
+  padding-bottom: 1em;
+}
+
+.pcnode:hover .pcnode_notes_container {
+
+  height: auto;
+}
+
 .pcNode_condition_container {
   position: absolute;
   width: 30px;
-  top: 11px;
-  right: -7px;
+  top: -5px;
+  right: -14px;
 }
 
 .condition_effect {
@@ -1181,12 +1337,9 @@ button:disabled {
   font-size: 18px;
   background-color: rgba(255, 255, 255, 0.25);
   display: flex;
-
   text-align: center;
-
   background-size: contain;
   z-index: 6;
-
   cursor: "help";
 }
 
@@ -1202,26 +1355,29 @@ button:disabled {
   position: absolute;
   width: 450px;
   /* background-image: url(img/phbbg.png); */
-  background-color: rgba(0,0,0,1);
-  opacity:0.8;
+  background-color: rgba(0, 0, 0, 1);
+  opacity: 0.8;
   /* padding: 10px; */
   z-index: 40;
   border-radius: 5px;
   padding: 10px;
   color: white;
 }
-.secondary_tooltip h2{
-  text-align:center;
+
+.secondary_tooltip h2 {
+  text-align: center;
 }
 
-.secondary_tooltip img{
-  width:30px;
-  margin:auto;
+.secondary_tooltip img {
+  width: 30px;
+  margin: auto;
 }
-.secondary_tooltip *{
-  color:white;
+
+.secondary_tooltip * {
+  color: white;
   font-family: "roboto condensed";
 }
+
 .secondary_tooltip p {
   text-align: left;
   color: white;

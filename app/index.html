@@ -111,21 +111,35 @@
 
       <section class="topContainer">
         <div class="row pscontainer hidden_takes_space">
-          <div class="pcnode column tooltipped " draggable="true" ondragstart="dragPcNode(event)"
+          <div class="pcnode column  " draggable="true" ondragstart="dragPcNode(event)"
             ondragend="stopDraggingPcNode(event)" ondrop="dropPcNode(event)" ondragover="dragOverPcNode(event)"
-            data-tooltip="A majestic gnome with a flowing beard. Athalasar prefers opulent robes. His personal hygiene is markedly bad.">
+            data-tooltip="">
             <div class="pcnode_name">
               <div class="pcNode_condition_container"></div>
               <p>Athalasar</p>
             </div>
-            <div class="pcnodeInner  pcnode_normal_ac">
-              <input type="number" value="18" class="acnode" title="Armor class">
-              <div class="acspinner" title="Switch between AC and alternative AC."></div>
-              <div class="pcnode__passiveperception" title="Passive perception">
-                <p></p>
+            <div class="pcnodeInner ">
+              <div class="row">
+
+                <div class="column">
+                  <div class="acspinner" title="Switch between AC and alternative AC."></div>
+                  <input type="number" value="18" class="acnode pcnode_normal_ac" title="Armor class">
+                </div>
+
+
+                <div class="column">
+                  <div class="pcnode__passiveperception" title="Passive perception">
+                    <p></p>
+                  </div>
+
+                </div>
+                <div class = "pcnode_notes_container">
+                  <p class = "pcnode_notes">A majestic gnome with a flowing beard. Athalasar prefers opulent robes. His personal hygiene is markedly bad.</p>
+
+                </div>
               </div>
             </div>
-
+            <div class="pcnode_color_bar"></div>
           </div>
         </div>
 
@@ -228,7 +242,7 @@
 
 
           <div class="column">
-            <h2 id="saveRollerHeader" class = "frontpage_heading">Save roller</h2>
+            <h2 id="saveRollerHeader" class="frontpage_heading">Save roller</h2>
             <div class="section__show semislim row saveRoller " id="saveRoller">
               <input class="saveRoller_input" id="saveRollsNo" type="number" min="0" title="Number of rolls"
                 placeholder="# of rolls">
@@ -266,7 +280,7 @@
           </div>
 
           <div class="column">
-            <h2 id="lootRollerHeader" class = "frontpage_heading">Loot</h2>
+            <h2 id="lootRollerHeader" class="frontpage_heading">Loot</h2>
             <section class="lootgenerator marginTop section__show searchMain slimmest" id="lootRoller">
 
               <div class="row">
@@ -335,7 +349,7 @@
       <div id="combat_log_popup" class="combat_log_popup_window hidden">
         <div class="column combat_loader_log_column" style="width: 86.6%">
 
-          <div class="column" style = "flex-grow:1">
+          <div class="column" style="flex-grow:1">
 
 
             <div class="combat_log_conditions">
@@ -343,14 +357,14 @@
 
               </select>
             </div>
-            <div class="row"  style = "flex-grow:1">
+            <div class="row" style="flex-grow:1">
               <div class="column" style="flex:1">
                 <h3 class="combat_log_title combat_log_title_main">Log</h3>
                 <div class="combat_log_content"></div>
               </div>
               <div class="column" style="flex:1">
                 <h3 class="combat_log_title combat_log_title_main">Notes</h3>
-                <textarea id="combat_log_notes"  style = "flex-grow:1"></textarea>
+                <textarea id="combat_log_notes" style="flex-grow:1"></textarea>
               </div>
             </div>
           </div>

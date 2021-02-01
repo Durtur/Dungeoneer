@@ -5,6 +5,7 @@
   --alt-emphasis-color: rgba(194, 140, 29, 0.4);
   --main-underline-color: rgb(61, 17, 9);
   --main-success-color: rgb(4, 64, 4);
+  --dark-transparent-bg:rgba(0,0,0,0.1);
   --main-success-color-lighter: rgb(10, 125, 10);
   --transition-delay: 300ms;
   --base-margin: 10px;
@@ -12,9 +13,7 @@
   --basic-font: "roboto";
 }
 
-input:not(:read-only):focus, textarea:focus {
-  outline: 2px dashed #555 !important;
-}
+
 
 *:focus {
   outline:none;
@@ -557,46 +556,7 @@ hr {
  
 }
 
-.pcnode__passiveperception {
-  font-family: "mrEaves";
-  color: white;
-  background-image: url("img/eye.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
 
-.pcnode {
-  background-color: transparent;
-  background-image: url("img/scrollv.png");
-  background-size: 93px !important;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-family: "mrEaves";
-  max-width: 90px;
-  min-width: 90px;
-  max-height: 130px;
-  min-height: 130px;
-  border: none;
-  background-size: contain;
-  transition: all 300ms;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-
-
-.pcnode>div>p {
-  /*
-    background-image:url("img/shield.png");
-  */
-  max-width: 50px;
-  margin-top: 5px;
-  text-align: center;
-  margin: auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: "nodesto";
-}
 
 .lootgenerator {
   color: black;
@@ -654,31 +614,7 @@ input, textarea, .cell_row {
   background-position: center;
 }
 
-.pcnode_normal_ac {
-  background-image: url("img/shield.png");
-}
 
-.pcnode_lower_ac {
-  background-image: url("img/shielddown.png");
-}
-
-.pcnode_higher_ac {
-  background-image: url("img/shieldup.png");
-}
-
-.acspinner {
-  background-image: url("img/arrowh.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
-.acspinner:hover {
-  background-image: url("img/arrowhhover.png");
-}
-
-.acnode {
-  font-family: "nodesto";
-}
 
 .roundcounter__value {
   color: #444242;
@@ -1007,7 +943,7 @@ header {
 .section__show {
   background-image: url("./img/phbbg.png");
   border: none;
-  background-size: cover;
+  /* background-size: cover; */
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
   position: relative;
   border-bottom: 3px solid rgb(108, 67, 45);

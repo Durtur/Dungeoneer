@@ -594,8 +594,11 @@ function loadParty() {
       }
 
       for (var i = 0; i < partyArray.length; i++) {
+        $(".pcnode:nth-child(" + (i + 1) + ")").attr("data-pc_id", partyArray[i].id);
         $(".pcnode:nth-child(" + (i + 1) + ")").find("p").html(partyArray[i].character_name);
-        $(".pcnode:nth-child(" + (i + 1) + ")").attr("data-tooltip", partyArray[i].notes ? partyArray[i].notes : "No notes");
+        $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_notes").html( !partyArray[i].notes ?  "No notes" : partyArray[i].notes);
+
+        $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".acnode").val(partyArray[i].ac);
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
         if (partyArray[i].alternative_ac == "") {
@@ -620,43 +623,57 @@ function loadParty() {
   });
 }
 function loadPCNodeHandlers() {
+  [... document.querySelectorAll(".acspinner")].forEach(spinner=>{
+    spinner.onclick = function(evt){
+      var parent = evt.target.closest(".pcnode");
+      var id = parent.getAttribute("data-pc_id");
+      var index = 0, selectedPlayer;
+      for( index = 0 ; index < partyArray.length ; index++){
+        selectedPlayer = partyArray[index];
+        if(selectedPlayer.id == id)break;
+      }
+      console.log(selectedPlayer)
+      partyAlternativeACArray[index] = !partyAlternativeACArray[index];
+      var acfield = parent.querySelector(".acnode");
+      if (partyAlternativeACArray[index]) {
+        acfield.value = (partyArray[index].alternative_ac);
+      } else {
+        acfield.value = (partyArray[index].ac);
+      }
+      acfield.classList.remove("pcnode_higher_ac");
+      acfield.classList.remove("pcnode_lower_ac");
+      acfield.classList.add("pcnode_normal_ac");
 
-  $(".acspinner").off("click");
-  $(".acspinner").on("click", function () {
-    var index = $(this).parent().parent().index();
-
-    partyAlternativeACArray[index] = !partyAlternativeACArray[index];
-    var acfield = $(this).parent().find(".acnode");
-    if (partyAlternativeACArray[index]) {
-      acfield.val(partyArray[index].alternative_ac);
-    } else {
-      acfield.val(partyArray[index].ac);
     }
-    $(this).parent().removeClass("pcnode_higher_ac pcnode_lower_ac");
-    $(this).parent().addClass("pcnode_normal_ac");
-
-
-
   });
+
 
   $(".acnode").on('keyup input change paste focus-lost', function () {
 
-    var index = $(this).parent().parent().index();
+
+    var parent =  $(this)[0].closest(".pcnode");
+    var id = parent.getAttribute("data-pc_id");
+    var index , selectedPlayer;
+    for( index = 0 ; index < partyArray.length ; index++){
+      selectedPlayer = partyArray[index];
+      if(selectedPlayer.id == id)break;
+    }
     var acIndex;
     if (partyAlternativeACArray[index]) {
       acIndex = "alternative_ac";
     } else {
       acIndex = "ac";
     }
-    var higher = parseInt($(this).val()) > parseInt(partyArray[index][acIndex]);
-    var equal = parseInt($(this).val()) === parseInt(partyArray[index][acIndex]);
-    $(this).parent().removeClass("pcnode_higher_ac pcnode_lower_ac pcnode_normal_ac");
+    var acfield = $(this)[0];
+    var higher = parseInt(acfield.value) > parseInt(partyArray[index][acIndex]);
+    var equal = parseInt(acfield.value) === parseInt(partyArray[index][acIndex]);
+    acfield.classList.remove("pcnode_higher_ac",  "pcnode_lower_ac", "pcnode_normal_ac");
     if (higher) {
-      $(this).parent().addClass("pcnode_higher_ac");
+      acfield.classList.add("pcnode_higher_ac");
     } else if (!equal) {
-      $(this).parent().addClass("pcnode_lower_ac");
+      acfield.classList.add("pcnode_lower_ac");
     } else {
-      $(this).parent().addClass("pcnode_normal_ac");
+      acfield.classList.add("pcnode_normal_ac");
     }
 
 
@@ -1236,7 +1253,7 @@ var combatLoader = function () {
 
     if (monster.name != "") {
       loadedMonsterQueue.push({ monsterId: monster.id, name: monster.name, hit_points: monster.hit_points, size: monster.size.toLowerCase(), index: lastIndex });
-      initiative.addToLoadedMonsterInfo(monster.name, monster.initiative)
+      initiative.addToLoadedMonsterInfo(monster.name, monster.data_extra_attributes.initiative)
       frameHistoryButtons.createButtonIfNotExists(monster);
     }
   }
@@ -1574,7 +1591,8 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
       if (key == "monsters") {
         $("#loaderButton").attr("title", "Load " + data[i].name + " into combat table. (ctrl + e)");
         loadedMonster = foundMonster;
-        loadedMonster.initiative = data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity);
+        loadedMonster.data_extra_attributes = {};
+        loadedMonster.data_extra_attributes.initiative = data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity);
 
         //Loada öll creatures.
       } else if (encounterIsLoaded) {
