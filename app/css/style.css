@@ -456,6 +456,19 @@ h1 {
   background-position-x: 57px !important;
 }
 
+.pcnode__darkvision>p{
+  padding-left: 17px;
+  background-image: url(img/beast-eye.png);
+  background-size: 12px;
+  background-position-y: 4px;
+  background-position-x: 2px;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding-right: 5px;
+  filter: grayscale(1);
+  font-size: 14px;
+}
+
 .pcnode__passiveperception>p {
   padding-left: 17px;
   background-image: url(img/eye.png);
@@ -465,6 +478,7 @@ h1 {
   background-repeat: no-repeat;
   margin: 0;
   padding-right: 5px;
+  font-size: 14px;
 }
 
 #combatMain .name_field {
@@ -475,9 +489,9 @@ h1 {
 .acspinner {
   border-radius: 50%;
   height: 14px;
-  width: 24px;
-  left: 16px;
-  top: -1px;
+  width: 15px;
+  left: 19px;
+  top: 1px;
   position: absolute;
   filter: grayscale(1);
 }
@@ -1156,6 +1170,10 @@ button:disabled {
   background-repeat: no-repeat;
 }
 
+.pcnode__darkvision{
+  background-size: contain;
+  background-repeat: no-repeat;
+}
 .pcnodeInner {
   position: relative;
   display: flex;

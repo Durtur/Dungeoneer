@@ -594,6 +594,7 @@ function loadParty() {
       }
 
       for (var i = 0; i < partyArray.length; i++) {
+        var player = partyArray[i];
         $(".pcnode:nth-child(" + (i + 1) + ")").attr("data-pc_id", partyArray[i].id);
         $(".pcnode:nth-child(" + (i + 1) + ")").find("p").html(partyArray[i].character_name);
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_notes").html( !partyArray[i].notes ?  "No notes" : partyArray[i].notes);
@@ -601,6 +602,14 @@ function loadParty() {
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".acnode").val(partyArray[i].ac);
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
+        if(player.darkvision){
+          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").removeClass("hidden");
+          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision>p").html(partyArray[i].darkvision +" ft");
+        }else{
+          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").addClass("hidden");
+        }
+        
+       
         if (partyArray[i].alternative_ac == "") {
           $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "none");
         } else {

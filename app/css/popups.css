@@ -86,7 +86,7 @@
   object-fit: contain;
   width: 35px;
   height: 35px;
-  margin:auto;
+cursor:pointer;
 
   border-radius: 50%;
 }
