@@ -300,18 +300,18 @@ function populateAddableFieldDropdowns() {
   }
 }
 
-function createTagsDropdown(tags) {
+function createMonsterListFilterDropdown(list, elementId) {
 
-  console.log(monsterTags)
-  var dropDown = document.getElementById("monsters_list_tag_select");
+
+  var dropDown = document.getElementById(elementId);
   while (dropDown.firstChild) {
     dropDown.removeChild(dropDown.firstChild);
   }
-  var jqryElement = $("#monsters_list_tag_select");
+  var jqryElement = $("#"+elementId);
   jqryElement.chosen("destroy");
-  if (tags.length == 0) return;
+  if (!list ||list.length == 0) return;
 
-  tags.forEach(tag => {
+  list.forEach(tag => {
     createOption(tag, tag);
   });
   jqryElement.chosen({
@@ -536,12 +536,14 @@ function setTab(x) {
       readDataFunction = dataAccess.getHomebrewMonsters;
       writeDataFunction = dataAccess.setHomebrewMonsters;
       fetchTagList();
+      fetchTypeList();
       break;
     case "monsters":
       readDataFunction = dataAccess.getMonsters;
       writeDataFunction = dataAccess.setMonsters;
       document.querySelector("#add_entry_button").classList.add("hidden");
       fetchTagList();
+      fetchTypeList();
       break;
     case "encounters":
       readDataFunction = dataAccess.getEncounters;
@@ -725,11 +727,16 @@ function searchMasterListAfterInput() {
   }, 500)
 }
 
+function fetchTypeList() {
+  dataAccess.getMonsterTypes(function (types) {
+    createMonsterListFilterDropdown(types, "monsters_list_type_select")
+  });
+}
 
 function fetchTagList() {
 
   dataAccess.getTags(function (tags) {
-    createTagsDropdown(tags);
+    createMonsterListFilterDropdown(tags, "monsters_list_tag_select");
     if (monsterTags.awesomplete) return;
     monsterTags.list = tags;
     var input = document.querySelector("#addmonster_tag_input");
@@ -899,6 +906,10 @@ function splitAndCheckAttributes(searchString, attributes, motherList) {
   if (tags.length > 0) {
     motherList = motherList.filter(x => x.tags && x.tags.find(y => tags.includes(y)));
   }
+  var types = $("#monsters_list_type_select").val();
+  if (types.length > 0) {
+    motherList = motherList.filter(x => types.includes(x.type));
+  }
   var filterTextSplt = searchString.split("&");
   return motherList.filter(
     entry => {
@@ -996,7 +1007,6 @@ function deleteFromHomebrew(toRemove) {
     }
     //Write json
     writeDataFunction(data, function () { window.setTimeout(() => loadAll(), 200) });
-    createTagsDropdown();
     hide("statblock");
 
 
@@ -1081,7 +1091,7 @@ function lookupCrHandler() {
   document.querySelector(".cr_lookup_results .save_dc_cr_lookup").innerHTML = lookupObj.saveDc_string || lookupObj.saveDc;
   document.querySelector(".cr_lookup_results .armor_class_cr_lookup").innerHTML = lookupObj.ac_string || lookupObj.ac;
   document.querySelector(".cr_lookup_results .average_damage_cr_lookup").innerHTML = damageRange;
-  document.querySelector(".cr_lookup_results .proficiency_bonus_cr_lookup").innerHTML = `+${ lookupObj.profBonus}`;
+  document.querySelector(".cr_lookup_results .proficiency_bonus_cr_lookup").innerHTML = `+${lookupObj.profBonus}`;
   document.querySelector(".cr_lookup_results .hit_points_cr_lookup").innerHTML = hpRange;
 }
 
@@ -2365,7 +2375,7 @@ function saveHomebrew() {
             window.setTimeout(function () {
               dataAccess.getTags(function (tags) {
                 monsterTags.list = tags;
-                createTagsDropdown(tags);
+                createMonsterListFilterDropdown(tags, "monsters_list_tag_select");
               });
             }, 1500)
           });
@@ -2394,6 +2404,7 @@ function saveHomebrew() {
       }
 
       currentEntry = null;
+      hide(`addframe_${tab}`)
       $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
       loadAll();
 

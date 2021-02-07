@@ -18,7 +18,7 @@ marked.setOptions({
   renderer: new marked.Renderer(),
 
 });
-
+dataAccess.checkIfFirstTimeLoadComplete();
 
 const { ipcRenderer } = require('electron');
 
@@ -57,6 +57,7 @@ var roundCounter;
 // }
 
 /* #region IPC */
+
 ipcRenderer.on('update-autofill', function () {
 
   autofill.updateAutoFillLists(true);
@@ -135,6 +136,7 @@ ipcRenderer.on('look-up-spell', function (evt, arg) {
 
 /* #endregion */
 document.addEventListener("DOMContentLoaded", function () {
+
   loadSettings();
   observeArrayChanges(loadedMonsterQueue, function () {
     loadedMonsterQueue.update();
@@ -225,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
   //DEBUG AND TESTING
-  designTimeAndDebug();
+ // designTimeAndDebug();
 });
 
 function designTimeAndDebug() {
@@ -597,19 +599,19 @@ function loadParty() {
         var player = partyArray[i];
         $(".pcnode:nth-child(" + (i + 1) + ")").attr("data-pc_id", partyArray[i].id);
         $(".pcnode:nth-child(" + (i + 1) + ")").find("p").html(partyArray[i].character_name);
-        $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_notes").html( !partyArray[i].notes ?  "No notes" : partyArray[i].notes);
+        $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_notes").html(!partyArray[i].notes ? "No notes" : partyArray[i].notes);
 
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".acnode").val(partyArray[i].ac);
         $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
-        if(player.darkvision){
+        if (player.darkvision) {
           $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").removeClass("hidden");
-          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision>p").html(partyArray[i].darkvision +" ft");
-        }else{
+          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision>p").html(partyArray[i].darkvision + " ft");
+        } else {
           $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").addClass("hidden");
         }
-        
-       
+
+
         if (partyArray[i].alternative_ac == "") {
           $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "none");
         } else {
@@ -632,14 +634,14 @@ function loadParty() {
   });
 }
 function loadPCNodeHandlers() {
-  [... document.querySelectorAll(".acspinner")].forEach(spinner=>{
-    spinner.onclick = function(evt){
+  [...document.querySelectorAll(".acspinner")].forEach(spinner => {
+    spinner.onclick = function (evt) {
       var parent = evt.target.closest(".pcnode");
       var id = parent.getAttribute("data-pc_id");
       var index = 0, selectedPlayer;
-      for( index = 0 ; index < partyArray.length ; index++){
+      for (index = 0; index < partyArray.length; index++) {
         selectedPlayer = partyArray[index];
-        if(selectedPlayer.id == id)break;
+        if (selectedPlayer.id == id) break;
       }
       console.log(selectedPlayer)
       partyAlternativeACArray[index] = !partyAlternativeACArray[index];
@@ -660,12 +662,12 @@ function loadPCNodeHandlers() {
   $(".acnode").on('keyup input change paste focus-lost', function () {
 
 
-    var parent =  $(this)[0].closest(".pcnode");
+    var parent = $(this)[0].closest(".pcnode");
     var id = parent.getAttribute("data-pc_id");
-    var index , selectedPlayer;
-    for( index = 0 ; index < partyArray.length ; index++){
+    var index, selectedPlayer;
+    for (index = 0; index < partyArray.length; index++) {
       selectedPlayer = partyArray[index];
-      if(selectedPlayer.id == id)break;
+      if (selectedPlayer.id == id) break;
     }
     var acIndex;
     if (partyAlternativeACArray[index]) {
@@ -676,7 +678,7 @@ function loadPCNodeHandlers() {
     var acfield = $(this)[0];
     var higher = parseInt(acfield.value) > parseInt(partyArray[index][acIndex]);
     var equal = parseInt(acfield.value) === parseInt(partyArray[index][acIndex]);
-    acfield.classList.remove("pcnode_higher_ac",  "pcnode_lower_ac", "pcnode_normal_ac");
+    acfield.classList.remove("pcnode_higher_ac", "pcnode_lower_ac", "pcnode_normal_ac");
     if (higher) {
       acfield.classList.add("pcnode_higher_ac");
     } else if (!equal) {
@@ -1515,7 +1517,7 @@ var frameHistoryButtons = function () {
     newButton.classList.add("button_style", "frame_history_button");
     newButton.setAttribute("toggleGroup", 4);
     newButton.setAttribute("data-monster_statblock", JSON.stringify(creature))
-   
+
     newButton.onclick = function (event) {
       loadedMonster = JSON.parse(event.target.getAttribute("data-monster_statblock"));
       statblockPresenter.createStatblock(document.getElementById("statblock"), loadedMonster, "monsters", false)

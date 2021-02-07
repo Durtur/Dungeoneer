@@ -2,6 +2,7 @@ const electron = require('electron')
 const { app, Menu } = require('electron')
 const { ipcMain } = require('electron')
 var fs = require('fs');
+var pathModule = require('path');
 const { autoUpdater } = require('electron-updater');
 
 app.allowRendererProcessReuse = false;
@@ -13,7 +14,7 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
-const settingsPath = path.join(app.getPath("userData"),"data","settings","settings.json");
+const settingsPath = path.join(app.getPath("userData"), "data", "settings", "settings.json");
 
 databaseWindow = null;
 maptoolBackdropWindow = null;
@@ -129,7 +130,7 @@ ipcMain.on('open-database-window', function () {
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule:true
+      enableRemoteModule: true
     }
   });
 
@@ -153,8 +154,8 @@ ipcMain.on('open-about-window', function () {
   openAboutWindow();
 });
 
-ipcMain.on("open-maptool-backdrop-window",function(){
-  if(maptoolBackdropWindow){
+ipcMain.on("open-maptool-backdrop-window", function () {
+  if (maptoolBackdropWindow) {
     maptoolBackdropWindow.focus();
     return;
   }
@@ -167,7 +168,7 @@ ipcMain.on("open-maptool-backdrop-window",function(){
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule:true
+      enableRemoteModule: true
     }
   });
 
@@ -230,7 +231,7 @@ ipcMain.on('open-generator-window', function () {
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule:true
+      enableRemoteModule: true
     }
   });
 
@@ -241,7 +242,7 @@ ipcMain.on('open-generator-window', function () {
   });
 });
 
-function openAddMapToolStuffWindow(){
+function openAddMapToolStuffWindow() {
   if (mapToolAddWindow) {
     mapToolAddWindow.focus();
     return;
@@ -253,9 +254,9 @@ function openAddMapToolStuffWindow(){
     width: 1200,
     frame: false,
     icon: "./app/css/img/icon.png",
-    webPreferences:{
-      nodeIntegration:true,
-      enableRemoteModule:true
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
@@ -278,9 +279,9 @@ function openAboutWindow() {
     width: 400,
     frame: false,
     icon: "./app/css/img/icon.png",
-    webPreferences:{
-      nodeIntegration:true,
-      enableRemoteModule:true
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
@@ -304,8 +305,8 @@ function openSettingsWindow() {
     frame: false,
     icon: "./app/css/img/settings.png",
     webPreferences: {
-      nodeIntegration:true,
-      enableRemoteModule:true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
@@ -317,7 +318,6 @@ function openSettingsWindow() {
   });
 }
 
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let loading;
@@ -326,19 +326,21 @@ function createWindow() {
   // Create the browser window.
   loading = new BrowserWindow({
     width: 150, height: 150, show: false, frame: false, transparent: true, icon: "./app/css/img/icon.png", webPreferences: {
-      nodeIntegration:true,
-      enableRemoteModule:true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   });
 
   loading.once('show', () => {
     mainWindow = new BrowserWindow(
-      { width: 1250, frame: false, height: 850, icon: "./app/css/img/icon.png", show: false ,
-      webPreferences:{
-        nodeIntegration:true,
-        enableRemoteModule:true
+      {
+        width: 1250, frame: false, height: 850, icon: "./app/css/img/icon.png", show: false,
+        webPreferences: {
+          nodeIntegration: true,
+          enableRemoteModule: true
+        }
       }
-    });
+      );
 
     mainWindow.webContents.once('dom-ready', () => {
 
@@ -425,7 +427,7 @@ function createMapToolWindow(callback) {
       transparent: transparentWindow,
       webPreferences: {
         nodeIntegration: true,
-        enableRemoteModule:true
+        enableRemoteModule: true
       }
     }));
 

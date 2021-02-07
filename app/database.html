@@ -80,7 +80,10 @@
                     onclick="newItem('tab')">+</button>
                 <div></div>
                 <div class="row center" style="justify-content: center;">
-                    <input type="text" class="listSearch " style="margin-left: 200px;" id="monsters_list_search">
+                    <div style="margin-left:1em;">
+                        <select id="monsters_list_type_select" data-placeholder="Filter type" multiple></select>
+                    </div>
+                    <input type="text" class="listSearch " style="height: 25px; margin-left: 1em;" id="monsters_list_search">
                     <div style="margin-left:1em;">
                         <select id="monsters_list_tag_select" data-placeholder="Filter tags" multiple></select>
                     </div>

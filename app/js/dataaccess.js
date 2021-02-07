@@ -19,13 +19,24 @@ const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "mapt
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
 module.exports = function () {
-
+    var isFirstTimeLoading = false;
     function initializeData() {
+        if (isFirstTimeLoading) return;
+        isFirstTimeLoading = true;
         console.log("Initalizing data...");
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
         if (!fs.existsSync(baseFolder))
             fs.mkdirSync(baseFolder);
-
+        loadDefaults("monsters.json");
+        loadDefaults("tables.json");
+        loadDefaults("conditions.json");
+        loadDefaults("items.json");
+        loadDefaults("randomTables.json");
+        loadDefaults("spells.json");
+        loadDefaults("maptoolData.json");
+        loadDefaults("homebrew.json");
+        loadDefaults("party.json");
+        loadDefaults("encounters.json");
         if (!fs.existsSync(defaultTokenPath))
             fs.mkdirSync(defaultTokenPath);
 
@@ -54,31 +65,57 @@ module.exports = function () {
             });
         }
 
+        isFirstTimeLoading = false;
+        getHomebrewAndMonsters(function (data) {
+            setMetadata(data, () => { });
+        });
+
+        function loadDefaults(path) {
+            console.log("Loading defaults for " + path);
+            var fullPath = pathModule.join(resourcePath, path);
+            if (fs.existsSync(fullPath)) return;
+            var defaultPath = pathModule.join(defaultResourcePath, path);
+            console.log(fullPath, defaultPath)
+            var defaultData = fs.readFileSync(defaultPath);
+            fs.writeFileSync(fullPath, defaultData)
+            console.log("Wrote " + defaultPath)
+        }
     }
 
     function writeTempFile(fileName, dataBuffer, callback) {
         if (!fs.existsSync(tempFilePath))
             fs.mkdirSync(tempFilePath);
         var filePath = pathModule.join(tempFilePath, fileName);
-        fs.writeFile(filePath, dataBuffer, function(err){
-            if(err){
-                throw(err);
+        fs.writeFile(filePath, dataBuffer, function (err) {
+            if (err) {
+                throw (err);
             }
             callback(filePath);
         });
     }
 
     function getTags(callback) {
-        return baseGet("npc_tags.json", callback, []);
+        baseGet("monster_metadata.json", function (data) {
+            callback((data || { tags: [] }).tags)
+        }, null);
     }
-    function setTags(data, callback) {
-        var tagSet = new Set();
-        data.forEach(npc => {
-            if (!npc.tags) return;
-            npc.tags.forEach(tag => tagSet.add(tag));
-        });
 
-        return baseSet("npc_tags.json", [...tagSet], callback);
+    function getMonsterTypes(callback) {
+        baseGet("monster_metadata.json", function (data) {
+            callback((data || { types: [] }).types)
+        }, null);
+    }
+    function setMetadata(data, callback) {
+        var tagSet = new Set();
+        var typeSet = new Set();
+        data.forEach(npc => {
+            if (npc.tags)
+                npc.tags.forEach(tag => tagSet.add(tag));
+            if (npc.type)
+                typeSet.add(npc.type.toLowerCase())
+        });
+        console.log("setting metadata");
+        return baseSet("monster_metadata.json", { tags: [...tagSet], types: [...typeSet].map(x => x.toProperCase()) }, callback);
     }
 
     function writeAutofillData(data, callback) {
@@ -96,7 +133,7 @@ module.exports = function () {
     }
     function setMonsters(data, callback) {
         getHomebrewMonsters(hbList => {
-            setTags(data.concat(hbList));
+            setMetadata(data.concat(hbList));
         });
         return baseSet("monsters.json", data, callback);
     }
@@ -111,7 +148,7 @@ module.exports = function () {
     }
     function setHomebrewMonsters(data, callback) {
         getMonsters(hbList => {
-            setTags(data.concat(hbList));
+            setMetadata(data.concat(hbList));
         });
         baseSet("homebrew.json", data, callback);
     }
@@ -151,7 +188,7 @@ module.exports = function () {
     }
 
     function getParty(callback) {
-        return baseGet("party.json", callback, { members: [], partyInfo: { parties: [] } });
+        return baseGet("party.json", callback);
     }
 
     function getSpells(callback) {
@@ -334,33 +371,33 @@ module.exports = function () {
     }
 
     function baseGetPredefined(path, callback, fallbackValue) {
-        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue, pathModule.join(defaultResourcePath, path));
+        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue);
     }
 
-    function baseGet(path, callback, fallbackValue, fallbackPath) {
-        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue, fallbackPath);
+    function baseGet(path, callback, fallbackValue) {
+        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue);
     }
 
-    function baseGetWithFullPath(path, callback, fallbackValue, fallbackPath) {
+    function baseGetWithFullPath(path, callback, fallbackValue) {
 
         fs.readFile(path, function (err, data) {
 
             if (err) {
                 console.log("Error getting file", err, fallbackValue)
-
-                if (fallbackPath != null) {
-                    console.log("Falling back on ", fallbackPath)
-                    fs.readFile(fallbackPath, function (err, fallbackData) {
-                        console.log(fallbackData)
-                        baseSetWithFullPath(path, JSON.parse(fallbackData), (err) => { })
-                        callback(JSON.parse(fallbackData));
-                    });
-                } else {
-                    var fallbackData = fallbackValue ? fallbackValue : [];
-                    baseSetWithFullPath(path, fallbackData, (err) => { })
-                    callback(fallbackData);
-                }
                 initializeData();
+                throw err;
+                // if (fallbackPath != null) {
+                //     console.log("Falling back on ", fallbackPath)
+                //     fs.readFile(fallbackPath, function (err, fallbackData) {
+                //        if(err)throw err;
+                //         baseSetWithFullPath(path, JSON.parse(fallbackData), (err) => { })
+                //         callback(JSON.parse(fallbackData));
+                //     });
+                // } else {
+                //     initializeData();
+                //     throw err;
+                // }
+
 
             } else {
 
@@ -378,6 +415,12 @@ module.exports = function () {
                 throw err;
             callback(JSON.parse(data));
         });
+    }
+
+
+    function checkIfFirstTimeLoadComplete() {
+        var baseFolder = pathModule.join(app.getPath("userData"), "data");
+        if (!fs.existsSync(baseFolder)) initializeData();
     }
 
     return {
@@ -418,7 +461,9 @@ module.exports = function () {
         getTables: getTables,
         setTables: setTables,
         getTags: getTags,
+        getMonsterTypes: getMonsterTypes,
         writeTempFile: writeTempFile,
+        checkIfFirstTimeLoadComplete: checkIfFirstTimeLoadComplete,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize,
     }
