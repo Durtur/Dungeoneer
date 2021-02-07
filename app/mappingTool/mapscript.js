@@ -1102,7 +1102,6 @@ function resizeForeground(newWidth) {
 }
 
 function resizeBackground(newWidth) {
-    console.log("Background width " + newWidth)
     backgroundCanvas.style.width = newWidth + "px";
     backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
     document.getElementById("background_size_slider").value = newWidth;

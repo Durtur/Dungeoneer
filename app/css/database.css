@@ -341,7 +341,7 @@ html {
 
 .cr_result_row {
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   margin-top: 1.2em;
 }
 
@@ -371,7 +371,7 @@ html {
 .challenge_rating_values {
   justify-content: flex-start;
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
   font-size: 0.8em;
 }
 
@@ -395,6 +395,7 @@ html {
   line-height: 1.5;
   margin: auto;
   margin-left: 0;
+  white-space: nowrap;
 }
 
 .cr_calculator_wrap .row {
@@ -654,6 +655,7 @@ html {
 
 #addmonsters {
   justify-content: space-between;
+  min-width: 925px;
 }
 
 #addmonster_tag_container {

@@ -46,6 +46,7 @@
 .pcRow {
   display: flex;
   width: 100%;
+  justify-content: space-between;
   flex-flow: row nowrap;
   font-family: "bookSanity";
   font-size: 12px;

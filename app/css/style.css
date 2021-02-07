@@ -490,7 +490,7 @@ h1 {
   border-radius: 50%;
   height: 14px;
   width: 15px;
-  left: 19px;
+  left: 0.85em;
   top: 1px;
   position: absolute;
   filter: grayscale(1);
@@ -510,7 +510,8 @@ h1 {
 
 .pscontainer {
   border-radius: 30%;
-  height: 125px;
+  display:flex;
+  flex-flow:row wrap;
 }
 
 .pageframe_wrap {
@@ -1178,7 +1179,7 @@ button:disabled {
   position: relative;
   display: flex;
   flex-flow: column;
-  padding: 5px;
+  padding: 5px 0;
 }
 
 .pcnode_color_bar {
@@ -1279,7 +1280,7 @@ button:disabled {
 }
 
 .pcnode {
-  margin: 0.5em;
+  margin: 0.2em;
   color: white;
   border-radius: var(--rounded-corners);
   font-family: "mrEaves";

@@ -380,34 +380,7 @@ module.exports = function () {
         });
     }
 
-    function getSpec() {
-        var arr = [];
-        getMonsters((data) => {
-            data.forEach(monster => {
-                if (!monster.special_abilities) return;
-                monster.special_abilities.forEach(special => {
-
-                    var keys = Object.keys(special);
-                    var values = Object.values(special);
-
-                    for (var i = 0; i < keys.length; i++) {
-                        var key = keys[i].deserialize();
-
-                        if (arr.find(x => x.name === key)) return;
-
-                        var desc = values[i];
-                        desc = desc.replaceAll(monster.name, "@{CREATURE_NAME}");
-                        desc = desc.replaceAll(monster.name.toLowerCase(), "@{CREATURE_NAME}")
-                        arr.push({ name: key, description: desc });
-                    }
-                })
-
-                //baseSet("special_abilities.json", arr);
-            });
-        });
-    }
     return {
-        getSpec: getSpec,
         readFile: readFile,
         getTokenPath: getTokenPath,
         saveToken: saveToken,
