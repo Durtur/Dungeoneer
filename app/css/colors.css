@@ -1539,3 +1539,21 @@ header {
 .sortable_table th{
   cursor:pointer;
 }
+
+
+.remove_button {
+  background-color: transparent;
+  border: none;
+  background-image: url(img/redx.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 18px;
+  margin-top: 1px;
+  margin-left: -3px;
+  width: 18px;
+  z-index: 1;
+}
+
+.remove_button:hover {
+  background-image: url(img/redXH.png);
+}

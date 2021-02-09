@@ -72,34 +72,16 @@
                     <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator hidden" id = "npc_generation_explanation"
                     data-tooltip="You can add or remove names for a specific type of creature here, or create new namesets. These values are used when generating NPCs.">
                     You can add or remove names for a specific type of creature here, or create new namesets. These.. </p>
-                <div class="column hidden generator_customization_section" id="random_encounters_table_container">
-                    <label>Table name</label>
-                    <input id="random_encounter_table_name_input"
-                        placeholder="Type the name of a new or existing table">
-                    <div class="row ">
-                        <button class="button button_style green hidden " id="save_encounter_table_button"
-                            onclick="saveRandomEncounterTable()">Save</button>
-                        <button class="button button_style red hidden" id="delete_encounter_table_button"
-                            style="margin-left:5px" onclick="deleteRandomEncounterTable()">Delete</button>
-                        <button class="button button_style hidden" id="addTableRowButton" style="margin-left:5px"
-                            onclick="addRandomEncounterTableRow()">Add row</button>
-
-                    </div>
-                    <label for=random_encounter_dump>Dump</label>
-                    <textarea
-                        placeholder="Paste your table here, with rows &#13;&#10; seperated by new lines and columns seperated by tabs. &#13;&#10;You can also paste directly from a spreadsheet."
-                        id="random_encounter_dump"></textarea>
-
-                </div>
+              
 
                 <div class="column generator_customization_section" id="random_table_input_container">
                     <label>Table name</label>
                     <input id="random_table_name_input" placeholder="Type the name of a new or existing table">
-                    <div class="row ">
-                        <button class="button button_style green hidden " style="margin-top:6px" id="save_table_button"
+                    <div class="row "  style="margin-top:1em;">
+                        <button class="button button_style green hidden " id="save_table_button"
                             onclick="saveRandomTable()">Save</button>
                         <button class="button button_style red hidden" id="delete_table_button"
-                            style="margin-left:5px; margin-top:6px" onclick="deleteRandomTable()">Delete</button>
+                            style="margin-left:5px;" onclick="deleteRandomTable()">Delete</button>
                         <button class="button button_style hidden" id="addTableRowButton" style="margin-left:5px"
                             onclick="addRandomTableRow()">Add row</button>
 

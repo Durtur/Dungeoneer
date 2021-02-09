@@ -161,7 +161,8 @@ document.addEventListener("DOMContentLoaded", function () {
   combatLoader.loadFieldHandlers();
   diceRoller.loadHandlers();
   autofill.updateAutoFillLists();
-
+  document.getElementById("lootcr").oninput = function(){randomizeLoot();}
+  document.getElementById("lootcr").onkeydown = function(evt){if(evt.key == "Enter")randomizeLoot()}
   //Tengir homebrew takka
   var settingsEl = document.querySelector('#homebrew--button');
   settingsEl.addEventListener('click', function () {
@@ -208,8 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!e.target.classList.contains("multi_selectable_field_num")) {
       combatLoader.clearSelection();
     }
-  })
-  document.getElementById("lootcr").addEventListener("keydown", function (e) { if (e.keyCode == 13) randomizeLoot() });
+  });
 
   [...document.getElementsByClassName("saveRoller_input")].forEach(function (input) {
     input.addEventListener("keydown", function (evt) {
@@ -2065,9 +2065,11 @@ function saveParty(showWarnings) {
 
 function randomizeLoot() {
   var randint = d(100);
+
   var cr = parseInt($("#lootcr").val());
   var amount;
   var currency;
+  console.log(cr)
   if (!isNaN(cr)) {
     if (cr <= 4) {
       if (randint <= 30) {
@@ -2135,7 +2137,7 @@ function randomizeLoot() {
     }
     $("#lootValue").val(amount + " " + currency);
   }
-  return false;
+
 }
 
 function getNumValueForDiceString(diceStr) {

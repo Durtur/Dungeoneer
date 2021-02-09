@@ -1,11 +1,33 @@
 .rumor_row {
-    width: 300px;
-    transition: all var(--transition-delay);
+    transition:all var(--transition-delay);
+    padding-left:1em;
+    box-sizing: border-box;
 }
 
+
+.rumor_row:hover {
+    border-left: 0.2em solid var(--main-underline-color);
+    box-sizing: border-box;
+}
+
+.rumor_row .rumor_row_name,  .rumor_row_description {
+    font-family: "bookSanity";
+}
+
+.rumor_row_rumor{
+ 
+    margin-left:1em;
+    font-size: 1.25em;
+    font-style: italic;
+}
 @media (min-width: 884px) {
     #tavern_rumors {
-        margin-left: 30px;
+        margin-left: 2em;
+      
+    }
+    .table_and_rumors{
+        flex-flow: row nowrap !important;
+        
     }
     #tavern_rumors>div>h2 {
         padding: 0;
@@ -93,16 +115,9 @@ select {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
+    margin-top: 1em;
 }
 
-.rumor_row>p {
-    font-size: 14px;
-}
-
-.rumor_row:hover {
-    border-left: 15px solid var(--main-underline-color);
-    padding-left: 5px;
-}
 
 .customize_tab_row {
     top: 0;
@@ -131,7 +146,7 @@ path {
 }
 
 #tavern_table, #shop_table {
-    width: 250px;
+    min-width: 20em;
 }
 
 #tavern_name, #shop_name {
@@ -303,4 +318,15 @@ th {
     width: 90%;
     flex-flow: row wrap;
     margin-bottom: 5px;
+}
+
+#customize_table tr .remove_button{
+    display:none;
+    position:absolute;
+
+    margin-top: 0.5em;
+    margin-left: -1.5em;
+}
+#customize_table tr:hover .remove_button{
+    display:flex;
 }

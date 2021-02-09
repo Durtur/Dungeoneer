@@ -195,8 +195,7 @@
         "Shield",
         "Ring",
         "Ammunition",
-        "Tattoo",
-        "Adventuring gear"
+        "Tattoo"
     ],
     "defaultCreatureTypes": [
         "Plant",

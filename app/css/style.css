@@ -294,11 +294,11 @@ h1 {
 .acnode {
   background-size: contain;
   background-repeat: no-repeat;
-  background-size: 32px;
+  background-size: 28px;
   background-position: center;
   background-position-x: 5px;
   text-align: center;
-  padding-left: 5px;
+  padding-left: 8px;
 }
 
 .ac_field {
@@ -512,6 +512,7 @@ h1 {
   border-radius: 30%;
   display:flex;
   flex-flow:row wrap;
+  min-height: 130px;
 }
 
 .pageframe_wrap {
@@ -534,9 +535,6 @@ h1 {
   margin-top: 2px;
 }
 
-.lootgenerator>.row>input[type=number], .lootgenerator>input[type=text] {
-  margin-top: 4px;
-}
 
 .saveRoller>.vertical {
   margin-right: 10px;
@@ -788,11 +786,11 @@ h1 {
   border-bottom-right-radius: var(--rounded-corners);
 }
 
-.combatRow:first-child>.dmg_field, .diceRollerContainer:first-child>input:first-child, .mobcontroller_row .count_field {
+.combatRow:first-of-type>.dmg_field, .diceRollerContainer:first-child>input:first-child, .mobcontroller_row .count_field {
   border-top-left-radius: var(--rounded-corners);
 }
 
-.combatRow:first-child>.damage_field, .diceRollerContainer:first-child>input:last-child {
+.combatRow:first-of-type>.damage_field, .diceRollerContainer:first-child>input:last-child {
   border-top-right-radius: var(--rounded-corners);
 }
 
@@ -1086,13 +1084,18 @@ button:disabled {
   margin-top: 5px;
 }
 
+.lootgenerator input{
+  margin:0.25em;
+  border-radius: var(--rounded-corners);
+}
 .lootgenerator {
   font-size: 16px;
   display: flex;
   overflow: show;
+  justify-content: space-between;
 }
 
-.saveRoller>.die_d20, .lootgenerator>.row>.die_d20 {
+.saveRoller>.die_d20{
   margin: 0;
   margin-top: 5px;
 }
@@ -1112,10 +1115,6 @@ button:disabled {
   top: 20px;
 }
 
-.lootgenerator>input[type="text"], .lootgenerator>.row>input[type="number"] {
-  max-width: 60px;
-  height: 35px;
-}
 
 .frontpage_heading {
   margin-top: 10px;
@@ -1189,11 +1188,11 @@ button:disabled {
 
 .pcnodeInner input {
   background-color: transparent;
-  width: 45px;
-  height: 42px;
+  width: 35px;
+  height: 35px;
   overflow: visible;
   border: none;
-  font-size: 22px;
+  font-size: 1em;
   font-weight: 400;
 }
 

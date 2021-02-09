@@ -22,7 +22,7 @@ var randomizer = function () {
         randomizerRaritySelect.classList.add("hidden");
         randomizerEncounterDangerSelect.classList.add("hidden");
         randomizerEncounterCreatureNumberSelect.classList.add("hidden");
-
+  
         if (searchSet.substring(0, 9) == "Encounter")
             return generateRandomEncounter(searchSet);
 
@@ -90,7 +90,7 @@ var randomizer = function () {
         });
     }
     function randomizeItems(searchSet) {
-
+    
         randomizerRaritySelect.classList.remove("hidden");
         var selectedRarity = randomizerRaritySelect.options[randomizerRaritySelect.selectedIndex].value;
         if (searchSet == "Scroll") {

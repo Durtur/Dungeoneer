@@ -222,12 +222,28 @@
 		"id": "cacvjpf78kgy0v8e8"
 	},
 	{
-		"name": "Bag of Tricks",
+		"name": "Bag of Tricks (Gray)",
 		"rarity": "Uncommon",
 		"type": "Wondrous item",
-		"description": "This ordinary bag, made from gray, rust, or tan cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.\n\nYou can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag’s color.\n\nThe creature is friendly to you and your companions, and it acts on your turn. You can use a bonus action to command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its nature.\n\nOnce three fuzzy objects have been pulled from the bag, the bag can’t be used again until the next dawn.",
+		"description": "This ordinary bag, made from gray, rust, or tan cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.\n\nYou can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag’s color.\n\nThe creature is friendly to you and your companions, and it acts on your turn. You can use a bonus action to command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its nature.\n\nOnce three fuzzy objects have been pulled from the bag, the bag can’t be used again until the next dawn.\n\n| d8 | Creature     |\n|----|--------------|\n| 1  | Weasel       |\n| 2  | Giant Rat    |\n| 3  | Badger       |\n| 4  | Boar         |\n| 5  | Panther      |\n| 6  | Giant Badger |\n| 7  | Dire Wolf    |\n| 8  | Giant Elk    |",
 		"source": "SRD",
 		"id": "cacvjpf78kgy0v8e9"
+	},
+	{
+		"name": "Bag of Tricks (Rust)",
+		"rarity": "Uncommon",
+		"type": "Wondrous item",
+		"description": "This ordinary bag, made from gray, rust, or tan cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.\n\nYou can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag’s color.\n\nThe creature is friendly to you and your companions, and it acts on your turn. You can use a bonus action to command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its nature.\n\nOnce three fuzzy objects have been pulled from the bag, the bag can’t be used again until the next dawn.\n\n| d8 | Creature   |\n|----|------------|\n| 1  | Rat        |\n| 2  | Owl        |\n| 3  | Mastiff    |\n| 4  | Goat       |\n| 5  | Giant Goat |\n| 6  | Giant Boar |\n| 7  | Lion       |\n| 8  | Brown Bear |",
+		"source": "SRD",
+		"id": "cacvjp714kkx624t6"
+	},
+	{
+		"name": "Bag of Tricks (Tan)",
+		"rarity": "Uncommon",
+		"type": "Wondrous item",
+		"description": "This ordinary bag, made from gray, rust, or tan cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object. The bag weighs 1/2 pound.\n\nYou can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a d8 and consulting the table that corresponds to the bag’s color.\n\nThe creature is friendly to you and your companions, and it acts on your turn. You can use a bonus action to command how the creature moves and what action it takes on its next turn, or to give it general orders, such as to attack your enemies. In the absence of such orders, the creature acts in a fashion appropriate to its nature.\n\nOnce three fuzzy objects have been pulled from the bag, the bag can’t be used again until the next dawn.\n\n| d8 | Creature     |\n|----|--------------|\n| 1  | Jackal       |\n| 2  | Ape          |\n| 3  | Baboon       |\n| 4  | Axe Beak     |\n| 5  | Black Bear   |\n| 6  | Giant Weasel |\n| 7  | Giant Hyena  |\n| 8  | Tiger        |",
+		"source": "SRD",
+		"id": "cacvjp714kkx684mp"
 	},
 	{
 		"name": "Bead of Force",

@@ -2259,14 +2259,16 @@ function saveHomebrew() {
     //populate special abilities
     if (tab == "monsters" || tab == "homebrew") {
 
-      valueBoxes = document.querySelectorAll(".addRow_special_abilities> specialjsonValue");
-      attributeBoxes = document.querySelectorAll(".addRow_special_abilities specialjsonAttribute");
+      valueBoxes = document.querySelectorAll(".addRow_special_abilities .specialjsonValue");
+      attributeBoxes = document.querySelectorAll(".addRow_special_abilities .specialjsonAttribute");
       var attribute = "special_abilities";
-
+      
       //populate actions
       AddActionArray("actions", ".action_row", thingyToSave);
       //populate legendary actions
       AddActionArray("legendary_actions", ".legendary_action_row", thingyToSave);
+      //Populate special abilities
+      
 
       AddReactions(thingyToSave);
     } else if (tab == "encounters") {
@@ -2288,7 +2290,7 @@ function saveHomebrew() {
 
         }
       }
-
+      console.log(attribute, valueBoxes, attributeBoxes)
       thingyToSave[attribute] = specialActions;
 
     }

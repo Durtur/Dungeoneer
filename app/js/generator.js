@@ -1,5 +1,12 @@
 const dataAccess = require("./js/dataaccess");
 
+function testRumours(){
+    dataAccess.getGeneratorData(function (data) {
+        var rumorArray=  generateRumors(data.rumors.length *2, data);
+        console.log(rumorArray)
+        dataAccess.writeTempFile("testRumors.json", JSON.stringify(rumorArray), ()=>{});
+    });
+}
 
 module.exports = {
     saySomething: function () {
@@ -779,7 +786,7 @@ function createEncourSetTableFromDataSet(dataset) {
         creatures: creatureArray,
     })
     tableContainer.appendChild(randomizeTable);
-    randomizeTable.setAttribute("contenteditable", false);
+
     document.getElementById("save_encounter_set_button").classList.remove("hidden");
     document.getElementById("add_encounter_set_row").classList.remove("hidden");
 
@@ -1069,15 +1076,25 @@ function generateRandomTable(jsonObj) {
 
             } else {
                 newNode.innerHTML = Object.values(jsonObj)[j][i];
-
+                newNode.setAttribute("contenteditable", true);
             }
 
             currentRow.appendChild(newNode);
-
         }
+        currentRow.appendChild(createDeleteButton())
     }
     newTable.appendChild(currentHeader);
     return newTable;
+
+    function createDeleteButton(){
+        var btn = document.createElement("button");
+        btn.classList = "remove_button";
+        btn.onclick = function(evt){
+            var parent =  evt.target.closest("tr");
+            parent.parentNode.removeChild(parent);
+        }
+        return btn;
+    }
 }
 function createTableNameAwesomeplete(newInput) {
     new Awesomplete(newInput, { list: randomTableNames, autoFirst: true, minChars: 0, maxItems: 50 });
@@ -1223,7 +1240,7 @@ function createRandomizeTableFromSet(dataset) {
         Roll_again_on: rollAgainArray
     })
     tableContainer.appendChild(randomizeTable);
-    randomizeTable.setAttribute("contenteditable", true);
+
     document.getElementById("save_table_button").classList.remove("hidden");
     document.getElementById("addTableRowButton").classList.remove("hidden");
 }
@@ -1331,12 +1348,12 @@ function replacePlaceholders(string, isMale, data) {
                 var split = replWith.split(".");
                 var replacementValue;
                 split.forEach(splitV => { replacementValue = data[splitV] })
-                console.log(split)
+           
                 if (replacementValue == null) return;
                 string = replaceAll(string, replacement.value, replacementValue);
             }
         } else if (typeof replWith == "object") {
-            console.log(isMale, replWith.male, replWith.female);
+         
             if (isMale != null && replWith.male && replWith.female) {
                 console.log(replWith.male);
                 var replacementArr = isMale ? replWith.male : replWith.female;
@@ -1484,16 +1501,25 @@ function generateTavernRumorsAndMenu(data) {
         rumorContainer.appendChild(rumorHeader);
         rumorContainer.classList.add("rumor_container")
         rumorContainer.classList = "column";
-        var currentRow, currentP, currentRumorMonger;
+        var currentRow, currentP, currentRumorMonger, currentNameEle, currentDescEle;
         for (var i = 0; i < rumorArray.length; i++) {
             currentRow = document.createElement("div");
             currentP = document.createElement("p");
-            currentRow.classList.add("rumor_row", "tooltipped", "tooltipped_medium");
-            currentP.innerHTML = rumorArray[i];
+            currentNameEle = document.createElement("p");
+            currentNameEle.classList.add("rumor_row_name");
+
+            currentRow.classList.add("rumor_row");
+            currentP.innerHTML = `"${rumorArray[i]}"`;
+            currentP.classList.add("rumor_row_rumor");
             currentRumorMonger = generateNPC(data, pickOne(["male", "female"]), data.names.anglo, "humanoid")
-            currentRow.setAttribute("data-tooltip", "Source: " + currentRumorMonger.firstname + " " + currentRumorMonger.lastname + ", " + " a local " + currentRumorMonger.profession.substring(0, 1).toLowerCase() +
-                currentRumorMonger.profession.substring(1) + "\n ------- \n" + currentRumorMonger.description)
+            
+            currentDescEle = document.createElement("p");
+            currentDescEle.classList.add("rumor_row_description");
+            currentNameEle.innerHTML = `<strong>${currentRumorMonger.firstname} ${currentRumorMonger.lastname || ""}, a local ${currentRumorMonger.profession.toLowerCase()}</strong>`;
+            currentDescEle.innerHTML =  currentRumorMonger.description;
+            currentRow.appendChild(currentNameEle);    
             currentRow.appendChild(currentP);
+            currentRow.appendChild(currentDescEle);    
             rumorContainer.appendChild(currentRow)
         }
         document.getElementById("tavern_rumors").appendChild(rumorContainer);
@@ -1516,6 +1542,7 @@ function generateTavernName(data) {
 }
 function generateRumors(rumorAmount, data) {
     var rumorArray = pickX(data.rumors, rumorAmount);
+    if(rumorAmount > data.rumors.length)rumorAmount = data.rumors.length;
     var rumor;
 
     for (var i = 0; i < rumorAmount; i++) {
@@ -1528,7 +1555,10 @@ function generateRumors(rumorAmount, data) {
         rumor = replaceAll(rumor, "_monster", data.monsters);
         rumor = replaceAll(rumor, "_mountain", data.mountains);
         rumor = replaceAll(rumor, "_structure", data.structures);
-        rumor = replaceAll(rumor, "_profession", pickOne(data.generated_creatures.humanoid.professions.common));
+        var allProfessions = [data.generated_creatures.humanoid.professions.common, data.generated_creatures.humanoid.professions.uncommon,data.generated_creatures.humanoid.professions.rare ].flat();
+     
+        rumor = rumor.replace(/_profession/g, pickOne(allProfessions).toLowerCase());
+        
 
         rumor = replaceAll(rumor, "_forest", data.forests);
         rumor = replaceAll(rumor, "_name", data.names.anglo.male);
@@ -1854,7 +1884,7 @@ function generateHook(iterations) {
 function pickOne(arr) {
     if (arr == null) return null;
     var randomIndex = Math.floor(Math.random() * arr.length);
-
+    
     return arr[randomIndex];
 }
 
