@@ -479,8 +479,28 @@
         <input type="number" placeholder="HP" class="hp_field" title="Mob HP (total)">
         <input type="number" placeholder="AC" class="ac_field" title="Creature Armor Class">
         <input type="number" placeholder="Atk+" class="attack_field" title="Mob Attack Modifier">
-        <button class="die_d20 die_combatRoller die_d20_normal" onclick="mobController.roll()"
-          title="Click to roll for attack">20</button>
+        <button class="die_d20 die_combatRoller die_d20_normal secondary_tooltipped" onclick="mobController.roll()"
+          title="Click to roll for attack">20        
+          <div class = "secondary_tooltip mobroller_tooltip">
+            <div class = "column">
+              <p class = "roll_result_value"></p>
+              <div class = "row" style="justify-content: space-around;">
+                <div class = "column">
+                  <label class = "roll_result_label">Crits</label>
+                  <p class = "roll_result_crits"></p>
+                </div>
+                <div class = "column">
+                  <label class = "roll_result_label">Hits</label>
+                  <p class = "roll_result_hits"></p>
+                </div>
+                <div class = "column">
+                  <label class = "roll_result_label">Misses</label>
+                  <p class = "roll_result_misses"></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </button>
         <input type="number" placeholder="vs AC" title="AC of target" tabindex="1"
           class="code_ac multi_selectable_field_num">
         <label class=" cell_row damage_field " data-tooltip=""
@@ -505,7 +525,7 @@
             </label>
 
           </div>
-
+   
         </div>
       </div>
       <div class="column" style="margin-left:80px;">

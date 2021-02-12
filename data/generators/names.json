@@ -1069,6 +1069,10 @@
 	},
 	"replacement_values": [
 		{
+			"value":"_common_animal",
+			"replace_with": "$this.common_animal"
+		},
+		{
 			"value": "_phrase",
 			"replace_with": "$this.phrases"
 		},
@@ -1225,6 +1229,7 @@
 	"common_animal": [
 		"Duck",
 		"Goat",
+		"Duckling",
 		"Jackal",
 		"Horse",
 		"Wolf",
@@ -2090,7 +2095,7 @@
 				"is quick to boast and even quicker to anger",
 				"has fickle emotions, _heshe is quick to anger and quick to laugh",
 				"laughs in an alien way, causing discomfort to most regular folk",
-				"is spiteful and wicked; _heshe holds onto grudges",
+				"is spiteful and wicked, and onto grudges",
 				"is quite the gourmand, _heshe enjoys fine wines and cheeses in particular",
 				"is quiet and pensive",
 				"has alien eyes that gleam with intelligence and wisdom",
@@ -2346,7 +2351,13 @@
 					"Publications",
 					"Scrolls",
 					"Scriptures",
-					"Lexicons"
+					"Lexicons",
+					"Incantations"
+				],
+				"armor":[
+					"Armor",
+					"Mails",
+					"Protections"
 				],
 				"weapon": [
 					"Arms",
@@ -2368,7 +2379,8 @@
 					"Mysterium",
 					"Apparel",
 					"Items",
-					"Artefacts"
+					"Artefacts",
+					"Curios"
 				]
 			},
 			"adjective": [
@@ -2459,7 +2471,17 @@
 					"The Goblin's Hoard",
 					"The Dragon's Hoard",
 					"The Dragon's Vault",
-					"Baffling Baubles"
+					"Baffling Baubles",
+					"The _color _monster",
+					"The _metal _animal"
+				],
+				"armor":[
+					"The _metal Plate",
+					"You'll Wish You Bought It!",
+					"Noble's Crest",
+					"Tenacious Sentinel",
+					"The _metal _monster",
+					"Ward's Wardings"
 				],
 				"weapon": [
 					"The Spellforge",
@@ -2472,7 +2494,9 @@
 					"Dragonbane Smithy",
 					"Giantbane Smithy",
 					"Dragon's Foundry",
-					"The Spellbound Foundry"
+					"The Spellbound Foundry",
+					"Sharp Ends",
+					"The _monster's Spear"
 				],
 				"potion": [
 					"The Bubbling Cauldron",
@@ -2481,6 +2505,7 @@
 					"Alchemical Solutions",
 					"Tinctures, Tonics and Solutions",
 					"Enchanted Tinctures, Tonics and Solutions",
+					"Rightful Remedies",
 					"The Everbubbling Cauldron",
 					"The Arcane Vessel",
 					"Spellbound Remedies",
@@ -2507,7 +2532,8 @@
 					"Mystical Apparel",
 					"Flametongue Bazaar",
 					"The _metal Sphere",
-					"Jewlery From Beyond"
+					"Jewlery From Beyond",
+					"The _goodbad Omen"
 				]
 			},
 			"typeboundname": {
@@ -2535,6 +2561,16 @@
 					"Foundry",
 					"Spellbound Foundry",
 					"Arcane Foundry"
+				],
+				"armor":
+				[
+					"Faithful Shield",
+					"Faithful Plate",
+					"Chain",
+					"Porticullis",
+					"Security Guarantee",
+					"Plates",
+					"Eldricth Armors"
 				],
 				"potion": [
 					"Bubbling Cauldron",
@@ -2634,6 +2670,8 @@
 			],
 			"clutter_fantastic": [
 				"The _inventory is placed on magical floating disks, that slowly revolve around the interior",
+				"Choice items hover in various places around the shop",
+				"The _inventory is neatly placed in _metal hued glass cases",
 				"It is lit with _color torches that radiate no heat. No _inventory is displayed, a single _metal golem fetches request merchandise from a back room",
 				"It is lit with _color torches. The _inventory is placed on magical floating disks",
 				"The _inventory is cluttered about on floating disks, which revolve around the room",
@@ -3354,18 +3392,18 @@
 		"duke"
 	],
 	"monsters": [
-		"a rakshasha",
-		"a satyr",
-		"a drow",
-		"a ghoul",
-		"a gnoll",
-		"a gorgon",
-		"a troll",
-		"a doppelganger",
-		"an ogre",
-		"a witch",
-		"a demon",
-		"a fiend"
+		"rakshasha",
+		"satyr",
+		"drow",
+		"ghoul",
+		"gnoll",
+		"gorgon",
+		"troll",
+		"doppelganger",
+		"ogre",
+		"witch",
+		"demon",
+		"fiend"
 	],
 	"rumors": [
 		"There's something foul buried under this town I tell ye...",
@@ -3395,7 +3433,7 @@
 		"A grand ensemble of adventurers has gathered at the ancient ruins in the nearby _forest forest. None of the locals seem to know what the fuss is about",
 		"Lord _lastname has promised a hefty sum for the capture or killing of a notorious bandit, _name _lastname",
 		"A local blind man, _name, is said to see into the very soul of people",
-		"A tavern was opened recently in a nearby _locale. The owner is _monster and seems strangely amicable",
+		"A tavern was opened recently in a nearby _locale. The owner is a _monster and seems strangely amicable",
 		"The local _noble, _lastname, recently rose to power and has been inviting prominent people to dinner. Not all are said to make it back",
 		"Odd sounds have been heard coming from the _lastname family house, situated in the nearby marshes",
 		"Old man _lastname was a warrior once, it is said. He mumbles about lost treasures when in his cups",
@@ -3403,7 +3441,7 @@
 		"None can craft armor like _name",
 		"The infamous highwayman, _name, is said to be inhabiting a nearby _locale",
 		"A vicious band of _creatures have been raiding merchant trains nearby",
-		"A raiding band of _creatures has been wreaking havoc, and they are led by _monster",
+		"A raiding band of _creatures has been wreaking havoc, and they are led by a _monster",
 		"You should visit the mystic, for she can turn anything into gold. Anything...",
 		"A grim man rode into town yesterday, and headed towards a nearby _locale. Something was off about him...",
 		"The best armorsmith in the known land is _femalename _lastname, a local!",
@@ -3416,7 +3454,7 @@
 		"The _noble's horse is said to have started talking and bounded off towards a nearby _locale",
 		"A ragged band of Elves from the nearby _forest forest arrived a few days ago, begging for aid against an encroachment from the Feywild",
 		"A legion of a gnolls has been seen in the far east. They have been scouring the countryside and seem to be heading in this direction",
-		"_monster took over a temple in the _forest woods recently. The temple's acolytes fled into town and are holed up in a nearby tavern: _tavernname ",
+		"A _monster took over a temple in the _forest woods recently. The temple's acolytes fled into town and are holed up in a nearby tavern: _tavernname ",
 		"_name _lastname is a local man that killed a farmer in an illegal duel a few days ago. None have dared to arrest him, as he is a renowned swordsman",
 		"A mysterious fungal growth has been taking root in the town's graveyard, causing the gravekeeper much dismay",
 		"A local alchemist is said to be making vile experiments in his workshop. Some say he is trying to create life",

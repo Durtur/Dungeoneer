@@ -456,7 +456,7 @@ h1 {
   background-position-x: 57px !important;
 }
 
-.pcnode__darkvision>p{
+.pcnode__darkvision>p {
   padding-left: 17px;
   background-image: url(img/beast-eye.png);
   background-size: 12px;
@@ -510,8 +510,8 @@ h1 {
 
 .pscontainer {
   border-radius: 30%;
-  display:flex;
-  flex-flow:row wrap;
+  display: flex;
+  flex-flow: row wrap;
   min-height: 130px;
 }
 
@@ -534,7 +534,6 @@ h1 {
   height: 40px;
   margin-top: 2px;
 }
-
 
 .saveRoller>.vertical {
   margin-right: 10px;
@@ -1084,10 +1083,11 @@ button:disabled {
   margin-top: 5px;
 }
 
-.lootgenerator input{
-  margin:0.25em;
+.lootgenerator input {
+  margin: 0.25em;
   border-radius: var(--rounded-corners);
 }
+
 .lootgenerator {
   font-size: 16px;
   display: flex;
@@ -1095,7 +1095,7 @@ button:disabled {
   justify-content: space-between;
 }
 
-.saveRoller>.die_d20{
+.saveRoller>.die_d20 {
   margin: 0;
   margin-top: 5px;
 }
@@ -1114,7 +1114,6 @@ button:disabled {
   right: 12px;
   top: 20px;
 }
-
 
 .frontpage_heading {
   margin-top: 10px;
@@ -1170,10 +1169,11 @@ button:disabled {
   background-repeat: no-repeat;
 }
 
-.pcnode__darkvision{
+.pcnode__darkvision {
   background-size: contain;
   background-repeat: no-repeat;
 }
+
 .pcnodeInner {
   position: relative;
   display: flex;
@@ -1303,12 +1303,11 @@ button:disabled {
   background-position: center; */
 }
 
-.pcnode .pcnode_notes_container{
+.pcnode .pcnode_notes_container {
   background-image: url(img/phbbgbig.png);
   overflow: hidden;
-  display:flex;
+  display: flex;
   height: 0px;
-
   width: 200px;
   /* max-height: 50px; */
   position: absolute;
@@ -1318,16 +1317,14 @@ button:disabled {
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
-  
-  
 }
 
 .pcnode .pcnode_notes {
-  flex:1;
+  flex: 1;
   background-color: var(--dark-transparent-bg);
   padding: 5px;
   margin: 0;
-  z-index:1;
+  z-index: 1;
 }
 
 .pcnode:hover .pcnode_color_bar {
@@ -1335,7 +1332,6 @@ button:disabled {
 }
 
 .pcnode:hover .pcnode_notes_container {
-
   height: auto;
 }
 
@@ -1364,6 +1360,17 @@ button:disabled {
 .condition_effect>p {
   margin: auto;
   font-size: 0.5vw;
+}
+
+.mobroller_tooltip .roll_result_value {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.mobroller_tooltip {
+  top: -8.5em !important;
+  left: 15em !important;
+  width: 20em !important;
 }
 
 .secondary_tooltip {

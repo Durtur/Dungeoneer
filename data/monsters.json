@@ -75,7 +75,8 @@
 		"skills": "History +12, Perception +10",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Acolyte",
@@ -2061,6 +2062,9 @@
 		"skills": "Arcana +9, Religion +15, Perception +10",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -2109,6 +2113,9 @@
 		"id": "cacvjp7lwke8q3m57",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Animated objects"
 		]
 	},
 	{
@@ -2191,7 +2198,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m59",
-		"skills": "Athletics +5, Perception +3"
+		"skills": "Athletics +5, Perception +3",
+		"tags": [
+			"Insectoid"
+		]
 	},
 	{
 		"name": "Archmage",
@@ -2620,7 +2630,9 @@
 		"senses": "passive Perception 10",
 		"languages": "any one language (usually Common)",
 		"challenge_rating": "1/8",
-		"tags": [],
+		"tags": [
+			"Bandits"
+		],
 		"unique": false,
 		"actions": [
 			{
@@ -2695,6 +2707,9 @@
 		"skills": "Athletics +4, Deception +4",
 		"ac_source": [
 			"studded leather armor"
+		],
+		"tags": [
+			"Bandits"
 		]
 	},
 	{
@@ -2804,6 +2819,9 @@
 		"id": "cacvjp7lwke8q3m5m",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -3000,6 +3018,9 @@
 		"id": "cacvjp7lwke8q3m5q",
 		"ac_source": [
 			"hide armor"
+		],
+		"tags": [
+			"Bandits"
 		]
 	},
 	{
@@ -3149,7 +3170,10 @@
 				"Split": "When a pudding that is Medium or larger is subjected to lightning or slashing damage, it splits into two new puddings if it has at least 10 hit points. Each new pudding has hit points equal to half the original pudding's, rounded down. New puddings are one size smaller than the original pudding."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5t"
+		"id": "cacvjp7lwke8q3m5t",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Blink Dog",
@@ -3720,6 +3744,9 @@
 		"skills": "Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -4030,6 +4057,9 @@
 		"skills": "Perception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -4156,6 +4186,9 @@
 		"skills": "Stealth +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -4505,25 +4538,25 @@
 		"type": "Humanoid",
 		"subtype": "any race",
 		"alignment": "any non-good alignment",
-		"armor_class": 13,
-		"hit_points": 22,
+		"armor_class": "13",
+		"hit_points": "22",
 		"hit_dice": "6d8",
 		"speed": "30 ft.",
-		"strength": 11,
-		"dexterity": 14,
-		"constitution": 12,
-		"intelligence": 10,
-		"wisdom": 13,
-		"charisma": 14,
+		"strength": "11",
+		"dexterity": "14",
+		"constitution": "12",
+		"intelligence": "10",
+		"wisdom": "13",
+		"charisma": "14",
 		"senses": "passive Perception 11",
 		"languages": "any one language (usually Common)",
 		"challenge_rating": "2",
 		"special_abilities": [
 			{
-				"Dark Devotion": "The fanatic has advantage on saving throws against being charmed or frightened."
+				"dark_devotion": "The fanatic has advantage on saving throws against being charmed or frightened."
 			},
 			{
-				"Spellcasting": "The fanatic is a 4th-level spellcaster. Its spell casting ability is Wisdom (spell save DC 11, +3 to hit with spell attacks). The fanatic has the following cleric spells prepared:\n\nCantrips (at will): light, sacred flame, thaumaturgy\n• 1st level (4 slots): command, inflict wounds, shield of faith\n• 2nd level (3 slots): hold person, spiritual weapon"
+				"spellcasting": "The fanatic is a 4th-level spellcaster. Its spell casting ability is Wisdom (spell save DC 11, +3 to hit with spell attacks). The fanatic has the following cleric spells prepared:\n\nCantrips (at will): light, sacred flame, thaumaturgy\n• 1st level (4 slots): command, inflict wounds, shield of faith\n• 2nd level (3 slots): hold person, spiritual weapon"
 			}
 		],
 		"actions": [
@@ -4533,17 +4566,19 @@
 			},
 			{
 				"name": "Dagger",
-				"attack_bonus": 4,
+				"attack_bonus": "4",
 				"damage_dice": "1d4",
-				"damage_bonus": 2,
+				"damage_bonus": "2",
 				"description": "Melee or Ranged Weapon Attack: +4 to hit, reach 5 ft. or range 20/60 ft., one creature. Hit: 4 (1d4 + 2) piercing damage."
 			}
 		],
 		"id": "cacvjp7lwke8q3m6m",
 		"skills": "Religion +2, Deception +4, Persuasion +4",
 		"ac_source": [
-			"leather armor"
-		]
+			"Leather Armor"
+		],
+		"tags": [],
+		"unique": false
 	},
 	{
 		"name": "Cultist",
@@ -4627,7 +4662,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6o",
-		"skills": "Stealth +3"
+		"skills": "Stealth +3",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Death Dog",
@@ -4721,6 +4759,9 @@
 		"skills": "Stealth +4, Investigation +3, Perception +2",
 		"ac_source": [
 			"chain shirt"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -5182,6 +5223,9 @@
 		"skills": "Stealth +9, Perception +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -5235,6 +5279,9 @@
 		"skills": "Stealth +4, Perception +2",
 		"ac_source": [
 			"chain shirt"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -5385,6 +5432,9 @@
 		"ac_source": [
 			"scale mail",
 			"shield"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -5728,7 +5778,7 @@
 		],
 		"reactions": [
 			{
-				"Parry":"The erinyes adds 4 to its AC against one melee attack that would hit it. To do so, the erinyes must see the attacker and be wielding a melee weapon."
+				"Parry": "The erinyes adds 4 to its AC against one melee attack that would hit it. To do so, the erinyes must see the attacker and be wielding a melee weapon."
 			}
 		],
 		"id": "cacvjp7lwke8q3m7a",
@@ -5802,6 +5852,9 @@
 		"skills": "Stealth +4, Perception +3, Survival +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -6143,6 +6196,9 @@
 		"id": "cacvjp7lwke8q3m7h",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Animated objects"
 		]
 	},
 	{
@@ -6320,7 +6376,10 @@
 				"description": "The cube moves up to its speed. While doing so, it can enter Large or smaller creatures' spaces. Whenever the cube enters a creature's space, the creature must make a DC 12 Dexterity saving throw.\nOn a successful save, the creature can choose to be pushed 5 feet back or to the side of the cube. A creature that chooses not to be pushed suffers the consequences of a failed saving throw.\nOn a failed save, the cube enters the creature's space, and the creature takes 10 (3d6) acid damage and is engulfed. The engulfed creature can't breathe, is restrained, and takes 21 (6d6) acid damage at the start of each of the cube's turns. When the cube moves, the engulfed creature moves with it.\nAn engulfed creature can try to escape by taking an action to make a DC 12 Strength check. On a success, the creature escapes and enters a space of its choice within 5 feet of the cube."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7l"
+		"id": "cacvjp7lwke8q3m7l",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Ghast",
@@ -7280,7 +7339,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 2) piercing damage. If the target is a creature, it must succeed on a DC 10 Constitution saving throw or contract a disease. Until the disease is cured, the target can't regain hit points except by magical means, and the target's hit point maximum decreases by 3 (1d6) every 24 hours. If the target's hit point maximum drops to 0 as a result of this disease, the target dies."
 			}
 		],
-		"id": "cacvjp7lwke8q3m88"
+		"id": "cacvjp7lwke8q3m88",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Giant Scorpion",
@@ -7461,6 +7523,9 @@
 		"skills": "Stealth +7",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -7713,7 +7778,10 @@
 				"description": "The mouther spits a chemical glob at a point it can see within 15 feet of it. The glob explodes in a blinding flash of light on impact. Each creature within 5 feet of the flash must succeed on a DC 13 Dexterity saving throw or be blinded until the end of the mouther's next turn."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8i"
+		"id": "cacvjp7lwke8q3m8i",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Glabrezu",
@@ -7832,7 +7900,7 @@
 		],
 		"reactions": [
 			{
-				 "Parry":"The gladiator adds 3 to its AC against one melee attack that would hit it. To do so, the gladiator must see the attacker and be wielding a melee weapon."
+				"Parry": "The gladiator adds 3 to its AC against one melee attack that would hit it. To do so, the gladiator must see the attacker and be wielding a melee weapon."
 			}
 		],
 		"id": "cacvjp7lwke8q3m8k",
@@ -7840,6 +7908,9 @@
 		"ac_source": [
 			"studded leather armor",
 			"shield"
+		],
+		"tags": [
+			"Bandits"
 		]
 	},
 	{
@@ -8092,16 +8163,16 @@
 		"type": "Ooze",
 		"subtype": "",
 		"alignment": "unaligned",
-		"armor_class": 8,
-		"hit_points": 22,
+		"armor_class": "8",
+		"hit_points": "22",
 		"hit_dice": "3d8",
 		"speed": "10 ft., climb 10 ft.",
-		"strength": 12,
-		"dexterity": 6,
-		"constitution": 16,
-		"intelligence": 1,
-		"wisdom": 6,
-		"charisma": 2,
+		"strength": "12",
+		"dexterity": "6",
+		"constitution": "16",
+		"intelligence": "1",
+		"wisdom": "6",
+		"charisma": "2",
 		"damage_resistances": "acid, cold, fire",
 		"condition_immunities": "blinded, charmed, deafened, exhaustion, frightened, prone",
 		"senses": "blindsight 60 ft. (blind beyond this radius), passive Perception 8",
@@ -8109,26 +8180,31 @@
 		"challenge_rating": "1/2",
 		"special_abilities": [
 			{
-				"Amorphous": "The ooze can move through a space as narrow as 1 inch wide without squeezing."
+				"amorphous": "The ooze can move through a space as narrow as 1 inch wide without squeezing."
 			},
 			{
-				"Corrode Metal": "Any nonmagical weapon made of metal that hits the ooze corrodes. After dealing damage, the weapon takes a permanent and cumulative -1 penalty to damage rolls. If its penalty drops to -5, the weapon is destroyed. Nonmagical ammunition made of metal that hits the ooze is destroyed after dealing damage.\nThe ooze can eat through 2-inch-thick, nonmagical metal in 1 round."
+				"corrode_metal": "Any nonmagical weapon made of metal that hits the ooze corrodes. After dealing damage, the weapon takes a permanent and cumulative -1 penalty to damage rolls. If its penalty drops to -5, the weapon is destroyed. Nonmagical ammunition made of metal that hits the ooze is destroyed after dealing damage.\nThe ooze can eat through 2-inch-thick, nonmagical metal in 1 round."
 			},
 			{
-				"False Appearance": "While the ooze remains motionless, it is indistinguishable from an oily pool or wet rock."
+				"false_appearance": "While the ooze remains motionless, it is indistinguishable from an oily pool or wet rock."
 			}
 		],
 		"actions": [
 			{
 				"name": "Pseudopod",
-				"attack_bonus": 3,
+				"attack_bonus": "3",
 				"damage_dice": "1d6",
-				"damage_bonus": 1,
+				"damage_bonus": "1",
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 4 (1d6 + 1) bludgeoning damage plus 7 (2d6) acid damage, and if the target is wearing nonmagical metal armor, its armor is partly corroded and takes a permanent and cumulative -1 penalty to the AC it offers. The armor is destroyed if the penalty reduces its AC to 10."
 			}
 		],
 		"id": "cacvjp7lwke8q3m8q",
-		"skills": "Stealth +2"
+		"skills": "Stealth +2",
+		"ac_source": [
+			""
+		],
+		"tags": ["Underdark"],
+		"unique": false
 	},
 	{
 		"name": "Green Dragon Wyrmling",
@@ -8293,6 +8369,9 @@
 		"id": "cacvjp7lwke8q3m8t",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -8384,7 +8463,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8v",
-		"skills": "Athletics +5, Stealth +3, Perception +3"
+		"skills": "Athletics +5, Stealth +3, Perception +3",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Guard",
@@ -8600,6 +8682,9 @@
 		"id": "cacvjp7lwke8q3m8z",
 		"ac_source": [
 			"plate armor"
+		],
+		"tags": [
+			"Bandits"
 		]
 	},
 	{
@@ -9649,7 +9734,10 @@
 				"description": "Ranged Weapon Attack: +4 to hit, range 30/120 ft., one target. Hit: 4 (1d4 + 2) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9k"
+		"id": "cacvjp7lwke8q3m9k",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Kraken",
@@ -10361,7 +10449,7 @@
 		],
 		"reactions": [
 			{
-				"Parry":"The marilith adds 5 to its AC against one melee attack that would hit it. To do so, the marilith must see the attacker and be wielding a melee weapon."
+				"Parry": "The marilith adds 5 to its AC against one melee attack that would hit it. To do so, the marilith must see the attacker and be wielding a melee weapon."
 			}
 		],
 		"id": "cacvjp7lwke8q3m9x",
@@ -11153,7 +11241,10 @@
 				"Split": "When a jelly that is Medium or larger is subjected to lightning or slashing damage, it splits into two new jellies if it has at least 10 hit points. Each new jelly has hit points equal to half the original jelly's, rounded down. New jellies are one size smaller than the original jelly."
 			}
 		],
-		"id": "cacvjp7lwke8q3mac"
+		"id": "cacvjp7lwke8q3mac",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Octopus",
@@ -11240,6 +11331,9 @@
 		"id": "cacvjp7lwke8q3mae",
 		"ac_source": [
 			"hide armor"
+		],
+		"tags": [
+			"Bandits"
 		]
 	},
 	{
@@ -11391,6 +11485,9 @@
 		"skills": "Intimidation +2",
 		"ac_source": [
 			"hide armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -12630,6 +12727,9 @@
 		"skills": "Stealth +5, Perception +6",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -12673,7 +12773,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one Medium or smaller creature. Hit: The creature is grappled (escape DC 13). Until this grapple ends, the target is restrained, blinded, and at risk of suffocating, and the rug can't smother another target. In addition, at the start of each of the target's turns, the target takes 10 (2d6 + 3) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mb9"
+		"id": "cacvjp7lwke8q3mb9",
+		"tags": [
+			"Animated objects"
+		]
 	},
 	{
 		"name": "Rust Monster",
@@ -12719,6 +12822,9 @@
 		"id": "cacvjp7lwke8q3mba",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -13028,6 +13134,9 @@
 		"skills": "Stealth +6, Nature +4, Perception +5, Survival +5",
 		"ac_source": [
 			"leather armor"
+		],
+		"tags": [
+			"Bandits"
 		]
 	},
 	{
@@ -13302,7 +13411,10 @@
 				"description": "When bright light or a creature is within 30 feet of the shrieker, it emits a shriek audible within 300 feet of it. The shrieker continues to shriek until the disturbance moves out of range and for 1d4 of the shrieker's turns afterward"
 			}
 		],
-		"id": "cacvjp7lwke8q3mbm"
+		"id": "cacvjp7lwke8q3mbm",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Silver Dragon Wyrmling",
@@ -14067,7 +14179,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 0 ft., one creature in the swarm's space. Hit: 5 (2d4) piercing damage, or 2 (1d4) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc1"
+		"id": "cacvjp7lwke8q3mc1",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Swarm of Beetles",
@@ -14107,6 +14222,9 @@
 		"id": "cacvjp7lwke8q3mc2",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -14147,6 +14265,9 @@
 		"id": "cacvjp7lwke8q3mc3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -14187,6 +14308,9 @@
 		"id": "cacvjp7lwke8q3mc4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -14393,6 +14517,9 @@
 		"id": "cacvjp7lwke8q3mc9",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -14583,6 +14710,9 @@
 		"skills": "Intimidation +2",
 		"ac_source": [
 			"leather armor"
+		],
+		"tags": [
+			"Bandits"
 		]
 	},
 	{
@@ -15127,7 +15257,7 @@
 		"languages": "any one language (usually Common)",
 		"skills": "Athletics +5, Perception +2",
 		"challenge_rating": "3",
-		"tags": [],
+		"tags": ["Bandits"],
 		"unique": false,
 		"actions": [
 			{
@@ -15199,7 +15329,10 @@
 				"description": "Melee Weapon Attack: +2 to hit, reach 10 ft., one creature. Hit: 4 (1d8) necrotic damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcn"
+		"id": "cacvjp7lwke8q3mcn",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Vrock",
@@ -16217,6 +16350,9 @@
 		"skills": "Stealth +3, Perception +6",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{

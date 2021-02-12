@@ -776,7 +776,7 @@ var combatLoader = function () {
   var playerMouseUpIndexMax;
   var playerUpMouseIndex = -1;
   function loadCombat() {
-    console.log(encounterIsLoaded, loadedEncounter);
+
     if (!encounterIsLoaded) {
       if (loadedMonster.name == null) {
         return false;
@@ -793,6 +793,8 @@ var combatLoader = function () {
           numberOfCreatures = parseInt(loadedEncounter[i][1]);
           var name = loadedEncounter[i][0];
           var creature = data.find(x => x.name.toLowerCase() === name.toLowerCase());
+          creature.data_extra_attributes = {};
+          creature.data_extra_attributes.initiative = data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity);
           for (var j = 0; j < numberOfCreatures; j++) {
             load(creature);
           }
@@ -1178,6 +1180,7 @@ var combatLoader = function () {
   }
 
   function load(monster) {
+  
     var row = addRow();
     var nameField, hpField, acField, attackField, damageField, damageLabel;
     nameField = row.getElementsByClassName("name_field")[0];
@@ -1597,6 +1600,7 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
         foundMonster = data[i];
         statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, statblockType, true)
         frameHistoryButtons.unToggleButtonsExcept(data[i].name);
+        hideOrShowStatblockButtons();
       }
 
       if (key == "monsters") {
@@ -1615,7 +1619,18 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
 
   }
   return false;
-
+  function hideOrShowStatblockButtons(){
+    document.getElementById("loaderButton").classList.add("hidden");
+    document.getElementById("mobPanelLoadButton").classList.add("hidden");
+    if (key == "monsters" || key == "encounters" || key == "homebrew") {
+      document.getElementById("loaderButton").classList.remove("hidden");
+      if (settings.enable.mobController && key != "encounters"){
+        console.log(key)
+        document.getElementById("mobPanelLoadButton").classList.remove("hidden");
+      }
+       
+    } 
+  }
 }
 
 function loadEncounter(encounterObject) {
@@ -1714,15 +1729,9 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       }
     } else {
       lastSearched = key;
-      if (key == "monsters" || key == "encounters" || key == "homebrew") {
-        document.getElementById("loaderButton").classList.remove("hidden");
-        if (settings.enable.mobController)
-          document.getElementById("mobPanelLoadButton").classList.remove("hidden");
-      } else {
-        document.getElementById("loaderButton").classList.add("hidden");
-        document.getElementById("mobPanelLoadButton").classList.add("hidden");
-      }
+      
     }
+
   });
   return false;
 }

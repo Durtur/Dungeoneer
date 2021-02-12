@@ -1,5 +1,6 @@
 const dataAccess = require("./js/dataaccess");
-
+const remote = require('electron').remote;
+const dialog = require('electron').remote.dialog;
 function testRumours(){
     dataAccess.getGeneratorData(function (data) {
         var rumorArray=  generateRumors(data.rumors.length *2, data);
@@ -1106,8 +1107,9 @@ function deleteRandomTable() {
     dataAccess.getRandomTables(function (data) {
         var obj = data;
         data = obj.tables;
+        console.log(data);
         if (!data || data[tblName] == null) return;
-        var response = dialog.showMessageBox(
+        var response = dialog.showMessageBoxSync(
             remote.getCurrentWindow(),
             {
                 type: "question",
@@ -1116,8 +1118,10 @@ function deleteRandomTable() {
                 message: "Do you wish to delete table " + input.value + " ?"
             }
         );
+        console.log(response);
         if (response != 0)
             return;
+        console.log( data[tblName])
         delete data[tblName];
 
         obj.tables = data;
@@ -1662,6 +1666,7 @@ function generateShopDescription(shopType, shopWealth, inventorySize) {
         shopName = shopName.replace(/_wealthbound/g, pickOne(data.shops.names.wealthbound[shopWealth]));
         shopName = shopName.replace(/_name/g, ownerName + ending);
         shopName = shopName.replace(/_adjective/g, pickOne(data.shops.names.adjective));
+      
         shopName = shopName.replace(/_wares/g, pickOne(data.shops.names.wares[shopType]));
         shopName = shopName.replace(/_surname/g, ownerLastName + ending);
 
@@ -1669,7 +1674,7 @@ function generateShopDescription(shopType, shopWealth, inventorySize) {
         var descriptionBox = document.querySelector("#shop_description");
         var headerBox = document.querySelector("#shop_name");
         headerBox.classList.remove("hidden");
-
+        shopName = shopName.toProperCase();
 
         var description = "<strong>" + shopName + "</strong>" + pickOne([" is located", " is situated", " can be found", " is placed "]) + pickOne(locationSet) + ". ";
         description = description.replace(/_roominhouse/g, pickOne(data.roominhouse));

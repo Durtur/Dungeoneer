@@ -292,19 +292,6 @@ html {
   margin: auto;
 }
 
-#listFrame__spells>div>.chosen-container-multi>.chosen-choices {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-#listFrame__spells>div>.listSearch {
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 
 #addspells .container_for_checkbox {
   margin: auto;

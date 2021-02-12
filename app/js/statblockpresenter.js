@@ -30,8 +30,9 @@ var statblockPresenter = function () {
       editMode = true;
     else
       editMode = false;
-
+  
     monster = valueElement;
+    
     statblock = _statblock;
     console.log(statblock)
     while (statblock.firstChild)
@@ -405,6 +406,7 @@ var statblockPresenter = function () {
   }
 
   function populateRemainingStats() {
+    attributeNamesToIgnore.forEach(attr => delete values[attr]);
     var keys = Object.keys(values);
     var div = document.createElement("div");
 

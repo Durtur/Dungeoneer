@@ -74,6 +74,8 @@ var randomizer = function () {
                 loadEncounter(encounter);
                 encounterIsLoaded = true;
                 statblockPresenter.createStatblock(document.getElementById("statblock"), encounter, false);
+                document.getElementById("loaderButton").classList.remove("hidden");
+                document.getElementById("mobPanelLoadButton").classList.add("hidden");
                 if (document.getElementById("loaderButton")) document.getElementById("loaderButton").classList.remove("hidden");
                 document.getElementById("iframewrapper").style.display = "block";
                 showEntry({

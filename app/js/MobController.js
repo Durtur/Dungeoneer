@@ -27,9 +27,9 @@ class MobController {
         var row = $("#mobcontroller_row_template").clone().appendTo(this.parentElement);
         row = row[0]; //Regular dom
         row.classList.remove("hidden");
-      
+
         row.setAttribute("data-dnd_creature", JSON.stringify(cret));
-        row.setAttribute("data-dnd_monster_index", "M" +  this.count);
+        row.setAttribute("data-dnd_monster_index", "M" + this.count);
         row.querySelector(".name_field").value = cret.name;
         row.querySelector(".hp_field").value = parseInt(cret.hit_points) * this.DEFAULT_MOB_SIZE;
         row.querySelector(".ac_field").value = cret.armor_class;
@@ -166,7 +166,7 @@ class MobController {
         var oldCount = remainingCreatures + deadCreatures;
         if (isNaN(currentCount))
             return event.target.value = oldCount;
-  
+
         var hpField = row.querySelector(".hp_field");
         var creature = JSON.parse(row.getAttribute("data-dnd_creature"));
         var diff = currentCount - oldCount;
@@ -177,7 +177,7 @@ class MobController {
         row.querySelector(".mobcontroller_creatures_remaining").value = remainingCreatures;
         var index = row.getAttribute("data-dnd_monster_index");
         var recentlyDead = row.getAttribute("data-dead_buffer");
-        console.log("Mob size changed, dead " + recentlyDead  + " current count " + remainingCreatures)
+        console.log("Mob size changed, dead " + recentlyDead + " current count " + remainingCreatures)
         this.notifyMapToolMobChanged(index, recentlyDead, remainingCreatures);
         row.setAttribute("data-dead_buffer", "0");
         var pushEntry = this.loadedMobs.find(x => x.index == index);
@@ -223,9 +223,9 @@ class MobController {
 
             var aliveCount = parseInt(row.querySelector(".mobcontroller_creatures_remaining").value);
             var attackPercentage = parseInt(row.querySelector(".mobcontroller_percentage_attacking").value) / 100;
-            if(attackPercentage > 100)attackPercentage = 100;
+            if (attackPercentage > 100) attackPercentage = 100;
             var attackers = Math.floor(aliveCount * attackPercentage);
- 
+
             var dmgString = row.getElementsByClassName("damage_field")[0].innerHTML;
             var ac = parseInt(row.getElementsByClassName("code_ac")[0].value);
 
@@ -257,17 +257,19 @@ class MobController {
             var button = row.querySelector(".die_d20");
             button.classList.add("tooltipped");
 
-            var description;
+            var description, rollResultString;
             if (resultArray.length == 0) {
                 description = "No creatures remaining or creatures have no attacks";
             } else {
-                description = "Attack result: " + resultArray.reduce((a, b) => { return { damage: a.damage + b.damage } }).damage + " damage ("
-                    + resultArray.filter(x => x.hit == "crit").length + " crits, "
-                    + resultArray.filter(x => x.hit == "hit").length + " hits, "
-                    + resultArray.filter(x => x.hit == "miss").length + " misses)"
+                rollResultString = resultArray.reduce((a, b) => { return { damage: a.damage + b.damage } }).damage + " damage";
+            
             }
-
-            button.setAttribute("data-tooltip", description)
+            var tooltip = button.querySelector(".secondary_tooltip");
+            tooltip.querySelector(".roll_result_value").innerHTML = rollResultString || "";
+            tooltip.querySelector(".roll_result_crits").innerHTML = resultArray.filter(x => x.hit == "crit").length;
+            tooltip.querySelector(".roll_result_hits").innerHTML = resultArray.filter(x => x.hit == "hit").length;
+            tooltip.querySelector(".roll_result_misses").innerHTML = resultArray.filter(x => x.hit == "miss").length;
+     
 
 
 
@@ -288,7 +290,7 @@ class MobController {
         row.querySelector(".mobcontroller_creatures_dead").value = deadCount;
         row.querySelector(".mobcontroller_creatures_remaining").value = remainingCreatures;
         row.setAttribute("data-dead_buffer", deadCount - oldDeadCount);
-        this.mobSizeChanged({target:row.querySelector(".mobcontroller_count")});
+        this.mobSizeChanged({ target: row.querySelector(".mobcontroller_count") });
         row.setAttribute("data-dead_buffer", "0");
     }
     loadedMobRemoved() {
@@ -324,10 +326,10 @@ class MobController {
         this.notifyTimerMobChanged = window.setTimeout(
             function () {
                 let maptoolWindow = remote.getGlobal('maptoolWindow');
-      
+
                 if (!maptoolWindow)
                     return;
-                    console.log(controller.notifyMobBuffer)
+                console.log(controller.notifyMobBuffer)
                 maptoolWindow.webContents.send("notify-map-tool-mob-changed", JSON.stringify(controller.notifyMobBuffer));
                 controller.notifyMobBuffer.clear();
             }, 1000
@@ -372,10 +374,9 @@ class MobController {
 
     }
 
-    clear(){
+    clear() {
         var allRows = [... this.parentElement.getElementsByClassName("mobcontroller_row")];
-        while(allRows.length > 0)
-        {
+        while (allRows.length > 0) {
             var row = allRows.pop();
             this.notifyMapToolMobChanged(row.getAttribute("data-dnd_monster_index"), 0, 0);
             row.parentNode.removeChild(row);
