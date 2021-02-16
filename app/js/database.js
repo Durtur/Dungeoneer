@@ -17,13 +17,7 @@ var noUiSlider = require('nouislider');
 
 marked.setOptions({
   renderer: new marked.Renderer(),
-  gfm: true,
-  tables: true,
-  breaks: true,
-  pedantic: true,
-  sanitize: false,
-  smartLists: false,
-  smartypants: true
+ 
 });
 
 var tokenFilePath = dataAccess.tokenFilePath;
@@ -307,9 +301,9 @@ function createMonsterListFilterDropdown(list, elementId) {
   while (dropDown.firstChild) {
     dropDown.removeChild(dropDown.firstChild);
   }
-  var jqryElement = $("#"+elementId);
+  var jqryElement = $("#" + elementId);
   jqryElement.chosen("destroy");
-  if (!list ||list.length == 0) return;
+  if (!list || list.length == 0) return;
 
   list.forEach(tag => {
     createOption(tag, tag);
@@ -334,7 +328,7 @@ function filterListAndShow() {
   window.clearTimeout(filterDataListTimeout);
   filterDataListTimeout = window.setTimeout(function () {
     filterDataListExecute();
-  }, 500);
+  }, 300);
 }
 
 function filterDataListExecute() {
@@ -386,7 +380,29 @@ function filterDataListExecute() {
   }
   function filterMonsters() {
     searchstring = document.getElementById("monsters_list_search").value.toLowerCase();
+ 
+
     listedData = splitAndCheckAttributes(searchstring, ["name", "type", "challenge_rating", "hit_points"], loadedData);
+    filterTypes();
+    function filterTypes() {
+      var typesAndSubtypes = $("#monsters_list_type_select").val();
+      if (typesAndSubtypes.length <= 0) return;
+      var types = [];
+      typesAndSubtypes.forEach(typeAndSubType => {
+        
+        if (!typeAndSubType.includes("(") || !typeAndSubType.includes("(")) {
+          types.push({ type: typeAndSubType });
+          return;
+        }
+        var type = typeAndSubType.substring(0, typeAndSubType.indexOf("("))?.trim();
+        var subType = typeAndSubType.substring(typeAndSubType.indexOf("("), typeAndSubType.indexOf(")"));
+        subType = subType.replace("(", "").replace(")", "").trim();
+        types.push({ type: type, subtype: subType });
+      });
+      console.log(listedData.filter(x=> x.subtype && typeof(x.subtype) != "string"));
+      listedData = listedData.filter(x =>  types.find(y => x.type == y.type && (!y.subtype || ( x.subtype && y.subtype.toLowerCase() == x.subtype.toLowerCase()))));
+ 
+    }
   }
 
 }
@@ -906,10 +922,7 @@ function splitAndCheckAttributes(searchString, attributes, motherList) {
   if (tags.length > 0) {
     motherList = motherList.filter(x => x.tags && x.tags.find(y => tags.includes(y)));
   }
-  var types = $("#monsters_list_type_select").val();
-  if (types.length > 0) {
-    motherList = motherList.filter(x => types.includes(x.type));
-  }
+ 
   var filterTextSplt = searchString.split("&");
   return motherList.filter(
     entry => {
@@ -923,6 +936,7 @@ function splitAndCheckAttributes(searchString, attributes, motherList) {
       }).length == filterTextSplt.length;
     }
   )
+
 }
 function sortEncounterMasterList(event) {
 
@@ -959,7 +973,8 @@ function sortEncounterMasterList(event) {
   displayAddEncounterMonsterList();
 }
 function closeListFrame() {
-  $(".listRow").not(':nth-child(4)').remove();
+  var tabElementName = tab == "homebrew" ? "monsters" : tab;
+  $(`#listFrame__${tabElementName} .listRow`).remove();
   sortFunction = null;
   loadedData = null;
   $(".listWrap").addClass("hidden");
@@ -1223,12 +1238,8 @@ function loadAll() {
     listLength = loadedData.length;
     listedData = null;
     filterListAndShow();
-
-    $(".listRow:nth-child(4)>button").prop('title', '');
     addSorters();
     addLookupHandlers();
-    0
-    $(".listRow:nth-child(4)>button").off("click");
 
   });
 
@@ -1239,12 +1250,13 @@ function loadAll() {
 
 
 function listAll() {
-
+  console.log("List all")
   if (listedData == null) {
     listedData = loadedData;
   }
 
   var data = listedData;
+  
   var tabElementName = tab == "homebrew" ? "monsters" : tab;
   if (sortFunction != null) {
     data.sort(sortFunction);
@@ -1256,27 +1268,29 @@ function listAll() {
     $("#listFrame__" + tabElementName).removeClass("hidden");
   }
   var allRows = [...$("#listFrame__" + tabElementName + ">.listRow")];
-  if (data.length > allRows.length - 1) {
+  if (data.length > allRows.length) {
     for (var i = allRows.length; i < data.length + 1; i++) {
-      var newRow = $("#listFrame__" + tabElementName + ">.listRow:nth-child(4)").clone();
+   
+      var newRow = $(`#listFrame__${tabElementName}_template`).clone();
+    
+      newRow.removeClass("hidden");
       newRow.appendTo("#listFrame__" + tabElementName);
     }
   } else if (data.length < allRows.length) {
-    while (data.length < allRows.length - 1) {
+    while (data.length < allRows.length ) {
       var toRemove = allRows.pop()
       toRemove.parentNode.removeChild(toRemove)
     }
   }
   var allRows = $("#listFrame__" + tabElementName + ">.listRow");
-
   if (tabElementName == "monsters") {
     for (var i = 0; i < data.length; i++) {
       if (data[i].name == null) data[i].name = "None";
       if (data[i].challenge_rating == null) data[i].challenge_rating = 0;
       if (data[i].type == null) data[i].type = "None";
       if (data[i].hit_points == null) data[i].hit_points = 0;
-      var allInputs = allRows[i + 1].getElementsByTagName("input");
-      allRows[i + 1].setAttribute("data-entry_id", data[i].id);
+      var allInputs = allRows[i].getElementsByTagName("input");
+      allRows[i].setAttribute("data-entry_id", data[i].id);
       allInputs[0].value = (data[i].name);
       allInputs[1].value = (data[i].challenge_rating);
       allInputs[2].value = (data[i].type);
@@ -1288,14 +1302,20 @@ function listAll() {
       if (data[i].casting_time == "") data[i].casting_time = "None";
       if (data[i].school == "") data[i].school = "None";
       if (data[i].level == "") data[i].level = "0";
-      if (data[i].source == "official")
-        $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")").addClass("official_content_row");
-      allRows[i + 1].setAttribute("data-entry_id", data[i].id)
 
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(1)").val(data[i].name);
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(2)").val(data[i].casting_time);
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(3)").val(data[i].school);
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(4)").val(data[i].level);
+      var row = allRows[i];
+  
+      if (data[i].source == "official"){
+        row.classList.add("official_content_row");
+      }else{
+        row.classList.remove("official_content_row");
+      }
+     
+      row.setAttribute("data-entry_id", data[i].id)
+      row.querySelector("input:nth-child(1)").value = data[i].name;
+      row.querySelector("input:nth-child(2)").value = data[i].casting_time;
+      row.querySelector("input:nth-child(3)").value = data[i].school;
+      row.querySelector("input:nth-child(4)").value = data[i].level;
     }
 
   } else if (tabElementName == "items") {
@@ -1304,18 +1324,19 @@ function listAll() {
       if (data[i].name == "") data[i].name = "None";
       if (data[i].type == "") data[i].type = "None";
       if (data[i].rarity == "") data[i].rarity = "None";
-      allRows[i + 1].setAttribute("data-entry_id", data[i].id)
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(1)").val(data[i].name);
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(2)").val(data[i].type);
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(3)").val(data[i].rarity);
+      var row = allRows[i];
+      row.setAttribute("data-entry_id", data[i].id)
+      row.querySelector("input:nth-child(1)").value = data[i].name;
+      row.querySelector("input:nth-child(2)").value = data[i].type;
+      row.querySelector("input:nth-child(3)").value = data[i].rarity;
 
     }
 
   } else if (tabElementName == "conditions" || tabElementName == "encounters" || tabElementName == "tables") {
     for (var i = 0; i < data.length; i++) {
       if (data[i].name == "") data[i].name = "None";
-      allRows[i + 1].setAttribute("data-entry_id", data[i].id);
-      $("#listFrame__" + tabElementName + ">.listRow:nth-child(" + (i + 5) + ")>.listRow__inner>input:nth-child(1)").val(data[i].name);
+      allRows[i].setAttribute("data-entry_id", data[i].id);
+      allRows[i].querySelector("input:nth-child(1)").value = data[i].name;
     }
   }
 
@@ -1824,8 +1845,8 @@ function removeParentHandler(button) {
 
 
 function addLookupHandlers() {
-  $(".listRow:not(:nth-child(4))").children(".listRow__inner").off("click");
-  $(".listRow:not(:nth-child(4))").children(".listRow__inner").on("click", function (e) {
+  $(".listRow").children(".listRow__inner").off("click");
+  $(".listRow").children(".listRow__inner").on("click", function (e) {
     if ($(this).parent().hasClass("selected_row")) {
       hideStatblock();
       document.querySelectorAll(".selected_row").forEach(e => e.classList.remove("selected_row"));
@@ -1843,8 +1864,8 @@ function addLookupHandlers() {
 }
 
 function addSorters() {
-  $("#listFrame__" + tabElementNameSuffix + ">.listRow:nth-child(4)>.listRow__inner>input").off("click");
-  $("#listFrame__" + tabElementNameSuffix + ">.listRow:nth-child(4)>.listRow__inner>input").on("click", function () {
+  $("#listFrame__" + tabElementNameSuffix + ">.listRow_header>.listRow__inner>input").off("click");
+  $("#listFrame__" + tabElementNameSuffix + ">.listRow_header>.listRow__inner>input").on("click", function () {
     sortBy(this.value);
     listAll();
     hide("statblock");
@@ -2262,13 +2283,13 @@ function saveHomebrew() {
       valueBoxes = document.querySelectorAll(".addRow_special_abilities .specialjsonValue");
       attributeBoxes = document.querySelectorAll(".addRow_special_abilities .specialjsonAttribute");
       var attribute = "special_abilities";
-      
+
       //populate actions
       AddActionArray("actions", ".action_row", thingyToSave);
       //populate legendary actions
       AddActionArray("legendary_actions", ".legendary_action_row", thingyToSave);
       //Populate special abilities
-      
+
 
       AddReactions(thingyToSave);
     } else if (tab == "encounters") {

@@ -215,7 +215,7 @@ html {
   display: flex;
 }
 
-.listRow {
+.listRow, .listRow_header {
   display: flex;
   position: relative;
 }
@@ -230,7 +230,7 @@ html {
   width: 250px;
 }
 
-.listRow:not(:nth-child(4))>.listRow__inner:hover {
+.listRow>.listRow__inner:hover {
   background-color: rgba(0, 0, 0, 0.3)
 }
 
@@ -261,7 +261,7 @@ html {
   z-index: 1;
 }
 
-.listRow:nth-child(4)>.listRow__inner>input:hover {
+.listRow_header>.listRow__inner>input:hover {
   background-image: url("img/arrow.png");
   opacity: 0.7;
   font-weight: bold;
@@ -271,9 +271,6 @@ html {
   margin-top: 30px;
 }
 
-.listRow:nth-child(4)>button {
-  opacity: 0;
-}
 
 #monsters_list_tag_select {
   margin-left: 1em;

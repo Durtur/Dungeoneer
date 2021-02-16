@@ -74,7 +74,21 @@
                     Save failed
                 </div>
             </section>
+            <div class="listRow hidden" id="listFrame__monsters_template">
+                <div class="listRow__inner">
+                    <input type="text" value="Name" readonly tabindex="-1">
+                    <input type="text" value="CR" readonly tabindex="-1">
+                    <input type="text" value="Type" readonly tabindex="-1">
+                    <input type="text" value="HP" readonly tabindex="-1">
+                </div>
+                <div class=" button_row">
+                    <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                    <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                    <button class="remove_button" onclick="removeParentHandler(this)"
+                        title="Delete from database"></button>
 
+                </div>
+            </div>
             <section id="listFrame__monsters" class="listWrap hidden marginTop center_items">
                 <button id="add_entry_button" class="button button_style traybutton" title="Add monsters"
                     onclick="newItem('tab')">+</button>
@@ -83,12 +97,13 @@
                     <div style="margin-left:1em;">
                         <select id="monsters_list_type_select" data-placeholder="Filter type" multiple></select>
                     </div>
-                    <input type="text" class="listSearch " style="height: 25px; margin-left: 1em;" id="monsters_list_search">
+                    <input type="text" class="listSearch " style="height: 25px; margin-left: 1em;"
+                        id="monsters_list_search">
                     <div style="margin-left:1em;">
                         <select id="monsters_list_tag_select" data-placeholder="Filter tags" multiple></select>
                     </div>
                 </div>
-                <div class="listRow">
+                <div class="listRow_header">
                     <div class="listRow__inner">
                         <input type="text" value="Name" readonly tabindex="-1">
                         <input type="text" value="CR" readonly tabindex="-1">
@@ -106,16 +121,30 @@
 
 
             </section>
+            <div class="listRow hidden" id="listFrame__spells_template">
+                <div class="listRow__inner">
+                    <input type="text" value="Name" readonly tabindex="-1">
+                    <input type="text" value="Cast time" readonly tabindex="-1">
+                    <input type="text" value="School" readonly tabindex="-1">
+                    <input type="text" value="Level" readonly tabindex="-1">
+                </div>
+                <div class=" button_row">
+                    <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                    <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                    <button class="remove_button" onclick="removeParentHandler(this)"
+                        title="Delete from database"></button>
 
+                </div>
+            </div>
             <section id="listFrame__spells" class="listWrap hidden marginTop center_items section__show">
                 <button class="button button_style traybutton" title="Add homebrew spell"
                     onclick="newItem('tab')">+</button>
                 <div></div>
                 <div class="row center" style="justify-content: center;">
-                    <input type="text" class="listSearch center" style = "margin-right:1em;" id="spell_list_search">
-                    <select id="spell_class_dropdown" class="spell_dropdown" style = "margin-left:1em;" multiple></select>
+                    <input type="text" class="listSearch center" style="margin-right:1em;" id="spell_list_search">
+                    <select id="spell_class_dropdown" class="spell_dropdown" style="margin-left:1em;" multiple></select>
                 </div>
-                <div class="listRow">
+                <div class="listRow_header">
                     <div class="listRow__inner">
                         <input type="text" value="Name" readonly tabindex="-1">
                         <input type="text" value="Cast time" readonly tabindex="-1">
@@ -123,16 +152,29 @@
                         <input type="text" value="Level" readonly tabindex="-1">
                     </div>
                     <div class=" button_row">
-                        <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
-                        <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
-                        <button class="remove_button" onclick="removeParentHandler(this)"
+                        <button class="copy_button hidden" onclick="copyParentHandler(this)" title="Copy"></button>
+                        <button class="edit_button hidden" onclick="editParentHandler(this)" title="Edit"></button>
+                        <button class="remove_button hidden" onclick="removeParentHandler(this)"
                             title="Delete from database"></button>
 
                     </div>
                 </div>
 
             </section>
+            <div class="listRow hidden" id="listFrame__items_template">
+                <div class="listRow__inner">
+                    <input type="text" value="Name" readonly tabindex="-1">
+                    <input type="text" value="Type" readonly tabindex="-1">
+                    <input type="text" value="Rarity" readonly tabindex="-1">
+                </div>
+                <div class=" button_row">
+                    <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                    <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                    <button class="remove_button" onclick="removeParentHandler(this)"
+                        title="Delete from database"></button>
 
+                </div>
+            </div>
             <section id="listFrame__items" class="listWrap hidden marginTop center_items">
                 <button class="button button_style traybutton" title="Add homebrew items"
                     onclick="newItem('tab')">+</button>
@@ -140,7 +182,7 @@
                 <div class="row">
                     <input type="text" class="listSearch center" id="items_list_search">
                 </div>
-                <div class="listRow">
+                <div class="listRow_header">
                     <div class="listRow__inner">
                         <input type="text" value="Name" readonly tabindex="-1">
                         <input type="text" value="Type" readonly tabindex="-1">
@@ -156,7 +198,18 @@
                 </div>
 
             </section>
+            <div class="listRow hidden" id="listFrame__conditions_template">
+                <div class="listRow__inner">
+                    <input type="text" value="Name" readonly tabindex="-1">
+                </div>
+                <div class=" button_row">
+                    <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                    <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                    <button class="remove_button" onclick="removeParentHandler(this)"
+                        title="Delete from database"></button>
 
+                </div>
+            </div>
             <section id="listFrame__conditions" class="listWrap hidden marginTop center_items">
                 <button class="button button_style traybutton" title="Add homebrew conditions"
                     onclick="newItem('tab')">+</button>
@@ -164,7 +217,7 @@
                 <div class="row">
                     <input type="text" class="listSearch center" id="conditions_list_search">
                 </div>
-                <div class="listRow">
+                <div class="listRow_header">
                     <div class="listRow__inner">
                         <input type="text" value="Name" readonly tabindex="-1">
                     </div>
@@ -178,7 +231,18 @@
                 </div>
 
             </section>
+            <div class="listRow hidden" id="listFrame__encounters_template">
+                <div class="listRow__inner listRow_inner_encounters">
+                    <input type="text" value="Name" readonly tabindex="-1" class="wider">
+                </div>
+                <div class=" button_row">
+                    <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                    <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                    <button class="remove_button" onclick="removeParentHandler(this)"
+                        title="Delete from database"></button>
 
+                </div>
+            </div>
             <section id="listFrame__encounters" class="listWrap hidden marginTop center_items">
                 <button class="button button_style traybutton" title="Add encounters"
                     onclick="newItem('tab')">+</button>
@@ -186,7 +250,7 @@
                 <div class="row">
                     <input type="text" class="listSearch center" id="encounters_list_search">
                 </div>
-                <div class="listRow">
+                <div class="listRow_header">
                     <div class="listRow__inner listRow_inner_encounters">
                         <input type="text" value="Name" readonly tabindex="-1" class="wider">
                     </div>
@@ -199,14 +263,25 @@
                     </div>
                 </div>
             </section>
+            <div class="listRow hidden" id="listFrame__tables_template">
+                <div class="listRow__inner listRow_inner_encounters">
+                    <input type="text" value="Name" readonly tabindex="-1" class="wider">
+                </div>
+                <div class=" button_row">
+                    <button class="copy_button" onclick="copyParentHandler(this)" title="Copy"></button>
+                    <button class="edit_button" onclick="editParentHandler(this)" title="Edit"></button>
+                    <button class="remove_button" onclick="removeParentHandler(this)"
+                        title="Delete from database"></button>
 
+                </div>
+            </div>
             <section id="listFrame__tables" class="listWrap hidden marginTop center_items">
                 <button class="button button_style traybutton" title="Add table" onclick="newItem('tab')">+</button>
                 <div></div>
                 <div class="row">
                     <input type="text" class="listSearch center" id="tables_list_search">
                 </div>
-                <div class="listRow">
+                <div class="listRow_header">
                     <div class="listRow__inner listRow_inner_encounters">
                         <input type="text" value="Name" readonly tabindex="-1" class="wider">
                     </div>
@@ -1135,15 +1210,15 @@
 
                             <section class="cr_calculator_wrap cr_calculator_lookup column" style="margin-bottom:1em">
                                 <h2 style="color:black">Challenge rating lookup</h2>
-                                <div class="cr_result_row" >
+                                <div class="cr_result_row">
 
                                     <div class="row" style="margin-bottom: 1em;">
-                                        <div class=" black monster_attribute_chapter_label"  >Challenge rating</div>
+                                        <div class=" black monster_attribute_chapter_label">Challenge rating</div>
                                         <input id="cr_lookup_cr" placeholder="0" class="cr_calculator_result_value">
                                     </div>
                                 </div>
                                 <div class="cr_lookup_results hidden">
-                                    <div class=" challenge_rating_values " >
+                                    <div class=" challenge_rating_values ">
                                         <div class="row">
                                             <label>Proficiency bonus: </label>
                                             <p class="proficiency_bonus_cr_lookup"></p>
@@ -1160,10 +1235,10 @@
                                             <label>Damage per round: </label>
                                             <p class="average_damage_cr_lookup"></p>
                                         </div>
-                       
+
                                     </div>
-                                    <div class=" challenge_rating_values " >
-                                        
+                                    <div class=" challenge_rating_values ">
+
                                         <div class="row">
                                             <label>AC: </label>
                                             <p class="armor_class_cr_lookup"></p>

@@ -111,8 +111,12 @@ module.exports = function () {
         data.forEach(npc => {
             if (npc.tags)
                 npc.tags.forEach(tag => tagSet.add(tag));
-            if (npc.type)
-                typeSet.add(npc.type.toLowerCase())
+            if (npc.type){
+                typeSet.add(npc.type.toLowerCase());
+                if(npc.subtype)
+                    typeSet.add(npc.type.toLowerCase() + ` (${npc.subtype.toProperCase()})`);
+            }
+                
         });
         console.log("setting metadata");
         return baseSet("monster_metadata.json", { tags: [...tagSet], types: [...typeSet].map(x => x.toProperCase()) }, callback);
@@ -138,7 +142,7 @@ module.exports = function () {
         return baseSet("monsters.json", data, callback);
     }
     function getTables(callback) {
-        return baseGetPredefined("tables.json", callback);
+        return baseGet("tables.json", callback);
     }
     function setTables(data, callback) {
         return baseSet("tables.json", data, callback);
@@ -154,7 +158,7 @@ module.exports = function () {
     }
 
     function getConditions(callback) {
-        return baseGetPredefined("conditions.json", callback);
+        return baseGet("conditions.json", callback);
     }
 
     function setConditions(data, callback) {
@@ -172,7 +176,7 @@ module.exports = function () {
     }
 
     function getRandomTables(callback) {
-        return baseGetPredefined("randomTables.json", callback, { encounter_sets: {}, tables: {} });
+        return baseGet("randomTables.json", callback, { encounter_sets: {}, tables: {} });
     }
 
     function setRandomTables(data, callback) {
@@ -180,7 +184,7 @@ module.exports = function () {
     }
 
     function getItems(callback) {
-        return baseGetPredefined("items.json", callback);
+        return baseGet("items.json", callback);
     }
 
     function setItems(data, callback) {
@@ -192,7 +196,7 @@ module.exports = function () {
     }
 
     function getSpells(callback) {
-        return baseGetPredefined("spells.json", callback);
+        return baseGet("spells.json", callback);
     }
 
     function setSpells(data, callback) {
@@ -371,7 +375,7 @@ module.exports = function () {
     }
 
     function baseGetPredefined(path, callback, fallbackValue) {
-        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue);
+        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue, pathModule.join(defaultResourcePath, path));
     }
 
     function baseGet(path, callback, fallbackValue) {
@@ -380,23 +384,22 @@ module.exports = function () {
 
     function baseGetWithFullPath(path, callback, fallbackValue) {
 
-        fs.readFile(path, function (err, data) {
+        fs.readFile(path, function (err, data, fallbackPath) {
 
             if (err) {
                 console.log("Error getting file", err, fallbackValue)
-                initializeData();
-                throw err;
-                // if (fallbackPath != null) {
-                //     console.log("Falling back on ", fallbackPath)
-                //     fs.readFile(fallbackPath, function (err, fallbackData) {
-                //        if(err)throw err;
-                //         baseSetWithFullPath(path, JSON.parse(fallbackData), (err) => { })
-                //         callback(JSON.parse(fallbackData));
-                //     });
-                // } else {
-                //     initializeData();
-                //     throw err;
-                // }
+     
+                if (fallbackPath) {
+                    console.log("Falling back on ", fallbackPath)
+                    fs.readFile(fallbackPath, function (err, fallbackData) {
+                       if(err)throw err;
+                        baseSetWithFullPath(path, JSON.parse(fallbackData), (err) => { })
+                        callback(JSON.parse(fallbackData));
+                    });
+                } else {
+                    initializeData();
+                    throw err;
+                }
 
 
             } else {
@@ -421,6 +424,23 @@ module.exports = function () {
     function checkIfFirstTimeLoadComplete() {
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
         if (!fs.existsSync(baseFolder)) initializeData();
+    }
+
+    function checkFile(){
+        getSpells(function(spells){
+            fs.readFile(pathModule.join(defaultResourcePath, "allSpellsIncludingOfficial.json"), function(err, data){
+                data = JSON.parse(data);
+                spells.forEach(spell => {
+                    if(spell.description.includes("This spell is not available in the DND5e SRD")){
+                        var foundSpell = data.find(x=> x.name.toLowerCase() == spell.name.toLowerCase());
+                        if(!foundSpell)console.log(spell.name);
+                       spell.description = foundSpell.description;
+                    }
+                });
+                setSpells(spells,()=>{})
+
+            });
+        })
     }
 
     return {
@@ -466,6 +486,7 @@ module.exports = function () {
         checkIfFirstTimeLoadComplete: checkIfFirstTimeLoadComplete,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize,
+        checkFile:checkFile
     }
 }();
 

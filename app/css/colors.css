@@ -433,6 +433,7 @@ hr {
   line-height: 1.5;
   column-count: 2;
   column-gap: 20px;
+  
 }
 
 .single_column {
@@ -710,12 +711,13 @@ input, textarea, .cell_row {
   background-color: rgba(194, 140, 29, 0.4);
 }
 
-.listRow:nth-child(4)>.listRow__inner>input {
+.listRow_header>.listRow__inner>input {
   background-position: right;
   background-size: 10px;
   background-repeat: no-repeat;
   background-color: transparent;
   font-family: "mrEaves";
+    cursor:pointer;
   font-size: 1.5em;
   border: none;
 }
