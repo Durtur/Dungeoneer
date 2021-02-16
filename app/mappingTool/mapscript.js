@@ -2477,14 +2477,14 @@ function enlargeReducePawn(direction) {
         var sizeIndex = creaturePossibleSizes.sizes.indexOf(element.dnd_size);
         var currentSize = creaturePossibleSizes.sizes[sizeIndex];
         if (direction > 0) {
-            if (sizeIndex >= creaturePossibleSizes.hexes.length) return;
+            if (sizeIndex >= creaturePossibleSizes.hexes.length -1) return;
             sizeIndex++;
         } else {
             if (sizeIndex <= 0) return;
             sizeIndex--;
         }
         var newSize = creaturePossibleSizes.sizes[sizeIndex];
-
+        console.log(newSize);
         element.classList.remove("pawn_" + currentSize);
         element.classList.add("pawn_" + newSize);
         element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];

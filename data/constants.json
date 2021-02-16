@@ -114,22 +114,21 @@
         {
             "type": "shield",
             "mod": 2,
-            "is_shield":true
+            "is_shield": true
         },
         {
             "type": "leather armor",
             "mod": 1
-          
         },
         {
             "type": "hide armor",
             "mod": 2,
-            "maxDex":2
+            "maxDex": 2
         },
         {
             "type": "chain shirt",
             "mod": 3,
-            "maxDex":2
+            "maxDex": 2
         },
         {
             "type": "barkskin",
@@ -138,12 +137,12 @@
         {
             "type": "scale mail",
             "mod": 4,
-            "maxDex":2
+            "maxDex": 2
         },
         {
             "type": "plate armor",
             "mod": 8,
-            "maxDex":0
+            "maxDex": 0
         },
         {
             "type": "patchwork armor",
@@ -152,12 +151,12 @@
         {
             "type": "chain mail",
             "mod": 6,
-            "maxDex":0
+            "maxDex": 0
         },
         {
             "type": "breastplate",
             "mod": 4,
-            "maxDex":2
+            "maxDex": 2
         },
         {
             "type": "armor scraps",
@@ -166,17 +165,17 @@
         {
             "type": "splint armor",
             "mod": 7,
-            "maxDex":0
+            "maxDex": 0
         },
         {
             "type": "ring mail",
             "mod": 4,
-            "maxDex":0
+            "maxDex": 0
         },
         {
             "type": "half plate armor",
             "mod": 5,
-            "maxDex":2
+            "maxDex": 2
         },
         {
             "type": "padded armor",
@@ -213,6 +212,98 @@
         "Monstrosity",
         "Ooze"
     ],
+    "defaultCreatureAlignments": [
+        "Lawful evil",
+        "Any alignment",
+        "Chaotic evil",
+        "Chaotic good",
+        "Lawful good",
+        "Neutral",
+        "Lawful neutral",
+        "Unaligned",
+        "Any non-good alignment",
+        "Any non-lawful alignment",
+        "Neutral evil",
+        "Any chaotic alignment",
+        "Neutral good",
+        "Chaotic neutral",
+        "Neutral evil",
+        "Any evil alignment"
+    ],
+    "defaultCreatureSubTypes": {
+        "aberration": [
+            "Shapechanger"
+        ],
+        "celestial": [
+            "Angel",
+            "Titan"
+        ],
+        "fey": [
+            "Elf",
+            "Eladrin"
+        ],
+        "fiend": [
+            "Demon",
+            "Devil",
+            "Yugoloth",
+            "Shapechanger"
+        ],
+        "giant": [
+            "Cloud Giant",
+            "Fire Giant",
+            "Frost Giant",
+            "Stone Giant",
+            "Hill Giant",
+            "Storm Giant"
+        ],
+        "humanoid": [
+            "Aarakocra",
+            "Any race",
+            "Bullywug",
+            "Derro",
+            "Dragonborn",
+            "Dusk Elf",
+            "Dwarf",
+            "Elf",
+            "Firenewt",
+            "Gith",
+            "Gnoll",
+            "Gnome",
+            "Goblin",
+            "Goblinoid",
+            "Goliath",
+            "Grimlock",
+            "Grung",
+            "Half-orc",
+            "Halfling",
+            "Hobgoblin",
+            "Human",
+            "Kenku",
+            "Kobold",
+            "Lizardfolk",
+            "Merfolk",
+            "Orc",
+            "Quaggoth",
+            "Sahuagin",
+            "Shapechanger",
+            "Tabaxi",
+            "Tiefling",
+            "Tortle",
+            "Triton",
+            "Troglodyte",
+            "Undead",
+            "Xvart",
+            "Yuan-ti"
+        ],
+        "monstrosity": [
+            "Shapechanger",
+            "Titan"
+        ],
+        "undead": [
+            "Shapechanger",
+            "Titan"
+        ]
+    },
     "spellSchools": [
         "Abjuration",
         "Conjuration",

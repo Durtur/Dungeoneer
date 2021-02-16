@@ -179,10 +179,19 @@ $(document).ready(function () {
       });
   }
 });
+var monster_subtype_awesomplete;
 function populateDropdowns() {
   new Awesomplete(document.getElementById("item_rarity_input"), { list: itemRarityValues, autoFirst: true, minChars: 0, sort: false });
   new Awesomplete(document.getElementById("item_type_input"), { list: itemTypeValues, autoFirst: true, minChars: 0, sort: false });
+  new Awesomplete(document.getElementById("addmonster_alignment"), { list: constants.defaultCreatureAlignments, autoFirst: true, minChars: 0, sort: false });
   new Awesomplete(document.getElementById("addmonster_type"), { list: constants.defaultCreatureTypes, autoFirst: true, minChars: 0, sort: false });
+  document.getElementById("addmonster_type").addEventListener("awesomplete-selectcomplete", function(e){
+    if(monster_subtype_awesomplete != null)monster_subtype_awesomplete.destroy();
+    var type = document.getElementById("addmonster_type").value?.toLowerCase();
+    if(!type || !constants.defaultCreatureSubTypes[type])return;
+  
+    monster_subtype_awesomplete = new Awesomplete(document.getElementById("addmonster_subtype"), { list: constants.defaultCreatureSubTypes[type], autoFirst: true, minChars: 0, sort: false });
+  });
   new Awesomplete(document.getElementById("addmonster_ac_source"), { list: getArmorTypes(), autoFirst: true, minChars: 0, sort: false });
   document.getElementById("addmonster_ac_source").addEventListener("awesomplete-selectcomplete", armorSelected)
   new Awesomplete(document.getElementById("spell_school_input"), { list: constants.spellSchools, autoFirst: true, minChars: 0, sort: false });
