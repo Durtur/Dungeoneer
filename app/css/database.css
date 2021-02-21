@@ -779,6 +779,16 @@ html {
   display: flex;
 }
 
+
+.jsonTableControl_up {
+  border-top-left-radius: var(--rounded-corners);
+  border-bottom-left-radius: var(--rounded-corners);
+}
+
+.jsonTableControl_right {
+  border-top-right-radius: var(--rounded-corners);
+  border-bottom-right-radius: var(--rounded-corners);
+}
 .jsonTableControl:first {
   margin-left: 100px;
 }

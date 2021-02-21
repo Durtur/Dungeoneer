@@ -196,6 +196,14 @@ function populateDropdowns() {
   document.getElementById("addmonster_ac_source").addEventListener("awesomplete-selectcomplete", armorSelected)
   new Awesomplete(document.getElementById("spell_school_input"), { list: constants.spellSchools, autoFirst: true, minChars: 0, sort: false });
 
+//Items
+  var classList = new Set();
+  constants.classes.forEach(classStr => {
+    var prefix = Util.IsVowel(classStr.substring(0, 1)) ? "an" : "a";
+    classList.add(`by ${prefix} ${classStr}`);
+  });
+  new Awesomplete(document.getElementById("additem_requires_attunement_by"), { list: [...classList], autoFirst: true, minChars: 0, sort: false });
+
   populateAddableFieldDropdowns();
   var sizeList = [];
   creaturePossibleSizes.sizes.forEach(function (size) {

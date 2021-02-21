@@ -1,7 +1,7 @@
 :root {
-  --main-color: #58180D;
+  --main-color:#500c00;
   --alt-main-color: #451A17;
-  --main-emphasis-color: #DE3C2B;
+  --main-emphasis-color: #a12d20;
   --alt-emphasis-color: rgba(194, 140, 29, 0.4);
   --main-underline-color: rgb(61, 17, 9);
   --main-success-color: rgb(4, 64, 4);
@@ -33,7 +33,7 @@ body {
   animation: fadein 0.5s;
 }
 
-main, body {
+body {
   background-image: url("./img/phbbgbig.png");
   background-size: cover;
   background-repeat: repeat;
@@ -423,8 +423,8 @@ hr {
 
 .iframewrap {
   background-image: url("./img/phbbg.png");
-  background-size: cover;
-  -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
+  background-size: contain;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
   border-bottom: 3px solid rgb(108, 67, 45);
 }
 
@@ -708,7 +708,7 @@ input, textarea, .cell_row {
 }
 
 .listRow:nth-child(2n+5) {
-  background-color: rgba(194, 140, 29, 0.4);
+  background-color: rgb(189 151 74 / 40%);
 }
 
 .listRow_header>.listRow__inner>input {

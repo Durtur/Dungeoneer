@@ -20,7 +20,7 @@ var statblockPresenter = function () {
   var statblock;
   var abilityScores = {};
   var editMode = false;
-  const attributeNamesToIgnore = ["condition_color_value", "data_extra_attributes","condition_background_location", "id", "original_name"];
+  const attributeNamesToIgnore = ["condition_color_value", "data_extra_attributes", "condition_background_location", "id", "original_name"];
   const attributeNamesToHeader = ["name"]
   const attributesWithoutNames = [" ", "description"];
   var spellCastingRootNodes = [];
@@ -30,9 +30,9 @@ var statblockPresenter = function () {
       editMode = true;
     else
       editMode = false;
-  
+
     monster = valueElement;
-    
+
     statblock = _statblock;
     console.log(statblock)
     while (statblock.firstChild)
@@ -398,8 +398,8 @@ var statblockPresenter = function () {
     }
   }
 
-  function addSkills(){
-    if(values.skills){
+  function addSkills() {
+    if (values.skills) {
       statblock.appendChild(createParaAndBold("Skills", values.skills));
       delete values.skills;
     }
@@ -472,8 +472,8 @@ var statblockPresenter = function () {
   }
 
   function createHeaderSmaller(text) {
-    var createEditButton = editMode && monster.actions?.find(x=> x.name == text)
-    && constants.weapons.find(x=> x.name.toLowerCase() == text.toLowerCase());
+    var createEditButton = editMode && monster.actions?.find(x => x.name == text)
+      && constants.weapons.find(x => x.name.toLowerCase() == text.toLowerCase());
     return createHeaderHelper(text, "h3", createEditButton);
   }
 
@@ -481,16 +481,16 @@ var statblockPresenter = function () {
     text = text.replace(/_/g, " ");
     var h2 = document.createElement(size);
     h2.classList = "statblock_" + text;
-   // h2.setAttribute("data-statblock_type")
+    // h2.setAttribute("data-statblock_type")
     h2.innerHTML = text.toProperCase();
     h2.setAttribute("data-header_value", text)
-    if(createEditButton){
+    if (createEditButton) {
       h2.appendChild(createActionEditButton());
     }
     return h2;
   }
 
-  function createActionEditButton(){
+  function createActionEditButton() {
     var containerDiv = document.createElement("div");
     var button = document.createElement("button");
     containerDiv.appendChild(button);
@@ -500,17 +500,17 @@ var statblockPresenter = function () {
     var input = document.createElement("input");
     containerDiv.appendChild(input);
     input.classList = "hidden";
-    button.onclick = ()=>{
+    button.onclick = () => {
       button.classList.add("hidden");
       input.classList.remove("hidden");
       input.focus();
     }
-    input.addEventListener("focusout", ()=> {input.classList.add("hidden"); button.classList.remove("hidden");})
-    new Awesomplete(input, { list: constants.weapons.map(x=> x.name), autoFirst: true, minChars: 0 });
-    input.addEventListener("awesomplete-selectcomplete",(evt)=> {
-      var selectedWeapon = constants.weapons.find(x=> x.name.toLowerCase() == evt.target.value.toLowerCase());
-      var oldWeapon = constants.weapons.find(x=> x.name.toLowerCase() == evt.target.closest("h3").getAttribute("data-header_value").toLowerCase());
-   
+    input.addEventListener("focusout", () => { input.classList.add("hidden"); button.classList.remove("hidden"); })
+    new Awesomplete(input, { list: constants.weapons.map(x => x.name), autoFirst: true, minChars: 0 });
+    input.addEventListener("awesomplete-selectcomplete", (evt) => {
+      var selectedWeapon = constants.weapons.find(x => x.name.toLowerCase() == evt.target.value.toLowerCase());
+      var oldWeapon = constants.weapons.find(x => x.name.toLowerCase() == evt.target.closest("h3").getAttribute("data-header_value").toLowerCase());
+
       statblockEditor.relaceMonsterWeapon(monster, oldWeapon, selectedWeapon);
       createStatblock(statblock, monster, "monster", true);
 
@@ -549,7 +549,7 @@ var statblockPresenter = function () {
         populateStats(k, v[k], statblock);
       }
     } else {
-      if ((typeof k) == "string" && k.toLowerCase().indexOf("spellcast") >= 0 | (typeof v) == "string" && v.toLowerCase().indexOf("spell") >= 0)
+      if ((typeof k) == "string" && typeof(v) == "string" && (k.toLowerCase().indexOf("spellcast") >= 0 || v.toLowerCase().indexOf("spell") >= 0))
         spellCastingRootNodes.push(k);
 
       if (v != "" && attributeNamesToIgnore.indexOf(k) < 0) {
@@ -575,6 +575,8 @@ var statblockPresenter = function () {
         randBtn.classList.add("hidden");
       }
     }
+    if (statblockType == "spells")
+      spellCastingRootNodes.push("description");
     if (spellCastingRootNodes.length > 0)
       spellcastingLinkController.updateLinks(statblock);
     diceRollerLinkController.updateLinks(statblock);
@@ -650,7 +652,7 @@ var statblockPresenter = function () {
       spellCastingRootNodes.forEach(node => {
         var currAttribute = monster[node];
         spellcastingAttribute += " ";
-
+       
         if (!currAttribute) {
           if (monster.special_abilities)
             monster.special_abilities.forEach(function (ability) {
@@ -685,15 +687,15 @@ var statblockPresenter = function () {
           }
 
         });
-
+        console.log(knownSpells);
         [...paragraphs].forEach(function (paragraph) {
 
           if (paragraph.getAttribute("data-spell-links-updated") == "t") return;
-          var descriptions = paragraph.getElementsByTagName("strong");
-          if (descriptions.length > 0 && descriptions[0].innerHTML.toLowerCase().indexOf("spellcasting") >= 0) {
-            updateLinksForParagraph(paragraph);
-          }
-
+          // var descriptions = paragraph.getElementsByTagName("strong");
+          // if (descriptions.length > 0 && descriptions[0].innerHTML.toLowerCase().indexOf("spellcasting") >= 0) {
+          //   updateLinksForParagraph(paragraph);
+          // }
+          updateLinksForParagraph(paragraph);
         });
         createHandlersForSpellLinks();
 
@@ -825,11 +827,11 @@ var statblockPresenter = function () {
       });
       paragraph.setAttribute("data-spell-links-updated", "t")
       paragraph.innerHTML = innerText;
-      if (paragraph.nextElementSibling
-        && paragraph.nextElementSibling.getAttribute("data-spell-links-updated") != "t") {
+      // if (paragraph.nextElementSibling
+      //   && paragraph.nextElementSibling.getAttribute("data-spell-links-updated") != "t") {
 
-        updateLinksForParagraph(paragraph.nextElementSibling);
-      }
+      //   updateLinksForParagraph(paragraph.nextElementSibling);
+      // }
     }
     return {
       showSpellInPopup: showSpellInPopup,

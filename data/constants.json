@@ -196,6 +196,21 @@
         "Ammunition",
         "Tattoo"
     ],
+    "classes":[
+        "Artificer",
+        "Bard",
+        "Barbarian",
+        "Cleric",
+        "Druid",
+        "Fighter",
+        "Monk",
+        "Paladin",
+        "Ranger",
+        "Rogue",
+        "Sorcerer",
+        "Wizard",
+        "Warlock"
+    ],
     "defaultCreatureTypes": [
         "Plant",
         "Beast",

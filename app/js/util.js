@@ -1,4 +1,8 @@
 module.exports = function () {
+    function IsVowel(letter){
+        return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());
+    }
+
     function showBubblyText(text, point, smallfont) {
         var newEle = document.createElement("div");
 
@@ -152,7 +156,8 @@ module.exports = function () {
         balanceCheckBoxGroup: balanceCheckBoxGroup,
         makeUIElementDraggable: makeUIElementDraggable,
         hexToHSL: hexToHSL,
-        hexToRGBA:hexToRGBA
+        hexToRGBA:hexToRGBA,
+        IsVowel : IsVowel
     }
 }();
 

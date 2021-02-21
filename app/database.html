@@ -468,9 +468,21 @@
                         <div class="column">
                             <input type="text" class="jsonAttributeI brown monster_attribute_chapter_label"
                                 value="Description" readonly tabindex="-1">
-                            <textarea tabindex=1 class="jsonValueI">  </textarea>
+                            <textarea tabindex=1 class="jsonValueI" style="min-height: 140px;">  </textarea>
                         </div>
                     </div>
+                    <div class = "row">
+                        <div class="column" style="width: 40px;">
+                            <input type="text" class=" readonly_monster_attr" value="Attunement" readonly tabindex="-1">
+                            <label class="container_for_checkbox">
+                                <input type="checkbox" tabindex=1 class="center " id="additem_requires_attunement"
+                                    title="Item requires attunement">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <input type ="text" class = "" id ="additem_requires_attunement_by" placeholder="Anyone can attune">
+                    </div>
+                   
                     <div class="row addframe_table_controls">
                         <button class="button_style toggle_button" toggled="false" toggleGroup="2"
                             onclick="showTableElements()">Table</button>

@@ -145,7 +145,7 @@
           </div>
         </div>
 
-        <h2 class="frontpage_heading">Combat panel</h2>
+        <!-- <h2 class="frontpage_heading" style="width:10em">Combat panel</h2> -->
         <div class="column section__tool section__show">
           <section class="combatGUI" id="combatMain">
             <p class="no_data_text">Search for creatures to add them to this panel</p>
@@ -175,7 +175,7 @@
         <div class="assorted_tool_container">
 
           <div class="column">
-            <h2 class="frontpage_heading" id="diceRollerHeader">Dice roller</h2>
+            <h2 class="frontpage_heading" style="width:6em" id="diceRollerHeader">Dice roller</h2>
             <section class="diceRollerPanel__container section__show " id="diceRoller">
               <section class="diceRollerPanel">
                 <div class="diceRollerContainer">
@@ -200,7 +200,7 @@
           </div>
 
           <div class="column">
-            <h2 class="frontpage_heading" id="randomizerHeader">Randomizer</h2>
+            <h2 class="frontpage_heading" style="width:6em" id="randomizerHeader">Randomizer</h2>
             <section class="randomizerPanel__container section__show " id="randomizer">
               <div class="column">
                 <input id="randomizerInput" class="list_search_style">
@@ -211,11 +211,11 @@
                 <label id="randomizer_item_value"></label>
               </div>
               <div class="column">
-                <div class="randomizer_item_content" id="randomizer_item_content" contenteditable></div>
+                <div class="randomizer_item_content" id="randomizer_item_content" ></div>
               </div>
               <button class="button_style randomizerButton" onclick="randomizer.go()"
                 id="randomizerButton">Roll</button>
-              <button class="button_style hidden" onclick="randomizer.clear()"
+              <button class="button button_style hidden" onclick="randomizer.clear()"
                 id="randomizer_clear_button">Clear</button>
               <select class="hidden" id="randomizer_rarity_select">
                 <option selected value="any">Any</option>
@@ -244,7 +244,7 @@
 
 
           <div class="column">
-            <h2 id="saveRollerHeader" class="frontpage_heading">Save roller</h2>
+            <h2 id="saveRollerHeader" class="frontpage_heading" style="width:6em;">Save roller</h2>
             <div class="section__show semislim row saveRoller " id="saveRoller">
               <input class="saveRoller_input" id="saveRollsNo" type="number" min="0" title="Number of rolls"
                 placeholder="# of rolls">
@@ -282,7 +282,7 @@
           </div>
 
           <div class="column">
-            <h2 id="lootRollerHeader" class="frontpage_heading">Loot</h2>
+            <h2 id="lootRollerHeader" style="width:5em" class="frontpage_heading">Loot</h2>
             <section class="lootgenerator marginTop section__show searchMain slimmest" id="lootRoller">
               <input  placeholder="CR" id="lootcr" style="width:40%">
               <input type="text" id="lootValue" readonly style="width:60%; margin-left:1em;">
