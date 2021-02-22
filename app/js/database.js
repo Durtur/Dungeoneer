@@ -54,6 +54,16 @@ $(document).ready(function () {
   })
   populateSpellClassDropdown();
   populateDropdowns();
+  dataAccess.getSettings(function(settings){
+    document.querySelector("#trim_token_checkbox").checked = settings.token_trim_enabled || false;
+    
+  });
+  document.querySelector("#trim_token_checkbox").addEventListener("change", function(evt){
+    dataAccess.getSettings(function(settings){
+      settings.token_trim_enabled =  document.querySelector("#trim_token_checkbox").checked;
+      dataAccess.saveSettings(settings, ()=>{});
+    });
+  })
   $(".db_name_field").on("input", function (e) {
     var nothingPresent = e.target.value == "";
     var button = e.target.closest("section").querySelector(".save_button");
@@ -267,6 +277,7 @@ function populateDropdowns() {
 
 const specialAbilityAndActionAwesompletes = []
 function populateAddableFieldDropdowns() {
+
   var specialAbilityList = constants.specialAbilities.map(x => x.name);
   $(".special_ability_column .specialjsonAttribute").off("awesomplete-selectcomplete");
   [...document.querySelectorAll(".special_ability_column .specialjsonAttribute")].forEach(input => {
@@ -559,10 +570,10 @@ function setTab(x) {
   tabElementNameSuffix = tab == "homebrew" ? "monsters" : tab;
   var tabs = document.getElementsByClassName("tab");
   for (var i = 0; i < tabs.length; i++) {
-    tabs[i].style.backgroundColor = "#451A17";
+    tabs[i].classList.remove("toggle_button_toggled");
   }
   document.getElementById("statblock").classList.remove("single_column");
-  document.getElementById(x).style.backgroundColor = "#DE3C2B";
+  document.getElementById(x).classList.add("toggle_button_toggled");
   document.querySelector("#add_entry_button").classList.remove("hidden");
   switch (tab) {
     case "homebrew":
@@ -883,8 +894,9 @@ function displayAddEncounterMonsterList() {
     var string = $(this).find(':first-child').html();
 
     var foundMonster = monsterMasterList.filter(x => x.name == string)[0];
+    console.log(tab)
     statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, tab)
-    showAddForm("statblock");
+    document.getElementById("statblock").classList.remove("hidden");
     [...document.querySelectorAll(".selected_row")].forEach(e => e.classList.remove("selected_row"));
     $(this).addClass("selected_row");
 
@@ -1010,6 +1022,7 @@ function getRandomEncounter() {
     pickOne(["easy", "medium", "hard", "deadly", "2x deadly"]),
     pickOne(["solitary", "squad", "mob"]),
     allowedMonsters,
+    null,
     null,
     function (enc) {
 
@@ -2488,6 +2501,7 @@ function lookFor(id, data) {
     if (data[i].id == id) {
 
       foundMonster = data[i];
+      console.log(tab)
       statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, (tab == "monsters" || tab == "homebrew") ? "monsters" : tab)
       showAddForm("statblock");
       return true;

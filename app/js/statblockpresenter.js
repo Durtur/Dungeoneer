@@ -19,6 +19,8 @@ var statblockPresenter = function () {
   var values;
   var statblock;
   var abilityScores = {};
+
+  var statblockType;
   var editMode = false;
   const attributeNamesToIgnore = ["condition_color_value", "data_extra_attributes", "condition_background_location", "id", "original_name"];
   const attributeNamesToHeader = ["name"]
@@ -30,7 +32,7 @@ var statblockPresenter = function () {
       editMode = true;
     else
       editMode = false;
-
+    statblockType = statblockType;
     monster = valueElement;
 
     statblock = _statblock;
@@ -549,7 +551,7 @@ var statblockPresenter = function () {
         populateStats(k, v[k], statblock);
       }
     } else {
-      if ((typeof k) == "string" && typeof(v) == "string" && (k.toLowerCase().indexOf("spellcast") >= 0 || v.toLowerCase().indexOf("spell") >= 0))
+      if ((typeof k) == "string" && typeof (v) == "string" && (k.toLowerCase().indexOf("spellcast") >= 0 || v.toLowerCase().indexOf("spell") >= 0))
         spellCastingRootNodes.push(k);
 
       if (v != "" && attributeNamesToIgnore.indexOf(k) < 0) {
@@ -652,7 +654,7 @@ var statblockPresenter = function () {
       spellCastingRootNodes.forEach(node => {
         var currAttribute = monster[node];
         spellcastingAttribute += " ";
-       
+
         if (!currAttribute) {
           if (monster.special_abilities)
             monster.special_abilities.forEach(function (ability) {

@@ -24,7 +24,6 @@ const { ipcRenderer } = require('electron');
 
 var mobController;
 
-var statblockType; //Segir til um hvort verið sé að hlaða  monster. 
 var encounterIsLoaded;
 
 var partyArray, partyInformationList, partyInputAwesomeplete, conditionList;
@@ -1278,6 +1277,7 @@ var combatLoader = function () {
   }
   function clear() {
     $("#combatMain .combatRow").remove();
+    closeLog();
     lastIndex = 0;
     frameHistoryButtons.clearAll();
     initiative.clearLoadedMonsterInfo();
@@ -2177,17 +2177,5 @@ function observeArrayChanges(arr, raiseChanged) {
 }
 
 
-function advantageCheckboxChanged(e) {
 
-  var parentRow = e.target.closest(".checkbox_row");
-  var disadvCheckbox = parentRow.querySelector(".combat_loader_disadvantage");
-  if (disadvCheckbox.checked) disadvCheckbox.checked = !e.target.checked;
-}
-
-function disadvantageCheckboxChanged(e) {
-
-  var parentRow = e.target.closest(".checkbox_row");
-  var advCheckbox = parentRow.querySelector(".combat_loader_advantage")
-  if (advCheckbox.checked) advCheckbox.checked = false;
-}
 

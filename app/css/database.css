@@ -690,6 +690,10 @@ html {
   opacity: 0.7;
 }
 
+.listWrap .traybutton{
+  height: 3em;
+  width: 3em;
+}
 .add_table_header {
   box-sizing: border-box;
   font-size: 14px;

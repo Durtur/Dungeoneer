@@ -325,7 +325,7 @@ let loading;
 function createWindow() {
   // Create the browser window.
   loading = new BrowserWindow({
-    width: 150, height: 150, show: false, frame: false, transparent: true, icon: "./app/css/img/icon.png", webPreferences: {
+    width: 200, height: 200, show: false, frame: false, transparent: true, icon: "./app/css/img/icon.png", webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true
     }

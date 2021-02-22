@@ -1,22 +1,23 @@
 
 var diceRoller = function () {
+  function rollForRow(diceRollerRow){
+    inputString = diceRollerRow.getElementsByClassName("diceroller_die_no")[0].value;
+    if (inputString == "") {
+      var defaultDice = diceRollerRow.getElementsByClassName("diceroller_die_no")[0].getAttribute("data-default-die");
+      result = dice(parseInt(defaultDice), 1);
+    } else {
+      result = rollFromString(inputString);
 
+    }
+
+    diceRollerRow.getElementsByClassName("diceroller_result")[0].value = result;
+  }
   function roll() {
     var inputString;
     var result;
-
     var diceRollers = [...document.getElementsByClassName("diceRollerContainer")];
     diceRollers.forEach(function (diceRollerRow) {
-      inputString = diceRollerRow.getElementsByClassName("diceroller_die_no")[0].value;
-      if (inputString == "") {
-        var defaultDice = diceRollerRow.getElementsByClassName("diceroller_die_no")[0].getAttribute("data-default-die");
-        result = dice(parseInt(defaultDice), 1);
-      } else {
-        result = rollFromString(inputString);
-
-      }
-
-      diceRollerRow.getElementsByClassName("diceroller_result")[0].value = result;
+      rollForRow(diceRollerRow);
     });
 
   }
@@ -91,11 +92,7 @@ var diceRoller = function () {
     inputs[0].setAttribute("data-default-die", newDie);
     inputs[0].setAttribute("placeholder", "1d" + newDie)
 
-    inputs.on("keydown", function (event) {
-      if (event.keyCode == 13) {
-        return roll();
-      }
-    });
+
     inputs.on("input", diceRollerInputSanitizer);
   }
 
@@ -103,8 +100,11 @@ var diceRoller = function () {
     var inputs = [...document.getElementsByClassName("diceroller_input")];
     inputs.forEach(function (input) {
       input.addEventListener("keydown", function (event) {
-        if (event.keyCode == 13) {
-          return roll();
+
+        if (event.keyCode == 13 || event.key =="r") {
+          var ele = event.target.closest(".diceRollerContainer");
+     
+          return rollForRow(ele);
         }
       })
       input.addEventListener("input", diceRollerInputSanitizer);

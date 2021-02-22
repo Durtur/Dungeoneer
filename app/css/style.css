@@ -543,6 +543,8 @@ h1 {
   margin-top: 5px;
   margin-left: 5px;
   width: 40px;
+  text-align: center;
+  line-height: 2.5em;
   height: 35px;
   transition: color 5s ease-out;
 }
@@ -918,6 +920,10 @@ h1 {
   background-color: transparent !important;
   background-image: url(img/d20normal.png);
   background-size: contain;
+  transition:all var(--transition-delay);
+}
+.init_not_started:hover{
+  transform:rotate(30);
 }
 
 .init_not_started>p {
