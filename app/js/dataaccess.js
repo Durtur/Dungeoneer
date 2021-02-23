@@ -427,20 +427,30 @@ module.exports = function () {
     }
 
     function checkFile(){
-        getSpells(function(spells){
-            fs.readFile(pathModule.join(defaultResourcePath, "allSpellsIncludingOfficial.json"), function(err, data){
-                data = JSON.parse(data);
-                spells.forEach(spell => {
-                    if(spell.description.includes("This spell is not available in the DND5e SRD")){
-                        var foundSpell = data.find(x=> x.name.toLowerCase() == spell.name.toLowerCase());
-                        if(!foundSpell)console.log(spell.name);
-                       spell.description = foundSpell.description;
-                    }
-                });
-                setSpells(spells,()=>{})
-
-            });
+       
+        getMonsters(data=>{
+            processThings(data);
+            setMonsters(data, ()=>{});
         })
+        getHomebrewMonsters(data => {
+            processThings(data)
+            setHomebrewMonsters(data, ()=>{});
+        })
+        function processThings(data){
+            data.forEach(monster=>{
+                if(!monster.tags) monster.tags = [];
+                var mName = monster.name.trim().toLowerCase();
+                var matchTags = new Set();
+                constants.creature_habitats.forEach(habitat=>{
+                    if(habitat.creatures.includes(mName))
+                    matchTags.add(habitat.name);
+                });
+                matchTags = [... matchTags].filter(x=> !monster.tags.includes(x));
+                console.log(matchTags);
+                matchTags.forEach(tag=> monster.tags.push(tag));
+            })
+         
+        }
     }
 
     return {

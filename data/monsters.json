@@ -76,7 +76,9 @@
 		"ac_source": [
 			"natural armor"
 		],
-		"tags": []
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Acolyte",
@@ -112,7 +114,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4j",
-		"skills": "Religion +2, Medicine +4"
+		"skills": "Religion +2, Medicine +4",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Adult Black Dragon",
@@ -201,7 +206,8 @@
 		"skills": "Stealth +7, Perception +11",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Adult Blue Dracolich",
@@ -288,6 +294,9 @@
 		"skills": "Perception +12",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -371,7 +380,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m4m",
-		"skills": "Stealth +5, Perception +12"
+		"skills": "Stealth +5, Perception +12",
+		"tags": [
+			"Coastal",
+			"Desert"
+		]
 	},
 	{
 		"name": "Adult Brass Dragon",
@@ -443,6 +456,9 @@
 		"skills": "Stealth +5, History +7, Perception +11, Persuasion +8",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -532,6 +548,9 @@
 		"skills": "Stealth +5, Insight +7, Perception +12",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal"
 		]
 	},
 	{
@@ -618,7 +637,8 @@
 		"skills": "Stealth +6, Perception +12, Deception +8",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Adult Gold Dragon",
@@ -707,6 +727,9 @@
 		"skills": "Stealth +8, Insight +8, Perception +14, Persuasion +13",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -797,6 +820,9 @@
 		"skills": "Stealth +6, Insight +7, Perception +12, Deception +8, Persuasion +8",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -888,7 +914,8 @@
 		"skills": "Stealth +6, Perception +13",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Adult Silver Dragon",
@@ -974,6 +1001,9 @@
 		"skills": "Stealth +5, Arcana +8, History +8, Perception +11",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -1063,6 +1093,9 @@
 		"skills": "Stealth +5, Perception +11",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic"
 		]
 	},
 	{
@@ -1110,7 +1143,10 @@
 				"description": "Each creature in the elemental's space must make a DC 13 Strength saving throw. On a failure, a target takes 15 (3d8 + 2) bludgeoning damage and is flung up 20 feet away from the elemental in a random direction and knocked prone. If a thrown target strikes an object, such as a wall or floor, the target takes 3 (1d6) bludgeoning damage for every 10 feet it was thrown. If the target is thrown at another creature, that creature must succeed on a DC 13 Dexterity saving throw or take the same damage and be knocked prone.\nIf the saving throw is successful, the target takes half the bludgeoning damage and isn't flung away or knocked prone."
 			}
 		],
-		"id": "cacvjp7lwke8q3m4v"
+		"id": "cacvjp7lwke8q3m4v",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Ancient Black Dragon",
@@ -1201,7 +1237,8 @@
 		"skills": "Stealth +9, Perception +16",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Ancient Blue Dragon",
@@ -1282,6 +1319,10 @@
 		"skills": "Stealth +7, Perception +17",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Desert"
 		]
 	},
 	{
@@ -1372,6 +1413,9 @@
 		"skills": "Stealth +6, History +9, Perception +14, Persuasion +10",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -1464,6 +1508,9 @@
 		"skills": "Stealth +7, Insight +10, Perception +17",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal"
 		]
 	},
 	{
@@ -1554,7 +1601,8 @@
 		"skills": "Stealth +8, Perception +17, Deception +11",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Ancient Gold Dragon",
@@ -1647,6 +1695,9 @@
 		"skills": "Stealth +9, Insight +10, Perception +17, Persuasion +16",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -1737,6 +1788,9 @@
 		"skills": "Stealth +8, Insight +10, Perception +17, Deception +11, Persuasion +11",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -1823,7 +1877,8 @@
 		"skills": "Stealth +7, Perception +16",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Ancient Silver Dragon",
@@ -1913,6 +1968,9 @@
 		"skills": "Stealth +7, Arcana +11, History +11, Perception +16",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -1988,6 +2046,9 @@
 		"skills": "Stealth +6, Perception +13",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic"
 		]
 	},
 	{
@@ -2155,6 +2216,9 @@
 		"id": "cacvjp7lwke8q3m58",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -2200,7 +2264,8 @@
 		"id": "cacvjp7lwke8q3m59",
 		"skills": "Athletics +5, Perception +3",
 		"tags": [
-			"Insectoid"
+			"Insectoid",
+			"Forest"
 		]
 	},
 	{
@@ -2244,7 +2309,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5a",
-		"skills": "Arcana +13, History +13"
+		"skills": "Arcana +13, History +13",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Assassin",
@@ -2304,6 +2372,9 @@
 		"skills": "Acrobatics +6, Stealth +9, Perception +3, Deception +3",
 		"ac_source": [
 			"studded leather armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -2342,7 +2413,10 @@
 				"description": "Melee Weapon Attack: +1 to hit, reach 5 ft., one target. Hit: 1 (1d4 — 1) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5c"
+		"id": "cacvjp7lwke8q3m5c",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Awakened Tree",
@@ -2383,6 +2457,9 @@
 		"id": "cacvjp7lwke8q3m5d",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -2414,7 +2491,8 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 6 (1d8 + 2) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5e"
+		"id": "cacvjp7lwke8q3m5e",
+		"tags": []
 	},
 	{
 		"name": "Azer",
@@ -2463,7 +2541,8 @@
 		"ac_source": [
 			"natural armor",
 			"shield"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Baboon",
@@ -2499,7 +2578,10 @@
 				"description": "Melee Weapon Attack: +1 to hit, reach 5 ft., one target. Hit: 1 (1d4 — 1) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5g"
+		"id": "cacvjp7lwke8q3m5g",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Badger",
@@ -2534,7 +2616,10 @@
 				"description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 1 piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5h"
+		"id": "cacvjp7lwke8q3m5h",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Balor",
@@ -2608,7 +2693,8 @@
 		"id": "cacvjp7lwke8q3m5i",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"id": "cacvjp7lwke8q3m5j",
@@ -2631,7 +2717,12 @@
 		"languages": "any one language (usually Common)",
 		"challenge_rating": "1/8",
 		"tags": [
-			"Bandits"
+			"Bandits",
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Urban"
 		],
 		"unique": false,
 		"actions": [
@@ -2709,7 +2800,12 @@
 			"studded leather armor"
 		],
 		"tags": [
-			"Bandits"
+			"Bandits",
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Urban"
 		]
 	},
 	{
@@ -2780,7 +2876,8 @@
 		"skills": "Insight +5, Perception +8, Deception +5",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Basilisk",
@@ -2860,7 +2957,8 @@
 				"description": "Melee Weapon Attack: +0 to hit, reach 5 ft., one creature. Hit: 1 piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m5n"
+		"id": "cacvjp7lwke8q3m5n",
+		"tags": []
 	},
 	{
 		"name": "Bearded Devil",
@@ -2922,7 +3020,8 @@
 		"id": "cacvjp7lwke8q3m5o",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Behir",
@@ -2979,6 +3078,9 @@
 		"skills": "Stealth +7, Perception +6",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -3020,7 +3122,11 @@
 			"hide armor"
 		],
 		"tags": [
-			"Bandits"
+			"Bandits",
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest"
 		]
 	},
 	{
@@ -3071,6 +3177,9 @@
 		"id": "cacvjp7lwke8q3m5r",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -3121,7 +3230,8 @@
 		"skills": "Stealth +4, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Black Pudding",
@@ -3214,7 +3324,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5u",
-		"skills": "Stealth +5, Perception +3"
+		"skills": "Stealth +5, Perception +3",
+		"tags": []
 	},
 	{
 		"name": "Blood Hawk",
@@ -3254,7 +3365,12 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m5v",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"tags": [
+			"Arctic",
+			"Coastal",
+			"Forest"
+		]
 	},
 	{
 		"name": "Blue Dragon Wyrmling",
@@ -3299,7 +3415,8 @@
 		"skills": "Stealth +2, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Boar",
@@ -3341,6 +3458,9 @@
 		"id": "cacvjp7lwke8q3m5x",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -3419,7 +3539,8 @@
 		"skills": "Insight +6, Deception +7",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Brass Dragon Wyrmling",
@@ -3464,7 +3585,8 @@
 		"skills": "Stealth +2, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Bronze Dragon Wyrmling",
@@ -3514,7 +3636,8 @@
 		"skills": "Stealth +2, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Brown Bear",
@@ -3565,6 +3688,10 @@
 		"skills": "Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic",
+			"Forest"
 		]
 	},
 	{
@@ -3616,6 +3743,10 @@
 		"ac_source": [
 			"hide armor",
 			"shield"
+		],
+		"tags": [
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -3660,7 +3791,8 @@
 		"skills": "Perception +6",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Camel",
@@ -3690,7 +3822,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m64"
+		"id": "cacvjp7lwke8q3m64",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Carrion Crawler",
@@ -3782,7 +3917,12 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m66",
-		"skills": "Stealth +4, Perception +3"
+		"skills": "Stealth +4, Perception +3",
+		"tags": [
+			"Desert",
+			"Forest",
+			"Urban"
+		]
 	},
 	{
 		"name": "Cave Bear",
@@ -3833,7 +3973,8 @@
 		"skills": "Perception +3",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Centaur",
@@ -3888,7 +4029,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m68",
-		"skills": "Athletics +6, Perception +3, Survival +3"
+		"skills": "Athletics +6, Perception +3, Survival +3",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Chain Devil",
@@ -3946,7 +4090,8 @@
 		"id": "cacvjp7lwke8q3m69",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Chimera",
@@ -4004,6 +4149,9 @@
 		"skills": "Perception +8",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -4121,7 +4269,8 @@
 		"id": "cacvjp7lwke8q3m6c",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Cloaker",
@@ -4246,7 +4395,8 @@
 		"skills": "Insight +7, Perception +7",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Cockatrice",
@@ -4277,7 +4427,8 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one creature. Hit: 3 (1d4 + 1) piercing damage, and the target must succeed on a DC 11 Constitution saving throw against being magically petrified. On a failed save, the creature begins to turn to stone and is restrained. It must repeat the saving throw at the end of its next turn. On a success, the effect ends. On a failure, the creature is petrified for 24 hours."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6f"
+		"id": "cacvjp7lwke8q3m6f",
+		"tags": []
 	},
 	{
 		"name": "Commoner",
@@ -4307,7 +4458,8 @@
 				"description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6g"
+		"id": "cacvjp7lwke8q3m6g",
+		"tags": []
 	},
 	{
 		"name": "Constrictor Snake",
@@ -4345,7 +4497,12 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 6 (1d8 + 2) bludgeoning damage, and the target is grappled (escape DC 14). Until this grapple ends, the creature is restrained, and the snake can't constrict another target."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6h"
+		"id": "cacvjp7lwke8q3m6h",
+		"tags": [
+			"Desert",
+			"Forest",
+			"Underwater"
+		]
 	},
 	{
 		"name": "Copper Dragon Wyrmling",
@@ -4390,7 +4547,8 @@
 		"skills": "Stealth +3, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Couatl",
@@ -4451,6 +4609,11 @@
 		"id": "cacvjp7lwke8q3m6j",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert",
+			"Forest",
+			"Urban"
 		]
 	},
 	{
@@ -4489,6 +4652,9 @@
 		"skills": "Stealth +2",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal"
 		]
 	},
 	{
@@ -4529,6 +4695,9 @@
 		"skills": "Stealth +2",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -4577,7 +4746,9 @@
 		"ac_source": [
 			"Leather Armor"
 		],
-		"tags": [],
+		"tags": [
+			"Urban"
+		],
 		"unique": false
 	},
 	{
@@ -4618,6 +4789,9 @@
 		"skills": "Religion +2, Deception +2",
 		"ac_source": [
 			"leather armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -4706,7 +4880,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6p",
-		"skills": "Stealth +4, Perception +5"
+		"skills": "Stealth +4, Perception +5",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Deep Gnome (Svirfneblin)",
@@ -4792,7 +4969,10 @@
 				"description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6r"
+		"id": "cacvjp7lwke8q3m6r",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Deva",
@@ -4854,7 +5034,8 @@
 		"skills": "Insight +9, Perception +9",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Dire Wolf",
@@ -4897,6 +5078,9 @@
 		"skills": "Stealth +4, Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -4954,6 +5138,9 @@
 		"id": "cacvjp7lwke8q3m6u",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal"
 		]
 	},
 	{
@@ -5006,7 +5193,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m6v",
-		"skills": "Insight +3, Deception +6"
+		"skills": "Insight +3, Deception +6",
+		"tags": [
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Draft Horse",
@@ -5037,7 +5228,10 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 9 (2d4 + 4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m6w"
+		"id": "cacvjp7lwke8q3m6w",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Dragon Turtle",
@@ -5103,6 +5297,9 @@
 		"id": "cacvjp7lwke8q3m6x",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underwater"
 		]
 	},
 	{
@@ -5153,7 +5350,8 @@
 		"id": "cacvjp7lwke8q3m6y",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Drider",
@@ -5321,6 +5519,13 @@
 		"skills": "Nature +3, Medicine +4, Perception +4",
 		"ac_source": [
 			"barkskin"
+		],
+		"tags": [
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -5373,6 +5578,9 @@
 		"skills": "Stealth +5, Perception +4",
 		"ac_source": [
 			"barkskin"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -5486,7 +5694,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m74",
-		"skills": "Stealth +4, Perception +2"
+		"skills": "Stealth +4, Perception +2",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Eagle",
@@ -5523,7 +5734,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m75",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"tags": [
+			"Coastal"
+		]
 	},
 	{
 		"name": "Earth Elemental",
@@ -5573,6 +5787,9 @@
 		"id": "cacvjp7lwke8q3m76",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -5632,6 +5849,9 @@
 		"id": "cacvjp7lwke8q3m77",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -5678,7 +5898,8 @@
 		"id": "cacvjp7lwke8q3m78",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Elk",
@@ -5715,7 +5936,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one prone creature. Hit: 8 (2d4 + 3) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m79"
+		"id": "cacvjp7lwke8q3m79",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Erinyes",
@@ -5784,7 +6008,8 @@
 		"id": "cacvjp7lwke8q3m7a",
 		"ac_source": [
 			"plate armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Ettercap",
@@ -5854,7 +6079,8 @@
 			"natural armor"
 		],
 		"tags": [
-			"Underdark"
+			"Underdark",
+			"Forest"
 		]
 	},
 	{
@@ -5909,6 +6135,9 @@
 		"skills": "Perception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -5958,7 +6187,10 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) fire damage. If the target is a creature or a flammable object, it ignites. Until a creature takes an action to douse the fire, the target takes 5 (1d10) fire damage at the start of each of its turns."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7d"
+		"id": "cacvjp7lwke8q3m7d",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Fire Giant",
@@ -6008,6 +6240,9 @@
 		"skills": "Athletics +11, Perception +6",
 		"ac_source": [
 			"plate armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -6059,7 +6294,10 @@
 				"spellcasting": "The flameskull is a 5th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 13, +5 to hit with spell attacks). It requires no somatic or material components to cast its spells. The flameskull has the following wizard spells prepared:\n\nCantrip (at will): mage hand\n\n1st level (3 slots): magic missile, shield\n\n2nd level (2 slots): blur, flaming sphere\n\n3rd level (1 slot): fireball"
 			}
 		],
-		"id": "cacvjp50gke8yzign"
+		"id": "cacvjp50gke8yzign",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Flesh Golem",
@@ -6116,7 +6354,8 @@
 				"description": "Melee Weapon Attack: +7 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7f"
+		"id": "cacvjp7lwke8q3m7f",
+		"tags": []
 	},
 	{
 		"name": "Flying Snake",
@@ -6151,7 +6390,12 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 1 piercing damage plus 7 (3d4) poison damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7g"
+		"id": "cacvjp7lwke8q3m7g",
+		"tags": [
+			"Desert",
+			"Forest",
+			"Urban"
+		]
 	},
 	{
 		"name": "Flying Sword",
@@ -6230,7 +6474,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7i",
-		"skills": "Stealth +3, Perception +1"
+		"skills": "Stealth +3, Perception +1",
+		"tags": []
 	},
 	{
 		"name": "Frost Giant",
@@ -6280,6 +6525,9 @@
 		"skills": "Athletics +9, Perception +3",
 		"ac_source": [
 			"patchwork armor"
+		],
+		"tags": [
+			"Arctic"
 		]
 	},
 	{
@@ -6333,6 +6581,10 @@
 		"id": "cacvjp7lwke8q3m7k",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -6427,7 +6679,11 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 10 (2d6 + 3) slashing damage. If the target is a creature other than an undead, it must succeed on a DC 10 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7m"
+		"id": "cacvjp7lwke8q3m7m",
+		"tags": [
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Ghost",
@@ -6481,7 +6737,11 @@
 				"description": "One humanoid that the ghost can see within 5 ft. of it must succeed on a DC 13 Charisma saving throw or be possessed by the ghost; the ghost then disappears, and the target is incapacitated and loses control of its body. The ghost now controls the body but doesn't deprive the target of awareness. The ghost can't be targeted by any attack, spell, or other effect, except ones that turn undead, and it retains its alignment, Intelligence, Wisdom, Charisma, and immunity to being charmed and frightened. It otherwise uses the possessed target's statistics, but doesn't gain access to the target's knowledge, class features, or proficiencies.\nThe possession lasts until the body drops to 0 hit points, the ghost ends it as a bonus action, or the ghost is turned or forced out by an effect like the dispel evil and good spell. When the possession ends, the ghost reappears in an unoccupied space within 5 ft. of the body. The target is immune to this ghost's Possession for 24 hours after succeeding on the saving throw or after the possession ends."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7n"
+		"id": "cacvjp7lwke8q3m7n",
+		"tags": [
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Ghoul",
@@ -6517,7 +6777,11 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (2d4 + 2) slashing damage. If the target is a creature other than an elf or undead, it must succeed on a DC 10 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7o"
+		"id": "cacvjp7lwke8q3m7o",
+		"tags": [
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Giant Ape",
@@ -6560,7 +6824,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7p",
-		"skills": "Athletics +9, Perception +4"
+		"skills": "Athletics +9, Perception +4",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Giant Badger",
@@ -6607,7 +6874,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 6 (2d4 + 1) slashing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7q"
+		"id": "cacvjp7lwke8q3m7q",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Giant Bat",
@@ -6646,7 +6916,11 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6 + 2) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m7r"
+		"id": "cacvjp7lwke8q3m7r",
+		"tags": [
+			"Forest",
+			"Underdark"
+		]
 	},
 	{
 		"name": "Giant Boar",
@@ -6688,6 +6962,9 @@
 		"id": "cacvjp7lwke8q3m7s",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -6722,6 +6999,10 @@
 		"id": "cacvjp7lwke8q3m7t",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -6761,7 +7042,13 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7u",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"tags": [
+			"Desert",
+			"Forest",
+			"Underdark",
+			"Underwater"
+		]
 	},
 	{
 		"name": "Giant Crab",
@@ -6801,6 +7088,9 @@
 		"skills": "Stealth +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal"
 		]
 	},
 	{
@@ -6852,7 +7142,8 @@
 		"skills": "Stealth +5",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Giant Eagle",
@@ -6900,7 +7191,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m7x",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"tags": [
+			"Coastal"
+		]
 	},
 	{
 		"name": "Giant Elk",
@@ -6947,6 +7241,9 @@
 		"skills": "Perception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -6986,6 +7283,9 @@
 		"id": "cacvjp7lwke8q3m7z",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -7030,7 +7330,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m80",
-		"skills": "Stealth +3, Perception +2"
+		"skills": "Stealth +3, Perception +2",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"id": "cacvjp7lwke8q3m81",
@@ -7108,7 +7411,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m82",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Giant Lizard",
@@ -7150,6 +7456,12 @@
 		"id": "cacvjp7lwke8q3m83",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -7197,7 +7509,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m84",
-		"skills": "Stealth +5, Perception +4"
+		"skills": "Stealth +5, Perception +4",
+		"tags": [
+			"Underwater"
+		]
 	},
 	{
 		"id": "cacvjp7lwke8q3m85",
@@ -7219,7 +7534,10 @@
 		"languages": "Giant Owl, understands Common, Elvish, and Sylvan but can't speak",
 		"skills": "Stealth +4, Perception +5",
 		"challenge_rating": "1/4",
-		"tags": [],
+		"tags": [
+			"Arctic",
+			"Forest"
+		],
 		"unique": false,
 		"actions": [
 			{
@@ -7269,7 +7587,13 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m86",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"tags": [
+			"Desert",
+			"Forest",
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Giant Rat",
@@ -7308,7 +7632,12 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m87"
+		"id": "cacvjp7lwke8q3m87",
+		"tags": [
+			"Forest",
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Giant Rat (Diseased)",
@@ -7387,6 +7716,9 @@
 		"id": "cacvjp7lwke8q3m89",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -7429,6 +7761,9 @@
 		"id": "cacvjp7lwke8q3m8a",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underwater"
 		]
 	},
 	{
@@ -7472,6 +7807,9 @@
 		"skills": "Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underwater"
 		]
 	},
 	{
@@ -7525,7 +7863,10 @@
 			"natural armor"
 		],
 		"tags": [
-			"Underdark"
+			"Underdark",
+			"Desert",
+			"Forest",
+			"Urban"
 		]
 	},
 	{
@@ -7569,7 +7910,13 @@
 				"description": "The toad makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is swallowed, and the grapple ends. The swallowed target is blinded and restrained, it has total cover against attacks and other effects outside the toad, and it takes 10 (3d6) acid damage at the start of each of the toad's turns. The toad can have only one target swallowed at a time.\nIf the toad dies, a swallowed creature is no longer restrained by it and can escape from the corpse using 5 feet of movement, exiting prone."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8d"
+		"id": "cacvjp7lwke8q3m8d",
+		"tags": [
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Underdark"
+		]
 	},
 	{
 		"name": "Giant Vulture",
@@ -7620,7 +7967,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8e",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Giant Wasp",
@@ -7651,7 +8001,11 @@
 				"description": "Sting. Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 5 (1d6 + 2) piercing damage, and the target must make a DC 11 Constitution saving throw, taking 10 (3d6) poison damage on a failed save, or half as much damage on a successful one. If the poison damage reduces the target to 0 hit points, the target is stable but poisoned for 1 hour, even after regaining hit points, and is paralyzed while poisoned in this way."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8f"
+		"id": "cacvjp7lwke8q3m8f",
+		"tags": [
+			"Forest",
+			"Urban"
+		]
 	},
 	{
 		"name": "Giant Weasel",
@@ -7688,7 +8042,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8g",
-		"skills": "Stealth +5, Perception +3"
+		"skills": "Stealth +5, Perception +3",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Giant Wolf Spider",
@@ -7731,7 +8088,12 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m8h",
-		"skills": "Stealth +7, Perception +3"
+		"skills": "Stealth +7, Perception +3",
+		"tags": [
+			"Coastal",
+			"Desert",
+			"Forest"
+		]
 	},
 	{
 		"name": "Gibbering Mouther",
@@ -7845,7 +8207,8 @@
 		"id": "cacvjp7lwke8q3m8j",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Gladiator",
@@ -7910,7 +8273,8 @@
 			"shield"
 		],
 		"tags": [
-			"Bandits"
+			"Bandits",
+			"Urban"
 		]
 	},
 	{
@@ -7965,6 +8329,10 @@
 		"ac_source": [
 			"hide armor",
 			"shield"
+		],
+		"tags": [
+			"Desert",
+			"Forest"
 		]
 	},
 	{
@@ -8004,7 +8372,10 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 3 (1d4 + 1) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m8m"
+		"id": "cacvjp7lwke8q3m8m",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Goblin",
@@ -8052,6 +8423,10 @@
 		"ac_source": [
 			"leather armor",
 			"shield"
+		],
+		"tags": [
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -8102,7 +8477,8 @@
 		"skills": "Stealth +4, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Gorgon",
@@ -8154,6 +8530,9 @@
 		"skills": "Perception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -8203,7 +8582,9 @@
 		"ac_source": [
 			""
 		],
-		"tags": ["Underdark"],
+		"tags": [
+			"Underdark"
+		],
 		"unique": false
 	},
 	{
@@ -8255,7 +8636,8 @@
 		"skills": "Stealth +3, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Green Hag",
@@ -8318,6 +8700,9 @@
 		"skills": "Stealth +3, Arcana +3, Perception +4, Deception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -8371,7 +8756,8 @@
 			"natural armor"
 		],
 		"tags": [
-			"Underdark"
+			"Underdark",
+			"Forest"
 		]
 	},
 	{
@@ -8393,7 +8779,10 @@
 		"senses": "darkvision 60 ft., passive Perception 15",
 		"skills": "Perception +5",
 		"challenge_rating": "2",
-		"tags": [],
+		"tags": [
+			"Arctic",
+			"Coastal"
+		],
 		"unique": false,
 		"actions": [
 			{
@@ -8502,6 +8891,12 @@
 		"ac_source": [
 			"chain shirt",
 			"shield"
+		],
+		"tags": [
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Urban"
 		]
 	},
 	{
@@ -8557,6 +8952,10 @@
 		"id": "cacvjp7lwke8q3m8x",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert",
+			"Forest"
 		]
 	},
 	{
@@ -8624,6 +9023,9 @@
 		"skills": "Arcana +12, History +12, Religion +8, Perception +8",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -8731,7 +9133,11 @@
 				"description": "The harpy sings a magical melody. Every humanoid and giant within 300 ft. of the harpy that can hear the song must succeed on a DC 11 Wisdom saving throw or be charmed until the song ends. The harpy must take a bonus action on its subsequent turns to continue singing. It can stop singing at any time. The song ends if the harpy is incapacitated.\nWhile charmed by the harpy, a target is incapacitated and ignores the songs of other harpies. If the charmed target is more than 5 ft. away from the harpy, the must move on its turn toward the harpy by the most direct route. It doesn't avoid opportunity attacks, but before moving into damaging terrain, such as lava or a pit, and whenever it takes damage from a source other than the harpy, a target can repeat the saving throw. A creature can also repeat the saving throw at the end of each of its turns. If a creature's saving throw is successful, the effect ends on it.\nA target that successfully saves is immune to this harpy's song for the next 24 hours."
 			}
 		],
-		"id": "cacvjp7lwke8q3m90"
+		"id": "cacvjp7lwke8q3m90",
+		"tags": [
+			"Coastal",
+			"Forest"
+		]
 	},
 	{
 		"name": "Hawk",
@@ -8767,7 +9173,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m91",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"tags": []
 	},
 	{
 		"name": "Hell Hound",
@@ -8816,6 +9223,9 @@
 		"skills": "Perception +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -8879,7 +9289,8 @@
 		"id": "cacvjp7lwke8q3m93",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Hill Giant",
@@ -8925,7 +9336,8 @@
 		"skills": "Perception +2",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Hippogriff",
@@ -8973,7 +9385,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m95",
-		"skills": "Perception +5"
+		"skills": "Perception +5",
+		"tags": []
 	},
 	{
 		"name": "Hobgoblin",
@@ -9020,6 +9433,11 @@
 		"ac_source": [
 			"chain mail",
 			"shield"
+		],
+		"tags": [
+			"Desert",
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -9060,7 +9478,8 @@
 		"id": "cacvjp7lwke8q3m97",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Horned Devil",
@@ -9126,7 +9545,8 @@
 		"id": "cacvjp7lwke8q3m98",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Hunter Shark",
@@ -9169,6 +9589,9 @@
 		"skills": "Perception +2",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underwater"
 		]
 	},
 	{
@@ -9222,7 +9645,8 @@
 		"skills": "Perception +6",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Hyena",
@@ -9258,7 +9682,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9b",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"tags": [
+			"Desert",
+			"Forest"
+		]
 	},
 	{
 		"name": "Ice Devil",
@@ -9329,7 +9757,8 @@
 		"id": "cacvjp7lwke8q3m9c",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Ice Mephit",
@@ -9383,7 +9812,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9d",
-		"skills": "Stealth +3, Perception +2"
+		"skills": "Stealth +3, Perception +2",
+		"tags": [
+			"Arctic"
+		]
 	},
 	{
 		"name": "Imp",
@@ -9436,7 +9868,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9e",
-		"skills": "Stealth +5, Insight +3, Deception +4, Persuasion +4"
+		"skills": "Stealth +5, Insight +3, Deception +4, Persuasion +4",
+		"tags": []
 	},
 	{
 		"name": "Invisible Stalker",
@@ -9483,7 +9916,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9f",
-		"skills": "Stealth +10, Perception +8"
+		"skills": "Stealth +10, Perception +8",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Iron Golem",
@@ -9549,7 +9985,8 @@
 		"id": "cacvjp7lwke8q3m9g",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Jackal",
@@ -9589,7 +10026,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9h",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Killer Whale",
@@ -9632,6 +10072,9 @@
 		"skills": "Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underwater"
 		]
 	},
 	{
@@ -9654,7 +10097,9 @@
 		"senses": "passive Perception 10",
 		"languages": "any one language (usually Common)",
 		"challenge_rating": "3",
-		"tags": [],
+		"tags": [
+			"Urban"
+		],
 		"unique": false,
 		"constitution_save": "4",
 		"wisdom_save": "2",
@@ -9736,7 +10181,12 @@
 		],
 		"id": "cacvjp7lwke8q3m9k",
 		"tags": [
-			"Underdark"
+			"Underdark",
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Urban"
 		]
 	},
 	{
@@ -9823,6 +10273,9 @@
 		"id": "cacvjp7lwke8q3m9l",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underwater"
 		]
 	},
 	{
@@ -9878,6 +10331,9 @@
 		"skills": "Stealth +3, Insight +4, Deception +7",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -9919,7 +10375,8 @@
 				"description": "Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage"
 			}
 		],
-		"id": "cacvjp7lwke8q3m9n"
+		"id": "cacvjp7lwke8q3m9n",
+		"tags": []
 	},
 	{
 		"name": "Lich",
@@ -9992,7 +10449,8 @@
 		"skills": "Arcana +18, History +12, Insight +9, Perception +9",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Lion",
@@ -10045,7 +10503,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9p",
-		"skills": "Stealth +6, Perception +3"
+		"skills": "Stealth +6, Perception +3",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Lizard",
@@ -10074,7 +10535,8 @@
 				"description": "Melee Weapon Attack: +0 to hit, reach 5 ft., one target. Hit: 1 piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3m9q"
+		"id": "cacvjp7lwke8q3m9q",
+		"tags": []
 	},
 	{
 		"name": "Lizardfolk",
@@ -10140,6 +10602,9 @@
 		"ac_source": [
 			"natural armor",
 			"shield"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -10179,7 +10644,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9s",
-		"skills": "Arcana +6, History +6"
+		"skills": "Arcana +6, History +6",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Magma Mephit",
@@ -10233,7 +10701,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3m9t",
-		"skills": "Stealth +3"
+		"skills": "Stealth +3",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"name": "Magmin",
@@ -10276,7 +10747,8 @@
 		"id": "cacvjp7lwke8q3m9u",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Mammoth",
@@ -10322,6 +10794,9 @@
 		"id": "cacvjp7lwke8q3m9v",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic"
 		]
 	},
 	{
@@ -10379,6 +10854,10 @@
 		"id": "cacvjp7lwke8q3m9w",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic",
+			"Coastal"
 		]
 	},
 	{
@@ -10455,7 +10934,8 @@
 		"id": "cacvjp7lwke8q3m9x",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"id": "cacvjp7lwke8q3m9y",
@@ -10476,7 +10956,10 @@
 		"senses": "passive Perception 13",
 		"skills": "Perception +3",
 		"challenge_rating": "1/8",
-		"tags": [],
+		"tags": [
+			"Forest",
+			"Urban"
+		],
 		"unique": false,
 		"actions": [
 			{
@@ -10548,6 +11031,9 @@
 		"skills": "Stealth +5, Insight +4, Perception +4, Deception +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -10584,7 +11070,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3ma0",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"tags": [
+			"Coastal",
+			"Underwater"
+		]
 	},
 	{
 		"name": "Merrow",
@@ -10641,6 +11131,10 @@
 		"id": "cacvjp7lwke8q3ma1",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Underwater"
 		]
 	},
 	{
@@ -10699,6 +11193,10 @@
 		"skills": "Stealth +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -10752,6 +11250,9 @@
 		"skills": "Perception +7",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -10801,6 +11302,9 @@
 		"id": "cacvjp7lwke8q3ma4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -10840,7 +11344,11 @@
 				"description": "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 4 (1d4 + 2) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3ma5"
+		"id": "cacvjp7lwke8q3ma5",
+		"tags": [
+			"Desert",
+			"Urban"
+		]
 	},
 	{
 		"name": "Mummy",
@@ -10886,6 +11394,9 @@
 		"id": "cacvjp7lwke8q3ma6",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -10969,6 +11480,9 @@
 		"skills": "History +5, Religion +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -11038,7 +11552,8 @@
 		"id": "cacvjp7lwke8q3ma8",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"id": "cacvjp7lwke8q3ma9",
@@ -11154,7 +11669,8 @@
 		"id": "cacvjp7lwke8q3maa",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Noble",
@@ -11194,6 +11710,9 @@
 		"skills": "Insight +4, Deception +5, Persuasion +5",
 		"ac_source": [
 			"breastplate"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -11290,7 +11809,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mad",
-		"skills": "Stealth +4, Perception +2"
+		"skills": "Stealth +4, Perception +2",
+		"tags": []
 	},
 	{
 		"name": "Ogre",
@@ -11333,7 +11853,12 @@
 			"hide armor"
 		],
 		"tags": [
-			"Bandits"
+			"Bandits",
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -11373,7 +11898,8 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 13 (2d8 + 4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3maf"
+		"id": "cacvjp7lwke8q3maf",
+		"tags": []
 	},
 	{
 		"name": "Oni",
@@ -11438,6 +11964,10 @@
 		"skills": "Arcana +5, Perception +4, Deception +8",
 		"ac_source": [
 			"chain mail"
+		],
+		"tags": [
+			"Forest",
+			"Urban"
 		]
 	},
 	{
@@ -11487,7 +12017,9 @@
 			"hide armor"
 		],
 		"tags": [
-			"Underdark"
+			"Underdark",
+			"Arctic",
+			"Forest"
 		]
 	},
 	{
@@ -11543,6 +12075,9 @@
 		"id": "cacvjp7lwke8q3mai",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -11564,7 +12099,10 @@
 		"senses": "darkvision 120 ft., passive Perception 13",
 		"skills": "Stealth +3, Perception +3",
 		"challenge_rating": "0",
-		"tags": [],
+		"tags": [
+			"Arctic",
+			"Forest"
+		],
 		"unique": false,
 		"actions": [
 			{
@@ -11632,6 +12170,9 @@
 		"skills": "Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -11679,7 +12220,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mal",
-		"skills": "Stealth +6, Perception +4"
+		"skills": "Stealth +6, Perception +4",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Pegasus",
@@ -11714,7 +12258,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mam",
-		"skills": "Perception +6"
+		"skills": "Perception +6",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Phase Spider",
@@ -11760,6 +12307,12 @@
 		"skills": "Stealth +6",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert",
+			"Forest",
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -11839,7 +12392,8 @@
 		"id": "cacvjp7lwke8q3mao",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Planetar",
@@ -11901,7 +12455,8 @@
 		"skills": "Perception +11",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Plesiosaurus",
@@ -11941,6 +12496,10 @@
 		"skills": "Stealth +4, Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Underwater"
 		]
 	},
 	{
@@ -11971,7 +12530,12 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 1 piercing damage, and the target must make a DC 10 Constitution saving throw, taking 5 (2d4) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3mar"
+		"id": "cacvjp7lwke8q3mar",
+		"tags": [
+			"Coastal",
+			"Desert",
+			"Forest"
+		]
 	},
 	{
 		"name": "Polar Bear",
@@ -12022,6 +12586,10 @@
 		"skills": "Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic",
+			"Underdark"
 		]
 	},
 	{
@@ -12053,7 +12621,10 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 7 (2d4 + 2) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mat"
+		"id": "cacvjp7lwke8q3mat",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"id": "cacvjp7lwke8q3mau",
@@ -12077,7 +12648,8 @@
 		"skills": "Religion +4, Medicine +7, Persuasion +3",
 		"challenge_rating": "2",
 		"tags": [
-			"The Holy Triumvirate"
+			"The Holy Triumvirate",
+			"Urban"
 		],
 		"unique": false,
 		"actions": [
@@ -12151,7 +12723,13 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mav",
-		"skills": "Stealth +4, Perception +3"
+		"skills": "Stealth +4, Perception +3",
+		"tags": [
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Urban"
+		]
 	},
 	{
 		"name": "Purple Worm",
@@ -12204,7 +12782,10 @@
 		"ac_source": [
 			"natural armor"
 		],
-		"tags":["Underdark"]
+		"tags": [
+			"Underdark",
+			"Desert"
+		]
 	},
 	{
 		"name": "Quasit",
@@ -12258,7 +12839,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3max",
-		"skills": "Stealth +5"
+		"skills": "Stealth +5",
+		"tags": []
 	},
 	{
 		"name": "Quipper",
@@ -12296,7 +12878,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 1 piercing damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3may"
+		"id": "cacvjp7lwke8q3may",
+		"tags": [
+			"Underwater"
+		]
 	},
 	{
 		"name": "Rakshasa",
@@ -12345,6 +12930,9 @@
 		"skills": "Insight +8, Deception +10",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -12365,7 +12953,9 @@
 		"charisma": "4",
 		"senses": "darkvision 30 ft., passive Perception 10",
 		"challenge_rating": "0",
-		"tags": [],
+		"tags": [
+			"Urban"
+		],
 		"unique": false,
 		"actions": [
 			{
@@ -12412,7 +13002,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mb1",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Red Dragon Wyrmling",
@@ -12457,7 +13050,8 @@
 		"skills": "Stealth +2, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Reef Shark",
@@ -12500,6 +13094,9 @@
 		"skills": "Perception +2",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underwater"
 		]
 	},
 	{
@@ -12544,6 +13141,9 @@
 		"id": "cacvjp7lwke8q3mb4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic"
 		]
 	},
 	{
@@ -12583,7 +13183,8 @@
 		"id": "cacvjp7lwke8q3mb5",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Riding Horse",
@@ -12614,7 +13215,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 8 (2d4 + 3) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mb6"
+		"id": "cacvjp7lwke8q3mb6",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Roc",
@@ -12669,6 +13273,11 @@
 		"skills": "Perception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic",
+			"Coastal",
+			"Desert"
 		]
 	},
 	{
@@ -12873,7 +13482,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbb",
-		"skills": "Stealth +6, Perception +3"
+		"skills": "Stealth +6, Perception +3",
+		"tags": [
+			"Arctic"
+		]
 	},
 	{
 		"name": "Sahuagin",
@@ -12937,6 +13549,10 @@
 		"skills": "Perception +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Underwater"
 		]
 	},
 	{
@@ -12993,6 +13609,9 @@
 		"id": "cacvjp7lwke8q3mbd",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -13051,6 +13670,9 @@
 		"skills": "Stealth +5, Perception +2, Performance +6",
 		"ac_source": [
 			"leather armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -13084,6 +13706,9 @@
 		"id": "cacvjp7lwke8q3mbf",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -13137,7 +13762,12 @@
 			"leather armor"
 		],
 		"tags": [
-			"Bandits"
+			"Bandits",
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -13197,6 +13827,10 @@
 		"id": "cacvjp7lwke8q3mbh",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Underwater"
 		]
 	},
 	{
@@ -13224,7 +13858,8 @@
 				"Water Breathing": "The sea horse can breathe only underwater."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbi"
+		"id": "cacvjp7lwke8q3mbi",
+		"tags": []
 	},
 	{
 		"name": "Shadow",
@@ -13271,7 +13906,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbj",
-		"skills": "Stealth +4"
+		"skills": "Stealth +4",
+		"tags": [
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Shambling Mound",
@@ -13322,6 +13961,9 @@
 		"skills": "Stealth +2",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -13378,6 +14020,9 @@
 		"id": "cacvjp7lwke8q3mbl",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -13460,7 +14105,8 @@
 		"skills": "Stealth +2, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Skeleton",
@@ -13503,6 +14149,9 @@
 		"id": "cacvjp7lwke8q3mbo",
 		"ac_source": [
 			"armor scraps"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -13591,7 +14240,8 @@
 		"skills": "Perception +14",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Specter",
@@ -13632,7 +14282,11 @@
 				"description": "Melee Spell Attack: +4 to hit, reach 5 ft., one creature. Hit: 10 (3d6) necrotic damage. The target must succeed on a DC 10 Constitution saving throw or its hit point maximum is reduced by an amount equal to the damage taken. This reduction lasts until the creature finishes a long rest. The target dies if this effect reduces its hit point maximum to 0."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbq"
+		"id": "cacvjp7lwke8q3mbq",
+		"tags": [
+			"Underdark",
+			"Urban"
+		]
 	},
 	{
 		"name": "Spider",
@@ -13674,7 +14328,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbr",
-		"skills": "Stealth +4"
+		"skills": "Stealth +4",
+		"tags": []
 	},
 	{
 		"name": "Spirit Naga",
@@ -13722,6 +14377,9 @@
 		"id": "cacvjp7lwke8q3mbs",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -13770,6 +14428,9 @@
 		"skills": "Stealth +8, Perception +3",
 		"ac_source": [
 			"leather armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -13821,7 +14482,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mbu",
-		"skills": "Stealth +4, Investigation +5, Insight +4, Perception +6, Deception +5, Persuasion +5"
+		"skills": "Stealth +4, Investigation +5, Insight +4, Perception +6, Deception +5, Persuasion +5",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Steam Mephit",
@@ -13869,7 +14533,10 @@
 				"description": "The mephit has a 25 percent chance of summoning 1d4 mephits of its kind. A summoned mephit appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other mephits. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 			}
 		],
-		"id": "cacvjp7lwke8q3mbv"
+		"id": "cacvjp7lwke8q3mbv",
+		"tags": [
+			"Underwater"
+		]
 	},
 	{
 		"name": "Stirge",
@@ -13903,6 +14570,13 @@
 		"id": "cacvjp7lwke8q3mbw",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -13962,6 +14636,9 @@
 		"skills": "Athletics +12, Perception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark"
 		]
 	},
 	{
@@ -14017,7 +14694,8 @@
 		"id": "cacvjp7lwke8q3mby",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Storm Giant",
@@ -14082,6 +14760,10 @@
 		"skills": "Athletics +14, Arcana +8, History +8, Perception +9",
 		"ac_source": [
 			"scale mail"
+		],
+		"tags": [
+			"Coastal",
+			"Underwater"
 		]
 	},
 	{
@@ -14137,7 +14819,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mc0",
-		"skills": "Stealth +7, Insight +5, Perception +5, Deception +9, Persuasion +9"
+		"skills": "Stealth +7, Insight +5, Perception +5, Deception +9, Persuasion +9",
+		"tags": []
 	},
 	{
 		"name": "Swarm of Bats",
@@ -14182,7 +14865,8 @@
 		],
 		"id": "cacvjp7lwke8q3mc1",
 		"tags": [
-			"Underdark"
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -14311,7 +14995,10 @@
 			"natural armor"
 		],
 		"tags": [
-			"Underdark"
+			"Underdark",
+			"Desert",
+			"Forest",
+			"Urban"
 		]
 	},
 	{
@@ -14349,7 +15036,10 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 0 ft., one creature in the swarm's space. Hit: 7 (2d6) piercing damage, or 3 (1d6) piercing damage if the swarm has half of its hit points or fewer. The target must make a DC 10 Constitution saving throw, taking 14 (4d6) poison damage on a failed save, or half as much damage on a successful one."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc5"
+		"id": "cacvjp7lwke8q3mc5",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Swarm of Quippers",
@@ -14392,7 +15082,10 @@
 				"description": "Melee Weapon Attack: +5 to hit, reach 0 ft., one creature in the swarm's space. Hit: 14 (4d6) piercing damage, or 7 (2d6) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc6"
+		"id": "cacvjp7lwke8q3mc6",
+		"tags": [
+			"Underwater"
+		]
 	},
 	{
 		"name": "Swarm of Rats",
@@ -14432,7 +15125,10 @@
 				"description": "Melee Weapon Attack: +2 to hit, reach 0 ft., one target in the swarm's space. Hit: 7 (2d6) piercing damage, or 3 (1d6) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc7"
+		"id": "cacvjp7lwke8q3mc7",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Swarm of Ravens",
@@ -14469,7 +15165,11 @@
 				"description": "Melee Weapon Attack: +4 to hit, reach 5 ft., one target in the swarm's space. Hit: 7 (2d6) piercing damage, or 3 (1d6) piercing damage if the swarm has half of its hit points or fewer."
 			}
 		],
-		"id": "cacvjp7lwke8q3mc8"
+		"id": "cacvjp7lwke8q3mc8",
+		"tags": [
+			"Forest",
+			"Urban"
+		]
 	},
 	{
 		"name": "Swarm of Spiders",
@@ -14561,7 +15261,8 @@
 		"id": "cacvjp7lwke8q3mca",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Tarrasque",
@@ -14661,6 +15362,9 @@
 		"id": "cacvjp7lwke8q3mcb",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -14713,7 +15417,8 @@
 			"leather armor"
 		],
 		"tags": [
-			"Bandits"
+			"Bandits",
+			"Urban"
 		]
 	},
 	{
@@ -14758,7 +15463,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcd",
-		"skills": "Stealth +6, Perception +3"
+		"skills": "Stealth +6, Perception +3",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Treant",
@@ -14817,6 +15525,9 @@
 		"id": "cacvjp7lwke8q3mce",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -14856,6 +15567,13 @@
 		"id": "cacvjp7lwke8q3mcf",
 		"ac_source": [
 			"hide armor"
+		],
+		"tags": [
+			"Arctic",
+			"Coastal",
+			"Desert",
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -14902,7 +15620,8 @@
 		"id": "cacvjp7lwke8q3mcg",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Troll",
@@ -14959,6 +15678,11 @@
 		"skills": "Perception +2",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic",
+			"Forest",
+			"Underdark"
 		]
 	},
 	{
@@ -15005,7 +15729,8 @@
 		"skills": "Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Unicorn",
@@ -15085,7 +15810,10 @@
 				"description": "The unicorn magically regains 11 (2d8 + 2) hit points."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcj"
+		"id": "cacvjp7lwke8q3mcj",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Vampire",
@@ -15177,6 +15905,9 @@
 		"skills": "Stealth +9, Perception +7",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -15235,6 +15966,10 @@
 		"skills": "Stealth +6, Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -15258,7 +15993,14 @@
 		"languages": "any one language (usually Common)",
 		"skills": "Athletics +5, Perception +2",
 		"challenge_rating": "3",
-		"tags": ["Bandits"],
+		"tags": [
+			"Bandits",
+			"Arctic",
+			"Coastal",
+			"Forest",
+			"Underdark",
+			"Urban"
+		],
 		"unique": false,
 		"actions": [
 			{
@@ -15401,7 +16143,8 @@
 		"id": "cacvjp7lwke8q3mco",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Vulture",
@@ -15440,7 +16183,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcp",
-		"skills": "Perception +3"
+		"skills": "Perception +3",
+		"tags": [
+			"Desert"
+		]
 	},
 	{
 		"name": "Warhorse",
@@ -15476,7 +16222,10 @@
 				"description": "Melee Weapon Attack: +6 to hit, reach 5 ft., one target. Hit: 11 (2d6 + 4) bludgeoning damage."
 			}
 		],
-		"id": "cacvjp7lwke8q3mcq"
+		"id": "cacvjp7lwke8q3mcq",
+		"tags": [
+			"Urban"
+		]
 	},
 	{
 		"name": "Warhorse Skeleton",
@@ -15513,7 +16262,8 @@
 		"id": "cacvjp7lwke8q3mcr",
 		"ac_source": [
 			"barding scraps"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Water Elemental",
@@ -15566,6 +16316,10 @@
 		"id": "cacvjp7lwke8q3mcs",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Underwater"
 		]
 	},
 	{
@@ -15602,7 +16356,8 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mct",
-		"skills": "Stealth +5, Perception +3"
+		"skills": "Stealth +5, Perception +3",
+		"tags": []
 	},
 	{
 		"name": "Werebear",
@@ -15661,7 +16416,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcu",
-		"skills": "Perception +7"
+		"skills": "Perception +7",
+		"tags": [
+			"Arctic",
+			"Forest"
+		]
 	},
 	{
 		"name": "Wereboar",
@@ -15716,7 +16475,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcv",
-		"skills": "Perception +2"
+		"skills": "Perception +2",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "Wererat",
@@ -15775,7 +16537,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcw",
-		"skills": "Stealth +4, Perception +2"
+		"skills": "Stealth +4, Perception +2",
+		"tags": [
+			"Forest",
+			"Urban"
+		]
 	},
 	{
 		"name": "Weretiger",
@@ -15844,7 +16610,11 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcx",
-		"skills": "Stealth +4, Perception +5"
+		"skills": "Stealth +4, Perception +5",
+		"tags": [
+			"Desert",
+			"Forest"
+		]
 	},
 	{
 		"name": "Werewolf",
@@ -15903,7 +16673,10 @@
 			}
 		],
 		"id": "cacvjp7lwke8q3mcy",
-		"skills": "Perception +4"
+		"skills": "Perception +4",
+		"tags": [
+			"Forest"
+		]
 	},
 	{
 		"name": "White Dragon Wyrmling",
@@ -15948,7 +16721,8 @@
 		"skills": "Stealth +2, Perception +4",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Wight",
@@ -16008,6 +16782,11 @@
 		"skills": "Stealth +4, Perception +3",
 		"ac_source": [
 			"studded leather armor"
+		],
+		"tags": [
+			"Desert",
+			"Underdark",
+			"Urban"
 		]
 	},
 	{
@@ -16059,7 +16838,8 @@
 				"description": "The will-o'-wisp and its light magically become invisible until it attacks or uses its Consume Life, or until its concentration ends (as if concentrating on a spell)."
 			}
 		],
-		"id": "cacvjp7lwke8q3md1"
+		"id": "cacvjp7lwke8q3md1",
+		"tags": []
 	},
 	{
 		"name": "Winter Wolf",
@@ -16111,6 +16891,9 @@
 		"skills": "Stealth +3, Perception +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic"
 		]
 	},
 	{
@@ -16154,6 +16937,9 @@
 		"skills": "Stealth +4, Perception +3",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -16194,6 +16980,9 @@
 		"skills": "Perception +4",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -16240,7 +17029,10 @@
 				"description": "The wraith targets a humanoid within 10 feet of it that has been dead for no longer than 1 minute and died violently. The target's spirit rises as a specter in the space of its corpse or in the nearest unoccupied space. The specter is under the wraith's control. The wraith can have no more than seven specters under its control at one time."
 			}
 		],
-		"id": "cacvjp7lwke8q3md5"
+		"id": "cacvjp7lwke8q3md5",
+		"tags": [
+			"Underdark"
+		]
 	},
 	{
 		"id": "cacvjp7lwke8q3md6",
@@ -16415,7 +17207,8 @@
 		"skills": "Stealth +5, Perception +6",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Young Blue Dragon",
@@ -16471,6 +17264,10 @@
 		"skills": "Stealth +4, Perception +9",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal",
+			"Desert"
 		]
 	},
 	{
@@ -16527,6 +17324,9 @@
 		"skills": "Stealth +3, Perception +6, Persuasion +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Desert"
 		]
 	},
 	{
@@ -16588,6 +17388,9 @@
 		"skills": "Stealth +3, Insight +4, Perception +7",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Coastal"
 		]
 	},
 	{
@@ -16644,7 +17447,8 @@
 		"skills": "Stealth +4, Perception +7, Deception +5",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Young Gold Dragon",
@@ -16705,6 +17509,9 @@
 		"skills": "Stealth +6, Insight +5, Perception +9, Persuasion +9",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -16767,6 +17574,9 @@
 		"skills": "Stealth +4, Perception +7, Deception +5",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Forest"
 		]
 	},
 	{
@@ -16823,7 +17633,8 @@
 		"skills": "Stealth +4, Perception +8",
 		"ac_source": [
 			"natural armor"
-		]
+		],
+		"tags": []
 	},
 	{
 		"name": "Young Silver Dragon",
@@ -16879,6 +17690,9 @@
 		"skills": "Stealth +4, Arcana +6, History +6, Perception +8",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Urban"
 		]
 	},
 	{
@@ -16940,6 +17754,9 @@
 		"skills": "Stealth +3, Perception +6",
 		"ac_source": [
 			"natural armor"
+		],
+		"tags": [
+			"Arctic"
 		]
 	},
 	{
@@ -16962,7 +17779,9 @@
 		"condition_immunities": "poisoned",
 		"languages": "understands all languages it spoke in life but can't speak",
 		"challenge_rating": "1/4",
-		"tags": [],
+		"tags": [
+			"Urban"
+		],
 		"unique": false,
 		"actions": [
 			{
