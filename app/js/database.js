@@ -17,7 +17,7 @@ var noUiSlider = require('nouislider');
 
 marked.setOptions({
   renderer: new marked.Renderer(),
- 
+
 });
 
 var tokenFilePath = dataAccess.tokenFilePath;
@@ -54,16 +54,30 @@ $(document).ready(function () {
   })
   populateSpellClassDropdown();
   populateDropdowns();
-  dataAccess.getSettings(function(settings){
+  dataAccess.getSettings(function (settings) {
     document.querySelector("#trim_token_checkbox").checked = settings.token_trim_enabled || false;
-    
+
   });
-  document.querySelector("#trim_token_checkbox").addEventListener("change", function(evt){
-    dataAccess.getSettings(function(settings){
-      settings.token_trim_enabled =  document.querySelector("#trim_token_checkbox").checked;
-      dataAccess.saveSettings(settings, ()=>{});
+  document.querySelector("#trim_token_checkbox").addEventListener("change", function (evt) {
+    dataAccess.getSettings(function (settings) {
+      settings.token_trim_enabled = document.querySelector("#trim_token_checkbox").checked;
+      dataAccess.saveSettings(settings, () => { });
     });
   })
+
+  document.querySelector("#addmonster_name").addEventListener("change", function (evt) {
+
+    addMonsterChanged();
+
+  });
+  document.getElementById("add_tags_from_sugestion_button").addEventListener("click", function (evt) {
+    var suggestions = evt.target.getAttribute("data-suggestions");
+    if (!suggestions) return;
+    suggestions = JSON.parse(suggestions);
+    suggestions.forEach(sugg => addNpcTag(sugg));
+    document.getElementById("monster_tag_suggestion_info_button").classList.add("hidden");
+  });
+
   $(".db_name_field").on("input", function (e) {
     var nothingPresent = e.target.value == "";
     var button = e.target.closest("section").querySelector(".save_button");
@@ -189,24 +203,29 @@ $(document).ready(function () {
       });
   }
 });
+
+function addMonsterNameChanged() {
+
+}
+
 var monster_subtype_awesomplete;
 function populateDropdowns() {
   new Awesomplete(document.getElementById("item_rarity_input"), { list: itemRarityValues, autoFirst: true, minChars: 0, sort: false });
   new Awesomplete(document.getElementById("item_type_input"), { list: itemTypeValues, autoFirst: true, minChars: 0, sort: false });
   new Awesomplete(document.getElementById("addmonster_alignment"), { list: constants.defaultCreatureAlignments, autoFirst: true, minChars: 0, sort: false });
   new Awesomplete(document.getElementById("addmonster_type"), { list: constants.defaultCreatureTypes, autoFirst: true, minChars: 0, sort: false });
-  document.getElementById("addmonster_type").addEventListener("awesomplete-selectcomplete", function(e){
-    if(monster_subtype_awesomplete != null)monster_subtype_awesomplete.destroy();
+  document.getElementById("addmonster_type").addEventListener("awesomplete-selectcomplete", function (e) {
+    if (monster_subtype_awesomplete != null) monster_subtype_awesomplete.destroy();
     var type = document.getElementById("addmonster_type").value?.toLowerCase();
-    if(!type || !constants.defaultCreatureSubTypes[type])return;
-  
+    if (!type || !constants.defaultCreatureSubTypes[type]) return;
+
     monster_subtype_awesomplete = new Awesomplete(document.getElementById("addmonster_subtype"), { list: constants.defaultCreatureSubTypes[type], autoFirst: true, minChars: 0, sort: false });
   });
   new Awesomplete(document.getElementById("addmonster_ac_source"), { list: getArmorTypes(), autoFirst: true, minChars: 0, sort: false });
   document.getElementById("addmonster_ac_source").addEventListener("awesomplete-selectcomplete", armorSelected)
   new Awesomplete(document.getElementById("spell_school_input"), { list: constants.spellSchools, autoFirst: true, minChars: 0, sort: false });
 
-//Items
+  //Items
   var classList = new Set();
   constants.classes.forEach(classStr => {
     var prefix = Util.IsVowel(classStr.substring(0, 1)) ? "an" : "a";
@@ -408,7 +427,7 @@ function filterDataListExecute() {
   }
   function filterMonsters() {
     searchstring = document.getElementById("monsters_list_search").value.toLowerCase();
- 
+
 
     listedData = splitAndCheckAttributes(searchstring, ["name", "type", "challenge_rating", "hit_points"], loadedData);
     filterTypes();
@@ -417,7 +436,7 @@ function filterDataListExecute() {
       if (typesAndSubtypes.length <= 0) return;
       var types = [];
       typesAndSubtypes.forEach(typeAndSubType => {
-        
+
         if (!typeAndSubType.includes("(") || !typeAndSubType.includes("(")) {
           types.push({ type: typeAndSubType });
           return;
@@ -427,9 +446,9 @@ function filterDataListExecute() {
         subType = subType.replace("(", "").replace(")", "").trim();
         types.push({ type: type, subtype: subType });
       });
-      console.log(listedData.filter(x=> x.subtype && typeof(x.subtype) != "string"));
-      listedData = listedData.filter(x =>  types.find(y => x.type == y.type && (!y.subtype || ( x.subtype && y.subtype.toLowerCase() == x.subtype.toLowerCase()))));
- 
+      console.log(listedData.filter(x => x.subtype && typeof (x.subtype) != "string"));
+      listedData = listedData.filter(x => types.find(y => x.type == y.type && (!y.subtype || (x.subtype && y.subtype.toLowerCase() == x.subtype.toLowerCase()))));
+
     }
   }
 
@@ -786,7 +805,8 @@ function fetchTagList() {
     var input = document.querySelector("#addmonster_tag_input");
     monsterTags.awesomplete = new Awesomplete(input, { list: tags, autoFirst: true, minChars: 0, sort: false })
     input.addEventListener("awesomplete-selectcomplete", function (e) {
-      addNpcTag(e.text);
+      console.log(e)
+      addNpcTag(e.text.value);
       e.target.value = "";
     });
     input.addEventListener("keydown", (e) => {
@@ -951,7 +971,7 @@ function splitAndCheckAttributes(searchString, attributes, motherList) {
   if (tags.length > 0) {
     motherList = motherList.filter(x => x.tags && x.tags.find(y => tags.includes(y)));
   }
- 
+
   var filterTextSplt = searchString.split("&");
   return motherList.filter(
     entry => {
@@ -1286,7 +1306,7 @@ function listAll() {
   }
 
   var data = listedData;
-  
+
   var tabElementName = tab == "homebrew" ? "monsters" : tab;
   if (sortFunction != null) {
     data.sort(sortFunction);
@@ -1300,14 +1320,14 @@ function listAll() {
   var allRows = [...$("#listFrame__" + tabElementName + ">.listRow")];
   if (data.length > allRows.length) {
     for (var i = allRows.length; i < data.length + 1; i++) {
-   
+
       var newRow = $(`#listFrame__${tabElementName}_template`).clone();
-    
+
       newRow.removeClass("hidden");
       newRow.appendTo("#listFrame__" + tabElementName);
     }
   } else if (data.length < allRows.length) {
-    while (data.length < allRows.length ) {
+    while (data.length < allRows.length) {
       var toRemove = allRows.pop()
       toRemove.parentNode.removeChild(toRemove)
     }
@@ -1334,13 +1354,13 @@ function listAll() {
       if (data[i].level == "") data[i].level = "0";
 
       var row = allRows[i];
-  
-      if (data[i].source == "official"){
+
+      if (data[i].source == "official") {
         row.classList.add("official_content_row");
-      }else{
+      } else {
         row.classList.remove("official_content_row");
       }
-     
+
       row.setAttribute("data-entry_id", data[i].id)
       row.querySelector("input:nth-child(1)").value = data[i].name;
       row.querySelector("input:nth-child(2)").value = data[i].casting_time;
@@ -1481,6 +1501,40 @@ function clearAddForm() {
     while (tagCont.firstChild) tagCont.removeChild(tagCont.firstChild);
   }
   if (letter == "C") document.getElementById("condition_image_picker").setAttribute("src", "");
+  addMonsterChanged();
+}
+
+function addMonsterChanged(){
+  var value = document.querySelector("#addmonster_name").value;
+  var infoBtn = document.getElementById("monster_tag_suggestion_info_button");
+    if (!value) {
+      infoBtn.classList.add("hidden");
+      return;
+    }
+    var monsterSplit = value.trim().toLowerCase().split(" ");
+    var tagSuggestions = new Set();
+    monsterSplit.forEach(monsterName => {
+      constants.creature_habitats.forEach(habitat => {
+        if (habitat.creatures.find(x => x == monsterName || x.split(" ").find(y => y == monsterName)) && !tagExists(habitat.name)) {
+          tagSuggestions.add(habitat.name);
+        }
+      });
+    });
+
+    var addBtn = document.getElementById("add_tags_from_sugestion_button");
+    tagSuggestions = [...tagSuggestions];
+    addBtn.setAttribute("data-suggestions", JSON.stringify(tagSuggestions))
+    if (tagSuggestions.length == 0) {
+      infoBtn.classList.add("hidden");
+      return;
+    }
+    var cont = document.querySelector("#monster_tag_suggestion_info_button .monster_tag_suggestion_container");
+    while (cont.firstChild)
+      cont.removeChild(cont.firstChild);
+    infoBtn.classList.remove("hidden");
+    var p = document.createElement("p");
+    p.innerHTML = tagSuggestions.join(", ");
+    cont.appendChild(p);
 
 }
 
@@ -1716,7 +1770,7 @@ function editObject(dataObject, letter) {
     var nameFields = document.querySelectorAll(".specialjsonAttributeE");
     var countFields = document.querySelectorAll(".specialjsonValueE");
     for (var i = 0; i < nameFields.length; i++) {
-      if(!dataObject.creatures[i])break;
+      if (!dataObject.creatures[i]) break;
       var name = Object.keys(dataObject.creatures[i])[0].toProperCase();
       var count = Object.values(dataObject.creatures[i])[0];
       nameFields[i].value = name;
@@ -1787,13 +1841,22 @@ function editObject(dataObject, letter) {
   }
 }
 
+function tagExists(tagName) {
+  var cont = document.querySelector("#addmonster_tag_container");
+  var exists;
+  [...cont.querySelectorAll("para")].forEach(p => {
+    if (p.innerHTML == tagName) exists = true;
+  });
+  return exists;
+}
 
 function addNpcTag(tagName) {
-  if (!tagName) return;
+  if (!tagName || tagExists(tagName)) return;
   var cont = document.querySelector("#addmonster_tag_container");
   cont.appendChild(elementCreator.createDeletableParagraph(tagName));
-  if (monsterTags.list.indexOf(tagName) < 0)
+  if (monsterTags.list.indexOf(tagName) < 0) {
     monsterTags.list.push(tagName);
+  }
 }
 
 function populateTable(tableArray) {

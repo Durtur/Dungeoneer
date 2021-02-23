@@ -258,6 +258,7 @@ h1 {
   width: 125px;
   text-align: center;
   font-family: "roboto condensed";
+  white-space: pre;
 }
 
 .code_ac {
