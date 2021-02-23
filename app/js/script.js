@@ -1801,7 +1801,7 @@ function filterPcRowsBySelectedParty(isInitialLoad) {
 
 
   });
-  $('.pcRow:visible:odd').css('background-color', 'rgba(194, 140, 29,0.4)');
+  $('.pcRow:visible:odd').css('background-color', 'rgb(189 151 74 / 40%)');
   $('.pcRow:visible:even').css('background-color', 'transparent');
 }
 

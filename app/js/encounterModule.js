@@ -234,7 +234,7 @@ class EncounterModule {
                     });
                 }
 
-                //>= 3 creatures
+       
                 var withLieutenant = Math.random() > (0.45 - monsterCount / 10) && monsterCount > 1;
                 console.log((0.45 - monsterCount / 10), "prop", withLieutenant)
                 if (withLieutenant) {
@@ -244,7 +244,8 @@ class EncounterModule {
                 }
 
 
-                var remainingCreaturesToAdd = monsterCount - 1;
+                var remainingCreaturesToAdd = monsterCount;
+                if(withLieutenant)remainingCreaturesToAdd--;
                 var availablePool = remainingXp / remainingCreaturesToAdd;
 
                 var costForOne = this.pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs);
@@ -257,7 +258,7 @@ class EncounterModule {
                     if (pickedCreature)
                         pickedMonsters.push(pickedCreature);
                     infiniLoopGuard--;
-                    if(infiniLoopGuard == 0)console.log("Infinite loop")
+                    if(infiniLoopGuard == 0)throw "Infinite loop";
                 }
 
                 var totalXp = this.getXpSumForEncounter(pickedMonsters.map(x => (x.challenge_rating)), pcLevels.length).adjusted;

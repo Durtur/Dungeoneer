@@ -12,11 +12,9 @@ main {
 }
 
 h1{
-    font-size:52px;
+    font-size:2em;
 }
-h1,h2,h3,h4 {
-    text-align: center;
-}
+
 
 p {
     line-height: 1.5;

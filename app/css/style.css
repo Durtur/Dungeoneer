@@ -915,7 +915,7 @@ h1 {
 .init_not_started {
   height: 70px;
   cursor: pointer;
-  filter: drop-shadow(0 0 5px white);
+
   width: 70px;
   background-color: transparent !important;
   background-image: url(img/d20normal.png);

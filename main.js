@@ -276,7 +276,7 @@ function openAboutWindow() {
   aboutWindow = new BrowserWindow({
     height: 450,
     resizable: true,
-    width: 400,
+    width: 600,
     frame: false,
     icon: "./app/css/img/icon.png",
     webPreferences: {

@@ -27,19 +27,21 @@ var statblockPresenter = function () {
   const attributesWithoutNames = [" ", "description"];
   var spellCastingRootNodes = [];
 
-  function createStatblock(_statblock, valueElement, statblockType, editable) {
+  function createStatblock(_statblock, valueElement, _statblockType, editable) {
     if (editable)
       editMode = true;
     else
       editMode = false;
-    statblockType = statblockType;
+
+    statblockType = _statblockType;
     monster = valueElement;
 
     statblock = _statblock;
-    console.log(statblock)
+
     while (statblock.firstChild)
       statblock.removeChild(statblock.firstChild);
     values = JSON.parse(JSON.stringify(valueElement));
+ 
     if (["tables", "random_tables", "spells", "conditions", "items"].indexOf(statblockType) >= 0) {
       statblock.classList.add("single_column");
     } else {
@@ -49,7 +51,6 @@ var statblockPresenter = function () {
     validateEntry(valueElement);
     abilityScores = {};
     [
-      addTokens,
       addClasses,
       addName,
       addRitual,
@@ -64,10 +65,10 @@ var statblockPresenter = function () {
       storeTable,
       storeHigherLevels,
       addSkills,
+      createAndAddEncounterDescription,
       populateRemainingStats,
       addDescription,
       addTable,
-      createAndAddEncounterDescription,
       addHigherLevels,
       finalizeStatblock
     ].forEach(step => {
@@ -94,11 +95,6 @@ var statblockPresenter = function () {
     delete values.table;
   }
 
-  function addTokens() {
-
-
-
-  }
 
   function addName() {
     if (values.name == null) return;
@@ -579,6 +575,7 @@ var statblockPresenter = function () {
     }
     if (statblockType == "spells")
       spellCastingRootNodes.push("description");
+      console.log(spellCastingRootNodes, statblockType)
     if (spellCastingRootNodes.length > 0)
       spellcastingLinkController.updateLinks(statblock);
     diceRollerLinkController.updateLinks(statblock);
@@ -650,7 +647,7 @@ var statblockPresenter = function () {
 
       var paragraphs = statblock.getElementsByTagName("p");
       var spellcastingAttribute = "";
-
+    
       spellCastingRootNodes.forEach(node => {
         var currAttribute = monster[node];
         spellcastingAttribute += " ";

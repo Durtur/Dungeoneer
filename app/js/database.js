@@ -1716,7 +1716,7 @@ function editObject(dataObject, letter) {
     var nameFields = document.querySelectorAll(".specialjsonAttributeE");
     var countFields = document.querySelectorAll(".specialjsonValueE");
     for (var i = 0; i < nameFields.length; i++) {
-
+      if(!dataObject.creatures[i])break;
       var name = Object.keys(dataObject.creatures[i])[0].toProperCase();
       var count = Object.values(dataObject.creatures[i])[0];
       nameFields[i].value = name;
