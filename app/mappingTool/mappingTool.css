@@ -1,6 +1,6 @@
 :root {
     --z-index-tooltip: 12;
-    --z-index-initiative:11;
+    --z-index-initiative: 11;
     --z-index-fov: 10;
     --z-index-measurements: 3;
     --z-index-pawn: 5;
@@ -12,7 +12,6 @@
     --pawn-scale: 1;
     --pawn-rotate: 0;
     --cell-size: 35;
-
 }
 
 html {
@@ -37,8 +36,6 @@ html {
     background-size: contain;
     height: 100vh;
     position: absolute;
-
-  
 }
 
 @media(max-width:650px) {
@@ -60,15 +57,14 @@ body {
     min-height: 100%;
     overflow: hidden;
     -webkit-user-select: none;
-    background-image:url('C:/Users/notandi/Documents/DnD/Nýársgrúbba/Maps/Corinthia/city.png');
-    background-size:200%;
+    background-image: url('C:/Users/notandi/Documents/DnD/Nýársgrúbba/Maps/Corinthia/city.png');
+    background-size: 200%;
 }
 
 .title_bar {
     margin-top: 0;
     z-index: 46;
     height: 35px;
-
 }
 
 .transparent {
@@ -104,7 +100,6 @@ body {
 li {
     display: flex;
     flex-flow: row wrap;
-
     padding: 5px;
     font-family: "bookSanity";
 }
@@ -121,6 +116,10 @@ li {
     width: 100%;
     text-align: center;
     padding: 5px;
+}
+
+.popup_menu .button_style{
+    border-radius:0 !important;
 }
 
 .popup_dialog {
@@ -239,39 +238,37 @@ li {
     padding-left: 21px;
     width: 60px;
 }
-#background{
+
+#background {
     background-repeat: no-repeat;
-    transform-origin: 0 0 ;
-   
+    transform-origin: 0 0;
 }
 
-.background_repeat_x{
-    background-repeat:repeat-x !important;
+.background_repeat_x {
+    background-repeat: repeat-x !important;
 }
 
-.background_repeat_y{
-    background-repeat:repeat-y !important;
+.background_repeat_y {
+    background-repeat: repeat-y !important;
 }
-#foreground{
+
+#foreground {
     background-repeat: no-repeat;
-    transform-origin: 0 0 ;
-   
+    transform-origin: 0 0;
 }
 
 #foreground, #background {
-    height:auto;
+    height: auto;
     background-color: transparent;
     background-size: contain;
-    width:100%;
+    width: 100%;
     transition: -webkit-filter 1s;
     transition-timing-function: ease-in;
-
-
-
 }
 
-#map_layer_container{
+#map_layer_container {
     transform: matrix( calc( var(--bg-scale)), 0, 0, calc( var(--bg-scale)), calc(var(--bg-translate-x)), calc(var(--bg-translate-y)));
+    position: absolute;
 }
 
 .tooltip {
@@ -286,18 +283,19 @@ li {
 .hidden {
     display: none;
 }
-.attach_lightsource_pawn{
-    cursor:copy;
+
+.attach_lightsource_pawn {
+    cursor: copy;
 }
-.attach_lightsource_pawn:hover{
+
+.attach_lightsource_pawn:hover {
     border: none !important;
 }
-.pawn{
+
+.pawn {
     position: absolute;
     z-index: var(--z-index-pawn);
-  
     display: flex;
-
     filter: drop-shadow(10px 10px 10px rgba(0, 0, 0, 0.5));
     flex-flow: row wrap;
     background-color: rgba(255, 255, 255, 0.75);
@@ -308,33 +306,31 @@ li {
     transform: scale(calc(var(--pawn-scale)));
 }
 
-.pawn:not(.pawn_mob){
+.pawn:not(.pawn_mob) {
     border-radius: 50%;
-
 }
 
-.pawn_mob{
+.pawn_mob {
     background-color: transparent !important;
-    border-radius:5px;
+    border-radius: 5px;
 }
 
-.mob_token{
+.mob_token {
     position: absolute;
-  
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 
-.mob_token_dead>.dead_marker{
+.mob_token_dead>.dead_marker {
     visibility: visible !important;
 }
 
-.mob_token>.dead_marker{
+.mob_token>.dead_marker {
     visibility: hidden;
 }
 
-.dead_marker{
+.dead_marker {
     background-color: rgba(218, 0, 0, 0.632) !important;
     background-position: center;
     border-radius: 50%;
@@ -368,14 +364,12 @@ li {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    
     border: none;
     position: absolute;
     transform: rotate(calc(var(--pawn-rotate)));
 }
 
-
-.condition_effect:hover .condition_text{
+.condition_effect:hover .condition_text {
     display: flex;
     margin-bottom: -160%;
     position: absolute;
@@ -384,31 +378,36 @@ li {
     top: 100%;
     pointer-events: none;
     left: 100%;
-    z-index:99;
+    z-index: 99;
     padding: 5px;
     flex-flow: column nowrap;
     background-color: black;
     min-width: 238px;
 }
-.condition_text *{
-    color:white;
+
+.condition_text * {
+    color: white;
 }
-.condition_text img{
+
+.condition_text img {
     width: 30px;
     margin: auto;
 }
-.condition_text h2{
+
+.condition_text h2 {
     margin: 0;
     font-family: "Impact, fantasy";
 }
 
-.condition_effect ul{
+.condition_effect ul {
     margin: 0;
     padding: 0;
 }
-.condition_text{
-    display:none;
+
+.condition_text {
+    display: none;
 }
+
 .condition_effect {
     height: 50%;
     width: 50%;
@@ -421,10 +420,8 @@ li {
     background-color: rgba(255, 255, 255, 0.25);
     display: flex;
     text-align: center;
-
     background-size: contain;
     z-index: 6;
-  
 }
 
 .condition_effect>p {
@@ -454,8 +451,9 @@ li {
 #conditions_menu>button {
     font-size: 12px;
 }
-#conditions_menu input{
-    height:20px;
+
+#conditions_menu input {
+    height: 20px;
     width: 110px;
     padding: 5px;
 }
@@ -477,10 +475,11 @@ li {
     border: 2px dashed white;
 }
 
-.help_tool_tip li{
-    display:flex;
+.help_tool_tip li {
+    display: flex;
     justify-content: space-between;
 }
+
 .help_tool_tip {
     position: absolute;
     top: 30px;
@@ -536,41 +535,41 @@ li {
     background-color: #000000ba;
     padding: 1em;
 }
-#map_size_slider_container h4{
-    margin:0;
-    font-size:1em;
-    padding:1em;
+
+#map_size_slider_container h4 {
+    margin: 0;
+    font-size: 1em;
+    padding: 1em;
     font-family: var(--basic-font);
     text-align: center;
-    color:white;
-}
-.init_not_started{
-    display:none;
+    color: white;
 }
 
-.initiativeNode{
-    margin:10px;
-    opacity:0.7;
-    border-radius:50%;
-    
+.init_not_started {
+    display: none;
 }
 
-.initiative_node_active{
+.initiativeNode {
+    margin: 10px;
+    opacity: 0.7;
+    border-radius: 50%;
+}
+
+.initiative_node_active {
     width: 4em;
     display: flex;
     height: 4em;
     justify-content: center;
     margin-top: -6px;
-
 }
 
-.initiative_node_active p{
+.initiative_node_active p {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 1.1em;
 }
 
-.initiative_node_inactive p{
+.initiative_node_inactive p {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -581,24 +580,24 @@ li {
     margin: auto;
     text-align: center;
     font-size: 1.2em;
-
     visibility: hidden;
 }
-.initiative_node_inactive p::first-letter{
 
+.initiative_node_inactive p::first-letter {
     visibility: visible;
 }
-.initiative_node_inactive{
-    width:2em;
-    height:2em;
+
+.initiative_node_inactive {
+    width: 2em;
+    height: 2em;
 }
-.initiative{
+
+.initiative {
     pointer-events: none;
     position: absolute;
     display: flex;
     flex-flow: row nowrap;
     bottom: -10px;
-  
     z-index: var(--z-index-initiative);
 }
 

@@ -30,7 +30,7 @@ var fovSegmentLayerContext = document.getElementById("fog_of_war_segments").getC
 
 
 //Grid 
-var moveOffsetX = 0, moveOffsetY = 0, offsetChangeX = 0, offsetChangeY = 0, canvasMoveRate = 2;
+var gridMoveOffsetX = 0, gridMoveOffsetY = 0, offsetChangeX = 0, offsetChangeY = 0, canvasMoveRate = 2;
 var resetMoveIncrementTimer;
 
 var mapContainer, foregroundCanvas, backgroundCanvas;
@@ -643,11 +643,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function moveForeground(x, y) {
-    console.log("Move foreground ", x, y)
+    var oldRect = foregroundCanvas.getBoundingClientRect();
     foregroundCanvas.data_transform_x = x;
     foregroundCanvas.data_transform_y = y;
     foregroundCanvas.style.transform = `translate(${x}px, ${y}px)`
-
+    var newRect = foregroundCanvas.getBoundingClientRect();
+    gridMoveOffsetX += newRect.x -oldRect.x;
+    gridMoveOffsetY += newRect.y - oldRect.y;
 }
 
 function moveMap(x, y) {
@@ -711,8 +713,8 @@ function onSettingsLoaded() {
 
         var bgX = mapContainer.data_transform_x;
         var bgY = mapContainer.data_transform_y;
-        offsetChangeX = moveOffsetX;
-        offsetChangeY = moveOffsetY;
+        offsetChangeX = gridMoveOffsetX;
+        offsetChangeY = gridMoveOffsetY;
         if (event.shiftKey) {
             bgX = foregroundCanvas.data_transform_x;
             bgY = foregroundCanvas.data_transform_y;
@@ -725,7 +727,7 @@ function onSettingsLoaded() {
             } else if (event.keyCode == 40) {
                 bgY += canvasMoveRate;
             }
-            console.log(canvasMoveRate)
+   
             moveForeground(bgX, bgY)
 
             if (canvasMoveRate < 80) canvasMoveRate++;
@@ -734,27 +736,29 @@ function onSettingsLoaded() {
         //left
         if (event.keyCode == 37 || event.keyCode == 65) {
             bgX += canvasMoveRate;
-            moveOffsetX += canvasMoveRate;
+            gridMoveOffsetX += canvasMoveRate;
             //right
         } else if (event.keyCode == 39 || event.keyCode == 68) {
             bgX -= canvasMoveRate;
-            moveOffsetX -= canvasMoveRate;
+            gridMoveOffsetX -= canvasMoveRate;
             //up
         } else if (event.keyCode == 38 || event.keyCode == 87) {
             bgY += canvasMoveRate;
-            moveOffsetY += canvasMoveRate;
+            gridMoveOffsetY += canvasMoveRate;
             //down
         } else if (event.keyCode == 40 || event.keyCode == 83) {
             bgY -= canvasMoveRate;
-            moveOffsetY -= canvasMoveRate;
+            gridMoveOffsetY -= canvasMoveRate;
         }
         if (canvasMoveRate < 80) canvasMoveRate++;
 
 
         moveMap(bgX, bgY);
         drawGrid();
-        offsetChangeX = moveOffsetX - offsetChangeX;
-        offsetChangeY = moveOffsetY - offsetChangeY;
+
+        offsetChangeX = gridMoveOffsetX - offsetChangeX;
+        offsetChangeY = gridMoveOffsetY - offsetChangeY;
+        nudgePawns(offsetChangeX, offsetChangeY)
         console.log("Offset change: " + offsetChangeX + " " + offsetChangeY)
         fovLighting.nudgeSegments(offsetChangeX, offsetChangeY);
         fovLighting.drawSegments();
@@ -868,8 +872,8 @@ function onSettingsLoaded() {
                     })
                     */
             //data.pawns = pawnsToSave;
-            data.moveOffsetX = moveOffsetX;
-            data.moveOffsetY = moveOffsetY;
+            data.moveOffsetX = gridMoveOffsetX;
+            data.moveOffsetY = gridMoveOffsetY;
             data.effects = effects;
             for (var i = 0; i < effects.length; i++) {
                 data.effects[i].data_classList = [...effects[i].classList];
@@ -927,20 +931,22 @@ function onSettingsLoaded() {
             }
             data = JSON.parse(data);
             //  pawns = data.pawns;
-            fovLighting.setSegments(data.segments);
-
-            moveOffsetX = data.moveOffsetX;
-            moveOffsetY = data.moveOffsetY;
-
+        resetEverything();
+            console.log(data);
+            // moveOffsetX = data.moveOffsetX;
+            // moveOffsetY = data.moveOffsetY;
             console.log(data)
+            
             mapContainer.data_bg_scale = data.bg_scale;
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
             mapContainer.style.setProperty("--bg-scale", data.bg_scale);
-            resizeForeground(data.bg_width);
+            resizeForeground(data.bg_width, true);
+            fovLighting.setSegments(data.segments);
             settings.currentMap = data.map;
             $('#foreground').css('background-image', 'url("' + data.map + '")');
             $("#foreground").css("background-size", data.bgSize);
             moveMap(data.bgX, data.bgY);
+            fovLighting.drawSegments();
 
 
             //Light effects
@@ -1017,8 +1023,8 @@ function createEffectMenus() {
 }
 
 function resetGridOffset() {
-    moveOffsetX = 0;
-    moveOffsetY = 0;
+    gridMoveOffsetX = 0;
+    gridMoveOffsetY = 0;
     offsetChangeX = 0;
     offsetChangeY = 0;
 }
@@ -1095,7 +1101,7 @@ function resizeForeground(newWidth) {
     var newHeight = newWidth * foregroundCanvas.heightToWidthRatio;
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
-    console.log(mapContainer.heightToWidthRatio)
+
     document.getElementById("foreground_size_slider").value = newWidth;
     settings.gridSettings.mapSize = newWidth;
     fovLighting.resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight)
@@ -1159,19 +1165,19 @@ function zoomIntoMap(event, resizeAmount) {
 
         var moveMapX = newXRelative - currentRelativePositionX;
         var moveMapY = newYRelative - currentRelativePositionY;
-
+        gridMoveOffsetX += newRect.left - oldRect.left;
+        gridMoveOffsetY += newRect.top - oldRect.top;
 
         var bgX = mapContainer.data_transform_x;
         var bgY = mapContainer.data_transform_y;
         bgY -= moveMapY;
         bgX -= moveMapX;
-        moveOffsetX -= moveMapX;
-        moveOffsetY -= moveMapY;
+        gridMoveOffsetX -= moveMapX;
+        gridMoveOffsetY -= moveMapY;
         moveMap(bgX, bgY);
 
         newRect = foregroundCanvas.getBoundingClientRect();
-        moveOffsetX += newRect.left - oldRect.left;
-        moveOffsetY += newRect.top - oldRect.top;
+
         cellSize = originalCellSize * newSize;
         //Move pawns
         var cellsFromLeft, cellsFromTop;
@@ -1817,11 +1823,11 @@ function startMeasuring(event) {
 function snapPawnToGrid(elmnt) {
     if (parseFloat(elmnt.dnd_hexes) < 1) return;
     var positionOnTranslatedGrid = {
-        x: Math.round((elmnt.offsetLeft - moveOffsetX) / cellSize) * cellSize,
-        y: Math.round((elmnt.offsetTop - moveOffsetY) / cellSize) * cellSize
+        x: Math.round((elmnt.offsetLeft - gridMoveOffsetX) / cellSize) * cellSize,
+        y: Math.round((elmnt.offsetTop - gridMoveOffsetY) / cellSize) * cellSize
     }
-    elmnt.style.left = positionOnTranslatedGrid.x + moveOffsetX + "px";
-    elmnt.style.top = positionOnTranslatedGrid.y + moveOffsetY + "px";
+    elmnt.style.left = positionOnTranslatedGrid.x + gridMoveOffsetX + "px";
+    elmnt.style.top = positionOnTranslatedGrid.y + gridMoveOffsetY + "px";
 }
 
 function refreshMeasurementTooltip() {
@@ -3112,8 +3118,8 @@ function startMovingMap(e) {
             var bgY = mapContainer.data_transform_y;
             bgY -= pos2;
             bgX -= pos1;
-            moveOffsetX -= pos1;
-            moveOffsetY -= pos2;
+            gridMoveOffsetX -= pos1;
+            gridMoveOffsetY -= pos2;
             moveMap(bgX, bgY);
             nudgePawns(-pos1, -pos2);
             fovLighting.nudgeSegments(-pos1, -pos2);
@@ -3510,9 +3516,10 @@ function drawGrid() {
     var ctx = gridLayerContext;
     ctx.beginPath();
     ctx.setLineDash([2]);
-    var startPointX = moveOffsetX % cellSize;
-    var startPointY = moveOffsetY % cellSize;
 
+    var startPointX = gridMoveOffsetX % cellSize;
+    var startPointY = gridMoveOffsetY % cellSize;
+    console.log(startPointX, startPointY)
 
     for (var i = startPointY; i < canvasHeight; i += cellSize) {
         ctx.moveTo(0, i);
