@@ -51,7 +51,10 @@ var selectedConditionImagePath;
 $(document).ready(function () {
   dataAccess.getSettings(sett => {
     settings = sett;
-  })
+  });
+  document.getElementById("token_importer_window_button").addEventListener("click",function(evt){
+    ipcRenderer.send('open-token-importer');
+  });
   populateSpellClassDropdown();
   populateDropdowns();
   dataAccess.getSettings(function (settings) {
@@ -1434,13 +1437,13 @@ function getAllTokenPaths(entryId) {
 var tokenRemoveQueue = [];
 function createToken(pathStr, isOldToken, isCopy) {
   console.log("Creating token", pathStr)
-  var token = document.createElement("div");
+  var token = document.createElement("img");
   token.classList.add("token");
   token.setAttribute("data-file_path", pathStr);
   if (!isOldToken || isCopy) {
     token.setAttribute("data-is_new_token", "t");
   }
-  token.style.backgroundImage = "url('" + pathStr.replace(/\\/g, "/") + "')";
+  token.setAttribute("src", pathStr.replace(/\\/g, "/"));
   token.addEventListener("click", function (e) {
 
     var isNewToken = e.target.getAttribute("data-is_new_token");

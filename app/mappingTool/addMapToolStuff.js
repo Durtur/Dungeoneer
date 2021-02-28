@@ -1,3 +1,4 @@
+const dataAccess = require("./js/dataaccess");
 var allEffects;
 var editingEffectName = null;
 var effectFilePath;

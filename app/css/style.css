@@ -45,7 +45,7 @@
   transition: all var(--transition-delay);
   border: 1px solid black;
   background-color: white;
-  font-family: roboto;
+  font-family: var(--basic-font);
   color: black;
   border-radius: 5px;
 }
@@ -105,7 +105,7 @@ h1 {
 }
 
 .small {
-  border-radius: 50%;
+  border-radius: 50% !important;
   height: 25px;
   width: 25px;
 }
@@ -117,6 +117,7 @@ h1 {
 .control_button {
   width: 63.5px;
   font-size: 12px !important;
+  border-radius: 0 !important;
 }
 
 #round_counter_container {
@@ -197,7 +198,7 @@ h1 {
   margin: 3px;
   font-size: 14px;
   text-align: center;
-  font-family: "roboto condensed"
+  font-family: var(--basic-font);
 }
 
 .combat_log_title_main {
@@ -229,7 +230,7 @@ h1 {
 
 .combat_log_action_container .button_style {
   width: 100%;
-  font-family: "roboto condensed";
+  font-family: var(--basic-font);
   font-size: 11px;
 }
 
@@ -257,7 +258,7 @@ h1 {
   font-size: 10px;
   width: 125px;
   text-align: center;
-  font-family: "roboto condensed";
+  font-family: var(--basic-font);
   white-space: pre;
 }
 
@@ -534,6 +535,10 @@ h1 {
   width: 40px;
   height: 40px;
   margin-top: 2px;
+  
+}
+.saveRoller input, .saveRoller label{
+  border-radius: var(--rounded-corners);
 }
 
 .saveRoller>.vertical {
@@ -743,9 +748,11 @@ h1 {
   text-align: center;
   background-color: white;
 }
-
+.mobcontroller_second_row{
+  padding-right: 80px;
+}
 .mobcontroller_second_row>input {
-  width: 110px !important;
+  flex:1;
 }
 
 .mobcontroller_creatures_remaining {
@@ -1133,7 +1140,7 @@ button:disabled {
   margin-bottom: -1em;
   margin-left: 9px;
   color: white;
-  font-family: roboto;
+  font-family: var(--basic-font);
   font-size: 0.8em;
   padding: 0.25em;
 }
@@ -1172,7 +1179,7 @@ button:disabled {
 
 .combatRow[data-dnd_conditions]:before {
   position: absolute;
-  font-family: "roboto condensed";
+  font-family: var(--basic-font);
   left: 85px;
   font-size: 10px;
   top: 0px;
@@ -1418,7 +1425,7 @@ button:disabled {
 
 .secondary_tooltip * {
   color: white;
-  font-family: "roboto condensed";
+  font-family: var(--basic-font);
 }
 
 .secondary_tooltip p {
@@ -1426,7 +1433,7 @@ button:disabled {
   color: white;
   font-size: 14px;
   margin: 5px;
-  font-family: "roboto condensed";
+  font-family: var(--basic-font);
   white-space: normal;
 }
 

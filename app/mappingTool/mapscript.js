@@ -1098,7 +1098,7 @@ function resizeForeground(newWidth) {
     console.log(mapContainer.heightToWidthRatio)
     document.getElementById("foreground_size_slider").value = newWidth;
     settings.gridSettings.mapSize = newWidth;
-   fovLighting.resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight)
+    fovLighting.resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight)
 }
 
 function resizeBackground(newWidth) {
@@ -1146,21 +1146,21 @@ function zoomIntoMap(event, resizeAmount) {
         var sizeRatioX = newRect.width / oldRect.width;
         var sizeRatioY = newRect.height / oldRect.height;
 
-        
-        var relativePositionX = event.x - oldRect.x; 
-        var relativePositionY = event.y - oldRect.y; 
 
-        var currentRelativePositionX = event.x - newRect.x; 
-        var currentRelativePositionY = event.y - newRect.y; 
+        var relativePositionX = event.x - oldRect.x;
+        var relativePositionY = event.y - oldRect.y;
 
-        var newXRelative = relativePositionX*sizeRatioX;
-        var newYRelative = relativePositionY *sizeRatioY;
+        var currentRelativePositionX = event.x - newRect.x;
+        var currentRelativePositionY = event.y - newRect.y;
+
+        var newXRelative = relativePositionX * sizeRatioX;
+        var newYRelative = relativePositionY * sizeRatioY;
 
 
-        var moveMapX = newXRelative- currentRelativePositionX ;
-        var moveMapY = newYRelative - currentRelativePositionY ;
+        var moveMapX = newXRelative - currentRelativePositionX;
+        var moveMapY = newYRelative - currentRelativePositionY;
 
-     
+
         var bgX = mapContainer.data_transform_x;
         var bgY = mapContainer.data_transform_y;
         bgY -= moveMapY;
@@ -1168,7 +1168,7 @@ function zoomIntoMap(event, resizeAmount) {
         moveOffsetX -= moveMapX;
         moveOffsetY -= moveMapY;
         moveMap(bgX, bgY);
-    
+
         newRect = foregroundCanvas.getBoundingClientRect();
         moveOffsetX += newRect.left - oldRect.left;
         moveOffsetY += newRect.top - oldRect.top;
@@ -2477,7 +2477,7 @@ function enlargeReducePawn(direction) {
         var sizeIndex = creaturePossibleSizes.sizes.indexOf(element.dnd_size);
         var currentSize = creaturePossibleSizes.sizes[sizeIndex];
         if (direction > 0) {
-            if (sizeIndex >= creaturePossibleSizes.hexes.length -1) return;
+            if (sizeIndex >= creaturePossibleSizes.hexes.length - 1) return;
             sizeIndex++;
         } else {
             if (sizeIndex <= 0) return;
@@ -3186,12 +3186,16 @@ function dragPawn(elmnt) {
                     gridLayer.onmousedown = generalMousedowngridLayer;
                 }
             } else {
+              //  console.log()
+                if (isSelectedPawn(e.target) < 0)
+                    clearSelectedPawns();
                 setupMeasurements();
                 originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop };
                 measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
                 showToolTip(e, "0 ft", "tooltip")
                 e = e || window.event;
                 e.preventDefault();
+
                 // get the mouse cursor position at startup:
                 pos3 = e.clientX;
                 pos4 = e.clientY;

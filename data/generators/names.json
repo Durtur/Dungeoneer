@@ -1155,6 +1155,10 @@
 			"replace_with": "$this.animal"
 		},
 		{
+			"value": "_treat",
+			"replace_with": "$this.treats"
+		},
+		{
 			"value": "_hisher",
 			"replace_with": {
 				"male": [
@@ -1198,6 +1202,14 @@
 				]
 			}
 		}
+	],
+	"treats":[
+		"apples",
+		"oranges",
+		"good pipe weed",
+		"plums",
+		"figs",
+			"sherry"
 	],
 	"metals": [
 		"mithril",
@@ -1336,6 +1348,11 @@
 	],
 	"generated_creatures": {
 		"humanoid": {
+			"population_data":{
+				"mean":30,
+				"STD":10,
+				"min":18
+			},
 			"professions": {
 				"common": [
 					"Farmer",
@@ -1696,6 +1713,11 @@
 			}
 		},
 		"celestial": {
+			"population_data":{
+				"mean":3200,
+				"STD":1000,
+				"min":70
+			},
 			"professions": {
 				"common": [
 					"Defender",
@@ -1782,6 +1804,11 @@
 			}
 		},
 		"dwarf": {
+			"population_data":{
+				"mean":140,
+				"STD":60,
+				"min":30
+			},
 			"professions": {
 				"common": [
 					"Mushroom farmer",
@@ -1901,7 +1928,7 @@
 				"is blind on one eye",
 				"is blind",
 				"is deaf",
-				"loves apples, something _heshe doesn't get very often",
+				"loves _treat, something _heshe doesn't get very often",
 				"single-handedly held an important pass in a battle years ago after losing all of _hisher comrades",
 				"speaks quite fast; sometimes it's hard to follow what _heshe is saying",
 				"walks with a limp after a stray arrow destroyed _hisher kneecap",
@@ -1936,6 +1963,11 @@
 			}
 		},
 		"fiend": {
+			"population_data":{
+				"mean":1000,
+				"STD":550,
+				"min":5
+			},
 			"professions": {
 				"common": [
 					"Corruptor",
@@ -2121,7 +2153,7 @@
 				"once slaughtered a whole logging camp of _creatures, bathing in their blood at twilight",
 				"has a strong sense of justice and will protect those who cannot protect themselves",
 				"hates arcane spellcasters with a fervour, which _heshe believes are dabbling in arts they neither understand nor control",
-				"loves a good pipe weed",
+				"loves _treat",
 				"grows unusual intoxicating _color fungi",
 				"has a chronic disease that cripples _himher",
 				"has a swarm of insects which _heshe considers _hisher pets",
@@ -3470,6 +3502,7 @@
 		"If you ride down to the crossroads when the moon is at it's darkest, you'll see a devil there, fiddling away...",
 		"If you're riding due north, don't stop at the old _lastname _structure, or may the gods protect ye...",
 		"There's a bunch of buglike critters roaming about South of mount _mountain, I would stay out of there if I were you",
-		"There's a child snatching hag hiding in the swamp south of _mountain. We're rounding up strong folk to root her out"
+		"There's a child snatching hag hiding in the swamp south of _mountain. We're rounding up strong folk to root her out",
+		"A new religion is growing in these parts, worshipping a beautiful, shining god. But also a terrible one..."
 	]
 }

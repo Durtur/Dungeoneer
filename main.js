@@ -25,6 +25,7 @@ aboutWindow = null;
 mapToolAddWindow = null;
 maptoolWindow = null;
 maptoolExtraWindow = null;
+massTokenImporterWindow = null;
 var updatePending = false;
 
 
@@ -154,6 +155,11 @@ ipcMain.on('open-about-window', function () {
   openAboutWindow();
 });
 
+
+ipcMain.on('open-token-importer', function () {
+  openMassTokenImporterWindow();
+});
+
 ipcMain.on("open-maptool-backdrop-window", function () {
   if (maptoolBackdropWindow) {
     maptoolBackdropWindow.focus();
@@ -267,6 +273,29 @@ function openAddMapToolStuffWindow() {
   });
 }
 
+function openMassTokenImporterWindow() {
+  if (massTokenImporterWindow) {
+    massTokenImporterWindow.focus();
+    return;
+  }
+  massTokenImporterWindow = new BrowserWindow({
+    height: 800,
+    resizable: true,
+    width: 750,
+    frame: false,
+    icon: "./app/css/img/icon.png",
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
+    }
+  });
+  massTokenImporterWindow.loadURL('file://' + __dirname + '/app/tokenImporter.html');
+
+  massTokenImporterWindow.on('closed', function () {
+    massTokenImporterWindow = null;
+  });
+}
+
 function openAboutWindow() {
   if (aboutWindow) {
     aboutWindow.focus();
@@ -274,9 +303,9 @@ function openAboutWindow() {
   }
 
   aboutWindow = new BrowserWindow({
-    height: 450,
+    height: 600,
     resizable: true,
-    width: 600,
+    width: 680,
     frame: false,
     icon: "./app/css/img/icon.png",
     webPreferences: {
@@ -285,7 +314,7 @@ function openAboutWindow() {
     }
   });
 
-  aboutWindow.loadURL('file://' + __dirname + '/app/about/about.html');
+  aboutWindow.loadURL('file://' + __dirname + '/app/about.html');
 
   aboutWindow.on('closed', function () {
     aboutWindow = null;
@@ -340,7 +369,7 @@ function createWindow() {
           enableRemoteModule: true
         }
       }
-      );
+    );
 
     mainWindow.webContents.once('dom-ready', () => {
 

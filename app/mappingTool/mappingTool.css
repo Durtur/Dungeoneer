@@ -68,6 +68,7 @@ body {
     margin-top: 0;
     z-index: 46;
     height: 35px;
+
 }
 
 .transparent {
@@ -476,6 +477,10 @@ li {
     border: 2px dashed white;
 }
 
+.help_tool_tip li{
+    display:flex;
+    justify-content: space-between;
+}
 .help_tool_tip {
     position: absolute;
     top: 30px;
@@ -535,7 +540,7 @@ li {
     margin:0;
     font-size:1em;
     padding:1em;
-    font-family:roboto;
+    font-family: var(--basic-font);
     text-align: center;
     color:white;
 }

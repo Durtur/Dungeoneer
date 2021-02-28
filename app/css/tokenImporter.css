@@ -1,0 +1,62 @@
+.token_path_input {
+    width: 20em;
+    border-radius: var(--rounded-corners);
+    margin: auto;
+    text-align: center;
+    padding: 1em;
+}
+
+#expl_text {
+    width: 40em;
+    margin: auto;
+}
+
+
+#loading_title, #nodata_text{
+    margin:auto;
+    font-size:1.5em;
+
+}
+
+.loading_ele_cont{
+    margin: auto;
+    text-align: center;
+}
+#loading_ele {
+    display: flex;
+    background-image: url(img/icon.png);
+    width: 11em;
+    height: 10em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: auto;
+}
+
+p {
+    font-family: bookSanity;
+}
+
+.token_container label {
+    font-size: 1.25em;
+    font-family: bookSanity;
+}
+
+main {
+    padding: 2em;
+}
+
+.token_container {
+    justify-content: space-between;
+}
+
+.token:hover {
+    filter: drop-shadow(0 0 10px white)
+}
+
+.token {
+    background-size: contain;
+    width: 50px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    height: 50px;
+}

@@ -47,9 +47,14 @@
 .generate_button:first-child{
     margin-top:3em;
 }
+#regenerate_name_button{
+    margin-top: 7.25em;
+}
 
 .regenerate_button {
     border: none;
+    margin-left: -2em;
+    margin-right: 0.5em;
     background-image: url(img/refresh.png);
     border-radius: 50%;
     transition: all 300ms;
@@ -57,11 +62,8 @@
     background-repeat: no-repeat;
     background-size: 75%;
     background-position: center;
-    position: absolute;
     height: 20px;
-    left: -25px;
     width: 20px;
-    top: 25px;
 }
 
 .regenerate_button:hover {
@@ -125,19 +127,28 @@ select {
     position: absolute;
     height: 35px;
 }
+#generated_npc_profession{
+    margin-bottom: 0.5em;
+    font-size: 1.25em;
+    font-style: italic;
+    font-family: var(--basic-font);
 
+}
+#generated_npc_name{
+    font-size:2em;
+    padding-top:2em;
+    margin-bottom: 0.25em;
+}
+#tavern_description>p:first-of-type>strong::first-letter{
+    line-height: 2;
+}
 .shop__name {
-    background-color: transparent;
-    background-image: url("img/scroll.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+
     color: black;
-    width: 259px;
-    height: 110px;
-    text-align: center;
+    padding-top: 2em;
+    text-align: left;
     font-size: 20px;
-    margin: auto;
+    color:var(--main-color);
     padding-top: 60px;
 }
 
@@ -151,9 +162,10 @@ path {
 
 #tavern_name, #shop_name {
     font-family: "bookSanity", cursive;
-    text-align: center;
+  
     white-space: "pre";
     overflow: visible;
+    font-size:2em;
 }
 
 .generator_tab {

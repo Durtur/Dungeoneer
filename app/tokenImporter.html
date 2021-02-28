@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="SÖR" content="">
+    <meta name="DM Tool" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/tokenImporter.css" rel="stylesheet">
+    <link href="css/settings.css" rel="stylesheet">
+    <link href="css/colors.css" rel="stylesheet">
+
+</head>
+<div class="title_bar">
+
+
+    <p class="text"></p>
+    <button id="minimize_app_button"></button>
+    <button id="min_max_button"></button>
+    <button id="close_window_button"> </button>
+</div>
+<div class="main_content_wrapper">
+
+    <body>
+        <main style="margin-top:4em">
+            <div class="column" style="min-height: 80vh;  min-width: 80vw;">
+                <p id="expl_text">To import tokens press the button below and select a root folder where all your
+                    tokens are located. Dungeoneer will look through the folders for any png images that start with a
+                    monsters name. Any monsters that have tokens already are ignored.</p>
+                <button class="button_style center" style="width: 8em; padding:1em;     margin-top: 2em;"
+                    onclick="startImporting(event)">Select
+                    root folder</button>
+                
+                <div class = "loading_ele_cont hidden">
+                    <div id="loading_ele"alt="loading" class="center">
+                        <img src="css/img/loading.gif" style="width:60px; margin:auto; margin-top:10px" alt="loading"
+                            class="center">
+                    </div>
+                    <div class="column" style="margin-top:2em">
+                        <p id="loading_title">ttile</p>
+                        <p id="loading_detail">awfwf</p>
+                    </div>
+                </div>
+         
+                <p class="hidden" id="nodata_text">No additional tokens found.</p>
+                <div class="column" id="importer_token_container">
+
+                </div>
+                <button class="button_style green center hidden" onclick="saveTokens()" id="save_tokens_button"
+                    style="width: 8em; padding:1em;   margin-top: 2em;">Save tokens</button>
+            </div>
+        </main>
+        <!--
+        <div class="row save_button_container">
+            <button class="button_style green" id="saveButton" onclick="saveSettings()">Save</button>
+        </div>
+            -->
+        <script>
+            window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
+        </script>
+        <script src="js/dataaccess.js"></script>
+        <script src="js/constants.js"></script>
+        <script src="js/tokenImporter.js"></script>
+        <script src="js/guicontrol.js"></script>
+
+    </body>
+</div>
+
+</html>

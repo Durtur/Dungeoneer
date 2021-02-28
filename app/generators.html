@@ -231,7 +231,7 @@
         </section>
         <section class="section__show section__tool__large row spread_children" id="npc_section">
             <div class="column genchooser_smaller">
-                <h2>NPC generator values</h2>
+                <h2>NPC generator</h2>
 
 
                 <label for="choose_type_generated_creature">Creature type</label>
@@ -256,17 +256,19 @@
 
             <div class="column genchooser_larger" style="margin-left:2em;">
                 <div class="generator_reroll_container">
-                    <div id="generated_npc_name" class="invisible_editable_header" contenteditable>
-                    </div>
                     <button class="hidden regenerate_button" id="regenerate_name_button"></button>
+                    <div id="generated_npc_name" class="invisible_editable_header" >
+                    </div>
+                    
                 </div>
                 <div class="generator_reroll_container">
-                    <label for="generated_npc_profession" class="header_text">Occupation</label>
+                  
                     <button class="hidden regenerate_button" id="regenerate_creature_button"></button>
+                    <div class="invisible_editable_text" id="generated_npc_profession" ></div>
                 </div>
 
-                <div class="invisible_editable_text" id="generated_npc_profession" contenteditable></div>
-                <label for="generated_npc_description" class="header_text">Description</label>
+           
+         
                 <div class="invisible_editable_text" id="generated_npc_description" contenteditable></div>
                 <button class="button_style button_wide margin_top" id="copyButton"
                     title="Copy to clipboard">Copy</button>
