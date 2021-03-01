@@ -114,11 +114,11 @@ function loadSettings() {
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 
-
-        if (settings.map_edge_style)
+        if (settings.transparentWindow) {
+            document.querySelector(".maptool_body").style.backgroundImage = null;
+        } else if (settings.map_edge_style) {
             document.querySelector(".maptool_body").style.backgroundImage = "url('" + settings.map_edge_style + "')";
-        console.log(settings);
-
+        }
 
         loadParty();
         onSettingsLoaded();
@@ -648,7 +648,7 @@ function moveForeground(x, y) {
     foregroundCanvas.data_transform_y = y;
     foregroundCanvas.style.transform = `translate(${x}px, ${y}px)`
     var newRect = foregroundCanvas.getBoundingClientRect();
-    gridMoveOffsetX += newRect.x -oldRect.x;
+    gridMoveOffsetX += newRect.x - oldRect.x;
     gridMoveOffsetY += newRect.y - oldRect.y;
 }
 
@@ -675,7 +675,7 @@ function resetEverything() {
 function onSettingsLoaded() {
     refreshPawns();
     window.onresize = function () { window.requestAnimationFrame(resizeAndDrawGrid) }
-
+    console.log("Settings loaded");
     resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth)
     setupGridLayer();
     resizeAndDrawGrid();
@@ -727,7 +727,7 @@ function onSettingsLoaded() {
             } else if (event.keyCode == 40) {
                 bgY += canvasMoveRate;
             }
-   
+
             moveForeground(bgX, bgY)
 
             if (canvasMoveRate < 80) canvasMoveRate++;
@@ -931,20 +931,25 @@ function onSettingsLoaded() {
             }
             data = JSON.parse(data);
             //  pawns = data.pawns;
-        resetEverything();
-            console.log(data);
-            // moveOffsetX = data.moveOffsetX;
-            // moveOffsetY = data.moveOffsetY;
             console.log(data)
-            
+            gridMoveOffsetX = data.moveOffsetX;
+            gridMoveOffsetY = data.moveOffsetY;
+            console.log(data)
+
             mapContainer.data_bg_scale = data.bg_scale;
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
             mapContainer.style.setProperty("--bg-scale", data.bg_scale);
-            resizeForeground(data.bg_width, true);
+            resizeForeground(data.bg_width);
+
+            //    foregroundCanvas.style.width = data.bg_width + "px";
+            //    foregroundCanvas.style.height = data.bg_width * foregroundCanvas.heightToWidthRatio + "px";
+
+            //    document.getElementById("foreground_size_slider").value = data.bg_width;
+
             fovLighting.setSegments(data.segments);
             settings.currentMap = data.map;
             $('#foreground').css('background-image', 'url("' + data.map + '")');
-            $("#foreground").css("background-size", data.bgSize);
+
             moveMap(data.bgX, data.bgY);
             fovLighting.drawSegments();
 
@@ -1074,7 +1079,7 @@ function setMapForeground(path, width) {
 
     img.onload = function () {
         foregroundCanvas.heightToWidthRatio = img.height / img.width;
-
+     
         var mapWidth = width ? width : img.width;
         var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
         var height = img.height * imgWidthToOldWidth;
@@ -1085,7 +1090,7 @@ function setMapForeground(path, width) {
 
         foregroundCanvas.style.width = mapWidth + "px";
         foregroundCanvas.style.height = height + "px";
-        document.getElementById("foreground_size_slider").value = img.width;
+        document.getElementById("foreground_size_slider").value = mapWidth;
     }
     img.src = path;
 
@@ -1096,6 +1101,7 @@ function setMapForeground(path, width) {
  */
 
 function resizeForeground(newWidth) {
+    console.log(`foreground resize ${newWidth}`)
     var oldHeight = parseFloat(foregroundCanvas.style.height);
     var oldWidth = parseFloat(foregroundCanvas.style.height);
     var newHeight = newWidth * foregroundCanvas.heightToWidthRatio;
@@ -3192,7 +3198,7 @@ function dragPawn(elmnt) {
                     gridLayer.onmousedown = generalMousedowngridLayer;
                 }
             } else {
-              //  console.log()
+                //  console.log()
                 if (isSelectedPawn(e.target) < 0)
                     clearSelectedPawns();
                 setupMeasurements();
@@ -3316,6 +3322,10 @@ function dragPawn(elmnt) {
         if (settings.snapToGrid) {
             if (selectedPawns.length == 0) {
                 snapPawnToGrid(elmnt);
+            } else {
+                selectedPawns.forEach(pwn => {
+                    snapPawnToGrid(pwn);
+                })
             }
         }
 

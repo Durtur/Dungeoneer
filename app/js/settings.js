@@ -47,7 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
         mobControllerEnabled.checked = data.enable.mobController;
         mapTool.checked = data.enable.mapTool;
         colorTokenBases.checked = data.maptool.colorTokenBases;
-        transparentMaptoolWindow.checked = data.maptool.transparentWindow;
+        if (transparentMaptoolWindow)
+            transparentMaptoolWindow.checked = data.maptool.transparentWindow;
         saveRoller.checked = data.enable.saveRoller;
         defaultMapSizeX.value = data.maptool.defaultMapSize ? data.maptool.defaultMapSize : "";
         hideOrShowMapTool(true);
@@ -68,7 +69,7 @@ function addHeaderHandlers() {
     function hideOrShowContent(event) {
         var parentNode = event.target.parentNode;
         var isOpen = parentNode.getAttribute("data-open");
-    
+
         var contentNode = parentNode.getElementsByClassName("header_content")[0];
 
         if (isOpen == "true") {
@@ -89,20 +90,20 @@ function notifySettingsChanged() {
 
 function saveSettings(closeImmediately) {
     var data;
-    try{
+    try {
         data = {};
         if (oldSettings != null) data = oldSettings;
-    
+
         data.playerPlaques = playerPlaques.checked;
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;
-    
+
         data.maptool.addPlayersAutomatically = addPlayersAutomatically.checked;
         data.maptool.snapToGrid = snapToGrid.checked;
         data.maptool.enableGrid = enableGrid.checked;
         data.maptool.syncToCombatPanel = syncToCombatPanel.checked;
         data.maptool.applyDarkvisionFilter = applyDarkvisionFilter.checked;
-        data.maptool.transparentWindow = transparentMaptoolWindow.checked;
+        data.maptool.transparentWindow = transparentMaptoolWindow?.checked;
         data.maptool.defaultMapSize = {};
         data.maptool.defaultMapSize = defaultMapSizeX.value != "" ? defaultMapSizeX.value : null;
         data.maptool.colorTokenBases = colorTokenBases.checked;
@@ -112,10 +113,10 @@ function saveSettings(closeImmediately) {
         data.enable.mobController = mobControllerEnabled.checked;
         data.enable.lootRoller = lootRoller.checked;
         data.enable.mapTool = mapToolCheckBox.checked;
-    }catch(err){
+    } catch (err) {
         data = loadDefaultSettings();
     }
-    
+
 
     dataAccess.saveSettings(data, function (err) {
         $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
