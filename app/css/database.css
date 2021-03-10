@@ -898,3 +898,8 @@ html {
 .required_input:placeholder-shown {
   border: 2px dotted var(--main-emphasis-color);
 }
+
+.attunement_row>.awesomplete{
+  flex:1;
+  margin-left:1em;
+}

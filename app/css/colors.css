@@ -980,7 +980,7 @@ header {
 .list_search_style {
   background: white url(img/searchG.png) no-repeat scroll 7px 0;
   background-size: contain;
-  padding-left: 30px;
+  padding-left: 3em;
   text-align: left;
   border-radius: 10px;
 }

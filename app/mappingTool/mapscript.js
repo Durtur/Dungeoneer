@@ -1086,8 +1086,7 @@ function setMapForeground(path, width) {
 
         foregroundCanvas.setAttribute("data-original_height", height);
         foregroundCanvas.setAttribute("data-original_width", mapWidth);
-        console.log("Map size " + height + " " + mapWidth)
-
+  
         foregroundCanvas.style.width = mapWidth + "px";
         foregroundCanvas.style.height = height + "px";
         document.getElementById("foreground_size_slider").value = mapWidth;
@@ -2334,6 +2333,7 @@ function refreshMobBackgroundImages(pawn) {
         var currLocation = next.getBoundingClientRect();
         next.parentNode.removeChild(next);
 
+        next.style.transform = `rotate(${pawn.deg || 0}deg)`;
         next.dnd_width = pawn.dnd_hexes * 5;
         next.dnd_height = pawn.dnd_hexes * 5;
         effects.push(next);

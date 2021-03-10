@@ -52,7 +52,7 @@ $(document).ready(function () {
   dataAccess.getSettings(sett => {
     settings = sett;
   });
-  document.getElementById("token_importer_window_button").addEventListener("click",function(evt){
+  document.getElementById("token_importer_window_button").addEventListener("click", function (evt) {
     ipcRenderer.send('open-token-importer');
   });
   populateSpellClassDropdown();
@@ -235,7 +235,10 @@ function populateDropdowns() {
     classList.add(`by ${prefix} ${classStr}`);
   });
   new Awesomplete(document.getElementById("additem_requires_attunement_by"), { list: [...classList], autoFirst: true, minChars: 0, sort: false });
-
+  document.getElementById("additem_requires_attunement_by").addEventListener("awesomplete-selectcomplete", function(e){
+    var checkbox = document.getElementById("additem_requires_attunement");
+    if(!checkbox.checked)checkbox.checked = true;
+  });
   populateAddableFieldDropdowns();
   var sizeList = [];
   creaturePossibleSizes.sizes.forEach(function (size) {
@@ -1309,7 +1312,7 @@ function listAll() {
   }
 
   var data = listedData;
-
+  console.log(data)
   var tabElementName = tab == "homebrew" ? "monsters" : tab;
   if (sortFunction != null) {
     data.sort(sortFunction);
@@ -1322,7 +1325,7 @@ function listAll() {
   }
   var allRows = [...$("#listFrame__" + tabElementName + ">.listRow")];
   if (data.length > allRows.length) {
-    for (var i = allRows.length; i < data.length + 1; i++) {
+    for (var i = allRows.length; i < data.length; i++) {
 
       var newRow = $(`#listFrame__${tabElementName}_template`).clone();
 
@@ -1507,37 +1510,37 @@ function clearAddForm() {
   addMonsterChanged();
 }
 
-function addMonsterChanged(){
+function addMonsterChanged() {
   var value = document.querySelector("#addmonster_name").value;
   var infoBtn = document.getElementById("monster_tag_suggestion_info_button");
-    if (!value) {
-      infoBtn.classList.add("hidden");
-      return;
-    }
-    var monsterSplit = value.trim().toLowerCase().split(" ");
-    var tagSuggestions = new Set();
-    monsterSplit.forEach(monsterName => {
-      constants.creature_habitats.forEach(habitat => {
-        if (habitat.creatures.find(x => x == monsterName || x.split(" ").find(y => y == monsterName)) && !tagExists(habitat.name)) {
-          tagSuggestions.add(habitat.name);
-        }
-      });
+  if (!value) {
+    infoBtn.classList.add("hidden");
+    return;
+  }
+  var monsterSplit = value.trim().toLowerCase().split(" ");
+  var tagSuggestions = new Set();
+  monsterSplit.forEach(monsterName => {
+    constants.creature_habitats.forEach(habitat => {
+      if (habitat.creatures.find(x => x == monsterName || x.split(" ").find(y => y == monsterName)) && !tagExists(habitat.name)) {
+        tagSuggestions.add(habitat.name);
+      }
     });
+  });
 
-    var addBtn = document.getElementById("add_tags_from_sugestion_button");
-    tagSuggestions = [...tagSuggestions];
-    addBtn.setAttribute("data-suggestions", JSON.stringify(tagSuggestions))
-    if (tagSuggestions.length == 0) {
-      infoBtn.classList.add("hidden");
-      return;
-    }
-    var cont = document.querySelector("#monster_tag_suggestion_info_button .monster_tag_suggestion_container");
-    while (cont.firstChild)
-      cont.removeChild(cont.firstChild);
-    infoBtn.classList.remove("hidden");
-    var p = document.createElement("p");
-    p.innerHTML = tagSuggestions.join(", ");
-    cont.appendChild(p);
+  var addBtn = document.getElementById("add_tags_from_sugestion_button");
+  tagSuggestions = [...tagSuggestions];
+  addBtn.setAttribute("data-suggestions", JSON.stringify(tagSuggestions))
+  if (tagSuggestions.length == 0) {
+    infoBtn.classList.add("hidden");
+    return;
+  }
+  var cont = document.querySelector("#monster_tag_suggestion_info_button .monster_tag_suggestion_container");
+  while (cont.firstChild)
+    cont.removeChild(cont.firstChild);
+  infoBtn.classList.remove("hidden");
+  var p = document.createElement("p");
+  p.innerHTML = tagSuggestions.join(", ");
+  cont.appendChild(p);
 
 }
 
@@ -1555,6 +1558,7 @@ function editCopyHelper(entryId, isEdit) {
     entry = loadedData.find(x => {
       return x.id == entryId
     });
+    if(!entry.description)entry.description = "";
   }
 
   if (isEdit) {
@@ -1776,7 +1780,7 @@ function editObject(dataObject, letter) {
       if (!dataObject.creatures[i]) break;
       var name = Object.keys(dataObject.creatures[i])[0].toProperCase();
       var count = Object.values(dataObject.creatures[i])[0];
-      nameFields[i].value = name;
+      nameFields[i].value = name.deserialize();
       countFields[i].value = count;
       showCRForCreature(nameFields[i]);
     }
@@ -2476,27 +2480,32 @@ function saveHomebrew() {
             $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
             document.querySelector("#save_success").scrollIntoView({ block: "end", inline: "nearest" });
 
-            if (tokenRemoveQueue.length == 0) {
-              saveTokens(thingyToSave.id);
-            } else {
-              while (tokenRemoveQueue.length > 0) {
-                fs.unlink(tokenRemoveQueue.pop(), (err) => {
-                  if (err) throw err;
-                  if (tokenRemoveQueue.length == 0)
-                    saveTokens(thingyToSave.id);
-                });
+            if (tab == "monsters" || tab == "homebrew") {
+              if (tokenRemoveQueue.length == 0) {
+                saveTokens(thingyToSave.id);
+              } else {
+                while (tokenRemoveQueue.length > 0) {
+                  fs.unlink(tokenRemoveQueue.pop(), (err) => {
+                    if (err) throw err;
+                    if (tokenRemoveQueue.length == 0)
+                      saveTokens(thingyToSave.id);
+                  });
+                }
               }
+
+              tokenRemoveQueue = [];
+    
+              window.setTimeout(function () {
+                dataAccess.getTags(function (tags) {
+                  monsterTags.list = tags;
+                  createMonsterListFilterDropdown(tags, "monsters_list_tag_select");
+                });
+              }, 1500)
             }
 
-            tokenRemoveQueue = [];
             let window2 = remote.getGlobal('mainWindow');
             if (window2) window2.webContents.send('update-autofill');
-            window.setTimeout(function () {
-              dataAccess.getTags(function (tags) {
-                monsterTags.list = tags;
-                createMonsterListFilterDropdown(tags, "monsters_list_tag_select");
-              });
-            }, 1500)
+          
           });
 
         })

@@ -63,7 +63,7 @@ ipcRenderer.on('update-autofill', function () {
 
 });
 ipcRenderer.on('condition-list-changed', function (evt, conditionList, index) {
-  console.log(conditionList, index)
+
   var combatRow = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => x.getAttribute("data-dnd_monster_index") == index)[0];
   if (combatRow) {
     combatLoader.setConditionList(combatRow, conditionList.map(x => x.toLowerCase()));
@@ -160,8 +160,8 @@ document.addEventListener("DOMContentLoaded", function () {
   combatLoader.loadFieldHandlers();
   diceRoller.loadHandlers();
   autofill.updateAutoFillLists();
-  document.getElementById("lootcr").oninput = function(){randomizeLoot();}
-  document.getElementById("lootcr").onkeydown = function(evt){if(evt.key == "Enter")randomizeLoot()}
+  document.getElementById("lootcr").oninput = function () { randomizeLoot(); }
+  document.getElementById("lootcr").onkeydown = function (evt) { if (evt.key == "Enter") randomizeLoot() }
   //Tengir homebrew takka
   var settingsEl = document.querySelector('#homebrew--button');
   settingsEl.addEventListener('click', function () {
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
   //DEBUG AND TESTING
- // designTimeAndDebug();
+  // designTimeAndDebug();
 });
 
 function designTimeAndDebug() {
@@ -557,7 +557,6 @@ function loadParty() {
     for (var i = 0; i < members.length; i++) {
       if (members[i].active) {
         partyArray.push(members[i]);
-
       }
     }
 
@@ -581,6 +580,7 @@ function loadParty() {
       }
 
       var difference = partyArray.length - $(".pscontainer").children().length;
+
       if (difference > 0) {
 
         for (var i = 0; i < difference; i++) {
@@ -1179,7 +1179,7 @@ var combatLoader = function () {
   }
 
   function load(monster) {
-  
+
     var row = addRow();
     var nameField, hpField, acField, attackField, damageField, damageLabel;
     nameField = row.getElementsByClassName("name_field")[0];
@@ -1619,17 +1619,17 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
 
   }
   return false;
-  function hideOrShowStatblockButtons(){
+  function hideOrShowStatblockButtons() {
     document.getElementById("loaderButton").classList.add("hidden");
     document.getElementById("mobPanelLoadButton").classList.add("hidden");
     if (key == "monsters" || key == "encounters" || key == "homebrew") {
       document.getElementById("loaderButton").classList.remove("hidden");
-      if (settings.enable.mobController && key != "encounters"){
+      if (settings.enable.mobController && key != "encounters") {
         console.log(key)
         document.getElementById("mobPanelLoadButton").classList.remove("hidden");
       }
-       
-    } 
+
+    }
   }
 }
 
@@ -1729,7 +1729,7 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       }
     } else {
       lastSearched = key;
-      
+
     }
 
   });
@@ -1904,7 +1904,7 @@ function fillPartyPopup() {
 
         row.getElementsByClassName("pc_input_character_token")[0].setAttribute("src", token);
         if (members[index].party && parties.indexOf(members[index].party) < 0) {
-
+          
           partyInformationList.parties.push(members[index].party)
           parties.push(members[index].party)
         } else if (!members[index].party) {
@@ -1994,7 +1994,7 @@ function changePartyHandler(evt) {
     }
 
     evt.target.parentNode.getElementsByClassName("change_party_button")[0].classList.remove("no_party_loaded");
-    saveParty();
+    saveParty(false, true);
     var currentParty = document.querySelector("#active_party_input").value;
     if (currentParty != "Any" && currentParty != "" && currentParty != newInp.value.value) {
       evt.target.parentNode.classList.add("hidden");
@@ -2017,7 +2017,7 @@ function savePcToJson() {
   saveParty(true);
 
 }
-function saveParty(showWarnings) {
+function saveParty(showWarnings, dontClose) {
 
   var allRows = document.getElementsByClassName("pcRow");
 
@@ -2044,8 +2044,7 @@ function saveParty(showWarnings) {
         pcObject[field] = row.getElementsByClassName("pc_input_" + field)[0].value;
       })
     pcObject.active = row.getElementsByClassName("checkbox_party_menu")[0].checked;
-    var pcColor =
-      pcObject.color = row.querySelector(".pc_input_background_color").value;
+    pcObject.color = row.querySelector(".pc_input_background_color").value;
     pcObject.party = row.getAttribute("data-pc_party");
     if (parseInt(pcObject.level) <= 0) pcObject.level = "1";
     tempArr.push(pcObject);
@@ -2065,6 +2064,7 @@ function saveParty(showWarnings) {
 
   var obj = { "members": partyArray, partyInfo: partyInformationList }
   console.log("Saving party ", obj)
+  if (dontClose) return;
   $('[data-popup="' + "popup-1" + '"]').fadeOut(350);
   dataAccess.setParty(obj, function (data) {
     loadParty();
