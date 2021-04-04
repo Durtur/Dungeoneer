@@ -133,8 +133,8 @@ class EncounterModule {
         var values = [1, 1.5, 2, 2.5, 3, 4];
         var index = getIndex();
         console.log(index, count, partySize)
-        if (partySize <= 2 && index != 0) index--;
-        if (partySize >= 5 && index != values.length - 1) index++;
+        if (partySize <= 2 && index != values.length - 1) index++;
+        if (partySize >= 5 && index != 0) index--;
         return values[index];
 
         function getIndex() {

@@ -79,6 +79,8 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: flex-start;
+  width: 66em;
+  margin: auto;
 }
 .pc_input_character_token:hover{
   filter:drop-shadow(0 0 3px white);
@@ -109,6 +111,11 @@ cursor:pointer;
   border: none;
   color: black;
   font-weight: normal;
+}
+
+.partyStats{
+  width: 66em;
+  margin: auto;
 }
 
 .no_party_loaded {

@@ -21,7 +21,7 @@ marked.setOptions({
 dataAccess.checkIfFirstTimeLoadComplete();
 
 const { ipcRenderer } = require('electron');
-
+const encounterModule = new EncounterModule();
 var mobController;
 
 var encounterIsLoaded;
@@ -979,7 +979,7 @@ var combatLoader = function () {
         loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x => x.index == monsterIndex), 1);
         loadedMonsterQueue.propertyChanged();
       }
-
+      updateCurrentLoadedDifficulty();
       frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
       return;
     }
@@ -1262,9 +1262,9 @@ var combatLoader = function () {
       damageField.classList.remove("label_inactive")
     }
 
-
-
-    if (monster.name != "") {
+    row.setAttribute("data-challenge_rating", monster.challenge_rating);
+    updateCurrentLoadedDifficulty();
+    if (monster.name) {
       loadedMonsterQueue.push({ monsterId: monster.id, name: monster.name, hit_points: monster.hit_points, size: monster.size.toLowerCase(), index: lastIndex });
       initiative.addToLoadedMonsterInfo(monster.name, monster.data_extra_attributes.initiative)
       frameHistoryButtons.createButtonIfNotExists(monster);
@@ -1285,6 +1285,7 @@ var combatLoader = function () {
     loadedMonsterQueue.update();
     let window2 = remote.getGlobal('maptoolWindow');
     if (window2) window2.webContents.send('monster-list-cleared');
+    updateCurrentLoadedDifficulty();
   }
   var selectedRow;
   function initialize() {
@@ -1426,6 +1427,30 @@ var combatLoader = function () {
     }
 
 
+  }
+
+  function updateCurrentLoadedDifficulty()
+  {
+    var crList = [];
+    var xpEle = document.getElementById("combat_loader_current_xp");
+    var allRows = [... document.querySelectorAll("#combatMain .combatRow")].filter(x=> !x.classList.contains("hidden"));
+    if(allRows.length == 0){
+      xpEle.innerHTML = "";
+      xpEle.setAttribute("data-tooltip", "");
+      return;
+    }
+    
+    allRows.forEach(row=> {
+      var cr = row.getAttribute("data-challenge_rating");
+      crList.push(cr);
+    });
+  
+    var totalCr = encounterModule.getXpSumForEncounter(crList, partyArray.length);
+    var difficulty = encounterModule.getEncounterDifficultyString(totalCr.adjusted, partyArray.map(x=> x.level))
+    console.log(totalCr, difficulty);
+
+    xpEle.innerHTML = difficulty;
+    xpEle.setAttribute("data-tooltip", `Total XP: ${totalCr.unadjusted}${totalCr.unadjusted != totalCr.adjusted ? `, adjusted XP: ${totalCr.adjusted}` : ""}`);
   }
 
   function closeLog() {

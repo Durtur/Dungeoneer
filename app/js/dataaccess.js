@@ -37,6 +37,7 @@ module.exports = function () {
         loadDefaults("homebrew.json");
         loadDefaults("party.json");
         loadDefaults("encounters.json");
+
         if (!fs.existsSync(defaultTokenPath))
             fs.mkdirSync(defaultTokenPath);
 
@@ -46,6 +47,7 @@ module.exports = function () {
         if (!fs.existsSync(generatorResourcePath))
             fs.mkdirSync(generatorResourcePath);
 
+        loadGeneratorDefaults();
         if (!fs.existsSync(defaultEffectPath))
             fs.mkdirSync(defaultEffectPath);
 
@@ -69,7 +71,17 @@ module.exports = function () {
         getHomebrewAndMonsters(function (data) {
             setMetadata(data, () => { });
         });
+        function loadGeneratorDefaults() {
+            ["names.json", "hook.json"].forEach(p => {
+                var generatorPath = pathModule.join(generatorResourcePath, p);
+                if (fs.existsSync(generatorPath)) return;
+                var defaultPath = pathModule.join(defaultGeneratorResourcePath, p);
+                var defaultData = fs.readFileSync(defaultPath);
+                fs.writeFileSync(generatorPath, defaultData)
 
+            });
+
+        }
         function loadDefaults(path) {
             console.log("Loading defaults for " + path);
             var fullPath = pathModule.join(resourcePath, path);
@@ -111,12 +123,12 @@ module.exports = function () {
         data.forEach(npc => {
             if (npc.tags)
                 npc.tags.forEach(tag => tagSet.add(tag));
-            if (npc.type){
+            if (npc.type) {
                 typeSet.add(npc.type.toLowerCase());
-                if(npc.subtype)
+                if (npc.subtype)
                     typeSet.add(npc.type.toLowerCase() + ` (${npc.subtype.toProperCase()})`);
             }
-                
+
         });
         console.log("setting metadata");
         return baseSet("monster_metadata.json", { tags: [...tagSet], types: [...typeSet].map(x => x.toProperCase()) }, callback);
@@ -229,7 +241,7 @@ module.exports = function () {
     }
 
     function getGeneratorData(callback) {
-        return baseGetWithFullPath(pathModule.join(generatorResourcePath, "names.json"), callback, [], pathModule.join(defaultGeneratorResourcePath, "names.json"));
+        return baseGetWithFullPath(pathModule.join(generatorResourcePath, "names.json"), callback, null, pathModule.join(defaultGeneratorResourcePath, "names.json"));
     }
 
     function setGeneratorData(data, callback) {
@@ -295,8 +307,7 @@ module.exports = function () {
         let buffer = await sharp(currentPath)
             .resize(
                 {
-                    width: baseTokenSize,
-                    height: baseTokenSize
+                    width: baseTokenSize
                 })
             .png()
             .toBuffer();
@@ -388,11 +399,11 @@ module.exports = function () {
 
             if (err) {
                 console.log("Error getting file", err, fallbackValue)
-     
+
                 if (fallbackPath) {
                     console.log("Falling back on ", fallbackPath)
                     fs.readFile(fallbackPath, function (err, fallbackData) {
-                       if(err)throw err;
+                        if (err) throw err;
                         baseSetWithFullPath(path, JSON.parse(fallbackData), (err) => { })
                         callback(JSON.parse(fallbackData));
                     });
@@ -426,30 +437,30 @@ module.exports = function () {
         if (!fs.existsSync(baseFolder)) initializeData();
     }
 
-    function checkFile(){
-       
-        getMonsters(data=>{
+    function checkFile() {
+
+        getMonsters(data => {
             processThings(data);
-            setMonsters(data, ()=>{});
+            setMonsters(data, () => { });
         })
         getHomebrewMonsters(data => {
             processThings(data)
-            setHomebrewMonsters(data, ()=>{});
+            setHomebrewMonsters(data, () => { });
         })
-        function processThings(data){
-            data.forEach(monster=>{
-                if(!monster.tags) monster.tags = [];
+        function processThings(data) {
+            data.forEach(monster => {
+                if (!monster.tags) monster.tags = [];
                 var mName = monster.name.trim().toLowerCase();
                 var matchTags = new Set();
-                constants.creature_habitats.forEach(habitat=>{
-                    if(habitat.creatures.includes(mName))
-                    matchTags.add(habitat.name);
+                constants.creature_habitats.forEach(habitat => {
+                    if (habitat.creatures.includes(mName))
+                        matchTags.add(habitat.name);
                 });
-                matchTags = [... matchTags].filter(x=> !monster.tags.includes(x));
+                matchTags = [...matchTags].filter(x => !monster.tags.includes(x));
                 console.log(matchTags);
-                matchTags.forEach(tag=> monster.tags.push(tag));
+                matchTags.forEach(tag => monster.tags.push(tag));
             })
-         
+
         }
     }
 
@@ -496,7 +507,7 @@ module.exports = function () {
         checkIfFirstTimeLoadComplete: checkIfFirstTimeLoadComplete,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize,
-        checkFile:checkFile
+        checkFile: checkFile
     }
 }();
 

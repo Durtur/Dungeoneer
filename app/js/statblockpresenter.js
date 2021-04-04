@@ -440,8 +440,18 @@ var statblockPresenter = function () {
       str += " " + values.type;
       delete values.type;
       if (values.subtype) {
-        str += " (" + values.subtype + ")";
+        str += " (" + values.subtype;
         delete values.subtype;
+        if(values.unique){
+          str+=", unique";
+          delete values.unique
+        }
+        str+= ")"
+      }else if(values.unique){
+        if(values.unique){
+          str+=" (unique)";
+          delete values.unique
+        }
       }
     }
     if (values.requires_attunement) {

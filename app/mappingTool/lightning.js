@@ -35,7 +35,10 @@ var fovLighting = function () {
         Dark: 1,
         LowLight: 0,
         None: 2
-    }
+    };
+    var mapIsBlack = false;
+    var fovLayer = document.getElementById("fog_of_war");
+    const SEGMENT_COUNT_BEFORE_OPTIMIZATION = 100;
     var activeFogType = MapFogEnum.None;
     var activeViewerHasDarkvision = false;
     function setFogStyle(fogStyle) {
@@ -49,32 +52,61 @@ var fovLighting = function () {
     function viewerHasDarkvision() {
         return activeViewerHasDarkvision;
     }
-
-    // DRAWING
-    var segments = [];
-    var forcedPerspectiveOrigin;
-    function drawFogOfWar() {
-        clearFogOfWar();
+    function resizeCanvas() {
+        var width = fovLayer.getAttribute("width");
+        var height = fovLayer.getAttribute("height");
+        if (width == canvasWidth && height == canvasHeight)
+            return;
+        fovLayer.setAttribute('width', canvasWidth);
+        fovLayer.setAttribute('height', canvasHeight);
+        fillMapToBlack();
+    }
+    function fillMapToBlack() {
+        if (mapIsBlack) return;
         var fogColor;
         if (activeFogType == MapFogEnum.LowLight) {
             fogColor = hexToRGBA(settings.fogOfWarHue, 0.8);
-        } else {
+        } else if (activeFogType == MapFogEnum.Dark) {
             fogColor = settings.fogOfWarHue;
+        } else {
+            return;
         }
+        fogOfWarLayerContext.globalCompositeOperation = 'source-over';
+        fogOfWarLayerContext.beginPath();
+        fogOfWarLayerContext.fillStyle = fogColor;
+        fogOfWarLayerContext.fillRect(0, 0, gridLayer.width, gridLayer.height);
+        fogOfWarLayerContext.stroke();
+
+        mapIsBlack = true;
+
+
+    }
+    // DRAWING
+    var segments = [];
+    var uniqueSegmentPoints = [];
+    var forcedPerspectiveOrigin;
+    var DRAW_EXECUTE_TIMEOUT;
+    function drawFogOfWar() {
+        if (segments.length < SEGMENT_COUNT_BEFORE_OPTIMIZATION)
+            return doDrawFogOfWar();
+
+
+        window.clearTimeout(DRAW_EXECUTE_TIMEOUT);
+        DRAW_EXECUTE_TIMEOUT = window.setTimeout(function () {
+            doDrawFogOfWar();
+        }, 50);
+    }
+
+    function doDrawFogOfWar() {
 
         // Draw segments
         if (showVisibilityLayer) {
             drawSegments();
         }
-
+        clearFogOfWar();
         //Base black
         if ([MapFogEnum.Dark, MapFogEnum.LowLight].includes(activeFogType)) {
-            fogOfWarLayerContext.globalCompositeOperation = 'source-out';
-            fogOfWarLayerContext.beginPath();
-            fogOfWarLayerContext.fillStyle = fogColor;
-            fogOfWarLayerContext.fillRect(0, 0, gridLayer.width, gridLayer.height);
-            fogOfWarLayerContext.stroke();
-
+            fillMapToBlack();
             for (var i = 0; i < pawns.lightSources.length; i++) {
                 draw(pawns.lightSources[i]);
             }
@@ -99,11 +131,11 @@ var fovLighting = function () {
         maskCtx.fill();
 
         fogOfWarLayerContext.drawImage(maskCanvas, 0, 0);
-        draw(forcedPerspectiveOrigin);
+        draw(forcedPerspectiveOrigin, true);
         clearMask();
+        mapIsBlack = false;
     }
-
-    function draw(currentPawn) {
+    function draw(currentPawn, isOrigin) {
 
         if (currentPawn.sight_mode == "darkvision" && !activeViewerHasDarkvision && !isPlayerPawn(currentPawn) ||
             (forcedPerspectiveOrigin && forcedPerspectiveOrigin != currentPawn && currentPawn.sight_mode == "darkvision")) {
@@ -112,18 +144,31 @@ var fovLighting = function () {
         var pawnX, pawnY;
         pawnX = parseFloat(currentPawn.style.left) + currentPawn.clientWidth / 2;
         pawnY = parseFloat(currentPawn.style.top) + currentPawn.clientHeight / 2;
-        // if (pawnY < -200 || pawnY > window.clientHeight + 200 || pawnX < -200 || pawnX > window.clientHeight + 200)
-        //     return;
+
+        if (!isOrigin && isOffScreen(currentPawn))
+            return;
+
 
         fogOfWarLayerContext.globalCompositeOperation = 'destination-out';
-
         drawVisionLines(pawnX, pawnY, fogOfWarLayerContext);
         paintVision(currentPawn, pawnX, pawnY);
 
 
     }
 
+    function isOffScreen(pawn) {
+        pawn.sight_radius_brigth_pixels = parseFloat(pawn.sight_radius_bright_light) * cellSize / 5;
+        pawn.sight_radius_dim_pixels = parseFloat(pawn.sight_radius_dim_light || 1) * cellSize / 5;
+        var totalRadius = pawn.sight_radius_brigth_pixels + pawn.sight_radius_dim_pixels;
+        var margin = pawn.sight_mode == "darkvision" ? 0 : totalRadius;
+        var rect = pawn.getBoundingClientRect();
 
+        return (
+            (rect.x + rect.width) < 0 - margin
+            || (rect.y + rect.height) < 0 - margin
+            || (rect.x > window.innerWidth + margin || rect.y > window.innerHeight + margin)
+        );
+    }
 
     function paintVision(currentPawn, pawnX, pawnY) {
         if (isNaN(pawnX) || isNaN(pawnY))
@@ -135,9 +180,8 @@ var fovLighting = function () {
             sightRadiusBright = cellSize / 5;
             sightRadius = cellSize / 5 * 2;
         } else {
-            sightRadiusBright = parseFloat(currentPawn.sight_radius_bright_light) * cellSize / 5;
-            sightRadius = sightRadiusBright +
-                parseFloat(currentPawn.sight_radius_dim_light || 1) * cellSize / 5;
+            sightRadiusBright = currentPawn.sight_radius_brigth_pixels;
+            sightRadius = sightRadiusBright + currentPawn.sight_radius_dim_pixels;
         }
 
 
@@ -165,36 +209,11 @@ var fovLighting = function () {
     }
 
     function drawVisionLines(angleOriginX, angleOriginY, context) {
-
-        // Get all unique points
-        var points = (function (segments) {
-            var a = [];
-            segments.forEach(function (seg) {
-                a.push(seg.a, seg.b);
-            });
-            return a;
-        })(segments);
-
-        var uniquePoints = (function (points) {
-            var set = {};
-
-            return points.filter(function (p) {
-                var key = p.x + "," + p.y;
-                if (key in set) {
-                    return false;
-                } else {
-                    set[key] = true;
-                    return true;
-                }
-            });
-        })(points);
-
         // Get all angles
         var uniqueAngles = [];
-        for (var j = 0; j < uniquePoints.length; j++) {
-            var uniquePoint = uniquePoints[j];
+        for (var j = 0; j < uniqueSegmentPoints.length; j++) {
+            var uniquePoint = uniqueSegmentPoints[j];
             var angle = Math.atan2(uniquePoint.y - angleOriginY, uniquePoint.x - angleOriginX);
-            uniquePoint.angle = angle;
             uniqueAngles.push(angle - 0.00001, angle, angle + 0.00001);
         }
 
@@ -247,7 +266,7 @@ var fovLighting = function () {
         }
 
     }
-    const minWallLength = 8;
+    const minWallLength = 15;
     const maxSegmentCount = 900;
     function importDungeondraftVttMap(path) {
 
@@ -255,7 +274,7 @@ var fovLighting = function () {
         resetZoom();
 
         dataAccess.readFile(path, function (data) {
-            console.log(path);
+
             var wallArray = data.line_of_sight;
 
             var dungeonDraftCellSize = originalCellSize;//parseInt(data.resolution.pixels_per_grid);
@@ -269,15 +288,15 @@ var fovLighting = function () {
                 var wallLines = [];
                 getLines(false, true);
                 if (wallLines.length > maxSegmentCount) {
-                    console.log(wallLines.length)
+               
                     wallLines.length = 0;
                     getLines(true, false);
-                    console.log(wallLines.length)
+                  
                 }
                 var count = 0;
 
                 function getLines(combineSmallLines, scaleWalls) {
-                    console.log(`Get lines, constrain ${combineSmallLines}`)
+             
                     wallArray.forEach(walls => {
                         var skippedLines = [];
                         for (var i = 0; i < walls.length; i++) {
@@ -301,7 +320,6 @@ var fovLighting = function () {
 
                                 if (distance(lineA, lineB) < minWallLength && combineSmallLines) {
                                     //Skip this line
-                                    console.log("Skip line")
                                     skippedLines.push(lineA);
                                     continue;
                                 }
@@ -329,20 +347,20 @@ var fovLighting = function () {
                 var lights = data.lights;
                 lights.forEach(light => {
                     var newEffect = document.createElement("div");
-                    newEffect.style.width = cellSize/5 + "px";
-                    newEffect.style.height = cellSize/5 + "px";
+                    newEffect.style.width = cellSize / 5 + "px";
+                    newEffect.style.height = cellSize / 5 + "px";
                     newEffect.flying_height = 0;
                     newEffect.classList.add("light_effect", "dungeondraft_imported_light");
                     newEffect.classList.add("light_source_visibility_layer");
 
-                    var posX =parseFloat( light.position.x) * dungeonDraftCellSize + offsetX;
-                    var posY =parseFloat( light.position.y) * dungeonDraftCellSize + offsetY;
-                    newEffect.style.top =  posY+ "px";
+                    var posX = parseFloat(light.position.x) * dungeonDraftCellSize + offsetX;
+                    var posY = parseFloat(light.position.y) * dungeonDraftCellSize + offsetY;
+                    newEffect.style.top = posY + "px";
                     newEffect.style.left = posX + "px";
                     var radius = parseFloat(light.range) * 5;
-                    newEffect.sight_radius_bright_light = radius/2;
-                    newEffect.sight_radius_dim_light = radius/2;
-                    effects.push(newEffect)    
+                    newEffect.sight_radius_bright_light = radius / 2;
+                    newEffect.sight_radius_dim_light = radius / 2;
+                    effects.push(newEffect)
                     pawns.lightSources.push(newEffect);
                     tokenLayer.appendChild(newEffect);
                 });
@@ -501,15 +519,40 @@ var fovLighting = function () {
         segments[1] = { a: { x: boxWidth, y: offset }, b: { x: boxWidth, y: canvasHeight } };
         segments[2] = { a: { x: boxWidth, y: boxHeight }, b: { x: offset, y: boxHeight } };
         segments[3] = { a: { x: offset, y: boxHeight }, b: { x: offset, y: offset } };
+        generateUniquePoints();
 
 
     }
 
     function addSegment(a, b) {
 
-        segments.push({ a: a, b: b })
+        segments.push({ a: a, b: b });
+        generateUniquePoints();
     }
 
+    function generateUniquePoints() {
+        // Get all unique points
+        var points = (function (segments) {
+            var a = [];
+            segments.forEach(function (seg) {
+                a.push(seg.a, seg.b);
+            });
+            return a;
+        })(segments);
+        uniqueSegmentPoints = (function (points) {
+            var set = {};
+
+            return points.filter(function (p) {
+                var key = p.x + "," + p.y;
+                if (key in set) {
+                    return false;
+                } else {
+                    set[key] = true;
+                    return true;
+                }
+            });
+        })(points);
+    }
     function nudgeSegments(x, y) {
         var segment;
         for (var i = 4; i < segments.length; i++) {
@@ -519,13 +562,14 @@ var fovLighting = function () {
             segment.b.x += x;
             segment.b.y += y;
         }
+        generateUniquePoints();
 
     }
 
     function resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight) {
         var ratioX = newWidth / oldWidth;
         var ratioY = newHeight / oldHeight;
-        console.log(ratioX, ratioY)
+
         for (var i = 4; i < segments.length; i++) {
             ["a", "b"].forEach(line => {
                 segments[i][line].x *= ratioX;
@@ -553,6 +597,7 @@ var fovLighting = function () {
 
         }
         drawSegments();
+        generateUniquePoints();
     }
 
     var showVisibilityLayer = false;
@@ -569,6 +614,7 @@ var fovLighting = function () {
 
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: destinationPoint.x, y: originPoint.y } });
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: originPoint.x, y: destinationPoint.y } });
+        generateUniquePoints();
         drawSegments();
     }
 
@@ -611,6 +657,7 @@ var fovLighting = function () {
 
     function addLineSegment(originPoint, destinationPoint) {
         segments.push({ a: originPoint, b: destinationPoint });
+        generateUniquePoints();
         drawSegments();
     }
     function drawSegments() {
@@ -663,11 +710,13 @@ var fovLighting = function () {
 
 
     function clearFogOfWar() {
+
         fogOfWarLayerContext.beginPath();
-        fogOfWarLayerContext.save();
-        fogOfWarLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        // fogOfWarLayerContext.save();
+        // fogOfWarLayerContext.setTransform(1, 0, 0, 1, 0, 0);
         fogOfWarLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
-        fogOfWarLayerContext.restore();
+        // fogOfWarLayerContext.restore();
+        mapIsBlack = false;
     }
     function clearMask() {
         maskCtx.beginPath();
@@ -683,12 +732,14 @@ var fovLighting = function () {
             if (pointIsOnLine(seg.a, seg.b, linepoint)) {
                 segments.splice(i, 1);
                 drawSegments();
+                generateUniquePoints();
                 break;
             }
         }
     }
     function setSegments(newSegments) {
         segments = newSegments;
+        generateUniquePoints();
     }
 
     function getSegments() {
@@ -709,7 +760,7 @@ var fovLighting = function () {
         for (var i = 1; i < arr.length; i++) {
             sum += distance(arr[i - 1], arr[1]);
         }
-        console.log(sum, arr);
+
         return sum;
     }
 
@@ -784,6 +835,7 @@ var fovLighting = function () {
         attemptToDeleteSegment: attemptToDeleteSegment,
         setPerspective: setPerspective,
         getSegments: getSegments,
-        setSegments: setSegments
+        setSegments: setSegments,
+        resizeCanvas: resizeCanvas,
     }
 }();

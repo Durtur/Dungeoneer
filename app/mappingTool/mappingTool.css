@@ -25,7 +25,9 @@ html {
     position: absolute;
     background-color: transparent;
 }
-
+.blurred{
+    filter: blur(20px) !important;
+}
 .maptool_body {
     background-color: transparent;
     background-image: none;

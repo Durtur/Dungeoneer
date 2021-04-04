@@ -156,6 +156,7 @@ async function saveTokens() {
     }
 
 
-    document.getElementById("loading_text").innerHTML = "Save successful!";
+    document.getElementById("loading_title").innerHTML = "Save successful!";
+    loadingDetail.innerHTML = "";
     document.querySelector(".loading_ele_cont").classList.add("hidden");
 }

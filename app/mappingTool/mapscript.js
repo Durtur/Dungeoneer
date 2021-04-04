@@ -1079,14 +1079,14 @@ function setMapForeground(path, width) {
 
     img.onload = function () {
         foregroundCanvas.heightToWidthRatio = img.height / img.width;
-     
+
         var mapWidth = width ? width : img.width;
         var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
         var height = img.height * imgWidthToOldWidth;
 
         foregroundCanvas.setAttribute("data-original_height", height);
         foregroundCanvas.setAttribute("data-original_width", mapWidth);
-  
+
         foregroundCanvas.style.width = mapWidth + "px";
         foregroundCanvas.style.height = height + "px";
         document.getElementById("foreground_size_slider").value = mapWidth;
@@ -1132,6 +1132,7 @@ var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
 function zoomIntoMap(event, resizeAmount) {
 
     window.requestAnimationFrame(function (ts) {
+
         if (ts == LAST_MAP_RESIZE) {
             MAP_RESIZE_BUFFER += resizeAmount;
             return;
@@ -1208,8 +1209,9 @@ function zoomIntoMap(event, resizeAmount) {
             }
         });
         resizeAndDrawGrid(null, event);
-        window.requestAnimationFrame(refreshFogOfWar);
+        //window.requestAnimationFrame(refreshFogOfWar);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
+
     });
 }
 
@@ -1985,6 +1987,7 @@ function setLightSource(brightLight, dimLight, params) {
         }
         pawn.sight_radius_bright_light = brightLight;
         pawn.sight_radius_dim_light = dimLight;
+
         if (pawns.lightSources.indexOf(pawn) >= 0) {
             if (brightLight == 0 && dimLight == 0) {
                 if (!isPlayerPawn(pawn))
@@ -3479,15 +3482,16 @@ function resizeAndDrawGrid(timestamp, event) {
         gridResize_Timestamp = timestamp;
     }
 
-    var fovLayer = document.getElementById("fog_of_war");
     var fovLayerSegments = document.getElementById("fog_of_war_segments");
 
     canvasHeight = window.innerHeight;
     canvasWidth = window.innerWidth;
     fovLighting.addWindowBorderToSegments();
+    console.log(canvasHeight,canvasWidth);
+    //Resize fovlayer to window height and widht
+    fovLighting.resizeCanvas(canvasWidth, canvasHeight);
+    
 
-    fovLayer.setAttribute('width', canvasWidth);
-    fovLayer.setAttribute('height', canvasHeight);
     fovLayerSegments.setAttribute('width', canvasWidth);
     fovLayerSegments.setAttribute('height', canvasHeight);
     measurementsLayer.setAttribute('width', canvasWidth);
