@@ -114,16 +114,6 @@ li {
     filter: url(#winter-mode);
 }
 
-.popup_menu>.toggle_button {
-    width: 100%;
-    text-align: center;
-    padding: 5px;
-}
-
-.popup_menu .button_style{
-    border-radius:0 !important;
-}
-
 .popup_dialog {
     position: absolute;
     z-index: var(--z-index-tooltip);
@@ -141,11 +131,6 @@ li {
     padding: 0;
 }
 
-.popup_menu>.button_style {
-    padding: 5px;
-    width: 100%;
-    text-align: center;
-}
 
 .slidecontainer {
     position: absolute;

@@ -30,30 +30,6 @@ var partyArray, partyInformationList, partyInputAwesomeplete, conditionList;
 var partyAlternativeACArray;
 var roundCounter;
 
-// function fixSkills(){
-//   var skills = dataAccess.getConstantsSync().skills;
-//   console.log(skills);
-//   dataAccess.getMonsters(monsters => {
-//     monsters.forEach(monster=>{
-//       var skillStr = "";
-//       skills.forEach(skill => {
-//         if(monster[skill.serialize()]){
-//             var value = monster[skill.serialize()];
-//             skillStr+=skill + " +" + value + ", ";
-//             delete monster[skill.serialize()];
-//         }
-
-//       });
-//       if(skillStr){
-
-//         skillStr = skillStr.substring(0, skillStr.length-2);
-//         monster.skills = skillStr;
-//       }
-//     });
-//     dataAccess.setMonsters(monsters, ()=> {});
-
-//   });
-// }
 
 /* #region IPC */
 
@@ -62,8 +38,14 @@ ipcRenderer.on('update-autofill', function () {
   autofill.updateAutoFillLists(true);
 
 });
-ipcRenderer.on('condition-list-changed', function (evt, conditionList, index) {
 
+function notifyMapToolConditionsChanged(index, conditions, isPlayer) {
+  let window2 = remote.getGlobal('maptoolWindow');
+  if (window2) window2.webContents.send('condition-list-changed', { index: index, conditions: conditions, isPlayer: isPlayer });
+}
+
+ipcRenderer.on('condition-list-changed', function (evt, conditionList, index) {
+  console.log(index, conditionList)
   var combatRow = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => x.getAttribute("data-dnd_monster_index") == index)[0];
   if (combatRow) {
     combatLoader.setConditionList(combatRow, conditionList.map(x => x.toLowerCase()));
@@ -71,7 +53,7 @@ ipcRenderer.on('condition-list-changed', function (evt, conditionList, index) {
     //Is player
     var pcNode = [...document.querySelectorAll(".pcnode_name>p")].filter(x => x.innerHTML == index)[0];
     if (pcNode) {
-      setPcNodeConditions(pcNode.parentNode, conditionList);
+      setPcNodeConditions(pcNode.parentNode, conditionList, true);
     }
   }
 
@@ -156,6 +138,17 @@ document.addEventListener("DOMContentLoaded", function () {
     })
   })
 
+  document.querySelector(".pcnode:nth-child(1)").onmousedown = pcNodeMouseDownHandler;
+  dataAccess.getConditions(function (conditions) {
+    var pcNodeInp = document.getElementById("add_pc_node_condition_input");
+    new Awesomplete(pcNodeInp, { list: conditions.map(x => x.name), minChars: 0, autoFirst: true });
+    pcNodeInp.addEventListener('awesomplete-selectcomplete', function (e) {
+
+      addPcNodeCondition(selectedPcNode, e.text.value);
+      document.getElementById("add_pc_node_condition_input").classList.add("hidden");
+      hidePcNodePopup();
+    });
+  });
 
   combatLoader.loadFieldHandlers();
   diceRoller.loadHandlers();
@@ -235,25 +228,42 @@ function designTimeAndDebug() {
 
 }
 
-function setPcNodeConditions(pcNode, conditionList) {
+function setPcNodeConditions(pcNode, conditionList, originMapTool = false) {
   clearPcNodeConditions(pcNode);
-
   conditionList.forEach(cond => addPcNodeCondition(pcNode, cond));
-
+  if (!originMapTool) {
+    notifyMapToolConditionsChanged(pcNode.querySelector(".pcnode_name>p").innerHTML, conditionList, true)
+  }
 }
 
-function addPcNodeCondition(node, condition) {
+function addPcNodeCondition(node, condition, originMapTool = false) {
   if (!condition) return;
+
+
   var condList = node.getAttribute("data-dnd_conditions") ? node.getAttribute("data-dnd_conditions").split(",") : [];
+  if (condList.includes(condition))
+    return;
   condList.push(condition);
+
+  if (!originMapTool)
+    notifyMapToolConditionsChanged(node.querySelector(".pcnode_name>p").innerHTML, condList, true);
   node.setAttribute("data-dnd_conditions", condList.join(","))
   var container = node.querySelector(".pcNode_condition_container");
 
   var newDiv = document.createElement("div");
   var para = document.createElement("p");
-
+  newDiv.setAttribute("data-condition", condition);
   newDiv.classList.add("condition_effect");
   newDiv.classList.add("secondary_tooltipped");
+  newDiv.onclick = function (e) {
+    console.log(node);
+    var conditionList = node.getAttribute("data-dnd_conditions")?.split(",") || [];
+    var removed = newDiv.getAttribute("data-condition");
+    conditionList = conditionList.filter(x => x != removed);
+    node.setAttribute("data-dnd_conditions", conditionList.join(","));
+    notifyMapToolConditionsChanged(node.querySelector(".pcnode_name>p").innerHTML, conditionList, true);
+    newDiv.parentNode.removeChild(newDiv);
+  }
   newDiv.appendChild(para);
   var conditionObj = conditionList.filter(x => x.name.toLowerCase() == condition.toLowerCase())[0];
   if (!conditionObj) {
@@ -288,21 +298,11 @@ function addPcNodeCondition(node, condition) {
 }
 
 function clearPcNodeConditions(pcNode) {
-  console.log("Clearing all")
-  var condList = pcNode.getAttribute("data-dnd_conditions") ? pcNode.getAttribute("data-dnd_conditions").split(",") : [];
-  condList.forEach(cond => removePcNodeCondition(pcNode, cond));
-}
 
-function removePcNodeCondition(pcNode, condition) {
-  console.log("Removing", condition, pcNode)
-  if (!condition) return;
-  var condList = pcNode.getAttribute("data-dnd_conditions") ? pcNode.getAttribute("data-dnd_conditions").split(",") : [];
-  condList = condList.filter(x => x.toLowerCase() != condition.toLowerCase());
   var eles = [...pcNode.getElementsByClassName("condition_effect")];
-
+  pcNode.setAttribute("data-dnd_conditions", "")
   eles.forEach(element => {
-    if (element.getAttribute("data-dnd_condition_full_name").toLowerCase() == condition.toLowerCase())
-      element.parentNode.removeChild(element);
+    element.parentNode.removeChild(element);
   })
 }
 
@@ -478,8 +478,11 @@ function loadSettings() {
   });
 }
 
-function hideAllPopups() {
+function hideAllPopups(evt) {
+  if (evt && evt.target.closest(".popup_menu"))
+    return;
   document.removeEventListener("click", hideAllPopups);
+  hidePcNodePopup();
   document.querySelectorAll(".popup_menu").forEach(p => p.classList.add("hidden"))
 }
 
@@ -568,61 +571,7 @@ function loadParty() {
 
 
     if (settings.playerPlaques) {
-      partyAlternativeACArray = [];
-      for (var i = 0; i < partyArray.size; i++) {
-        partyAlternativeACArray.push(false);
-
-      }
-      if (partyArray.length == 0) {
-        $(".pcnode:nth-child(1)").addClass("hidden");
-      } else {
-        $(".pcnode:nth-child(1)").removeClass("hidden");
-      }
-
-      var difference = partyArray.length - $(".pscontainer").children().length;
-
-      if (difference > 0) {
-
-        for (var i = 0; i < difference; i++) {
-          $(".pcnode:nth-child(1)").clone().appendTo(".pscontainer");
-        }
-      } else if (difference < 0) {
-        if (partyArray.length != 0) {
-          $(".pcnode:nth-child(n+" + ($(".pscontainer").children().length + difference + 1) + ")").remove();
-        } else {
-          $(".pcnode").not(':nth-child(1)').remove();
-        }
-      }
-
-      for (var i = 0; i < partyArray.length; i++) {
-        var player = partyArray[i];
-        $(".pcnode:nth-child(" + (i + 1) + ")").attr("data-pc_id", partyArray[i].id);
-        $(".pcnode:nth-child(" + (i + 1) + ")").find("p").html(partyArray[i].character_name);
-        $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_notes").html(!partyArray[i].notes ? "No notes" : partyArray[i].notes);
-
-        $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
-        $(".pcnode:nth-child(" + (i + 1) + ")").find(".acnode").val(partyArray[i].ac);
-        $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
-        if (player.darkvision) {
-          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").removeClass("hidden");
-          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision>p").html(partyArray[i].darkvision + " ft");
-        } else {
-          $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").addClass("hidden");
-        }
-
-
-        if (partyArray[i].alternative_ac == "") {
-          $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "none");
-        } else {
-          $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "block");
-        }
-
-      }
-
-      initiative.refreshInputFields();
-      loadPCNodeHandlers();
-      $(".pscontainer").removeClass("hidden");
-      $(".pscontainer").removeClass("hidden_takes_space");
+      addPlayerPlaques();
     } else {
       $(".pscontainer").addClass("hidden");
     }
@@ -631,6 +580,99 @@ function loadParty() {
     let window2 = remote.getGlobal('maptoolWindow');
     if (window2) window2.webContents.send('notify-party-array-updated');
   });
+}
+var selectedPcNode;
+function pcNodeMouseDownHandler(evt) {
+  if (evt.button == 2) //mouse left
+  {
+    hideAllPopups();
+    var menu = document.querySelector("#popup_menu_players");
+    menu.classList.remove("hidden");
+    menu.style.top = evt.clientY + "px";
+    menu.style.left = evt.clientX + "px";
+    selectedPcNode = evt.target.closest(".pcnode");
+    document.addEventListener("click", hideAllPopups);
+  }
+}
+
+function hidePcNodePopup() {
+  var menu = document.querySelector("#popup_menu_players");
+  menu.classList.add("hidden");
+  document.getElementById("add_pc_node_condition_input").value = "";
+  document.getElementById("add_pc_node_condition_btn").classList.remove("hidden");
+  document.getElementById("add_pc_node_condition_input").classList.add("hidden");
+}
+
+function addPlayerCondition() {
+  var pcNodeInp = document.getElementById("add_pc_node_condition_input");
+  document.getElementById("add_pc_node_condition_btn").classList.add("hidden");
+  pcNodeInp.classList.remove("hidden");
+  pcNodeInp.focus();
+}
+
+function clearPlayerConditions() {
+  clearPcNodeConditions(selectedPcNode);
+  hidePcNodePopup();
+}
+
+function addPlayerPlaques() {
+  partyAlternativeACArray = [];
+  for (var i = 0; i < partyArray.size; i++) {
+    partyAlternativeACArray.push(false);
+
+  }
+  if (partyArray.length == 0) {
+    $(".pcnode:nth-child(1)").addClass("hidden");
+  } else {
+    $(".pcnode:nth-child(1)").removeClass("hidden");
+  }
+
+  var difference = partyArray.length - $(".pscontainer").children().length;
+
+  if (difference > 0) {
+
+    for (var i = 0; i < difference; i++) {
+      var cloned = $(".pcnode:nth-child(1)").clone();
+      cloned.appendTo(".pscontainer");
+      cloned[0].onmousedown = pcNodeMouseDownHandler;
+    }
+  } else if (difference < 0) {
+    if (partyArray.length != 0) {
+      $(".pcnode:nth-child(n+" + ($(".pscontainer").children().length + difference + 1) + ")").remove();
+    } else {
+      $(".pcnode").not(':nth-child(1)').remove();
+    }
+  }
+
+  for (var i = 0; i < partyArray.length; i++) {
+    var player = partyArray[i];
+    $(".pcnode:nth-child(" + (i + 1) + ")").attr("data-pc_id", partyArray[i].id);
+    $(".pcnode:nth-child(" + (i + 1) + ")").find("p").html(partyArray[i].character_name);
+    $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_notes").html(!partyArray[i].notes ? "No notes" : partyArray[i].notes);
+
+    $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
+    $(".pcnode:nth-child(" + (i + 1) + ")").find(".acnode").val(partyArray[i].ac);
+    $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
+    if (player.darkvision) {
+      $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").removeClass("hidden");
+      $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision>p").html(partyArray[i].darkvision + " ft");
+    } else {
+      $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").addClass("hidden");
+    }
+
+
+    if (partyArray[i].alternative_ac == "") {
+      $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "none");
+    } else {
+      $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "block");
+    }
+
+  }
+
+  initiative.refreshInputFields();
+  loadPCNodeHandlers();
+  $(".pscontainer").removeClass("hidden");
+  $(".pscontainer").removeClass("hidden_takes_space");
 }
 function loadPCNodeHandlers() {
   [...document.querySelectorAll(".acspinner")].forEach(spinner => {
@@ -1148,7 +1190,7 @@ var combatLoader = function () {
       field.onmousedown = function (event) {
         var alreadySelected;
         selectedMultiselectFields.forEach(field => { if (field == event.target) alreadySelected = true })
-        if (alreadySelected) {
+        if (alreadySelected && event.ctrlKey) {
           selectedMultiselectFields = selectedMultiselectFields.filter(ele => ele != event.target);
           event.target.classList.remove("selected_field")
         } else {
@@ -1157,6 +1199,8 @@ var combatLoader = function () {
             event.target.classList.add("selected_field")
           } else {
             clearSelection();
+            selectedMultiselectFields.push(event.target)
+            event.target.classList.add("selected_field")
           }
         }
 
@@ -1318,8 +1362,7 @@ var combatLoader = function () {
     $("#condition_list_dd").on("input", function (e) {
       if (selectedRow) {
         selectedRow.parentNode.setAttribute("data-dnd_conditions", $("#condition_list_dd").val().join(","));
-        let window2 = remote.getGlobal('maptoolWindow');
-        if (window2) window2.webContents.send('token-condition-added', $("#condition_list_dd").val(), selectedRow.parentNode.getAttribute("data-dnd_monster_index"));
+        notifyMapToolConditionsChanged(selectedRow.parentNode.getAttribute("data-dnd_monster_index"), $("#condition_list_dd").val(), false);
       }
 
     });
@@ -1429,24 +1472,23 @@ var combatLoader = function () {
 
   }
 
-  function updateCurrentLoadedDifficulty()
-  {
+  function updateCurrentLoadedDifficulty() {
     var crList = [];
     var xpEle = document.getElementById("combat_loader_current_xp");
-    var allRows = [... document.querySelectorAll("#combatMain .combatRow")].filter(x=> !x.classList.contains("hidden"));
-    if(allRows.length == 0){
+    var allRows = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => !x.classList.contains("hidden"));
+    if (allRows.length == 0) {
       xpEle.innerHTML = "";
       xpEle.setAttribute("data-tooltip", "");
       return;
     }
-    
-    allRows.forEach(row=> {
+
+    allRows.forEach(row => {
       var cr = row.getAttribute("data-challenge_rating");
       crList.push(cr);
     });
-  
+
     var totalCr = encounterModule.getXpSumForEncounter(crList, partyArray.length);
-    var difficulty = encounterModule.getEncounterDifficultyString(totalCr.adjusted, partyArray.map(x=> x.level))
+    var difficulty = encounterModule.getEncounterDifficultyString(totalCr.adjusted, partyArray.map(x => x.level))
     console.log(totalCr, difficulty);
 
     xpEle.innerHTML = difficulty;
@@ -1929,7 +1971,7 @@ function fillPartyPopup() {
 
         row.getElementsByClassName("pc_input_character_token")[0].setAttribute("src", token);
         if (members[index].party && parties.indexOf(members[index].party) < 0) {
-          
+
           partyInformationList.parties.push(members[index].party)
           parties.push(members[index].party)
         } else if (!members[index].party) {

@@ -1613,3 +1613,20 @@ header {
 .remove_button:hover {
   background-image: url(img/redXH.png);
 }
+
+
+.popup_menu>.toggle_button {
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+}
+
+.popup_menu .button_style{
+  border-radius:0 !important;
+}
+
+.popup_menu>.button_style {
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+}

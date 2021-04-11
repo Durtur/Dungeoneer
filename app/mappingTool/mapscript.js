@@ -355,12 +355,14 @@ ipcRenderer.on("notify-main-reloaded", function () {
 
 });
 
-ipcRenderer.on('token-condition-added', function (evt, list, index) {
+ipcRenderer.on('condition-list-changed', function (evt, arg) {
+    console.log("Conditions changed", arg);
+    var pawn = arg.isPlayer ? pawns.players.find(x => x[1] == arg.index)[0]
+        : [...document.querySelectorAll(".pawn_numbered")].filter(pw => pw.index_in_main_window == index)[0];
 
-    var pawn = [...document.querySelectorAll(".pawn_numbered")].filter(pw => pw.index_in_main_window == index)[0];
     if (pawn) {
-        removeAllPawnConditions(pawn);
-        list.forEach(cond => setPawnCondition(pawn, conditionList.filter(x => x.name.toLowerCase() == cond)[0]))
+        removeAllPawnConditions(pawn, true);
+        arg.conditions.forEach(cond => setPawnCondition(pawn, conditionList.filter(x => x.name.toLowerCase() == cond.toLowerCase())[0], true))
     }
 });
 
@@ -2396,7 +2398,7 @@ function removeAllConditionsHandler(event) {
 
 }
 
-function setPawnCondition(pawnElement, condition) {
+function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     var conditionString = condition.name;
     if (!conditionString || pawnElement["data-dnd_conditions"].indexOf(conditionString) > -1)
         return;
@@ -2430,18 +2432,19 @@ function setPawnCondition(pawnElement, condition) {
 
     newDiv.setAttribute("data-dnd_condition_full_name", conditionString);
     pawnElement.querySelector(".token_status").appendChild(newDiv);
-
+    if (!originMainWindow)
+        raiseConditionsChanged(pawnElement);
 }
 
-function removeAllPawnConditions(pawnElement) {
-    removePawnConditionHelper(pawnElement, null, true);
+function removeAllPawnConditions(pawnElement, originMainWindow = false) {
+    removePawnConditionHelper(pawnElement, null, true, originMainWindow);
 }
 
 function removePawnCondition(pawnElement, conditionString) {
     removePawnConditionHelper(pawnElement, conditionString, false)
 
 }
-function removePawnConditionHelper(pawnElement, conditionObj, deleteAll) {
+function removePawnConditionHelper(pawnElement, conditionObj, deleteAll, originMainWindow = false) {
 
     if (deleteAll) {
         pawnElement["data-dnd_conditions"] = [];
@@ -2457,7 +2460,9 @@ function removePawnConditionHelper(pawnElement, conditionObj, deleteAll) {
 
             condition.parentNode.removeChild(condition);
         }
-    })
+    });
+    if (!originMainWindow)
+        raiseConditionsChanged(pawnElement);
 
 }
 
@@ -2948,6 +2953,7 @@ function createConditionButton(condition) {
 
         selectedPawns.forEach(pawn => removePawnCondition(pawn, conditionList.find(x => x.name == name)));
         e.target.parentNode.removeChild(e.target);
+
     }
     btn.innerHTML = condition;
     menuWindow.appendChild(btn);
@@ -3487,10 +3493,10 @@ function resizeAndDrawGrid(timestamp, event) {
     canvasHeight = window.innerHeight;
     canvasWidth = window.innerWidth;
     fovLighting.addWindowBorderToSegments();
-    console.log(canvasHeight,canvasWidth);
+  
     //Resize fovlayer to window height and widht
     fovLighting.resizeCanvas(canvasWidth, canvasHeight);
-    
+
 
     fovLayerSegments.setAttribute('width', canvasWidth);
     fovLayerSegments.setAttribute('height', canvasHeight);

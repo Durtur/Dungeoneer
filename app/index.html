@@ -111,9 +111,8 @@
 
       <section class="topContainer">
         <div class=" pscontainer hidden_takes_space">
-          <div class="pcnode column  " draggable="true" ondragstart="dragPcNode(event)"
-            ondragend="stopDraggingPcNode(event)" ondrop="dropPcNode(event)" ondragover="dragOverPcNode(event)"
-            data-tooltip="">
+          <div class="pcnode column  "
+           >
             <div class="pcnode_name">
               <div class="pcNode_condition_container"></div>
               <p>Athalasar</p>
@@ -474,6 +473,13 @@
         </div>
       </div>
     </div>
+
+    <div id="popup_menu_players" class="popup_menu hidden">
+      <button   id = "add_pc_node_condition_btn"  class="button_style" onclick="addPlayerCondition()">Add condition</button>
+      <input id = "add_pc_node_condition_input" class="hidden">
+      <button class="button_style" onclick="clearPlayerConditions()">Clear conditions</button>
+  </div>
+
     <div class="column hidden mobcontroller_row" id="mobcontroller_row_template" data-dnd_creature="">
 
       <div class="row ">
