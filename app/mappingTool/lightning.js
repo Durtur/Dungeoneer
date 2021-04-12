@@ -65,7 +65,7 @@ var fovLighting = function () {
         if (mapIsBlack) return;
         var fogColor;
         if (activeFogType == MapFogEnum.LowLight) {
-            fogColor = hexToRGBA(settings.fogOfWarHue, 0.8);
+            fogColor = Util.hexToRGBA(settings.fogOfWarHue, 0.8);
         } else if (activeFogType == MapFogEnum.Dark) {
             fogColor = settings.fogOfWarHue;
         } else {

@@ -37,7 +37,36 @@
                     <div class="dropdown-content">
                         <a class="button_style" id="foreground_button" href="#">Foreground</a>
                         <a class="button_style context_menu_button"
-                            data-menu_item="context_menu_background">Background</a>
+                            data-menu_item="context_menu_background">Background
+                            <div id="context_menu_background" class="context_menu hidden">
+                                <button class="button_style" id="background_button" href="#"
+                                    title="Sets the art for the map edge.">Background image</button>
+                                <div class="menu_seperator"></div>
+                                <div class="row">
+                                    <label class="button_style_label" style="width: 100%;" for="slide_speed_input">
+                                        Slide speed:
+                                    </label>
+                                    <input style="text-align: center; width:60px; " type="number"
+                                        onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input" value="1" step="0.1">
+                                </div>
+                                <button class="button_style toggle_button" toggled="true" toggleGroup=15
+                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
+                                    title="Removes the background slide">No slide</button>
+                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideX">Horizontal slide</button>
+                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideXReverse"
+                                    title="Removes the background slide">Horizontal reverse slide</button>
+                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
+                                    title="Removes the background slide">Vertical slide</button>
+                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideYReverse"
+                                    title="Removes the background slide">Vertical reverse slide</button>
+            
+            
+                            </div>
+                        </a>
                         <a class="button_style" id="save_map_button" href="#"
                             title="Saves the map in the current state, excluding tokens.">Save map</a>
                         <a class="button_style" id="load_map_button" href="#"
@@ -52,34 +81,7 @@
                     </div>
                 </div>
 
-                <div id="context_menu_background" class="context_menu hidden">
-                    <button class="button_style" id="background_button" href="#"
-                        title="Sets the art for the map edge.">Background image</button>
-                    <div class="menu_seperator"></div>
-                    <div class="row">
-                        <label class="button_style_label" style="width: 100%;" for="slide_speed_input">
-                            Slide speed:
-                        </label>
-                        <input style="text-align: center; width:60px; " type="number"
-                            onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input" value="1" step="0.1">
-                    </div>
-                    <button class="button_style toggle_button" toggled="true" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
-                        title="Removes the background slide">No slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideX">Horizontal slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideXReverse"
-                        title="Removes the background slide">Horizontal reverse slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
-                        title="Removes the background slide">Vertical slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideYReverse"
-                        title="Removes the background slide">Vertical reverse slide</button>
-
-
-                </div>
+               
                 <div class="show_overflow">
                     <button title="Change map size" class="toggle_button button_style " toggleGroup="3" toggled="false"
                         onclick="showMapSizeSlider(this)">Size</button>
@@ -116,8 +118,7 @@
 
                         <div class="menu_seperator"></div>
 
-                        <a class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer
-                        Lights placed here are not visible normally. " onclick="toggleVisibilityLayer()">Show
+                        <a class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer. Lights placed here are not visible normally. " onclick="toggleVisibilityLayer()">Show
                             visibility
                             layer</a>
 
@@ -264,7 +265,7 @@
             <button class="button_style" onclick="elevatePawn()">Push higher</button>
             <button class="button_style" onclick="removeSelectedPawn()">Remove</button>
         </div>
-        <div id="context_menu_token" class="context_menu hidden">
+        <div id="context_menu_token" class="popup_menu context_menu hidden">
 
             <button class="button_style icon_load_button " id="add_token_facet_button">Add facet</button>
             <button class="button_style " id="next_facet_button">Next facet</button>
@@ -316,7 +317,7 @@
 
         </div>
         <div id="popup_dialogue_add_pawn" class="popup_dialog hidden column section__show">
-            <input type="text" id="add_pawn_name">
+            <input type="text" id="add_pawn_name" placeholder="Pawn name">
             <select id="add_pawn_size">
 
             </select>

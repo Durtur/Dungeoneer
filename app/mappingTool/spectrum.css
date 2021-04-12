@@ -310,9 +310,13 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 
 .sp-container {
     border-radius: 0;
-    background-image: url("../css/img/phbbg.png");
-    border: none;
-    padding: 0;
+   
+    border: 1px solid black;
+
+    /* background-image: url(img/phbbg.png); */
+    background-color: rgba(0, 0, 0, 0.8);
+    border-radius: var(--rounded-corners);
+    padding: 1em;
 }
 
 .sp-top {
@@ -365,7 +369,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 
 .sp-picker-container {
     width: 172px;
-    border-left: solid 1px #fff;
+ 
 }
 
 /* Palettes */
@@ -421,6 +425,9 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 
 .sp-palette-button-container, .sp-button-container {
     float: right;
+    display:flex;
+    flex-flow:row wrap;
+    margin-bottom:-1em;
 }
 
 /* Replacer (the little preview div that shows up instead of the <input>) */
@@ -445,14 +452,14 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     color:white;
     margin-left: 9px;
     line-height: 1.5;
-    font-family: var(--header-font);
+
     content:"Color";
     width:60px;
     height:20px;
 }
 
 .sp-replacer:hover, .sp-replacer.sp-active {
-    border-color: #F0C49B;
+    border-color: var(--main-emphasis-color);
     color: #111;
 }
 
@@ -493,16 +500,17 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 }
 
 .sp-container {
-    padding-bottom: 0;
+    padding-bottom: 1em;
 }
 
 /* Buttons: http://hellohappy.org/css3-buttons/ */
 
-.sp-container button, .sp-cancel {
+.sp-container button, .sp-cancel, .sp-choose {
     text-decoration: none;
     color: white;
-    margin-left: 5px;
-    font-family: var(--header-font);
+    margin: auto;
+    font-family: var(--basic-font);
+    border-radius: var(--rounded-corners);
     font-size: 16px;
     background-color: var(--main-color);
     background-size: contain;
@@ -512,9 +520,9 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
     border-bottom: 2px solid var(--main-underline-color);
     font-size: 14px;
     line-height: 1;
-    padding: 5px 4px;
+    padding: 0.5em;
     text-align: center;
-    vertical-align: middle;
+    width: 5em;
 }
 
 .sp-container button:hover, .sp-cancel:hover {

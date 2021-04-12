@@ -121,6 +121,13 @@ li {
     font-size: 16px;
 }
 
+.popup_dialog >*{
+    font-size:1em;
+    height:2em;
+    border-radius: 0;
+    font-family: var(--basic-font);
+    padding: 0.25em;
+}
 .popup_dialog>label {
     padding: 5px;
     text-align: center;

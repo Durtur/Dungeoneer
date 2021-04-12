@@ -551,6 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showAlpha: true,
         showInput: true,
         chooseText: "Set as base",
+        cancelText:"Cancel",
         change: pawnBgColorChosen
     });
 
