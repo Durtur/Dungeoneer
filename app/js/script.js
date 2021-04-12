@@ -40,6 +40,7 @@ ipcRenderer.on('update-autofill', function () {
 });
 
 function notifyMapToolConditionsChanged(index, conditions, isPlayer) {
+  console.log(`Notify changed ${index}`)
   let window2 = remote.getGlobal('maptoolWindow');
   if (window2) window2.webContents.send('condition-list-changed', { index: index, conditions: conditions, isPlayer: isPlayer });
 }
@@ -187,13 +188,13 @@ document.addEventListener("DOMContentLoaded", function () {
       hideAllFloatingInputs();
       hideAllPopups();
       combatLoader.closeLog();
-    } else if (e.key == "e" && e.ctrlKey) {
+    } else if (e.key.toLowerCase() == "e" && e.ctrlKey) {
 
       if (loadedMonster) combatLoader.loadCombat()
-    } else if (e.key == "i" && e.altKey) {
+    } else if (e.key.toLowerCase()  == "i" && e.altKey) {
 
       initiative.roll();
-    } else if (e.key == "d" && e.ctrlKey) {
+    } else if (e.key.toLowerCase()  == "d" && e.ctrlKey) {
       addMob();
     }
   });
@@ -249,14 +250,9 @@ function addPcNodeCondition(node, condition, originMapTool = false) {
     notifyMapToolConditionsChanged(node.querySelector(".pcnode_name>p").innerHTML, condList, true);
   node.setAttribute("data-dnd_conditions", condList.join(","))
   var container = node.querySelector(".pcNode_condition_container");
-
-  var newDiv = document.createElement("div");
-  var para = document.createElement("p");
-  newDiv.setAttribute("data-condition", condition);
-  newDiv.classList.add("condition_effect");
-  newDiv.classList.add("secondary_tooltipped");
+  var newDiv = createConditionBubble(condition);
   newDiv.onclick = function (e) {
-    console.log(node);
+
     var conditionList = node.getAttribute("data-dnd_conditions")?.split(",") || [];
     var removed = newDiv.getAttribute("data-condition");
     conditionList = conditionList.filter(x => x != removed);
@@ -264,6 +260,17 @@ function addPcNodeCondition(node, condition, originMapTool = false) {
     notifyMapToolConditionsChanged(node.querySelector(".pcnode_name>p").innerHTML, conditionList, true);
     newDiv.parentNode.removeChild(newDiv);
   }
+  container.appendChild(newDiv);
+}
+
+function createConditionBubble(condition) {
+
+  var newDiv = document.createElement("div");
+  var para = document.createElement("p");
+  newDiv.setAttribute("data-condition", condition);
+  newDiv.classList.add("condition_effect");
+  newDiv.classList.add("secondary_tooltipped");
+
   newDiv.appendChild(para);
   var conditionObj = conditionList.filter(x => x.name.toLowerCase() == condition.toLowerCase())[0];
   if (!conditionObj) {
@@ -282,7 +289,7 @@ function addPcNodeCondition(node, condition, originMapTool = false) {
   var secTooltip = document.createElement("div");
   secTooltip.classList.add("secondary_tooltip");
   var para = document.createElement("div");
-  para.innerHTML = marked("## " + condition + (conditionObj.description ? "\n" + conditionObj.description : ""));
+  para.innerHTML = marked("## " + conditionObj.name + (conditionObj.description ? "\n" + conditionObj.description : ""));
   if (para.innerHTML.length > 0) {
     if (conditionObj.condition_background_location) {
       var img = document.createElement("img");
@@ -294,7 +301,7 @@ function addPcNodeCondition(node, condition, originMapTool = false) {
   }
 
   newDiv.setAttribute("data-dnd_condition_full_name", condition);
-  container.appendChild(newDiv);
+  return newDiv;
 }
 
 function clearPcNodeConditions(pcNode) {
@@ -1012,19 +1019,26 @@ var combatLoader = function () {
     for (var i = 0; i < allRows.length; i++) {
       var row = allRows[i];
       var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
-      if (monsterIndex != arr[1])
+      if (monsterIndex != parseInt(arr[1]))
         continue;
+
       row.classList.add("hidden");
       row.setAttribute("data-dnd_conditions", "");
       initiative.removeLoadedMonsterInfo();
-      if (loadedMonsterQueue.find(x => x.index == monsterIndex)) {
-        loadedMonsterQueue.splice(loadedMonsterQueue.indexOf(x => x.index == monsterIndex), 1);
-        loadedMonsterQueue.propertyChanged();
-      }
+      console.log(loadedMonsterQueue);
+      console.log(monsterIndex);
+
       updateCurrentLoadedDifficulty();
       frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
+      if (loadedMonsterQueue.find(x => x.index == monsterIndex)) {
+        var temp = loadedMonsterQueue.filter(x => x.index != monsterIndex);
+        loadedMonsterQueue.length = 0;
+        temp.forEach(dd => loadedMonsterQueue.push(dd));
+        loadedMonsterQueue.propertyChanged();
+      }
       return;
     }
+  
   }
 
   function healthChanged(arr) {
@@ -1342,7 +1356,7 @@ var combatLoader = function () {
       }
       button.disabled = false;
       var str = button.title;
-      loadedMonsterQueue.forEach(x => str += "\n" + x.name);
+      loadedMonsterQueue.forEach(x => str += `\n ${x.name} (${x.index})`);
       button.title = str;
     }
     addLogPopupHandler(document.querySelector(".combatRow"));
@@ -1361,8 +1375,10 @@ var combatLoader = function () {
     });
     $("#condition_list_dd").on("input", function (e) {
       if (selectedRow) {
-        selectedRow.parentNode.setAttribute("data-dnd_conditions", $("#condition_list_dd").val().join(","));
-        notifyMapToolConditionsChanged(selectedRow.parentNode.getAttribute("data-dnd_monster_index"), $("#condition_list_dd").val(), false);
+        var conditionList = $("#condition_list_dd").val();
+
+        setConditionList(selectedRow.closest(".combatRow"), conditionList);
+        notifyMapToolConditionsChanged(selectedRow.closest(".combatRow").getAttribute("data-dnd_monster_index"), $("#condition_list_dd").val(), false);
       }
 
     });
@@ -1489,7 +1505,6 @@ var combatLoader = function () {
 
     var totalCr = encounterModule.getXpSumForEncounter(crList, partyArray.length);
     var difficulty = encounterModule.getEncounterDifficultyString(totalCr.adjusted, partyArray.map(x => x.level))
-    console.log(totalCr, difficulty);
 
     xpEle.innerHTML = difficulty;
     xpEle.setAttribute("data-tooltip", `Total XP: ${totalCr.unadjusted}${totalCr.unadjusted != totalCr.adjusted ? `, adjusted XP: ${totalCr.adjusted}` : ""}`);
@@ -1527,8 +1542,32 @@ var combatLoader = function () {
   }
 
   function setConditionList(row, conditionList) {
-
+    var conditionContainer = row.querySelector(".condition_container");
+    while (conditionContainer.firstChild)
+      conditionContainer.removeChild(conditionContainer.firstChild);
+    conditionList.forEach(condition => {
+      var newDiv = createConditionBubble(condition);
+      conditionContainer.appendChild(newDiv);
+      newDiv.onclick = function (e) {
+        console.log(e, newDiv)
+        var conditionList = row.getAttribute("data-dnd_conditions")?.split(",") || [];
+        var removed = newDiv.getAttribute("data-condition");
+        conditionList = conditionList.filter(x => x != removed);
+        row.setAttribute("data-dnd_conditions", conditionList.join(","));
+        var monsterIndex = parseInt(row.getAttribute("data-dnd_monster_index"));
+        notifyMapToolConditionsChanged(monsterIndex, conditionList, false);
+        newDiv.parentNode.removeChild(newDiv);
+        if (row == selectedRow.closest(".combatRow")) {
+          $("#condition_list_dd").val(conditionList);
+          $('#condition_list_dd').trigger('chosen:updated');
+        }
+      }
+    })
     row.setAttribute("data-dnd_conditions", conditionList.join(","));
+    if (row == selectedRow.closest(".combatRow")) {
+      $("#condition_list_dd").val(conditionList);
+      $('#condition_list_dd').trigger('chosen:updated');
+    }
     showLog();
   }
   return {

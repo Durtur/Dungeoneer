@@ -439,7 +439,8 @@
         tabindex="2">
       <button class="button button_style dmg_button" onclick="combatLoader.applyDmg()"
         title="Apply damage">Apply</button>
-      <input type="text" placeholder="Creature name" class="name_field" title="Creature name">
+     
+      <input type="text" placeholder="Creature name" readonly class="name_field" title="Creature name">
       <input type="number" placeholder="HP" class="hp_field" title="Creature HP">
       <input type="number" placeholder="AC" class="ac_field" title="Creature Armor Class">
       <input type="number" placeholder="Atk+" class="attack_field" title="Creature Attack Modifier">
@@ -472,6 +473,7 @@
 
         </div>
       </div>
+      <div class = "condition_container"></div>
     </div>
 
     <div id="popup_menu_players" class="popup_menu hidden">

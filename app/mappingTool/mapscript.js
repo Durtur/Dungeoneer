@@ -110,7 +110,7 @@ function loadSettings() {
         filterDd.selectedIndex = parseInt(filterValue);
         setBackgroundFilter();
         if (settings.currentMap) {
-            console.log(settings.currentMap);
+
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 
@@ -188,11 +188,10 @@ function switchMapLighting(index) {
     window.setTimeout(function () {
         var isLowLight = document.getElementById("map_lowlight_button").getAttribute("toggled") === "true";
         var isDarkness = document.getElementById("map_darkness_button").getAttribute("toggled") === "true";
-        console.log(isLowLight)
+
         if (isLowLight) {
             fovLighting.setFogStyle(fovLighting.MapFogType.LowLight);
         } else if (isDarkness) {
-            console.log("yo")
             fovLighting.setFogStyle(fovLighting.MapFogType.Dark);
         } else {
             fovLighting.setFogStyle(fovLighting.MapFogType.None);
@@ -332,7 +331,7 @@ function notifyTokenAdded(tokenIndex, name) {
 }
 
 ipcRenderer.on("intiative-updated", function (evt, arg) {
-    console.log(arg);
+
     if (arg.order) {
         arg.order.forEach(x => {
             if (!x.isPlayer)
@@ -356,9 +355,9 @@ ipcRenderer.on("notify-main-reloaded", function () {
 });
 
 ipcRenderer.on('condition-list-changed', function (evt, arg) {
-    console.log("Conditions changed", arg);
+
     var pawn = arg.isPlayer ? pawns.players.find(x => x[1] == arg.index)[0]
-        : [...document.querySelectorAll(".pawn_numbered")].filter(pw => pw.index_in_main_window == index)[0];
+        : [...document.querySelectorAll(".pawn_numbered")].filter(pw => pw.index_in_main_window == arg.index)[0];
 
     if (pawn) {
         removeAllPawnConditions(pawn, true);
@@ -382,7 +381,7 @@ ipcRenderer.on('monster-health-changed', function (evt, arg) {
     var woundEle = pawn.querySelector(".token_status");
     constants.creatureWounds.forEach(woundType => woundEle.classList.remove(woundType.className));
     var woundType = constants.creatureWounds.find(x => arg.healthPercentage < x.percentage);
-    console.log(woundType, constants.creatureWounds, arg.healthPercentage);
+  
     if (woundType) {
         woundEle.classList.add(woundType.className);
 
@@ -399,7 +398,7 @@ ipcRenderer.on('monster-health-changed', function (evt, arg) {
 
 ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
     var list = JSON.parse(arg);
-    console.log(list);
+  
     list.forEach(param => {
         var pawn = loadedMonstersFromMain.find(x => x.index_in_main_window == param.rowIndex);
         if (!pawn) return;
@@ -421,7 +420,7 @@ ipcRenderer.on('settings-changed', function (evt, arg) {
 });
 
 ipcRenderer.on('monster-list-cleared', function (evt, arg) {
-    console.log("Clearing numbers")
+
     loadedMonstersFromMain.forEach(function (element) {
         if (element.getAttribute("data-mob_size") != null)
             return;
@@ -457,7 +456,7 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
     remote.getCurrentWindow().focus();
     var monsterArray = JSON.parse(arg);
     console.log(monsterArray)
-    //Analísera til að dreifa litum
+
     var counterArray = [];
     var inArray = false, indexInArray = 0;;
     monsterArray.forEach(function (element) {
@@ -617,7 +616,7 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener('awesomplete-selectcomplete', function (e) {
             var condition = e.text.value;
             input.value = "";
-            console.log(condition);
+ 
             var condition = conditionList.find(c => c.name == condition);
             createConditionButton(condition.name)
             selectedPawns.forEach(function (pawn) {
@@ -761,7 +760,7 @@ function onSettingsLoaded() {
         offsetChangeX = gridMoveOffsetX - offsetChangeX;
         offsetChangeY = gridMoveOffsetY - offsetChangeY;
         nudgePawns(offsetChangeX, offsetChangeY)
-        console.log("Offset change: " + offsetChangeX + " " + offsetChangeY)
+
         fovLighting.nudgeSegments(offsetChangeX, offsetChangeY);
         fovLighting.drawSegments();
         window.requestAnimationFrame(refreshFogOfWar);
@@ -933,10 +932,10 @@ function onSettingsLoaded() {
             }
             data = JSON.parse(data);
             //  pawns = data.pawns;
-            console.log(data)
+
             gridMoveOffsetX = data.moveOffsetX;
             gridMoveOffsetY = data.moveOffsetY;
-            console.log(data)
+      
 
             mapContainer.data_bg_scale = data.bg_scale;
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
@@ -1102,7 +1101,7 @@ function setMapForeground(path, width) {
  */
 
 function resizeForeground(newWidth) {
-    console.log(`foreground resize ${newWidth}`)
+
     var oldHeight = parseFloat(foregroundCanvas.style.height);
     var oldWidth = parseFloat(foregroundCanvas.style.height);
     var newHeight = newWidth * foregroundCanvas.heightToWidthRatio;
@@ -1227,7 +1226,7 @@ var backgroundLoop = function () {
     var styleClasses = ["background_repeat_x", "background_repeat_y"]
     var slideCanvas = document.querySelector("#background");
     function setBackgroundSlide(button) {
-        console.log(slideCanvas)
+
 
         var cls;
         var animation = button.getAttribute("data-slide");
@@ -1961,7 +1960,7 @@ function stopMeasuring(event, ignoreClick) {
         measurements.clearMeasurements();
     } else if (event.button == 0 && visibilityLayerVisible && lastMeasuredPoint != null) {
         if (fovToolbox[0]) {
-            console.log("Adding segment line")
+   
             fovLighting.addLineSegment(lastMeasuredPoint, { x: event.clientX, y: event.clientY });
         } else if (fovToolbox[1]) {
             fovLighting.addRectangleSegment(lastMeasuredPoint, { x: event.clientX, y: event.clientY });
@@ -2300,7 +2299,7 @@ function refreshMobBackgroundImages(pawn) {
 
     var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
     var mobSize = parseInt(pawn.getAttribute("data-mob_size")) + shouldBeDead;
-    console.log("mob size: " + mobSize)
+
     var tokenPaths = JSON.parse(pawn.getAttribute("data-token_paths"));
     var mobsToAdd = mobSize - pawn.querySelectorAll(".mob_token").length;
 
@@ -2332,7 +2331,7 @@ function refreshMobBackgroundImages(pawn) {
 
     for (var i = 0; i < shouldBeDead; i++) {
         var next = alivePawns.pop();
-        console.log("Kill ", next)
+
         if (!next) break;
         next.classList.add("mob_token_dead");
         var currLocation = next.getBoundingClientRect();
@@ -2467,7 +2466,7 @@ function removePawnConditionHelper(pawnElement, conditionObj, deleteAll, originM
 }
 
 function raiseConditionsChanged(pawn) {
-    console.log("Raising conditions changed", pawn, pawn["data-dnd_conditions"])
+
     let window2 = remote.getGlobal('mainWindow');
     if (window2) window2.webContents.send('condition-list-changed', pawn["data-dnd_conditions"],
         pawn.index_in_main_window ? pawn.index_in_main_window : pawn.title);
@@ -2504,7 +2503,7 @@ function enlargeReducePawn(direction) {
             sizeIndex--;
         }
         var newSize = creaturePossibleSizes.sizes[sizeIndex];
-        console.log(newSize);
+     
         element.classList.remove("pawn_" + currentSize);
         element.classList.add("pawn_" + newSize);
         element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
@@ -2734,11 +2733,11 @@ function createBaseEffect(effectObj, isPreviewElement, e) {
         previewPlacement(createEffect(e, true));
 
     effects.push(newEffect)
-    console.log("Push effect")
+
     return newEffect;
 }
 function addLightEffectHandler(e, isPreviewElement) {
-    console.log("Adding light effect")
+
     var lightSourceDropdown = document.getElementById("add_light_source_dropdown");
 
     var effectName = lightSourceDropdown.options[lightSourceDropdown.selectedIndex].innerHTML;
@@ -3207,7 +3206,7 @@ function dragPawn(elmnt) {
                     gridLayer.onmousedown = generalMousedowngridLayer;
                 }
             } else {
-                //  console.log()
+     
                 if (isSelectedPawn(e.target) < 0)
                     clearSelectedPawns();
                 setupMeasurements();
@@ -3539,7 +3538,7 @@ function drawGrid() {
 
     var startPointX = gridMoveOffsetX % cellSize;
     var startPointY = gridMoveOffsetY % cellSize;
-    console.log(startPointX, startPointY)
+
 
     for (var i = startPointY; i < canvasHeight; i += cellSize) {
         ctx.moveTo(0, i);

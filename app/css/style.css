@@ -323,6 +323,15 @@ h1 {
   color: var(--main-emphasis-color);
 }
 
+.combatRow .condition_container{
+  position: absolute;
+  top: 0.7em;
+  left: 37.5em;
+  display: flex;
+  flex-flow: row nowrap;
+
+  height: 2.5em;
+}
 .combatRow>.tooltipped {
   cursor: pointer;
 }
@@ -1176,18 +1185,6 @@ button:disabled {
   max-width: 650px;
   width: 650px;
   flex-flow: row wrap;
-}
-
-.combatRow[data-dnd_conditions]:before {
-  position: absolute;
-  font-family: var(--basic-font);
-  left: 85px;
-  font-size: 10px;
-  top: 0px;
-  color: var(--main-emphasis-color);
-  height: 25px;
-  width: 25px;
-  content: attr(data-dnd_conditions);
 }
 
 .pcnode__passiveperception {
