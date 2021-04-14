@@ -464,6 +464,29 @@ module.exports = function () {
         }
     }
 
+    function doUpdate(){
+        baseGet("spells-sublist-data.json", function(data){
+            getSpells(function(spells){
+                spells.forEach(spell=>{
+                    var found = data.find(x=> x.name.toLowerCase() == spell.name.toLowerCase());
+                    if(!found)return;
+                   
+                    spell.metadata = {};
+                    if(found.damageInflict){
+                        spell.metadata.damageType = found.damageInflict;
+                    }
+                    if(found.savingThrow){
+                        spell.metadata.savingThrow = found.savingThrow;
+                    }
+                    if(found.conditionInflict){
+                        spell.metadata.conditionInflict = found.conditionInflict;
+                    }
+             
+                });
+                setSpells(spells);
+            });
+        });
+    }
     return {
         readFile: readFile,
         getTokenPath: getTokenPath,
@@ -507,7 +530,8 @@ module.exports = function () {
         checkIfFirstTimeLoadComplete: checkIfFirstTimeLoadComplete,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize,
-        checkFile: checkFile
+        checkFile: checkFile,
+        doUpdate:doUpdate
     }
 }();
 

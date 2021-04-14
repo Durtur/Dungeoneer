@@ -38,34 +38,7 @@
                         <a class="button_style" id="foreground_button" href="#">Foreground</a>
                         <a class="button_style context_menu_button"
                             data-menu_item="context_menu_background">Background
-                            <div id="context_menu_background" class="context_menu hidden">
-                                <button class="button_style" id="background_button" href="#"
-                                    title="Sets the art for the map edge.">Background image</button>
-                                <div class="menu_seperator"></div>
-                                <div class="row">
-                                    <label class="button_style_label" style="width: 100%;" for="slide_speed_input">
-                                        Slide speed:
-                                    </label>
-                                    <input style="text-align: center; width:60px; " type="number"
-                                        onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input" value="1" step="0.1">
-                                </div>
-                                <button class="button_style toggle_button" toggled="true" toggleGroup=15
-                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
-                                    title="Removes the background slide">No slide</button>
-                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideX">Horizontal slide</button>
-                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideXReverse"
-                                    title="Removes the background slide">Horizontal reverse slide</button>
-                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
-                                    title="Removes the background slide">Vertical slide</button>
-                                <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                                    onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideYReverse"
-                                    title="Removes the background slide">Vertical reverse slide</button>
-            
-            
-                            </div>
+                        
                         </a>
                         <a class="button_style" id="save_map_button" href="#"
                             title="Saves the map in the current state, excluding tokens.">Save map</a>
@@ -81,7 +54,34 @@
                     </div>
                 </div>
 
-               
+                <div id="context_menu_background" class="context_menu hidden">
+                    <button class="button_style" id="background_button" href="#"
+                        title="Sets the art for the map edge.">Background image</button>
+                    <div class="menu_seperator"></div>
+                    <div class="row">
+                        <label class="button_style_label" style="width: 100%;" for="slide_speed_input">
+                            Slide speed:
+                        </label>
+                        <input style="text-align: center; width:60px; " type="number"
+                            onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input" value="1" step="0.1">
+                    </div>
+                    <button class="button_style toggle_button" toggled="true" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
+                        title="Removes the background slide">No slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideX">Horizontal slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideXReverse"
+                        title="Removes the background slide">Horizontal reverse slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
+                        title="Removes the background slide">Vertical slide</button>
+                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
+                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideYReverse"
+                        title="Removes the background slide">Vertical reverse slide</button>
+
+
+                </div>
                 <div class="show_overflow">
                     <button title="Change map size" class="toggle_button button_style " toggleGroup="3" toggled="false"
                         onclick="showMapSizeSlider(this)">Size</button>
@@ -102,15 +102,16 @@
                         <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content">
+                        <input type="color" id="fog_of_war_hue_selector"
+                        style="height:0 !important; margin:0 !important; padding:0 !important;" value="#000000"
+                        class="invisible">
                         <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
                             title="Map is in darkness" id="map_darkness_button" onclick="switchMapLighting()">Map in
                             darkness</a>
                         <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
                             title="Map is in low light" id="map_lowlight_button" onclick="switchMapLighting()">Map in
                             low light</a>
-                        <input type="color" id="fog_of_war_hue_selector"
-                            style="height:0 !important; margin:0 !important; padding:0 !important;" value="#000000"
-                            class="invisible">
+                    
                         <a class="toggle_button button_style" toggled="false" title="Current viewer has darkvision"
                             id="active_viewer_button" onclick="switchActiveViewer()">Darkvision</a>
                         <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Fog color</label>
@@ -233,6 +234,11 @@
                         <div>Multi point line:</div>
                         <div class="list_value">CTRL + Mouse left </div>
                     </li>
+                    <li>
+                        <div>Measure with pawn height:</div>
+                        <div class="list_value">CTRL + Mouse left </div>
+                    </li>
+             
                 </ul>
                 <strong>Placing effects</strong>
                 <ul>

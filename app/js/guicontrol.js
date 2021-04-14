@@ -2,7 +2,11 @@ var Util = require("./js/util");
 
 document.addEventListener("DOMContentLoaded", function () {
     const remote = require('electron').remote;
+    var selectOnFocus = document.querySelectorAll(".select_text_on_focus");
 
+    [... selectOnFocus].forEach(x=> x.addEventListener('focus', (event) => {
+        event.target.select();
+      }));
     var checkBoxes = document.querySelectorAll("input[type=checkbox]");
     var closeAppButton, closeWindowButton;
     closeAppButton = document.getElementById("close_app_button");
@@ -120,3 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+function closePopupGeneric(evt){
+    var popup = evt.target.closest(".popup_menu");
+    popup.classList.add("hidden");
+}

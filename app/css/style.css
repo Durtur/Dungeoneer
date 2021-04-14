@@ -245,6 +245,7 @@ h1 {
 .combat_loader_log_column {
   background-color: white;
   padding-bottom: 10px;
+  margin-left: 1.75em;
 }
 
 .combat_log_popup_window>div>p {
@@ -323,15 +324,15 @@ h1 {
   color: var(--main-emphasis-color);
 }
 
-.combatRow .condition_container{
+.combatRow .condition_container {
   position: absolute;
   top: 0.7em;
-  left: 37.5em;
+  left: 42em;
   display: flex;
   flex-flow: row nowrap;
-
   height: 2.5em;
 }
+
 .combatRow>.tooltipped {
   cursor: pointer;
 }
@@ -544,9 +545,9 @@ h1 {
   width: 40px;
   height: 40px;
   margin-top: 2px;
-  
 }
-.saveRoller input, .saveRoller label{
+
+.saveRoller input, .saveRoller label {
   border-radius: var(--rounded-corners);
 }
 
@@ -578,7 +579,7 @@ h1 {
 .randomizerPanel__container {
   padding: 10px;
   padding-bottom: 24px;
-  width: 290px;
+  width: 22.5em;
   height: 100%;
   margin: 10px;
   position: relative;
@@ -758,11 +759,13 @@ h1 {
   text-align: center;
   background-color: white;
 }
-.mobcontroller_second_row{
+
+.mobcontroller_second_row {
   padding-right: 80px;
 }
+
 .mobcontroller_second_row>input {
-  flex:1;
+  flex: 1;
 }
 
 .mobcontroller_creatures_remaining {
@@ -844,7 +847,7 @@ h1 {
   position: absolute;
   padding: 5px;
   top: -7px;
-  width: 600px;
+  width: 100%;
   text-align: center;
   font-family: booksanity;
   font-size: 15px;
@@ -852,12 +855,11 @@ h1 {
 }
 
 .combatRow, .mobcontroller_row {
-  margin-left: 8px;
   position: relative;
   display: flex;
   justify-content: center;
   flex-flow: row nowrap;
-  width: 600px;
+
   transition: all var(--transition-delay);
   z-index: 2;
 }
@@ -933,15 +935,15 @@ h1 {
 .init_not_started {
   height: 70px;
   cursor: pointer;
-
   width: 70px;
   background-color: transparent !important;
   background-image: url(img/d20normal.png);
   background-size: contain;
-  transition:all var(--transition-delay);
+  transition: all var(--transition-delay);
 }
-.init_not_started:hover{
-  transform:rotate(30);
+
+.init_not_started:hover {
+  transform: rotate(30);
 }
 
 .init_not_started>p {
@@ -1033,7 +1035,7 @@ h1 {
   float: left;
   flex-flow: column wrap;
   padding-bottom: 40px;
-  width: 600px;
+
   border-radius: 5px;
   display: flex;
 }
@@ -1172,7 +1174,7 @@ button:disabled {
 .combat_toolbar {
   display: flex;
   justify-content: space-between;
-  width: 600px;
+
 }
 
 .flex_end {
@@ -1182,8 +1184,8 @@ button:disabled {
 
 .assorted_tool_container {
   display: flex;
-  max-width: 650px;
-  width: 650px;
+  
+  width: 44.5em;
   flex-flow: row wrap;
 }
 
@@ -1439,4 +1441,103 @@ button:disabled {
 
 .secondary_tooltipped:hover .secondary_tooltip {
   display: block;
+}
+
+.combatRow .round_checkbox_container p {
+  margin: 0;
+  padding: 0;
+  color: var(--main-color);
+  width: 1em;
+  text-align: center;
+  position: absolute;
+  /* top: -0.2em; */
+  font-size: 0.9em;
+  left: 0.9em;
+}
+.combatRow .round_checkmark{
+  left: -0.25em;
+}
+
+.combatRow .round_checkbox_container {
+  padding-right: 1em;
+}
+
+/** Rounded checkboxes */
+
+.round_checkbox_container {
+  display: block;
+  position: relative;
+  padding: 0;
+  margin: auto;
+  margin-top: 0.4em;
+  padding-left: 0.8em;
+  cursor: pointer;
+  font-size: 1.25em;
+  user-select: none;
+}
+
+/* Hide the browser's default checkbox */
+
+.round_checkbox_container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+
+.round_checkmark {
+  position: absolute;
+  top: 0.2em;
+  left: 0;
+  height: 1em;
+  width: 1em;
+  background-color: white;
+  border-radius: 15px;
+}
+
+
+/* When the checkbox is checked, add a blue background */
+
+.round_checkbox_container input:checked~.round_checkmark {
+  background-color: var(--main-emphasis-color);
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+
+.round_checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+
+.round_checkbox_container input:checked~.round_checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+
+.round_checkbox_container .round_checkmark:after {
+  left: 0.3em;
+  top: 0.1em;
+  width: 0.25em;
+  height: 0.45em;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+#popup_menu_saveorspell .close_button{
+  right: 0.5em;
+  top: 0.5em;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.awesomplete>input{
+  padding:0;
 }

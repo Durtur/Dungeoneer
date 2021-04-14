@@ -1,6 +1,7 @@
 const { ipcRenderer, webFrame } = require('electron');
 const path = require("path");
 const Awesomplete = require(path.resolve('app/awesomplete/awesomplete.js'));
+const Geometry = require("./mappingTool/geometry");
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
 const dialog = require('electron').remote.dialog;
@@ -74,11 +75,6 @@ var pawns = (function () {
 
 })();
 
-function clearSelectedPawns() {
-    while (selectedPawns.length > 0) {
-        selectedPawns.pop().classList.remove("pawn_selected");
-    }
-}
 
 function loadSettings() {
     dataAccess.getSettings(function (data) {
@@ -259,7 +255,7 @@ function toggleVisibilityLayer() {
 }
 
 function setTool(source, toolIndex) {
-    clearSelectedPawns();
+
     for (var i = 0; i < toolbox.length; i++) {
         toolbox[i] = false;
     }
@@ -324,10 +320,22 @@ function refreshPawnToolTipsHelper(arr, monster) {
 }
 
 // #region commands
+function  notifySelectedPawnsChanged(){
+    let mainWindow = remote.getGlobal('mainWindow');
+
+    if (mainWindow) mainWindow.webContents.send('notify-maptool-selection-changed', 
+    {selected: selectedPawns.filter(x=> x.index_in_main_window).map(x=> x.index_in_main_window)});
+}
+
 
 function notifyTokenAdded(tokenIndex, name) {
     let mainWindow = remote.getGlobal('mainWindow');
     if (mainWindow) mainWindow.webContents.send('notify-token-added-in-maptool', [tokenIndex, name]);
+}
+
+function requestNotifyUpdateFromMain(){
+    let mainWindow = remote.getGlobal('mainWindow');
+    if (mainWindow) mainWindow.webContents.send('update-all-pawns');
 }
 
 ipcRenderer.on("intiative-updated", function (evt, arg) {
@@ -381,7 +389,7 @@ ipcRenderer.on('monster-health-changed', function (evt, arg) {
     var woundEle = pawn.querySelector(".token_status");
     constants.creatureWounds.forEach(woundType => woundEle.classList.remove(woundType.className));
     var woundType = constants.creatureWounds.find(x => arg.healthPercentage < x.percentage);
-  
+
     if (woundType) {
         woundEle.classList.add(woundType.className);
 
@@ -398,7 +406,7 @@ ipcRenderer.on('monster-health-changed', function (evt, arg) {
 
 ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
     var list = JSON.parse(arg);
-  
+
     list.forEach(param => {
         var pawn = loadedMonstersFromMain.find(x => x.index_in_main_window == param.rowIndex);
         if (!pawn) return;
@@ -455,7 +463,6 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
     console.log("Loading monsters")
     remote.getCurrentWindow().focus();
     var monsterArray = JSON.parse(arg);
-    console.log(monsterArray)
 
     var counterArray = [];
     var inArray = false, indexInArray = 0;;
@@ -551,7 +558,7 @@ document.addEventListener("DOMContentLoaded", function () {
         showAlpha: true,
         showInput: true,
         chooseText: "Set as base",
-        cancelText:"Cancel",
+        cancelText: "Cancel",
         change: pawnBgColorChosen
     });
 
@@ -617,7 +624,7 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener('awesomplete-selectcomplete', function (e) {
             var condition = e.text.value;
             input.value = "";
- 
+
             var condition = conditionList.find(c => c.name == condition);
             createConditionButton(condition.name)
             selectedPawns.forEach(function (pawn) {
@@ -664,6 +671,7 @@ function moveMap(x, y) {
 }
 
 function resetEverything() {
+
     clearSelectedPawns();
     hideAllTooltips();
     stopAddingEffects();
@@ -936,7 +944,7 @@ function onSettingsLoaded() {
 
             gridMoveOffsetX = data.moveOffsetX;
             gridMoveOffsetY = data.moveOffsetY;
-      
+
 
             mapContainer.data_bg_scale = data.bg_scale;
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
@@ -1336,12 +1344,15 @@ function effectDropdownChange(event) {
 }
 
 function generalMousedowngridLayer(event) {
-    clearSelectedPawns();
+
+
     if (event.button == 2) {
+        clearSelectedPawns();
         showPopupMenuGeneral(event.x, event.y);
     } else if (event.button == 0) {
-
+        clearSelectedPawns();
         if (event.ctrlKey) {
+            clearSelectedPawns();
             startSelectingPawns(event);
         } else {
             startMovingMap(event);
@@ -1485,12 +1496,12 @@ var measurementPaused = false;
 function startMeasuring(event) {
 
     if (event.button != 0) {
-
         lastMeasuredPoint = null;
         return;
     }
-    if (!visibilityLayerVisible) {
 
+  
+    if (!visibilityLayerVisible) {
         if (toolbox[0]) {
             if (event.button == 0) {
                 if (event.ctrlKey) {
@@ -1616,7 +1627,6 @@ function startMeasuring(event) {
             lastMeasuredSphere.radius = radius;
         })
     }
-    var lastMeasuredCube;
     function measureRectangleSegment(event) {
         window.requestAnimationFrame(function () {
             if (lastMeasuredCube) {
@@ -1669,6 +1679,7 @@ function startMeasuring(event) {
             lastMeasuredCube.height = height;
 
             showToolTip(event, Math.abs(Math.round(width / cellSize * 5)) + " x " + Math.abs(Math.round(height / cellSize * 5)) + " ft", "tooltip")
+            attemptToSelectPawnsFromMeasurement();
         })
 
     }
@@ -1696,8 +1707,9 @@ function startMeasuring(event) {
             showToolTip(event, Math.round(radius / cellSize * 5) * 2 + " ft", "tooltip");
             lastMeasuredCube.x = measurementOriginPosition.x;
             lastMeasuredCube.y = measurementOriginPosition.y;
-            lastMeasuredCube.radius = radius;
 
+            lastMeasuredCube.radius = radius;
+            attemptToSelectPawnsFromMeasurement();
         })
     }
 
@@ -1728,11 +1740,10 @@ function startMeasuring(event) {
             lastMeasuredSphere.y = measurementOriginPosition.y;
             lastMeasuredSphere.radius = radius;
             showToolTip(event, Math.round(radius / cellSize * 5) + " ft rad", "tooltip")
-
+            attemptToSelectPawnsFromMeasurement();
         })
     }
 
-    var lastMeasuredCone;
     function measureCone(event) {
         window.requestAnimationFrame(function () {
             if (lastMeasuredCone) {
@@ -1770,11 +1781,86 @@ function startMeasuring(event) {
 
             lastMeasuredCone.x = measurementOriginPosition.x;
             lastMeasuredCone.y = measurementOriginPosition.y;
+            lastMeasuredCone.newPoint = newPoint;
+            lastMeasuredCone.newPoint2 = newPoint2;
+
             lastMeasuredCone.radius = Math.sqrt(
                 Math.pow(event.clientX - measurementOriginPosition.x, 2) +
                 Math.pow(event.clientY - measurementOriginPosition.y, 2)
             );
+            attemptToSelectPawnsFromMeasurement()
         })
+    }
+
+    function attemptToSelectPawnsFromMeasurement() {
+
+        var pawnsInArea;
+        if (toolbox[1] && lastMeasuredCone) { //cone
+            pawnsInArea = [...pawns.all].filter(pawn => {
+                var pawnCenter = getPawnOrigin(pawn);
+                return Geometry.insideCone(
+                    lastMeasuredCone.x,
+                    lastMeasuredCone.y,
+                    lastMeasuredCone.newPoint.x,
+                    lastMeasuredCone.newPoint.y,
+                    lastMeasuredCone.newPoint2.x,
+                    lastMeasuredCone.newPoint2.y,
+                    pawnCenter.x,
+                    pawnCenter.y
+                );
+
+            });
+        } else if (toolbox[2] && lastMeasuredSphere) { //sphere
+
+            pawnsInArea = [...pawns.all].filter(pawn => {
+                var pawnCenter = getPawnOrigin(pawn);
+
+                return Geometry.distance(
+                    {
+                        x: pawnCenter.x,
+                        y: pawnCenter.y
+                    },
+                    {
+                        x: lastMeasuredSphere.x,
+                        y: lastMeasuredSphere.y
+                    }
+                ) <= lastMeasuredSphere.radius
+            });
+
+
+        } else if ((toolbox[3] || toolbox[4]) && lastMeasuredCube) {//cube or rectangle
+
+            var measureRectangle = toolbox[3] ?
+                {
+                    x: lastMeasuredCube.x - lastMeasuredCube.radius,
+                    y: lastMeasuredCube.y - lastMeasuredCube.radius,
+                    width: lastMeasuredCube.radius * 2,
+                    height: lastMeasuredCube.radius * 2
+                } : lastMeasuredCube
+
+            pawnsInArea = [...pawns.all].filter(pawn => {
+                var pawnCenter = getPawnOrigin(pawn);
+                return Geometry.insideRect(measureRectangle.x,
+                    measureRectangle.y,
+                    measureRectangle.x + measureRectangle.width,
+                    measureRectangle.y + measureRectangle.height,
+                    pawnCenter.x, pawnCenter.y)
+            });
+
+        } else {
+            return;
+        }
+        clearSelectedPawns();
+        if (pawnsInArea?.length > 0) {
+
+            pawnsInArea.forEach(element => {
+                selectPawn(element);
+            });
+
+        }
+
+
+
     }
 
     function measureDistance(event) {
@@ -1868,7 +1954,7 @@ function refreshMeasurementTooltip() {
     }
 
 }
-var lastMeasuredSphere;
+var lastMeasuredSphere, lastMeasuredCube, lastMeasuredCone;
 var lastMeasuredLineDrawn, totalMeasuredDistance = 0;
 function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
 
@@ -1961,7 +2047,7 @@ function stopMeasuring(event, ignoreClick) {
         measurements.clearMeasurements();
     } else if (event.button == 0 && visibilityLayerVisible && lastMeasuredPoint != null) {
         if (fovToolbox[0]) {
-   
+
             fovLighting.addLineSegment(lastMeasuredPoint, { x: event.clientX, y: event.clientY });
         } else if (fovToolbox[1]) {
             fovLighting.addRectangleSegment(lastMeasuredPoint, { x: event.clientX, y: event.clientY });
@@ -2504,7 +2590,7 @@ function enlargeReducePawn(direction) {
             sizeIndex--;
         }
         var newSize = creaturePossibleSizes.sizes[sizeIndex];
-     
+
         element.classList.remove("pawn_" + currentSize);
         element.classList.add("pawn_" + newSize);
         element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
@@ -2623,7 +2709,8 @@ function startAddingFromQueue() {
         var offset = (radiusOfPawn * cellSize) / 2;
 
         var pawn = generatePawns([pawns.addQueue[0]], true, { x: e.clientX - offset, y: e.clientY - offset });
-        loadedMonstersFromMain.push(pawn)
+        loadedMonstersFromMain.push(pawn);
+        requestNotifyUpdateFromMain();
         pawns.addQueue.splice(0, 1);
         if (pawns.addQueue.length == 0) {
             document.getElementById("add_pawn_from_tool_toolbar").classList.add("hidden");
@@ -2926,7 +3013,8 @@ function hideAllTooltips() {
     Util.showOrHide("popup_dialogue_add_pawn", -1);
     Util.showOrHide("conditions_menu", -1);
     gridLayer.style.cursor = "auto";
-    clearSelectedPawns();
+
+    //clearSelectedPawns();
 
 }
 function showLightSourceTooltip(event) {
@@ -3015,8 +3103,8 @@ function startSelectingPawns(e) {
     pos4 = e.clientY;
 
     gridLayer.onmousedown = function (event) {
-        clearSelectedPawns();
         measurements.clearMeasurements();
+        generalMousedowngridLayer(event);
         gridLayer.onmousedown = generalMousedowngridLayer;
     }
     document.onmouseup = function (event) {
@@ -3068,17 +3156,12 @@ function startSelectingPawns(e) {
 
             pawnX = parseFloat(pawn.style.left) + offset;
             pawnY = parseFloat(pawn.style.top) + offset;
-            var selected = isSelectedPawn(pawn);
-            if (insideRect(aX, aY, aX + distX, aY + distY, pawnX, pawnY)) {
-                if (selected < 0) {
-                    selectedPawns.push(pawn);
-                    pawn.classList.add("pawn_selected");
-                }
+
+            if (Geometry.insideRect(aX, aY, aX + distX, aY + distY, pawnX, pawnY)) {
+                selectPawn(pawn);
             } else {
-                if (selected >= 0) {
-                    selectedPawns.splice(selected, 1);
-                }
-                pawn.classList.remove("pawn_selected");
+                deselectPawn(pawn);
+
             }
 
         };
@@ -3091,13 +3174,7 @@ function isSelectedPawn(pawn) {
     }
     return -1;
 }
-function insideRect(x1, y1, x2, y2, x, y) {
-    return x >= Math.min(x1, x2)
-        && y >= Math.min(y1, y2)
-        && x <= Math.max(x1, x2)
-        && y <= Math.max(y1, y2)
 
-}
 
 function startMovingMap(e) {
     if (currentlyMeasuring) return;
@@ -3198,16 +3275,21 @@ function dragPawn(elmnt) {
         if (e.buttons == 1) {
             //Multiple select
             if (e.ctrlKey) {
-                if (isPawn(e.target) && isSelectedPawn(e.target) < 0) {
-                    selectedPawns.push(e.target);
-                    e.target.classList.add("pawn_selected");
+                if (isPawn(e.target)) {
+                    if (isSelectedPawn(e.target) < 0) {
+                        selectPawn(e.target);
+                    } else {
+                        deselectPawn(e.target);
+                    }
+
                 }
                 gridLayer.onmousedown = function (event) {
+
                     clearSelectedPawns();
                     gridLayer.onmousedown = generalMousedowngridLayer;
                 }
             } else {
-     
+
                 if (isSelectedPawn(e.target) < 0)
                     clearSelectedPawns();
                 setupMeasurements();
@@ -3420,10 +3502,44 @@ function resizeEffects() {
 function resizePawns() {
 
     resizeHelper(pawns.all);
+}
+
+function getPawnOrigin(pawn) {
+    var rect = pawn.getBoundingClientRect();
+
+    return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 }
+}
+
+function clearSelectedPawns() {
+
+    while (selectedPawns.length > 0) {
+        selectedPawns.pop().classList.remove("pawn_selected");
+    }
+}
+
+var pawnSelectNotify_timeout;
+function selectPawn(pawn) {
+    var selected = isSelectedPawn(pawn);
+    if (selected >= 0)
+        return;
+    selectedPawns.push(pawn);
+    pawn.classList.add("pawn_selected");
+    window.clearTimeout(pawnSelectNotify_timeout);
+    pawnSelectNotify_timeout = window.setTimeout(()=>{
+       notifySelectedPawnsChanged(); 
+    },500);
+}
+
+function deselectPawn(pawn) {
+    var selected = isSelectedPawn(pawn);
+    if (selected < 0)
+        return;
+
+    selectedPawns.splice(selected, 1);
+    pawn.classList.remove("pawn_selected");
 
 
 }
-
 function isPawn(element) {
     return element.classList.contains("pawn");
 }
@@ -3493,7 +3609,7 @@ function resizeAndDrawGrid(timestamp, event) {
     canvasHeight = window.innerHeight;
     canvasWidth = window.innerWidth;
     fovLighting.addWindowBorderToSegments();
-  
+
     //Resize fovlayer to window height and widht
     fovLighting.resizeCanvas(canvasWidth, canvasHeight);
 

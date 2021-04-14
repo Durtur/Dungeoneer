@@ -405,6 +405,7 @@ li {
 .condition_effect {
     height: 50%;
     width: 50%;
+    max-width: 2em;
     position: relative;
     margin-left: -30%;
     pointer-events: all;

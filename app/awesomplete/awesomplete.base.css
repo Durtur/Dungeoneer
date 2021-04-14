@@ -10,6 +10,7 @@
 .awesomplete { 
     /*display: inline-block;*/
     position: relative;
+    overflow: hidden;
 }
 
 .awesomplete > input {

@@ -15,7 +15,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfst"
+		"id": "cacvjpc94kgy0yfst",
+		"metadata": {
+			"damageType": [
+				"acid"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -33,7 +41,8 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfsu"
+		"id": "cacvjpc94kgy0yfsu",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -52,7 +61,15 @@
 		"casting_time": "1 action",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfsv"
+		"id": "cacvjpc94kgy0yfsv",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -70,7 +87,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfsw"
+		"id": "cacvjpc94kgy0yfsw",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -90,7 +112,8 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfsx"
+		"id": "cacvjpc94kgy0yfsx",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -108,7 +131,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfsy"
+		"id": "cacvjpc94kgy0yfsy",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -126,7 +150,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfsz"
+		"id": "cacvjpc94kgy0yfsz",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -148,7 +180,15 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft0"
+		"id": "cacvjpc94kgy0yft0",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -167,7 +207,12 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft1"
+		"id": "cacvjpc94kgy0yft1",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -185,7 +230,17 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft2"
+		"id": "cacvjpc94kgy0yft2",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"lightning",
+				"poison",
+				"thunder"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -203,7 +258,12 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft3"
+		"id": "cacvjpc94kgy0yft3",
+		"metadata": {
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -221,7 +281,15 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft4"
+		"id": "cacvjpc94kgy0yft4",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -238,7 +306,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft5"
+		"id": "cacvjpc94kgy0yft5",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -258,7 +331,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yft6"
+		"id": "cacvjpc94kgy0yft6",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -276,7 +350,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft7"
+		"id": "cacvjpc94kgy0yft7",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -297,7 +372,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft8"
+		"id": "cacvjpc94kgy0yft8",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -316,7 +392,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yft9"
+		"id": "cacvjpc94kgy0yft9",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -334,7 +411,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfta"
+		"id": "cacvjpc94kgy0yfta",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -357,7 +435,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yftb"
+		"id": "cacvjpc94kgy0yftb",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -397,7 +476,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftd"
+		"id": "cacvjpc94kgy0yftd",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -414,7 +494,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfte"
+		"id": "cacvjpc94kgy0yfte",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -431,7 +516,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftf"
+		"id": "cacvjpc94kgy0yftf",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -448,7 +541,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftg"
+		"id": "cacvjpc94kgy0yftg",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -465,7 +559,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfth"
+		"id": "cacvjpc94kgy0yfth",
+		"metadata": {
+			"damageType": [
+				"force"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -482,7 +581,18 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfti"
+		"id": "cacvjpc94kgy0yfti",
+		"metadata": {
+			"damageType": [
+				"piercing"
+			],
+			"savingThrow": [
+				"strength"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -499,7 +609,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftj"
+		"id": "cacvjpc94kgy0yftj",
+		"metadata": {
+			"savingThrow": [
+				"strength"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -517,7 +635,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftk"
+		"id": "cacvjpc94kgy0yftk",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -536,7 +659,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftl"
+		"id": "cacvjpc94kgy0yftl",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -554,7 +678,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftm"
+		"id": "cacvjpc94kgy0yftm",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -573,7 +698,8 @@
 		"casting_time": "1 reaction, which you take when you or a creature within 60 feet of you falls",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftn"
+		"id": "cacvjpc94kgy0yftn",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -590,7 +716,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfto"
+		"id": "cacvjpc94kgy0yfto",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -608,7 +735,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftp"
+		"id": "cacvjpc94kgy0yftp",
+		"metadata": {
+			"damageType": [
+				"fire"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -628,7 +760,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftq"
+		"id": "cacvjpc94kgy0yftq",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -648,7 +781,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftr"
+		"id": "cacvjpc94kgy0yftr",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -666,7 +800,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfts"
+		"id": "cacvjpc94kgy0yfts",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -683,7 +818,15 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftt"
+		"id": "cacvjpc94kgy0yftt",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -701,7 +844,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftu"
+		"id": "cacvjpc94kgy0yftu",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -718,7 +862,12 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftv"
+		"id": "cacvjpc94kgy0yftv",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -735,7 +884,15 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftw"
+		"id": "cacvjpc94kgy0yftw",
+		"metadata": {
+			"damageType": [
+				"piercing"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -754,7 +911,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftx"
+		"id": "cacvjpc94kgy0yftx",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -771,7 +929,15 @@
 		"casting_time": "1 reaction, which you take in response to being damaged by a creature within 60 feet of you that you can see.",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfty"
+		"id": "cacvjpc94kgy0yfty",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -788,7 +954,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yftz"
+		"id": "cacvjpc94kgy0yftz",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -806,7 +977,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu0"
+		"id": "cacvjpc94kgy0yfu0",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -823,7 +995,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu1"
+		"id": "cacvjpc94kgy0yfu1",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -841,7 +1014,8 @@
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfu2"
+		"id": "cacvjpc94kgy0yfu2",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -860,7 +1034,8 @@
 		"casting_time": "1 minute",
 		"duration": "10 days",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfu3"
+		"id": "cacvjpc94kgy0yfu3",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -877,7 +1052,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu4"
+		"id": "cacvjpc94kgy0yfu4",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -897,7 +1077,8 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu5"
+		"id": "cacvjpc94kgy0yfu5",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -917,7 +1098,12 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu6"
+		"id": "cacvjpc94kgy0yfu6",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -937,7 +1123,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu7"
+		"id": "cacvjpc94kgy0yfu7",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -955,7 +1142,8 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu8"
+		"id": "cacvjpc94kgy0yfu8",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -975,7 +1163,8 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfu9"
+		"id": "cacvjpc94kgy0yfu9",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -993,7 +1182,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfua"
+		"id": "cacvjpc94kgy0yfua",
+		"metadata": {
+			"damageType": [
+				"force"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1014,7 +1208,8 @@
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfub"
+		"id": "cacvjpc94kgy0yfub",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1033,7 +1228,8 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuc"
+		"id": "cacvjpc94kgy0yfuc",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1053,7 +1249,8 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfud"
+		"id": "cacvjpc94kgy0yfud",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1073,7 +1270,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfue"
+		"id": "cacvjpc94kgy0yfue",
+		"metadata": {
+			"damageType": [
+				"poison"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1093,7 +1298,8 @@
 		"casting_time": "1 action",
 		"duration": "Up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuf"
+		"id": "cacvjpc94kgy0yfuf",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1110,7 +1316,12 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfug"
+		"id": "cacvjpc94kgy0yfug",
+		"metadata": {
+			"damageType": [
+				"fire"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1130,7 +1341,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuh"
+		"id": "cacvjpc94kgy0yfuh",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1149,7 +1361,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfui"
+		"id": "cacvjpc94kgy0yfui",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1167,7 +1380,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuj"
+		"id": "cacvjpc94kgy0yfuj",
+		"metadata": {
+			"damageType": [
+				"cold"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1185,7 +1403,18 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuk"
+		"id": "cacvjpc94kgy0yfuk",
+		"metadata": {
+			"damageType": [
+				"poison"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"poisoned"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1205,7 +1434,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yful"
+		"id": "cacvjpc94kgy0yful",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1223,7 +1453,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfum"
+		"id": "cacvjpc94kgy0yfum",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1240,7 +1471,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfun"
+		"id": "cacvjpc94kgy0yfun",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1257,7 +1496,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuo"
+		"id": "cacvjpc94kgy0yfuo",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1275,7 +1519,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfup"
+		"id": "cacvjpc94kgy0yfup",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1292,7 +1537,15 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuq"
+		"id": "cacvjpc94kgy0yfuq",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1310,7 +1563,8 @@
 		"casting_time": "1 reaction, which you take when you are hit by an attack or targeted by the magic missile spell",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfur"
+		"id": "cacvjpc94kgy0yfur",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1327,7 +1581,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfus"
+		"id": "cacvjpc94kgy0yfus",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1345,7 +1600,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfut"
+		"id": "cacvjpc94kgy0yfut",
+		"metadata": {
+			"damageType": [
+				"lightning"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1364,7 +1624,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuu"
+		"id": "cacvjpc94kgy0yfuu",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1383,7 +1644,12 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuv"
+		"id": "cacvjpc94kgy0yfuv",
+		"metadata": {
+			"conditionInflict": [
+				"unconscious"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1400,7 +1666,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuw"
+		"id": "cacvjpc94kgy0yfuw",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1419,7 +1686,8 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfux"
+		"id": "cacvjpc94kgy0yfux",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1436,7 +1704,8 @@
 		"casting_time": "1 action",
 		"duration": "Up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuy"
+		"id": "cacvjpc94kgy0yfuy",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1453,7 +1722,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfuz"
+		"id": "cacvjpc94kgy0yfuz",
+		"metadata": {
+			"damageType": [
+				"piercing"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1470,7 +1744,18 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv0"
+		"id": "cacvjpc94kgy0yfv0",
+		"metadata": {
+			"damageType": [
+				"thunder"
+			],
+			"savingThrow": [
+				"strength"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1490,7 +1775,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv1"
+		"id": "cacvjpc94kgy0yfv1",
+		"metadata": {
+			"damageType": [
+				"thunder"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1510,7 +1803,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv2"
+		"id": "cacvjpc94kgy0yfv2",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1529,7 +1823,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfv3"
+		"id": "cacvjpc94kgy0yfv3",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1546,7 +1841,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv4"
+		"id": "cacvjpc94kgy0yfv4",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1565,7 +1868,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv5"
+		"id": "cacvjpc94kgy0yfv5",
+		"metadata": {
+			"damageType": [
+				"lightning"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1582,7 +1890,18 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv6"
+		"id": "cacvjpc94kgy0yfv6",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"frightened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1600,7 +1919,8 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv7"
+		"id": "cacvjpc94kgy0yfv7",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1619,7 +1939,8 @@
 		"casting_time": "1 action",
 		"duration": "24 hours",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfv8"
+		"id": "cacvjpc94kgy0yfv8",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1639,7 +1960,16 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfv9"
+		"id": "cacvjpc94kgy0yfv9",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded",
+				"deafened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1656,7 +1986,8 @@
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfva"
+		"id": "cacvjpc94kgy0yfva",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1674,7 +2005,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvb"
+		"id": "cacvjpc94kgy0yfvb",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1696,7 +2032,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfvc"
+		"id": "cacvjpc94kgy0yfvc",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"paralyzed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1717,7 +2061,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvd"
+		"id": "cacvjpc94kgy0yfvd",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1734,7 +2079,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfve"
+		"id": "cacvjpc94kgy0yfve",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1753,7 +2099,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfvf"
+		"id": "cacvjpc94kgy0yfvf",
+		"metadata": {
+			"conditionInflict": [
+				"deafened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1770,7 +2121,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvg"
+		"id": "cacvjpc94kgy0yfvg",
+		"metadata": {
+			"damageType": [
+				"force"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1787,7 +2143,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvh"
+		"id": "cacvjpc94kgy0yfvh",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1805,7 +2162,8 @@
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvi"
+		"id": "cacvjpc94kgy0yfvi",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1822,7 +2180,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvj"
+		"id": "cacvjpc94kgy0yfvj",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1839,7 +2198,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvk"
+		"id": "cacvjpc94kgy0yfvk",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1856,7 +2216,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvl"
+		"id": "cacvjpc94kgy0yfvl",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1873,7 +2234,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvm"
+		"id": "cacvjpc94kgy0yfvm",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1894,7 +2256,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvn"
+		"id": "cacvjpc94kgy0yfvn",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			],
+			"conditionInflict": [
+				"incapacitated"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1911,7 +2281,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvo"
+		"id": "cacvjpc94kgy0yfvo",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -1931,7 +2302,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvp"
+		"id": "cacvjpc94kgy0yfvp",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1950,7 +2329,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvq"
+		"id": "cacvjpc94kgy0yfvq",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1967,7 +2354,18 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvr"
+		"id": "cacvjpc94kgy0yfvr",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -1985,7 +2383,8 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvs"
+		"id": "cacvjpc94kgy0yfvs",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2002,7 +2401,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvt"
+		"id": "cacvjpc94kgy0yfvt",
+		"metadata": {
+			"damageType": [
+				"lightning"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2022,7 +2429,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvu"
+		"id": "cacvjpc94kgy0yfvu",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2042,7 +2450,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvv"
+		"id": "cacvjpc94kgy0yfvv",
+		"metadata": {
+			"damageType": [
+				"slashing"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2059,7 +2472,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvw"
+		"id": "cacvjpc94kgy0yfvw",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2077,7 +2495,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvx"
+		"id": "cacvjpc94kgy0yfvx",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2094,7 +2513,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvy"
+		"id": "cacvjpc94kgy0yfvy",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2113,7 +2537,8 @@
 		"casting_time": "1 reaction, which you take when you see a creature within 60 feet of you casting a spell.",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfvz"
+		"id": "cacvjpc94kgy0yfvz",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2131,7 +2556,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw0"
+		"id": "cacvjpc94kgy0yfw0",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2148,7 +2574,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw1"
+		"id": "cacvjpc94kgy0yfw1",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2168,7 +2599,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw2"
+		"id": "cacvjpc94kgy0yfw2",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2191,7 +2623,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw3"
+		"id": "cacvjpc94kgy0yfw3",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2208,7 +2641,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw4"
+		"id": "cacvjpc94kgy0yfw4",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"lightning",
+				"thunder"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2228,7 +2670,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw5"
+		"id": "cacvjpc94kgy0yfw5",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"frightened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2248,7 +2698,13 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfw6"
+		"id": "cacvjpc94kgy0yfw6",
+		"metadata": {
+			"conditionInflict": [
+				"blinded",
+				"incapacitated"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2266,7 +2722,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw7"
+		"id": "cacvjpc94kgy0yfw7",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2285,7 +2749,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw8"
+		"id": "cacvjpc94kgy0yfw8",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2303,7 +2768,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfw9"
+		"id": "cacvjpc94kgy0yfw9",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2321,7 +2787,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwa"
+		"id": "cacvjpc94kgy0yfwa",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2341,7 +2808,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwb"
+		"id": "cacvjpc94kgy0yfwb",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed",
+				"incapacitated"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2358,7 +2834,15 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwc"
+		"id": "cacvjpc94kgy0yfwc",
+		"metadata": {
+			"damageType": [
+				"lightning"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2378,7 +2862,12 @@
 		"casting_time": "1 minute",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwd"
+		"id": "cacvjpc94kgy0yfwd",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2398,7 +2887,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwe"
+		"id": "cacvjpc94kgy0yfwe",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2415,7 +2905,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwf"
+		"id": "cacvjpc94kgy0yfwf",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2433,7 +2924,14 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwg"
+		"id": "cacvjpc94kgy0yfwg",
+		"metadata": {
+			"damageType": [
+				"bludgeoning",
+				"piercing",
+				"slashing"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2450,7 +2948,8 @@
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwh"
+		"id": "cacvjpc94kgy0yfwh",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2468,7 +2967,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwi"
+		"id": "cacvjpc94kgy0yfwi",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2487,7 +2987,8 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwj"
+		"id": "cacvjpc94kgy0yfwj",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2505,7 +3006,15 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfwk"
+		"id": "cacvjpc94kgy0yfwk",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2522,7 +3031,8 @@
 		"casting_time": "1 minute",
 		"duration": "1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfwl"
+		"id": "cacvjpc94kgy0yfwl",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2541,7 +3051,8 @@
 		"casting_time": "1 action or 8 hours",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwm"
+		"id": "cacvjpc94kgy0yfwm",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2562,7 +3073,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwn"
+		"id": "cacvjpc94kgy0yfwn",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2580,7 +3092,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwo"
+		"id": "cacvjpc94kgy0yfwo",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2599,7 +3112,8 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwp"
+		"id": "cacvjpc94kgy0yfwp",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2618,7 +3132,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwq"
+		"id": "cacvjpc94kgy0yfwq",
+		"metadata": {
+			"savingThrow": [
+				"dexterity",
+				"constitution"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2636,7 +3159,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwr"
+		"id": "cacvjpc94kgy0yfwr",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2654,7 +3182,8 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfws"
+		"id": "cacvjpc94kgy0yfws",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2673,7 +3202,8 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwt"
+		"id": "cacvjpc94kgy0yfwt",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2690,7 +3220,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwu"
+		"id": "cacvjpc94kgy0yfwu",
+		"metadata": {
+			"damageType": [
+				"necrotic",
+				"radiant"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2709,7 +3248,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwv"
+		"id": "cacvjpc94kgy0yfwv",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2729,7 +3273,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfww"
+		"id": "cacvjpc94kgy0yfww",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2747,7 +3296,8 @@
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwx"
+		"id": "cacvjpc94kgy0yfwx",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2766,7 +3316,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwy"
+		"id": "cacvjpc94kgy0yfwy",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2784,7 +3342,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfwz"
+		"id": "cacvjpc94kgy0yfwz",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2802,7 +3361,8 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx0"
+		"id": "cacvjpc94kgy0yfx0",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2823,7 +3383,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx1"
+		"id": "cacvjpc94kgy0yfx1",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2841,7 +3402,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfx2"
+		"id": "cacvjpc94kgy0yfx2",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2859,7 +3421,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx3"
+		"id": "cacvjpc94kgy0yfx3",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2876,7 +3439,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx4"
+		"id": "cacvjpc94kgy0yfx4",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2893,7 +3461,15 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx5"
+		"id": "cacvjpc94kgy0yfx5",
+		"metadata": {
+			"damageType": [
+				"piercing"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2913,7 +3489,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx6"
+		"id": "cacvjpc94kgy0yfx6",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2932,7 +3516,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx7"
+		"id": "cacvjpc94kgy0yfx7",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2952,7 +3537,8 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx8"
+		"id": "cacvjpc94kgy0yfx8",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -2971,7 +3557,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfx9"
+		"id": "cacvjpc94kgy0yfx9",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -2988,7 +3579,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxa"
+		"id": "cacvjpc94kgy0yfxa",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3006,7 +3598,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxb"
+		"id": "cacvjpc94kgy0yfxb",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3024,7 +3617,15 @@
 		"casting_time": "1 hour",
 		"duration": "10 days",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxc"
+		"id": "cacvjpc94kgy0yfxc",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"frightened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3043,7 +3644,12 @@
 		"casting_time": "1 hour",
 		"duration": "Special",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxd"
+		"id": "cacvjpc94kgy0yfxd",
+		"metadata": {
+			"conditionInflict": [
+				"unconscious"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3060,7 +3666,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxe"
+		"id": "cacvjpc94kgy0yfxe",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3079,7 +3686,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Concentration, up to 8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxf"
+		"id": "cacvjpc94kgy0yfxf",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3097,7 +3705,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxg"
+		"id": "cacvjpc94kgy0yfxg",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3117,7 +3726,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxh"
+		"id": "cacvjpc94kgy0yfxh",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3136,7 +3753,19 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxi"
+		"id": "cacvjpc94kgy0yfxi",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"constitution",
+				"dexterity"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3156,7 +3785,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxj"
+		"id": "cacvjpc94kgy0yfxj",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"intelligence"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3176,7 +3813,8 @@
 		"casting_time": "1 minute",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxk"
+		"id": "cacvjpc94kgy0yfxk",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3195,7 +3833,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxl"
+		"id": "cacvjpc94kgy0yfxl",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3213,7 +3852,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxm"
+		"id": "cacvjpc94kgy0yfxm",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3230,7 +3870,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxn"
+		"id": "cacvjpc94kgy0yfxn",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3248,7 +3896,15 @@
 		"casting_time": "1 minute",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxo"
+		"id": "cacvjpc94kgy0yfxo",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3266,7 +3922,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxp"
+		"id": "cacvjpc94kgy0yfxp",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3283,7 +3947,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxq"
+		"id": "cacvjpc94kgy0yfxq",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3300,7 +3965,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxr"
+		"id": "cacvjpc94kgy0yfxr",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3318,7 +3984,16 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxs"
+		"id": "cacvjpc94kgy0yfxs",
+		"metadata": {
+			"damageType": [
+				"bludgeoning",
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3336,7 +4011,8 @@
 		"casting_time": "1 action",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxt"
+		"id": "cacvjpc94kgy0yfxt",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3353,7 +4029,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxu"
+		"id": "cacvjpc94kgy0yfxu",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3373,7 +4050,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxv"
+		"id": "cacvjpc94kgy0yfxv",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3393,7 +4071,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxw"
+		"id": "cacvjpc94kgy0yfxw",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"stunned"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3410,7 +4096,27 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxx"
+		"id": "cacvjpc94kgy0yfxx",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"force",
+				"lightning",
+				"poison"
+			],
+			"savingThrow": [
+				"constitution",
+				"dexterity",
+				"wisdom"
+			],
+			"conditionInflict": [
+				"blinded",
+				"petrified",
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3428,7 +4134,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxy"
+		"id": "cacvjpc94kgy0yfxy",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3445,7 +4152,23 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfxz"
+		"id": "cacvjpc94kgy0yfxz",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"bludgeoning",
+				"cold",
+				"lightning",
+				"thunder"
+			],
+			"savingThrow": [
+				"constitution",
+				"dexterity"
+			],
+			"conditionInflict": [
+				"deafened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3462,7 +4185,8 @@
 		"casting_time": "1 action",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy0"
+		"id": "cacvjpc94kgy0yfy0",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3481,7 +4205,18 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy1"
+		"id": "cacvjpc94kgy0yfy1",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3499,7 +4234,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy2"
+		"id": "cacvjpc94kgy0yfy2",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3518,7 +4254,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy3"
+		"id": "cacvjpc94kgy0yfy3",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3535,7 +4276,15 @@
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 6 rounds",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy4"
+		"id": "cacvjpc94kgy0yfy4",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3553,7 +4302,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy5"
+		"id": "cacvjpc94kgy0yfy5",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3570,7 +4320,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy6"
+		"id": "cacvjpc94kgy0yfy6",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"frightened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3588,7 +4349,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy7"
+		"id": "cacvjpc94kgy0yfy7",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3605,7 +4371,8 @@
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy8"
+		"id": "cacvjpc94kgy0yfy8",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3623,7 +4390,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfy9"
+		"id": "cacvjpc94kgy0yfy9",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3643,7 +4418,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfya"
+		"id": "cacvjpc94kgy0yfya",
+		"metadata": {
+			"damageType": [
+				"force"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3660,7 +4440,17 @@
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyb"
+		"id": "cacvjpc94kgy0yfyb",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			],
+			"conditionInflict": [
+				"blinded",
+				"deafened",
+				"stunned"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3681,7 +4471,12 @@
 		"casting_time": "1 action",
 		"duration": "Up to 8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyc"
+		"id": "cacvjpc94kgy0yfyc",
+		"metadata": {
+			"damageType": [
+				"force"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3700,7 +4495,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyd"
+		"id": "cacvjpc94kgy0yfyd",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3719,7 +4522,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfye"
+		"id": "cacvjpc94kgy0yfye",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3738,7 +4549,12 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyf"
+		"id": "cacvjpc94kgy0yfyf",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3757,7 +4573,8 @@
 		"casting_time": "10 minutes",
 		"duration": "10 days",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyg"
+		"id": "cacvjpc94kgy0yfyg",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3775,7 +4592,26 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyh"
+		"id": "cacvjpc94kgy0yfyh",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"lightning",
+				"poison"
+			],
+			"savingThrow": [
+				"dexterity",
+				"constitution",
+				"wisdom"
+			],
+			"conditionInflict": [
+				"blinded",
+				"petrified",
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3793,7 +4629,13 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 day",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyi"
+		"id": "cacvjpc94kgy0yfyi",
+		"metadata": {
+			"conditionInflict": [
+				"blinded",
+				"deafened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3814,7 +4656,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyj"
+		"id": "cacvjpc94kgy0yfyj",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3833,7 +4680,8 @@
 		"casting_time": "1 minute",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyk"
+		"id": "cacvjpc94kgy0yfyk",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3852,7 +4700,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyl"
+		"id": "cacvjpc94kgy0yfyl",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3871,7 +4720,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfym"
+		"id": "cacvjpc94kgy0yfym",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3888,7 +4742,12 @@
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyn"
+		"id": "cacvjpc94kgy0yfyn",
+		"metadata": {
+			"conditionInflict": [
+				"invisible"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3905,7 +4764,8 @@
 		"casting_time": "12 hours",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyo"
+		"id": "cacvjpc94kgy0yfyo",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3923,7 +4783,24 @@
 		"casting_time": "1 minute",
 		"duration": "Until dispelled or triggered",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyp"
+		"id": "cacvjpc94kgy0yfyp",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"constitution",
+				"wisdom",
+				"charisma",
+				"intelligence"
+			],
+			"conditionInflict": [
+				"frightened",
+				"incapacitated",
+				"stunned",
+				"unconscious"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3943,7 +4820,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyq"
+		"id": "cacvjpc94kgy0yfyq",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -3963,7 +4841,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyr"
+		"id": "cacvjpc94kgy0yfyr",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -3983,7 +4866,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfys"
+		"id": "cacvjpc94kgy0yfys",
+		"metadata": {
+			"conditionInflict": [
+				"invisible"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4053,7 +4941,14 @@
 				"6"
 			]
 		},
-		"id": "cacvjpc94kgy0yfyt"
+		"id": "cacvjpc94kgy0yfyt",
+		"metadata": {
+			"damageType": [
+				"bludgeoning",
+				"piercing",
+				"slashing"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4070,7 +4965,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyu"
+		"id": "cacvjpc94kgy0yfyu",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4089,7 +4985,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyv"
+		"id": "cacvjpc94kgy0yfyv",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4107,7 +5004,12 @@
 		"casting_time": "8 hours",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyw"
+		"id": "cacvjpc94kgy0yfyw",
+		"metadata": {
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4124,7 +5026,15 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyx"
+		"id": "cacvjpc94kgy0yfyx",
+		"metadata": {
+			"damageType": [
+				"force"
+			],
+			"conditionInflict": [
+				"incapacitated"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4142,7 +5052,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyy"
+		"id": "cacvjpc94kgy0yfyy",
+		"metadata": {
+			"damageType": [
+				"lightning"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4159,7 +5077,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfyz"
+		"id": "cacvjpc94kgy0yfyz",
+		"metadata": {
+			"damageType": [
+				"slashing"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4178,7 +5104,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfz0"
+		"id": "cacvjpc94kgy0yfz0",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4195,7 +5129,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfz1"
+		"id": "cacvjpc94kgy0yfz1",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4213,7 +5148,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfz2"
+		"id": "cacvjpc94kgy0yfz2",
+		"metadata": {
+			"damageType": [
+				"poison"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4231,7 +5174,8 @@
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfz3"
+		"id": "cacvjpc94kgy0yfz3",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4248,7 +5192,8 @@
 		"casting_time": "1 minute",
 		"duration": "1 minute",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfz4"
+		"id": "cacvjpc94kgy0yfz4",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4266,7 +5211,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfz5"
+		"id": "cacvjpc94kgy0yfz5",
+		"metadata": {
+			"damageType": [
+				"cold"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4284,7 +5237,8 @@
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfz6"
+		"id": "cacvjpc94kgy0yfz6",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4302,7 +5256,8 @@
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfz7"
+		"id": "cacvjpc94kgy0yfz7",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4319,7 +5274,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfz8"
+		"id": "cacvjpc94kgy0yfz8",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4337,7 +5297,15 @@
 		"casting_time": "1 minute",
 		"duration": "1 minute",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfz9"
+		"id": "cacvjpc94kgy0yfz9",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"intelligence"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4355,7 +5323,17 @@
 		"casting_time": "1 action",
 		"duration": "7 days",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfza"
+		"id": "cacvjpc94kgy0yfza",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded",
+				"stunned",
+				"poisoned"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4372,7 +5350,8 @@
 		"casting_time": "10 minutes",
 		"duration": "10 days",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzb"
+		"id": "cacvjpc94kgy0yfzb",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4391,7 +5370,8 @@
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzc"
+		"id": "cacvjpc94kgy0yfzc",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4409,7 +5389,8 @@
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzd"
+		"id": "cacvjpc94kgy0yfzd",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4427,7 +5408,8 @@
 		"casting_time": "1 minute",
 		"duration": "Special",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfze"
+		"id": "cacvjpc94kgy0yfze",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4444,7 +5426,20 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzf"
+		"id": "cacvjpc94kgy0yfzf",
+		"metadata": {
+			"damageType": [
+				"necrotic",
+				"radiant",
+				"thunder"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4462,7 +5457,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzg"
+		"id": "cacvjpc94kgy0yfzg",
+		"metadata": {
+			"damageType": [
+				"force"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4479,7 +5482,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfzh"
+		"id": "cacvjpc94kgy0yfzh",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4497,7 +5501,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzi"
+		"id": "cacvjpc94kgy0yfzi",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4515,7 +5524,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzj"
+		"id": "cacvjpc94kgy0yfzj",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4534,7 +5551,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzk"
+		"id": "cacvjpc94kgy0yfzk",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4553,7 +5578,15 @@
 		"casting_time": "1 minute",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzl"
+		"id": "cacvjpc94kgy0yfzl",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4573,7 +5606,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzm"
+		"id": "cacvjpc94kgy0yfzm",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4591,7 +5625,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzn"
+		"id": "cacvjpc94kgy0yfzn",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4609,7 +5648,12 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzo"
+		"id": "cacvjpc94kgy0yfzo",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4626,7 +5670,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzp"
+		"id": "cacvjpc94kgy0yfzp",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4646,7 +5691,17 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzq"
+		"id": "cacvjpc94kgy0yfzq",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"frightened",
+				"unconscious",
+				"poisoned"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4663,7 +5718,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzr"
+		"id": "cacvjpc94kgy0yfzr",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4682,7 +5738,8 @@
 		"casting_time": "1 minute",
 		"duration": "Concentration, up to 1 day",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzs"
+		"id": "cacvjpc94kgy0yfzs",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4701,7 +5758,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzt"
+		"id": "cacvjpc94kgy0yfzt",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4718,7 +5776,13 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzu"
+		"id": "cacvjpc94kgy0yfzu",
+		"metadata": {
+			"damageType": [
+				"cold",
+				"fire"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4735,7 +5799,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzv"
+		"id": "cacvjpc94kgy0yfzv",
+		"metadata": {
+			"damageType": [
+				"fire"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4752,7 +5821,16 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzw"
+		"id": "cacvjpc94kgy0yfzw",
+		"metadata": {
+			"damageType": [
+				"fire",
+				"radiant"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4770,7 +5848,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzx"
+		"id": "cacvjpc94kgy0yfzx",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4788,7 +5874,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yfzy"
+		"id": "cacvjpc94kgy0yfzy",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"petrified",
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4805,7 +5900,13 @@
 		"casting_time": "10 minutes",
 		"duration": "1 day",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yfzz"
+		"id": "cacvjpc94kgy0yfzz",
+		"metadata": {
+			"damageType": [
+				"necrotic",
+				"radiant"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4825,7 +5926,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg00"
+		"id": "cacvjpc94kgy0yg00",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4846,7 +5948,18 @@
 		"casting_time": "1 minute",
 		"duration": "30 days",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg01"
+		"id": "cacvjpc94kgy0yg01",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4864,7 +5977,8 @@
 		"casting_time": "1 action",
 		"duration": "10 days",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg02"
+		"id": "cacvjpc94kgy0yg02",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4881,7 +5995,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg03"
+		"id": "cacvjpc94kgy0yg03",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4899,7 +6014,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg04"
+		"id": "cacvjpc94kgy0yg04",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4918,7 +6034,19 @@
 		"casting_time": "1 hour",
 		"duration": "Until dispelled or triggered",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg05"
+		"id": "cacvjpc94kgy0yg05",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"lightning",
+				"thunder"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4936,7 +6064,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg06"
+		"id": "cacvjpc94kgy0yg06",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4955,7 +6088,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg07"
+		"id": "cacvjpc94kgy0yg07",
+		"metadata": {
+			"conditionInflict": [
+				"invisible"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -4974,7 +6112,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg08"
+		"id": "cacvjpc94kgy0yg08",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -4991,7 +6130,15 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg09"
+		"id": "cacvjpc94kgy0yg09",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5009,7 +6156,8 @@
 		"casting_time": "10 minutes",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0a"
+		"id": "cacvjpc94kgy0yg0a",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5028,7 +6176,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0b"
+		"id": "cacvjpc94kgy0yg0b",
+		"metadata": {
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5048,7 +6201,8 @@
 		"casting_time": "10 minutes",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0c"
+		"id": "cacvjpc94kgy0yg0c",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5065,7 +6219,12 @@
 		"casting_time": "24 hours",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0d"
+		"id": "cacvjpc94kgy0yg0d",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5082,7 +6241,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0e"
+		"id": "cacvjpc94kgy0yg0e",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5100,7 +6267,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0f"
+		"id": "cacvjpc94kgy0yg0f",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5118,7 +6293,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0g"
+		"id": "cacvjpc94kgy0yg0g",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5136,7 +6312,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0h"
+		"id": "cacvjpc94kgy0yg0h",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5156,7 +6333,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0i"
+		"id": "cacvjpc94kgy0yg0i",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"paralyzed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5175,7 +6360,16 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0j"
+		"id": "cacvjpc94kgy0yg0j",
+		"metadata": {
+			"damageType": [
+				"bludgeoning",
+				"cold"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5194,7 +6388,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0k"
+		"id": "cacvjpc94kgy0yg0k",
+		"metadata": {
+			"damageType": [
+				"piercing"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5213,7 +6415,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0l"
+		"id": "cacvjpc94kgy0yg0l",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5232,7 +6435,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0m"
+		"id": "cacvjpc94kgy0yg0m",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5250,7 +6454,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0n"
+		"id": "cacvjpc94kgy0yg0n",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5269,7 +6478,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg0o"
+		"id": "cacvjpc94kgy0yg0o",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5287,7 +6497,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0p"
+		"id": "cacvjpc94kgy0yg0p",
+		"metadata": {
+			"damageType": [
+				"lightning"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5309,7 +6527,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0q"
+		"id": "cacvjpc94kgy0yg0q",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5331,7 +6550,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0r"
+		"id": "cacvjpc94kgy0yg0r",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5348,7 +6568,12 @@
 		"casting_time": "1 minute",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0s"
+		"id": "cacvjpc94kgy0yg0s",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5366,7 +6591,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0t"
+		"id": "cacvjpc94kgy0yg0t",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5384,7 +6610,8 @@
 		"casting_time": "1 minute",
 		"duration": "Until dispelled",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg0u"
+		"id": "cacvjpc94kgy0yg0u",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5403,7 +6630,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0v"
+		"id": "cacvjpc94kgy0yg0v",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5423,7 +6651,12 @@
 		"casting_time": "1 action",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0w"
+		"id": "cacvjpc94kgy0yg0w",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5442,7 +6675,8 @@
 		"casting_time": "1 action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0x"
+		"id": "cacvjpc94kgy0yg0x",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5460,7 +6694,14 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0y"
+		"id": "cacvjpc94kgy0yg0y",
+		"metadata": {
+			"conditionInflict": [
+				"blinded",
+				"deafened",
+				"invisible"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5479,7 +6720,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg0z"
+		"id": "cacvjpc94kgy0yg0z",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5497,7 +6739,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg10"
+		"id": "cacvjpc94kgy0yg10",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed",
+				"incapacitated"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5514,7 +6765,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg11"
+		"id": "cacvjpc94kgy0yg11",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5533,7 +6792,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 2 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg12"
+		"id": "cacvjpc94kgy0yg12",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5551,7 +6811,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg13"
+		"id": "cacvjpc94kgy0yg13",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5568,7 +6829,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg14"
+		"id": "cacvjpc94kgy0yg14",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5585,7 +6847,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg15"
+		"id": "cacvjpc94kgy0yg15",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"frightened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5604,7 +6877,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg16"
+		"id": "cacvjpc94kgy0yg16",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"intelligence"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5621,7 +6902,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg17"
+		"id": "cacvjpc94kgy0yg17",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5641,7 +6923,12 @@
 		"casting_time": "1 hour",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg18"
+		"id": "cacvjpc94kgy0yg18",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5661,7 +6948,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg19"
+		"id": "cacvjpc94kgy0yg19",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5679,7 +6971,8 @@
 		"casting_time": "1 action",
 		"duration": "Until dispelled",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1a"
+		"id": "cacvjpc94kgy0yg1a",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5698,7 +6991,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1b"
+		"id": "cacvjpc94kgy0yg1b",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5718,7 +7012,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1c"
+		"id": "cacvjpc94kgy0yg1c",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5736,7 +7031,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1d"
+		"id": "cacvjpc94kgy0yg1d",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5753,7 +7053,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1e"
+		"id": "cacvjpc94kgy0yg1e",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5770,7 +7071,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1f"
+		"id": "cacvjpc94kgy0yg1f",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5788,7 +7090,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1g"
+		"id": "cacvjpc94kgy0yg1g",
+		"metadata": {
+			"damageType": [
+				"fire"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5809,7 +7116,12 @@
 		"casting_time": "10 minutes",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1h"
+		"id": "cacvjpc94kgy0yg1h",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5828,7 +7140,12 @@
 		"casting_time": "1 action",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1i"
+		"id": "cacvjpc94kgy0yg1i",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5847,7 +7164,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1j"
+		"id": "cacvjpc94kgy0yg1j",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5866,7 +7184,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1k"
+		"id": "cacvjpc94kgy0yg1k",
+		"metadata": {
+			"damageType": [
+				"thunder"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5885,7 +7211,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1l"
+		"id": "cacvjpc94kgy0yg1l",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5903,7 +7230,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1m"
+		"id": "cacvjpc94kgy0yg1m",
+		"metadata": {
+			"damageType": [
+				"piercing"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5920,7 +7252,15 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1n"
+		"id": "cacvjpc94kgy0yg1n",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5939,7 +7279,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1o"
+		"id": "cacvjpc94kgy0yg1o",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5958,7 +7299,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1p"
+		"id": "cacvjpc94kgy0yg1p",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -5978,7 +7330,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1q"
+		"id": "cacvjpc94kgy0yg1q",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -5995,7 +7348,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1r"
+		"id": "cacvjpc94kgy0yg1r",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6013,7 +7367,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1s"
+		"id": "cacvjpc94kgy0yg1s",
+		"metadata": {
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6032,7 +7391,8 @@
 		"casting_time": "1 minute",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1t"
+		"id": "cacvjpc94kgy0yg1t",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6049,7 +7409,8 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1u"
+		"id": "cacvjpc94kgy0yg1u",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6067,7 +7428,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1v"
+		"id": "cacvjpc94kgy0yg1v",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6088,7 +7450,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1w"
+		"id": "cacvjpc94kgy0yg1w",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6106,7 +7469,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1x"
+		"id": "cacvjpc94kgy0yg1x",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6125,7 +7493,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1y"
+		"id": "cacvjpc94kgy0yg1y",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6142,7 +7518,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg1z"
+		"id": "cacvjpc94kgy0yg1z",
+		"metadata": {
+			"damageType": [
+				"cold"
+			],
+			"savingThrow": [
+				"dexterity",
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6159,7 +7544,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg20"
+		"id": "cacvjpc94kgy0yg20",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6178,7 +7564,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg21"
+		"id": "cacvjpc94kgy0yg21",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6195,7 +7586,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg22"
+		"id": "cacvjpc94kgy0yg22",
+		"metadata": {
+			"damageType": [
+				"piercing",
+				"slashing"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6215,7 +7615,8 @@
 		"casting_time": "1 action",
 		"duration": "24 hours",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg23"
+		"id": "cacvjpc94kgy0yg23",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6235,7 +7636,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg24"
+		"id": "cacvjpc94kgy0yg24",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6253,7 +7655,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg25"
+		"id": "cacvjpc94kgy0yg25",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6270,7 +7683,12 @@
 		"casting_time": "1 minute",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg26"
+		"id": "cacvjpc94kgy0yg26",
+		"metadata": {
+			"conditionInflict": [
+				"incapacitated"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6288,7 +7706,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg27"
+		"id": "cacvjpc94kgy0yg27",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6305,7 +7731,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg28"
+		"id": "cacvjpc94kgy0yg28",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6324,7 +7751,12 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg29"
+		"id": "cacvjpc94kgy0yg29",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6344,7 +7776,18 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2a"
+		"id": "cacvjpc94kgy0yg2a",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6363,7 +7806,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2b"
+		"id": "cacvjpc94kgy0yg2b",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6382,7 +7833,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg2c"
+		"id": "cacvjpc94kgy0yg2c",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6403,7 +7855,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2d"
+		"id": "cacvjpc94kgy0yg2d",
+		"metadata": {
+			"damageType": [
+				"thunder"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6422,7 +7882,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2e"
+		"id": "cacvjpc94kgy0yg2e",
+		"metadata": {
+			"conditionInflict": [
+				"deafened"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6441,7 +7906,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous or 1 hour (see below)",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2f"
+		"id": "cacvjpc94kgy0yg2f",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6461,7 +7927,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2g"
+		"id": "cacvjpc94kgy0yg2g",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6481,7 +7955,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2h"
+		"id": "cacvjpc94kgy0yg2h",
+		"metadata": {
+			"damageType": [
+				"cold"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6500,7 +7982,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2i"
+		"id": "cacvjpc94kgy0yg2i",
+		"metadata": {
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6518,7 +8005,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2j"
+		"id": "cacvjpc94kgy0yg2j",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6537,7 +8029,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous or 1 hour (see below)",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2k"
+		"id": "cacvjpc94kgy0yg2k",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6556,7 +8049,8 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous or 1 hour (see below)",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2l"
+		"id": "cacvjpc94kgy0yg2l",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6575,7 +8069,8 @@
 		"casting_time": "1 reaction, which you take when you take acid, cold, fire, lightning, or thunder damage",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2m"
+		"id": "cacvjpc94kgy0yg2m",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6593,7 +8088,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2n"
+		"id": "cacvjpc94kgy0yg2n",
+		"metadata": {
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6612,7 +8112,16 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2o"
+		"id": "cacvjpc94kgy0yg2o",
+		"metadata": {
+			"damageType": [
+				"cold",
+				"piercing"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6632,7 +8141,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2p"
+		"id": "cacvjpc94kgy0yg2p",
+		"metadata": {
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6651,7 +8165,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2q"
+		"id": "cacvjpc94kgy0yg2q",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6669,7 +8191,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2r"
+		"id": "cacvjpc94kgy0yg2r",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6688,7 +8218,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2s"
+		"id": "cacvjpc94kgy0yg2s",
+		"metadata": {
+			"savingThrow": [
+				"strength"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6705,7 +8243,18 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2t"
+		"id": "cacvjpc94kgy0yg2t",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6724,7 +8273,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2u"
+		"id": "cacvjpc94kgy0yg2u",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6743,7 +8300,19 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2v"
+		"id": "cacvjpc94kgy0yg2v",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"lightning",
+				"thunder"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6763,7 +8332,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2w"
+		"id": "cacvjpc94kgy0yg2w",
+		"metadata": {
+			"damageType": [
+				"fire"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6783,7 +8357,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2x"
+		"id": "cacvjpc94kgy0yg2x",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6803,7 +8385,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2y"
+		"id": "cacvjpc94kgy0yg2y",
+		"metadata": {
+			"damageType": [
+				"cold"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6823,7 +8413,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg2z"
+		"id": "cacvjpc94kgy0yg2z",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"prone",
+				"stunned"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6843,7 +8442,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg30"
+		"id": "cacvjpc94kgy0yg30",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6860,7 +8467,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg31"
+		"id": "cacvjpc94kgy0yg31",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6877,7 +8492,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg32"
+		"id": "cacvjpc94kgy0yg32",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6895,7 +8511,18 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg33"
+		"id": "cacvjpc94kgy0yg33",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"prone"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6913,7 +8540,19 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg34"
+		"id": "cacvjpc94kgy0yg34",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"strength",
+				"dexterity"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6932,7 +8571,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg35"
+		"id": "cacvjpc94kgy0yg35",
+		"metadata": {}
 	},
 	{
 		"classes": [
@@ -6951,7 +8591,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg36"
+		"id": "cacvjpc94kgy0yg36",
+		"metadata": {
+			"savingThrow": [
+				"strength"
+			],
+			"conditionInflict": [
+				"prone",
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6969,7 +8618,19 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg37"
+		"id": "cacvjpc94kgy0yg37",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"dexterity",
+				"strength"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -6987,7 +8648,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg38"
+		"id": "cacvjpc94kgy0yg38",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -7005,7 +8674,16 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg39"
+		"id": "cacvjpc94kgy0yg39",
+		"metadata": {
+			"damageType": [
+				"bludgeoning",
+				"lightning"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -7023,7 +8701,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3a"
+		"id": "cacvjpc94kgy0yg3a",
+		"metadata": {
+			"damageType": [
+				"acid"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"classes": [
@@ -7040,7 +8726,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3b"
+		"id": "cacvjpc94kgy0yg3b",
+		"metadata": {
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"name": "Booming Blade",
@@ -7058,7 +8749,12 @@
 		"casting_time": "1 action",
 		"duration": "1 round",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3c"
+		"id": "cacvjpc94kgy0yg3c",
+		"metadata": {
+			"damageType": [
+				"thunder"
+			]
+		}
 	},
 	{
 		"name": "Green-flame Blade",
@@ -7077,7 +8773,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3d"
+		"id": "cacvjpc94kgy0yg3d",
+		"metadata": {
+			"damageType": [
+				"fire"
+			]
+		}
 	},
 	{
 		"name": "Infestation",
@@ -7097,7 +8798,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3e"
+		"id": "cacvjpc94kgy0yg3e",
+		"metadata": {
+			"damageType": [
+				"poison"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Lightning Lure",
@@ -7116,7 +8825,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3f"
+		"id": "cacvjpc94kgy0yg3f",
+		"metadata": {
+			"damageType": [
+				"lightning"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"name": "Primal Savagery",
@@ -7133,7 +8850,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3g"
+		"id": "cacvjpc94kgy0yg3g",
+		"metadata": {
+			"damageType": [
+				"acid"
+			]
+		}
 	},
 	{
 		"name": "Sword Burst",
@@ -7152,7 +8874,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3h"
+		"id": "cacvjpc94kgy0yg3h",
+		"metadata": {
+			"damageType": [
+				"force"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"name": "Toll The Dead",
@@ -7171,7 +8901,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3i"
+		"id": "cacvjpc94kgy0yg3i",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"name": "Word Of Radiance",
@@ -7188,7 +8926,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3j"
+		"id": "cacvjpc94kgy0yg3j",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Arcane Weapon",
@@ -7222,7 +8968,12 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3l"
+		"id": "cacvjpc94kgy0yg3l",
+		"metadata": {
+			"damageType": [
+				"cold"
+			]
+		}
 	},
 	{
 		"name": "Arms Of Hadar",
@@ -7239,7 +8990,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3m"
+		"id": "cacvjpc94kgy0yg3m",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"strength"
+			]
+		}
 	},
 	{
 		"name": "Cause Fear",
@@ -7257,7 +9016,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3n"
+		"id": "cacvjpc94kgy0yg3n",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"frightened"
+			]
+		}
 	},
 	{
 		"name": "Ceremony",
@@ -7275,7 +9042,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg3o"
+		"id": "cacvjpc94kgy0yg3o",
+		"metadata": {}
 	},
 	{
 		"name": "Chaos Bolt",
@@ -7292,7 +9060,19 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3p"
+		"id": "cacvjpc94kgy0yg3p",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"force",
+				"lightning",
+				"poison",
+				"psychic",
+				"thunder"
+			]
+		}
 	},
 	{
 		"name": "Detect Poison And Disease",
@@ -7312,7 +9092,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg3q"
+		"id": "cacvjpc94kgy0yg3q",
+		"metadata": {}
 	},
 	{
 		"name": "Snare",
@@ -7332,7 +9113,15 @@
 		"casting_time": "1 minute",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3r"
+		"id": "cacvjpc94kgy0yg3r",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"name": "Hideous Laughter",
@@ -7384,7 +9173,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3u"
+		"id": "cacvjpc94kgy0yg3u",
+		"metadata": {
+			"damageType": [
+				"force"
+			]
+		}
 	},
 	{
 		"name": "Aganazzar's Scorcher",
@@ -7402,7 +9196,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3v"
+		"id": "cacvjpc94kgy0yg3v",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"name": "Dragon's Breath",
@@ -7420,7 +9222,19 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3w"
+		"id": "cacvjpc94kgy0yg3w",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"lightning",
+				"poison"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"name": "Healing Spirit",
@@ -7438,7 +9252,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3x"
+		"id": "cacvjpc94kgy0yg3x",
+		"metadata": {}
 	},
 	{
 		"name": "Maximilian's Earthen Grasp",
@@ -7456,7 +9271,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3y"
+		"id": "cacvjpc94kgy0yg3y",
+		"metadata": {
+			"damageType": [
+				"bludgeoning"
+			],
+			"savingThrow": [
+				"strength"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"name": "Melf's Acid Arrow",
@@ -7473,7 +9299,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg3z"
+		"id": "cacvjpc94kgy0yg3z",
+		"metadata": {
+			"damageType": [
+				"acid"
+			]
+		}
 	},
 	{
 		"name": "Mind Spike",
@@ -7492,7 +9323,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg40"
+		"id": "cacvjpc94kgy0yg40",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"name": "Arcanist's Magic aura",
@@ -7528,7 +9367,12 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg42"
+		"id": "cacvjpc94kgy0yg42",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			]
+		}
 	},
 	{
 		"name": "Snilloc's Snowball Swarm",
@@ -7546,7 +9390,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg43"
+		"id": "cacvjpc94kgy0yg43",
+		"metadata": {
+			"damageType": [
+				"cold"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"name": "Catnap",
@@ -7566,7 +9418,12 @@
 		"casting_time": "1 action",
 		"duration": "10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg44"
+		"id": "cacvjpc94kgy0yg44",
+		"metadata": {
+			"conditionInflict": [
+				"unconscious"
+			]
+		}
 	},
 	{
 		"name": "Crusader's Mantle",
@@ -7583,7 +9440,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg45"
+		"id": "cacvjpc94kgy0yg45",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			]
+		}
 	},
 	{
 		"name": "Enemies Abound",
@@ -7603,7 +9465,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg46"
+		"id": "cacvjpc94kgy0yg46",
+		"metadata": {
+			"savingThrow": [
+				"intelligence"
+			]
+		}
 	},
 	{
 		"name": "Hunger Of Hadar",
@@ -7620,7 +9487,19 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg47"
+		"id": "cacvjpc94kgy0yg47",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold"
+			],
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"name": "Tiny Hut",
@@ -7656,7 +9535,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg49"
+		"id": "cacvjpc94kgy0yg49",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			]
+		}
 	},
 	{
 		"name": "Melf's Minute Meteors",
@@ -7674,7 +9558,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4a"
+		"id": "cacvjpc94kgy0yg4a",
+		"metadata": {
+			"damageType": [
+				"fire"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"name": "Summon Lesser Demons",
@@ -7692,7 +9584,8 @@
 		"casting_time": "1 action",
 		"duration": "Conjuration, for up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4b"
+		"id": "cacvjpc94kgy0yg4b",
+		"metadata": {}
 	},
 	{
 		"name": "Thunder Step",
@@ -7711,7 +9604,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4c"
+		"id": "cacvjpc94kgy0yg4c",
+		"metadata": {
+			"damageType": [
+				"thunder"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Tiny Servant",
@@ -7729,7 +9630,8 @@
 		"casting_time": "1 minute",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4d"
+		"id": "cacvjpc94kgy0yg4d",
+		"metadata": {}
 	},
 	{
 		"name": "Charm Monster",
@@ -7750,7 +9652,15 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4e"
+		"id": "cacvjpc94kgy0yg4e",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			],
+			"conditionInflict": [
+				"charmed"
+			]
+		}
 	},
 	{
 		"name": "Black Tentacles",
@@ -7784,7 +9694,8 @@
 		"casting_time": "10 minutes",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4g"
+		"id": "cacvjpc94kgy0yg4g",
+		"metadata": {}
 	},
 	{
 		"name": "Guardian Of Nature",
@@ -7802,7 +9713,15 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4h"
+		"id": "cacvjpc94kgy0yg4h",
+		"metadata": {
+			"damageType": [
+				"force"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Secret Chest",
@@ -7891,7 +9810,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4m"
+		"id": "cacvjpc94kgy0yg4m",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			]
+		}
 	},
 	{
 		"name": "Sickening Radiance",
@@ -7910,7 +9834,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4n"
+		"id": "cacvjpc94kgy0yg4n",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"exhaustion"
+			]
+		}
 	},
 	{
 		"name": "Summon Greater Demon",
@@ -7928,7 +9863,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4o"
+		"id": "cacvjpc94kgy0yg4o",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"name": "Arcane Hand",
@@ -7964,7 +9904,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4q"
+		"id": "cacvjpc94kgy0yg4q",
+		"metadata": {}
 	},
 	{
 		"name": "Dawn",
@@ -7982,7 +9923,15 @@
 		"casting_time": "1 action",
 		"duration": "",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4r"
+		"id": "cacvjpc94kgy0yg4r",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Enervation",
@@ -8001,7 +9950,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4s"
+		"id": "cacvjpc94kgy0yg4s",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"dexterity"
+			]
+		}
 	},
 	{
 		"name": "Far Step",
@@ -8020,7 +9977,8 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4t"
+		"id": "cacvjpc94kgy0yg4t",
+		"metadata": {}
 	},
 	{
 		"name": "Holy Weapon",
@@ -8038,7 +9996,18 @@
 		"casting_time": "1 bonus action",
 		"duration": "Concentration, for up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4u"
+		"id": "cacvjpc94kgy0yg4u",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"name": "Infernal Calling",
@@ -8056,7 +10025,8 @@
 		"casting_time": "1 minute",
 		"duration": "Concentration, for up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4v"
+		"id": "cacvjpc94kgy0yg4v",
+		"metadata": {}
 	},
 	{
 		"name": "Negative Energy Flood",
@@ -8074,7 +10044,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4w"
+		"id": "cacvjpc94kgy0yg4w",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Rary's Telepathic Bond",
@@ -8091,7 +10069,8 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": true,
-		"id": "cacvjpc94kgy0yg4x"
+		"id": "cacvjpc94kgy0yg4x",
+		"metadata": {}
 	},
 	{
 		"name": "Skill Empowerment",
@@ -8111,7 +10090,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4y"
+		"id": "cacvjpc94kgy0yg4y",
+		"metadata": {}
 	},
 	{
 		"name": "Steel Wind Strike",
@@ -8129,7 +10109,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4z"
+		"id": "cacvjpc94kgy0yg4z",
+		"metadata": {
+			"damageType": [
+				"force"
+			]
+		}
 	},
 	{
 		"name": "Synaptic Static",
@@ -8149,7 +10134,16 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg50"
+		"id": "cacvjpc94kgy0yg50",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"intelligence",
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Wall Of Light",
@@ -8168,7 +10162,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg51"
+		"id": "cacvjpc94kgy0yg51",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"blinded"
+			]
+		}
 	},
 	{
 		"name": "Wrath Of Nature",
@@ -8186,7 +10191,21 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg52"
+		"id": "cacvjpc94kgy0yg52",
+		"metadata": {
+			"damageType": [
+				"bludgeoning",
+				"slashing"
+			],
+			"savingThrow": [
+				"dexterity",
+				"strength"
+			],
+			"conditionInflict": [
+				"prone",
+				"restrained"
+			]
+		}
 	},
 	{
 		"name": "Create Homunculus",
@@ -8203,7 +10222,8 @@
 		"casting_time": "1 hour",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg53"
+		"id": "cacvjpc94kgy0yg53",
+		"metadata": {}
 	},
 	{
 		"name": "Instant Summons",
@@ -8237,7 +10257,8 @@
 		"casting_time": "10 minutes",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg55"
+		"id": "cacvjpc94kgy0yg55",
+		"metadata": {}
 	},
 	{
 		"name": "Mental Prison",
@@ -8256,7 +10277,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg56"
+		"id": "cacvjpc94kgy0yg56",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"intelligence"
+			]
+		}
 	},
 	{
 		"name": "Freezing Sphere",
@@ -8310,7 +10339,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg59"
+		"id": "cacvjpc94kgy0yg59",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"name": "Soul Cage",
@@ -8328,7 +10362,8 @@
 		"casting_time": "1 reaction",
 		"duration": "8 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5a"
+		"id": "cacvjpc94kgy0yg5a",
+		"metadata": {}
 	},
 	{
 		"name": "Tenser's Transformation",
@@ -8345,7 +10380,18 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5b"
+		"id": "cacvjpc94kgy0yg5b",
+		"metadata": {
+			"damageType": [
+				"force"
+			],
+			"savingThrow": [
+				"constitution"
+			],
+			"conditionInflict": [
+				"exhaustion"
+			]
+		}
 	},
 	{
 		"name": "Crown Of Stars",
@@ -8364,7 +10410,12 @@
 		"casting_time": "1 action",
 		"duration": "1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5c"
+		"id": "cacvjpc94kgy0yg5c",
+		"metadata": {
+			"damageType": [
+				"radiant"
+			]
+		}
 	},
 	{
 		"name": "Magnificent Mansion",
@@ -8419,7 +10470,12 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5f"
+		"id": "cacvjpc94kgy0yg5f",
+		"metadata": {
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Temple Of The Gods",
@@ -8436,7 +10492,12 @@
 		"casting_time": "1 hour",
 		"duration": "24 hours",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5g"
+		"id": "cacvjpc94kgy0yg5g",
+		"metadata": {
+			"savingThrow": [
+				"charisma"
+			]
+		}
 	},
 	{
 		"name": "Abi-dalzim's Horrid Wilting",
@@ -8454,7 +10515,15 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5h"
+		"id": "cacvjpc94kgy0yg5h",
+		"metadata": {
+			"damageType": [
+				"necrotic"
+			],
+			"savingThrow": [
+				"constitution"
+			]
+		}
 	},
 	{
 		"name": "Illusory Dragon",
@@ -8471,7 +10540,24 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5i"
+		"id": "cacvjpc94kgy0yg5i",
+		"metadata": {
+			"damageType": [
+				"acid",
+				"cold",
+				"fire",
+				"lightning",
+				"necrotic",
+				"poison"
+			],
+			"savingThrow": [
+				"wisdom",
+				"intelligence"
+			],
+			"conditionInflict": [
+				"frightened"
+			]
+		}
 	},
 	{
 		"name": "Maddening Darkness",
@@ -8489,7 +10575,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5j"
+		"id": "cacvjpc94kgy0yg5j",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"name": "Mighty Fortress",
@@ -8506,7 +10600,8 @@
 		"casting_time": "1 minute",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5k"
+		"id": "cacvjpc94kgy0yg5k",
+		"metadata": {}
 	},
 	{
 		"name": "Invulnerability",
@@ -8523,7 +10618,8 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 10 minutes",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5l"
+		"id": "cacvjpc94kgy0yg5l",
+		"metadata": {}
 	},
 	{
 		"name": "Mass Polymorph",
@@ -8542,7 +10638,12 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, for up to 1 hour",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5m"
+		"id": "cacvjpc94kgy0yg5m",
+		"metadata": {
+			"savingThrow": [
+				"wisdom"
+			]
+		}
 	},
 	{
 		"name": "Psychic Scream",
@@ -8562,6 +10663,17 @@
 		"casting_time": "1 action",
 		"duration": "Instantaneous",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg5n"
+		"id": "cacvjpc94kgy0yg5n",
+		"metadata": {
+			"damageType": [
+				"psychic"
+			],
+			"savingThrow": [
+				"intelligence"
+			],
+			"conditionInflict": [
+				"stunned"
+			]
+		}
 	}
 ]

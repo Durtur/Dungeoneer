@@ -1,14 +1,15 @@
 module.exports = function () {
-    function IsVowel(letter){
+    function IsVowel(letter) {
         return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());
     }
 
-    function showBubblyText(text, point, smallfont) {
+    function showBubblyText(text, point, smallfont, multiple) {
         var newEle = document.createElement("div");
 
         newEle.innerHTML = text;
         newEle.classList.add("roll_result_effect");
-        [...document.getElementsByClassName("roll_result_effect")].forEach(ele => ele.parentNode.removeChild(ele));
+        if (!multiple)
+            [...document.getElementsByClassName("roll_result_effect")].forEach(ele => ele.parentNode.removeChild(ele));
         document.body.appendChild(newEle);
         if (smallfont)
             newEle.style.fontSize = "18px";
@@ -51,6 +52,11 @@ module.exports = function () {
                 checkbox.checked = false;
             }
         });
+    }
+
+    function getAbilityScoreModifier(abilityScore) {
+        abilityScore = parseInt(abilityScore);
+        return Math.floor((abilityScore - 10) / 2);
     }
 
     function showOrHide(elementId, hideOrShowInt, callBack) {
@@ -156,8 +162,9 @@ module.exports = function () {
         balanceCheckBoxGroup: balanceCheckBoxGroup,
         makeUIElementDraggable: makeUIElementDraggable,
         hexToHSL: hexToHSL,
-        hexToRGBA:hexToRGBA,
-        IsVowel : IsVowel
+        hexToRGBA: hexToRGBA,
+        IsVowel: IsVowel,
+        getAbilityScoreModifier: getAbilityScoreModifier
     }
 }();
 

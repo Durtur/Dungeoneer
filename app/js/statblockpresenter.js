@@ -22,7 +22,7 @@ var statblockPresenter = function () {
 
   var statblockType;
   var editMode = false;
-  const attributeNamesToIgnore = ["condition_color_value", "data_extra_attributes", "condition_background_location", "id", "original_name"];
+  const attributeNamesToIgnore = ["condition_color_value", "data_extra_attributes", "condition_background_location", "id", "original_name", "metadata"];
   const attributeNamesToHeader = ["name"]
   const attributesWithoutNames = [" ", "description"];
   var spellCastingRootNodes = [];
