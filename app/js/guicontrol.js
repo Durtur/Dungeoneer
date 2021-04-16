@@ -1,9 +1,14 @@
 var Util = require("./js/util");
-
+var GLOBAL_MOUSE_DOWN = 0;
 document.addEventListener("DOMContentLoaded", function () {
     const remote = require('electron').remote;
     var selectOnFocus = document.querySelectorAll(".select_text_on_focus");
-
+    document.addEventListener("mousedown",function(evt){
+        GLOBAL_MOUSE_DOWN++;
+    });
+    document.addEventListener("mouseup",function(evt){
+        GLOBAL_MOUSE_DOWN--;
+    });
     [... selectOnFocus].forEach(x=> x.addEventListener('focus', (event) => {
         event.target.select();
       }));

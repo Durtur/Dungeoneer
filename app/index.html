@@ -81,7 +81,7 @@
       <div class="searchwrap">
         <div class="searchfield">
           <input type="text" class="searchbar bigger_search_box search_upper select_text_on_focus" id="searchbar"
-            placeholder="Search for monster / NPC"> 
+            placeholder="Search for monster / NPC">
           <div class="searchbox_view_control">
             <button class="button_style control_button control_button_toggled"
               onclick="showSearchBox(this)">Spells</button>
@@ -91,12 +91,12 @@
           </div>
           <input type="text" class="searchbar bigger_search_box search_lower select_text_on_focus" id="searchbarspells"
             placeholder="Search for spell">
-          <input type="text" class="searchbar bigger_search_box search_lower hidden select_text_on_focus" id="searchbarconditions"
-            placeholder="Search for condition">
-          <input type="text" class="searchbar bigger_search_box search_lower hidden select_text_on_focus" id="searchbaritems"
-            placeholder="Search for items">
-          <input type="text" class="searchbar bigger_search_box search_lower hidden select_text_on_focus" id="searchbartables"
-            placeholder="Search for tables & notes">
+          <input type="text" class="searchbar bigger_search_box search_lower hidden select_text_on_focus"
+            id="searchbarconditions" placeholder="Search for condition">
+          <input type="text" class="searchbar bigger_search_box search_lower hidden select_text_on_focus"
+            id="searchbaritems" placeholder="Search for items">
+          <input type="text" class="searchbar bigger_search_box search_lower hidden select_text_on_focus"
+            id="searchbartables" placeholder="Search for tables & notes">
 
         </div>
       </div>
@@ -146,12 +146,12 @@
 
         <!-- <h2 class="frontpage_heading" style="width:10em">Combat panel</h2> -->
         <div class="column section__tool section__show">
-          <section class="combatGUI" id="combatMain">
+          <section class="combatGUI" id="combatMain" style="user-select: none;">
             <p class="no_data_text">Search for creatures to add them to this panel</p>
 
           </section>
           <div class="row float_up combat_toolbar">
-            <div class="combat_loader_current_xp tooltipped" id="combat_loader_current_xp">
+            <div style="user-select: none" class="combat_loader_current_xp tooltipped" id="combat_loader_current_xp">
 
             </div>
             <div class="row" style="justify-content: flex-end;">
@@ -438,9 +438,9 @@
     </div>
 
 
-    <div id="popup_menu_saveorspell" style ="filter: drop-shadow(2px 2px 6px black);" class="popup_menu hidden">
-      <label for="save_vs_spell_input" >Roll saves against spell:</label>
-      <input id="save_vs_spell_input" class = "select_text_on_focus" style = "font-size: 1.25em;">
+    <div id="popup_menu_saveorspell" data-persist_popup="t" style="filter: drop-shadow(2px 2px 6px black);" class="popup_menu hidden">
+      <label for="save_vs_spell_input">Roll saves against spell:</label>
+      <input id="save_vs_spell_input" class="select_text_on_focus" style="font-size: 1.25em;">
       <div class="row">
         <label class="white_label" for="save_vs_spell_dc_input">DC:</label>
         <input id="save_vs_spell_dc_input" placeholder="Save DC">
@@ -449,11 +449,11 @@
         <label class="white_label" for="save_vs_spell_damage_input">Damage:</label>
         <input id="save_vs_spell_damage_input" placeholder="Spell damage">
       </div>
-      <div class = "row hidden">
-        <label class = "white_label" for = "save_vs_spell_condition_select">Condition:</label>
-        <select id="save_vs_spell_condition_select" class = "white_select"></select>
+      <div class="row hidden">
+        <label class="white_label" for="save_vs_spell_condition_select">Condition:</label>
+        <select id="save_vs_spell_condition_select" class="white_select"></select>
       </div>
-      
+
 
       <div class="row" style="height: 1.5em;
                               padding-bottom: 0.5em;
@@ -464,10 +464,39 @@
           <span class="checkmark"></span>
         </label>
       </div>
-      <button class ="close_button button_style"  onclick = "closePopupGeneric(event)" ></button>
-      <button class="button_style" id="save_vs_spell_submit_btn" onclick="combatLoader.saveVsSpellSubmit()">Ok</button>
-
+      <button class="close_button button_style" onclick="closePopupGeneric(event)"></button>
+      <button class="button_style" id="save_vs_spell_submit_btn" onclick="combatLoader.saveVsSpellSubmit()">Roll</button>
     </div>
+
+    <div id="popup_menu_saveordamage" data-persist_popup="t" style="filter: drop-shadow(2px 2px 6px black);" class="popup_menu hidden">
+      <label for="save_or_damage_save_select">Save or damage:</label>
+      <select id="save_or_damage_save_select" class="white_select">
+
+      </select>
+      
+      <div class="row">
+        <label class="white_label" for="save_or_damage_dc_input">DC:</label>
+        <input id="save_or_damage_dc_input" placeholder="Save DC">
+      </div>
+      <div class="row">
+        <label class="white_label" for="save_or_damage_damage_input">Damage:</label>
+        <input id="save_or_damage_damage_input" placeholder="Spell damage">
+      </div>
+
+      <div class="row" style="height: 1.5em;
+                              padding-bottom: 0.5em;
+                              background-color: white;">
+        <label class="white_label" for="save_or_damage_half_on_success">Half damage on success:</label>
+        <label class="container_for_checkbox">
+          <input type="checkbox" id="save_or_damage_half_on_success" title="Half damage on success" checked>
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <button class="close_button button_style" onclick="closePopupGeneric(event)"></button>
+      <button class="button_style" onclick="combatLoader.saveOrDamageSubmit()">Roll</button>
+    </div>
+
+
     <div class="combatRow hidden" data-dnd_monster_index=0 id="combat_loader_template">
       <label class="round_checkbox_container">
         <p class="combat_row_monster_id">1</p>

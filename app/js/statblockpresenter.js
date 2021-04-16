@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 var statblockPresenter = function () {
   const statblockEditor = require("./js/statblockEditor");
-  var monster;
+  var statblockEntry;
   var encounterModule;
   var values;
   var statblock;
@@ -34,7 +34,7 @@ var statblockPresenter = function () {
       editMode = false;
 
     statblockType = _statblockType;
-    monster = valueElement;
+    statblockEntry = valueElement;
 
     statblock = _statblock;
 
@@ -480,7 +480,7 @@ var statblockPresenter = function () {
   }
 
   function createHeaderSmaller(text) {
-    var createEditButton = editMode && monster.actions?.find(x => x.name == text)
+    var createEditButton = editMode && statblockEntry.actions?.find(x => x.name == text)
       && constants.weapons.find(x => x.name.toLowerCase() == text.toLowerCase());
     return createHeaderHelper(text, "h3", createEditButton);
   }
@@ -519,8 +519,8 @@ var statblockPresenter = function () {
       var selectedWeapon = constants.weapons.find(x => x.name.toLowerCase() == evt.target.value.toLowerCase());
       var oldWeapon = constants.weapons.find(x => x.name.toLowerCase() == evt.target.closest("h3").getAttribute("data-header_value").toLowerCase());
 
-      statblockEditor.relaceMonsterWeapon(monster, oldWeapon, selectedWeapon);
-      createStatblock(statblock, monster, "monster", true);
+      statblockEditor.relaceMonsterWeapon(statblockEntry, oldWeapon, selectedWeapon);
+      createStatblock(statblock, statblockEntry, "monster", true);
 
     });
     return containerDiv;
@@ -583,11 +583,11 @@ var statblockPresenter = function () {
         randBtn.classList.add("hidden");
       }
     }
+    console.log()
     if (statblockType == "spells")
       spellCastingRootNodes.push("description");
-      console.log(spellCastingRootNodes, statblockType)
     if (spellCastingRootNodes.length > 0)
-      spellcastingLinkController.updateLinks(statblock);
+      spellcastingLinkController.updateLinks(statblock, statblockEntry);
     diceRollerLinkController.updateLinks(statblock);
   }
 
@@ -652,19 +652,20 @@ var statblockPresenter = function () {
   var spellcastingLinkController = function () {
 
     var knownSpells;
-    function updateLinks(statblock) {
+    function updateLinks(statblock, entry) {
+
       knownSpells = [];
 
       var paragraphs = statblock.getElementsByTagName("p");
       var spellcastingAttribute = "";
     
       spellCastingRootNodes.forEach(node => {
-        var currAttribute = monster[node];
+        var currAttribute = statblockEntry[node];
         spellcastingAttribute += " ";
 
         if (!currAttribute) {
-          if (monster.special_abilities)
-            monster.special_abilities.forEach(function (ability) {
+          if (statblockEntry.special_abilities)
+            statblockEntry.special_abilities.forEach(function (ability) {
 
               if (ability[node]) {
 
@@ -687,7 +688,8 @@ var statblockPresenter = function () {
         })
 
         spells.forEach(function (spell) {
-          var index = spellcastingAttribute.indexOf(spell.name.toLowerCase());
+          if(spell.id == entry.id)return;
+          var index = spellcastingAttribute.indexOf(spell.name);
           if (index >= 0) {
             spell.name = spell.name;
             knownSpells.push(spell);

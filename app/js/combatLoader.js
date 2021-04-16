@@ -143,10 +143,8 @@ var combatLoader = function () {
 
 
     function applyDmg() {
-        var hp, name;
-        var dmg, creatureDamage;
         var allRows = document.querySelectorAll("#combatMain .combatRow");
-        var hpField, dmgField;
+        var hp, dmg, hpField, dmgField;
 
 
         for (var i = 0; i < allRows.length; i++) {
@@ -170,9 +168,9 @@ var combatLoader = function () {
                     logText = "Round " + round + ": ";
 
                 logText += (dmg > 0 ? "Damaged for " : "Healed for ") + Math.abs(dmg);
-                addToCombatLog(allRows[i], logText);
+                addToCombatLog(allRows[i], logText, dmg > 0 ? LogEntryType.Bad : LogEntryType.Good);
             }
-            healthChanged(["", allRows[i].querySelector(".combat_row_monster_id").innerHTML])
+            healthChanged(allRows[i].querySelector(".combat_row_monster_id").innerHTML)
             dmgField.value = "";
 
         }
@@ -191,23 +189,21 @@ var combatLoader = function () {
                 row.getElementsByClassName("hp_field")[0].value = isNaN(currHp) || currHp <= 0 ? 1 : currHp;
                 frameHistoryButtons.createButtonIfNotExists(data.find(x => x.id == id));
                 row.classList.remove("hidden");
-                addToCombatLog(row, "Revived");
+                addToCombatLog(row, "Revived", LogEntryType.Goo);
             });
         }
     }
-    function kill(arr) {
+    function kill(monsterIndexInRow) {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         for (var i = 0; i < allRows.length; i++) {
             var row = allRows[i];
             var monsterIndex = parseInt(row.querySelector(".combat_row_monster_id").innerHTML);
-            if (monsterIndex != parseInt(arr[1]))
+            if (monsterIndex != parseInt(monsterIndexInRow))
                 continue;
 
             row.classList.add("hidden");
             row.setAttribute("data-dnd_conditions", "[]");
             initiative.removeLoadedMonsterInfo();
-            console.log(loadedMonsterQueue);
-            console.log(monsterIndex);
 
             updateCurrentLoadedDifficulty();
             frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
@@ -222,12 +218,12 @@ var combatLoader = function () {
 
     }
 
-    function healthChanged(arr) {
+    function healthChanged(monsterIndexInRow) {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         for (var i = 0; i < allRows.length; i++) {
             var row = allRows[i];
             var monsterIndex = parseInt(row.querySelector(".combat_row_monster_id").innerHTML);
-            if (monsterIndex != arr[1])
+            if (monsterIndex != monsterIndexInRow)
                 continue;
 
             var originalHp = row.getAttribute("data-dnd_original_hp");
@@ -237,7 +233,7 @@ var combatLoader = function () {
             var isDead = currentHp <= 0;
 
             if (isDead)
-                kill(arr, false)
+                kill(monsterIndexInRow, false)
 
             let window2 = remote.getGlobal('maptoolWindow');
             if (window2) window2.webContents.send('monster-health-changed', { index: monsterIndex, healthPercentage: hpPercentage, dead: isDead });
@@ -409,12 +405,14 @@ var combatLoader = function () {
         lastIndex++;
         var newRow = $("#combat_loader_template").clone();
         newRow.attr("data-dnd_conditions", "[]");
+
         newRow[0].querySelector(".combat_row_monster_id").innerHTML = lastIndex;
         addLogPopupHandler(newRow[0]);
         newRow.appendTo("#combatMain");
         newRow.removeClass("hidden");
         loadFieldHandlers();
         [...document.querySelectorAll(".selected_row_checkbox")].forEach(x => x.onchange = selectedRowsChanged);
+        [...document.querySelectorAll("#combatMain .round_checkbox_container")].forEach(x => x.onmouseenter = selectedCheckboxMouseOver);
         return newRow[0];
     }
 
@@ -427,7 +425,11 @@ var combatLoader = function () {
         acField = row.getElementsByClassName("ac_field")[0];
         attackField = row.getElementsByClassName("attack_field")[0];
         damageField = row.getElementsByClassName("damage_field")[0];
-        nameField.setAttribute("data-combat_log", "[\"Starting hit points are " + monster.hit_points + "\"]");
+        nameField.setAttribute("data-combat_log", JSON.stringify([
+            { date: "", text: `Starting hit points are ${monster.hit_points}`, entryType :LogEntryType.Good }
+        ]));
+
+
         damageLabel = row.getElementsByClassName("text_upper_damage_label")[0];
 
         //Validate
@@ -528,6 +530,22 @@ var combatLoader = function () {
         updateCurrentLoadedDifficulty();
     }
 
+    function initSaveOrDamage() {
+        var menu = document.getElementById("popup_menu_saveordamage");
+        elementCreator.makeDraggable(menu, menu.querySelector("label:first-of-type"));
+        var select = menu.querySelector("#save_or_damage_save_select");
+        var i = 0;
+        constants.ability_scores.forEach(ability => {
+            i++;
+            var opt = document.createElement("option");
+            opt.value = ability.toLowerCase();
+            opt.innerHTML = ability.toProperCase();
+            opt.selected = i == 2;
+            select.appendChild(opt);
+        });
+
+    }
+
     function initSaveVsSpell() {
         var menu = document.getElementById("popup_menu_saveorspell");
         elementCreator.makeDraggable(menu, menu.querySelector("label:first-of-type"));
@@ -554,6 +572,7 @@ var combatLoader = function () {
     var selectedRow;
     function initialize() {
         initSaveVsSpell();
+        initSaveOrDamage();
         loadedMonsterQueue.update = function () {
             var button = document.getElementById("maptool_notify_button");
             button.title = "Opens the map tool with loaded creatures.";
@@ -585,7 +604,7 @@ var combatLoader = function () {
                 var conditionList = $("#condition_list_dd").val().map(x => { return { condition: x } });
 
                 setConditionList(selectedRow.closest(".combatRow"), conditionList);
-                
+
             }
 
         });
@@ -634,7 +653,7 @@ var combatLoader = function () {
                 if (round != null)
                     logText = "Round " + round + ": ";
                 logText += (diff < 0 ? "Damaged for " : "Healed for ") + Math.abs(diff);
-                addToCombatLog(row, logText)
+                addToCombatLog(row, logText, diff < 0 ? LogEntryType.Bad : LogEntryType.Good)
 
 
             }, 600)
@@ -646,10 +665,11 @@ var combatLoader = function () {
         if (!selectedRow || selectedRow.value == "") return;
         var conditions = JSON.parse(selectedRow.parentNode.getAttribute("data-dnd_conditions") || "[]").map(x => { return { condition: x } });
 
-        $("#condition_list_dd").val(conditions ? conditions.map(x=> x.condition) : "");
+        $("#condition_list_dd").val(conditions ? conditions.map(x => x.condition) : "");
         var combatLog = selectedRow.getAttribute("data-combat_log");
         var notes = selectedRow.getAttribute("data-combat_log_notes") || "";
         document.querySelector("#combat_log_notes").value = notes;
+        console.log(combatLog)
         combatLog = combatLog == null ? [] : JSON.parse(combatLog);
         populateLogPopup(combatLog);
 
@@ -659,21 +679,28 @@ var combatLoader = function () {
 
 
     }
-    function addToCombatLog(row, thingyToAdd) {
+    const LogEntryType =
+    {
+        Good: 0,
+        Bad: 1
+    };
+
+    function addToCombatLog(row, thingyToAdd, entryType = LogEntryType.Bad) {
         if (thingyToAdd == null) return;
         row = row.getElementsByClassName("name_field")[0];
         var log = row.getAttribute("data-combat_log");
         log = log == null || log == "" ? [] : JSON.parse(log);
-
-        log.push(thingyToAdd);
+        var date = new Date();
+        log.push({ date: `${date.getHours()}:${date.getMinutes()}`, text: thingyToAdd, entryType: entryType });
         row.setAttribute("data-combat_log", JSON.stringify(log));
+        console.log(log)
         if (row == selectedRow) {
             populateLogPopup(log);
         }
 
     }
     function populateLogPopup(logArray) {
-
+    
         var content = document.querySelector(".combat_log_content");
         while (content.firstChild) {
             content.removeChild(content.firstChild)
@@ -682,12 +709,12 @@ var combatLoader = function () {
         while (logArray.length > 0) {
             var entry = logArray.pop();
             var newP = document.createElement("p");
-            if (entry.indexOf("Revive") >= 0 || entry.indexOf("Healed") >= 0 || entry.indexOf("Starting") >= 0) {
+            if (entry.entryType == LogEntryType.Good) {
                 newP.classList.add("beneficial_log_item")
             } else {
                 newP.classList.add("harmful_log_item")
             }
-            newP.innerHTML = entry;
+            newP.innerHTML = `${entry.date} ${entry.text}`;
             content.appendChild(newP)
             paragraphArray.push(newP);
         }
@@ -764,7 +791,7 @@ var combatLoader = function () {
                 conditionList = conditionList.filter(x => x.condition != removed);
                 row.setAttribute("data-dnd_conditions", JSON.stringify(conditionList));
 
-                notifyMapToolConditionsChanged(monsterIndex, conditionList.map(x=> x.condition), false);
+                notifyMapToolConditionsChanged(monsterIndex, conditionList.map(x => x.condition), false);
                 newDiv.parentNode.removeChild(newDiv);
                 if (selectedRow && row == selectedRow.closest(".combatRow")) {
                     $("#condition_list_dd").val(conditionList);
@@ -772,10 +799,10 @@ var combatLoader = function () {
                 }
             }
         });
-        notifyMapToolConditionsChanged(monsterIndex, conditionList.map(x=> x.condition), false);
-        row.setAttribute("data-dnd_conditions",JSON.stringify( conditionList));
+        notifyMapToolConditionsChanged(monsterIndex, conditionList.map(x => x.condition), false);
+        row.setAttribute("data-dnd_conditions", JSON.stringify(conditionList));
         if (selectedRow && row == selectedRow.closest(".combatRow")) {
-            $("#condition_list_dd").val(conditionList.map(x=> x.condition));
+            $("#condition_list_dd").val(conditionList.map(x => x.condition));
             $('#condition_list_dd').trigger('chosen:updated');
 
         }
@@ -816,6 +843,22 @@ var combatLoader = function () {
         [...document.querySelectorAll(".selected_row_action_button")].forEach(button => button.disabled = !enabled);
     }
 
+    var firstRowSelectedWasChecked, FIRST_ROW_CHECKED_TIMEOUT;
+    function selectedCheckboxMouseOver(evt) {
+        if (GLOBAL_MOUSE_DOWN) {
+            var row = evt.target.closest(".combatRow").querySelector(".selected_row_checkbox");
+            if (firstRowSelectedWasChecked) {
+                row.checked = firstRowSelectedWasChecked;
+            } else {
+                row.checked = !row.checked;
+                firstRowSelectedWasChecked = row.checked;
+            }
+            window.clearTimeout(FIRST_ROW_CHECKED_TIMEOUT);
+            FIRST_ROW_CHECKED_TIMEOUT = window.setTimeout(() => firstRowSelectedWasChecked = null, 400)
+            selectedRowsChanged();
+        }
+    }
+
     function getSelectedRows() {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         return [...allRows].filter(x => isSelected(x));
@@ -825,8 +868,63 @@ var combatLoader = function () {
         return row.querySelector(".selected_row_checkbox").checked;
     }
 
-    function saveOrDamage() {
+    function showSaveMenuHelper(evt, menuId) {
+        var menu = document.querySelector(`#${menuId}`);
+        menu.classList.remove("hidden");
+        var scrollDistY = document.querySelector(".main_content_wrapper").scrollTop;
+        menu.style.top = evt.clientY +scrollDistY + "px";
+        menu.style.left = evt.clientX + "px";
+    }
 
+    function saveOrDamage(evt) {
+        if (hideAllPopups)
+            hideAllPopups();
+        showSaveMenuHelper(evt, "popup_menu_saveordamage");
+
+    }
+
+    function saveOrDamageSubmit() {
+        var damage = document.querySelector("#save_or_damage_damage_input").value;
+        var saveDc = document.querySelector("#save_or_damage_dc_input").value;
+        if (!saveDc || !damage) return;
+        var halfOnSuccess = document.querySelector("#save_or_damage_half_on_success").checked;
+        var ele = document.getElementById("save_or_damage_save_select");
+        var saveAbility = ele.options[ele.selectedIndex].value;
+        rollSavesHelper(saveAbility, saveDc, damage, halfOnSuccess, null, null);
+    }
+
+    function rollSavesHelper(saveAbility, saveDc, damage, halfOnSuccess, conditionToApply, effectName) {
+        console.log(saveAbility, saveDc, damage, halfOnSuccess, conditionToApply, effectName)
+        dataAccess.getHomebrewAndMonsters(monsters => {
+            var selectedRows = getSelectedRows();
+            selectedRows.forEach(row => {
+                var monsterId = row.getAttribute("data-dnd_monster_id");
+                var monster = monsters.find(x => x.id == monsterId);
+                var modifier = parseInt(monster[`${saveAbility}_save`] ?? Util.getAbilityScoreModifier(monster[saveAbility]));
+                var result = d(20) + modifier;
+                saveDc = parseInt(saveDc);
+                var rect = row.getBoundingClientRect();
+                Util.showBubblyText(result, { x: rect.x, y: rect.y }, false, true);
+
+                //failed
+                if (result < saveDc) {
+
+                    if (conditionToApply) {
+                        var conditions = JSON.parse(row.getAttribute("data-dnd_conditions") || "[]");
+                        conditions.push({ condition: conditionToApply, caused_by: ` ${effectName ?? "save roll"} (DC ${saveDc})` });
+                        setConditionList(row, conditions);
+                    }
+                    addToCombatLog(row, `Failed ${saveAbility} save${(effectName ? ` against ${effectName}` : "")}  (DC ${saveDc})`, LogEntryType.Bad);
+                    row.querySelector(".dmg_field").value = damage;
+                } else {
+                    if (halfOnSuccess)
+                        row.querySelector(".dmg_field").value = Math.floor(parseInt(damage) / 2);
+                    addToCombatLog(row, `Succeeded ${saveAbility} save ${(effectName ? `against ${effectName}` : "")}  (DC ${saveDc})`, LogEntryType.Good);
+                }
+
+            });
+
+        });
     }
 
     function saveOrCondition() {
@@ -837,10 +935,7 @@ var combatLoader = function () {
         if (hideAllPopups)
             hideAllPopups();
 
-        var menu = document.querySelector(`#popup_menu_saveorspell`);
-        menu.classList.remove("hidden");
-        menu.style.top = evt.clientY + "px";
-        menu.style.left = evt.clientX + "px";
+        showSaveMenuHelper(evt, "popup_menu_saveorspell");
 
         var inp = document.querySelector("#save_vs_spell_input");
         inp.setAttribute("data-spell_id", "");
@@ -887,55 +982,28 @@ var combatLoader = function () {
             return;
         var select = document.getElementById("save_vs_spell_condition_select");
         var idx = select.parentNode.classList.contains("hidden") ? 0 : select.selectedIndex;
-        rollSavesForSpell(damage, dc, halfDamageOnSuccess, idx);
+        var cond = selectedSpell.metadata.conditionInflict?.length > 0 ? selectedSpell.metadata.conditionInflict[idx] : null;
+        rollSavesHelper(
+            saveAbility = selectedSpell.metadata.savingThrow,
+            saveDc = dc,
+            damage = damage,
+            halfOnSuccess = halfDamageOnSuccess,
+            conditionToApply = cond,
+            effectName = selectedSpell.name);
+
     }
 
-    function rollSavesForSpell(spellDamage, saveDc, halfDamageOnSuccess, conditionIndex) {
-
-        dataAccess.getHomebrewAndMonsters(monsters => {
-            var spell = selectedSpell;
-
-            var selectedRows = getSelectedRows();
-            selectedRows.forEach(row => {
-                var monsterId = row.getAttribute("data-dnd_monster_id");
-                var monster = monsters.find(x => x.id == monsterId);
-                var modifier = parseInt(monster[`${spell.metadata.savingThrow}_save`] ?? Util.getAbilityScoreModifier(monster[spell.metadata.savingThrow]));
-                var result = d(20) + modifier;
-                saveDc = parseInt(saveDc);
-                var rect = row.getBoundingClientRect();
-
-                Util.showBubblyText(result, { x: rect.x, y: rect.y }, false, true);
-                //failed
-                if (result < saveDc) {
-                    var cond = spell.metadata.conditionInflict?.length > 0 ? spell.metadata.conditionInflict[conditionIndex] : null;
-                    if (cond) {
-                        var conditions = JSON.parse(row.getAttribute("data-dnd_conditions") || "[]");
-                        conditions.push({condition:cond, caused_by: ` ${selectedSpell.name} (DC ${saveDc})`});
-
-                        console.log(conditions);
-                        setConditionList(row, conditions);
-                    }
-                    row.querySelector(".dmg_field").value = spellDamage;
-                } else if (halfDamageOnSuccess) {
-                    row.querySelector(".dmg_field").value = Math.floor(parseInt(spellDamage) / 2);
-                }
-
-
-            });
-
-        });
-    }
-
-    function getRowConditions(row){
+    function getRowConditions(row) {
         return JSON.parse(row.getAttribute("data-dnd_conditions") || "[]");
     }
-    function sendMapToolUpdates(){
+    function sendMapToolUpdates() {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
-         [...allRows].forEach(row => {
-             var index = row.querySelector(".combat_row_monster_id").innerHTML;
-             var conditions = getRowConditions(row).map(x=> x.condition);
-             notifyMapToolConditionsChanged(index, conditions,false);
-         });
+        [...allRows].forEach(row => {
+            var index = row.querySelector(".combat_row_monster_id").innerHTML;
+            var conditions = getRowConditions(row).map(x => x.condition);
+            notifyMapToolConditionsChanged(index, conditions, false);
+            healthChanged(index);
+        });
     }
 
     return {
@@ -961,10 +1029,11 @@ var combatLoader = function () {
         initialize: initialize,
         setSelectedRows: setSelectedRows,
         saveOrDamage: saveOrDamage,
+        saveOrDamageSubmit: saveOrDamageSubmit,
         saveOrCondition: saveOrCondition,
         saveVsSpell: saveVsSpell,
-        saveVsSpellSubmit: saveVsSpellSubmit, 
-        sendMapToolUpdates:sendMapToolUpdates
+        saveVsSpellSubmit: saveVsSpellSubmit,
+        sendMapToolUpdates: sendMapToolUpdates
     }
 
 }();

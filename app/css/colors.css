@@ -225,6 +225,7 @@ hr {
   background-color: var(--main-color);
   background-size: contain;
   background-repeat: no-repeat;
+  user-select: none;
   transition: background-color 300ms;
   border: none;
   border-bottom: 2px solid var(--main-underline-color);

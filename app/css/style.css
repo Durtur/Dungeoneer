@@ -213,7 +213,7 @@ h1 {
   max-height: 200px;
   overflow-y: scroll;
   background-color: white;
-  width: 70%;
+
 }
 
 .combat_log_content>p {
@@ -496,6 +496,7 @@ h1 {
 #combatMain .name_field {
   text-overflow: ellipsis;
   cursor: pointer;
+  user-select: none;
 }
 
 .acspinner {
@@ -859,7 +860,7 @@ h1 {
   display: flex;
   justify-content: center;
   flex-flow: row nowrap;
-
+  user-select:none;
   transition: all var(--transition-delay);
   z-index: 2;
 }
@@ -1531,13 +1532,13 @@ button:disabled {
   transform: rotate(45deg);
 }
 
-#popup_menu_saveorspell .close_button{
+.popup_menu .close_button{
   right: 0.5em;
   top: 0.5em;
-  width: 1.5em;
-  height: 1.5em;
+  width: 1.5em  !important;
+  height: 1.5em !important;
 }
 
-.awesomplete>input{
+.popup_menu .awesomplete>input{
   padding:0;
 }

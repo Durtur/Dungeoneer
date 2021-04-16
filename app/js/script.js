@@ -513,7 +513,7 @@ function hideAllPopups(evt) {
     return;
   document.removeEventListener("click", hideAllPopups);
   hidePcNodePopup();
-  document.querySelectorAll(".popup_menu").forEach(p => p.classList.add("hidden"))
+  [... document.querySelectorAll(".popup_menu")].filter(p=> !p.getAttribute("data-persist_popup")).forEach(p => p.classList.add("hidden"))
 }
 
 function applySettings() {
@@ -616,7 +616,9 @@ function showPopup(id, evt) {
   console.log("Show popup")
   var menu = document.querySelector(`#${id}`);
   menu.classList.remove("hidden");
-  menu.style.top = evt.clientY + "px";
+
+  var scrollDistY = document.querySelector(".main_content_wrapper").scrollTop;
+  menu.style.top = evt.clientY + scrollDistY + "px";
   menu.style.left = evt.clientX + "px";
   document.addEventListener("click", hideAllPopups);
 }

@@ -867,5 +867,6 @@
                 "tarrasque"
             ]
         }
-    ]
+    ],
+    "ability_scores":["Strength", "Dexterity", "Constitution","Intelligence", "Wisdom", "Charisma"]
 }

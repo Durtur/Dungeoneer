@@ -3125,10 +3125,11 @@ function startSelectingPawns(e) {
             if (oldSelectionRectangle != null) {
                 measurementsLayerContext.beginPath();
                 measurements.eraseModeOn();
+                measurementsLayerContext.setLineDash([2, 2]);
                 measurementsLayerContext.rect(oldSelectionRectangle.originX, oldSelectionRectangle.originY, oldSelectionRectangle.width, oldSelectionRectangle.height);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.globalCompositeOperation = 'source-over'
-                measurementsLayerContext.lineWidth = 3;
+                measurementsLayerContext.lineWidth = 2;
 
             } else {
                 oldSelectionRectangle = {};
