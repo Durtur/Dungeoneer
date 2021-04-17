@@ -2,7 +2,7 @@ productName: "Dungeoneer"
 appId: "is.simonorn.dungeoneer"
 
 # Package electron code into a asar archive. Set to false to debug issues.
-asar: true
+asar: false
 
 
 # Windows configuration
