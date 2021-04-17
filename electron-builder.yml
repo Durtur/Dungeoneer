@@ -1,0 +1,33 @@
+productName: "Dungeoneer"
+appId: "is.simonorn.dungeoneer"
+
+# Package electron code into a asar archive. Set to false to debug issues.
+asar: true
+
+
+# Windows configuration
+win:
+  icon: "src/build/icon.ico"
+  target:
+    - "nsis"
+
+# Config for the windows installer
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+
+# Linux configuration
+linux:
+  category: Development
+  target:
+    - "AppImage"
+    - "deb"
+    - "rpm"
+
+electronDownload:
+  cache: "C:/electronbuildercache"
+
+
+publish:
+  provider: github

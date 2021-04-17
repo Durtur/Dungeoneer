@@ -26,5 +26,6 @@
     "turndown": "^5.0.3",
     "uniqid": "^5.2.0"
   },
-  "postinstall": "electron-builder install-app-deps"
+  "postinstall": "electron-builder install-app-deps",
+  "repository": {"url":"https://github.com/Durtur/Dungeoneer"}
 }
