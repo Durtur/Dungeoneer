@@ -756,17 +756,13 @@ h1 {
 .mobcontroller_label {
   font-size: 12px;
   padding-top: 3px;
-  width: 110px;
+
   text-align: center;
   background-color: white;
 }
 
-.mobcontroller_second_row {
-  padding-right: 80px;
-}
-
-.mobcontroller_second_row>input {
-  flex: 1;
+.mobcontroller_secondrow>.column{
+  width: 7.7em;
 }
 
 .mobcontroller_creatures_remaining {
@@ -853,6 +849,9 @@ h1 {
   font-family: booksanity;
   font-size: 15px;
   color: var(--main-color);
+}
+.mobcontroller_row {
+  padding-left:1em;
 }
 
 .combatRow, .mobcontroller_row {

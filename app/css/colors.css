@@ -1279,8 +1279,8 @@ input[data-before_label]:before {
 
 .mobcontroller_row[data-dnd_monster_index]:after {
   content: attr(data-dnd_monster_index);
-  left: -25px;
-  top: 4px;
+  left: -0.8em;
+  top: 0.25em;
   position: absolute;
   text-align: center;
   padding: 5px;

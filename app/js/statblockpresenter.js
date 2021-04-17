@@ -689,7 +689,7 @@ var statblockPresenter = function () {
 
         spells.forEach(function (spell) {
           if(spell.id == entry.id)return;
-          var index = spellcastingAttribute.indexOf(spell.name);
+          var index = spellcastingAttribute.indexOf(spell.name.toLowerCase());
           if (index >= 0) {
             spell.name = spell.name;
             knownSpells.push(spell);
@@ -702,6 +702,7 @@ var statblockPresenter = function () {
         [...paragraphs].forEach(function (paragraph) {
 
           if (paragraph.getAttribute("data-spell-links-updated") == "t") return;
+        
           // var descriptions = paragraph.getElementsByTagName("strong");
           // if (descriptions.length > 0 && descriptions[0].innerHTML.toLowerCase().indexOf("spellcasting") >= 0) {
           //   updateLinksForParagraph(paragraph);
@@ -808,7 +809,7 @@ var statblockPresenter = function () {
         if (!spell || !spell.name)
           return;
         var spellIndex = textTemplate.indexOf(spell.name.toLowerCase());
-
+       
         if (spellIndex >= 0) {
           console.log("Found " + spell.name + " " + spellIndex)
           var charBefore = spellIndex != 0 ? textTemplate.substring(spellIndex - 1, spellIndex) : null;

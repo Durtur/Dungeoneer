@@ -165,10 +165,11 @@
         </div>
 
         <div class="column section__tool section__show">
+
           <section class="combatGUI" id="mobcontroller_element">
             <p class="no_data_text">Search for creatures to add mobs</p>
           </section>
-          <div class="row float_up combat_toolbar">
+          <div class="row float_up combat_toolbar" style="justify-content: flex-end;">
             <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
             <button class="small  button_style" id="maptool_mob_add_button" title="Opens the map tool with loaded mobs.
               No mobs are loaded." disabled onclick="mobController.notifyMapTool()">M</button>
@@ -438,7 +439,8 @@
     </div>
 
 
-    <div id="popup_menu_saveorspell" data-persist_popup="t" style="filter: drop-shadow(2px 2px 6px black);" class="popup_menu hidden">
+    <div id="popup_menu_saveorspell" data-persist_popup="t" style="filter: drop-shadow(2px 2px 6px black);"
+      class="popup_menu hidden">
       <label for="save_vs_spell_input">Roll saves against spell:</label>
       <input id="save_vs_spell_input" class="select_text_on_focus" style="font-size: 1.25em;">
       <div class="row">
@@ -465,15 +467,17 @@
         </label>
       </div>
       <button class="close_button button_style" onclick="closePopupGeneric(event)"></button>
-      <button class="button_style" id="save_vs_spell_submit_btn" onclick="combatLoader.saveVsSpellSubmit()">Roll</button>
+      <button class="button_style" id="save_vs_spell_submit_btn"
+        onclick="combatLoader.saveVsSpellSubmit()">Roll</button>
     </div>
 
-    <div id="popup_menu_saveordamage" data-persist_popup="t" style="filter: drop-shadow(2px 2px 6px black);" class="popup_menu hidden">
+    <div id="popup_menu_saveordamage" data-persist_popup="t" style="filter: drop-shadow(2px 2px 6px black);"
+      class="popup_menu hidden">
       <label for="save_or_damage_save_select">Save or damage:</label>
       <select id="save_or_damage_save_select" class="white_select">
 
       </select>
-      
+
       <div class="row">
         <label class="white_label" for="save_or_damage_dc_input">DC:</label>
         <input id="save_or_damage_dc_input" placeholder="Save DC">
@@ -610,21 +614,32 @@
 
         </div>
       </div>
-      <div class="column" style="margin-left:80px;">
-        <div class="row">
 
+      <div class="row mobcontroller_secondrow" style="margin-left:5.2em">
+        <div class="column">
           <label class="mobcontroller_label" title="Mob size">Creature count</label>
+          <input style="width: auto;" type="number" onchange="mobController.mobSizeChanged(event)"
+            class="mobcontroller_count">
+        </div>
+        <div class="column">
           <label class="mobcontroller_label" title="Creatures remaining">Remaining</label>
+          <input style="width: auto;" type="number" readonly class="mobcontroller_creatures_remaining">
+        </div>
+        <div class="column">
           <label class="mobcontroller_label" title="Creatures dead">Dead</label>
+          <input style="width: auto;" type="number" readonly class="mobcontroller_creatures_dead">
+        </div>
+        <div class="column">
           <label class="mobcontroller_label" title="Percentage of mob attacking each round">% attacking</label>
+          <input style="width: auto;" min=1 max=100 type="number" class="mobcontroller_percentage_attacking">
         </div>
-        <div class="row mobcontroller_second_row">
-          <input type="number" onchange="mobController.mobSizeChanged(event)" class="mobcontroller_count">
-          <input type="number" readonly class="mobcontroller_creatures_remaining">
-          <input type="number" readonly class="mobcontroller_creatures_dead">
-          <input min=1 max=100 type="number" class="mobcontroller_percentage_attacking">
-        </div>
+
+
+
+
       </div>
+
+
     </div>
     <footer>
       <div class="popup" id="party_list_popup" data-popup="popup-1">
