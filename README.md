@@ -14,6 +14,7 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
 * Level appropriate encounter generator.
      * From your own tables
      * ... or creature type
+     * ... or environment
 * An integrated map tool with fog of war.
     * Dungeondraft wall import
     * Tokens and stuff
