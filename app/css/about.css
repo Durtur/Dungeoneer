@@ -15,6 +15,28 @@ h1{
     font-size:2em;
 }
 
+article{
+    display: flex;
+    flex-flow:column wrap;
+}
+
+.donate_button{
+    background-color: #c14d40;
+    border-bottom: 1px solid #2b2b2b;
+    width: 5em;
+    margin: auto;
+    text-align: center;
+    font-size: 1em;
+    position: absolute;
+    right: 1em;
+    top: 5em;
+    font-weight: 500;
+    padding: 1em;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+    font-family: var(--basic-font);
+}
 
 p {
     line-height: 1.5;
@@ -63,7 +85,7 @@ p:not(:first-of-type){
 }
 
 img {
-    border: 1px solid black;
+  
     border-radius: 5px;
     cursor: pointer;
     transition: 0.3s;
