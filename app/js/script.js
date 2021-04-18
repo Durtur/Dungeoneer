@@ -33,8 +33,8 @@ var roundCounter;
 
 /* #region IPC */
 
-ipcRenderer.on('update-all-pawns',function(){
-  
+ipcRenderer.on('update-all-pawns', function () {
+
   combatLoader.sendMapToolUpdates();
 });
 
@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
   //DEBUG AND TESTING
- // designTimeAndDebug();
+  // designTimeAndDebug();
 });
 
 function designTimeAndDebug() {
@@ -312,7 +312,7 @@ function createConditionBubble(condition, causedByText) {
   var secTooltip = document.createElement("div");
   secTooltip.classList.add("secondary_tooltip");
   var para = document.createElement("div");
-  para.innerHTML = marked("## " + conditionObj.name + (causedByText ? `\nCaused by: ${causedByText}`:"") + (conditionObj.description ? "\n" + conditionObj.description : ""));
+  para.innerHTML = marked("## " + conditionObj.name + (causedByText ? `\nCaused by: ${causedByText}` : "") + (conditionObj.description ? "\n" + conditionObj.description : ""));
   if (para.innerHTML.length > 0) {
     if (conditionObj.condition_background_location) {
       var img = document.createElement("img");
@@ -513,7 +513,7 @@ function hideAllPopups(evt) {
     return;
   document.removeEventListener("click", hideAllPopups);
   hidePcNodePopup();
-  [... document.querySelectorAll(".popup_menu")].filter(p=> !p.getAttribute("data-persist_popup")).forEach(p => p.classList.add("hidden"))
+  [...document.querySelectorAll(".popup_menu")].filter(p => !p.getAttribute("data-persist_popup")).forEach(p => p.classList.add("hidden"))
 }
 
 function applySettings() {
@@ -1225,8 +1225,8 @@ function addColorPickerHandlers() {
 }
 
 function pickPlayerToken(evt) {
-  var charId = evt.target.closest(".pcRow").getAttribute("data-char_id");
 
+  var row = evt.target.closest(".pcRow");
   var tokenPath = dialog.showOpenDialogSync(
     remote.getCurrentWindow(), {
     properties: ['openFile'],
@@ -1236,7 +1236,8 @@ function pickPlayerToken(evt) {
   if (tokenPath == null)
     return;
   tokenPath = tokenPath[0];
-  dataAccess.saveToken(charId, tokenPath);
+
+  row.setAttribute("data-token_to_save", tokenPath);
   evt.target.setAttribute("src", tokenPath);
 }
 
@@ -1413,6 +1414,9 @@ function saveParty(showWarnings, dontClose) {
     if (!charId)
       charId = uniqueID();
 
+    var saveTokenPath = row.getAttribute("data-token_to_save");
+    if (saveTokenPath)
+      dataAccess.saveToken(charId, saveTokenPath);
     pcObject.id = charId;
   });
   if (tempArr.length < allRows.length) return;
