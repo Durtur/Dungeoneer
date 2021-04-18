@@ -1,5 +1,6 @@
 const dataAccess = require("./js/dataaccess");
 var allEffects;
+const dialog = require('electron').remote.dialog;
 var editingEffectName = null;
 var effectFilePath;
 document.addEventListener("DOMContentLoaded", (e) => {

@@ -1,5 +1,4 @@
 :root {
-
     --z-index-initiative: 11;
     --z-index-fov: 10;
     --z-index-measurements: 3;
@@ -25,9 +24,11 @@ html {
     position: absolute;
     background-color: transparent;
 }
-.blurred{
+
+.blurred {
     filter: blur(20px) !important;
 }
+
 .maptool_body {
     background-color: transparent;
     background-image: none;
@@ -121,13 +122,14 @@ li {
     font-size: 16px;
 }
 
-.popup_dialog >*{
-    font-size:1em;
-    height:2em;
+.popup_dialog>* {
+    font-size: 1em;
+    height: 2em;
     border-radius: 0;
     font-family: var(--basic-font);
     padding: 0.25em;
 }
+
 .popup_dialog>label {
     padding: 5px;
     text-align: center;
@@ -137,7 +139,6 @@ li {
     width: 100%;
     padding: 0;
 }
-
 
 .slidecontainer {
     position: absolute;
@@ -182,8 +183,14 @@ li {
     padding-left: 20px;
 }
 
+#popup_menu_add_effect {
+    width: 10em;
+}
+
 .input_extra_text {
-    position: absolute;
+    color: black  !important;
+    background-color: white;
+    width: 3em;
     color: rgb(118, 118, 118);
     font-size: 12px;
 }

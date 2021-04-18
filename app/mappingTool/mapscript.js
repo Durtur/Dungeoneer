@@ -1,6 +1,8 @@
 const { ipcRenderer, webFrame } = require('electron');
 const path = require("path");
-const Awesomplete = require(path.resolve('app/awesomplete/awesomplete.js'));
+
+
+const Awesomplete = require(path.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
@@ -320,11 +322,11 @@ function refreshPawnToolTipsHelper(arr, monster) {
 }
 
 // #region commands
-function  notifySelectedPawnsChanged(){
+function notifySelectedPawnsChanged() {
     let mainWindow = remote.getGlobal('mainWindow');
 
-    if (mainWindow) mainWindow.webContents.send('notify-maptool-selection-changed', 
-    {selected: selectedPawns.filter(x=> x.index_in_main_window).map(x=> x.index_in_main_window)});
+    if (mainWindow) mainWindow.webContents.send('notify-maptool-selection-changed',
+        { selected: selectedPawns.filter(x => x.index_in_main_window).map(x => x.index_in_main_window) });
 }
 
 
@@ -333,7 +335,7 @@ function notifyTokenAdded(tokenIndex, name) {
     if (mainWindow) mainWindow.webContents.send('notify-token-added-in-maptool', [tokenIndex, name]);
 }
 
-function requestNotifyUpdateFromMain(){
+function requestNotifyUpdateFromMain() {
     let mainWindow = remote.getGlobal('mainWindow');
     if (mainWindow) mainWindow.webContents.send('update-all-pawns');
 }
@@ -1500,7 +1502,7 @@ function startMeasuring(event) {
         return;
     }
 
-  
+
     if (!visibilityLayerVisible) {
         if (toolbox[0]) {
             if (event.button == 0) {
@@ -1916,13 +1918,26 @@ function startMeasuring(event) {
 }
 
 function snapPawnToGrid(elmnt) {
-    if (parseFloat(elmnt.dnd_hexes) < 1) return;
+
     var positionOnTranslatedGrid = {
         x: Math.round((elmnt.offsetLeft - gridMoveOffsetX) / cellSize) * cellSize,
         y: Math.round((elmnt.offsetTop - gridMoveOffsetY) / cellSize) * cellSize
     }
+    var oldLeft = parseFloat(elmnt.style.left);
+    var oldTop = parseFloat(elmnt.style.top);
+    var diffX = oldLeft - (positionOnTranslatedGrid.x + gridMoveOffsetX);
+    var diffY = oldTop - (positionOnTranslatedGrid.y + gridMoveOffsetY);
     elmnt.style.left = positionOnTranslatedGrid.x + gridMoveOffsetX + "px";
     elmnt.style.top = positionOnTranslatedGrid.y + gridMoveOffsetY + "px";
+    if (elmnt.attached_objects)
+        elmnt.attached_objects.forEach(obj => {
+            var currX = parseFloat(obj.style.left);
+            var currY = parseFloat(obj.style.top);
+            currX-=diffX;
+            currY-=diffY;
+            obj.style.left = currX + "px";
+            obj.style.top = currY+"px";
+        });
 }
 
 function refreshMeasurementTooltip() {
@@ -3526,9 +3541,9 @@ function selectPawn(pawn) {
     selectedPawns.push(pawn);
     pawn.classList.add("pawn_selected");
     window.clearTimeout(pawnSelectNotify_timeout);
-    pawnSelectNotify_timeout = window.setTimeout(()=>{
-       notifySelectedPawnsChanged(); 
-    },500);
+    pawnSelectNotify_timeout = window.setTimeout(() => {
+        notifySelectedPawnsChanged();
+    }, 500);
 }
 
 function deselectPawn(pawn) {

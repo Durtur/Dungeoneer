@@ -38,7 +38,7 @@ var fovLighting = function () {
     };
     var mapIsBlack = false;
     var fovLayer = document.getElementById("fog_of_war");
-    const SEGMENT_COUNT_BEFORE_OPTIMIZATION = 100;
+    const SEGMENT_COUNT_BEFORE_OPTIMIZATION = 1200;
     var activeFogType = MapFogEnum.None;
     var activeViewerHasDarkvision = false;
     function setFogStyle(fogStyle) {
@@ -87,6 +87,7 @@ var fovLighting = function () {
     var forcedPerspectiveOrigin;
     var DRAW_EXECUTE_TIMEOUT;
     function drawFogOfWar() {
+    console.log(segments.length)
         if (segments.length < SEGMENT_COUNT_BEFORE_OPTIMIZATION)
             return doDrawFogOfWar();
 
@@ -98,7 +99,6 @@ var fovLighting = function () {
     }
 
     function doDrawFogOfWar() {
-
         // Draw segments
         if (showVisibilityLayer) {
             drawSegments();
@@ -288,15 +288,15 @@ var fovLighting = function () {
                 var wallLines = [];
                 getLines(false, true);
                 if (wallLines.length > maxSegmentCount) {
-               
+
                     wallLines.length = 0;
                     getLines(true, false);
-                  
+
                 }
                 var count = 0;
 
                 function getLines(combineSmallLines, scaleWalls) {
-             
+
                     wallArray.forEach(walls => {
                         var skippedLines = [];
                         for (var i = 0; i < walls.length; i++) {
@@ -624,7 +624,7 @@ var fovLighting = function () {
             Math.pow(originPoint.y - destinationPoint.y, 2)
         );
 
-        var steps = Math.round(radius / 2) * 2;
+        var steps = Math.round(radius / 10) * 10;
 
         var firstPoint, nextPoint, startPoint;
         for (var i = 0; i < steps; i++) {
