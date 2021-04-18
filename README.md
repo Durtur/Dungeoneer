@@ -9,6 +9,9 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
 * A loot generator.
 * Initiative tracker.
 * Stat tracker for monsters.
+    * Real time encounter difficulty
+    * Roll saves and attacks
+    * Condition tracker             
 * Random tables to randomize things.
      * Pregenerated, and create your own!
 * Level appropriate encounter generator.
