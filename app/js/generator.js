@@ -370,12 +370,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function rerollNpc(key) {
-    console.log(key)
+  
     var dropDownGender = document.querySelector("#choose_gender");
     var dropDownType = document.querySelector("#choose_type_generated_creature");
     var type = dropDownType.options[dropDownType.selectedIndex].value;
     var gender = dropDownGender.options[dropDownGender.selectedIndex].value;
     var dropDownSet = document.querySelector("#choose_nameset");
+    gender = gender == "any" ? pickOne(["male", "female"]) : gender;
     var set = dropDownSet.options[dropDownSet.selectedIndex].value;
     dataAccess.getGeneratorData(function (data) {
         var foundNameSet = null;
@@ -387,14 +388,13 @@ function rerollNpc(key) {
         }
         var generatedNameTextField = document.querySelector("#generated_npc_name");
         if (key == "name") {
-            gender = gender == "any" ? pickOne(["male", "female"]) : gender;
+         
             var values = generateNPC(data, gender, foundNameSet, type)
             replaceName(values);
         } else if (key == "creature") {
-            console.log(generatedNameTextField.innerHTML)
             var names = generatedNameTextField.innerHTML.split(" ");
             if (names[1] == null) names[1] = "";
-            var values = generateNPC(data, "male", { male: [names[0]], lastnames: [names[1]] }, type)
+            var values = generateNPC(data,gender, { male: [names[0]], lastnames: [names[1]], female: [names[0]], lastnames: [names[1]] }, type)
             if (values.age)
                 values.profession += ` (${values.age})`;
             replaceDescription(values);
@@ -515,7 +515,7 @@ function createCreatureTreeList(object) {
                 } else if (evt.keyCode == 13) {
                     if (evt.target.value != "") {
                         var parentList = input.closest(".treeview_nested");
-                        console.log("Want to add")
+                     
                         window.setTimeout(() => {
                             editingListAttribute = false;
 
@@ -539,7 +539,7 @@ function createCreatureTreeList(object) {
             function doStopEditing(evt) {
                 editingListAttribute = false;
                 var oldText = evt.target.getAttribute("data-old_value");
-                console.log(evt)
+      
                 var text = evt.target.value;
                 var parent = evt.target.parentNode;
                 if (parent.contains(evt.target)) parent.removeChild(evt.target);
@@ -863,7 +863,7 @@ function refreshMonsterListInputs() {
         if (allInputValues.indexOf(awes.input.value) < 0)
             allInputValues.push(awes.input.value)
     });
-    console.log(allInputValues)
+  
     encounterSetAwesompletes.forEach(awes => {
         allInputValues.forEach(value => {
             if (awes._list.indexOf(value) >= 0) {
@@ -896,7 +896,7 @@ function deleteEncounterSet() {
     dataAccess.getRandomTables(function (data) {
         var obj = data;
         data = obj.encounter_sets;
-        console.log(data, data[encounterSetName], encounterSetName)
+  
         if (data[encounterSetName] == null) return;
         var response = dialog.showMessageBox(
             remote.getCurrentWindow(),
@@ -913,7 +913,7 @@ function deleteEncounterSet() {
         encounterSetName = unSerialize(encounterSetName);
         obj.encounter_sets = data;
         dataAccess.setRandomTables(obj, function (data) {
-            console.log(encounterSetAwesomplete._list)
+ 
             if (encounterSetAwesomplete._list.indexOf(encounterSetName) > 0)
                 encounterSetAwesomplete._list.splice(encounterSetAwesomplete._list.indexOf(encounterSetName), 1)
             clearRandomTableContainer();
@@ -961,7 +961,7 @@ function saveEncounterSet() {
                 return;
             }
             document.getElementById("delete_encounter_set_button").classList.remove("hidden");
-            console.log("saved")
+      
             $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
             document.getElementById("encounter_set_name_input").value = "";
             clearRandomTableContainer();
@@ -1016,11 +1016,11 @@ function dumpCreateTable(evt) {
         function createProbabilityFromTableString(probString, fallback) {
             var values = probString.split(/[+|-]+/);
             var finalValue;
-            console.log(values)
+   
             if (values.length > 1) {
                 var higherNumber = Math.max(parseInt(values[0]), parseInt(values[1]));
                 var lowerNumber = Math.min(parseInt(values[0]), parseInt(values[1]));
-                console.log(higherNumber, lowerNumber)
+         
                 finalValue = higherNumber - lowerNumber;
                 if (isNaN(finalValue))
                     return fallback;
@@ -1116,7 +1116,7 @@ function deleteRandomTable() {
     dataAccess.getRandomTables(function (data) {
         var obj = data;
         data = obj.tables;
-        console.log(data);
+    
         if (!data || data[tblName] == null) return;
         var response = dialog.showMessageBoxSync(
             remote.getCurrentWindow(),
@@ -1127,15 +1127,15 @@ function deleteRandomTable() {
                 message: "Do you wish to delete table " + input.value + " ?"
             }
         );
-        console.log(response);
+  
         if (response != 0)
             return;
-        console.log(data[tblName])
+    
         delete data[tblName];
 
         obj.tables = data;
         dataAccess.setRandomTables(obj, function (data) {
-            console.log(input.value)
+ 
             if (randomTableNames.indexOf(input.value) < 0) {
                 randomTableNames.splice(randomTableNames.indexOf(input.value), 1);
             }
@@ -1182,7 +1182,7 @@ function saveRandomTable() {
         obj.followup_table = children[3].getElementsByTagName("input")[0].value ? serialize(children[3].getElementsByTagName("input")[0].value) : "";
         arr.push(obj);
     }
-    console.log(rows)
+
     var tblName = serialize(input.value);
     dataAccess.getRandomTables(function (data) {
         var obj = data;
@@ -1190,7 +1190,7 @@ function saveRandomTable() {
         if (data == null) data = {};
         data[tblName] = arr;
         obj.tables = data;
-        console.log(obj);
+  
         dataAccess.setRandomTables(obj, function (data, err) {
             if (err) {
                 $('#save_failed').fadeIn("fast").delay(2500).fadeOut("slow");

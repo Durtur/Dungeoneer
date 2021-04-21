@@ -138,7 +138,9 @@ var statblockPresenter = function () {
 
   function addTable() {
     if (!statblock_table) return;
-    statblock.append(generateHTMLTable(statblock_table));
+    var table = generateHTMLTable(statblock_table);
+    [... table.querySelectorAll("td")].forEach(x=> x.innerHTML = marked(x.innerHTML));
+    statblock.append(table);
   }
 
   function addSpeed() {

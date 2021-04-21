@@ -412,6 +412,7 @@ li {
 .condition_effect {
     height: 50%;
     width: 50%;
+    max-height: 2em;
     max-width: 2em;
     position: relative;
     margin-left: -30%;

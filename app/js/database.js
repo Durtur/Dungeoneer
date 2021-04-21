@@ -47,7 +47,7 @@ ipcRenderer.on('update-autofill-complete', function () {
 
 });
 
-var selectedConditionImagePath;
+
 $(document).ready(function () {
   dataAccess.getSettings(sett => {
     settings = sett;
@@ -92,7 +92,7 @@ $(document).ready(function () {
   document.querySelector("#encounter_table_header_row").addEventListener("click", sortEncounterMasterList);
 
   document.getElementById("condition_image_picker").onclick = function (e) {
-    selectedConditionImagePath = dialog.showOpenDialogSync(
+    var selectedConditionImagePath = dialog.showOpenDialogSync(
       remote.getCurrentWindow(), {
       properties: ['openFile'],
       message: "Choose picture location",
@@ -100,6 +100,7 @@ $(document).ready(function () {
     });
     if (selectedConditionImagePath == null)
       return;
+    selectedConditionImagePath = selectedConditionImagePath[0];
     var imgEle = document.getElementById("condition_image_picker");
     imgEle.setAttribute("src", selectedConditionImagePath);
   }
@@ -235,9 +236,9 @@ function populateDropdowns() {
     classList.add(`by ${prefix} ${classStr}`);
   });
   new Awesomplete(document.getElementById("additem_requires_attunement_by"), { list: [...classList], autoFirst: true, minChars: 0, sort: false });
-  document.getElementById("additem_requires_attunement_by").addEventListener("awesomplete-selectcomplete", function(e){
+  document.getElementById("additem_requires_attunement_by").addEventListener("awesomplete-selectcomplete", function (e) {
     var checkbox = document.getElementById("additem_requires_attunement");
-    if(!checkbox.checked)checkbox.checked = true;
+    if (!checkbox.checked) checkbox.checked = true;
   });
   populateAddableFieldDropdowns();
   var sizeList = [];
@@ -1558,7 +1559,7 @@ function editCopyHelper(entryId, isEdit) {
     entry = loadedData.find(x => {
       return x.id == entryId
     });
-    if(!entry.description)entry.description = "";
+    if (!entry.description) entry.description = "";
   }
 
   if (isEdit) {
@@ -1616,6 +1617,8 @@ function editObject(dataObject, letter) {
   } else if (letter === "") {
     addTags(dataObject);
     addACSource(dataObject);
+  } else if (letter == "I") {
+    return editItem(dataObject);
   }
 
   var valuesElements = [...document.querySelectorAll(".jsonValue" + letter)];
@@ -1766,8 +1769,18 @@ function editObject(dataObject, letter) {
     valueElement.value = val ? val : "";
   }
 
+  function editItem(dataObject) {
+    ["name", "description", "type", "rarity"].forEach(prop => {
+      document.querySelector(`.additem_${prop}`).value = dataObject[prop];
+    });
+    document.querySelector(".additem_requires_attunement").checked = dataObject.requires_attunement;
+    document.querySelector(".additem_requires_attunement_by").value = dataObject.requires_attunement_by || "";
+    if (dataObject.table)
+      populateTable(dataObject.table);
+  }
+
   function editEncounter(dataObject) {
-    console.log(dataObject)
+
     var nameField = document.querySelector(".object_nameE");
     nameField.value = dataObject.name;
     document.querySelector(".add_encounter_description").value = dataObject.description;
@@ -2365,6 +2378,10 @@ function saveHomebrew() {
     } else if (tab == "encounters") {
       thingyToSave.encounter_xp_value = parseInt(document.querySelector("#encounter_challenge_calculator_value").value);
     }
+    else if (tab == "items") {
+      thingyToSave.requires_attunement = document.querySelector(".additem_requires_attunement").checked;
+      thingyToSave.requires_attunement_by = document.querySelector(".additem_requires_attunement_by").value || "";
+    }
     //Populate normal attributes
 
     for (var i = 0; i < valueBoxes.length; i++) {
@@ -2437,7 +2454,7 @@ function saveHomebrew() {
 
       if (Object.keys(tableObject).length != 0) thingyToSave.table = tableObject;
     } else if (tab == "conditions") {
-      thingyToSave.condition_background_location = selectedConditionImagePath;
+      thingyToSave.condition_background_location = document.querySelector("#condition_image_picker").getAttribute("src");
     }
 
     //Search for existing entry
@@ -2455,19 +2472,11 @@ function saveHomebrew() {
 
       function handleDataSave(thingyToSave, getFunction, setFunction) {
         getFunction(function (data) {
+          console.log(data.length);
           if (currentEntry) {
-            data = data.filter(d => d.name != currentEntry.name)
+            data = data.filter(d => d.id != currentEntry.id)
           }
-          console.log(thingyToSave.name)
-          var collisionIndex = indexOfName(data, thingyToSave.name);
-
-          if (collisionIndex != -1) {
-            if (window.confirm(thingyToSave.name + " already found in database. Do you wish to overwrite?")) {
-              data.splice(collisionIndex, 1);
-            } else {
-              return false;
-            }
-          }
+          console.log(data.length);
 
           data.push(thingyToSave);
           data = data.sort(function (a, b) {
@@ -2494,7 +2503,7 @@ function saveHomebrew() {
               }
 
               tokenRemoveQueue = [];
-    
+
               window.setTimeout(function () {
                 dataAccess.getTags(function (tags) {
                   monsterTags.list = tags;
@@ -2505,7 +2514,7 @@ function saveHomebrew() {
 
             let window2 = remote.getGlobal('mainWindow');
             if (window2) window2.webContents.send('update-autofill');
-          
+
           });
 
         })

@@ -448,20 +448,20 @@
                         <div class="column">
                             <input type="text" class="jsonAttributeI brown monster_attribute_chapter_label" value="Name"
                                 readonly tabindex="-1">
-                            <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI">
+                            <input type="text" tabindex=1 class="jsonValueI db_name_field object_nameI additem_name">
                         </div>
 
                         <div class="row monster_stat_row">
                             <div class="column">
-                                <input type="text" class="jsonAttributeI readonly_monster_attr" value="Rarity" readonly
+                                <input type="text" class="jsonAttributeI readonly_monster_attr " value="Rarity" readonly
                                     tabindex="-1">
-                                <input type="text" tabindex=1 class="jsonValueI" id="item_rarity_input">
+                                <input type="text" tabindex=1 class="jsonValueI additem_rarity" id="item_rarity_input">
                             </div>
 
                             <div class="column">
                                 <input type="text" class="jsonAttributeI readonly_monster_attr" title="Attribute"
                                     placeholder="Attribute name" value="Type" readonly tabindex="-1">
-                                <input type="text" tabindex=1 class="jsonValueI" id="item_type_input">
+                                <input type="text" tabindex=1 class="jsonValueI additem_type" id="item_type_input">
                             </div>
 
 
@@ -470,17 +470,17 @@
                             <input type="text" class=" readonly_monster_attr" value="Requires attunement" readonly tabindex="-1">
                             <div class="row attunement_row">
                                 <label class="container_for_checkbox">
-                                    <input type="checkbox" tabindex=1 class="center " id="additem_requires_attunement"
+                                    <input type="checkbox" tabindex=1 class="center additem_requires_attunement" id="additem_requires_attunement"
                                         title="Item requires attunement">
                                     <span class="checkmark"></span>
                                 </label>
-                                <input type ="text" class = "" id ="additem_requires_attunement_by" placeholder="Anyone can attune">
+                                <input type ="text" class = "additem_requires_attunement_by" id ="additem_requires_attunement_by" placeholder="Anyone can attune">
                             </div>
                         </div>
                         <div class="column">
                             <input type="text" class="jsonAttributeI brown monster_attribute_chapter_label"
                                 value="Description" readonly tabindex="-1">
-                            <textarea tabindex=1 class="jsonValueI" style="min-height: 140px;">  </textarea>
+                            <textarea tabindex=1 class="jsonValueI additem_description" style="min-height: 140px;">  </textarea>
                         </div>
                        
                     </div>

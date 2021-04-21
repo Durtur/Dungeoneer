@@ -56,7 +56,7 @@ function generateHTMLTable(jsonObj) {
   var jsonObjValues = Object.values(jsonObj);
   //filter out empty arrays
 
-  console.log(jsonObjValues)
+  
   var expectedLength = jsonObjValues[0].length;
   for (var i = 1; i < jsonObjValues.length; i++) {
     if (jsonObjValues[i].length != expectedLength) {
