@@ -1263,13 +1263,19 @@ function addRandomTableRow() {
     if (randomizeTable == null) return;
     var row = document.createElement("tr");
     for (var i = 0; i < 3; i++) {
-        row.appendChild(document.createElement("td"))
+        var td = document.createElement("td");
+        td.setAttribute("contenteditable","true");
+
+        row.appendChild(td);
+        
     }
     var td = document.createElement("td");
+    td.setAttribute("contenteditable","true");
     var tdInput = document.createElement("input");
     tdInput.classList = "random_table_followup_input";
     td.appendChild(tdInput);
     createTableNameAwesomeplete(tdInput);
+    
     row.appendChild(td)
     randomizeTable.getElementsByTagName("tbody")[0].appendChild(row);
 }
