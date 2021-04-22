@@ -229,7 +229,7 @@ var combatLoader = function () {
             var originalHp = row.getAttribute("data-dnd_original_hp");
             var currentHp = row.querySelector(".hp_field").value;
             var hpPercentage = parseInt(currentHp) / parseInt(originalHp);
-            console.log("current: " + currentHp + " original " + originalHp);
+         
             var isDead = currentHp <= 0;
 
             if (isDead)
@@ -426,7 +426,7 @@ var combatLoader = function () {
         attackField = row.getElementsByClassName("attack_field")[0];
         damageField = row.getElementsByClassName("damage_field")[0];
         nameField.setAttribute("data-combat_log", JSON.stringify([
-            { date: "", text: `Starting hit points are ${monster.hit_points}`, entryType :LogEntryType.Good }
+            { date: "", text: `Starting hit points are ${monster.hit_points}`, entryType: LogEntryType.Good }
         ]));
 
 
@@ -559,7 +559,7 @@ var combatLoader = function () {
                 list.push([spell.name, spell.id]);
 
             });
-            console.log(list)
+        
             if (list.length == 0) return;
             new Awesomplete(document.getElementById("save_vs_spell_input"), { list: list, minChars: 0, autoFirst: true });
             document.getElementById("save_vs_spell_input").addEventListener("awesomplete-selectcomplete", function (evt) {
@@ -669,7 +669,7 @@ var combatLoader = function () {
         var combatLog = selectedRow.getAttribute("data-combat_log");
         var notes = selectedRow.getAttribute("data-combat_log_notes") || "";
         document.querySelector("#combat_log_notes").value = notes;
-        console.log(combatLog)
+ 
         combatLog = combatLog == null ? [] : JSON.parse(combatLog);
         populateLogPopup(combatLog);
 
@@ -691,16 +691,18 @@ var combatLoader = function () {
         var log = row.getAttribute("data-combat_log");
         log = log == null || log == "" ? [] : JSON.parse(log);
         var date = new Date();
-        log.push({ date: `${date.getHours()}:${date.getMinutes()}`, text: thingyToAdd, entryType: entryType });
+        var hours = date.getHours().toString().padStart(2, "0");
+        var minutes =date.getMinutes().toString().padStart(2, "0");
+        log.push({ date: `${hours}:${date.getMinutes()}`, text: thingyToAdd, entryType: entryType });
         row.setAttribute("data-combat_log", JSON.stringify(log));
-        console.log(log)
+
         if (row == selectedRow) {
             populateLogPopup(log);
         }
 
     }
     function populateLogPopup(logArray) {
-    
+
         var content = document.querySelector(".combat_log_content");
         while (content.firstChild) {
             content.removeChild(content.firstChild)
@@ -781,11 +783,12 @@ var combatLoader = function () {
         var monsterIndex = parseInt(row.querySelector(".combat_row_monster_id").innerHTML);
         while (conditionContainer.firstChild)
             conditionContainer.removeChild(conditionContainer.firstChild);
+
         conditionList.forEach(condition => {
             var newDiv = createConditionBubble(condition.condition, condition.caused_by);
             conditionContainer.appendChild(newDiv);
             newDiv.onclick = function (e) {
-                console.log(e, newDiv)
+          
                 var conditionList = JSON.parse(row.getAttribute("data-dnd_conditions") || "[]");
                 var removed = newDiv.getAttribute("data-condition");
                 conditionList = conditionList.filter(x => x.condition != removed);
@@ -828,7 +831,7 @@ var combatLoader = function () {
     }
 
     function selectDeselectRowHelper(row, checked) {
-        console.log(row, checked)
+
         var checkbox = row.querySelector(".selected_row_checkbox");
         var oldValue = checkbox.checked;
         checkbox.checked = checked;
@@ -872,7 +875,7 @@ var combatLoader = function () {
         var menu = document.querySelector(`#${menuId}`);
         menu.classList.remove("hidden");
         var scrollDistY = document.querySelector(".main_content_wrapper").scrollTop;
-        menu.style.top = evt.clientY +scrollDistY + "px";
+        menu.style.top = evt.clientY + scrollDistY + "px";
         menu.style.left = evt.clientX + "px";
     }
 
@@ -911,8 +914,11 @@ var combatLoader = function () {
 
                     if (conditionToApply) {
                         var conditions = JSON.parse(row.getAttribute("data-dnd_conditions") || "[]");
-                        conditions.push({ condition: conditionToApply, caused_by: ` ${effectName ?? "save roll"} (DC ${saveDc})` });
-                        setConditionList(row, conditions);
+
+                        if (!conditions.find(x => x.condition == conditionToApply)) {
+                            conditions.push({ condition: conditionToApply, caused_by: ` ${effectName ?? "save roll"} (DC ${saveDc})` });
+                            setConditionList(row, conditions);
+                        }
                     }
                     addToCombatLog(row, `Failed ${saveAbility} save${(effectName ? ` against ${effectName}` : "")}  (DC ${saveDc})`, LogEntryType.Bad);
                     row.querySelector(".dmg_field").value = damage;
@@ -974,7 +980,7 @@ var combatLoader = function () {
     }
 
     function saveVsSpellSubmit() {
-        console.log("submit")
+
         var halfDamageOnSuccess = document.querySelector("#save_vs_spell_half_on_success").checked;
         var dc = document.querySelector("#save_vs_spell_dc_input").value;
         var damage = document.querySelector("#save_vs_spell_damage_input").value;

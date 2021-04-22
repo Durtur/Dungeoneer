@@ -2472,11 +2472,11 @@ function saveHomebrew() {
 
       function handleDataSave(thingyToSave, getFunction, setFunction) {
         getFunction(function (data) {
-          console.log(data.length);
+    
           if (currentEntry) {
             data = data.filter(d => d.id != currentEntry.id)
           }
-          console.log(data.length);
+  
 
           data.push(thingyToSave);
           data = data.sort(function (a, b) {
