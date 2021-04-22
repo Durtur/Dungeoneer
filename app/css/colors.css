@@ -1171,7 +1171,7 @@ header {
   z-index: 12;
   position: absolute;
   padding: 10px;
-  -webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
+  filter: drop-shadow(2px 4px 6px black);
   border: 1px solid black;
   background-image: url("img/phbbgblack.png");
   background-size: cover;

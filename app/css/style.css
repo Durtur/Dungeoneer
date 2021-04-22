@@ -832,11 +832,17 @@ h1 {
   text-align: center;
 }
 
-.dead_row>* {
-  background-color: rgb(171, 0, 0) !important;
-  color: darkred;
-  transition: all 600ms;
-  transform: scaleY(0.2);
+.combatRow .hp_over_max{
+  color: #ca9e00 !important;
+  font-weight: 800;
+  font-size: 1em;
+}
+.dead_row .hp_field {
+  background-image: url(../mappingTool/tokens/dead.png) !important;
+  background-size: 2.5em;
+  color: transparent;
+  background-position: center;
+  background-position-x: -0.15em;
 }
 
 .no_data_text {

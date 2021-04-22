@@ -399,9 +399,11 @@ ipcRenderer.on('monster-health-changed', function (evt, arg) {
 
     if (arg.dead) {
         pawn.dead = "true";
-        pawn.setAttribute("data-state_changed", 1);
-        refreshPawnToolTips();
+    } else {
+        pawn.dead = "false";
     }
+    pawn.setAttribute("data-state_changed", 1);
+    refreshPawnToolTips();
 
 
 });
@@ -1933,10 +1935,10 @@ function snapPawnToGrid(elmnt) {
         elmnt.attached_objects.forEach(obj => {
             var currX = parseFloat(obj.style.left);
             var currY = parseFloat(obj.style.top);
-            currX-=diffX;
-            currY-=diffY;
+            currX -= diffX;
+            currY -= diffY;
             obj.style.left = currX + "px";
-            obj.style.top = currY+"px";
+            obj.style.top = currY + "px";
         });
 }
 
@@ -2674,7 +2676,7 @@ function killOrRevivePawn() {
             if (!isPlayer) {
                 if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
                     let window2 = remote.getGlobal('mainWindow');
-                    if (window2) window2.webContents.send('monster-revived', [pawnElement.dnd_name, pawnElement.index_in_main_window]);
+                    if (window2) window2.webContents.send('monster-revived', { name: pawnElement.dnd_name, index: pawnElement.index_in_main_window });
                 }
             }
         } else {
