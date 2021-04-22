@@ -1,4 +1,4 @@
-# Dungeoneer 1.0
+# Dungeoneer 
 
 <img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="200" />
 
