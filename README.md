@@ -41,4 +41,4 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
 There are some great sources of tokens, such as [Forgotten Adventures](https://www.forgotten-adventures.net/) (you can get all their tokens for free). You can use the token importer to mass import tokens. 
 
 ## Licence and usage
-Anyone is free to use this application or distribute it freely. See further constraints in Licence.md. 
+Anyone is free to use this application or distribute it freely. See further constraints in [Licence.md](https://github.com/Durtur/Dungeoneer/blob/v1.0.1/LICENSE.md). 
