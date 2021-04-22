@@ -37,6 +37,8 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
  * A map making application
  * A multiplayer internet type thing. This is just a desktop client.
 
+## I don't have any monster tokens
+There are some great sources of tokens, such as [Forgotten Adventures](https://www.forgotten-adventures.net/) (you can get all their tokens for free). You can use the token importer to mass import tokens. 
 
 ## Licence and usage
 Anyone is free to use this application or distribute it freely. See further constraints in Licence.md. 
