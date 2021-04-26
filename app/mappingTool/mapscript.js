@@ -112,6 +112,9 @@ function loadSettings() {
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 
+        if(settings.currentBackground){
+            setMapBackground(settings.currentBackground, settings.gridSettings.mapBackgroundSize);
+        }
         if (settings.transparentWindow) {
             document.querySelector(".maptool_body").style.backgroundImage = null;
         } else if (settings.map_edge_style) {
@@ -822,6 +825,13 @@ function onSettingsLoaded() {
 
     gridLayer.onmousedown = generalMousedowngridLayer;
 
+    document.getElementById("clear_foreground_button").onclick = function(e){
+        setMapForeground(null);
+        resetGridOffset()
+        settings.currentMap = null;
+        settings.gridSettings.mapSize = null;
+        saveSettings();
+    };
     document.getElementById("foreground_button").onclick = function (e) {
         var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
             properties: ['openFile'],
@@ -837,6 +847,11 @@ function onSettingsLoaded() {
             saveSettings();
         }
     };
+    document.getElementById("clear_background_button").onclick = function (e) {
+        setMapBackground(null);
+     
+    };
+    
 
     document.getElementById("background_button").onclick = function (e) {
         var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
@@ -910,18 +925,25 @@ function onSettingsLoaded() {
     document.querySelector("#backdrop_window_button").onclick = function (e) {
         ipcRenderer.send("open-maptool-backdrop-window");
     };
+    document.querySelector("#clear_map_edge_button").onclick = function (e) {
+        settings.map_edge_style = null;
+        document.querySelector(".maptool_body").style.backgroundImage = "none";
+    };
     document.querySelector("#map_edge_button").onclick = function (e) {
         var imgPath = dialog.showOpenDialogSync(remote.getCurrentWindow(),
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
                 filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-            })[0];
+            });
+  
         if (!imgPath) return;
+        imgPath = imgPath[0];
         imgPath = imgPath.replace(/\\/g, "/");
 
         document.querySelector(".maptool_body").style.backgroundImage = "url('" + imgPath + "')";
         settings.map_edge_style = imgPath;
+        saveSettings();
     }
 
     document.getElementById("load_map_button").onclick = function (e) {
@@ -1070,23 +1092,31 @@ function restoreEffect(effect) {
 }
 
 function setMapBackground(path, width) {
+    settings.currentBackground = path;
+    if(!path){
+        backgroundCanvas.style.backgroundImage = 'none';
+        return;
+    }
+
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
     var img = new Image();
-
+    settings.gridSettings.mapBackgroundSize = width;
     img.onload = function () {
         backgroundCanvas.heightToWidthRatio = img.height / img.width;
 
         var mapWidth = width ? width : img.width;
-        var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
-        var height = img.height * imgWidthToOldWidth;
-
         backgroundCanvas.style.width = mapWidth + "px";
         document.getElementById("background_size_slider").value = img.width;
     }
     img.src = path;
+    
 }
 
 function setMapForeground(path, width) {
+    if(!path){
+        foregroundCanvas.style.backgroundImage = 'none';
+        return;
+    }
     foregroundCanvas.style.backgroundImage = 'url("' + path + '")';
 
     var img = new Image();
@@ -1107,6 +1137,20 @@ function setMapForeground(path, width) {
     }
     img.src = path;
 
+}
+var saveTimer;
+function toggleSaveTimer(){
+    clearTimeout(saveTimer);
+    saveTimer = window.setTimeout(
+        function () {
+            settings.gridSettings = {}
+            settings.gridSettings.cellSize = cellSize;
+            settings.gridSettings.mapSize = parseFloat($("#foreground").css("width"));
+            settings.gridSettings.mapBackgroundSize = parseFloat($("#background").css("width"));;
+           
+            saveSettings();
+        }, 7000
+    );
 }
 
 /***
@@ -1130,6 +1174,7 @@ function resizeBackground(newWidth) {
     backgroundCanvas.style.width = newWidth + "px";
     backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
     document.getElementById("background_size_slider").value = newWidth;
+    toggleSaveTimer();
 }
 
 function resetZoom() {
@@ -1240,7 +1285,7 @@ var backgroundLoop = function () {
     var slideCanvas = document.querySelector("#background");
     function setBackgroundSlide(button) {
 
-
+        styleClasses.forEach(cls => slideCanvas.classList.remove(cls));
         var cls;
         var animation = button.getAttribute("data-slide");
         if (background_slide_animation_frame) {
@@ -3613,7 +3658,7 @@ function setupFOVMeasurements() {
 
 
 /* #region draw functions */
-var saveTimer;
+
 var gridResize_Timestamp;
 function resizeAndDrawGrid(timestamp, event) {
     if (timestamp) {
@@ -3639,16 +3684,8 @@ function resizeAndDrawGrid(timestamp, event) {
     gridLayer.setAttribute('width', canvasWidth);
     gridLayer.setAttribute('height', canvasHeight);
 
-    clearTimeout(saveTimer);
-    saveTimer = window.setTimeout(
-        function () {
-            settings.gridSettings = {}
-            settings.gridSettings.cellSize = cellSize;
-            settings.gridSettings.mapSize = parseInt($("#foreground").css("width"));;
-            saveSettings();
-        }, 7000
-    );
-
+  
+    toggleSaveTimer();
     resizePawns();
     resizeEffects();
     refreshFogOfWar(timestamp);

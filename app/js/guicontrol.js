@@ -49,8 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
             var menuToShowId = e.target.getAttribute("data-menu_item")
             var menuToShow = document.getElementById(menuToShowId);
             if (menuToShow == null) return;
-            var placedNode = e.target.parentNode;
-
+            
+            [... document.querySelectorAll(".context_menu")].forEach(x=> x.classList.add("hidden"));
             var rect = e.target.getBoundingClientRect();
             console.log(rect)
             menuToShow.style.left = rect.left + e.target.clientWidth + "px";

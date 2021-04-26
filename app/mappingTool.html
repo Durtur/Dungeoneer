@@ -28,60 +28,82 @@
 
             <div class="toolbar ">
                 <button class="button_style help_button" onclick="Util.showOrHide('help_tool_tip', 1)">Help</button>
-
-
                 <div class="dropdown">
-                    <button class="dropbtn button_style">Map
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="button_style" id="foreground_button" href="#">Foreground</a>
-                        <a class="button_style context_menu_button"
-                            data-menu_item="context_menu_background">Background
-                        
-                        </a>
-                        <a class="button_style" id="save_map_button" href="#"
-                            title="Saves the map in the current state, excluding tokens.">Save map</a>
-                        <a class="button_style" id="load_map_button" href="#"
-                            title="Loads an earlier map in the same state, excluding tokens.">Load map</a>
-                        <div class="menu_seperator"></div>
+                    <ul>
+                        <li class="dropdown_root"><a class="button_style " href="#">Map</a>
+                            <ul class="dropdown_content">
 
-                        <a class="button_style" id="backdrop_window_button" href="#"
-                            title="Launches a backdrop window, useful if running in transparent mode.">Backdrop
-                            window</a>
-                        <a class="button_style" id="map_edge_button" href="#" title="Sets the art for the map edge.">Map
-                            edge</a>
-                    </div>
+                                <li><a href="#" class="button_style">Foreground</a>
+                                    <ul>
+                                        <li><a href="#" class="button_style" id="foreground_button"
+                                                class="button_style">Image</a></li>
+                                        <li><a href="#" class="button_style" id="clear_foreground_button">Clear</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="#" class="button_style">Background</a>
+                                    <ul>
+                                        <li><a href="#" id="background_button" class="button_style">Image</a></li>
+                                        <li><a href="#" id="clear_background_button" href="#" class="button_style"
+                                                title="Clears the background to default">Clear</a></li>
+                                        <div class="menu_seperator"></div>
+                                        <li>
+                                            <div class="row">
+                                                <label class="button_style_label" style="width: 100%;"
+                                                    for="slide_speed_input">
+                                                    Slide speed:
+                                                </label>
+                                                <input style="text-align: center; width:60px; " type="number"
+                                                    onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input"
+                                                    value="1" step="0.1">
+                                            </div>
+                                        </li>
+
+                                        <li><a class="button_style toggle_button" toggled="true" toggleGroup=15
+                                                onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
+                                                title="Removes the background slide">No slide</a></li>
+                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.setBackgroundSlide(this)"
+                                                data-slide="slideX">Horizontal
+                                                slide</a></li>
+                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.setBackgroundSlide(this)"
+                                                data-slide="slideXReverse"
+                                                title="Removes the background slide">Horizontal reverse slide</a></li>
+                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
+                                                title="Removes the background slide">Vertical slide</a></li>
+                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.setBackgroundSlide(this)"
+                                                data-slide="slideYReverse" title="Removes the background slide">Vertical
+                                                reverse slide</a></li>
+                                    </ul>
+                                </li>
+
+                                <li><a class="button_style" id="save_map_button" href="#"
+                                        title="Saves the map in the current state, excluding tokens.">Save map</a></li>
+                                <li><a class="button_style" id="load_map_button" href="#"
+                                        title="Loads an earlier map in the same state, excluding tokens.">Load map</a>
+                                </li>
+
+                                <li><a class="button_style" id="backdrop_window_button" href="#"
+                                        title="Launches a backdrop window, useful if running in transparent mode.">Backdrop
+                                        window</a></li>
+                                <li><a class="button_style" href="#">Map edge</a>
+                                    <ul>
+                                        <button class="button_style" id="map_edge_button"
+                                            title="Sets the art for the map edge.">Image</button>
+                                        <div class="menu_seperator"></div>
+                                        <button class="button_style" id="clear_map_edge_button"
+                                            title="Clears the map edge to default">Clear</button>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
                 </div>
 
-                <div id="context_menu_background" class="context_menu hidden">
-                    <button class="button_style" id="background_button" href="#"
-                        title="Sets the art for the map edge.">Background image</button>
-                    <div class="menu_seperator"></div>
-                    <div class="row">
-                        <label class="button_style_label" style="width: 100%;" for="slide_speed_input">
-                            Slide speed:
-                        </label>
-                        <input style="text-align: center; width:60px; " type="number"
-                            onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input" value="1" step="0.1">
-                    </div>
-                    <button class="button_style toggle_button" toggled="true" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
-                        title="Removes the background slide">No slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideX">Horizontal slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideXReverse"
-                        title="Removes the background slide">Horizontal reverse slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
-                        title="Removes the background slide">Vertical slide</button>
-                    <button class="button_style toggle_button" toggled="false" toggleGroup=15
-                        onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideYReverse"
-                        title="Removes the background slide">Vertical reverse slide</button>
 
-
-                </div>
                 <div class="show_overflow">
                     <button title="Change map size" class="toggle_button button_style " toggleGroup="3" toggled="false"
                         onclick="showMapSizeSlider(this)">Size</button>
@@ -95,46 +117,55 @@
                     <option value="url(#daylight)">Daylight</option>
                 </select>
 
-
-
                 <div class="dropdown">
-                    <button class="dropbtn button_style">Sight
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <input type="color" id="fog_of_war_hue_selector"
-                        style="height:0 !important; margin:0 !important; padding:0 !important;" value="#000000"
-                        class="invisible">
-                        <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
-                            title="Map is in darkness" id="map_darkness_button" onclick="switchMapLighting()">Map in
-                            darkness</a>
-                        <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
-                            title="Map is in low light" id="map_lowlight_button" onclick="switchMapLighting()">Map in
-                            low light</a>
-                    
-                        <a class="toggle_button button_style" toggled="false" title="Current viewer has darkvision"
-                            id="active_viewer_button" onclick="switchActiveViewer()">Darkvision</a>
-                        <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Fog color</label>
+                    <ul>
+                        <li class="dropdown_root"><a class="button_style " href="#">Sight</a>
+                            <ul class="dropdown_content">
+                                <li>
+                                    <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Fog
+                                        color</label>
+                                    <input type="color" id="fog_of_war_hue_selector"
+                                        style="height:0 !important; margin:0 !important; padding:0 !important; width: 0;"
+                                        value="#000000" class="invisible">
+                                </li>
+                                <li> <a class="toggle_button button_style" toggled="false"
+                                        title="Current viewer has darkvision" id="active_viewer_button"
+                                        onclick="switchActiveViewer()">Darkvision</a></li>
+                                <li> <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
+                                        title="Map is in darkness" id="map_darkness_button"
+                                        onclick="switchMapLighting()">Map in
+                                        darkness</a>
+                                </li>
+
+                                <li> <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
+                                        title="Map is in low light" id="map_lowlight_button"
+                                        onclick="switchMapLighting()">Map in
+                                        low light</a></li>
+                                <div class="menu_seperator"></div>
+                                <li>
+                                    <a class="toggle_button button_style" id="visiblity_tool" toggled="false"
+                                        title="Show visibility layer. Lights placed here are not visible normally. "
+                                        onclick="toggleVisibilityLayer()">Show visibility layer</a>
+                                </li>
+                                <li>
+                                    <a class=" button_style " title="Import walls from dungeondraft map"
+                                        onclick="fovLighting.importDungeondraftWalls()">Import walls</a>
+                                </li>
+                                <div class="menu_seperator"></div>
+
+                                <li>
+                                    <a class=" toggle_button button_style " id="delete_segments_button" toggled="false"
+                                        title="Delete visibility blocking segments"
+                                        onclick="startDeletingSegments()">Delete</a>
+                                </li>
 
 
-                        <div class="menu_seperator"></div>
+                            </ul>
+                        </li>
 
-                        <a class="toggle_button button_style" id="visiblity_tool" toggled="false" title="Show visibility layer. Lights placed here are not visible normally. " onclick="toggleVisibilityLayer()">Show
-                            visibility
-                            layer</a>
-
-                        <a class=" button_style " title="Import walls from dungeondraft map"
-                            onclick="fovLighting.importDungeondraftWalls()">Import walls</a>
-
-                        <div class="menu_seperator"></div>
-
-
-                        <a class=" toggle_button button_style " id="delete_segments_button" toggled="false"
-                            title="Delete visibility blocking segments" onclick="startDeletingSegments()">Delete</a>
-
-
-                    </div>
+                    </ul>
                 </div>
+
 
                 <button title="Line measurement tool" class="toggle_button button_style toolbox_button" id="line_tool"
                     toggleGroup="1" toggled="false" onclick="setTool(this,0)"></button>
@@ -238,7 +269,7 @@
                         <div>Measure with pawn height:</div>
                         <div class="list_value">CTRL + Mouse left </div>
                     </li>
-             
+
                 </ul>
                 <strong>Placing effects</strong>
                 <ul>
@@ -264,7 +295,8 @@
             <button class="button_style" onclick="enlargeReducePawn(1)">Enlarge</button>
             <button class="button_style" onclick="enlargeReducePawn(-1)">Reduce</button>
             <button class="button_style" id="kill_or_revive_button" onclick="killOrRevivePawn()">Kill</button>
-            <button class="button_style context_menu_button" id = "pawn_token_menu_button" data-menu_item="context_menu_token">Token</button>
+            <button class="button_style context_menu_button" id="pawn_token_menu_button"
+                data-menu_item="context_menu_token">Token</button>
 
 
 
@@ -299,19 +331,22 @@
             <div class="row  light_effect_input_cont">
                 <label id="label_for_effect_input_value_one" class="input_extra_text" for="effect_input_value_three">B:
                 </label>
-                <input  title="Bright light radius" type="number" class="input_for_effect" id="effect_input_value_three" placeholder=20
-                    title="Bright light radius">
-                <label title="Dim light radius" id="label_for_effect_input_value_two" class="input_extra_text" for="effect_input_value_four">D:
+                <input title="Bright light radius" type="number" class="input_for_effect" id="effect_input_value_three"
+                    placeholder=20 title="Bright light radius">
+                <label title="Dim light radius" id="label_for_effect_input_value_two" class="input_extra_text"
+                    for="effect_input_value_four">D:
                 </label>
                 <input type="number" class="input_for_effect" id="effect_input_value_four" placeholder=20
                     title="Dim light radius">
             </div>
             <div class="row">
-                <label  title="Effect width" id="label_for_effect_input_value_one" class="input_extra_text" for="effect_input_value_one">W:
+                <label title="Effect width" id="label_for_effect_input_value_one" class="input_extra_text"
+                    for="effect_input_value_one">W:
                 </label>
                 <input type="number" class="input_for_effect" id="effect_input_value_one" placeholder=20
                     title="Effect width" value="2">
-                <label  title="Effect height" id="label_for_effect_input_value_two" class="input_extra_text" for="effect_input_value_two">H:
+                <label title="Effect height" id="label_for_effect_input_value_two" class="input_extra_text"
+                    for="effect_input_value_two">H:
                 </label>
                 <input type="number" class="input_for_effect" id="effect_input_value_two" placeholder=20
                     title="Effect height" value="2">
@@ -351,7 +386,7 @@
         <div class="initiative" id="initBar">
             <div class="initiativeNode init_not_started init--PC">
                 <p class="initiative_name_node"></p>
-        
+
             </div>
         </div>
         <div class="canvas_wrapper">
