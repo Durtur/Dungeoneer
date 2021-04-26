@@ -910,13 +910,20 @@ function onSettingsLoaded() {
                 data.effects[i].data_y = effects[i].style.top;
             }
             data.map = settings.currentMap;
-            data.bgX = mapContainer.data_transform_x;
-            data.bgY = mapContainer.data_transform_y;
-
-            data.segments = fovLighting.getSegments();
+            data.mapX = mapContainer.data_transform_x;
+            data.mapY = mapContainer.data_transform_y;
             data.bg_scale = mapContainer.data_bg_scale;
+
+            data.bgX = foregroundCanvas.data_transform_x;
+            data.bgY = foregroundCanvas.data_transform_y;
+            data.segments = fovLighting.getSegments();
+            
             data.bg_height_width_ratio = foregroundCanvas.heightToWidthRatio;
             data.bg_width = parseFloat(foregroundCanvas.style.width);
+
+            data.layer2Map = settings.currentBackground;
+            data.layer2_height_width_ratio = backgroundCanvas.heightToWidthRatio;
+            data.layer2_width = parseFloat(backgroundCanvas.style.width);
             fs.writeFile(path, JSON.stringify(data), (err) => {
                 if (err) return console.log(err)
             });
@@ -971,10 +978,8 @@ function onSettingsLoaded() {
             gridMoveOffsetX = data.moveOffsetX;
             gridMoveOffsetY = data.moveOffsetY;
 
-
-            mapContainer.data_bg_scale = data.bg_scale;
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
-            mapContainer.style.setProperty("--bg-scale", data.bg_scale);
+         
             resizeForeground(data.bg_width);
 
             //    foregroundCanvas.style.width = data.bg_width + "px";
@@ -983,13 +988,25 @@ function onSettingsLoaded() {
             //    document.getElementById("foreground_size_slider").value = data.bg_width;
 
             fovLighting.setSegments(data.segments);
+          
             settings.currentMap = data.map;
             $('#foreground').css('background-image', 'url("' + data.map + '")');
 
-            moveMap(data.bgX, data.bgY);
+           foregroundCanvas.data_transform_x =   data.bgX;
+           foregroundCanvas.data_transform_y = data.bgY;
+           moveForeground(data.bgX, data.bgY);
+            mapContainer.data_transform_x =  data.mapX;
+            mapContainer.data_transform_y = data.mapY;
+            mapContainer.data_bg_scale = data.bg_scale;
+            moveMap(data.mapX, data.mapY);
             fovLighting.drawSegments();
+            settings.currentBackground = data.layer2Map ;
+            backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
+            
+            setMapBackground(data.layer2Map, data.layer2_width);
 
-
+            //Fake zoom to adjust segments
+            zoomIntoMap({x:0, y:0}, 0);
             //Light effects
             var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
             while (oldEffects.length > 0) {
@@ -1268,11 +1285,15 @@ function zoomIntoMap(event, resizeAmount) {
             }
         });
         resizeAndDrawGrid(null, event);
-        //window.requestAnimationFrame(refreshFogOfWar);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
 
     });
 }
+
+function adjustMapThingsToNewMapSize(oldRect){
+
+}
+
 
 function onEffectSizeChanged(event) {
     previewPlacement(createEffect(event));
