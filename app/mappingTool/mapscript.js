@@ -112,7 +112,7 @@ function loadSettings() {
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 
-        if(settings.currentBackground){
+        if (settings.currentBackground) {
             setMapBackground(settings.currentBackground, settings.gridSettings.mapBackgroundSize);
         }
         if (settings.transparentWindow) {
@@ -527,6 +527,14 @@ function suspendAllAnimations() {
 function resumeAllAnimations() {
     $(".pawn, .sfx_effect, .light_effect").removeClass("animation_paused");
 }
+
+
+
+function reloadMap() {
+    if (pawns.all.length > pawns.players.length && !window.confirm("All pawns will be removed. Do you wish to reload the window?"))
+        return;
+    location.reload();
+}
 document.addEventListener("DOMContentLoaded", function () {
     mapContainer = document.querySelector("#map_layer_container");
     backgroundCanvas = document.querySelector("#background");
@@ -825,7 +833,7 @@ function onSettingsLoaded() {
 
     gridLayer.onmousedown = generalMousedowngridLayer;
 
-    document.getElementById("clear_foreground_button").onclick = function(e){
+    document.getElementById("clear_foreground_button").onclick = function (e) {
         setMapForeground(null);
         resetGridOffset()
         settings.currentMap = null;
@@ -849,9 +857,9 @@ function onSettingsLoaded() {
     };
     document.getElementById("clear_background_button").onclick = function (e) {
         setMapBackground(null);
-     
+
     };
-    
+
 
     document.getElementById("background_button").onclick = function (e) {
         var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
@@ -917,7 +925,7 @@ function onSettingsLoaded() {
             data.bgX = foregroundCanvas.data_transform_x;
             data.bgY = foregroundCanvas.data_transform_y;
             data.segments = fovLighting.getSegments();
-            
+
             data.bg_height_width_ratio = foregroundCanvas.heightToWidthRatio;
             data.bg_width = parseFloat(foregroundCanvas.style.width);
 
@@ -943,7 +951,7 @@ function onSettingsLoaded() {
                 message: "Choose picture location",
                 filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
             });
-  
+
         if (!imgPath) return;
         imgPath = imgPath[0];
         imgPath = imgPath.replace(/\\/g, "/");
@@ -979,7 +987,7 @@ function onSettingsLoaded() {
             gridMoveOffsetY = data.moveOffsetY;
 
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
-         
+
             resizeForeground(data.bg_width);
 
             //    foregroundCanvas.style.width = data.bg_width + "px";
@@ -988,25 +996,25 @@ function onSettingsLoaded() {
             //    document.getElementById("foreground_size_slider").value = data.bg_width;
 
             fovLighting.setSegments(data.segments);
-          
+
             settings.currentMap = data.map;
             $('#foreground').css('background-image', 'url("' + data.map + '")');
 
-           foregroundCanvas.data_transform_x =   data.bgX;
-           foregroundCanvas.data_transform_y = data.bgY;
-           moveForeground(data.bgX, data.bgY);
-            mapContainer.data_transform_x =  data.mapX;
+            foregroundCanvas.data_transform_x = data.bgX;
+            foregroundCanvas.data_transform_y = data.bgY;
+            moveForeground(data.bgX, data.bgY);
+            mapContainer.data_transform_x = data.mapX;
             mapContainer.data_transform_y = data.mapY;
             mapContainer.data_bg_scale = data.bg_scale;
             moveMap(data.mapX, data.mapY);
             fovLighting.drawSegments();
-            settings.currentBackground = data.layer2Map ;
+            settings.currentBackground = data.layer2Map;
             backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
-            
+
             setMapBackground(data.layer2Map, data.layer2_width);
 
             //Fake zoom to adjust segments
-            zoomIntoMap({x:0, y:0}, 0);
+            zoomIntoMap({ x: 0, y: 0 }, 0);
             //Light effects
             var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
             while (oldEffects.length > 0) {
@@ -1110,7 +1118,7 @@ function restoreEffect(effect) {
 
 function setMapBackground(path, width) {
     settings.currentBackground = path;
-    if(!path){
+    if (!path) {
         backgroundCanvas.style.backgroundImage = 'none';
         return;
     }
@@ -1126,11 +1134,11 @@ function setMapBackground(path, width) {
         document.getElementById("background_size_slider").value = img.width;
     }
     img.src = path;
-    
+
 }
 
 function setMapForeground(path, width) {
-    if(!path){
+    if (!path) {
         foregroundCanvas.style.backgroundImage = 'none';
         return;
     }
@@ -1156,7 +1164,7 @@ function setMapForeground(path, width) {
 
 }
 var saveTimer;
-function toggleSaveTimer(){
+function toggleSaveTimer() {
     clearTimeout(saveTimer);
     saveTimer = window.setTimeout(
         function () {
@@ -1164,7 +1172,7 @@ function toggleSaveTimer(){
             settings.gridSettings.cellSize = cellSize;
             settings.gridSettings.mapSize = parseFloat($("#foreground").css("width"));
             settings.gridSettings.mapBackgroundSize = parseFloat($("#background").css("width"));;
-           
+
             saveSettings();
         }, 7000
     );
@@ -1290,7 +1298,7 @@ function zoomIntoMap(event, resizeAmount) {
     });
 }
 
-function adjustMapThingsToNewMapSize(oldRect){
+function adjustMapThingsToNewMapSize(oldRect) {
 
 }
 
@@ -3705,7 +3713,7 @@ function resizeAndDrawGrid(timestamp, event) {
     gridLayer.setAttribute('width', canvasWidth);
     gridLayer.setAttribute('height', canvasHeight);
 
-  
+
     toggleSaveTimer();
     resizePawns();
     resizeEffects();
