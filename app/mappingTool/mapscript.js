@@ -2252,10 +2252,10 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
     if (monsters) {
         lastPoint = pawns.lastLocationMonsters;
-        rotate = 90;
+        rotate = parseInt(settings.defaultMonsterTokenRotate);
     } else {
         lastPoint = pawns.lastLocationPlayers;
-        rotate = -90;
+        rotate = parseInt(settings.defaultPlayerTokenRotate); 
     }
 
     for (var i = 0; i < pawnArray.length; i++) {

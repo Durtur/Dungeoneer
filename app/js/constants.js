@@ -183,6 +183,8 @@ function loadDefaultSettings() {
     "countRounds": true,
     "maxAutoLoads": "80",
     "maptool": {
+      "defaultMonsterTokenRotate":"90",
+      "defaultPlayerTokenRotate":"-90",
       "transparentWindow": false,
       "snapToGrid": true,
       "enableGrid": true,

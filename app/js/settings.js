@@ -18,8 +18,8 @@ var lootRoller = document.querySelector("#lootRoller");
 var mapToolCheckBox = document.querySelector("#mapTool");
 var saveRoller = document.querySelector("#saveRoller");
 var colorTokenBases = document.querySelector("#colorTokenBases");
-
-
+var defaultMonsterTokenRotate = document.querySelector("#defaultMonsterTokenRotate");
+var defaultPlayerTokenRotate = document.querySelector("#defaultPlayerTokenRotate");
 var defaultMapSizeX = document.getElementById("defaultMapsizeX");
 
 var doneSaving = false;
@@ -35,7 +35,8 @@ document.addEventListener("DOMContentLoaded", function () {
         playerPlaques.checked = data.playerPlaques;
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
-
+        defaultMonsterTokenRotate.value = data.maptool.defaultMonsterTokenRotate || 90;
+        defaultPlayerTokenRotate.value = data.maptool.defaultPlayerTokenRotate || -90;
         addPlayersAutomatically.checked = data.maptool.addPlayersAutomatically;
         applyDarkvisionFilter.checked = data.maptool.applyDarkvisionFilter;
         snapToGrid.checked = data.maptool.snapToGrid
@@ -97,6 +98,9 @@ function saveSettings(closeImmediately) {
         data.playerPlaques = playerPlaques.checked;
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;
+        data.maptool.defaultMonsterTokenRotate = defaultMonsterTokenRotate.value || 90;
+        data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || -90;
+
 
         data.maptool.addPlayersAutomatically = addPlayersAutomatically.checked;
         data.maptool.snapToGrid = snapToGrid.checked;
