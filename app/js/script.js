@@ -44,7 +44,6 @@ ipcRenderer.on('update-autofill', function () {
 
 });
 ipcRenderer.on('notify-maptool-selection-changed', function (evt, args) {
-
   combatLoader.setSelectedRows(args.selected);
 });
 function notifyMapToolConditionsChanged(index, conditions, isPlayer) {

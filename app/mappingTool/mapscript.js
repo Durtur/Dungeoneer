@@ -327,7 +327,7 @@ function refreshPawnToolTipsHelper(arr, monster) {
 // #region commands
 function notifySelectedPawnsChanged() {
     let mainWindow = remote.getGlobal('mainWindow');
-
+    
     if (mainWindow) mainWindow.webContents.send('notify-maptool-selection-changed',
         { selected: selectedPawns.filter(x => x.index_in_main_window).map(x => x.index_in_main_window) });
 }
