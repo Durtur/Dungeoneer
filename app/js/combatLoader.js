@@ -857,6 +857,7 @@ var combatLoader = function () {
 
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         allRows.forEach(row => deSelectRow(row));
+        rowArr = rowArr.map(x=> parseInt(x));
         var selected = [...allRows].filter(x =>
             rowArr.includes(parseInt(x.querySelector(".combat_row_monster_id").innerHTML))
         );
