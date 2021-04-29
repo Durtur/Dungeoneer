@@ -164,6 +164,7 @@ function hideOrShowGridSettings() {
     if (enableGrid.checked) {
         snapToGrid.parentElement.parentElement.classList.remove("hidden");
     } else {
+        snapToGrid.checked = false;
         snapToGrid.parentElement.parentElement.classList.add("hidden");
     }
 }

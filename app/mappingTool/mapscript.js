@@ -1,11 +1,11 @@
 const { ipcRenderer, webFrame } = require('electron');
-const path = require("path");
 
 
-const Awesomplete = require(path.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
+const Awesomplete = require(pathModule.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
+const MapLibrary = require("./mappingTool/mapLibrary");
 const dataAccess = require("./js/dataaccess");
-const initiative = require("./js/initiative")
+const initiative = require("./js/initiative");
 const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 
@@ -509,7 +509,7 @@ function resumeAllAnimations() {
 
 
 function reloadMap() {
-    if (pawns.all.length > pawns.players.length && !window.confirm("All pawns will be removed. Do you wish to reload the window?"))
+    if (pawns.all.length > pawns.players.length && !window.confirm("Do you wish to reload the window?"))
         return;
     location.reload();
 }
@@ -807,7 +807,7 @@ function onSettingsLoaded() {
 
             var actualWidth = value * cellSize / 5;
             var actualHeight = value2 * cellSize / 5
-
+            
             previewPlacementElement.dnd_width = value;
             previewPlacementElement.dnd_height = value2;
             previewPlacementElement.style.width = actualWidth + "px";
@@ -1114,12 +1114,14 @@ function getForegroundFromFile(e) {
 };
 
 function setMapBackground(path, width) {
+    var btn = document.getElementById("background_button");
     settings.currentBackground = path;
     if (!path) {
         backgroundCanvas.style.backgroundImage = 'none';
+        btn.innerHTML = "Image";
         return;
     }
-
+    btn.innerHTML = pathModule.basename(path);
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
     var img = new Image();
     settings.gridSettings.mapBackgroundSize = width;
@@ -1132,12 +1134,14 @@ function setMapBackground(path, width) {
 }
 
 function setMapForeground(path, width) {
+    var btn = document.getElementById("foreground_button");
     if (!path) {
         foregroundCanvas.style.backgroundImage = 'none';
+        btn.innerHTML = "Image";
         return;
     }
     foregroundCanvas.style.backgroundImage = 'url("' + path + '")';
-
+    btn.innerHTML = pathModule.basename(path);
     var img = new Image();
 
     img.onload = function () {
@@ -2800,6 +2804,8 @@ function closeAddPawnDialogue() {
     gridLayer.style.cursor = "auto";
 
 }
+
+
 var addingFromMainWindow = false;
 function startAddingFromQueue() {
     var tooltip = document.getElementById("tooltip");

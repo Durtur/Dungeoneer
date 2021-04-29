@@ -1657,3 +1657,20 @@ input[data-before_label]:before {
   background-color: transparent;
   border: none;
 }
+
+.info_popup{
+  background-color: rgb(0 0 0 / 80%);
+  position: absolute;
+  z-index: 99999;
+  padding:1em;
+}
+.info_popup h2{
+  padding: 0.25em;
+  font-family: var(--basic-font);
+  margin: 0;
+  color:white;
+}
+.info_popup p{
+text-align: center;
+color:white;
+}

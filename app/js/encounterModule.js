@@ -42,9 +42,11 @@ class EncounterModule {
     }
 
     getEncounterDifficultyString(xpValue, allLevels) {
+        allLevels = allLevels.filter(x=> x);
         console.log("Getting string for xp ", xpValue)
         var tiers = [0, 0, 0, 0];
         var tableArray;
+        console.log(allLevels)
         allLevels.forEach(level => {
             if (level < 0 || level > encounterCalculatorTable.table.length - 1)
                 return;

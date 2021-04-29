@@ -3,6 +3,24 @@ module.exports = function () {
         return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());
     }
 
+    function showInfo(title, text){
+        var newEle = document.createElement("div");
+        var para = document.createElement("p");
+        para.innerHTML = text;
+        var heading = document.createElement("h2");
+        heading.innerHTML = title;
+        newEle.classList="info_popup";
+        newEle.appendChild(heading);
+        newEle.appendChild(para);
+        newEle.style.top = window.innerHeight/2 - newEle.clientHeight / 2 + "px";
+        newEle.style.left = window.innerWidth/2  - newEle.clientWidth / 2 + "px";
+        document.body.appendChild(newEle);
+        window.setTimeout(function (evt) {
+            newEle.classList.add("fade_out");
+            if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
+        }, 6000);
+    }
+
     function showBubblyText(text, point, smallfont, multiple) {
         var newEle = document.createElement("div");
 
@@ -164,7 +182,8 @@ module.exports = function () {
         hexToHSL: hexToHSL,
         hexToRGBA: hexToRGBA,
         IsVowel: IsVowel,
-        getAbilityScoreModifier: getAbilityScoreModifier
+        getAbilityScoreModifier: getAbilityScoreModifier,
+        showInfo: showInfo
     }
 }();
 
