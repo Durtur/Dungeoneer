@@ -6,7 +6,8 @@ var pathModule = require('path');
 const { autoUpdater } = require('electron-updater');
 
 app.allowRendererProcessReuse = false;
-
+autoUpdater.logger = require("electron-log")
+autoUpdater.logger.transports.file.level = "info"
 // Module to control application life.
 //const app = electron.app
 // Module to create native browser window.
@@ -418,10 +419,10 @@ ipcMain.on('notify-party-array-updated', function (evt, arg) {
 
 
 autoUpdater.on('update-available', () => {
-  //mainWindow.webContents.send('update_available');
+  mainWindow.webContents.send('update_available');
 });
 autoUpdater.on('update-downloaded', () => {
-  // mainWindow.webContents.send('update_downloaded');
+   mainWindow.webContents.send('update_downloaded');
   updatePending = true;
 });
 

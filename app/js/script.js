@@ -38,6 +38,14 @@ ipcRenderer.on('update-all-pawns', function () {
   combatLoader.sendMapToolUpdates();
 });
 
+ipcRenderer.on('update_available', function(){
+  console.log("Update available");
+});
+
+ipcRenderer.on('update_downloaded', function(){
+  console.log("Update downloaded");
+});
+
 ipcRenderer.on('update-autofill', function () {
 
   autofill.updateAutoFillLists(true);
