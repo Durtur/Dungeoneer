@@ -15,8 +15,8 @@ var canvasHeight = 400;
 var zIndexPawnCap = 9;
 var conditionList;
 
-var frameHistoryButtons = null; //dirty hack 
-//Stillibreytur
+// var frameHistoryButtons = null; //dirty hack 
+
 var pauseAlternativeKeyboardMoveMap = false;
 //
 
@@ -97,10 +97,10 @@ function loadSettings() {
 
         if (!settings.enableGrid) settings.snapToGrid = false;
         if (!settings.applyDarkvisionFilter) {
-            $("#map_layer_container").css("filter", "none");
+            setBackgroundFilter();
         } else {
             if (fovLighting.viewerHasDarkvision()) {
-                $("#map_layer_container").css("filter", "grayscale(100%)");
+                setBackgroundFilter();
             }
         }
         var filterValue = settings.currentFilter ? settings.currentFilter : 0;
@@ -120,8 +120,8 @@ function loadSettings() {
         } else if (settings.map_edge_style) {
             document.querySelector(".maptool_body").style.backgroundImage = "url('" + settings.map_edge_style + "')";
         }
-
-        loadParty();
+        if (!partyArray)
+            loadParty();
         onSettingsLoaded();
     });
 }
@@ -144,22 +144,12 @@ function setBackgroundFilter() {
         filtered = true;
         filterDd.classList.add("toggle_button_toggled");
     }
-
-    if (filtered) {
-        if (fovLighting.viewerHasDarkvision()) {
-            lastBackgroundFilter = filterValue;
-            return;
-        }
-
-        $("#map_layer_container").css("filter", filterValue);
-    } else {
-        if (fovLighting.viewerHasDarkvision()) {
-            lastBackgroundFilter = "none";
-            return;
-        }
-        $("#map_layer_container").css("filter", "none");
+    console.log(filterValue);
+    if (fovLighting.viewerHasDarkvision() && settings.applyDarkvisionFilter) {
+        filterValue = "grayscale(80%)";
     }
-
+    $("#map_layer_container").css("filter", filterValue);
+ 
     settings.currentFilter = filterDd.selectedIndex;
     saveSettings();
 
@@ -167,20 +157,7 @@ function setBackgroundFilter() {
 function switchActiveViewer() {
     fovLighting.toggleDarkvision();
     refreshFogOfWar();
-    if (settings.applyDarkvisionFilter) {
-        if (fovLighting.viewerHasDarkvision()) {
-            var filter = $("#map_layer_container").css("filter");
-            if (filter == null) filter = "none";
-            if (filter != "grayscale(100%)") {
-                lastBackgroundFilter = filter;
-            }
-            $("#map_layer_container").css("filter", "grayscale(100%)");
-        } else {
-            $("#map_layer_container").css("filter", lastBackgroundFilter);
-
-        }
-
-    }
+    setBackgroundFilter();
 
 }
 
@@ -327,7 +304,7 @@ function refreshPawnToolTipsHelper(arr, monster) {
 // #region commands
 function notifySelectedPawnsChanged() {
     let mainWindow = remote.getGlobal('mainWindow');
-    
+
     if (mainWindow) mainWindow.webContents.send('notify-maptool-selection-changed',
         { selected: selectedPawns.filter(x => x.index_in_main_window).map(x => x.index_in_main_window) });
 }
@@ -428,10 +405,11 @@ ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
 
 ipcRenderer.on('settings-changed', function (evt, arg) {
     console.log("Settings changed, applying...");
-    dataAccess.getSettings(function (data) {
-        settings = data.maptool;
-        resizeAndDrawGrid();
-    });
+    loadSettings();
+    // dataAccess.getSettings(function (data) {
+    //     settings = data.maptool;
+    //     resizeAndDrawGrid();
+    // });
 });
 
 ipcRenderer.on('monster-list-cleared', function (evt, arg) {
@@ -666,6 +644,19 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+function centerForegroundOnBackground() {
+
+    var bgRect = backgroundCanvas.getBoundingClientRect();
+    var foregroundRect = foregroundCanvas.getBoundingClientRect();
+
+    var middleX = (bgRect.width / mapContainer.data_bg_scale) / 2;
+    var middleY = (bgRect.height / mapContainer.data_bg_scale) / 2;
+
+    var newX = middleX - (foregroundRect.width / 2) / mapContainer.data_bg_scale;
+    var newY = middleY - (foregroundRect.height / 2) / mapContainer.data_bg_scale;
+    moveForeground(newX, newY);
+}
+
 function moveForeground(x, y) {
     var oldRect = foregroundCanvas.getBoundingClientRect();
     foregroundCanvas.data_transform_x = x;
@@ -701,7 +692,7 @@ function onSettingsLoaded() {
     refreshPawns();
     window.onresize = function () { window.requestAnimationFrame(resizeAndDrawGrid) }
     console.log("Settings loaded");
-    resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth)
+    resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
     setupGridLayer();
     resizeAndDrawGrid();
     refreshFogOfWar();
@@ -840,38 +831,16 @@ function onSettingsLoaded() {
         settings.gridSettings.mapSize = null;
         saveSettings();
     };
-    document.getElementById("foreground_button").onclick = function (e) {
-        var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
-            properties: ['openFile'],
-            message: "Choose map",
-            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-        })[0].replace(/\\/g, "/");
 
-        if (path) {
-            setMapForeground(path, settings.defaultMapSize);
-            resetGridOffset()
-            settings.currentMap = path;
-            settings.gridSettings.mapSize = null;
-            saveSettings();
-        }
-    };
+    document.getElementById("foreground_button").onclick = getForegroundFromFile;
+    document.getElementById("foreground_menu_button").onclick = getForegroundFromFile;
     document.getElementById("clear_background_button").onclick = function (e) {
         setMapBackground(null);
 
     };
 
-
-    document.getElementById("background_button").onclick = function (e) {
-        var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
-            properties: ['openFile'],
-            message: "Choose map",
-            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-        })[0].replace(/\\/g, "/");
-
-        if (path) {
-            setMapBackground(path, settings.defaultMapSize);
-        }
-    };
+    document.getElementById("background_menu_button").onclick = getBackgroundFromFile;
+    document.getElementById("background_button").onclick = getBackgroundFromFile;
 
     var iconLoadButtons = [...document.querySelectorAll(".icon_load_button")];
     iconLoadButtons.forEach(button => {
@@ -1116,6 +1085,34 @@ function restoreEffect(effect) {
 
 }
 
+function getBackgroundFromFile(e) {
+    var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
+        properties: ['openFile'],
+        message: "Choose map",
+        filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+    })[0].replace(/\\/g, "/");
+
+    if (path) {
+        setMapBackground(path, settings.defaultMapSize);
+    }
+};
+
+function getForegroundFromFile(e) {
+    var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
+        properties: ['openFile'],
+        message: "Choose map",
+        filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+    })[0].replace(/\\/g, "/");
+
+    if (path) {
+        setMapForeground(path, settings.defaultMapSize);
+        resetGridOffset()
+        settings.currentMap = path;
+        settings.gridSettings.mapSize = null;
+        saveSettings();
+    }
+};
+
 function setMapBackground(path, width) {
     settings.currentBackground = path;
     if (!path) {
@@ -1128,10 +1125,7 @@ function setMapBackground(path, width) {
     settings.gridSettings.mapBackgroundSize = width;
     img.onload = function () {
         backgroundCanvas.heightToWidthRatio = img.height / img.width;
-
-        var mapWidth = width ? width : img.width;
-        backgroundCanvas.style.width = mapWidth + "px";
-        document.getElementById("background_size_slider").value = img.width;
+        resizeBackground(width ? width : img.width);
     }
     img.src = path;
 
@@ -2255,7 +2249,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         rotate = parseInt(settings.defaultMonsterTokenRotate);
     } else {
         lastPoint = pawns.lastLocationPlayers;
-        rotate = parseInt(settings.defaultPlayerTokenRotate); 
+        rotate = parseInt(settings.defaultPlayerTokenRotate);
     }
 
     for (var i = 0; i < pawnArray.length; i++) {
@@ -3034,7 +3028,7 @@ function popupMenuAddEffectClickHandler(e) {
     var pawn;
     if (e.button == 0 && e.target == gridLayer) {
         createEffect(e);
-    } else if (pawn = pawnClicked(e.target)) {
+    } else if (e.button == 0 && (pawn = pawnClicked(e.target))) {
         pawn.attached_objects.push(createEffect(e));
     } else {
         stopAddingEffects();
@@ -3660,7 +3654,7 @@ function resizeHelper(arr) {
     }
 }
 function setupGridLayer() {
-    gridLayerContext.strokeStyle = "rgba('10','10','10','0.4')";
+    gridLayerContext.strokeStyle = "rgba('10','10','10','0.2')";
     gridLayerContext.lineWidth = 1;
 }
 
@@ -3734,8 +3728,11 @@ function drawGrid() {
     fovLighting.drawSegments();
     clearGrid();
     var ctx = gridLayerContext;
+    ctx.strokeStyle = 'rgba(0,0,0,0.9)';;
+    ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.setLineDash([2]);
+
 
     var startPointX = gridMoveOffsetX % cellSize;
     var startPointY = gridMoveOffsetY % cellSize;

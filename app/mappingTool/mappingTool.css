@@ -488,7 +488,8 @@ li {
     top: 30px;
     right: 20px;
     z-index: var(--z-index-tooltip);
-    background-image: url("../css/img/phbbg.png");
+    color:white;
+    background-color: rgba(0,0,0,0.5);
     border: 1px solid black;
     border-radius: 5px;
     padding: 5px;
