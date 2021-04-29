@@ -149,7 +149,7 @@ function setBackgroundFilter() {
         filterValue = "grayscale(80%)";
     }
     $("#map_layer_container").css("filter", filterValue);
- 
+
     settings.currentFilter = filterDd.selectedIndex;
     saveSettings();
 
@@ -405,11 +405,11 @@ ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
 
 ipcRenderer.on('settings-changed', function (evt, arg) {
     console.log("Settings changed, applying...");
-    loadSettings();
-    // dataAccess.getSettings(function (data) {
-    //     settings = data.maptool;
-    //     resizeAndDrawGrid();
-    // });
+
+    dataAccess.getSettings(function (data) {
+        settings = data.maptool;
+        resizeAndDrawGrid();
+    });
 });
 
 ipcRenderer.on('monster-list-cleared', function (evt, arg) {
@@ -1435,14 +1435,45 @@ function generalMousedowngridLayer(event) {
     }
 }
 
+var GLOBAL_MOUSE_DOWN = false;
+function recordMouseDown() {
+    document.addEventListener("mousedown", function (e) {
+        if (e.button == 1)
+            GLOBAL_MOUSE_DOWN = true;
+    })
+
+    document.addEventListener("mouseup", function (e) {
+        GLOBAL_MOUSE_DOWN = false;
+    })
+}
+
+var GLOBAL_MOUSE_POSITION;
+function recordMouseMove() {
+    document.addEventListener("mousemove", recordMouse);
+}
+function recordMouse(e) {
+    GLOBAL_MOUSE_POSITION = { x: e.x, y: e.y };
+    if(GLOBAL_MOUSE_DOWN){
+        fovLighting.attemptToDeleteSegment({ x: GLOBAL_MOUSE_POSITION.x, y: GLOBAL_MOUSE_POSITION.y }); 
+    }
+}
+
+function drawSegmentsOnMouseMove() {
+    document.addEventListener("mousemove", fovLighting.drawSegments)
+}
+
+
 var currentlyDeletingEffects = false;
 var currentlyDeletingSegments = false;
 var lastgridLayerCursor;
 function startDeletingSegments() {
     turnAllToolboxButtonsOff();
+
     gridLayer.style.cursor = "not-allowed";
     currentlyDeletingSegments = !currentlyDeletingSegments;
     if (currentlyDeletingSegments) {
+        recordMouseMove();
+        drawSegmentsOnMouseMove();
         gridLayer.onmousedown = function (event) {
             if (event.button == 2) {
                 var bn = document.getElementById("delete_segments_button")
@@ -1456,7 +1487,8 @@ function startDeletingSegments() {
     } else {
         gridLayer.onmousedown = generalMousedowngridLayer;
         gridLayer.style.cursor = "auto";
-
+        document.removeEventListener("mousemove", recordMouse, false);
+        document.removeEventListener("mousemove", fovLighting.drawSegments, false);
     }
 
 }

@@ -2,6 +2,7 @@
 
 var fovToolbox = [false, false];
 var currentlyAddingSegments = false, segmentMeasurementPaused = false;
+
 var addSegmentTargetOrigin, addSegmentTargetDestination;
 var maskCanvas = document.createElement('canvas');
 var maskCtx = maskCanvas.getContext('2d');
@@ -36,6 +37,7 @@ var fovLighting = function () {
         LowLight: 0,
         None: 2
     };
+    const SEGMENT_SELECTION_MARGIN = 3;
     var mapIsBlack = false;
     var fovLayer = document.getElementById("fog_of_war");
     const SEGMENT_COUNT_BEFORE_OPTIMIZATION = 1200;
@@ -87,7 +89,7 @@ var fovLighting = function () {
     var forcedPerspectiveOrigin;
     var DRAW_EXECUTE_TIMEOUT;
     function drawFogOfWar() {
-    console.log(segments.length)
+        console.log(segments.length)
         if (segments.length < SEGMENT_COUNT_BEFORE_OPTIMIZATION)
             return doDrawFogOfWar();
 
@@ -100,9 +102,8 @@ var fovLighting = function () {
 
     function doDrawFogOfWar() {
         // Draw segments
-        if (showVisibilityLayer) {
-            drawSegments();
-        }
+
+        drawSegments();
         clearFogOfWar();
         //Base black
         if ([MapFogEnum.Dark, MapFogEnum.LowLight].includes(activeFogType)) {
@@ -667,13 +668,23 @@ var fovLighting = function () {
         fovSegmentLayerContext.setTransform(1, 0, 0, 1, 0, 0);
         fovSegmentLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
         fovSegmentLayerContext.restore();
-        if (!showVisibilityLayer) return;
+        if (!showVisibilityLayer && !currentlyDeletingSegments)
+            return;
         fovSegmentLayerContext.globalCompositeOperation = 'source-over';
-        fovSegmentLayerContext.strokeStyle = "#2222aa";
-        fovSegmentLayerContext.lineWidth = 5;
 
         for (var i = 4; i < segments.length; i++) {
+
             var seg = segments[i];
+            if (currentlyDeletingSegments && pointIsOnLine(seg.a, seg.b, GLOBAL_MOUSE_POSITION, SEGMENT_SELECTION_MARGIN)) {
+                fovSegmentLayerContext.strokeStyle = "#662222";
+                fovSegmentLayerContext.lineWidth = 6;
+                console.log(seg)
+
+            } else {
+                if (!showVisibilityLayer) continue;
+                fovSegmentLayerContext.strokeStyle = "#2222aa";
+                fovSegmentLayerContext.lineWidth = 5;
+            }
             fovSegmentLayerContext.beginPath();
             fovSegmentLayerContext.moveTo(seg.a.x, seg.a.y);
             fovSegmentLayerContext.lineTo(seg.b.x, seg.b.y);
@@ -729,7 +740,7 @@ var fovLighting = function () {
         var seg;
         for (var i = 4; i < segments.length; i++) {
             seg = segments[i];
-            if (pointIsOnLine(seg.a, seg.b, linepoint)) {
+            if (pointIsOnLine(seg.a, seg.b, linepoint, SEGMENT_SELECTION_MARGIN)) {
                 segments.splice(i, 1);
                 drawSegments();
                 generateUniquePoints();
@@ -745,9 +756,9 @@ var fovLighting = function () {
     function getSegments() {
         return segments;
     }
+
     // Returns true if point c is on a or b lines
-    function pointIsOnLine(a, b, c) {
-        var offset = 0.5;
+    function pointIsOnLine(a, b, c, offset = 0.5) {
         var distanceAb = distance(a, b);
         var distanceBc = distance(b, c);
         var distanceAc = distance(a, c);
