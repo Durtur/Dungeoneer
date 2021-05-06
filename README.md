@@ -2,6 +2,7 @@
 
 <img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="200" />
 
+<a href="https://www.buymeacoffee.com/durtur" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" style="height: 10px !important;width: 20px !important;" ></a>
 
 ## What is it?
 This tool is meant to make the DM's job easier and help you run your games effectively. It handles database managment and lookup for
