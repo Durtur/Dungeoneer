@@ -45,3 +45,6 @@ There are some great sources of tokens, such as [Forgotten Adventures](https://w
 
 ## Licence and usage
 Anyone is free to use this application. See further constraints in [Licence.md](https://github.com/Durtur/Dungeoneer/blob/v1.0.1/LICENSE.md). 
+
+## Contributing
+Pull requests are welcome!
