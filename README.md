@@ -1,6 +1,11 @@
 # Dungeoneer 
 
-<img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="200" />
+<img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="200" /> <a href="https://www.buymeacoffee.com/durtur" target="_blank" style="width 4em; height:2em;"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" width="217" height="60"></a>
+
+
+## Demo video
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/wBNgcsm-fnI/0.jpg)](http://www.youtube.com/watch?v=wBNgcsm-fnI "Demo")
+
 
 ## What is it?
 This tool is meant to make the DM's job easier and help you run your games effectively. It handles database managment and lookup for
@@ -40,3 +45,6 @@ There are some great sources of tokens, such as [Forgotten Adventures](https://w
 
 ## Licence and usage
 Anyone is free to use this application. See further constraints in [Licence.md](https://github.com/Durtur/Dungeoneer/blob/v1.0.1/LICENSE.md). 
+
+## Contributing
+Pull requests are welcome!
