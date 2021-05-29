@@ -14,6 +14,7 @@ const pathModule = require('path');
 const fs = require('fs');
 var marked = require('marked');
 var noUiSlider = require('nouislider');
+const StatblockPresenter = require('./js/statblockpresenter');
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -922,7 +923,7 @@ function displayAddEncounterMonsterList() {
 
     var foundMonster = monsterMasterList.filter(x => x.name == string)[0];
     console.log(tab)
-    statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, tab)
+    new StatblockPresenter(document.getElementById("statblock"), foundMonster, tab)
     document.getElementById("statblock").classList.remove("hidden");
     [...document.querySelectorAll(".selected_row")].forEach(e => e.classList.remove("selected_row"));
     $(this).addClass("selected_row");
@@ -2586,7 +2587,7 @@ function lookFor(id, data) {
 
       foundMonster = data[i];
       console.log(tab)
-      statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, (tab == "monsters" || tab == "homebrew") ? "monsters" : tab)
+      new StatblockPresenter(document.getElementById("statblock"), foundMonster, (tab == "monsters" || tab == "homebrew") ? "monsters" : tab)
       showAddForm("statblock");
       return true;
     }

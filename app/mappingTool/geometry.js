@@ -1,3 +1,4 @@
+const mathyUtil = require("../js/mathyUtil");
 
 
 class Geometry {
@@ -37,6 +38,32 @@ class Geometry {
                 Math.pow(a.x - b.x, 2) +
                 Math.pow(a.y - b.y, 2)
             ));
+    }
+
+    angleBetween(a, b) {
+        return Math.atan2(a.y - b.y, a.x - b.x) * 180 / Math.PI;;
+    }
+
+    rotate(angle, origin, coords) {
+        angle *= -1;
+        var x = (coords.x - origin.x) * Math.cos(angle) - (coords.y - origin.y) * Math.sin(angle);
+        var y = (coords.x - origin.x) * Math.sin(angle) + (coords.y - origin.y) * Math.cos(angle);
+        return { "x": parseInt(x + origin.x * 1), "y": parseInt(y + origin.y * 1) }
+    }
+
+    movePointToAnother(a, b, dist) {
+
+        var totalDist = this.distance(a, b);
+        var moveScale = 0.25;
+
+        //P⃗ −B⃗ =[P1−B1,P2−B2,P3−B3]
+
+        console.log(moveScale)
+        var newX = a.x + (a.x - b.x) * moveScale;
+        var newY = a.y + (a.y - b.y) * moveScale;
+        console.log(newX, newY, a, b)
+        return { x: newX, y: newY }
+
     }
 }
 module.exports = new Geometry();

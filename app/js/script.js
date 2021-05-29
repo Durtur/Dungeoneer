@@ -10,7 +10,7 @@ var marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
 const remote = require('electron').remote;
-
+const StatblockPresenter = require("./js/statblockpresenter");
 const dialog = require('electron').remote.dialog;
 const app = remote.app;
 const uniqueID = require('uniqid');
@@ -891,7 +891,7 @@ var frameHistoryButtons = function () {
 
     newButton.onclick = function (event) {
       loadedMonster = JSON.parse(event.target.getAttribute("data-monster_statblock"));
-      statblockPresenter.createStatblock(document.getElementById("statblock"), loadedMonster, "monsters", false)
+     new StatblockPresenter(document.getElementById("statblock"), loadedMonster, "monsters", false)
       toggleThisButton(event.target);
     }
     document.getElementById("history_button_row").appendChild(newButton);
@@ -966,7 +966,7 @@ function lookFor(searchstring, fullMatch, data, key, statblock) {
       || (data[i].name.toLowerCase().includes(searchstring.toLowerCase()) && !fullMatch)) {
       if (statblock != null) {
         foundMonster = data[i];
-        statblockPresenter.createStatblock(document.getElementById("statblock"), foundMonster, statblockType, true)
+        new StatblockPresenter(document.getElementById("statblock"), foundMonster, statblockType, true)
         frameHistoryButtons.unToggleButtonsExcept(data[i].name);
         hideOrShowStatblockButtons();
       }

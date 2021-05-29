@@ -9,6 +9,7 @@ const initiative = require("./js/initiative");
 const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 
+
 var cellSize = 35, originalCellSize = cellSize;
 var canvasWidth = 400;
 var canvasHeight = 400;
@@ -807,7 +808,7 @@ function onSettingsLoaded() {
 
             var actualWidth = value * cellSize / 5;
             var actualHeight = value2 * cellSize / 5
-            
+
             previewPlacementElement.dnd_width = value;
             previewPlacementElement.dnd_height = value2;
             previewPlacementElement.style.width = actualWidth + "px";
@@ -1457,8 +1458,8 @@ function recordMouseMove() {
 }
 function recordMouse(e) {
     GLOBAL_MOUSE_POSITION = { x: e.x, y: e.y };
-    if(GLOBAL_MOUSE_DOWN){
-        fovLighting.attemptToDeleteSegment({ x: GLOBAL_MOUSE_POSITION.x, y: GLOBAL_MOUSE_POSITION.y }); 
+    if (GLOBAL_MOUSE_DOWN) {
+        fovLighting.attemptToDeleteSegment({ x: GLOBAL_MOUSE_POSITION.x, y: GLOBAL_MOUSE_POSITION.y });
     }
 }
 
@@ -1866,8 +1867,8 @@ function startMeasuring(event) {
             }
             measurementsLayerContext.beginPath();
             measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
-            var newPoint = rotate(0.46355945, measurementOriginPosition, { x: event.clientX, y: event.clientY });
-            var newPoint2 = rotate(-0.46355944999997217, measurementOriginPosition, { x: event.clientX, y: event.clientY });
+            var newPoint = Geometry.rotate(0.46355945, measurementOriginPosition, { x: event.clientX, y: event.clientY });
+            var newPoint2 = Geometry.rotate(-0.46355944999997217, measurementOriginPosition, { x: event.clientX, y: event.clientY });
 
             var midPoint = {
                 x: (newPoint.x + newPoint2.x) / 2,
@@ -1983,15 +1984,6 @@ function startMeasuring(event) {
             }
             drawLineAndShowTooltip(measurementOriginPosition, newPoint, event);
         })
-    }
-
-
-
-    function rotate(angle, origin, coords) {
-        angle *= -1;
-        x = (coords.x - origin.x) * Math.cos(angle) - (coords.y - origin.y) * Math.sin(angle);
-        y = (coords.x - origin.x) * Math.sin(angle) + (coords.y - origin.y) * Math.cos(angle);
-        return { "x": parseInt(x + origin.x * 1), "y": parseInt(y + origin.y * 1) }
     }
 
     function measurementMouseDownHandler(event) {
@@ -3369,7 +3361,7 @@ function isPlayerPawn(pawnElement) {
 }
 var selectedPawns = [];
 function dragPawn(elmnt) {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0, originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }, oldLine;
+    var posX = 0, posY = 0, pos3 = 0, pos4 = 0, originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }, oldLine;
     elmnt.onmousedown = dragMouseDown;
     var tooltip = document.getElementById("tooltip");
     var distance;
@@ -3453,11 +3445,11 @@ function dragPawn(elmnt) {
                 return
             }
             eleDragTimestamp = ts;
-
+         
             e.preventDefault();
             // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
+            posX = pos3 - e.clientX;
+            posY = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
 
@@ -3465,16 +3457,17 @@ function dragPawn(elmnt) {
             //Multiple move
             if (selectedPawns.length > 0) {
                 for (var i = 0; i < selectedPawns.length; i++) {
+
                     var pwn = selectedPawns[i];
-                    pwn.style.top = (pwn.offsetTop - pos2) + "px";
-                    pwn.style.left = (pwn.offsetLeft - pos1) + "px";
+                    pwn.style.top = (pwn.offsetTop - posY) + "px";
+                    pwn.style.left = (pwn.offsetLeft - posX) + "px";
                     pwn.attached_objects.forEach(obj => {
-                        obj.style.top = (obj.offsetTop - pos2) + "px";
-                        obj.style.left = (obj.offsetLeft - pos1) + "px";
+                        obj.style.top = (obj.offsetTop - posY) + "px";
+                        obj.style.left = (obj.offsetLeft - posX) + "px";
                     });
                 }
-                tooltip.style.top = (selectedPawns[0].offsetTop - pos2 - 40) + "px";
-                tooltip.style.left = (selectedPawns[0].offsetLeft - pos1) + "px";
+                tooltip.style.top = (selectedPawns[0].offsetTop - posY - 40) + "px";
+                tooltip.style.left = (selectedPawns[0].offsetLeft - posX) + "px";
                 distance = Math.round(
                     Math.sqrt(
                         Math.pow(selectedPawns[0].offsetLeft - originPosition.x, 2) +
@@ -3482,14 +3475,16 @@ function dragPawn(elmnt) {
                     ) / cellSize * 5);
                 tooltip.innerHTML = distance + " ft";
             } else {
-                tooltip.style.top = (elmnt.offsetTop - pos2 - 40) + "px";
-                tooltip.style.left = (elmnt.offsetLeft - pos1) + "px";
-                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+
+                
+                tooltip.style.top = (elmnt.offsetTop - posY - 40) + "px";
+                tooltip.style.left = (elmnt.offsetLeft - posX) + "px";
+                elmnt.style.top = (elmnt.offsetTop - posY) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - posX) + "px";
                 elmnt.attached_objects.forEach(obj => {
 
-                    obj.style.top = (obj.offsetTop - pos2) + "px";
-                    obj.style.left = (obj.offsetLeft - pos1) + "px";
+                    obj.style.top = (obj.offsetTop - posY) + "px";
+                    obj.style.left = (obj.offsetLeft - posX) + "px";
                 });
             }
             //Clear old
@@ -3552,6 +3547,11 @@ function dragPawn(elmnt) {
         tooltip.classList.add("hidden");
     }
 }
+
+function feetToPixels(distFeet){
+    return distFeet * cellSize/5;
+}
+
 var hideTooltipTimer;
 function addPawnListeners() {
     for (var i = 0; i < pawns.all.length; i++) {
