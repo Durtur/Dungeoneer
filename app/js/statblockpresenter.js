@@ -1,3 +1,8 @@
+const TokenSelector = require("./tokenSelector");
+
+
+//If required and defined in main script
+
 
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("spell_popup").addEventListener("mouseenter", function (e) {
@@ -17,6 +22,7 @@ const attributesWithoutNames = [" ", "description"];
 class StatblockPresenter {
   constructor(_statblock, valueElement, _statblockType, editable) {
     this.statblockEditor = require("./statblockEditor");
+    this.tokenSelector = new TokenSelector();
     if (editable)
       this.editMode = true;
     else
@@ -25,7 +31,7 @@ class StatblockPresenter {
     this.createStatblock(_statblock, valueElement, _statblockType, editable);
   }
 
-  createStatblock(statblock, valueElement, statblockType, editMode) {
+  async createStatblock(statblock, valueElement, statblockType, editMode) {
     var cls = this;
     while (statblock.firstChild)
       statblock.removeChild(statblock.firstChild);
@@ -88,7 +94,7 @@ class StatblockPresenter {
     }
 
 
-    function addName() {
+    async function addName() {
       if (values.name == null) return;
       var h2 = document.createElement("h1");
       h2.innerHTML = values.name;
@@ -96,12 +102,18 @@ class StatblockPresenter {
       h2.classList = "statblock_name";
       delete values.name;
 
-      var path = dataAccess.getTokenPath(values.id + "0");
+      var path = await dataAccess.getTokenPath(values.id + "0");
 
-      if (!path) return;
-
+      if (!path) path = "./mappingTool/tokens/default.png";
       var tokenEle = document.createElement("img");
       tokenEle.classList = "statblock_token";
+      tokenEle.onclick = async ()=> {
+        var paths = await cls.tokenSelector.getNewTokenPaths(false);
+        if(!paths)return;
+        var path = paths[0];
+        dataAccess.saveToken(statblockEntry.id+"0", path);
+        tokenEle.src = path;
+      }
       tokenEle.src = path;
       h2.appendChild(tokenEle);
     }
@@ -498,7 +510,7 @@ class StatblockPresenter {
     }
 
     function createActionEditButton() {
- 
+
       var containerDiv = document.createElement("div");
       var button = document.createElement("button");
       containerDiv.appendChild(button);
@@ -841,11 +853,6 @@ var spellcastingLinkController = function () {
     });
     paragraph.setAttribute("data-spell-links-updated", "t")
     paragraph.innerHTML = innerText;
-    // if (paragraph.nextElementSibling
-    //   && paragraph.nextElementSibling.getAttribute("data-spell-links-updated") != "t") {
-
-    //   updateLinksForParagraph(paragraph.nextElementSibling);
-    // }
   }
   return {
     showSpellInPopup: showSpellInPopup,

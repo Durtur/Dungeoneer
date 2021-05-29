@@ -287,7 +287,7 @@ module.exports = function () {
         });
     }
 
-    function getTokenPath(creatureId) {
+    async function getTokenPath(creatureId) {
         var fileEndings = [".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];

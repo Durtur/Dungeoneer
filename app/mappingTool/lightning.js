@@ -13,7 +13,7 @@ function setFovVisibilityTool(source, toolIndex) {
     }
     lastMeasuredPoint = null;
     if (source.getAttribute("toggled") === "false") {
-        gridLayer.onmousedown = startMeasuring;
+        gridLayer.onmousedown = measurements.startMeasuring;
 
         fovToolbox[toolIndex] = true;
         gridLayer.style.cursor = "crosshair";

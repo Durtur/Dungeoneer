@@ -7,6 +7,7 @@ const uniqueID = require('uniqid');
 const dataAccess = require("./js/dataaccess");
 const CRCalculator = require("./js/CRCalculator");
 const statblockEditor = require("./js/statblockEditor");
+const TokenSelector = require("./js/tokenSelector");
 const elementCreator = require("./js/lib/elementCreator");
 const remote = require('electron').remote;
 const dialog = require('electron').remote.dialog;
@@ -14,7 +15,9 @@ const pathModule = require('path');
 const fs = require('fs');
 var marked = require('marked');
 var noUiSlider = require('nouislider');
+const tokenSelector = new TokenSelector();
 const StatblockPresenter = require('./js/statblockpresenter');
+
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -1400,14 +1403,9 @@ function listAll() {
 
 }
 
-function addTokensToCurrentMonster() {
-  var imagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
-    properties: ['openFile', 'multiSelections'],
-    message: "Choose picture location",
-    filters: [{ name: 'Images', extensions: ['png'] }]
-  });
-  console.log(imagePaths)
-  if (!imagePaths) return;
+async function addTokensToCurrentMonster() {
+  var imagePaths = await tokenSelector.getNewTokenPaths();
+  
   imagePaths.forEach(path => {
     createToken(path.replace(/\\/g, "/"));
   })
@@ -2528,7 +2526,7 @@ function saveHomebrew() {
         var tokens = [...document.querySelectorAll(".token")];
         tokens = tokens.filter(x => x.getAttribute("data-is_new_token"));
         if (tokens.length == 0) return;
-        console.log(tokens);
+
         var i = 0;
         while (fs.existsSync(pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png")))
           i++;
