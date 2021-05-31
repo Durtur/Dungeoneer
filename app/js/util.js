@@ -1,19 +1,21 @@
+const { extname } = require("path");
+
 module.exports = function () {
     function IsVowel(letter) {
         return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());
     }
 
-    function showInfo(title, text){
+    function showInfo(title, text) {
         var newEle = document.createElement("div");
         var para = document.createElement("p");
         para.innerHTML = text;
         var heading = document.createElement("h2");
         heading.innerHTML = title;
-        newEle.classList="info_popup";
+        newEle.classList = "info_popup";
         newEle.appendChild(heading);
         newEle.appendChild(para);
-        newEle.style.top = window.innerHeight/2 - newEle.clientHeight / 2 + "px";
-        newEle.style.left = window.innerWidth/2  - newEle.clientWidth / 2 + "px";
+        newEle.style.top = window.innerHeight / 2 - newEle.clientHeight / 2 + "px";
+        newEle.style.left = window.innerWidth / 2 - newEle.clientWidth / 2 + "px";
         document.body.appendChild(newEle);
         window.setTimeout(function (evt) {
             newEle.classList.add("fade_out");
@@ -172,6 +174,19 @@ module.exports = function () {
     function hexToRGBA(hex, opacity) {
         return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
     }
+
+    function isImage(path) {
+        var imgFilters = constants.imgFilters.map(x => "." + x);
+        return imgFilters.includes(extname(path));
+    }
+
+    function ele(tag, classList, innerHTML) {
+        var ele = document.createElement(tag);
+        ele.classList = classList;
+        if (innerHTML)
+        ele.innerHTML = innerHTML;
+        return ele;
+    }
     return {
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
@@ -182,6 +197,8 @@ module.exports = function () {
         hexToHSL: hexToHSL,
         hexToRGBA: hexToRGBA,
         IsVowel: IsVowel,
+        ele:ele,
+        isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
         showInfo: showInfo
     }

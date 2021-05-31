@@ -1404,11 +1404,14 @@ function listAll() {
 }
 
 async function addTokensToCurrentMonster() {
-  var imagePaths = await tokenSelector.getNewTokenPaths();
-  
-  imagePaths.forEach(path => {
-    createToken(path.replace(/\\/g, "/"));
-  })
+  var type = document.getElementById("addmonster_type").value;
+  var name = document.getElementById("addmonster_name").value;
+  await tokenSelector.getNewTokenPaths(true, imagePaths => {
+    if(!imagePaths)return;
+    imagePaths.forEach(path => {
+      createToken(path.replace(/\\/g, "/"));
+    })
+  }, {name:name, type:type});
 }
 
 function fillCurrentMonsterTokens(entryId, isCopy) {
@@ -2471,11 +2474,11 @@ function saveHomebrew() {
 
       function handleDataSave(thingyToSave, getFunction, setFunction) {
         getFunction(function (data) {
-    
+
           if (currentEntry) {
             data = data.filter(d => d.id != currentEntry.id)
           }
-  
+
 
           data.push(thingyToSave);
           data = data.sort(function (a, b) {

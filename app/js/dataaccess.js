@@ -1,5 +1,6 @@
 
 var fs = require('fs');
+
 const remote = require('electron').remote;
 const app = remote.app;
 
@@ -298,7 +299,7 @@ module.exports = function () {
         }
         return null;
     }
-
+  
     async function saveToken(tokenName, currentPath, trim) {
         console.log("Saving token", tokenName, "trim:" + trim)
         var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));

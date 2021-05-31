@@ -107,12 +107,14 @@ class StatblockPresenter {
       if (!path) path = "./mappingTool/tokens/default.png";
       var tokenEle = document.createElement("img");
       tokenEle.classList = "statblock_token";
-      tokenEle.onclick = async ()=> {
-        var paths = await cls.tokenSelector.getNewTokenPaths(false);
-        if(!paths)return;
-        var path = paths[0];
-        dataAccess.saveToken(statblockEntry.id+"0", path);
-        tokenEle.src = path;
+      tokenEle.onclick = async () => {
+        await cls.tokenSelector.getNewTokenPaths(false, paths => {
+          if (!paths) return;
+          var path = paths[0];
+          dataAccess.saveToken(statblockEntry.id + "0", path);
+          tokenEle.src = path;
+        }, { name: statblockEntry.name, type: statblockEntry.type });
+
       }
       tokenEle.src = path;
       h2.appendChild(tokenEle);

@@ -11,6 +11,10 @@
   --transition-delay: 300ms;
   --base-margin: 10px;
   --rounded-corners: 5px;
+  --background-image:url("./img/phbbgbig.png");
+  --foreground-image: url("./img/phbbg.png");
+  --main-text-color:black;
+  --inverse-text-color:white;
   --black-bg: rgba(34, 34, 34, 0.8);
   --basic-font: "roboto";
   --header-font: "mrEaves";
@@ -35,7 +39,7 @@ body {
 }
 
 body {
-  background-image: url("./img/phbbgbig.png");
+  background-image: var(--background-image);
   background-size: cover;
   background-repeat: repeat;
 }
@@ -208,6 +212,17 @@ hr {
   background-color: black;
   color: white;
 }
+.button_style_transparent{
+  color: var(--main-text-color);
+  padding:1em;
+  background-color: transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  user-select: none;
+  transition: background-color 300ms;
+  border: 1px solid var(--main-text-color);;
+  border-radius: var(--rounded-corners);
+}
 
 .button_style_black {
   transition: all var(--transition-delay);
@@ -216,6 +231,10 @@ hr {
   font-family: var(--basic-font);
   color: black;
   border-radius: 5px;
+}
+
+.button_base{
+  padding:1em;
 }
 
 .button_style {
@@ -418,7 +437,7 @@ hr {
 .section__tool__large {
   margin: var(--base-margin);
   padding: 10px;
-  background-image: url("./img/phbbg.png");
+  background-image:var(--foreground-image);
   border: none;
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
   border-bottom: 3px solid rgb(108, 67, 45);

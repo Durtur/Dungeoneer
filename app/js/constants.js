@@ -1,5 +1,6 @@
 
 const constants = require("./js/dataaccess").getConstantsSync();
+constants.imgFilters = ["png", "gif","jpg", "jpeg", "webp", "avif"];
 const remoteModule = require("electron").remote;
 //const generatorResourcePath = "./resources/app/app/generators/";
 

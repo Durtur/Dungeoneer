@@ -4,6 +4,7 @@ const { ipcRenderer, webFrame } = require('electron');
 const Awesomplete = require(pathModule.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
+
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative");
 const dialog = require('electron').remote.dialog;
@@ -17,10 +18,8 @@ var canvasHeight = 400;
 var zIndexPawnCap = 9;
 var conditionList;
 
-// var frameHistoryButtons = null; //dirty hack 
-
 var pauseAlternativeKeyboardMoveMap = false;
-//
+
 
 //Elements
 var measurementsLayer = document.getElementById("measurements");
@@ -574,13 +573,14 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedPawns.forEach(element => element.style.backgroundColor = newColor);
     }
 
-    document.getElementById("icon_load_button_add_pawn").onclick = function () {
-
-        addPawnImagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
-            properties: ['openFile', 'multiSelections'],
-            message: "Choose picture location",
-            filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
-        });
+    document.getElementById("icon_load_button_add_pawn").onclick =async function () {
+        var info = {name:document.getElementById("add_pawn_name").value}
+        await tokenSelector.getNewTokenPaths(true, imagePaths => {
+            if (imagePaths == null) return;
+            addPawnImagePaths =imagePaths;
+            
+        }, info);
+     
     }
     document.getElementById("popup_menu_add_effect").addEventListener("mouseenter", function (evt) {
         if (previewPlacementElement) {
@@ -1860,7 +1860,7 @@ var lastIndexInsertedMonsters = 1;
 var lastColorIndex = 0;
 function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
     var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;
-    console.log("Generating ", pawnArray )
+    console.log("Generating ", pawnArray)
     if (monsters) {
         lastPoint = pawns.lastLocationMonsters;
         rotate = parseInt(settings.defaultMonsterTokenRotate);
@@ -2574,15 +2574,15 @@ async function setTokenImageHandler(e) {
     var input = document.getElementById("icon_load_button");
     var facetButton = document.getElementById("add_token_facet_button");
 
-    var imagePaths = await tokenSelector.getNewTokenPaths(true);
-    if (imagePaths != null) {
+    await tokenSelector.getNewTokenPaths(true, imagePaths => {
+        if (imagePaths == null) return;
+
         if (e.target == input) {
             selectedPawns.forEach(element => setPawnBackgroundFromPathArray(element, imagePaths));
         } else if (e.target == facetButton) {
             selectedPawns.forEach(element => addToPawnBackgrounds(element, imagePaths));
         }
-
-    }
+    });
 };
 
 
@@ -3028,7 +3028,7 @@ function dragPawn(elmnt) {
                 return
             }
             eleDragTimestamp = ts;
-         
+
             e.preventDefault();
             // calculate the new cursor position:
             posX = pos3 - e.clientX;
@@ -3059,7 +3059,7 @@ function dragPawn(elmnt) {
                 tooltip.innerHTML = distance + " ft";
             } else {
 
-                
+
                 tooltip.style.top = (elmnt.offsetTop - posY - 40) + "px";
                 tooltip.style.left = (elmnt.offsetLeft - posX) + "px";
                 elmnt.style.top = (elmnt.offsetTop - posY) + "px";
@@ -3131,8 +3131,8 @@ function dragPawn(elmnt) {
     }
 }
 
-function feetToPixels(distFeet){
-    return distFeet * cellSize/5;
+function feetToPixels(distFeet) {
+    return distFeet * cellSize / 5;
 }
 
 var hideTooltipTimer;

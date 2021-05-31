@@ -1,0 +1,101 @@
+.modal{
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 5em;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 9999;
+    background-color: var(--main-color);
+    background-image: var(--foreground-image);
+    background-size: cover;
+    border-radius: var(--rounded-corners);
+    width: 70vw;
+    overflow: hidden;
+    display: flex;
+    filter: drop-shadow(0px 3px 6px black);
+    padding: 2em;
+    flex-flow: column nowrap;
+    max-height: 85vh;
+}
+
+.modal .token_search_input{
+    padding-left:4em;
+}
+
+.close_x_button{
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    background-image: url(img/close.png);
+    height: 2em;
+    width: 2em;
+    border: none;
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+.close_x_button:hover{
+    background-color:var(--main-emphasis-color);
+}
+
+.token_selector_suggested{
+    max-height: 30vh;
+    overflow-y: scroll;
+    margin:0.25em;
+    padding:0.25em;
+    min-height: 4em;
+    border: 1px solid var(--main-text-color);
+    flex:1;
+    border-radius: 5px;
+    position: relative;
+    margin-top:2em;
+}
+
+.modal_token_suggestion_label{
+    position: absolute;
+    top: -0.35em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    left: 0.25em;
+    background-color: var(--main-color);
+    color: var(--inverse-text-color);
+    border-radius: var(--rounded-corners);
+}
+.token_selector_node_img{
+ 
+}
+.token_selector_rest{
+    flex:3;
+    max-height: 15em;
+    min-height: 15em;
+    overflow-y: scroll;
+    margin:0.25em;
+    padding:0.25em;
+    border: 1px solid var(--main-text-color);
+
+    border-radius: 5px;
+}
+
+.token_selector_node_img:hover{
+    outline: 1px dashed var(--main-text-color);
+}
+.modal_token_node_selected{
+    background-color:rgba(0, 0, 0, 0.267);
+    outline: 1px dashed var(--main-text-color);
+}
+.modal_image_preview h1{
+    color:var(--main-text-color);
+    width:100%;
+    text-shadow: 2px 2px var(--inverse-text-color);
+}
+
+.modal_image_preview{
+    position:absolute;
+    display:flex;
+    z-index:9999;
+    flex-flow:column nowrap;
+    pointer-events: none;
+}

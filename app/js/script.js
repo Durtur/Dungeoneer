@@ -241,12 +241,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
   //DEBUG AND TESTING
-  // designTimeAndDebug();
+   designTimeAndDebug();
 });
 
 function designTimeAndDebug() {
   //
-  search("monsters", true, "thug", true);
+  search("monsters", true, "aboleth", true);
 
 }
 
