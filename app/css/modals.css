@@ -22,6 +22,7 @@
 
 .modal .token_search_input{
     padding-left:4em;
+    max-height: 3em;
 }
 
 .close_x_button{
@@ -42,7 +43,7 @@
 }
 
 .token_selector_suggested{
-    max-height: 30vh;
+    max-height: 18vh;
     overflow-y: scroll;
     margin:0.25em;
     padding:0.25em;

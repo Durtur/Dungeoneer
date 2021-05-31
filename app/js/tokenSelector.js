@@ -19,6 +19,7 @@ class TokenSelector {
                 document.removeEventListener(ele.list, ele.func)
             });
             this.modal?.close();
+            this.hidePreview();
             callback(result)
         }
         dataAccess.getSettings(settings => {
@@ -72,6 +73,7 @@ class TokenSelector {
         var btn = document.createElement("button");
         btn.classList = "button_base button_style green";
         btn.innerHTML = "Select";
+        btn.style.maxHeight = "3em";
         btn.onclick = () => {
             var selectedImg = [...modal.querySelectorAll(".modal_token_node_selected")];
             if (selectedImg.length == 0) cls.done(null);
@@ -225,8 +227,9 @@ class TokenSelector {
                         [...modal.querySelectorAll(`.${clsName}`)].forEach(m => m.classList.remove(clsName));
                     }
                     img.classList.add(clsName);
-                    updateSelection();
+                    
                 }
+                updateSelection();
             });
             img.addEventListener("mouseenter", (e) => {
                 cls.currentMouseOver = img;
@@ -234,18 +237,10 @@ class TokenSelector {
                     cls.currentPreview = img;
                 }
             });
-            img.addEventListener("mouseout", () => hidePreview());
+            img.addEventListener("mouseout", () => cls.hidePreview());
             var div = document.createElement("div");
             div.appendChild(img);
             return div;
-        }
-        function hidePreview() {
-            cls.currentPreview = null;
-            if (cls.imgPreview) {
-                try {
-                    document.body.removeChild(cls.imgPreview);
-                } catch { }
-            }
         }
 
         function showPrevewOnKeyDown(e) {
@@ -259,7 +254,7 @@ class TokenSelector {
         }
 
         function showPreview(path, e) {
-            hidePreview();
+            cls.hidePreview();
             var preview = document.createElement("div");
             preview.classList = "modal_image_preview";
             var img = document.createElement("img");
@@ -320,6 +315,15 @@ class TokenSelector {
         div.appendChild(btn);
         modal.appendChild(div);
         modal.container = div;
+    }
+
+    hidePreview() {
+        this.currentPreview = null;
+        if (this.imgPreview) {
+            try {
+                this.imgPreview.parentNode.removeChild(this.imgPreview);
+            } catch { }
+        }
     }
 
 

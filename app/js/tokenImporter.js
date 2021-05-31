@@ -1,8 +1,8 @@
 const dataAccess = require("./js/dataaccess");
 const dialog = require('electron').remote.dialog;
-const { resolve } = require('path');
+const { resolve, basename } = require('path');
 const { readdir } = require('fs').promises;
-
+const util = require("./js/util")
 async function startImporting(e) {
 
     var filePath = dialog.showOpenDialogSync(
@@ -19,21 +19,21 @@ async function startImporting(e) {
     document.getElementById("loading_title").innerHTML = "Scouring folders...";
     loading.classList.remove("hidden");
     var files = await getFiles(filePath);
-    files = files.filter(x => hasEnding(x, ".png"));
-
+    files = files.filter(x => util.isImage(x));
+    console.log(files);
     var foundPaths = [];
     loadingDetail.innerHTML = "";
     document.getElementById("loading_title").innerHTML = "Playing monster match...";
-    dataAccess.getHomebrewAndMonsters(data => {
-        data.forEach(monster => {
-            if (!monster.id || dataAccess.getTokenPath(monster.id + "0")) {
+    dataAccess.getHomebrewAndMonsters(async data => {
+        await data.forEach(async monster => {
+            if (!monster.id || await dataAccess.getTokenPath(monster.id + "0")) {
                 return;
             }
-
+            var monName = monster.name.trim().toLowerCase();
             files.forEach(filePath => {
-                var fileName = filePath.substring(filePath.lastIndexOf("\\") + 1).replaceAll("_", " ").trim().toLowerCase();
+                var fileName = basename(filePath).deserialize().toLowerCase();
 
-                var monName = monster.name.trim().toLowerCase();
+
                 if (fileName.startsWith(monName)) {
                     var existing = foundPaths.find(x => x.monster.id == monster.id);
                     if (existing) {
@@ -72,7 +72,7 @@ async function startImporting(e) {
 function createTokenElements(foundPaths) {
     if (foundPaths.length == 0) {
         document.getElementById("nodata_text").classList.remove("hidden");
-        var loading =document.querySelector(".loading_ele_cont");
+        var loading = document.querySelector(".loading_ele_cont");
         loading.classList.add("hidden");
         return;
     }
@@ -113,11 +113,6 @@ function createTokenElements(foundPaths) {
         return img;
     }
 
-}
-
-function hasEnding(str, ending) {
-    var fileEnding = str.substring(str.lastIndexOf("."));
-    return fileEnding === ending;
 }
 
 function fileName(path) {
