@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
   //DEBUG AND TESTING
-   designTimeAndDebug();
+   //designTimeAndDebug();
 });
 
 function designTimeAndDebug() {

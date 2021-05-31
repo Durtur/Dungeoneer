@@ -46,7 +46,6 @@ class EncounterModule {
         console.log("Getting string for xp ", xpValue)
         var tiers = [0, 0, 0, 0];
         var tableArray;
-        console.log(allLevels)
         allLevels.forEach(level => {
             if (level < 0 || level > encounterCalculatorTable.table.length - 1)
                 return;
@@ -55,7 +54,6 @@ class EncounterModule {
                 tiers[i] = tiers[i] + tableArray[i];
             }
         })
-        console.log(tiers)
         if (tiers.filter(x => x != 0).length == 0) return "Level outside table"
         var i = 3;
         while (xpValue < tiers[i]) {
