@@ -38,11 +38,11 @@ ipcRenderer.on('update-all-pawns', function () {
   combatLoader.sendMapToolUpdates();
 });
 
-ipcRenderer.on('update_available', function(){
+ipcRenderer.on('update_available', function () {
   console.log("Update available");
 });
 
-ipcRenderer.on('update_downloaded', function(){
+ipcRenderer.on('update_downloaded', function () {
   console.log("Update downloaded");
 });
 
@@ -241,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   });
   //DEBUG AND TESTING
-   //designTimeAndDebug();
+  //designTimeAndDebug();
 });
 
 function designTimeAndDebug() {
@@ -366,16 +366,16 @@ var autofill = function () {
     dataAccess.getMonsters(function (data) {
       var arr = [];
       data.forEach(function (i) {
-        arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating + " (mm)", i.name]);
+        arr.push([i.name.toProperCase() + " - cr " + i.challenge_rating + " (mm)", i.name]);
       });
 
       dataAccess.getHomebrewMonsters(function (hbdata) {
         hbdata.forEach(function (i) {
-          arr.push([i.name.toLowerCase() + " - cr " + i.challenge_rating + (i.source ? " " + i.source + " " : null || " (hb)"), i.name]);
+          arr.push([i.name.toProperCase() + " - cr " + i.challenge_rating + (i.source ? " " + i.source.toUpperCase() + " " : null || " (hb)"), i.name]);
         });
         dataAccess.getEncounters(function (endata) {
           endata.forEach(function (i) {
-            arr.push(["Encounter: " + i.name.toLowerCase(), i.name]);
+            arr.push(["Encounter: " + i.name.toProperCase(), i.name]);
           });
           arr.sort();
 
@@ -399,7 +399,7 @@ var autofill = function () {
       conditionList = data;
       var arr = [];
       data.forEach(function (i) {
-        arr.push(i.name);
+        arr.push(i.name.toProperCase());
       });
       arr.sort();
       conditionNames = arr;
@@ -414,7 +414,7 @@ var autofill = function () {
     dataAccess.getItems(function (data) {
       var arr = [];
       data.forEach(function (i) {
-        arr.push(i.name);
+        arr.push(i.name.toProperCase());
       });
       arr.sort();
       itemNames = arr;
@@ -428,7 +428,7 @@ var autofill = function () {
     dataAccess.getSpells(function (data) {
       var arr = [];
       data.forEach(function (i) {
-        arr.push([i.name.toLowerCase() + " - " + i.level, i.name]);
+        arr.push([i.name.toProperCase() + " - " + i.level, i.name]);
 
       });
       arr.sort();
@@ -442,7 +442,7 @@ var autofill = function () {
     dataAccess.getTables(function (data) {
       var arr = [];
       data.forEach(function (i) {
-        arr.push([i.name, i.name]);
+        arr.push([i.name.toProperCase(), i.name]);
       });
       arr.sort();
       dataAccess.getRandomTables((function (randData) {
@@ -508,6 +508,7 @@ var settings;
 function loadSettings() {
 
   dataAccess.getSettings(function (data) {
+
     settings = data;
     settings.maptool.currentMap = {};
     applySettings();
@@ -891,7 +892,7 @@ var frameHistoryButtons = function () {
 
     newButton.onclick = function (event) {
       loadedMonster = JSON.parse(event.target.getAttribute("data-monster_statblock"));
-     new StatblockPresenter(document.getElementById("statblock"), loadedMonster, "monsters", false)
+      new StatblockPresenter(document.getElementById("statblock"), loadedMonster, "monsters", false)
       toggleThisButton(event.target);
     }
     document.getElementById("history_button_row").appendChild(newButton);
@@ -1169,7 +1170,9 @@ function filterPcRowsBySelectedParty(isInitialLoad) {
 
 
   });
-  $('.pcRow:visible:odd').css('background-color', 'rgb(189 151 74 / 40%)');
+  var emphasisColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--alt-emphasis-color');
+  $('.pcRow:visible:odd').css('background-color', emphasisColor);
   $('.pcRow:visible:even').css('background-color', 'transparent');
 }
 
@@ -1269,7 +1272,7 @@ function fillPartyPopup() {
             row.getElementsByClassName("pc_input_" + field)[0].value = members[index][field];
 
           });
-        var token = dataAccess.getTokenPath(members[index].id);
+        var token = dataAccess.getTokenPathSync(members[index].id);
 
         row.getElementsByClassName("pc_input_character_token")[0].setAttribute("src", token);
         if (members[index].party && parties.indexOf(members[index].party) < 0) {

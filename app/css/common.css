@@ -1,24 +1,10 @@
-:root {
-  --main-color: #500c00;
-  --alt-main-color: #451A17;
-  --main-emphasis-color: #a12d20;
-  --alt-emphasis-color: rgb(189 151 74 / 40%);
-  --main-underline-color: rgb(61, 17, 9);
-  --main-success-color: rgb(4, 64, 4);
-  --main-success-color-darker: rgb(2, 44, 2);
-  --dark-transparent-bg: rgba(0, 0, 0, 0.1);
-  --main-success-color-lighter: rgb(10, 125, 10);
-  --transition-delay: 300ms;
-  --base-margin: 10px;
-  --rounded-corners: 5px;
-  --background-image:url("./img/phbbgbig.png");
-  --foreground-image: url("./img/phbbg.png");
-  --main-text-color:black;
-  --inverse-text-color:white;
-  --black-bg: rgba(34, 34, 34, 0.8);
-  --basic-font: "roboto";
-  --header-font: "mrEaves";
+:root{
   --z-index-tooltip: 12;
+  --statblock-emphasis-color:#500c00;
+}
+
+.black_text{
+  color:var(--black);
 }
 
 *:focus {
@@ -40,6 +26,7 @@ body {
 
 body {
   background-image: var(--background-image);
+  background-color: var(--background-color);
   background-size: cover;
   background-repeat: repeat;
 }
@@ -54,33 +41,13 @@ body {
 }
 
 @font-face {
-  font-family: mrEaves;
-  src: url("./fonts/Mr Eaves Small Caps.otf");
-}
-
-@font-face {
-  font-family: nodesto;
-  src: url("./fonts/Nodesto Caps Condensed.otf");
-}
-
-@font-face {
   font-family: bookSanity;
   src: url("./fonts/Bookinsanity.otf");
 }
 
-@font-face {
-  font-family: misDirection;
-  src: url("./fonts/Zatanna Misdirection.otf");
-}
-
-@font-face {
-  font-family: solbera;
-  src: url("./fonts/Solbera Imitation.otf");
-}
-
 h1, h2, h3, h4, h5, .header_text {
-  font-family: "mrEaves";
-  color: var(--main-color);
+  font-family: var(--header-font);
+  color: var(--main-text-color);
 }
 
 select {
@@ -99,6 +66,7 @@ select:hover {
 
 button {
   transition: background-color var(--transition-delay);
+  cursor:pointer;
 }
 
 .awesomplete {
@@ -112,7 +80,7 @@ button {
 
 p, label {
   font-family: "var(--basic-font)";
-  color: black;
+  color: var(--main-text-color);
   line-height: 1.5;
 }
 
@@ -133,7 +101,8 @@ input[type=checkbox] {
 .brown_input {
   background-color: var(--alt-emphasis-color);
   border: none;
-  font-family: 'mrEaves';
+  font-family: var(--header-font);
+  color:var(--main-text-color);
 }
 
 .floating_input {
@@ -165,7 +134,7 @@ td {
   padding: 5px;
   background-color: transparent;
   border: none;
-  color: black;
+  color: var(--main-text-color);
   text-align: center;
 }
 
@@ -174,16 +143,16 @@ tbody>tr:nth-child(odd) {
 }
 
 td>strong {
-  font-family: "mrEaves";
-  color: var(--main-color);
+  font-family: var(--header-font);
+  color: var(--main-text-color);
   font-size: 13px;
 }
 
 thead>tr, .table_header, th {
-  font-family: "mrEaves";
+  font-family: var(--header-font);
   font-size: 1.2em;
   border: none;
-  color: black;
+  color: var(--main-text-color);
   font-weight: normal;
 }
 
@@ -193,7 +162,7 @@ tbody>tr:hover, .selected_row {
 
 h4 {
   font-family: var(--header-font);
-  color: var(--main-color);
+  color: var(--main-text-color);
 }
 
 hr {
@@ -280,9 +249,7 @@ hr {
   background-color: white;
 }
 
-.die_d20:hover {
-  background-image: url("./img/d20hover.png");
-}
+
 
 .die_d20_normal {
   background-image: url("./img/d20normal.png");
@@ -390,7 +357,7 @@ hr {
   background-repeat: no-repeat;
   font-weight: bold;
   padding: 0.67em;
-  color: var(--main-success-color-lighter);
+  color: var(--main-success-color-lighter) !important;
 }
 
 .statblock_key_stats {
@@ -409,7 +376,7 @@ hr {
   background-repeat: no-repeat;
   font-weight: bold;
   padding: 0.67em;
-  color: #2e5f8a;
+  color: #2e5f8a !important;
 }
 
 .frame_history_button_toggled, .toggle_button_toggled {
@@ -440,23 +407,35 @@ hr {
   background-image:var(--foreground-image);
   border: none;
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
-  border-bottom: 3px solid rgb(108, 67, 45);
+  border-bottom: 3px solid var(--alt-emphasis-color);
   color: var(--main-color);
   font-family: var(--header-font);
 }
 
-.iframewrap {
-  background-image: url("./img/phbbg.png");
+.statblock-container .statblock_saves_label{
+  color:var(--statblock-emphasis-color);
+}
+
+.statblock_container {
+  background-image: url('img/phbbg.png');
   background-size: contain;
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
-  border-bottom: 3px solid rgb(108, 67, 45);
+  font-family: bookSanity;
+  border-bottom: 3px solid var(--alt-emphasis-color);
+  filter: drop-shadow(2px 2px 6px black);
+  border-radius: 5px;
+  padding: 0.5em;
+  padding-top: 2em;
 }
 
 .pageframe {
-  font-family: "var(--basic-font)";
+  font-family: var(--basic-font);
   line-height: 1.5;
   column-count: 2;
   column-gap: 20px;
+}
+
+.pageframe p, .pageframe h1,.pageframe h2,.pageframe h3,.pageframe h4,.pageframe h5,.pageframe .header_text{
+  color:black;
 }
 
 .single_column {
@@ -464,7 +443,7 @@ hr {
 }
 
 .pageframe h2, .pageframe h3, .pageframe h4 {
-  font-family: "var(--basic-font)";
+  font-family: var(--basic-font);
 }
 
 .pageframe h3 {
@@ -474,9 +453,9 @@ hr {
 }
 
 .pageframe>h1 {
-  font-family: "mrEaves";
+  font-family: var(--header-font);
   letter-spacing: 2px;
-  color: var(--main-color);
+  color: var(--statblock-emphasis-color);
 }
 
 .pageframe>ul {
@@ -511,7 +490,7 @@ hr {
 .statblock_saving_throw_row p, .statblock_saving_throw_row a {
   margin: 0;
   font-size: 16px;
-  color: var(--main-color);
+  color: var(--statblock-emphasis-color);
 }
 
 .statblock_challenge_rating, .statblock_armor_class {
@@ -540,8 +519,8 @@ hr {
   justify-content: space-around;
 }
 
-.statblock_saves_label, .statblock_ability_name {
-  color: var(--main-color);
+.statblock_container .statblock_saves_label, .statblock_container .statblock_ability_name {
+  color: var(--statblock-emphasis-color);
   font-weight: bold;
   font-size: 14px;
 }
@@ -555,7 +534,7 @@ hr {
   width: 90%;
   display: flex;
   flex-flow: row nowrap;
-  color: var(--main-color);
+  color: var(--statblock-emphasis-color);
   height: 90px;
   justify-content: center;
 }
@@ -569,13 +548,14 @@ hr {
 
 .ability_row p, .ability_row a {
   margin: 0;
-  color: var(--main-color);
+  color: var(--statblock-emphasis-color);
   text-align: center;
 }
 
 .lootgenerator {
   color: black;
-  background-image: url("./img/phbbg.png");
+  background-image:var(--foreground-image);
+  background-color:var(--foreground-color);
   background-color: #450A03;
 }
 
@@ -591,13 +571,17 @@ hr {
 }
 
 .combatGUI {
-  background-image: url("./img/phbbg.png");
+  background-image:var(--foreground-image);
+  background-color:var(--foreground-color);
 }
-
+.text_upper_damage_label{
+  color:black;
+}
 input, textarea, .cell_row {
   font-family: "var(--basic-font)";
   background-color: #FFFFFF;
   border: none;
+  color:black;
 }
 
 .draggable_element {
@@ -658,9 +642,8 @@ input, textarea, .cell_row {
 }
 
 .dmg_button {
-  background-image: url("img/blood.png");
-  background-size: cover;
-  background-color: var(--main-color);
+
+  background-color: var(--color-red);
 }
 
 #saveRollResultsSuccess {
@@ -675,7 +658,7 @@ input, textarea, .cell_row {
 
 .separator {
   height: 7px;
-  background-color: rgb(61, 17, 9);
+  background-color: var(--alt-main-color);
 }
 
 .warpColorsSuccess {
@@ -710,7 +693,7 @@ input, textarea, .cell_row {
 
 .listRow:nth-child(n+5)>.listRow__inner>input {
   padding: 5px;
-  color: black;
+  color: var(--main-text-color);
   border: none;
   background-color: transparent;
 }
@@ -724,7 +707,8 @@ input, textarea, .cell_row {
   background-size: 10px;
   background-repeat: no-repeat;
   background-color: transparent;
-  font-family: "mrEaves";
+  font-family: var(--header-font);
+  color:var(--main-text-color);
   cursor: pointer;
   font-size: 1.5em;
   border: none;
@@ -763,9 +747,14 @@ input, textarea, .cell_row {
 .listWrap, .pageframe_wrap {
   border: none;
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
-  border-bottom: 3px solid rgb(108, 67, 45);
-  background-image: url("./img/phbbg.png");
+  border-bottom: 3px solid var(--alt-emphasis-color);
+  background-image:var(--foreground-image);
+  background-color:var(--foreground-color);
 }
+.pageframe_wrap {
+  background-image:url("img/phbbg.png") !important;
+}
+
 
 .deletable_paragraph {
   border-radius: 5px;
@@ -936,11 +925,12 @@ input, textarea, .cell_row {
 }
 
 .title_bar>.text {
-  color: rgb(99, 63, 61);
+  color: var(--alt-emphasis-color);
   width: 100%;
   text-align: center;
   position: absolute;
   font-size: 10px;
+  pointer-events: none;
 }
 
 .title_bar>button, .title_bar_left>button {
@@ -962,9 +952,10 @@ input, textarea, .cell_row {
 
 header {
   -webkit-box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
-  border-bottom: 3px solid rgb(108, 67, 45);
+  border-bottom: 3px solid var(--alt-emphasis-color);
   padding: 10px;
-  background-image: url("./img/phbbg.png");
+  background-image:var(--foreground-image);
+  background-color:var(--foreground-color);
   background-size: cover;
   width: 100vw;
   /* Full width */
@@ -991,12 +982,13 @@ header {
 }
 
 .section__show {
-  background-image: url("./img/phbbg.png");
+  background-image:var(--foreground-image);
+  background-color:var(--foreground-color);
   border: none;
   /* background-size: cover; */
   box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
   position: relative;
-  border-bottom: 3px solid rgb(108, 67, 45);
+  border-bottom: 3px solid var(--alt-emphasis-color);
 }
 
 .margin_top {
@@ -1035,7 +1027,7 @@ header {
   background: none;
   border: none;
   font-family: var(--header-font);
-  color: var(--main-color);
+  color: var(--main-header-color);
 }
 
 .invisible_editable_text {
@@ -1043,7 +1035,7 @@ header {
   border: none;
   font-size: 1em;
   font-family: "bookSanity";
-  color: black;
+  color: var(--main-text-color);
 }
 
 .expanded_text_area {

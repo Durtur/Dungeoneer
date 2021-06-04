@@ -6,11 +6,11 @@ License: MIT
 ***/
 
 :root {
-    --main-color: #58180D;
+    /* --main-color: #58180D;
     --alt-main-color: #451A17;
     --main-emphasis-color: #DE3C2B;
     --alt-emphasis-color: rgba(194, 140, 29, 0.4);
-    --main-underline-color: rgb(61, 17, 9);
+    --main-underline-color: rgb(61, 17, 9); */
     --transition-delay: 300ms;
     --base-margin: 10px;
 }
@@ -507,7 +507,7 @@ See http://bgrins.github.io/spectrum/themes/ for instructions.
 
 .sp-container button, .sp-cancel, .sp-choose {
     text-decoration: none;
-    color: white;
+    color:var(--inverse-text-color);
     margin: auto;
     font-family: var(--basic-font);
     border-radius: var(--rounded-corners);

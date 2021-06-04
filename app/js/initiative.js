@@ -102,7 +102,7 @@ module.exports = function () {
             initiative.nextRound(-1);
 
         } else {
-            $(".initiativeNode:nth-child(1)>.initiative_name_node").html("Roll initiative");
+            $(".initiativeNode:nth-child(1)>.initiative_name_node").html("Roll \n initiative");
             $('.initiativeNode').on("click", initiative.roll);
             $('.initiativeNode').off("mousedown");
             $(".initiativeNode").removeClass("initiative_node_active");

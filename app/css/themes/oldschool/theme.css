@@ -1,0 +1,54 @@
+:root {
+    --main-color: #500c00;
+    --alt-main-color: #451A17;
+    --main-emphasis-color: #a12d20;
+    --color-red: #a72424;;
+    --black:black;
+    --alt-emphasis-color: rgb(189 151 74 / 40%);
+    --highlight-color:hsl(44, 56%, 15%);;
+    --main-underline-color: rgb(61, 17, 9);
+    --main-success-color: rgb(4, 64, 4);
+    --main-success-color-darker: rgb(2, 44, 2);
+    --dark-transparent-bg: rgba(0, 0, 0, 0.1);
+    --main-success-color-lighter: rgb(10, 125, 10);
+    --transition-delay: 300ms;
+    --base-margin: 10px;
+    --rounded-corners: 5px;
+    --background-image:url("./img/phbbgbig.png");
+    --main-header-color: #500c00;
+    --background-color:transparent;
+    --foreground-image: url("./img/phbbg.png");
+    --foreground-color:transparent;
+    --main-text-color:black;
+    --inverse-text-color:white;
+    --black-bg: rgba(34, 34, 34, 0.8);
+    --basic-font: "roboto";
+    --header-font: "mrEaves";
+
+  }
+
+  
+@font-face {
+    font-family: mrEaves;
+    src: url("./fonts/Mr Eaves Small Caps.otf");
+  }
+  
+  @font-face {
+    font-family: nodesto;
+    src: url("./fonts/Nodesto Caps Condensed.otf");
+  }
+  
+
+  @font-face {
+    font-family: misDirection;
+    src: url("./fonts/Zatanna Misdirection.otf");
+  }
+  
+  @font-face {
+    font-family: solbera;
+    src: url("./fonts/Solbera Imitation.otf");
+  }
+
+  .die_d20:hover {
+    background-image: url("./img/d20hover.png");
+  }

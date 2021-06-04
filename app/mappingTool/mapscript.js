@@ -19,7 +19,7 @@ var zIndexPawnCap = 9;
 var conditionList;
 
 var pauseAlternativeKeyboardMoveMap = false;
-
+var frameHistoryButtons = null;
 
 //Elements
 var measurementsLayer = document.getElementById("measurements");

@@ -96,12 +96,13 @@ class StatblockPresenter {
 
     async function addName() {
       if (values.name == null) return;
+
       var h2 = document.createElement("h1");
       h2.innerHTML = values.name;
       statblock.appendChild(h2);
       h2.classList = "statblock_name";
       delete values.name;
-
+      if(statblockType != "monsters")return;
       var path = await dataAccess.getTokenPath(values.id + "0");
 
       if (!path) path = "./mappingTool/tokens/default.png";
@@ -391,7 +392,7 @@ class StatblockPresenter {
             encPcLevelString += levelCounts[i] + " level " + i + " character" + (levelCounts[i] > 1 ? "s" : "") + (levelsLeft > 0 ? (levelsLeft == 1 ? " and " : ", ") : "")
           }
         }
-        encounterDescription = (encounterModule ? encounterModule : new EncounterModule()).getTextualDescriptionForValue(allLevels, values.encounter_xp_value)
+        var encounterDescription = (encounterModule ? encounterModule : new EncounterModule()).getTextualDescriptionForValue(allLevels, values.encounter_xp_value)
         createEncounterDifficultyElement(encounterDescription, values.encounter_xp_value, encPcLevelString);
 
         delete values.encounter_xp_value;

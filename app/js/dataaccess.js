@@ -287,6 +287,17 @@ module.exports = function () {
             callback(data);
         });
     }
+    function getTokenPathSync(creatureId){
+        var fileEndings = [".png", ".jpg", ".gif"];
+        for (var i = 0; i < fileEndings.length; i++) {
+            fileEnding = fileEndings[i];
+            var path = pathModule.join(defaultTokenPath, creatureId + fileEnding);
+            if (fs.existsSync(path))
+                return path;
+
+        }
+        return null;
+    }
 
     async function getTokenPath(creatureId) {
         var fileEndings = [".png", ".jpg", ".gif"];
@@ -490,6 +501,7 @@ module.exports = function () {
     }
     return {
         readFile: readFile,
+        getTokenPathSync:getTokenPathSync,
         getTokenPath: getTokenPath,
         saveToken: saveToken,
         setMapToolData: setMapToolData,

@@ -1856,12 +1856,12 @@ function openCustomizationTab(containerName, button) {
 function setTab(x) {
     var tabs = document.getElementsByClassName("tab");
     for (var i = 0; i < tabs.length; i++) {
-        tabs[i].style.backgroundColor = "#451A17";
+        tabs[i].classList.remove("toggle_button_toggled");
         var currentSection = document.querySelector("#" + tabs[i].innerHTML.toLowerCase() + "_section")
         currentSection.classList.add("hidden");
     }
 
-    document.getElementById(x).style.backgroundColor = "#DE3C2B";
+    document.getElementById(x).classList.add("toggle_button_toggled")
     document.querySelector("#" + x + "_section").classList.remove("hidden");
 }
 

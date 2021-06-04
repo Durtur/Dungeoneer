@@ -29,7 +29,8 @@
   transform: translate(-50%, -50%);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 1);
   border-radius: 3px;
-  background-image: url(./img/phbbg.png);
+  background-image:var(--foreground-image);
+  background-color:var(--foreground-color);
 }
 
 .popup-inner>h2 {
@@ -42,6 +43,7 @@
   display: flex;
   flex-flow: column nowrap;
 }
+
 
 .pcRow {
   display: flex;
@@ -60,7 +62,7 @@
 .pcRow>input, .pcRow>textarea {
   background-color: transparent;
   border: none;
-  color: black;
+  color:var(--main-text-color);
   text-align: center;
   width: 90px;
   min-width: 90px;
@@ -109,7 +111,7 @@ cursor:pointer;
   background-color: transparent;
   font-size: 0.8em;
   border: none;
-  color: black;
+  color:var(--main-text-color);
   font-weight: normal;
 }
 
@@ -169,9 +171,10 @@ cursor:pointer;
 }
 
 .addPlayer {
+  bottom: 3em;
   position: absolute;
-  top: 94px;
-  left: 13px;
+  /* top: 2em; */
+  left: 2em;
   font-size: 20px;
   border-radius: 50%;
   height: 25px;

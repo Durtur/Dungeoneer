@@ -165,7 +165,7 @@ h1 {
 
 .arrow_shape:hover>div {
   background-color: var(--main-emphasis-color);
-  filter: drop-shadow(0 0 10px #eeeeee);
+  filter: drop-shadow(0 0 1px #eeeeee70);
 }
 
 .roundcounter__value {
@@ -202,7 +202,7 @@ h1 {
 }
 
 .combat_log_title_main {
-  color: black;
+  color: var(--main-text-color);
   text-align: start;
 }
 
@@ -213,7 +213,6 @@ h1 {
   max-height: 200px;
   overflow-y: scroll;
   background-color: white;
-
 }
 
 .combat_log_content>p {
@@ -291,7 +290,7 @@ h1 {
   margin: auto;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-family: mrEaves;
+  font-family: var(--header-font);
 }
 
 .acnode {
@@ -602,19 +601,22 @@ h1 {
 }
 
 #randomizer_item_title {
-  margin: 0 5px 0 5px;
+  margin: 1em;
   font-size: 20px;
 }
 
 #randomizer_item_value {
-  margin: 0 5px 0 5px;
+  margin: 1em;
   font-size: 12px;
+  line-height: 3;
 }
 
 .randomizer_item_content {
   min-height: 2em;
   width: 100%;
   padding-bottom: 1em;
+  margin: 0em 1em 1em 1em;
+  color: var(--main-text-color);
 }
 
 .randomizer_item_content>p {
@@ -701,6 +703,7 @@ h1 {
   right: 0;
   top: 0;
   display: flex;
+  z-index: 4;
 }
 
 .history_button_row {
@@ -756,12 +759,11 @@ h1 {
 .mobcontroller_label {
   font-size: 12px;
   padding-top: 3px;
-
   text-align: center;
   background-color: white;
 }
 
-.mobcontroller_secondrow>.column{
+.mobcontroller_secondrow>.column {
   width: 7.7em;
 }
 
@@ -825,18 +827,19 @@ h1 {
 
 .cell_row {
   border: 1px solid #b4b4b3;
-  font-family: "bookSanity";
+  font-family: var(--basic-font);
   background-color: white;
   line-height: 3;
   width: 100%;
   text-align: center;
 }
 
-.combatRow .hp_over_max{
+.combatRow .hp_over_max {
   color: #ca9e00 !important;
   font-weight: 800;
   font-size: 1em;
 }
+
 .dead_row .hp_field {
   background-image: url(../mappingTool/tokens/dead.png) !important;
   background-size: 2.5em;
@@ -852,12 +855,14 @@ h1 {
   top: -7px;
   width: 100%;
   text-align: center;
-  font-family: booksanity;
+  font-family: var(--basic-font);
   font-size: 15px;
-  color: var(--main-color);
+  color: var(--main-text-color);
+  pointer-events: none;
 }
+
 .mobcontroller_row {
-  padding-left:1em;
+  padding-left: 1em;
 }
 
 .combatRow, .mobcontroller_row {
@@ -865,7 +870,7 @@ h1 {
   display: flex;
   justify-content: center;
   flex-flow: row nowrap;
-  user-select:none;
+  user-select: none;
   transition: all var(--transition-delay);
   z-index: 2;
 }
@@ -905,6 +910,7 @@ h1 {
   border: none;
   background-color: transparent;
   white-space: normal;
+  color: var(--main-text-color);
 }
 
 .initiativeNode:not(last-child) {
@@ -939,9 +945,10 @@ h1 {
 }
 
 .init_not_started {
-  height: 70px;
+  height: 6em;
   cursor: pointer;
-  width: 70px;
+  width: 6em;
+  margin-top: -1em;
   background-color: transparent !important;
   background-image: url(img/d20normal.png);
   background-size: contain;
@@ -957,6 +964,9 @@ h1 {
   font-size: 13px;
   width: 100%;
   margin: 0;
+  display: block;
+  white-space: pre;
+  margin-top: 0.4em;
 }
 
 .initiative {
@@ -1041,7 +1051,6 @@ h1 {
   float: left;
   flex-flow: column wrap;
   padding-bottom: 40px;
-
   border-radius: 5px;
   display: flex;
 }
@@ -1087,7 +1096,9 @@ button:disabled {
   left: 33%;
   z-index: 10;
 }
-
+.combat_loader_current_xp {
+  color:var(--main-text-color);
+}
 #initiative_popup_window_inner {
   padding: 15px;
   display: flex;
@@ -1100,7 +1111,7 @@ button:disabled {
 
 #initiative_popup_window_inner>.row>* {
   flex: 1;
-  font-family: "bookSanity";
+  font-family:var(--basic-font);
 }
 
 .save_roller_checkbox_container {
@@ -1180,7 +1191,6 @@ button:disabled {
 .combat_toolbar {
   display: flex;
   justify-content: space-between;
-
 }
 
 .flex_end {
@@ -1190,7 +1200,6 @@ button:disabled {
 
 .assorted_tool_container {
   display: flex;
-  
   width: 44.5em;
   flex-flow: row wrap;
 }
@@ -1227,61 +1236,9 @@ button:disabled {
   font-weight: 400;
 }
 
-/*
-
-.pcnodeInner {
-  position: relative;
-  display: flex;
-  margin-left: 27px;
-  width: 47%;
-  height: 53%;
-}
-
-.pcnodeInner>input {
-  border-radius: 50%;
-  background: none;
-  width: 37px;
-  top: 19px;
-  right: -4px;
-  position: absolute;
-  overflow: visible;
-  border: none;
-  font-size: 18px;
-  font-weight: bold;
-}
-.pcnode__passiveperception {
-
-  background-size: contain;
-  background-repeat: no-repeat;
-  font-family: "mrEaves";
-  color: white;
-  background-image: url("img/eye.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  font-size: 15px;
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 67px;
-  left: -1px;
-}
-
-.pcnode_normal_ac {
-  background-image: url("img/shield.png");
-}
-
-.pcnode_lower_ac {
-  background-image: url("img/shielddown.png");
-}
-
-.pcnode_higher_ac {
-  background-image: url("img/shieldup.png");
-} */
-
 .pcnode_normal_ac {
   background-image: url(./img/shield_outline.png);
-  color: black;
+  color: var(--main-text-color);
 }
 
 .pcnode_lower_ac {
@@ -1313,29 +1270,15 @@ button:disabled {
   margin: 0.2em;
   color: white;
   border-radius: var(--rounded-corners);
-  font-family: "mrEaves";
+  font-family: var(--header-font);
   background-color: rgba(0, 0, 0, 0.1);
   display: flex;
   height: 115px;
-  /* background-colo;r: transparent
-  background-image: url("img/scrollv.png");
-  background-size: 93px !important;
-  background-repeat: no-repeat;
-  background-position: center;
-  font-family: "mrEaves";
-  max-width: 90px;
-  min-width: 90px;
-  max-height: 130px;
-  min-height: 130px;
-  border: none;
-  background-size: contain;
-  transition: all 300ms;
-  background-repeat: no-repeat;
-  background-position: center; */
 }
 
 .pcnode .pcnode_notes_container {
-  background-image: url(img/phbbgbig.png);
+  background-image: var(--background-image);
+  background-color: var(--background-color);
   overflow: hidden;
   display: flex;
   height: 0px;
@@ -1452,7 +1395,7 @@ button:disabled {
 .combatRow .round_checkbox_container p {
   margin: 0;
   padding: 0;
-  color: var(--main-color);
+  color: var(--main-header-color);
   width: 1em;
   text-align: center;
   position: absolute;
@@ -1460,7 +1403,8 @@ button:disabled {
   font-size: 0.9em;
   left: 0.9em;
 }
-.combatRow .round_checkmark{
+
+.combatRow .round_checkmark {
   left: -0.25em;
 }
 
@@ -1504,7 +1448,6 @@ button:disabled {
   border-radius: 15px;
 }
 
-
 /* When the checkbox is checked, add a blue background */
 
 .round_checkbox_container input:checked~.round_checkmark {
@@ -1537,13 +1480,13 @@ button:disabled {
   transform: rotate(45deg);
 }
 
-.popup_menu .close_button{
+.popup_menu .close_button {
   right: 0.5em;
   top: 0.5em;
-  width: 1.5em  !important;
+  width: 1.5em !important;
   height: 1.5em !important;
 }
 
-.popup_menu .awesomplete>input{
-  padding:0;
+.popup_menu .awesomplete>input {
+  padding: 0;
 }

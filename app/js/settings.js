@@ -2,6 +2,10 @@
 const { ipcRenderer } = require('electron');
 const dataAccess = require("./js/dataaccess");
 
+var pathModule = require('path');
+const THEME_PATH = pathModule.join(app.getAppPath(), 'app', 'css', 'themes');
+const { readdir } = require('fs').promises;
+
 var playerPlaques = document.querySelector("#showPlayerPlaques");
 var autoRoll = document.querySelector("#autoRollInitiative");
 var roundCounter = document.querySelector("#roundCounterIntitiative");
@@ -55,10 +59,17 @@ document.addEventListener("DOMContentLoaded", function () {
         hideOrShowMapTool(true);
         hideOrShowGridSettings(true);
         addHeaderHandlers();
+        readThemes();
 
     });
 
 });
+
+async function readThemes(){
+    var themes = await readdir(THEME_PATH);
+    console.log(themes)
+    console.log()
+}
 
 function addHeaderHandlers() {
     var allHeaders = [...document.getElementsByClassName("settings_header")];

@@ -47,7 +47,7 @@
 	
 	.awesomplete > ul > li:hover {
 		background: hsl(200, 40%, 80%);
-		color: black;
+		color:var(--main-text-color);
 	}
 	
 	.awesomplete > ul > li[aria-selected="true"] {

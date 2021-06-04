@@ -148,7 +148,7 @@ select {
     padding-top: 2em;
     text-align: left;
     font-size: 20px;
-    color:var(--main-color);
+    color:var(--main-header-color);
     padding-top: 60px;
 }
 
@@ -161,7 +161,7 @@ path {
 }
 
 #tavern_name, #shop_name {
-    font-family: "bookSanity", cursive;
+    font-family: var(--header-font);
   
     white-space: "pre";
     overflow: visible;

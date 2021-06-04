@@ -375,7 +375,7 @@ html {
 
 .cr_calculator_wrap p {
   font-family: var(--basic-font);
-  color: black;
+  color: var(--main-text-color);
   line-height: 1.5;
   margin: auto;
   margin-left: 0;
@@ -388,7 +388,7 @@ html {
 }
 
 .saving_throw_label {
-  color: black;
+  color: var(--main-text-color);
   font-size: 0.8em;
   background-color: transparent;
   width: 80px;
@@ -664,11 +664,11 @@ html {
 }
 
 .brown {
-  background-color: #451A17;
+  background-color: var(--main-color);
   color: white;
   border-style: solid;
-  border-color: #3F0E0B;
-  border: 1px solid #3F0E0B;
+
+  border: var(--main-color);
   padding: 1px;
   box-sizing: border-box;
 }
@@ -676,8 +676,8 @@ html {
 .black {
   background-color: #222;
   color: white;
-  border-style: solid;
-  border: 1px solid #3F0E0B;
+
+  border: none;
   padding: 1px;
   box-sizing: border-box;
 }
@@ -707,7 +707,7 @@ html {
 }
 
 .addframe {
-  padding: 30px;
+  padding: 2.5em;
   position: relative;
   min-width: 28em;
 }

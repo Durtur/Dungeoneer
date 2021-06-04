@@ -1069,8 +1069,12 @@
 	},
 	"replacement_values": [
 		{
-			"value":"_common_animal",
+			"value": "_common_animal",
 			"replace_with": "$this.common_animal"
+		},
+		{
+			"value": "_medley",
+			"replace_with": "$this.medley"
 		},
 		{
 			"value": "_phrase",
@@ -1203,13 +1207,13 @@
 			}
 		}
 	],
-	"treats":[
+	"treats": [
 		"apples",
 		"oranges",
 		"good pipe weed",
 		"plums",
 		"figs",
-			"sherry"
+		"sherry"
 	],
 	"metals": [
 		"mithril",
@@ -1348,10 +1352,10 @@
 	],
 	"generated_creatures": {
 		"humanoid": {
-			"population_data":{
-				"mean":30,
-				"STD":10,
-				"min":18
+			"population_data": {
+				"mean": 30,
+				"STD": 10,
+				"min": 18
 			},
 			"professions": {
 				"common": [
@@ -1535,6 +1539,7 @@
 				"is almost lethargic in _hisher movements"
 			],
 			"hooks": [
+				"is the rumored author of the famous medley _medley",
 				"barely survived after losing _hisher way in the mountains some winters past, and this has taught _himher much",
 				"became a local legend when _heshe tossed manure at a local Noble",
 				"believes hard work to be a fool's game - the less _heshe needs to do, the better",
@@ -1714,10 +1719,10 @@
 			}
 		},
 		"celestial": {
-			"population_data":{
-				"mean":3200,
-				"STD":1000,
-				"min":70
+			"population_data": {
+				"mean": 3200,
+				"STD": 1000,
+				"min": 70
 			},
 			"professions": {
 				"common": [
@@ -1805,10 +1810,10 @@
 			}
 		},
 		"dwarf": {
-			"population_data":{
-				"mean":140,
-				"STD":60,
-				"min":30
+			"population_data": {
+				"mean": 140,
+				"STD": 60,
+				"min": 30
 			},
 			"professions": {
 				"common": [
@@ -1932,8 +1937,10 @@
 				"loves _treat, something _heshe doesn't get very often",
 				"single-handedly held an important pass in a battle years ago after losing all of _hisher comrades",
 				"speaks quite fast; sometimes it's hard to follow what _heshe is saying",
+				"speaks with an extremely thick accent, usually someone better versed in common needs to translate for _himher",
 				"walks with a limp after a stray arrow destroyed _hisher kneecap",
-				""
+				"once brewed an ale unlike any other, _heshe hasn't managed to do so again",
+				"is the author of the famous medley _medley"
 			],
 			"appearance": {
 				"face_aesthetics": [
@@ -1964,10 +1971,10 @@
 			}
 		},
 		"fiend": {
-			"population_data":{
-				"mean":1000,
-				"STD":550,
-				"min":5
+			"population_data": {
+				"mean": 1000,
+				"STD": 550,
+				"min": 5
 			},
 			"professions": {
 				"common": [
@@ -1978,7 +1985,8 @@
 					"Battlefield Scum",
 					"Dretch",
 					"Fueler of Gluttony",
-					"Hateseeder"
+					"Hateseeder",
+					"Bootlicker"
 				],
 				"uncommon": [
 					"Soulstealer",
@@ -2387,7 +2395,7 @@
 					"Lexicons",
 					"Incantations"
 				],
-				"armor":[
+				"armor": [
 					"Armor",
 					"Mails",
 					"Protections"
@@ -2508,7 +2516,7 @@
 					"The _color _monster",
 					"The _metal _animal"
 				],
-				"armor":[
+				"armor": [
 					"The _metal Plate",
 					"You'll Wish You Bought It!",
 					"Noble's Crest",
@@ -2595,8 +2603,7 @@
 					"Spellbound Foundry",
 					"Arcane Foundry"
 				],
-				"armor":
-				[
+				"armor": [
 					"Faithful Shield",
 					"Faithful Plate",
 					"Chain",
@@ -3505,5 +3512,13 @@
 		"There's a bunch of buglike critters roaming about South of mount _mountain, I would stay out of there if I were you",
 		"There's a child snatching hag hiding in the swamp south of _mountain. We're rounding up strong folk to root her out",
 		"A new religion is growing in these parts, worshipping a beautiful, shining god. But also a terrible one..."
+	],
+	"medley": [
+		"'A trifle is a treat if done right'",
+		"'Maiden's Willow (Oh When I Met Thee)'",
+		"'A Drunkard's Lament'",
+		"'Ye Olde Bornholme'",
+		"'The Wicked Tanner'",
+		"'The Argentgarde's March'"
 	]
 }

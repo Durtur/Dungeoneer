@@ -35,10 +35,11 @@
 
 .awesomplete > ul {
 	border-radius: .3em;
-	color:black;
+	color:var(--main-text-color);
 	margin: .2em 0 0;
-	background: rgba(73, 56, 2, 0.644);
-	background-image:url("../css/img/phbbgopq.png");
+
+	background-image:var(--background-image);
+	background-color:var(--foreground-color);
 	/* background: linear-gradient(to bottom right, brown, rgba(73, 56, 2, 0.644)); */
 	border: 1px solid rgba(0,0,0,.3);
 	box-shadow: .05em .2em .6em rgba(0,0,0,.2);
@@ -83,26 +84,26 @@
 	}
 	
 	.awesomplete > ul > li:hover {
-		background: hsl(44, 56%, 15%);
-		color:white;
+		background: var(--highlight-color);
+	    color:var(--inverse-text-color);
 	
 	}
 	
 	.awesomplete > ul > li[aria-selected="true"] {
-		background: hsl(44, 56%, 15%);
-		color: white;
+		background: var(--highlight-color);
+	    color:var(--inverse-text-color);
 	}
 	
 		.awesomplete mark {
-			background: hsl(65, 100%, 50%);
+			background: var(--highlight-color);
 		}
 		
 		.awesomplete li:hover mark {
-			background: hsl(68, 100%, 41%);
+			background: var(--highlight-color);
 		}
 		
 		.awesomplete li[aria-selected="true"] mark {
-			background: hsl(86, 100%, 21%);
+			background: var(--highlight-color);
 			color: inherit;
 		}
 /*# sourceMappingURL=awesomplete.css.map */
