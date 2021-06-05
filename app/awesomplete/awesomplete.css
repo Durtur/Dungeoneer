@@ -10,6 +10,8 @@
 .awesomplete {
     display: inline-block;
     position: relative;
+	background-image:var(--foreground-image);
+	background-size:cover;
 }
 
 .awesomplete > input {
@@ -26,6 +28,7 @@
     list-style: none;
     padding: 0;
     margin: 0;
+
     background: rgb(255, 203, 124);
 }
 
@@ -38,7 +41,7 @@
 	color:var(--main-text-color);
 	margin: .2em 0 0;
 
-	background-image:var(--background-image);
+	background-size:cover;
 	background-color:var(--foreground-color);
 	/* background: linear-gradient(to bottom right, brown, rgba(73, 56, 2, 0.644)); */
 	border: 1px solid rgba(0,0,0,.3);

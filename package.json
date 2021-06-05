@@ -24,6 +24,7 @@
     "marked": "^2.0.0",
     "nouislider": "^14.0.2",
     "sharp": "^0.26.1",
+    "slim-select": "^1.27.0",
     "turndown": "^5.0.3",
     "uniqid": "^5.2.0"
   },

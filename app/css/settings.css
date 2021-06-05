@@ -13,6 +13,13 @@ main{
 .help_label{
     cursor:help;
 }
+#theme_select{
+  width:6em;
+}
+
+.theme_select{
+  max-width:10em;
+}
 
 .italic{
     font-style: italic;

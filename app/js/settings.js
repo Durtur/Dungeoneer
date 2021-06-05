@@ -4,6 +4,8 @@ const dataAccess = require("./js/dataaccess");
 
 var pathModule = require('path');
 const THEME_PATH = pathModule.join(app.getAppPath(), 'app', 'css', 'themes');
+const BASE_CSS_PATH = pathModule.join(app.getAppPath(), 'app', 'css');
+const SlimSelect = require("slim-select");
 const { readdir } = require('fs').promises;
 
 var playerPlaques = document.querySelector("#showPlayerPlaques");
@@ -59,16 +61,34 @@ document.addEventListener("DOMContentLoaded", function () {
         hideOrShowMapTool(true);
         hideOrShowGridSettings(true);
         addHeaderHandlers();
-        readThemes();
+        readThemes(data.theme);
 
     });
 
 });
 
-async function readThemes(){
+async function readThemes(selectedTheme) {
+    if (!selectedTheme) selectedTheme = "oldschool";
     var themes = await readdir(THEME_PATH);
-    console.log(themes)
-    console.log()
+    var select = document.getElementById("theme_select");
+    var optionList = themes.map(x => {
+
+        return {
+            text: x,
+            selected: x === selectedTheme,
+            value:x
+        }
+    })
+    new SlimSelect({
+        select: select,
+        data: optionList
+    });
+    select.onchange = function(e){
+        oldSettings.theme = select.value;
+        var themePath = pathModule.join(THEME_PATH, oldSettings.theme, "theme.css");
+        var writePath = pathModule.join(BASE_CSS_PATH, "theme.css");
+        fs.createReadStream(themePath).pipe(fs.createWriteStream(writePath));
+    }
 }
 
 function addHeaderHandlers() {

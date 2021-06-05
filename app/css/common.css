@@ -47,7 +47,7 @@ body {
 
 h1, h2, h3, h4, h5, .header_text {
   font-family: var(--header-font);
-  color: var(--main-text-color);
+  color: var( --main-header-color);
 }
 
 select {
@@ -523,6 +523,10 @@ hr {
   color: var(--statblock-emphasis-color);
   font-weight: bold;
   font-size: 14px;
+}
+.awesomplete > ul {
+  
+	background-image:var(--foreground-image) !important;
 }
 
 .statblock_modifier {
