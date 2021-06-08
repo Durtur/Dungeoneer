@@ -6,6 +6,7 @@
 ## Demo video
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/wBNgcsm-fnI/0.jpg)](http://www.youtube.com/watch?v=wBNgcsm-fnI "Demo")
 
+[Download Dungeoneer for Windows](https://github.com/Durtur/Dungeoneer/releases/latest)
 
 ## What is it?
 This tool is meant to make the DM's job easier and help you run your games effectively. It handles database managment and lookup for
