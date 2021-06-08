@@ -12,6 +12,7 @@
     <link rel='stylesheet' href='chosen/chosen.css' />
     <link href="css/theme.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet">
     <link href="css/generators.css" rel="stylesheet">
 </head>
 
@@ -38,306 +39,344 @@
     </section>
 
     <div class="main_content_wrapper">
-        <header class="generator_header">
-            <h1 class="mainheader">Generators</h1>
-            <div class="row generator_tab">
-                <button class="tab button button_style generator_tab" id="npc" onclick="setTab('npc')">NPC</button>
-                <button class="tab button button_style generator_tab" id="shops"
-                    onclick="setTab('shops')">Shops</button>
-                <button class="tab button button_style generator_tab" id="taverns"
-                    onclick="setTab('taverns')">Taverns</button>
-                <button class="tab button button_style generator_tab" id="customize"
-                    onclick="setTab('customize')">Customize</button>
-            </div>
-        </header>
+        <aside class="sidebar right_toolbar">
+            <!-- <header>
+              Menu
+            </header> -->
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a class="navbar_icon tab npc_icon button button_style generator_tab" data-section_id="npc" id="npc"
+                            onclick="setTab('npc')"></a>
+                    </li>
+                    <li>
+                        <a class="navbar_icon tab shop_icon button button_style generator_tab" data-section_id="shops" id="shops"
+                            onclick="setTab('shops')"><i></i> <span class=""></span></a>
 
-        <section class="section__show section__tool__large row spread_children" id="customize_section">
+                    </li>
 
-            <div class="row customize_tab_row">
-                <button class="button_style toggle_button"
-                    onclick="openCustomizationTab('random_table_input_container', this)" data-explanation_text = "random_tables_explanation" toggled="true" toggleGroup="1">Random
-                    tables</button>
-                <button class="button_style toggle_button" data-explanation_text = "encounter_tables_explanation"  onclick="openCustomizationTab('encounter_input_container', this)"
-                    toggled="false" toggleGroup="1">Monster sets</button>
-                <button class="button_style toggle_button" data-explanation_text = "npc_generation_explanation" onclick="openCustomizationTab('npc_generation_container', this)"
-                    toggled="false" toggleGroup="1">NPC generation (Experimental)</button>
-            </div>
+                    <li>
+                        <a class="navbar_icon tab tavern_icon button button_style generator_tab"  data-section_id="taverns" id="taverns"
+                            onclick="setTab('taverns')"><i></i> <span class=""></span></a>
+                    </li>
+                    <li>
+                        <a class="navbar_icon tab customize_icon button button_style generator_tab"  id="customize"
+                            onclick="setTab('customize')" data-section_id="customize"><i></i> <span class=""></span></a>
 
-            <div class="column genchooser_smaller" style="margin-top:45px;">
-                <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator " id = "random_tables_explanation"
-                    data-tooltip="Random tables are used to get things randomly. Fill the table and you can get a random entry in the randomizer in the main app screen. The probability column denotes the chance of an entry. This can be any number as the numbers are always scaled. So an entry with a probability of 200 will be twice is likely as an entry with 100. Any field aside from the Percentage and roll again on columns can contain HTML.">
-                    Random tables are used to get things randomly... </p>
-                    <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator hidden" id = "encounter_tables_explanation"
-                    data-tooltip="Encounter tables can be used to generate encounters. Create a set of creatures to pick from, and you can use the randomizer in the main app screen to generate a level appropriate encounter using only those creatures.">
-                    Encounter tables can be used to generate encounters. Create a set of creatures to pick from... </p>
-                    <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator hidden" id = "npc_generation_explanation"
-                    data-tooltip="You can add or remove names for a specific type of creature here, or create new namesets. These values are used when generating NPCs.">
-                    You can add or remove names for a specific type of creature here, or create new namesets. These.. </p>
-              
+                    </li>
 
-                <div class="column generator_customization_section" id="random_table_input_container">
-                    <label>Table name</label>
-                    <input id="random_table_name_input" placeholder="Type the name of a new or existing table">
-                    <div class="row "  style="margin-top:1em;">
-                        <button class="button button_style green hidden " id="save_table_button"
-                            onclick="saveRandomTable()">Save</button>
-                        <button class="button button_style red hidden" id="delete_table_button"
-                            style="margin-left:5px;" onclick="deleteRandomTable()">Delete</button>
-                        <button class="button button_style hidden" id="addTableRowButton" style="margin-left:5px"
-                            onclick="addRandomTableRow()">Add row</button>
 
-                    </div>
-                    <label for=random_table_dump>Dump</label>
-                    <textarea
-                        placeholder="Paste your table here, with rows &#13;&#10;seperated by new lines and columns seperated by tabs.&#13;&#10; You can also paste directly from a spreadsheet."
-                        id="random_table_dump"></textarea>
-                    <button class="button_style" onclick="dumpCreateTable()">Generate from dump</button>
 
+                </ul>
+            </nav>
+        </aside>
+        <div class="column" style="    width: 100%;
+        margin-top: 1.6em;">
+       
+
+            <section class="section__show section__tool__large row spread_children" id="customize_section">
+
+                <div class="row customize_tab_row">
+                    <button class="button_style toggle_button"
+                        onclick="openCustomizationTab('random_table_input_container', this)"
+                        data-explanation_text="random_tables_explanation" toggled="true" toggleGroup="1">Random
+                        tables</button>
+                    <button class="button_style toggle_button" data-explanation_text="encounter_tables_explanation"
+                        onclick="openCustomizationTab('encounter_input_container', this)" toggled="false"
+                        toggleGroup="1">Monster sets</button>
+                    <button class="button_style toggle_button" data-explanation_text="npc_generation_explanation"
+                        onclick="openCustomizationTab('npc_generation_container', this)" toggled="false"
+                        toggleGroup="1">NPC
+                        generation (Experimental)</button>
                 </div>
 
+                <div class="column genchooser_smaller" style="margin-top:45px;">
+                    <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator "
+                        id="random_tables_explanation"
+                        data-tooltip="Random tables are used to get things randomly. Fill the table and you can get a random entry in the randomizer in the main app screen. The probability column denotes the chance of an entry. This can be any number as the numbers are always scaled. So an entry with a probability of 200 will be twice is likely as an entry with 100. Any field aside from the Percentage and roll again on columns can contain HTML.">
+                        Random tables are used to get things randomly... </p>
+                    <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator hidden"
+                        id="encounter_tables_explanation"
+                        data-tooltip="Encounter tables can be used to generate encounters. Create a set of creatures to pick from, and you can use the randomizer in the main app screen to generate a level appropriate encounter using only those creatures.">
+                        Encounter tables can be used to generate encounters. Create a set of creatures to pick from...
+                    </p>
+                    <p class="explaination_text tooltipped tooltipped_large explanation_text_customize_generator hidden"
+                        id="npc_generation_explanation"
+                        data-tooltip="You can add or remove names for a specific type of creature here, or create new namesets. These values are used when generating NPCs.">
+                        You can add or remove names for a specific type of creature here, or create new namesets.
+                        These..
+                    </p>
 
-                <div class="column hidden generator_customization_section" id="encounter_input_container">
-                    <label>Encounter set name</label>
-                    <input id="encounter_set_name_input" placeholder="Type the name of a new or existing encounter set">
-                    <div class="row ">
-                        <button class="button button_style green hidden " id="save_encounter_set_button"
-                            onclick="saveEncounterSet()">Save</button>
-                        <button class="button button_style red hidden" id="delete_encounter_set_button"
-                            style="margin-left:5px" onclick="deleteEncounterSet()">Delete</button>
-                        <button class="button button_style hidden" id="add_encounter_set_row" style="margin-left:5px"
-                            onclick="addEncounterSetRow()">Add row</button>
+
+                    <div class="column generator_customization_section" id="random_table_input_container">
+                        <label>Table name</label>
+                        <input id="random_table_name_input" placeholder="Type the name of a new or existing table">
+                        <div class="row " style="margin-top:1em;">
+                            <button class="button button_style green hidden " id="save_table_button"
+                                onclick="saveRandomTable()">Save</button>
+                            <button class="button button_style red hidden" id="delete_table_button"
+                                style="margin-left:5px;" onclick="deleteRandomTable()">Delete</button>
+                            <button class="button button_style hidden" id="addTableRowButton" style="margin-left:5px"
+                                onclick="addRandomTableRow()">Add row</button>
+
+                        </div>
+                        <label for=random_table_dump>Dump</label>
+                        <textarea
+                            placeholder="Paste your table here, with rows &#13;&#10;seperated by new lines and columns seperated by tabs.&#13;&#10; You can also paste directly from a spreadsheet."
+                            id="random_table_dump"></textarea>
+                        <button class="button_style" onclick="dumpCreateTable()">Generate from dump</button>
+
                     </div>
-                    <label for=encounter_set_dump>Dump</label>
-                    <textarea
-                        placeholder="Paste your list here, with rows seperated by new lines. You can also paste directly from a spreadsheet."
-                        value="" id="encounter_set_dump"></textarea>
-                </div>
 
 
-                <div class="column hidden generator_customization_section" id="npc_generation_container">
-                    <div class="row creature_generation_buttons">
-                        <button class="toggle_button  button_style" onclick="switchNpcGeneratorDetails(0)"
-                            toggled="true" toggleGroup="2">
-                            Name sets
-                        </button>
-                        <button class="toggle_button button_style" toggled="false"
-                            onclick="switchNpcGeneratorDetails(1)" toggleGroup="2">
-                            Creatures
-                        </button>
+                    <div class="column hidden generator_customization_section" id="encounter_input_container">
+                        <label>Encounter set name</label>
+                        <input id="encounter_set_name_input"
+                            placeholder="Type the name of a new or existing encounter set">
+                        <div class="row ">
+                            <button class="button button_style green hidden " id="save_encounter_set_button"
+                                onclick="saveEncounterSet()">Save</button>
+                            <button class="button button_style red hidden" id="delete_encounter_set_button"
+                                style="margin-left:5px" onclick="deleteEncounterSet()">Delete</button>
+                            <button class="button button_style hidden" id="add_encounter_set_row"
+                                style="margin-left:5px" onclick="addEncounterSetRow()">Add row</button>
+                        </div>
+                        <label for=encounter_set_dump>Dump</label>
+                        <textarea
+                            placeholder="Paste your list here, with rows seperated by new lines. You can also paste directly from a spreadsheet."
+                            value="" id="encounter_set_dump"></textarea>
                     </div>
-                    
-                    <div div class="column " id="generator_creature_name_details">
-                        <input id="creature_namesets_name_input" placeholder="Type the name of a nameset">
-                        <div class="row " style="margin-top:12px">
-                            <button class="button button_style green " disabled id="save_nameset_button">Save</button>
-                            <button class="button button_style red" disabled id="delete_nameset_button" style="margin-left:5px"
-                                >Delete</button>
+
+
+                    <div class="column hidden generator_customization_section" id="npc_generation_container">
+                        <div class="row creature_generation_buttons">
+                            <button class="toggle_button  button_style" onclick="switchNpcGeneratorDetails(0)"
+                                toggled="true" toggleGroup="2">
+                                Name sets
+                            </button>
+                            <button class="toggle_button button_style" toggled="false"
+                                onclick="switchNpcGeneratorDetails(1)" toggleGroup="2">
+                                Creatures
+                            </button>
+                        </div>
+
+                        <div div class="column " id="generator_creature_name_details">
+                            <input id="creature_namesets_name_input" placeholder="Type the name of a nameset">
+                            <div class="row " style="margin-top:12px">
+                                <button class="button button_style green " disabled
+                                    id="save_nameset_button">Save</button>
+                                <button class="button button_style red" disabled id="delete_nameset_button"
+                                    style="margin-left:5px">Delete</button>
+
+                            </div>
+
+                        </div>
+                        <div div class="column hidden" id="generator_creature_details">
+                            <input id="creature_type_name_input"
+                                placeholder="Type the name of a new or existing creature">
+                            <div class="row " style="margin-top:12px">
+                                <button class="button button_style green " disabled
+                                    id="save_creature_set_button">Save</button>
+                                <button class="button button_style red" disabled style="margin-left:5px;"
+                                    id="delete_creature_set_button">Delete</button>
+
+                            </div>
 
                         </div>
 
-                    </div>
-                    <div div class="column hidden" id="generator_creature_details">
-                        <input id="creature_type_name_input" placeholder="Type the name of a new or existing creature">
-                        <div class="row " style="margin-top:12px">
-                            <button class="button button_style green " disabled id="save_creature_set_button">Save</button>
-                            <button class="button button_style red" disabled style="margin-left:5px;" id="delete_creature_set_button">Delete</button>
 
+
+                    </div>
+
+
+                </div>
+
+                <div class="column genchooser_larger">
+                    <h2 id="currently_editing_navigator"></h2>
+                    <div id="creature_navigator">
+
+                    </div>
+                    <div class="column ">
+                        <div id="customize_table">
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section__show section__tool__large row spread_children" id="taverns_section">
+                <div class="column genchooser_smaller">
+                    <h2>Tavern Generator</h2>
+                    <label for="tavern_wealth">Wealth</label>
+                    <select name="tavern_wealth" id="tavern_wealth">
+                        <option value="0">Poor</option>
+                        <option value="1">Middling</option>
+                        <option value="2">Rich</option>
+                        <option value="3">Luxurious</option>
+                    </select>
+
+                    <label for="tavern_menu">Menu Type</label>
+                    <select id="tavern_menu">
+                        <option value="conventional" selected="selected">Conventional</option>
+                        <option value="exotic">Exotic</option>
+                    </select>
+
+                    <label for="tavern_rumours">Rumours</label>
+                    <select id="tavern_rumours">
+                        <option value="0">None</option>
+                        <option value="1" selected="selected">Some</option>
+                        <option value="2">Many</option>
+                    </select>
+                    <label for="tavern_pricing">Pricing</label>
+                    <select name="tavern_pricing" id="tavern_pricing">
+                        <option value="0.25">Discount</option>
+                        <option value="0.5">Affordable</option>
+                        <option value="1" selected="selected">Normal</option>
+                        <option value="2">Expensive</option>
+                        <option value="3">Exorbitant</option>
+                    </select>
+
+                    <div class="column">
+                        <button class="generate_button button_style button_wide margin_top" id="generate_tavern_button"
+                            onclick="generateTavern()">Generate</button>
+                        <button class="generate_button button_style button_wide margin_top hidden"
+                            id="reroll_tavern_button">Reroll
+                            rumors/menu</button>
+                    </div>
+
+                </div>
+
+                <div class="column genchooser_larger">
+                    <div class="column ">
+
+                        <h1 class="shop__name hidden" id="tavern_name">
+                        </h1>
+                        <p class="text" id="tavern_description"></p>
+                        <div class="table_and_rumors">
+                            <div id="tavern_table">
+
+                            </div>
+                            <div class="column" id="tavern_rumors">
+
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
+
+                </div>
+            </section>
+            <section class="section__show section__tool__large row spread_children" id="npc_section">
+                <div class="column genchooser_smaller">
+                    <h2>NPC generator</h2>
+
+
+                    <label for="choose_type_generated_creature">Creature type</label>
+                    <select name="choose_type_generated_creature" id="choose_type_generated_creature">
+
+
+                    </select>
+                    <label for="choose_nameset">Name set</label>
+                    <select name="nameset" id="choose_nameset"></select>
+                    <label for="choose_gender">Gender</label>
+                    <select name="gender" id="choose_gender">
+                        <option value="any">Any</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                    <div class="column">
+                        <button class="generate_button button_style button_wide margin_top"
+                            id="generate_npc_button">Generate</button>
+                    </div>
+
+                </div>
+
+                <div class="column genchooser_larger" style="margin-left:2em;">
+                    <div class="generator_reroll_container">
+                        <button class="hidden regenerate_button" id="regenerate_name_button"></button>
+                        <div id="generated_npc_name" class="invisible_editable_header">
                         </div>
 
                     </div>
+                    <div class="generator_reroll_container">
 
-
-
-                </div>
-
-
-            </div>
-
-            <div class="column genchooser_larger">
-                <h2 id="currently_editing_navigator"></h2>
-                <div id="creature_navigator">
-
-                </div>
-                <div class="column ">
-                    <div id="customize_table">
-
+                        <button class="hidden regenerate_button" id="regenerate_creature_button"></button>
+                        <div class="invisible_editable_text" id="generated_npc_profession"></div>
                     </div>
+
+
+
+                    <div class="invisible_editable_text" id="generated_npc_description" contenteditable></div>
+                    <button class="button_style button_wide margin_top" id="copyButton"
+                        title="Copy to clipboard">Copy</button>
+
                 </div>
-            </div>
-        </section>
-        <section class="section__show section__tool__large row spread_children" id="taverns_section">
-            <div class="column genchooser_smaller">
-                <h2>Tavern Generator</h2>
-                <label for="tavern_wealth">Wealth</label>
-                <select name="tavern_wealth" id="tavern_wealth">
-                    <option value="0">Poor</option>
-                    <option value="1">Middling</option>
-                    <option value="2">Rich</option>
-                    <option value="3">Luxurious</option>
-                </select>
+            </section>
+            <section class="section__show section__tool__large row spread_children" id="shops_section">
+                <div class="column genchooser_smaller">
+                    <h2>Magic shop generator</h2>
+                    <label for="shop_type">Shop type</label>
+                    <select name="shop_type" id="shop_type">
+                        <option value="general">General</option>
+                        <option value="weapon">Weapons</option>
+                        <option value="armor">Armor</option>
+                        <option value="potion">Potions</option>
+                        <option value="wondrous item">Wondrous items</option>
+                        <option value="scroll">Scrolls</option>
+                    </select>
 
-                <label for="tavern_menu">Menu Type</label>
-                <select id="tavern_menu">
-                    <option value="conventional" selected="selected">Conventional</option>
-                    <option value="exotic">Exotic</option>
-                </select>
+                    <label for="shop_wealth">Shop wealth</label>
+                    <select name="shop_wealth" id="shop_wealth">
+                        <option value="meager">Meager</option>
+                        <option value="poor">Poor</option>
+                        <option value="some">Middling</option>
+                        <option value="wealthy">Wealthy</option>
+                        <option value="extravagant">Extravagant</option>
+                    </select>
 
-                <label for="tavern_rumours">Rumours</label>
-                <select id="tavern_rumours">
-                    <option value="0">None</option>
-                    <option value="1" selected="selected">Some</option>
-                    <option value="2">Many</option>
-                </select>
-                <label for="tavern_pricing">Pricing</label>
-                <select name="tavern_pricing" id="tavern_pricing">
-                    <option value="0.25">Discount</option>
-                    <option value="0.5">Affordable</option>
-                    <option value="1" selected="selected">Normal</option>
-                    <option value="2">Expensive</option>
-                    <option value="3">Exorbitant</option>
-                </select>
+                    <label for="shop_size">Inventory size</label>
+                    <select name="shop_size" id="shop_size">
+                        <option value="meager">Tiny</option>
+                        <option value="poor">Small</option>
+                        <option value="some">Medium</option>
+                        <option value="wealthy">Large</option>
+                        <option value="extravagant">Hoard</option>
+                    </select>
 
-                <div class="column">
-                    <button class="generate_button button_style button_wide margin_top" id="generate_tavern_button"
-                        onclick="generateTavern()">Generate</button>
-                    <button class="generate_button button_style button_wide margin_top hidden"
-                        id="reroll_tavern_button">Reroll
-                        rumors/menu</button>
+                    <label for="shop_pricing">Shop pricing</label>
+                    <select name="shop_pricing" id="shop_pricing">
+                        <option value="0.25">Discount</option>
+                        <option value="0.5">Affordable</option>
+                        <option value="1" selected="selected">Normal</option>
+                        <option value="2">Expensive</option>
+                        <option value="3">Exorbitant</option>
+                    </select>
+                    <div class="column">
+                        <button class="generate_button button_style button_wide margin_top"
+                            id="generate_shop_button">Generate</button>
+                        <button class="generate_button button_style button_wide margin_top hidden"
+                            id="reroll_shop_button">Reroll
+                            inventory</button>
+                    </div>
+
                 </div>
 
-            </div>
-
-            <div class="column genchooser_larger">
-                <div class="column ">
-
-                    <h1 class="shop__name hidden" id="tavern_name">
+                <div class="column genchooser_larger ">
+                    <h1 class="shop__name hidden" id="shop_name">
                     </h1>
-                    <p class="text" id="tavern_description"></p>
-                    <div class="table_and_rumors">
-                        <div id="tavern_table">
+                    <div id="shop_generator_table">
 
-                        </div>
-                        <div class="column" id="tavern_rumors">
-
-                        </div>
                     </div>
-
-
+                    <p class="text" id="shop_description"></p>
 
 
 
                 </div>
-
-            </div>
+        </div>
         </section>
-        <section class="section__show section__tool__large row spread_children" id="npc_section">
-            <div class="column genchooser_smaller">
-                <h2>NPC generator</h2>
-
-
-                <label for="choose_type_generated_creature">Creature type</label>
-                <select name="choose_type_generated_creature" id="choose_type_generated_creature">
-
-
-                </select>
-                <label for="choose_nameset">Name set</label>
-                <select name="nameset" id="choose_nameset"></select>
-                <label for="choose_gender">Gender</label>
-                <select name="gender" id="choose_gender">
-                    <option value="any">Any</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-                <div class="column">
-                    <button class="generate_button button_style button_wide margin_top"
-                        id="generate_npc_button">Generate</button>
-                </div>
-
-            </div>
-
-            <div class="column genchooser_larger" style="margin-left:2em;">
-                <div class="generator_reroll_container">
-                    <button class="hidden regenerate_button" id="regenerate_name_button"></button>
-                    <div id="generated_npc_name" class="invisible_editable_header" >
-                    </div>
-                    
-                </div>
-                <div class="generator_reroll_container">
-                  
-                    <button class="hidden regenerate_button" id="regenerate_creature_button"></button>
-                    <div class="invisible_editable_text" id="generated_npc_profession" ></div>
-                </div>
-
-           
-         
-                <div class="invisible_editable_text" id="generated_npc_description" contenteditable></div>
-                <button class="button_style button_wide margin_top" id="copyButton"
-                    title="Copy to clipboard">Copy</button>
-
-            </div>
-        </section>
-        <section class="section__show section__tool__large row spread_children" id="shops_section">
-            <div class="column genchooser_smaller">
-                <h2>Magic shop generator</h2>
-                <label for="shop_type">Shop type</label>
-                <select name="shop_type" id="shop_type">
-                    <option value="general">General</option>
-                    <option value="weapon">Weapons</option>
-                    <option value="armor">Armor</option>
-                    <option value="potion">Potions</option>
-                    <option value="wondrous item">Wondrous items</option>
-                    <option value="scroll">Scrolls</option>
-                </select>
-
-                <label for="shop_wealth">Shop wealth</label>
-                <select name="shop_wealth" id="shop_wealth">
-                    <option value="meager">Meager</option>
-                    <option value="poor">Poor</option>
-                    <option value="some">Middling</option>
-                    <option value="wealthy">Wealthy</option>
-                    <option value="extravagant">Extravagant</option>
-                </select>
-
-                <label for="shop_size">Inventory size</label>
-                <select name="shop_size" id="shop_size">
-                    <option value="meager">Tiny</option>
-                    <option value="poor">Small</option>
-                    <option value="some">Medium</option>
-                    <option value="wealthy">Large</option>
-                    <option value="extravagant">Hoard</option>
-                </select>
-
-                <label for="shop_pricing">Shop pricing</label>
-                <select name="shop_pricing" id="shop_pricing">
-                    <option value="0.25">Discount</option>
-                    <option value="0.5">Affordable</option>
-                    <option value="1" selected="selected">Normal</option>
-                    <option value="2">Expensive</option>
-                    <option value="3">Exorbitant</option>
-                </select>
-                <div class="column">
-                    <button class="generate_button button_style button_wide margin_top"
-                        id="generate_shop_button">Generate</button>
-                    <button class="generate_button button_style button_wide margin_top hidden"
-                        id="reroll_shop_button">Reroll
-                        inventory</button>
-                </div>
-
-            </div>
-
-            <div class="column genchooser_larger ">
-                <h1 class="shop__name hidden" id="shop_name">
-                </h1>
-                <div id="shop_generator_table">
-
-                </div>
-                <p class="text" id="shop_description"></p>
-
-
-
-            </div>
     </div>
-    </section>
     <script>
         window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
     </script>

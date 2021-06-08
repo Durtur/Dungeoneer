@@ -421,7 +421,7 @@ hr {
   background-size: contain;
   font-family: bookSanity;
   border-bottom: 3px solid var(--alt-emphasis-color);
-  filter: drop-shadow(2px 2px 6px black);
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.75);
   border-radius: 5px;
   padding: 0.5em;
   padding-top: 2em;
@@ -434,8 +434,12 @@ hr {
   column-gap: 20px;
 }
 
-.pageframe p, .pageframe h1,.pageframe h2,.pageframe h3,.pageframe h4,.pageframe h5,.pageframe .header_text{
+.pageframe p, #spell_popup p{
   color:black;
+}
+.pageframe h1,.pageframe h2,.pageframe h3,.pageframe h4,.pageframe h5,.pageframe .header_text,
+#spell_popup h1,#spell_popup h2,#spell_popup h3,#spell_popup h4,#spell_popup h5,#spell_popup .header_text{
+  color:var(--statblock-emphasis-color);
 }
 
 .single_column {

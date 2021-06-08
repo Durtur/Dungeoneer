@@ -12,7 +12,7 @@
     width: 100%;
     height: 30px;
     padding: 6px;
-    border: 1px solid #dcdee2;
+    border: 1px solid var(--main-text-color);
     border-radius: 4px;
     background-color: var(--foreground-color);
     background-image: var( --foreground-image);
@@ -112,7 +112,7 @@
     min-height: 30px;
     width: 100%;
     padding: 0 0 0 3px;
-    border: 1px solid #dcdee2;
+    border: 1px solid var(--main-text-color);;
     border-radius: 4px;
     background-color: var(--foreground-color);
     background-image: var( --foreground-image);
@@ -251,7 +251,7 @@
     width: 100%;
     margin: -1px 0 0 0;
     box-sizing: border-box;
-    border: solid 1px #dcdee2;
+    border: solid 1px var(--main-text-color);;
     z-index: 1010;
     background-color: var(--foreground-color);
     background-image: var( --foreground-image);
@@ -372,10 +372,9 @@
 }
 
 .ss-content .ss-list .ss-option:hover, .ss-content .ss-list .ss-option.ss-highlighted {
-    color: var(--foreground-color);
-    background-image: var( --foreground-image);
+
     background-size: cover;
-    background-color: #5897fb
+    background-color: var(--highlight-color);
 }
 
 .ss-content .ss-list .ss-option.ss-disabled {

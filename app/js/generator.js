@@ -11,14 +11,6 @@ function testRumours() {
     });
 }
 
-module.exports = {
-    saySomething: function () {
-        return generateHook();
-
-
-    }
-
-}
 
 
 var marked = require('marked');
@@ -1417,9 +1409,8 @@ function generateTavern() {
 
 
         generateTavernRumorsAndMenu(data);
-        ////DESCRIPTION
+    
         var description = "<strong>" + tavernName + "</strong>" + pickOne([" is located", " is situated", " can be found", " is placed "]) + " " + pickOne(data.tavern.locations) + ". ";
-
 
         description += "The interior is " + pickOne(data.shops.interior.description[tavernWealth]) + " with a " + pickOne(data.tavern.flooring[tavernWealth]) + " floor.";
         description += " The bar is " + pickOne(data.tavern.barstyle) + ". " + pickOne(["Round", "Square"]) + " tables are " + pickOne(data.tavern.table_setup) + ".";
@@ -1457,7 +1448,7 @@ function generateTavernRumorsAndMenu(data) {
     var tavernPrice = tavernPriceDropdown.options[tavernPriceDropdown.selectedIndex].value;
 
     var menuArray = data.tavern.menu[menuType];
-    //cheaper er 0 og  dýrari er 1
+    //cheaper =0 , more expensive = 1
     var arr = [pickX(menuArray[tavernWealth][0], d(2)), pickX(menuArray[tavernWealth][1], d(2))];
     var drinks = pickX(data.tavern.drinks[menuType][tavernWealth], d(4) + tavernWealth);
     var finalMenuArray = [];
@@ -1857,7 +1848,7 @@ function setTab(x) {
     var tabs = document.getElementsByClassName("tab");
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].classList.remove("toggle_button_toggled");
-        var currentSection = document.querySelector("#" + tabs[i].innerHTML.toLowerCase() + "_section")
+        var currentSection = document.querySelector("#" +tabs[i].getAttribute("data-section_id") + "_section")
         currentSection.classList.add("hidden");
     }
 
@@ -1876,10 +1867,6 @@ function populateGenerationSetMenu() {
             newOption.innerHTML = setName.charAt(0).toUpperCase() + setName.slice(1);
             setDropDownChooser.appendChild(newOption);
         }
-
-
-
-
     });
 }
 

@@ -1,0 +1,140 @@
+
+.sidebar a {
+    text-decoration: none;
+    transition: all 0.6s ease;
+}
+
+.sidebar .navbar_icon {
+    background-repeat: no-repeat;
+    width: 2.5em;
+    height: 2.5em;
+
+    background-size: 90%;
+    cursor: pointer;
+    background-position: center;
+    padding: 0.75em 0 0.75em 0;
+  
+}
+
+
+
+/* -------------
+  Sidebar
+  ----------------*/
+
+
+.right_toolbar{
+    pointer-events: none;
+
+
+}
+
+.right_toolbar>.sidebar-nav{
+    pointer-events: none;
+}
+.right_toolbar * {
+    pointer-events: all;
+}
+.sidebar {
+    width:2.5em;
+    height: 100%;
+    top: 0;
+    overflow: hidden;
+    background-color: var(--main-color);
+    transform: translateZ(0);
+    visibility: visible;
+    backface-visibility: hidden;
+}
+
+.sidebar header {
+    color: white;
+    width: 100%;
+    display: block;
+    padding: 0.75em 1em;
+}
+
+/* -------------
+  Sidebar Nav
+  ----------------*/
+
+.sidebar-nav {
+    padding-top:2em;
+
+    height: 100%;
+    font-weight: 400;
+    font-size: 1.2em;
+    overflow: auto;
+    padding-bottom: 6em;
+    z-index: 9;
+    overflow: hidden;
+    -webkit-overflow-scrolling: touch;
+    /* -------------
+    Chev elements
+    ----------------*/
+    /* -------------
+    Nav-Flyout
+    ----------------*/
+    /* -------------
+    Hover
+    ----------------*/
+}
+
+
+.visible_fade_in {
+    animation: fadein 1s;
+}
+
+.sidebar .menu_filler {
+    text-indent: -1000%;
+    height: 2.4em;
+    user-select: none;
+}
+
+
+.sidebar-nav ul {
+    list-style: none;
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-nav ul li {
+    margin-left: 0;
+    padding-left: 0;
+    display: inline-block;
+    width: 100%;
+    /* -------------
+    Sidebar: icons
+    ----------------*/
+}
+
+.sidebar-nav ul li a {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.75em;
+    padding: 1.05em 1em;
+    position: relative;
+    display: block;
+}
+
+
+.sidebar-nav ul li i {
+    font-size: 1.8em;
+    padding-right: 0.5em;
+    width: 9em;
+    display: inline;
+    vertical-align: middle;
+}
+
+.sidebar-nav .nav-flyout {
+    padding-top:1em;
+    position: absolute;
+    background-color: var(--main-color);
+    z-index: 9;
+    left: 2.5em;
+    top: 0;
+    height: 100vh;
+    transform: translateX(100%);
+    transition: all 0.5s ease;
+}
+
+
