@@ -594,11 +594,6 @@ h1 {
   padding: 5px;
 }
 
-.vertical {
-  -webkit-transform: rotate(-90deg);
-  text-align: center;
-  font-size: 20px;
-}
 
 #randomizer_item_title {
   margin: 1em;

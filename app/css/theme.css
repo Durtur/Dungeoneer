@@ -1,12 +1,12 @@
 :root {
-    --main-color: #500c00;
-    --alt-main-color: #451A17;
-    --main-emphasis-color: #a12d20;
-    --color-red: #a72424;;
+    --main-color: #373737;
+    --alt-main-color: #353535;
+    --main-emphasis-color: #424242;
+    --highlight-color:rgb(119 119 255);;
     --black:black;
-    --alt-emphasis-color: rgb(189 151 74 / 40%);
-    --highlight-color:hsl(54deg 58% 43%);
-    --main-underline-color: rgb(61, 17, 9);
+    --color-red: #a72424;;
+    --alt-emphasis-color: rgb(0 0 0 / 40%);
+    --main-underline-color: transparent;
     --main-success-color: rgb(4, 64, 4);
     --main-success-color-darker: rgb(2, 44, 2);
     --dark-transparent-bg: rgba(0, 0, 0, 0.1);
@@ -14,41 +14,62 @@
     --transition-delay: 300ms;
     --base-margin: 10px;
     --rounded-corners: 5px;
-    --background-image:url("./img/phbbgbig.png");
-    --main-header-color: #500c00;
-    --background-color:transparent;
-    --foreground-image: url("./img/phbbg.png");
-    --foreground-color:transparent;
-    --main-text-color:black;
-    --inverse-text-color:white;
+    --background-image:"none";
+    --background-color:rgb(25, 25 ,25);;
+    --main-header-color:white;
+    --foreground-image: none;
+    --foreground-color:#2b2b2b;
+    --main-text-color:white;
+    --inverse-text-color:black;
     --black-bg: rgba(34, 34, 34, 0.8);
-    --basic-font: "roboto";
-    --header-font: "mrEaves";
+    --header-font: 'Source Sans Pro', sans-serif;
+    --basic-font: 'Open sans', sans-serif;
 
   }
-
+  
   
 @font-face {
-    font-family: mrEaves;
-    src: url("./fonts/Mr Eaves Small Caps.otf");
+    font-family: 'Source Sans Pro';
+    src: url("./fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf");
   }
   
   @font-face {
-    font-family: nodesto;
-    src: url("./fonts/Nodesto Caps Condensed.otf");
-  }
-  
-
-  @font-face {
-    font-family: misDirection;
-    src: url("./fonts/Zatanna Misdirection.otf");
+    font-family: 'Open sans';
+    src: url("./fonts/Open_Sans/OpenSans-Regular.ttf");
   }
   
   @font-face {
-    font-family: solbera;
-    src: url("./fonts/Solbera Imitation.otf");
+    font-family: 'Open sans quote';
+    src: url("./fonts/Open_Sans/OpenSans-LightItalic.ttf");
   }
 
-  .die_d20:hover {
-    background-image: url("./img/d20hover.png");
+  .combatRow>.die_d20, .mobcontroller_row .die_d20 {
+    background-color: white;
+  }
+  
+  #combatMain .die_d20_normal , .statblock_control_buttons .die_d20_normal {
+    background-image: url("./themes/darkmode/d20normal.png") !important;
+  }
+ 
+  .die_d20_normal {
+    background-image: url("./themes/darkmode/d20.png") !important;
+  }
+
+  .init_not_started{
+    background-image: url("./themes/darkmode/d20.png") !important;
+  }
+
+  .pcnode_normal_ac{
+      background-image: url("./themes/darkmode/shield_outline.png");
+  }
+.pcnode__passiveperception>p{
+    background-image: url("./themes/darkmode/eye.png");
+}
+
+.change_party_button, .change_party_button:hover{
+    background-image: url("./themes/darkmode/party.png") !important;
+}
+
+  .copy_button, .edit_button, .remove_button, .pcnode__passiveperception>p, .pcnode_normal_ac, .kill__button, #round_counter_container{
+    filter: saturate(0) brightness(137.5);
   }

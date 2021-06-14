@@ -426,6 +426,15 @@ hr {
   padding: 0.5em;
   padding-top: 2em;
 }
+.statblock_container td{
+  color:black;
+}
+.statblock_container thead>tr, .statblock_container  .table_header, .statblock_container  th {
+
+  
+  color:var(--statblock-emphasis-color);
+
+}
 
 .pageframe {
   font-family: var(--basic-font);
