@@ -27,7 +27,7 @@ class StatblockEditor{
         var oldAction = monster.actions.find(x=> x.name.toLowerCase() == oldWeapon.name.toLowerCase());
         var profMod = parseInt(oldAction.attack_bonus) - ((oldWeapon.finesse || oldWeapon.ranged) ? dexMod : strMod );
         
-        var newAction = this.equipWeapon(dexMod, strMod, profMod, newWeapon, monster.special_abilities.map(x=> Object.keys(x)[0]));
+        var newAction = this.equipWeapon(dexMod, strMod, profMod, newWeapon, monster.special_abilities?.map(x=> Object.keys(x)[0] ||[]));
         oldAction.damage_dice = newAction.damageDice;
         oldAction.attack_bonus = newAction.attackBonus;
         oldAction.damage_bonus = newAction.damageBonus;

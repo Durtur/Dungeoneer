@@ -62,7 +62,7 @@
     padding-right: 0.25em;
     left: 0.25em;
     background-color: var(--main-color);
-    color: var(--inverse-text-color);
+    color: var(--muted-text-color);
     border-radius: var(--rounded-corners);
 }
 .token_selector_node_img{
