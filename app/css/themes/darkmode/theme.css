@@ -20,6 +20,7 @@
     --foreground-image: none;
     --foreground-color:#2b2b2b;
     --main-text-color:white;
+    --muted-text-color:rgb(150, 150, 150);
     --inverse-text-color:black;
     --black-bg: rgba(34, 34, 34, 0.8);
     --header-font: 'Source Sans Pro', sans-serif;

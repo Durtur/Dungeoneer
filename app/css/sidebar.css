@@ -44,6 +44,9 @@
     transform: translateZ(0);
     visibility: visible;
     backface-visibility: hidden;
+    background-color: var(--main-color);
+    position: fixed;
+    z-index:4;
 }
 
 .sidebar header {

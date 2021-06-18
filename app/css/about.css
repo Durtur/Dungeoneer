@@ -107,11 +107,15 @@ img {
     float: left;
     margin-right: 15px;
 }
+a{
+    color: var(--highlight-color);
+}
 
 .hyperlink_like {
     border: none;
     background-color: transparent;
-    border-bottom: 1px black dashed;
+    border-bottom: 1px var(--main-text-color) dashed;
+    color:var(--main-text-color);
     cursor: pointer;
     font-family: "bookSanity";
     padding: 0;

@@ -27,8 +27,9 @@
 
 .section__tool__large {
     width:100%;
-    height:100%;
-    overflow: hidden;
+    margin:0;
+    margin-left:2.5em;
+ 
 }
 .rumor_row:hover {
     border-left: 0.2em solid var(--main-underline-color);
@@ -136,6 +137,7 @@ select {
     border: none;
     background-color: transparent;
     text-align: center;
+    color:var(--main-text-color);
 }
 
 .table_and_rumors {
@@ -203,9 +205,9 @@ path {
 }
 
 .genchooser_larger {
-    max-width: 85%;
-    width: 63%;
-    overflow:scroll;
+    max-width: 70%;
+    min-width: 63%;
+
 }
 
 .generator_customization_section input {
@@ -300,7 +302,7 @@ th {
 
 .treeview_caret {
     cursor: pointer;
-    color: black;
+    color: var(--main-text-color);
     font-family: var(--basic-font);
     user-select: none;
     flex: 0 0 100%;
@@ -360,10 +362,10 @@ th {
 
 #customize_table tr .remove_button{
     display:none;
-    position:absolute;
+
 
     margin-top: 0.5em;
-    margin-left: -1.5em;
+    margin-right: -1.5em;
 }
 #customize_table tr:hover .remove_button{
     display:flex;

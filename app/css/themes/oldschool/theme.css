@@ -20,6 +20,7 @@
     --foreground-image: url("./img/phbbg.png");
     --foreground-color:transparent;
     --main-text-color:black;
+    --muted-text-color:rgb(85, 85, 85);
     --inverse-text-color:white;
     --black-bg: rgba(34, 34, 34, 0.8);
     --basic-font: "roboto";

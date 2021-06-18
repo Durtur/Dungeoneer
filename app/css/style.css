@@ -884,9 +884,7 @@ h1 {
   text-decoration: underline;
 }
 
-.initiative_node_active {
-  background-color: #85A215 !important;
-}
+
 
 .initiativeNode:hover>.initiative_explanation_text_node, .initiative_node_active>.initiative_explanation_text_node {
   display: block;

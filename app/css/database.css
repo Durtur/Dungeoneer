@@ -264,7 +264,7 @@ html {
 .listRow_header>.listRow__inner>input:hover {
   background-image: url("img/arrow.png");
   opacity: 0.7;
-  font-weight: bold;
+
 }
 
 .marginTop {
@@ -892,7 +892,7 @@ html {
 }
 
 .official_content_row>.listRow__inner>input {
-  color: #3f3b3b !important;
+  color: var(--muted-text-color) !important;
 }
 
 .required_input:placeholder-shown {
