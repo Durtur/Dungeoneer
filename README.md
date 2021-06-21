@@ -49,3 +49,5 @@ Anyone is free to use this application. See further constraints in [Licence.md](
 
 ## Contributing
 Pull requests are welcome!
+
+To get started you need to install npm and yarn. Clone the project and run yarn install && yarn start. 
