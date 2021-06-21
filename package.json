@@ -16,7 +16,7 @@
     "email" : "durtur@github.com",
     "url" : "http://github.com/durtur/"
   },
-  "license": "CC-BY-NC-4.0",
+  "license": "AGPL-3.0-or-later",
   "devDependencies": {
     "electron": "^10.2.0",
     "electron-builder": "^20.44.4"
