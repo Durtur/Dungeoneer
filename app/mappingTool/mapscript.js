@@ -573,14 +573,14 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedPawns.forEach(element => element.style.backgroundColor = newColor);
     }
 
-    document.getElementById("icon_load_button_add_pawn").onclick =async function () {
-        var info = {name:document.getElementById("add_pawn_name").value}
+    document.getElementById("icon_load_button_add_pawn").onclick = async function () {
+        var info = { name: document.getElementById("add_pawn_name").value }
         await tokenSelector.getNewTokenPaths(true, imagePaths => {
             if (imagePaths == null) return;
-            addPawnImagePaths =imagePaths;
-            
+            addPawnImagePaths = imagePaths;
+
         }, info);
-     
+
     }
     document.getElementById("popup_menu_add_effect").addEventListener("mouseenter", function (evt) {
         if (previewPlacementElement) {
@@ -882,12 +882,18 @@ function onSettingsLoaded() {
             //data.pawns = pawnsToSave;
             data.moveOffsetX = gridMoveOffsetX;
             data.moveOffsetY = gridMoveOffsetY;
-            data.effects = effects;
+            var effectsToAdd = [];
+
             for (var i = 0; i < effects.length; i++) {
-                data.effects[i].data_classList = [...effects[i].classList];
-                data.effects[i].data_x = effects[i].style.left;
-                data.effects[i].data_y = effects[i].style.top;
+                var newEff = {
+                    data_classList: [...effects[i].classList],
+                    data_x: effects[i].style.left,
+                    data_y: effects[i].style.top
+                };
+                effectsToAdd.push(newEff)
+
             }
+            data.effects = effectsToAdd;
             data.map = settings.currentMap;
             data.mapX = mapContainer.data_transform_x;
             data.mapY = mapContainer.data_transform_y;
@@ -2461,6 +2467,7 @@ function createEffect(e, isPreviewElement) {
     } else if (currentlySelectedEffectDropdown == 1) {
         newEffect = addLightEffectHandler(e, isPreviewElement);
     }
+
     return newEffect;
 
 }
@@ -2521,10 +2528,12 @@ function createBaseEffect(effectObj, isPreviewElement, e) {
 
     newEffect.style.backgroundImage = selectedSfxBackground;
     //Refresh preview
-    if (!isPreviewElement)
+    if (!isPreviewElement) {
+        effects.push(newEffect)
         previewPlacement(createEffect(e, true));
+    }
 
-    effects.push(newEffect)
+
 
     return newEffect;
 }
@@ -2637,7 +2646,7 @@ function stopAddingEffects() {
 }
 
 function popupMenuAddEffectClickHandler(e) {
-
+    console.log(e)
     var pawn;
     if (e.button == 0 && e.target == gridLayer) {
         createEffect(e);
