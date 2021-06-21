@@ -430,6 +430,7 @@ ipcRenderer.on("next-player-round", function (evt, params) {
 
     var player = params.player;
     var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
+    if(forcedPerpspectiveDD.selectedIndex == 1)return; //all players
     if (player != null) {
         for (var i = 0; i < forcedPerpspectiveDD.options.length; i++) {
             if (forcedPerpspectiveDD.options[i].value == player) {
@@ -1300,7 +1301,7 @@ function zoomIntoMap(event, resizeAmount) {
         });
         resizeAndDrawGrid(null, event);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
-
+        fovLighting.drawFogOfWar();
     });
 }
 
@@ -1844,8 +1845,8 @@ function loadParty() {
 
 function fillForcedPerspectiveDropDown() {
     var dropDown = document.getElementById("fov_perspective_dropdown");
-
-    while (dropDown.childNodes.length > 2) {
+    console.log(dropDown.childNodes)
+    while (dropDown.childNodes.length > 4) {
         dropDown.removeChild(dropDown.lastChild);
     }
     partyArray.forEach(function (array) {

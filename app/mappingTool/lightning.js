@@ -114,7 +114,6 @@ var fovLighting = function () {
             return;
 
         fogOfWarLayerContext.globalCompositeOperation = 'source-over';
-        fogOfWarLayerContext.fillStyle = "#000";
 
         // Ensure same dimensions
         maskCanvas.width = fogOfWarLayerCanvas.width;
@@ -122,22 +121,26 @@ var fovLighting = function () {
 
         maskCtx.fillStyle = settings.fogOfWarHue;
         maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
-        maskCtx.globalCompositeOperation = 'xor';
 
+        forcedPerspectiveOrigin.forEach(entry => draw(entry, true));
+        maskCtx.globalCompositeOperation = 'destination-out';
+        forcedPerspectiveOrigin.forEach(entry=> {
+            drawVisionLines(parseFloat(entry.style.left) + entry.clientWidth / 2,
+            parseFloat(entry.style.top) + entry.clientHeight / 2, maskCtx);
+            maskCtx.fill();
+        });
 
-        drawVisionLines(pawnX = parseFloat(forcedPerspectiveOrigin.style.left) + forcedPerspectiveOrigin.clientWidth / 2,
-            pawnY = parseFloat(forcedPerspectiveOrigin.style.top) + forcedPerspectiveOrigin.clientHeight / 2, maskCtx);
-        maskCtx.fill();
-
+        fogOfWarLayerContext.globalCompositeOperation = 'source-over';
         fogOfWarLayerContext.drawImage(maskCanvas, 0, 0);
-        draw(forcedPerspectiveOrigin, true);
+        
+   
         clearMask();
         mapIsBlack = false;
     }
     function draw(currentPawn, isOrigin) {
 
         if (currentPawn.sight_mode == "darkvision" && !activeViewerHasDarkvision && !isPlayerPawn(currentPawn) ||
-            (forcedPerspectiveOrigin && forcedPerspectiveOrigin != currentPawn && currentPawn.sight_mode == "darkvision")) {
+            (forcedPerspectiveOrigin && !forcedPerspectiveOrigin.find(x=> x == currentPawn) && currentPawn.sight_mode == "darkvision")) {
             return;
         }
         var pawnX, pawnY;
@@ -146,8 +149,7 @@ var fovLighting = function () {
 
         if (!isOrigin && isOffScreen(currentPawn))
             return;
-
-
+   
         fogOfWarLayerContext.globalCompositeOperation = 'destination-out';
         drawVisionLines(pawnX, pawnY, fogOfWarLayerContext);
         paintVision(currentPawn, pawnX, pawnY);
@@ -698,11 +700,14 @@ var fovLighting = function () {
             forcedPerspectiveOrigin = null;
             drawFogOfWar();
             return;
+        }else if (selectedIndex == 1){
+            forcedPerspectiveOrigin = pawns.players.map(x=> x[0]);
+       
         }
         for (var i = 0; i < pawns.players.length; i++) {
             if (pawns.players[i][1] == name) {
-                forcedPerspectiveOrigin = pawns.players[i][0];
-                if (forcedPerspectiveOrigin.sight_mode == "darkvision") {
+                forcedPerspectiveOrigin = [pawns.players[i][0]];
+                if (forcedPerspectiveOrigin[0].sight_mode == "darkvision") {
                     if (!activeViewerHasDarkvision)
                         document.getElementById("active_viewer_button").click();
                 } else {
@@ -729,10 +734,8 @@ var fovLighting = function () {
     }
     function clearMask() {
         maskCtx.beginPath();
-        maskCtx.save();
-        maskCtx.setTransform(1, 0, 0, 1, 0, 0);
         maskCtx.clearRect(0, 0, gridLayer.width, gridLayer.height);
-        maskCtx.restore();
+    
     }
     function attemptToDeleteSegment(linepoint) {
         var seg;
