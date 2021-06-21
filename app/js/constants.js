@@ -186,6 +186,7 @@ function loadDefaultSettings() {
     "maptool": {
       "defaultMonsterTokenRotate":"90",
       "defaultPlayerTokenRotate":"-90",
+      "matchSizeWithFileName":false,
       "transparentWindow": false,
       "snapToGrid": true,
       "enableGrid": true,

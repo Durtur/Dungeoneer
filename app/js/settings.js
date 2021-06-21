@@ -27,6 +27,7 @@ var colorTokenBases = document.querySelector("#colorTokenBases");
 var defaultMonsterTokenRotate = document.querySelector("#defaultMonsterTokenRotate");
 var defaultPlayerTokenRotate = document.querySelector("#defaultPlayerTokenRotate");
 var defaultMapSizeX = document.getElementById("defaultMapsizeX");
+var matchSizeWithFileName = document.getElementById("matchSizeWithFileName");
 
 var doneSaving = false;
 
@@ -47,6 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
         applyDarkvisionFilter.checked = data.maptool.applyDarkvisionFilter;
         snapToGrid.checked = data.maptool.snapToGrid
         enableGrid.checked = data.maptool.enableGrid;
+        matchSizeWithFileName.checked = data.maptool.matchSizeWithFileName;
         syncToCombatPanel.checked = data.maptool.syncToCombatPanel
         diceRoller.checked = data.enable.diceRoller;
         generator.checked = data.enable.generator;
@@ -132,7 +134,7 @@ function saveSettings(closeImmediately) {
         data.maptool.defaultMonsterTokenRotate = defaultMonsterTokenRotate.value || 90;
         data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || -90;
 
-
+        data.maptool.matchSizeWithFileName = matchSizeWithFileName.checked;
         data.maptool.addPlayersAutomatically = addPlayersAutomatically.checked;
         data.maptool.snapToGrid = snapToGrid.checked;
         data.maptool.enableGrid = enableGrid.checked;

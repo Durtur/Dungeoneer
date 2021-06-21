@@ -1142,6 +1142,19 @@ function setMapBackground(path, width) {
 
 }
 
+function getMapWidthFromFileName(path, width){
+    var basename = pathModule.basename(path);
+    var idx = basename.lastIndexOf("[");
+    var idx2 = basename.indexOf("]", idx);
+    
+    if(idx < 0  || idx2 < 0)return width;
+    var str = basename.substring(idx, idx2);
+    str = str.replace("[", "").replace("]", "");
+    var whArr = str.split("x");
+    return parseInt( whArr[0]) * cellSize || width;
+
+}
+
 function setMapForeground(path, width) {
     var btn = document.getElementById("foreground_button");
     if (!path) {
@@ -1152,7 +1165,9 @@ function setMapForeground(path, width) {
     foregroundCanvas.style.backgroundImage = 'url("' + path + '")';
     btn.innerHTML = pathModule.basename(path);
     var img = new Image();
-
+    if(settings.matchSizeWithFileName){
+        width = getMapWidthFromFileName(path, width);
+    }
     img.onload = function () {
         foregroundCanvas.heightToWidthRatio = img.height / img.width;
 
