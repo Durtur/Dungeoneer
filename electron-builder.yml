@@ -11,6 +11,11 @@ win:
   target:
     - "nsis"
 
+mac:
+  category: "public.app-category.role-playing-games"
+  icon: "src/build/icon.icns"
+
+
 # Config for the windows installer
 nsis:
   oneClick: false

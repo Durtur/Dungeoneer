@@ -7,14 +7,19 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-builder build --win --publish never",
+    "buildlinux": "electron-builder build --linux --publish never",
+    "buildmac": "electron-builder build --mac --publish never",
     "deploy": "electron-builder build --win --publish always"
   },
-  "author": "durtur@github ",
+  "author": {
+    "name" : "Durtur",
+    "email" : "durtur@github.com",
+    "url" : "http://github.com/durtur/"
+  },
   "license": "CC-BY-NC-4.0",
   "devDependencies": {
     "electron": "^10.2.0",
-    "electron-builder": "^20.44.4",
-    "electron-packager": "^10.1.2"
+    "electron-builder": "^20.44.4"
   },
   "dependencies": {
     "electron-log": "^4.3.4",
