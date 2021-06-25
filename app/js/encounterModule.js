@@ -97,7 +97,6 @@ class EncounterModule {
         partySize = parseInt(partySize);
         if (isNaN(partySize)) partySize = 1;
         var xpMultiplier = this.getMultiplierForCreatureNumber(creatureSum, partySize)
-        console.log(xpSum)
         total.adjusted = xpSum * xpMultiplier
         total.multiplier = xpMultiplier;
         return total;
@@ -133,7 +132,7 @@ class EncounterModule {
 
         var values = [1, 1.5, 2, 2.5, 3, 4];
         var index = getIndex();
-        console.log(index, count, partySize)
+
         if (partySize <= 2 && index != values.length - 1) index++;
         if (partySize >= 5 && index != 0) index--;
         return values[index];
@@ -237,7 +236,7 @@ class EncounterModule {
 
        
                 var withLieutenant = Math.random() > (0.45 - monsterCount / 10) && monsterCount > 1;
-                console.log((0.45 - monsterCount / 10), "prop", withLieutenant)
+
                 if (withLieutenant) {
                     var availablePool = remainingXp / 1.5; //2/3 of xp
                     if (this.getOptimalCrForCreatureNumber(monsterCount - 1, allAvailableCrs, remainingXp - availablePool) >= 0)
