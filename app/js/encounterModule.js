@@ -97,6 +97,7 @@ class EncounterModule {
         partySize = parseInt(partySize);
         if (isNaN(partySize)) partySize = 1;
         var xpMultiplier = this.getMultiplierForCreatureNumber(creatureSum, partySize)
+        console.log(xpSum)
         total.adjusted = xpSum * xpMultiplier
         total.multiplier = xpMultiplier;
         return total;

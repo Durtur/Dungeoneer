@@ -1141,7 +1141,9 @@ function updateCRTotalXP() {
       }
 
     }
-    xpSum = encounterModule.getXpSumForEncounter(allCrs, document.querySelector("#encounter_challenge_calculator_character_size").value);
+    var useCurrentParty = document.querySelector("#userCurrentPartyForEncounterDiff").checked;
+    var pcCount = useCurrentParty ? partyArray.length : parseInt(document.querySelector("#encounter_challenge_calculator_character_size").value)
+    xpSum = encounterModule.getXpSumForEncounter(allCrs, pcCount);
     document.querySelector("#encounter_challenge_calculator_value").value = xpSum.adjusted;
     document.querySelector("#encounter_challenge_calculator_value_unadjusted").value = xpSum.unadjusted;
     calculateEncounterDifficulty();
@@ -1407,11 +1409,11 @@ async function addTokensToCurrentMonster() {
   var type = document.getElementById("addmonster_type").value;
   var name = document.getElementById("addmonster_name").value;
   await tokenSelector.getNewTokenPaths(true, imagePaths => {
-    if(!imagePaths)return;
+    if (!imagePaths) return;
     imagePaths.forEach(path => {
       createToken(path.replace(/\\/g, "/"));
     })
-  }, {name:name, type:type});
+  }, { name: name, type: type });
 }
 
 function fillCurrentMonsterTokens(entryId, isCopy) {
