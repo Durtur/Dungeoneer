@@ -1,3 +1,4 @@
+
 const elementCreator = require("./js/lib/elementCreator");
 
 var combatLoader = function () {
@@ -206,11 +207,10 @@ var combatLoader = function () {
                 continue;
 
             if (!deadRowsVisible) {
-               hideRow(row);
+                hideRow(row);
             }
             row.classList.add("dead_row");
             row.setAttribute("data-dnd_conditions", "[]");
-            initiative.removeLoadedMonsterInfo();
 
             updateCurrentLoadedDifficulty();
             frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
@@ -529,7 +529,6 @@ var combatLoader = function () {
         updateCurrentLoadedDifficulty();
         if (monster.name) {
             loadedMonsterQueue.push({ monsterId: monster.id, name: monster.name, hit_points: monster.hit_points, size: monster.size.toLowerCase(), index: lastIndex });
-            initiative.addToLoadedMonsterInfo(monster.name, monster.data_extra_attributes.initiative)
             frameHistoryButtons.createButtonIfNotExists(monster);
         }
     }
@@ -543,7 +542,6 @@ var combatLoader = function () {
         closeLog();
         lastIndex = 0;
         frameHistoryButtons.clearAll();
-        initiative.clearLoadedMonsterInfo();
         loadedMonsterQueue.length = 0;
         loadedMonsterQueue.update();
         let window2 = remote.getGlobal('maptoolWindow');
@@ -780,7 +778,7 @@ var combatLoader = function () {
         xpEle.setAttribute("data-tooltip", `Total XP: ${totalCr.unadjusted}${totalCr.unadjusted != totalCr.adjusted ? `, adjusted XP: ${totalCr.adjusted}` : ""}`);
     }
 
-    function hideRow(row){
+    function hideRow(row) {
         row.classList.add("hidden");
         var nameField = row.querySelector(".name_field");
         if (nameField == selectedRow)
@@ -857,7 +855,7 @@ var combatLoader = function () {
 
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         allRows.forEach(row => deSelectRow(row));
-        rowArr = rowArr.map(x=> parseInt(x));
+        rowArr = rowArr.map(x => parseInt(x));
         var selected = [...allRows].filter(x =>
             rowArr.includes(parseInt(x.querySelector(".combat_row_monster_id").innerHTML))
         );
@@ -1055,6 +1053,36 @@ var combatLoader = function () {
         });
     }
 
+    function getLoadedMonsters(callback) {
+        var allRows = document.querySelectorAll("#combatMain .combatRow");
+        var ids = [];
+        console.log(settings);//initiativeNoGroup
+        [...allRows].forEach(row => {
+            if (row.classList.contains("dead_row")) return;
+            var monsterId = row.getAttribute("data-dnd_monster_id");
+            var index = getRowIndex(row);
+            if (monsterId)
+                ids.push({id: monsterId, index:index});
+        });
+        if (!settings.initiativeNoGroup)
+            ids = [... new Set(ids.map(x=> x.id))].map(x=> {return {id:x}});
+        dataAccess.getHomebrewAndMonsters(data => {
+            var returnList = [];
+            ids.forEach(id => {
+                var found = data.find(x => x.id == id.id);
+                if (found){
+                    returnList.push({
+                        name: id.index ?`${found.name} (${id.index})` : found.name,
+                        dexterity: found.dexterity,
+                        initiative:found.initiative
+                    });
+                }
+                
+            });
+            callback(returnList);
+        });
+    }
+
     return {
         createAttackPcButtons: createAttackPcButtons,
         setConditionList: setConditionList,
@@ -1078,6 +1106,7 @@ var combatLoader = function () {
         setDamageFieldNextAction: setDamageFieldNextAction,
         initialize: initialize,
         setSelectedRows: setSelectedRows,
+        getLoadedMonsters: getLoadedMonsters,
         saveOrDamage: saveOrDamage,
         saveOrDamageSubmit: saveOrDamageSubmit,
         saveOrCondition: saveOrCondition,

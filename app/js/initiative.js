@@ -3,7 +3,7 @@ const prompt = require('electron-prompt');
 
 
 module.exports = function () {
-    var loadedMonsterInfo = []; //Distinct monster names and initiative modifier loaded in combat table
+
     var order;
     var currentNode;
     var monsterColor = "rgb(197, 0, 0)", playerColor = "rgb(101, 117, 197)", defaultPlayerColor = "#000000";
@@ -145,8 +145,8 @@ module.exports = function () {
             roundCounter = [1, 0];
         if (settings.autoInitiative) {
             autoRollPlayers();
-            rollForMonsters();
-            sortAndDisplay();
+            rollForMonsters(()=> sortAndDisplay());
+            
         } else {
             rollForMonsters(function (noMonsters) {
 
@@ -177,33 +177,39 @@ module.exports = function () {
             }
         }
         function rollForMonsters(callback) {
-            if (loadedMonsterInfo.length == 0) {
-                order.push({
-                    name: "Monsters",
-                    roll: d(20),
-                    dex: 0,
-                    isPlayer: false,
+            combatLoader.getLoadedMonsters(monsters => {
+                console.log(monsters)
+                if (monsters.length == 0) {
+                    order.push({
+                        name: "Monsters",
+                        roll: d(20),
+                        dex: 0,
+                        isPlayer: false,
 
-                });
-            } else {
-                for (var i = 0; i < loadedMonsterInfo.length; i++) {
-                    order.push(
-                        {
-                            name: loadedMonsterInfo[i][0],
-                            roll: d(20) + parseInt(loadedMonsterInfo[i][1]),
-                            dex: parseInt(loadedMonsterInfo[i][1]),
-                            isPlayer: false
-                        });
+                    });
+                } else {
+                    for (var i = 0; i < monsters.length; i++) {
+                        var init = monsters[i].initiative || Util.getAbilityScoreModifier(monsters[i].dexterity);
+                        init = parseInt(init);
+                        console.log(init)
+                        order.push(
+                            {
+                                name: monsters[i].name,
+                                roll: d(20) + init,
+                                dex: init,
+                                isPlayer: false
+                            });
+                    }
                 }
-            }
 
-            if (callback) callback();
+                if (callback) callback();
+            });
         }
         return false;
     }
 
     function emptyInitiative() {
-        console.log("Clear initiative")
+
         $('.initiativeNode:not(:first-child)').remove();
         $(".initiativeNode:nth-child(1)>.init_value_node").html("");
         $(".initiativeNode:nth-child(1)>.initiative_name_node").html("Roll\n initiative");
@@ -230,7 +236,7 @@ module.exports = function () {
     }
     function sortAndDisplay() {
         $("#initiative_popup_window").fadeOut(350);
-
+        console.log(order)
         //Sort the array so highest initiative is first.
         order.sort(function (a, b) {
             if (a.roll === b.roll) {
@@ -330,7 +336,7 @@ module.exports = function () {
         }
     }
 
-    function setRoundCounter(counter){
+    function setRoundCounter(counter) {
         roundCounter = counter;
         nextRound(0);
     }
@@ -354,30 +360,7 @@ module.exports = function () {
             }
         }
     }
-    function addToLoadedMonsterInfo(name, initiativeMod) {
-        var found = loadedMonsterInfo.find(function (monsterArray) {
-            return monsterArray[0] == name;
-        });
-        if (!found) {
-            loadedMonsterInfo.push([name, initiativeMod])
-        }
-    }
 
-    function removeLoadedMonsterInfo(monsterName) {
-        var count = combatLoader.countCreatures(monsterName);
-        if (count == 0) {
-            var i;
-            for (i = 0; i < loadedMonsterInfo.length; i++) {
-                if (loadedMonsterInfo[i][0] == monsterName) {
-                    break;
-                }
-            }
-            loadedMonsterInfo.splice(i, 1);
-        }
-    }
-    function clearLoadedMonsterInfo() {
-        loadedMonsterInfo = [];
-    }
     function getOrder() {
         return order;
     }
@@ -439,15 +422,13 @@ module.exports = function () {
     }
 
     function publishEvent(arg) {
-        console.log(`publishing ${arg}`)
+        
         let window2 = remote.getGlobal('maptoolWindow');
         if (window2) window2.webContents.send('intiative-updated', arg);
     }
 
     return {
         setAsMain: setAsMain,
-        addToLoadedMonsterInfo: addToLoadedMonsterInfo,
-        removeLoadedMonsterInfo: removeLoadedMonsterInfo,
         loadEventHandlers: loadEventHandlers,
         removeCurrentNode: removeCurrentNode,
         roll: roll,
@@ -462,8 +443,7 @@ module.exports = function () {
         finishRoll: finishRoll,
         cancelRoll: cancelRoll,
         refreshInputFields: refreshInputFields,
-        clearLoadedMonsterInfo: clearLoadedMonsterInfo,
-        setRoundCounter:setRoundCounter
+        setRoundCounter: setRoundCounter
     }
 
 }();

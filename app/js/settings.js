@@ -28,6 +28,7 @@ var defaultMonsterTokenRotate = document.querySelector("#defaultMonsterTokenRota
 var defaultPlayerTokenRotate = document.querySelector("#defaultPlayerTokenRotate");
 var defaultMapSizeX = document.getElementById("defaultMapsizeX");
 var matchSizeWithFileName = document.getElementById("matchSizeWithFileName");
+var initiativeNoGroup =  document.getElementById("initiativeNoGroup");
 
 var doneSaving = false;
 
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
         playerPlaques.checked = data.playerPlaques;
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
+        initiativeNoGroup.checked = data.initiativeNoGroup;
         defaultMonsterTokenRotate.value = data.maptool.defaultMonsterTokenRotate || 90;
         defaultPlayerTokenRotate.value = data.maptool.defaultPlayerTokenRotate || -90;
         addPlayersAutomatically.checked = data.maptool.addPlayersAutomatically;
@@ -131,6 +133,7 @@ function saveSettings(closeImmediately) {
         data.playerPlaques = playerPlaques.checked;
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;
+        data.initiativeNoGroup = initiativeNoGroup.checked;
         data.maptool.defaultMonsterTokenRotate = defaultMonsterTokenRotate.value || 90;
         data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || -90;
 

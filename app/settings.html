@@ -35,7 +35,7 @@
                             data-tooltip="Roll initiative for the players automatically and arrange initiative order."
                             for="autoRollInitiative">Theme</label>
 
-                        <select id="theme_select" class = "theme_select"></select>
+                        <select id="theme_select" class="theme_select"></select>
 
                     </div>
 
@@ -46,14 +46,22 @@
                 <div class="column header_content hidden">
                     <div class="row spaced">
                         <label class="help_label tooltipped"
+                            data-tooltip="Add each creature from combat tracker to initiative, instead of grouping them by name."
+                            for="initiativeNoGroup">Don't group by name</label>
+                        <label class="container_for_checkbox">
+                            <input type="checkbox" id="initiativeNoGroup">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="row spaced">
+                        <label class="help_label tooltipped"
                             data-tooltip="Roll initiative for the players automatically and arrange initiative order."
                             for="autoRollInitiative">Roll initiative automatically</label>
                         <label class="container_for_checkbox">
                             <input type="checkbox" id="autoRollInitiative">
                             <span class="checkmark"></span>
                         </label>
-
-
                     </div>
                     <div class="row spaced">
                         <label class="help_label tooltipped"
@@ -229,11 +237,12 @@
                             <span class="checkmark"></span>
                         </label>
                     </div>
-                    
+
 
                     <div class="row spaced">
                         <label class="help_label tooltipped" for="matchSizeWithFileName"
-                            data-tooltip="Looks for the pattern [w x h] or [wxh] or [w] in the name of a map file, where w and h denote the number of grid squares the map contains. If the pattern is found, width and height are set in accordance with the file name.">Apply map width from file name</label>
+                            data-tooltip="Looks for the pattern [w x h] or [wxh] or [w] in the name of a map file, where w and h denote the number of grid squares the map contains. If the pattern is found, width and height are set in accordance with the file name.">Apply
+                            map width from file name</label>
                         <div class="row">
                             <label class="container_for_checkbox">
                                 <input type="checkbox" id="matchSizeWithFileName">

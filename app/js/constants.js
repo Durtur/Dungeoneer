@@ -181,6 +181,7 @@ function loadDefaultSettings() {
   return {
     "playerPlaques": true,
     "autoInitiative": true,
+    "initiativeNoGroup": false,
     "countRounds": true,
     "maxAutoLoads": "80",
     "maptool": {
