@@ -206,7 +206,7 @@ module.exports = function () {
         console.log("Clear initiative")
         $('.initiativeNode:not(:first-child)').remove();
         $(".initiativeNode:nth-child(1)>.init_value_node").html("");
-        $(".initiativeNode:nth-child(1)>.initiative_name_node").html("Roll initiative");
+        $(".initiativeNode:nth-child(1)>.initiative_name_node").html("Roll\n initiative");
         $(".initiativeNode:nth-child(1)>.initiative_explanation_text_node").val("");
 
         $(".initiativeNode").removeClass("initiative_node_active");

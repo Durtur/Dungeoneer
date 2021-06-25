@@ -207,7 +207,7 @@ path {
 .genchooser_larger {
     max-width: 70%;
     min-width: 63%;
-
+    padding-right: 3em;
 }
 
 .generator_customization_section input {

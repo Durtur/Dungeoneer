@@ -1130,6 +1130,9 @@ function setMapBackground(path, width) {
         btn.innerHTML = "Image";
         return;
     }
+    if(settings.matchSizeWithFileName){
+        width = getMapWidthFromFileName(path, width);
+    }
     btn.innerHTML = pathModule.basename(path);
     backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
     var img = new Image();
@@ -1146,7 +1149,7 @@ function getMapWidthFromFileName(path, width){
     var basename = pathModule.basename(path);
     var idx = basename.lastIndexOf("[");
     var idx2 = basename.indexOf("]", idx);
-    
+
     if(idx < 0  || idx2 < 0)return width;
     var str = basename.substring(idx, idx2);
     str = str.replace("[", "").replace("]", "");
