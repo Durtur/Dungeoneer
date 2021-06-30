@@ -4,6 +4,13 @@ const { ipcRenderer } = require('electron');
 
 const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
+const app = require('electron').remote.app
+const promptOptions = {
+  icon: app.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png",
+  customStylesheet: app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css"
+
+};
+
 const dataAccess = require("./js/dataaccess");
 const CRCalculator = require("./js/CRCalculator");
 const statblockEditor = require("./js/statblockEditor");
@@ -190,8 +197,8 @@ $(document).ready(function () {
     prompt({
       title: 'Enter URL from DndBeyond',
       label: 'Url:',
-      icon: "./app/css/img/icon.png",
-      customStylesheet: "./app/css/prompt.css",
+      icon: promptOptions.icon,
+      customStylesheet: promptOptions.customStylesheet,
       inputAttrs: { // attrs to be set if using 'input'
         type: 'string'
       }

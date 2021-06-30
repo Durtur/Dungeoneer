@@ -1,6 +1,8 @@
 
 const prompt = require('electron-prompt');
-
+const app = require('electron').remote.app
+const icon = app.getAppPath().replaceAll("\\", "/") +  "/app/css/img/icon.png";
+const customStylesheet = app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
 
 module.exports = function () {
 
@@ -75,8 +77,8 @@ module.exports = function () {
         prompt({
             title: 'New initiative score',
             label: 'Initiative score for ' + nodeName + ':',
-            icon: "./app/css/img/icon.png",
-            customStylesheet: "./app/css/prompt.css",
+            icon: icon,
+            customStylesheet:customStylesheet,
             inputAttrs: { // attrs to be set if using 'input'
                 type: 'number'
             }
@@ -369,8 +371,8 @@ module.exports = function () {
         prompt({
             title: 'Enter combatant name',
             label: 'Name:',
-            icon: "./app/css/img/icon.png",
-            customStylesheet: "./app/css/prompt.css",
+            icon: icon,
+            customStylesheet:customStylesheet,
             inputAttrs: { // attrs to be set if using 'input'
                 type: 'string'
             }
@@ -382,8 +384,8 @@ module.exports = function () {
                 prompt({
                     title: 'Enter combatant initiative roll',
                     label: 'Initiative roll:',
-                    icon: "./app/css/img/icon.png",
-                    customStylesheet: "./app/css/prompt.css",
+                    icon: icon,
+                    customStylesheet: customStylesheet,
                     inputAttrs: { // attrs to be set if using 'input'
                         type: 'number'
                     }
