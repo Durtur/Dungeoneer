@@ -91,9 +91,6 @@ main {
   padding: 15px;
 }
 
-.main_page_main {
-  margin-top: 140px;
-}
 
 input {
   text-align: center;
@@ -115,14 +112,15 @@ h1 {
 }
 
 .control_button {
-  width: 63.5px;
+  width: 6em;
   font-size: 12px !important;
   border-radius: 0 !important;
 }
 
 #round_counter_container {
   margin: auto;
-  margin-top: 25px;
+  margin-bottom:1em;
+  margin-top:1em;
 
 }
 
@@ -682,10 +680,12 @@ h1 {
 .initiative_actions button {
   padding: 12px;
   font-size: 14px;
+  border-radius: 0;
 }
 
 .initiative_control_bar {
   position: absolute;
+  z-index: 10;
 }
 
 .statblock_control_buttons>button {
@@ -972,6 +972,8 @@ h1 {
   min-height: 40px;
   margin: auto;
   border-radius: 20px;
+  margin-bottom:1em;
+  margin-top:1em;
 }
 
 .search {
@@ -1173,8 +1175,7 @@ button:disabled {
 
 .mainpage_header {
   justify-content: space-between;
-  height: 110px;
-  position: absolute;
+
 }
 
 .init_add_button:hover {

@@ -829,7 +829,6 @@ function onSettingsLoaded() {
 
     document.getElementById("clear_foreground_button").onclick = function (e) {
         setMapForeground(null);
-        resetGridOffset()
         settings.currentMap = null;
         settings.gridSettings.mapSize = null;
         saveSettings();
@@ -1066,12 +1065,6 @@ function createEffectMenus() {
     }
 }
 
-function resetGridOffset() {
-    gridMoveOffsetX = 0;
-    gridMoveOffsetY = 0;
-    offsetChangeX = 0;
-    offsetChangeY = 0;
-}
 function restoreEffect(effect) {
     console.log("restoring " + effect)
     var newEffect = document.createElement("div");
@@ -1115,7 +1108,6 @@ function getForegroundFromFile(e) {
 
     if (path) {
         setMapForeground(path, settings.defaultMapSize);
-        resetGridOffset()
         settings.currentMap = path;
         settings.gridSettings.mapSize = null;
         saveSettings();
@@ -1165,6 +1157,7 @@ function setMapForeground(path, width) {
         btn.innerHTML = "Image";
         return;
     }
+
     foregroundCanvas.style.backgroundImage = 'url("' + path + '")';
     btn.innerHTML = pathModule.basename(path);
     var img = new Image();
@@ -1280,13 +1273,13 @@ function zoomIntoMap(event, resizeAmount) {
 
         var moveMapX = newXRelative - currentRelativePositionX;
         var moveMapY = newYRelative - currentRelativePositionY;
-        gridMoveOffsetX += newRect.left - oldRect.left;
-        gridMoveOffsetY += newRect.top - oldRect.top;
+
 
         var bgX = mapContainer.data_transform_x;
         var bgY = mapContainer.data_transform_y;
         bgY -= moveMapY;
         bgX -= moveMapX;
+        console.log(moveMapX, moveMapY)
         gridMoveOffsetX -= moveMapX;
         gridMoveOffsetY -= moveMapY;
         moveMap(bgX, bgY);
