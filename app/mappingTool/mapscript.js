@@ -430,7 +430,7 @@ ipcRenderer.on("next-player-round", function (evt, params) {
 
     var player = params.player;
     var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
-    if(forcedPerpspectiveDD.selectedIndex == 1)return; //all players
+    if (forcedPerpspectiveDD.selectedIndex == 1) return; //all players
     if (player != null) {
         for (var i = 0; i < forcedPerpspectiveDD.options.length; i++) {
             if (forcedPerpspectiveDD.options[i].value == player) {
@@ -926,7 +926,7 @@ function onSettingsLoaded() {
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+                filters: [{ name: 'Images', extensions: constants.imgFilters  }]
             });
 
         if (!imgPath) return;
@@ -1091,7 +1091,7 @@ function getBackgroundFromFile(e) {
     var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
         properties: ['openFile'],
         message: "Choose map",
-        filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+        filters: [{ name: 'Images', extensions: constants.imgFilters  }]
     })[0].replace(/\\/g, "/");
 
     if (path) {
@@ -1103,7 +1103,7 @@ function getForegroundFromFile(e) {
     var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
         properties: ['openFile'],
         message: "Choose map",
-        filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+        filters: [{ name: 'Images', extensions: constants.imgFilters }]
     })[0].replace(/\\/g, "/");
 
     if (path) {
@@ -1122,7 +1122,7 @@ function setMapBackground(path, width) {
         btn.innerHTML = "Image";
         return;
     }
-    if(settings.matchSizeWithFileName){
+    if (settings.matchSizeWithFileName) {
         width = getMapWidthFromFileName(path, width);
     }
     btn.innerHTML = pathModule.basename(path);
@@ -1137,16 +1137,16 @@ function setMapBackground(path, width) {
 
 }
 
-function getMapWidthFromFileName(path, width){
+function getMapWidthFromFileName(path, width) {
     var basename = pathModule.basename(path);
     var idx = basename.lastIndexOf("[");
     var idx2 = basename.indexOf("]", idx);
 
-    if(idx < 0  || idx2 < 0)return width;
+    if (idx < 0 || idx2 < 0) return width;
     var str = basename.substring(idx, idx2);
     str = str.replace("[", "").replace("]", "");
     var whArr = str.split("x");
-    return parseInt( whArr[0]) * cellSize || width;
+    return parseInt(whArr[0]) * cellSize || width;
 
 }
 
@@ -1161,7 +1161,7 @@ function setMapForeground(path, width) {
     foregroundCanvas.style.backgroundImage = 'url("' + path + '")';
     btn.innerHTML = pathModule.basename(path);
     var img = new Image();
-    if(settings.matchSizeWithFileName){
+    if (settings.matchSizeWithFileName) {
         width = getMapWidthFromFileName(path, width);
     }
     img.onload = function () {
@@ -1279,7 +1279,7 @@ function zoomIntoMap(event, resizeAmount) {
         var bgY = mapContainer.data_transform_y;
         bgY -= moveMapY;
         bgX -= moveMapX;
-        console.log(moveMapX, moveMapY)
+   
         gridMoveOffsetX -= moveMapX;
         gridMoveOffsetY -= moveMapY;
         moveMap(bgX, bgY);
@@ -1425,7 +1425,7 @@ function effectDropdownChange(event) {
                 {
                     properties: ['openFile'],
                     message: "Choose picture location",
-                    filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+                    filters: [{ name: 'Images', extensions: constants.imgFilters  }]
                 })[0];
             if (!sfxPath) return;
             selectedSfxBackground = "url(" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + ")";
@@ -2464,7 +2464,7 @@ function setFillStyle() {
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+                filters: [{ name: 'Images', extensions: constants.imgFilters  }]
             })[0];
     if (measurementFillStylePath)
         measurementFillStylePath = measurementFillStylePath.replace(/\\/g, "/");
