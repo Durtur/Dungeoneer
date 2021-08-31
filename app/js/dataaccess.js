@@ -315,7 +315,7 @@ module.exports = function () {
         console.log("Saving token", tokenName, "trim:" + trim)
         var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));
         var savePath = pathModule.join(defaultTokenPath, tokenName + fileEnding);
-        if (process.platform != "linux") {
+        if (process.platform == "linux") {
             fs.createReadStream(currentPath).pipe(fs.createWriteStream(pathModule.resolve(savePath)));
             return;
         }
