@@ -6,7 +6,7 @@ const app = remote.app;
 
 const uniqueID = require('uniqid');
 var pathModule = require('path');
-const sharp = require("sharp");
+const sharp = process.platform != "linux" ? require("sharp") : {};
 
 const settingsPath = pathModule.join(app.getPath("userData"), "data", "settings");
 const resourcePath = pathModule.join(app.getPath("userData"), 'data');
@@ -34,7 +34,7 @@ module.exports = function () {
         loadDefaults("items.json");
         loadDefaults("randomTables.json");
         loadDefaults("spells.json");
-        loadDefaults("maptoolData.json");
+        loadDefaults("mapToolData.json");
         loadDefaults("homebrew.json");
         loadDefaults("party.json");
         loadDefaults("encounters.json");
@@ -287,7 +287,7 @@ module.exports = function () {
             callback(data);
         });
     }
-    function getTokenPathSync(creatureId){
+    function getTokenPathSync(creatureId) {
         var fileEndings = [".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];
@@ -310,12 +310,15 @@ module.exports = function () {
         }
         return null;
     }
-  
+
     async function saveToken(tokenName, currentPath, trim) {
         console.log("Saving token", tokenName, "trim:" + trim)
         var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));
         var savePath = pathModule.join(defaultTokenPath, tokenName + fileEnding);
-
+        if (process.platform != "linux") {
+            fs.createReadStream(currentPath).pipe(fs.createWriteStream(pathModule.resolve(savePath)));
+            return;
+        }
         let buffer = await sharp(currentPath)
             .resize(
                 {
@@ -476,24 +479,24 @@ module.exports = function () {
         }
     }
 
-    function doUpdate(){
-        baseGet("spells-sublist-data.json", function(data){
-            getSpells(function(spells){
-                spells.forEach(spell=>{
-                    var found = data.find(x=> x.name.toLowerCase() == spell.name.toLowerCase());
-                    if(!found)return;
-                   
+    function doUpdate() {
+        baseGet("spells-sublist-data.json", function (data) {
+            getSpells(function (spells) {
+                spells.forEach(spell => {
+                    var found = data.find(x => x.name.toLowerCase() == spell.name.toLowerCase());
+                    if (!found) return;
+
                     spell.metadata = {};
-                    if(found.damageInflict){
+                    if (found.damageInflict) {
                         spell.metadata.damageType = found.damageInflict;
                     }
-                    if(found.savingThrow){
+                    if (found.savingThrow) {
                         spell.metadata.savingThrow = found.savingThrow;
                     }
-                    if(found.conditionInflict){
+                    if (found.conditionInflict) {
                         spell.metadata.conditionInflict = found.conditionInflict;
                     }
-             
+
                 });
                 setSpells(spells);
             });
@@ -501,7 +504,7 @@ module.exports = function () {
     }
     return {
         readFile: readFile,
-        getTokenPathSync:getTokenPathSync,
+        getTokenPathSync: getTokenPathSync,
         getTokenPath: getTokenPath,
         saveToken: saveToken,
         setMapToolData: setMapToolData,
@@ -544,7 +547,7 @@ module.exports = function () {
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize,
         checkFile: checkFile,
-        doUpdate:doUpdate
+        doUpdate: doUpdate
     }
 }();
 

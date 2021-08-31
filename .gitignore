@@ -4,3 +4,5 @@ DMTool-darwin-x64
 *.log
 villur.txt
 
+C/electronbuildercache/electron-v10.2.0-linux-x64.zip
+buildlog.txt
