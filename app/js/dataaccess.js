@@ -272,7 +272,7 @@ module.exports = function () {
     }
 
     function getSettings(callback) {
-        fs.readFile(pathModule.join(settingsPath, "settings.JSON"), function (err, data) {
+        fs.readFile(pathModule.join(settingsPath, "settings.json"), function (err, data) {
             if (err) {
                 data = loadDefaultSettings();
                 initializeData();
