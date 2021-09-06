@@ -119,9 +119,14 @@ h1 {
 
 #round_counter_container {
   margin: auto;
-  margin-bottom:1em;
+  margin-bottom:-1em;
   margin-top:1em;
 
+
+  border-radius: var(--rounded-corners);
+  background-color: rgb(255 255 255 / 50%);
+  padding: 0.5em;
+  padding-top: 1em;
 }
 
 .roundcounter__arrow {
@@ -1093,6 +1098,10 @@ button:disabled {
 .combat_loader_current_xp {
   color:var(--main-text-color);
 }
+#initiative_popup_window>*:first-child{
+  border-top-left-radius: var(--rounded-corners);
+  border-top-right-radius: var(--rounded-corners);
+}
 #initiative_popup_window_inner {
   padding: 15px;
   display: flex;
@@ -1106,6 +1115,11 @@ button:disabled {
 #initiative_popup_window_inner>.row>* {
   flex: 1;
   font-family:var(--basic-font);
+  color:var(--main-text-color);
+}
+#initiative_popup_window_inner>.row>input {
+
+  color:var(--black);
 }
 
 .save_roller_checkbox_container {

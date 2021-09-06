@@ -339,17 +339,16 @@ initiative</p>
 
         </div>
       </div>
-      <div id="initiative_popup_window" class="initiatie_popup_window semi_hidden section__show">
-        <h4 class="center">Initiative scores</h4>
+      <div id="initiative_popup_window" class="initiatie_popup_window hidden section__show popup_menu">
+        <label class=" colored_label" >Initiative scores</label>
         <div id="initiative_popup_window_inner">
 
         </div>
         <div class="column">
           <button onclick="initiative.finishRoll()" class=" button_style">Confirm</button>
-          <button onclick="initiative.cancelRoll()" class=" button_style">Cancel</button>
 
         </div>
-
+        <button class="close_button button_style" onclick="initiative.cancelRoll()"></button>
 
 
       </div>

@@ -176,7 +176,10 @@ hr {
 .button_style[disabled], button[disabled] {
   opacity: 0.2;
 }
-
+.colored_label{
+  background-color:var(--main-color);
+  color:var(--inverse-text-color);
+  }
 .button_style_black:hover {
   background-color: black;
   color: white;
@@ -861,7 +864,7 @@ input, textarea, .cell_row {
 }
 .main_content_wrapper  .mainpage_header {
   padding-top: 20px;
-  height:120px;
+  height:140px;
   display: flex;
   position: relative;
   background-size:cover;
@@ -933,7 +936,13 @@ input, textarea, .cell_row {
   position:absolute;
 }
 
-#close_app_button, #close_window_button, .close_button {
+.close_button_inline{
+  height: 2em;
+  width: 2em;
+  background-size: 60%;
+  background-position: center;
+}
+#close_app_button, #close_window_button, .close_butto, .close_button_inline {
   /* margin-right: 30px; */
   background-image: url("img/close.png");
 }

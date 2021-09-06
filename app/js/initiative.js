@@ -112,7 +112,7 @@ module.exports = function () {
         }
     }
     function cancelRoll() {
-        $("#initiative_popup_window").fadeOut(350);
+        document.querySelector("#initiative_popup_window").classList.add("hidden");
     }
     function refreshInputFields() {
         var initiPopupInner = document.getElementById("initiative_popup_window_inner");
@@ -150,15 +150,16 @@ module.exports = function () {
             rollForMonsters(()=> sortAndDisplay());
             
         } else {
+            console.log("rolling")
             rollForMonsters(function (noMonsters) {
-
+        
                 if (noMonsters) {
                     if (document.getElementsByClassName("initiative_input_row").length == partyArray.length)
                         document.getElementById("initiative_popup_window_inner").appendChild(createInputField("Monsters"));
                 } else {
                     refreshInputFields();
                 }
-                $("#initiative_popup_window").fadeIn(350);
+                document.querySelector("#initiative_popup_window").classList.remove("hidden");
                 $(".initiative_input_row:first-child>input")[0].focus();
             })
         }
@@ -237,7 +238,7 @@ module.exports = function () {
 
     }
     function sortAndDisplay() {
-        $("#initiative_popup_window").fadeOut(350);
+        document.querySelector("#initiative_popup_window").classList.add("hidden");
         console.log(order)
         //Sort the array so highest initiative is first.
         order.sort(function (a, b) {

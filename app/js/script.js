@@ -159,8 +159,10 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener("click", function () {
       document.querySelector("#initiative_control_bar").classList.add("hidden");
     })
-  })
+  });
+  var initPopupWindow = document.getElementById("initiative_popup_window");
 
+  elementCreator.makeDraggable(initPopupWindow,   initPopupWindow.querySelector("label:first-of-type"));
   document.querySelector(".pcnode:nth-child(1)").onmousedown = pcNodeMouseDownHandler;
   dataAccess.getConditions(function (conditions) {
     var pcNodeInp = document.getElementById("add_pc_node_condition_input");
