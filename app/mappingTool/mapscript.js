@@ -12,6 +12,8 @@ const marked = require('marked');
 const TokenSelector = require('./js/tokenSelector');
 const tokenSelector = new TokenSelector();
 
+var pawnId = 1;
+
 var cellSize = 35, originalCellSize = cellSize;
 var canvasWidth = 400;
 var canvasHeight = 400;
@@ -78,6 +80,9 @@ var pawns = (function () {
 
 })();
 
+function newPawnId(){
+    return `pawn${pawnId++}`;
+}
 
 function loadSettings() {
     dataAccess.getSettings(function (data) {
@@ -290,11 +295,11 @@ function refreshPawnToolTipsHelper(arr, monster) {
             if (flyingHeight != 0) element.title += "\n Flying: " + flyingHeight + " ft"
             if (element.dead == "true") {
 
-                element.title += "\n Dead/Unconscious"
-                element.classList.add("pawn_dead");
+                element.get().title += "\n Dead/Unconscious"
+                element.get().classList.add("pawn_dead");
             } else {
 
-                element.classList.remove("pawn_dead");
+                element.get().classList.remove("pawn_dead");
             }
             element.setAttribute("data-state_changed", null);
         }
@@ -1923,6 +1928,9 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
                 newPawn.classList.add("pawn_numbered");
 
             }
+            var id = newPawnId();
+            newPawn.id = id;
+            newPawn.get = ()=> document.getElementById(id);
             pawns.monsters.push(newPawn);
             loadedMonsters.push([newPawn, pawn.name]);
 
