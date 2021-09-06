@@ -972,8 +972,7 @@ h1 {
   min-height: 40px;
   margin: auto;
   border-radius: 20px;
-  margin-bottom:1em;
-  margin-top:1em;
+
 }
 
 .search {
@@ -995,7 +994,7 @@ h1 {
 .searchwrap {
   display: flex;
   justify-content: flex-end;
-  margin-top: 10px;
+  top:40%;
   flex: 1;
   width: 300px;
   border: none;

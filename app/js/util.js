@@ -187,6 +187,10 @@ module.exports = function () {
         ele.innerHTML = innerHTML;
         return ele;
     }
+
+    function cssify(path){
+        return "url('" + path.replace(/\\/g, "/") + "')";
+    }
     return {
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
@@ -200,6 +204,7 @@ module.exports = function () {
         ele:ele,
         isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
+        cssify: cssify,
         showInfo: showInfo
     }
 }();

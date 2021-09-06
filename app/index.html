@@ -50,13 +50,13 @@
     <header class="mainpage_header ">
 
       <div class="column" style="flex: 5;">
-     
+
 
         <div class="initiative" id="initBar">
           <div class="initiativeNode init_not_started init--PC">
             <p class="init_value_node"></p>
-            <p class="initiative_name_node">Roll 
- initiative</p>
+            <p class="initiative_name_node">Roll
+initiative</p>
             <textarea class="initiative_explanation_text_node"></textarea>
           </div>
         </div>
@@ -159,7 +159,8 @@
             </div>
             <div class="row" style="justify-content: flex-end;">
               <button class="small button_style" title="Clear combat panel" onclick="combatLoader.clear()">C</button>
-              <button class = "small toggle_button button_style" toggled="false" title = "Show dead" onclick = "combatLoader.toggleShowDead()">D</button>
+              <button class="small toggle_button button_style" toggled="false" title="Show dead"
+                onclick="combatLoader.toggleShowDead()">D</button>
               <button class="small button_style" id="maptool_notify_button" title="Opens the map tool with loaded creatures.
                 No creatures are loaded." disabled onclick="combatLoader.notifyMapTool()">M</button>
 
@@ -700,11 +701,15 @@
             </div>
           </section>
 
-          <button class="button button_style addPlayer" onclick="addPlayerRow('t')">+</button>
-          <div class="float_right_group">
-            <button class="button button_style" onclick="savePcToJson()">Close</button>
+          <div class="pcform_bottom_row">
+            <button class="button button_style addPlayer" onclick="addPlayerRow('t')">+</button>
+            <div class="float_right_group">
 
+              <button class="button button_style" onclick="savePcToJson()">Close</button>
+
+            </div>
           </div>
+
         </div>
       </div>
     </footer>
@@ -723,7 +728,7 @@
     <script src="js/guicontrol.js"></script>
     <!-- <script src="js/keycommands.js"></script> -->
     <script src="js/randomizer.js"></script>
- 
+
     <script src='mappingTool/spectrum.js'></script>
 
 

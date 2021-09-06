@@ -12,7 +12,7 @@
 }
 
 .main_content_wrapper {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
   height: 100vh;
@@ -853,9 +853,18 @@ input, textarea, .cell_row {
   max-width: 150px;
 }
 
-.mainpage_header {
-  margin-top: 20px;
+
+.main_content_wrapper  .extra_fat_header {
+
+  height:180px !important;
+
+}
+.main_content_wrapper  .mainpage_header {
+  padding-top: 20px;
+  height:120px;
   display: flex;
+  position: relative;
+  background-size:cover;
 }
 
 .title_bar_left>.button_style {

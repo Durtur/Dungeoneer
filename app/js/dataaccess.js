@@ -452,55 +452,14 @@ module.exports = function () {
         if (!fs.existsSync(baseFolder)) initializeData();
     }
 
-    function checkFile() {
-
-        getMonsters(data => {
-            processThings(data);
-            setMonsters(data, () => { });
-        })
-        getHomebrewMonsters(data => {
-            processThings(data)
-            setHomebrewMonsters(data, () => { });
-        })
-        function processThings(data) {
-            data.forEach(monster => {
-                if (!monster.tags) monster.tags = [];
-                var mName = monster.name.trim().toLowerCase();
-                var matchTags = new Set();
-                constants.creature_habitats.forEach(habitat => {
-                    if (habitat.creatures.includes(mName))
-                        matchTags.add(habitat.name);
-                });
-                matchTags = [...matchTags].filter(x => !monster.tags.includes(x));
-                console.log(matchTags);
-                matchTags.forEach(tag => monster.tags.push(tag));
-            })
-
-        }
-    }
-
-    function doUpdate() {
-        baseGet("spells-sublist-data.json", function (data) {
-            getSpells(function (spells) {
-                spells.forEach(spell => {
-                    var found = data.find(x => x.name.toLowerCase() == spell.name.toLowerCase());
-                    if (!found) return;
-
-                    spell.metadata = {};
-                    if (found.damageInflict) {
-                        spell.metadata.damageType = found.damageInflict;
-                    }
-                    if (found.savingThrow) {
-                        spell.metadata.savingThrow = found.savingThrow;
-                    }
-                    if (found.conditionInflict) {
-                        spell.metadata.conditionInflict = found.conditionInflict;
-                    }
-
-                });
-                setSpells(spells);
-            });
-        });
+    function saveCoverImage(path) {
+        console.log(path);
+        console.log(pathModule.basename(path));
+        var basename = pathModule.basename(path);
+        var ext = pathModule.extname(basename);
+        var newPath = pathModule.join(resourcePath, "cover_image" + ext);
+        fs.createReadStream(path).pipe(fs.createWriteStream(newPath));
+        return { name: basename, path: newPath };
     }
     return {
         readFile: readFile,
@@ -541,13 +500,13 @@ module.exports = function () {
         getTables: getTables,
         setTables: setTables,
         getTags: getTags,
+        saveCoverImage: saveCoverImage,
         getMonsterTypes: getMonsterTypes,
         writeTempFile: writeTempFile,
         checkIfFirstTimeLoadComplete: checkIfFirstTimeLoadComplete,
         tokenFilePath: defaultTokenPath,
-        baseTokenSize: baseTokenSize,
-        checkFile: checkFile,
-        doUpdate: doUpdate
+        baseTokenSize: baseTokenSize
+
     }
 }();
 

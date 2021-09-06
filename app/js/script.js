@@ -9,6 +9,7 @@ var loadedEncounter = [];
 var marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
+
 const remote = require('electron').remote;
 const StatblockPresenter = require("./js/statblockpresenter");
 const dialog = require('electron').remote.dialog;
@@ -577,6 +578,14 @@ function applySettings() {
   } else {
     mobcontroller_element.parentElement.classList.add("hidden");
     document.getElementById("mobPanelLoadButton").classList.add("hidden");
+  }
+  var header = document.querySelector(".mainpage_header");
+  if (settings.coverImagePath) {
+    header.classList.add("extra_fat_header");
+    header.style.backgroundImage = Util.cssify(settings.coverImagePath.path);
+  } else {
+    header.classList.remove("extra_fat_header");
+
   }
 }
 

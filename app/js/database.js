@@ -107,7 +107,7 @@ $(document).ready(function () {
       remote.getCurrentWindow(), {
       properties: ['openFile'],
       message: "Choose picture location",
-      filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+      filters: [{ name: 'Images', extensions: constants.imgFilters }]
     });
     if (selectedConditionImagePath == null)
       return;

@@ -8,6 +8,7 @@ const BASE_CSS_PATH = pathModule.join(app.getAppPath(), 'app', 'css');
 const SlimSelect = require("slim-select");
 const { readdir } = require('fs').promises;
 
+const dialog = require('electron').remote.dialog;
 var playerPlaques = document.querySelector("#showPlayerPlaques");
 var autoRoll = document.querySelector("#autoRollInitiative");
 var roundCounter = document.querySelector("#roundCounterIntitiative");
@@ -29,7 +30,7 @@ var defaultPlayerTokenRotate = document.querySelector("#defaultPlayerTokenRotate
 var defaultMapSizeX = document.getElementById("defaultMapsizeX");
 var matchSizeWithFileName = document.getElementById("matchSizeWithFileName");
 var initiativeNoGroup =  document.getElementById("initiativeNoGroup");
-
+var coverImagePath = null;
 var doneSaving = false;
 
 var oldSettings;
@@ -40,6 +41,7 @@ ipcRenderer.on('settings-window-save-and-close', function (evt, arg) {
 document.addEventListener("DOMContentLoaded", function () {
     dataAccess.getSettings(function (data) {
         oldSettings = data;
+        coverImagePath = data.coverImagePath;
         playerPlaques.checked = data.playerPlaques;
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
@@ -66,7 +68,29 @@ document.addEventListener("DOMContentLoaded", function () {
         hideOrShowGridSettings(true);
         addHeaderHandlers();
         readThemes(data.theme);
-
+        var coverBtn =  document.getElementById("cover_image_button");
+        if(coverImagePath){
+            coverBtn.innerHTML = coverImagePath.name;
+        }
+        coverBtn.onclick =  function(e){
+            var selected = dialog.showOpenDialogSync(
+                remote.getCurrentWindow(), {
+                properties: ['openFile'],
+                message: "Choose picture location",
+                filters: [{ name: 'Images', extensions: constants.imgFilters }]
+              });
+              if (selected == null)
+                return;
+              selected = selected[0];
+              coverImagePath =  dataAccess.saveCoverImage(selected);
+              console.log(coverImagePath);
+              coverBtn.innerHTML = coverImagePath.name;
+        };
+        document.getElementById("clear_cover_image_button").onclick =  function(e){
+            
+              coverImagePath = null;
+              coverBtn.innerHTML = "Cover image";
+        };
     });
 
 });
@@ -129,7 +153,7 @@ function saveSettings(closeImmediately) {
     try {
         data = {};
         if (oldSettings != null) data = oldSettings;
-
+        data.coverImagePath = coverImagePath;
         data.playerPlaques = playerPlaques.checked;
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;

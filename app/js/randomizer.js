@@ -73,7 +73,7 @@ var randomizer = function () {
             if (!encounter.error) {
                 loadEncounter(encounter);
                 encounterIsLoaded = true;
-                new StatblockPresenter().createStatblock(document.getElementById("statblock"), encounter, false);
+                new StatblockPresenter(document.getElementById("statblock"), encounter, false);
                 document.getElementById("loaderButton").classList.remove("hidden");
                 document.getElementById("mobPanelLoadButton").classList.add("hidden");
                 if (document.getElementById("loaderButton")) document.getElementById("loaderButton").classList.remove("hidden");

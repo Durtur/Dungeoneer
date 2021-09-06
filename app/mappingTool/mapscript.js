@@ -2029,15 +2029,15 @@ function setPawnBackgroundFromPathArray(element, paths) {
     var pathString;
     var tokenPaths = [];
     if (typeof paths == "string") {
-        pathString = "url('" + paths.replace(/\\/g, "/") + "')";
+        pathString = util.cssify(paths);
         tokenPaths.push(pathString)
     } else {
         var rand = Math.round(Math.random() * (paths.length - 1));
         paths.forEach(path => {
-            path = "url('" + path.replace(/\\/g, "/") + "')";
+            path = util.cssify(path);
             tokenPaths.push(path);
         })
-        pathString = "url('" + paths[rand].replace(/\\/g, "/") + "')";
+        pathString = util.cssify(paths[rand]);
     }
     element.getElementsByClassName("token_photo")[0].style.backgroundImage = pathString;
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(tokenPaths))

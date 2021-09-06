@@ -29,8 +29,8 @@
   transform: translate(-50%, -50%);
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 1);
   border-radius: 3px;
-  background-image:var(--foreground-image);
-  background-color:var(--foreground-color);
+  background-image: var(--foreground-image);
+  background-color: var(--foreground-color);
 }
 
 .popup-inner>h2 {
@@ -44,6 +44,11 @@
   flex-flow: column nowrap;
 }
 
+.pcform_bottom_row {
+  position: relative;
+  justify-content: flex-end;
+  display:flex;
+}
 
 .pcRow {
   display: flex;
@@ -62,7 +67,7 @@
 .pcRow>input, .pcRow>textarea {
   background-color: transparent;
   border: none;
-  color:var(--main-text-color);
+  color: var(--main-text-color);
   text-align: center;
   width: 90px;
   min-width: 90px;
@@ -84,38 +89,38 @@
   width: 66em;
   margin: auto;
 }
-.pc_input_character_token:hover{
-  filter:drop-shadow(0 0 3px white);
+
+.pc_input_character_token:hover {
+  filter: drop-shadow(0 0 3px white);
 }
+
 .pc_input_character_token {
   object-fit: contain;
   width: 35px;
   height: 35px;
-cursor:pointer;
-
+  cursor: pointer;
   border-radius: 50%;
 }
-.pc_input_background_color{
+
+.pc_input_background_color {
   border-radius: 50%;
   max-width: 25px !important;
   min-width: 25px !important;
   max-height: 25px !important;
-
   min-height: 25px !important;
   margin: 0.5em;
- 
-
 }
+
 .playerRow__expl>input {
   max-width: 90px;
   background-color: transparent;
   font-size: 0.8em;
   border: none;
-  color:var(--main-text-color);
+  color: var(--main-text-color);
   font-weight: normal;
 }
 
-.partyStats{
+.partyStats {
   width: 66em;
   margin: auto;
 }
@@ -171,10 +176,10 @@ cursor:pointer;
 }
 
 .addPlayer {
-  bottom: 3em;
+  bottom: 1em;
   position: absolute;
-  /* top: 2em; */
-  left: 2em;
+
+  left: 1em;
   font-size: 20px;
   border-radius: 50%;
   height: 25px;
