@@ -21,6 +21,63 @@ var diceRoller = function () {
     });
 
   }
+
+  function diceExpectedValue(sides, times){
+    sides = parseInt(sides);
+    times = parseInt(times);
+    var result = 0;
+    for(var i = 0 ; i < times ; i ++){
+      var j = 0;
+      var sum = 0;
+      while(j <= sides){
+        sum+=j;
+        j+= 1.0;
+      }
+      sum/=sides;
+      result+=sum;
+    }
+    return result;
+  }
+
+  function getExpectedValue(inputString){
+    var values, operators;
+    var firstNum, nextNum;
+    inputString = inputString.toLowerCase();
+    inputString = inputString.replace("-", "+-");
+
+    var splitStrings = inputString.split("+");
+    var sum = 0;
+    var result = 0;
+    splitStrings.forEach(function (side) {
+      result = 0;
+      values = side.split(/[Dd,]+/);
+      operators = [];
+      var lastI = 0;
+      while (side.indexOf("d", lastI) >= 0) {
+        operators.push("d");
+        lastI = side.indexOf("d", lastI) + 1;
+      }
+
+      for (var i = 0; i < operators.length; i++) {
+        firstNum = parseInt(zeroIfNull(values[i]));
+        nextNum = parseInt(zeroIfNull(values[i + 1]));
+        if (nextNum > 0 && firstNum > 0) {
+          result += diceExpectedValue(nextNum, firstNum);
+        } else {
+          result += nextNum + firstNum;
+        }
+      }
+
+      if (operators.length == 0) {
+        result += parseInt(values[0])
+      }
+
+
+      sum += result;
+    })
+
+    return isNaN(sum) ? 0 : sum;
+  }
   function rollCritFromString(inputString) {
     return rollFromStringHelper(inputString, true);
   }
@@ -141,6 +198,7 @@ var diceRoller = function () {
     addRow: addRow,
     loadHandlers: loadHandlers,
     rollFromString: rollFromString,
+    getExpectedValue: getExpectedValue,
     rollCritFromString: rollCritFromString
   };
 }();

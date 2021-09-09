@@ -162,8 +162,13 @@ class StatblockPresenter {
       if (!(values.hit_points || values.armor_class || values.challenge_rating)) return;
       var hpAndACRow = document.createElement("div");
       hpAndACRow.classList = "statblock_hp_and_ac_row";
-      if (values.hit_points)
-        createCol("hit_points");
+      if (values.hit_points){
+        var hpCol = createCol("hit_points");
+        if(editMode){
+          hpCol.appendChild(createRollHpButton());
+          hpCol.classList.add("position_relative");
+        }
+      }
 
       if (values.armor_class) {
         var acDesc = values.ac_source?.join(", ")?.toProperCase();
@@ -195,6 +200,7 @@ class StatblockPresenter {
         newCol.appendChild(newP);
         delete values[prop];
         hpAndACRow.appendChild(newCol);
+        return newCol;
       }
 
 
@@ -512,6 +518,17 @@ class StatblockPresenter {
       return h2;
     }
 
+    function createRollHpButton(){
+      var btn = Util.ele("button", "randomize_dice roll_statblock_hit_dice");
+      btn.title = "Roll hit dice";
+
+      btn.onclick = ()=> {
+        cls.statblockEditor.rollHitDice(statblockEntry);
+        cls.createStatblock(statblock, statblockEntry, "monster", true);
+      }
+      return btn;
+    }
+
     function createActionEditButton() {
 
       var containerDiv = document.createElement("div");
@@ -534,7 +551,7 @@ class StatblockPresenter {
         var selectedWeapon = constants.weapons.find(x => x.name.toLowerCase() == evt.target.value.toLowerCase());
         var oldWeapon = constants.weapons.find(x => x.name.toLowerCase() == evt.target.closest("h3").getAttribute("data-header_value").toLowerCase());
 
-        cls.statblockEditor.relaceMonsterWeapon(statblockEntry, oldWeapon, selectedWeapon);
+        cls.statblockEditor.replaceMonsterWeapon(statblockEntry, oldWeapon, selectedWeapon);
         cls.createStatblock(statblock, statblockEntry, "monster", true);
 
       });

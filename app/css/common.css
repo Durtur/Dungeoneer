@@ -293,6 +293,16 @@ hr {
   margin: 0;
 }
 
+.roll_statblock_hit_dice{
+  position: absolute;
+  top: -1.5em;
+  left: 5em;
+  display:none;
+}
+.statblock_hp_and_ac_row:hover .roll_statblock_hit_dice{
+  display:block;
+}
+
 .statblock_token {
   background-size: contain;
   cursor:pointer;
@@ -590,6 +600,10 @@ hr {
   text-align: center;
 }
 
+.position_relative{
+  position: relative;
+}
+
 .combatGUI {
   background-image:var(--foreground-image);
   background-color:var(--foreground-color);
@@ -831,6 +845,16 @@ input, textarea, .cell_row {
   width: 40px;
 }
 
+.randomize_dice{
+  width: 3em;
+  height: 3em;
+  filter: drop-shadow(2px 4px 6px black);
+  border-radius: 50%;
+  background-color: transparent;
+  background-image: url(img/rolling-dices.png);
+  background-size: contain;
+  border: none;
+}
 .button_smaller {
   width: 33px !important;
   height: 33px !important;
