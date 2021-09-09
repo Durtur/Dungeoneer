@@ -1,7 +1,7 @@
 
 const prompt = require('electron-prompt');
 const app = require('electron').remote.app
-const icon = app.getAppPath().replaceAll("\\", "/") +  "/app/css/img/icon.png";
+const icon = app.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png";
 const customStylesheet = app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
 
 module.exports = function () {
@@ -78,7 +78,7 @@ module.exports = function () {
             title: 'New initiative score',
             label: 'Initiative score for ' + nodeName + ':',
             icon: icon,
-            customStylesheet:customStylesheet,
+            customStylesheet: customStylesheet,
             inputAttrs: { // attrs to be set if using 'input'
                 type: 'number'
             }
@@ -147,12 +147,12 @@ module.exports = function () {
             roundCounter = [1, 0];
         if (settings.autoInitiative) {
             autoRollPlayers();
-            rollForMonsters(()=> sortAndDisplay());
-            
+            rollForMonsters(() => sortAndDisplay());
+
         } else {
             console.log("rolling")
             rollForMonsters(function (noMonsters) {
-        
+
                 if (noMonsters) {
                     if (document.getElementsByClassName("initiative_input_row").length == partyArray.length)
                         document.getElementById("initiative_popup_window_inner").appendChild(createInputField("Monsters"));
@@ -222,6 +222,9 @@ module.exports = function () {
         $(".initiativeNode").removeClass("player_node");
         $(".initiativeNode").removeClass("monster_node");
         $('.initiativeNode').addClass("init_not_started");
+        var initCont = document.querySelector(".initiative");
+        if (initCont)
+            initCont.classList.remove("initiative_cover_image");
         if (isMainWindow) {
             $('.initiativeNode').off("mousedown");
             $('.initiativeNode').off("click");
@@ -239,7 +242,7 @@ module.exports = function () {
     }
     function sortAndDisplay() {
         document.querySelector("#initiative_popup_window").classList.add("hidden");
-        console.log(order)
+
         //Sort the array so highest initiative is first.
         order.sort(function (a, b) {
             if (a.roll === b.roll) {
@@ -276,6 +279,9 @@ module.exports = function () {
 
         }
         initiative.loadEventHandlers();
+        var initCont = document.querySelector(".initiative");
+        if (initCont && initCont.classList.contains("initative_has_cover_image"))
+            initCont.classList.add("initiative_cover_image");
         if (isMainWindow)
             publishEvent({ order: order });
         //Loads the roundcounter. 
@@ -373,7 +379,7 @@ module.exports = function () {
             title: 'Enter combatant name',
             label: 'Name:',
             icon: icon,
-            customStylesheet:customStylesheet,
+            customStylesheet: customStylesheet,
             inputAttrs: { // attrs to be set if using 'input'
                 type: 'string'
             }
@@ -425,7 +431,7 @@ module.exports = function () {
     }
 
     function publishEvent(arg) {
-        
+
         let window2 = remote.getGlobal('maptoolWindow');
         if (window2) window2.webContents.send('intiative-updated', arg);
     }

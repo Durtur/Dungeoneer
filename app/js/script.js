@@ -582,11 +582,14 @@ function applySettings() {
     document.getElementById("mobPanelLoadButton").classList.add("hidden");
   }
   var header = document.querySelector(".mainpage_header");
+  var initCont = document.querySelector(".initiative");
   if (settings.coverImagePath) {
     header.classList.add("extra_fat_header");
+    initCont.classList.add("initative_has_cover_image");
     header.style.backgroundImage = Util.cssify(settings.coverImagePath.path);
   } else {
     header.classList.remove("extra_fat_header");
+    initCont.classList.remove("initative_has_cover_image");
 
   }
 }

@@ -91,7 +91,6 @@ main {
   padding: 15px;
 }
 
-
 input {
   text-align: center;
   min-height: 20px;
@@ -119,10 +118,8 @@ h1 {
 
 #round_counter_container {
   margin: auto;
-  margin-bottom:-1em;
-  margin-top:1em;
-
-
+  margin-bottom: -1em;
+  margin-top: 1em;
   border-radius: var(--rounded-corners);
   background-color: rgb(255 255 255 / 50%);
   padding: 0.5em;
@@ -597,7 +594,6 @@ h1 {
   padding: 5px;
 }
 
-
 #randomizer_item_title {
   margin: 1em;
   font-size: 20px;
@@ -889,8 +885,6 @@ h1 {
   text-decoration: underline;
 }
 
-
-
 .initiativeNode:hover>.initiative_explanation_text_node, .initiative_node_active>.initiative_explanation_text_node {
   display: block;
 }
@@ -977,7 +971,13 @@ h1 {
   min-height: 40px;
   margin: auto;
   border-radius: 20px;
+}
 
+.initiative_cover_image {
+  border-radius: 5px;
+  color: white;
+  background-color: var(--lighter-background);
+  padding: 1.25em;
 }
 
 .search {
@@ -999,7 +999,7 @@ h1 {
 .searchwrap {
   display: flex;
   justify-content: flex-end;
-  top:40%;
+  top: 40%;
   flex: 1;
   width: 300px;
   border: none;
@@ -1095,13 +1095,16 @@ button:disabled {
   left: 33%;
   z-index: 10;
 }
+
 .combat_loader_current_xp {
-  color:var(--main-text-color);
+  color: var(--main-text-color);
 }
-#initiative_popup_window>*:first-child{
+
+#initiative_popup_window>*:first-child {
   border-top-left-radius: var(--rounded-corners);
   border-top-right-radius: var(--rounded-corners);
 }
+
 #initiative_popup_window_inner {
   padding: 15px;
   display: flex;
@@ -1114,12 +1117,12 @@ button:disabled {
 
 #initiative_popup_window_inner>.row>* {
   flex: 1;
-  font-family:var(--basic-font);
-  color:var(--main-text-color);
+  font-family: var(--basic-font);
+  color: var(--main-text-color);
 }
-#initiative_popup_window_inner>.row>input {
 
-  color:var(--black);
+#initiative_popup_window_inner>.row>input {
+  color: var(--black);
 }
 
 .save_roller_checkbox_container {
@@ -1188,7 +1191,6 @@ button:disabled {
 
 .mainpage_header {
   justify-content: space-between;
-
 }
 
 .init_add_button:hover {
