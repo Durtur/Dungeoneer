@@ -9,7 +9,7 @@ module.exports = function () {
     var order;
     var currentNode;
     var monsterColor = "rgb(197, 0, 0)", playerColor = "rgb(101, 117, 197)", defaultPlayerColor = "#000000";
-
+    var roundCounter;
     var roundcounter__handlers__added = false;
     var isMainWindow = false;
     function setAsMain() {
@@ -181,7 +181,6 @@ module.exports = function () {
         }
         function rollForMonsters(callback) {
             combatLoader.getLoadedMonsters(monsters => {
-                console.log(monsters)
                 if (monsters.length == 0) {
                     order.push({
                         name: "Monsters",
@@ -241,7 +240,7 @@ module.exports = function () {
 
     }
     function sortAndDisplay() {
-        document.querySelector("#initiative_popup_window").classList.add("hidden");
+        document.querySelector("#initiative_popup_window")?.classList.add("hidden");
 
         //Sort the array so highest initiative is first.
         order.sort(function (a, b) {
@@ -297,13 +296,30 @@ module.exports = function () {
             }
 
             nextRound(1);
+        } else {
+            $(".initiativeNode").addClass("initiative_node_inactive");
         }
 
-        function getColor(entry) {
-            if (entry.color) return Util.hexToHSL(entry.color, 40);
-            if (entry.isPlayer) return playerColor;
-            return monsterColor;
+    }
+    
+    function getColor(entry) {
+        console.log(entry);
+        if (entry.color) return Util.hexToHSL(entry.color, 40);
+        if (entry.isPlayer) return playerColor;
+        return monsterColor;
+    }
+
+    function getNextRoundCounterValue() {
+        var max = $("#initBar").children().length;
+        if (roundCounter[1] >= max) {
+            if (roundCounter[1] >= max) {
+                return 1;
+            } else if (roundCounter[1] <= 1 && roundCounter[0] != 1) {
+                return max;
+            }
+
         }
+        return roundCounter[1]+1;
     }
 
     /**
@@ -312,8 +328,12 @@ module.exports = function () {
      * @param {*Direction; back in a round or forward} sign 
      */
     function nextRound(sign) {
+        if (!roundCounter)
+            return;
         console.log(`Next round ${sign}`)
-        if (roundCounter[0] == 1 && roundCounter[1] == 1 && sign < 0) return false;
+        if (roundCounter[0] == 1 && roundCounter[1] == 1 && sign < 0)
+            return false;
+
         var max = $("#initBar").children().length;
         if (roundCounter[1] >= max && sign > 0 || roundCounter[1] <= 1 && sign < 0) {
             if (roundCounter[1] >= max) {
@@ -436,6 +456,15 @@ module.exports = function () {
         if (window2) window2.webContents.send('intiative-updated', arg);
     }
 
+    function currentActor() {
+        var current = $(".initiativeNode:nth-child(" + roundCounter[1] + ") .initiative_name_node").html();
+        var nextIndex = getNextRoundCounterValue();
+        var next = $(".initiativeNode:nth-child(" + nextIndex + ") .initiative_name_node").html();
+        var currentColor = getColor(order[roundCounter[1]-1]);
+
+        return { current: {name: current, color:currentColor} , next: next };
+    }
+
     return {
         setAsMain: setAsMain,
         loadEventHandlers: loadEventHandlers,
@@ -452,7 +481,8 @@ module.exports = function () {
         finishRoll: finishRoll,
         cancelRoll: cancelRoll,
         refreshInputFields: refreshInputFields,
-        setRoundCounter: setRoundCounter
+        setRoundCounter: setRoundCounter,
+        currentActor: currentActor
     }
 
 }();

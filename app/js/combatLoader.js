@@ -245,6 +245,16 @@ var combatLoader = function () {
             var isDead = currentHp <= 0;
             var hasTempHp = currentHp > originalHp;
             console.log(currentHp, originalHp)
+            var ratio = currentHp / originalHp;
+            var healthBar = row.querySelector(".health_bar");
+
+            if (ratio > 1) {
+                healthBar.style.backgroundColor = "#ca9e00";
+                ratio = 1;
+            } else {
+                healthBar.style.backgroundColor = `rgb(${(1 - ratio) * 255} ${(ratio) * 255} 0)`
+            }
+            healthBar.style.transform = `scaleX(${ratio})`
             if (hasTempHp)
                 hpField.classList.add("hp_over_max");
             else
@@ -1062,22 +1072,22 @@ var combatLoader = function () {
             var monsterId = row.getAttribute("data-dnd_monster_id");
             var index = getRowIndex(row);
             if (monsterId)
-                ids.push({id: monsterId, index:index});
+                ids.push({ id: monsterId, index: index });
         });
         if (!settings.initiativeNoGroup)
-            ids = [... new Set(ids.map(x=> x.id))].map(x=> {return {id:x}});
+            ids = [... new Set(ids.map(x => x.id))].map(x => { return { id: x } });
         dataAccess.getHomebrewAndMonsters(data => {
             var returnList = [];
             ids.forEach(id => {
                 var found = data.find(x => x.id == id.id);
-                if (found){
+                if (found) {
                     returnList.push({
-                        name: id.index ?`${found.name} (${id.index})` : found.name,
+                        name: id.index ? `${found.name} (${id.index})` : found.name,
                         dexterity: found.dexterity,
-                        initiative:found.initiative
+                        initiative: found.initiative
                     });
                 }
-                
+
             });
             callback(returnList);
         });

@@ -80,7 +80,7 @@ var pawns = (function () {
 
 })();
 
-function newPawnId(){
+function newPawnId() {
     return `pawn${pawnId++}`;
 }
 
@@ -335,7 +335,13 @@ ipcRenderer.on("intiative-updated", function (evt, arg) {
         });
         return initiative.setOrder(arg.order);
     }
-    if (arg.round_increment) return initiative.setRoundCounter(arg.round_increment);
+    if (arg.round_increment) {
+
+        initiative.setRoundCounter(arg.round_increment);
+        var curr = initiative.currentActor();
+        Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
+        return;
+    }
     if (arg.empty) return initiative.empty();
 })
 ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
@@ -931,7 +937,7 @@ function onSettingsLoaded() {
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: constants.imgFilters  }]
+                filters: [{ name: 'Images', extensions: constants.imgFilters }]
             });
 
         if (!imgPath) return;
@@ -1096,7 +1102,7 @@ function getBackgroundFromFile(e) {
     var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
         properties: ['openFile'],
         message: "Choose map",
-        filters: [{ name: 'Images', extensions: constants.imgFilters  }]
+        filters: [{ name: 'Images', extensions: constants.imgFilters }]
     })[0].replace(/\\/g, "/");
 
     if (path) {
@@ -1284,7 +1290,7 @@ function zoomIntoMap(event, resizeAmount) {
         var bgY = mapContainer.data_transform_y;
         bgY -= moveMapY;
         bgX -= moveMapX;
-   
+
         gridMoveOffsetX -= moveMapX;
         gridMoveOffsetY -= moveMapY;
         moveMap(bgX, bgY);
@@ -1430,7 +1436,7 @@ function effectDropdownChange(event) {
                 {
                     properties: ['openFile'],
                     message: "Choose picture location",
-                    filters: [{ name: 'Images', extensions: constants.imgFilters  }]
+                    filters: [{ name: 'Images', extensions: constants.imgFilters }]
                 })[0];
             if (!sfxPath) return;
             selectedSfxBackground = "url(" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + ")";
@@ -1930,7 +1936,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             }
             var id = newPawnId();
             newPawn.id = id;
-            newPawn.get = ()=> document.getElementById(id);
+            newPawn.get = () => document.getElementById(id);
             pawns.monsters.push(newPawn);
             loadedMonsters.push([newPawn, pawn.name]);
 
@@ -2472,7 +2478,7 @@ function setFillStyle() {
             {
                 properties: ['openFile'],
                 message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: constants.imgFilters  }]
+                filters: [{ name: 'Images', extensions: constants.imgFilters }]
             })[0];
     if (measurementFillStylePath)
         measurementFillStylePath = measurementFillStylePath.replace(/\\/g, "/");

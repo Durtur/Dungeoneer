@@ -42,6 +42,31 @@ module.exports = function () {
         }, 3000);
     }
 
+    function showDisappearingTitleAndSubtitle(title, subtitle, titleColor) {
+        [...document.querySelectorAll(".disappearing_title_container")].forEach(x => {
+            if (x.parentNode)
+                x.parentNode.removeChild(x);
+        });
+        var newEle = ele("div", "center_absolute disappearing_title_container");
+        var title = ele("h1", "disappearing_title", title);
+        if (titleColor)
+            title.style.color = titleColor;
+        var p = ele("h2", "disappearing_ele", subtitle);
+        newEle.appendChild(title);
+        newEle.appendChild(p);
+
+        document.body.appendChild(newEle);
+
+
+        window.setTimeout(function (evt) {
+            newEle.classList.add("fade_out");
+            window.setTimeout(()=> {
+                if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
+            }, 2000)
+
+        }, 3000);
+    }
+
     function showSuccessMessage(text) {
         showMessage(text, "success");
     }
@@ -184,24 +209,25 @@ module.exports = function () {
         var ele = document.createElement(tag);
         ele.classList = classList;
         if (innerHTML)
-        ele.innerHTML = innerHTML;
+            ele.innerHTML = innerHTML;
         return ele;
     }
 
-    function cssify(path){
+    function cssify(path) {
         return "url('" + path.replace(/\\/g, "/") + "')";
     }
     return {
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
         showBubblyText: showBubblyText,
+        showDisappearingTitleAndSubtitle: showDisappearingTitleAndSubtitle,
         showOrHide: showOrHide,
         balanceCheckBoxGroup: balanceCheckBoxGroup,
         makeUIElementDraggable: makeUIElementDraggable,
         hexToHSL: hexToHSL,
         hexToRGBA: hexToRGBA,
         IsVowel: IsVowel,
-        ele:ele,
+        ele: ele,
         isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
         cssify: cssify,

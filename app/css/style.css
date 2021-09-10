@@ -1045,7 +1045,15 @@ h1 {
   margin-left: 10px;
   z-index: 1;
 }
-
+.combatGUI .health_bar{
+  height: 0.25em;
+  min-width: 100%;
+  background-color: rgb(0, 172, 72);
+  position: absolute;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  transform-origin: left;;
+}
 .combatGUI {
   float: left;
   flex-flow: column wrap;

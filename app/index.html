@@ -340,7 +340,7 @@ initiative</p>
         </div>
       </div>
       <div id="initiative_popup_window" class="initiatie_popup_window hidden section__show popup_menu">
-        <label class=" colored_label" >Initiative scores</label>
+        <label class=" colored_label">Initiative scores</label>
         <div id="initiative_popup_window_inner">
 
         </div>
@@ -515,8 +515,10 @@ initiative</p>
         tabindex="2">
       <button class="button button_style dmg_button" onclick="combatLoader.applyDmg()"
         title="Apply damage">Apply</button>
-
-      <input type="text" placeholder="Creature name" readonly class="name_field" title="Creature name">
+      <div class = "position_relative row">
+        <div class = "health_bar"></div>
+        <input type="text" placeholder="Creature name" readonly class="name_field" title="Creature name">
+      </div>
       <input type="number" placeholder="HP" class="hp_field" title="Creature HP">
       <input type="number" placeholder="AC" class="ac_field" title="Creature Armor Class">
       <input type="number" placeholder="Atk+" class="attack_field" title="Creature Attack Modifier">
