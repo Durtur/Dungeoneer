@@ -154,8 +154,16 @@ initiative</p>
 
           </section>
           <div class="row float_up combat_toolbar">
+
             <div style="user-select: none" class="combat_loader_current_xp tooltipped" id="combat_loader_current_xp">
 
+            </div>
+
+            <div class="row hidden" id ="combat_tracker_sort_buttons">
+              <button class="small toggle_button button_style sort_by_number "  title="Sort by number" toggled="true" toggleGroup="56">#</button>
+              <button class="small toggle_button button_style sort_by_name" title="Sort by name"  toggled="false" toggleGroup="56">A</button>
+              <button class="small toggle_button button_style sort_by_initiative"  title="Current initiative actors first" toggled="false" toggleGroup="56"></button>
+              <button class="small toggle_button button_style sort_by_hit_points " title="Sort by hit points"  toggled="false" toggleGroup="56"></button>
             </div>
             <div class="row" style="justify-content: flex-end;">
               <button class="small button_style" title="Clear combat panel" onclick="combatLoader.clear()">C</button>
@@ -515,8 +523,8 @@ initiative</p>
         tabindex="2">
       <button class="button button_style dmg_button" onclick="combatLoader.applyDmg()"
         title="Apply damage">Apply</button>
-      <div class = "position_relative row">
-        <div class = "health_bar"></div>
+      <div class="position_relative row">
+        <div class="health_bar"></div>
         <input type="text" placeholder="Creature name" readonly class="name_field" title="Creature name">
       </div>
       <input type="number" placeholder="HP" class="hp_field" title="Creature HP">

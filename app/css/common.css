@@ -686,9 +686,11 @@ input, textarea, .cell_row {
 .disappearing_title_container {
   background-color: var(--dark-transparent-bg);
   padding: 1em;
-  top: 35%;
   position: absolute;
-  right: 26%;
+  top: 50%;  /* position the top  edge of the element at the middle of the parent */
+  left: 50%; /* position the left edge of the element at the middle of the parent */
+
+  transform: translate(-50%, -50%);
 }
 
 .disappearing_title {

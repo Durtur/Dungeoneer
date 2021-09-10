@@ -101,7 +101,7 @@ module.exports = function () {
             order = order.filter(x => x.name != nameToRemove);
             console.log(order);
             sortAndDisplay();
-            initiative.nextRound(-1);
+            nextRound(-1);
 
         } else {
             $(".initiativeNode:nth-child(1)>.initiative_name_node").html("Roll \n initiative");
@@ -301,7 +301,7 @@ module.exports = function () {
         }
 
     }
-    
+
     function getColor(entry) {
         console.log(entry);
         if (entry.color) return Util.hexToHSL(entry.color, 40);
@@ -319,7 +319,7 @@ module.exports = function () {
             }
 
         }
-        return roundCounter[1]+1;
+        return roundCounter[1] + 1;
     }
 
     /**
@@ -363,6 +363,7 @@ module.exports = function () {
             publishEvent({ round_increment: roundCounter });
             notifyMapToolNextPlayer();
         }
+        return current;
     }
 
     function setRoundCounter(counter) {
@@ -450,22 +451,30 @@ module.exports = function () {
         }
     }
 
+    var callBackArr = [];
+    function addEventListener(callback) {
+        callBackArr.push(callback);
+    }
     function publishEvent(arg) {
-
-        let window2 = remote.getGlobal('maptoolWindow');
-        if (window2) window2.webContents.send('intiative-updated', arg);
+        callBackArr.forEach(callback => {
+            callback(arg)
+        });
     }
 
     function currentActor() {
         var current = $(".initiativeNode:nth-child(" + roundCounter[1] + ") .initiative_name_node").html();
+        if(current == null){
+            return null;
+        }
         var nextIndex = getNextRoundCounterValue();
         var next = $(".initiativeNode:nth-child(" + nextIndex + ") .initiative_name_node").html();
-        var currentColor = getColor(order[roundCounter[1]-1]);
+        var currentColor = getColor(order[roundCounter[1] - 1]);
 
-        return { current: {name: current, color:currentColor} , next: next };
+        return { current: { name: current, color: currentColor }, next: next };
     }
 
     return {
+        addEventListener: addEventListener,
         setAsMain: setAsMain,
         loadEventHandlers: loadEventHandlers,
         removeCurrentNode: removeCurrentNode,

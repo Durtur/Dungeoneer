@@ -29,8 +29,6 @@ var encounterIsLoaded;
 
 var partyArray, partyInformationList, partyInputAwesomeplete, conditionList;
 var partyAlternativeACArray;
-var roundCounter;
-
 
 /* #region IPC */
 
@@ -140,9 +138,13 @@ document.addEventListener("DOMContentLoaded", function () {
     loadedMonsterQueue.update();
   });
 
+  document.querySelector(".combat_toolbar .sort_by_initiative").onclick = () => combatLoader.orderBy("init")
+  document.querySelector(".combat_toolbar .sort_by_hit_points").onclick = () => combatLoader.orderBy("hp")
+  document.querySelector(".combat_toolbar .sort_by_name").onclick = () => combatLoader.orderBy("name")
+  document.querySelector(".combat_toolbar .sort_by_number").onclick = () => combatLoader.orderBy("id")
+
   document.getElementById("combatMain").addEventListener("mousedown", function (evt) {
     if (evt.button == 2) {
-
       showPopup("popup_menu_combatrow", evt)
     }
   });
@@ -155,6 +157,14 @@ document.addEventListener("DOMContentLoaded", function () {
   combatLoader.initialize();
   $('.initiativeNode').on("click", initiative.roll);
   initiative.setAsMain();
+  initiative.addEventListener(evt => {
+
+    let window2 = remote.getGlobal('maptoolWindow');
+    if (window2) window2.webContents.send('intiative-updated', evt);
+    var actor = initiative.currentActor();
+    console.log(actor);
+    combatLoader.setCurrentActor(actor?.current.name);
+  });
   document.querySelectorAll("#initiative_control_bar button").forEach(button => {
     button.addEventListener("click", function () {
       document.querySelector("#initiative_control_bar").classList.add("hidden");
@@ -162,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   var initPopupWindow = document.getElementById("initiative_popup_window");
 
-  elementCreator.makeDraggable(initPopupWindow,   initPopupWindow.querySelector("label:first-of-type"));
+  elementCreator.makeDraggable(initPopupWindow, initPopupWindow.querySelector("label:first-of-type"));
   document.querySelector(".pcnode:nth-child(1)").onmousedown = pcNodeMouseDownHandler;
   dataAccess.getConditions(function (conditions) {
     var pcNodeInp = document.getElementById("add_pc_node_condition_input");
@@ -539,7 +549,11 @@ function applySettings() {
   lootRoller = document.getElementById("lootRoller");
   var mobcontroller_element = document.getElementById("mobcontroller_element")
   saveRoller = document.getElementById("saveRoller");
-
+  if (!settings.countRounds) {
+    document.querySelector(".combat_toolbar .sort_by_initiative").classList.add("hidden");
+  } else {
+    document.querySelector(".combat_toolbar .sort_by_initiative").classList.remove("hidden");
+  }
   if (!enabled.diceRoller) {
     diceRollerE.parentNode.classList.add("hidden");
   } else {

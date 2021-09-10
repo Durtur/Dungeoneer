@@ -101,18 +101,18 @@ var combatLoader = function () {
                 var formerText = dmgField.innerHTML;
                 if (formerText.indexOf("=") >= 0) {
                     dmgField.innerHTML =
-                        formerText.substring(0, formerText.indexOf("="));
+                        formerText.substring(0, formerText.lastIndexOf("=")).trim();
                 }
                 if (rand == 20) {
                     buttons[i].classList.remove("die_d20_normal");
                     buttons[i].classList.remove("die_d20_hit");
                     buttons[i].classList.add("die_d20_crit");
-                    result = "       = " + diceRoller.rollCritFromString(dmgField.innerHTML)
+                    result = " = " + diceRoller.rollCritFromString(dmgField.innerHTML)
                 } else if ((rand + mod) >= ac) {
                     buttons[i].classList.remove("die_d20_normal");
                     buttons[i].classList.remove("die_d20_crit");
                     buttons[i].classList.add("die_d20_hit");
-                    result = "       = " + diceRoller.rollFromString(dmgField.innerHTML)
+                    result = " = " + diceRoller.rollFromString(dmgField.innerHTML)
                 } else {
                     result = "";
                     buttons[i].classList.add("die_d20_normal");
@@ -212,7 +212,7 @@ var combatLoader = function () {
             row.classList.add("dead_row");
             row.setAttribute("data-dnd_conditions", "[]");
 
-            updateCurrentLoadedDifficulty();
+            rowCountChanged();
             frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
             if (loadedMonsterQueue.find(x => x.index == monsterIndex)) {
                 var temp = loadedMonsterQueue.filter(x => x.index != monsterIndex);
@@ -267,6 +267,7 @@ var combatLoader = function () {
 
             let window2 = remote.getGlobal('maptoolWindow');
             if (window2) window2.webContents.send('monster-health-changed', { index: monsterIndex, healthPercentage: hpPercentage, dead: isDead });
+            sort();
             return
 
         }
@@ -443,6 +444,7 @@ var combatLoader = function () {
         loadFieldHandlers();
         [...document.querySelectorAll(".selected_row_checkbox")].forEach(x => x.onchange = selectedRowsChanged);
         [...document.querySelectorAll("#combatMain .round_checkbox_container")].forEach(x => x.onmouseenter = selectedCheckboxMouseOver);
+        rowCountChanged();
         return newRow[0];
     }
 
@@ -536,7 +538,7 @@ var combatLoader = function () {
         }
 
         row.setAttribute("data-challenge_rating", monster.challenge_rating);
-        updateCurrentLoadedDifficulty();
+
         if (monster.name) {
             loadedMonsterQueue.push({ monsterId: monster.id, name: monster.name, hit_points: monster.hit_points, size: monster.size.toLowerCase(), index: lastIndex });
             frameHistoryButtons.createButtonIfNotExists(monster);
@@ -556,7 +558,8 @@ var combatLoader = function () {
         loadedMonsterQueue.update();
         let window2 = remote.getGlobal('maptoolWindow');
         if (window2) window2.webContents.send('monster-list-cleared');
-        updateCurrentLoadedDifficulty();
+
+        rowCountChanged();
     }
 
     function initSaveOrDamage() {
@@ -764,6 +767,7 @@ var combatLoader = function () {
             allRows.forEach(x => hideRow(x));
         else
             allRows.forEach(x => x.classList.remove("hidden"));
+        rowCountChanged();
     }
 
     function updateCurrentLoadedDifficulty() {
@@ -1092,8 +1096,109 @@ var combatLoader = function () {
             callback(returnList);
         });
     }
+    var currentSortFunction, currentSortMarkFunction = currentSortResetFunction;
+    var currentSortResetFunction = () => {
+        [...document.querySelectorAll("#combatMain .combatRow")].forEach(x => x.classList.remove("inactive_row"));
+    }
+    var currentInitiativeActorName;
+    function setCurrentActor(currActor) {
+        currentInitiativeActorName = currActor;
+        sort();
+    }
+    function orderBy(order) {
 
+        currentSortMarkFunction = currentSortResetFunction;
+        if (order == "name") {
+            currentSortFunction = function (a, b) {
+                var nameA = a.getElementsByClassName("name_field")[0].value;
+                var nameB = b.getElementsByClassName("name_field")[0].value;
+                console.log(nameA, nameB)
+                return nameA.localeCompare(nameB);
+            };
+        } else if (order == "hp") {
+            currentSortFunction = function (a, b) {
+                var hpA = a.getElementsByClassName("hp_field")[0].value;
+                var hpB = b.getElementsByClassName("hp_field")[0].value;
+                return parseInt(hpA) - parseInt(hpB);
+            };
+        } else if (order == "id") {
+            currentSortFunction = function (a, b) {
+                var idA = getRowIndex(a);
+                var idB = getRowIndex(b);
+                return parseInt(idA) - parseInt(idB);
+            };
+        } else if (order == "init") {
+            if (settings.initiativeNoGroup) {
+
+                currentSortFunction = function (a, b) {
+                    if (parseInt(getRowIndex(a)) == parseInt(getRowIndex(b))) return 0;
+                    var currIndex = parseInt(currentInitiativeActorName.substring(currentInitiativeActorName.lastIndexOf("(") + 1, currentInitiativeActorName.lastIndexOf(")")));
+                    console.log(currIndex);
+                    if (parseInt(getRowIndex(a)) == currIndex)
+                        return -1;
+                    if (parseInt(getRowIndex(b)) == currIndex)
+                        return 1;
+                    return 0;
+                };
+            } else {
+                currentSortMarkFunction = function () {
+                    var rows = [...document.querySelectorAll("#combatMain .combatRow")];
+                    rows.forEach(x => {
+                        var name = x.getElementsByClassName("name_field")[0].value;
+                        if (currentInitiativeActorName != name) {
+                            x.classList.add("inactive_row")
+                        } else {
+                            x.classList.remove("inactive_row")
+                        }
+                    }
+                    );
+                    if (!rows.find(x => !x.classList.contains("hidden") && !x.classList.contains("inactive_row"))) {
+                        rows.forEach(x => { x.classList.remove("inactive_row") });
+                    }
+                }
+                currentSortFunction = function (a, b) {
+                    var nameA = a.getElementsByClassName("name_field")[0].value;
+                    var nameB = b.getElementsByClassName("name_field")[0].value;
+                    if (nameA == nameB)
+                        return 0;
+                    if (currentInitiativeActorName == nameA)
+                        return -1;
+
+                    if (currentInitiativeActorName == nameB)
+                        return 1;
+                    return 0;
+                };
+            }
+        }
+        sort();
+    }
+
+    function rowCountChanged() {
+        updateCurrentLoadedDifficulty();
+
+        var visibleRows = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => !x.classList.contains("hidden"));
+        if (visibleRows.length === 0) {
+            document.getElementById("combat_tracker_sort_buttons").classList.add("hidden");
+        } else {
+            document.getElementById("combat_tracker_sort_buttons").classList.remove("hidden");
+        }
+
+    }
+
+    function sort() {
+        var allRows = [...document.querySelectorAll("#combatMain .combatRow")];
+        if (currentSortMarkFunction)
+            currentSortMarkFunction();
+        if (allRows.length == 0)
+            return;
+        var parent = allRows[0].parentNode;
+        allRows.forEach(x => x.parentNode.removeChild(x));
+        allRows.sort(currentSortFunction)
+        allRows.forEach(x => parent.appendChild(x));
+    }
     return {
+        setCurrentActor: setCurrentActor,
+        orderBy: orderBy,
         createAttackPcButtons: createAttackPcButtons,
         setConditionList: setConditionList,
         showLog: showLog,

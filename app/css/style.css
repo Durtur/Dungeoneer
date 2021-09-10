@@ -338,6 +338,7 @@ h1 {
 
 .damage_field {
   font-size: 14px;
+  white-space: pre;
 }
 
 .questionpopup:active:after {
@@ -748,6 +749,7 @@ h1 {
   font-size: 16px;
 }
 
+
 .mobcontroller_row input {
   height: 40px;
 }
@@ -869,6 +871,10 @@ h1 {
   user-select: none;
   transition: all var(--transition-delay);
   z-index: 2;
+}
+
+.inactive_row{
+  filter:brightness(0.6);
 }
 
 .combatRow>input, .mobcontroller_row input {
@@ -1062,6 +1068,12 @@ h1 {
   display: flex;
 }
 
+.combat_toolbar .sort_by_initiative{
+ background-image: url(img/sort-init.png);
+}
+.combat_toolbar .sort_by_hit_points{
+  background-image: url(img/sort-hp.png);
+}
 .combatRow>input[type="number"], .mobcontroller_row input[type="number"] {
   width: 40px;
 }
