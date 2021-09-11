@@ -701,8 +701,7 @@ var combatLoader = function () {
     function showLog() {
         if (!selectedRow || selectedRow.value == "") return;
         var conditions = JSON.parse(selectedRow.parentNode.getAttribute("data-dnd_conditions") || "[]");
-        console.log(conditions);
-        console.log(conditions.map(x => x.condition))
+
         $("#condition_list_dd").val(conditions ? conditions.map(x => x.condition) : "");
         var combatLog = selectedRow.getAttribute("data-combat_log");
         var notes = selectedRow.getAttribute("data-combat_log_notes") || "";
@@ -712,7 +711,8 @@ var combatLoader = function () {
         populateLogPopup(combatLog);
 
         $('#condition_list_dd').trigger('chosen:updated');
-        selectedRow.parentNode.parentNode.insertBefore(document.querySelector('#combat_log_popup'), selectedRow.parentNode.nextSibling);
+        var closest = selectedRow.closest(".combatRow");
+        closest.parentNode.insertBefore(document.querySelector('#combat_log_popup'), closest.nextSibling);
         document.querySelector("#combat_log_popup").classList.remove("hidden");
 
 
@@ -1191,10 +1191,15 @@ var combatLoader = function () {
             currentSortMarkFunction();
         if (allRows.length == 0)
             return;
+
         var parent = allRows[0].parentNode;
         allRows.forEach(x => x.parentNode.removeChild(x));
         allRows.sort(currentSortFunction)
         allRows.forEach(x => parent.appendChild(x));
+        var logOpen = !document.querySelector("#combat_log_popup").classList.contains("hidden");
+        if (logOpen) {
+            showLog();
+        }
     }
     return {
         setCurrentActor: setCurrentActor,
