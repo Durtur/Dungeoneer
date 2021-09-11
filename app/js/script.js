@@ -97,9 +97,8 @@ ipcRenderer.on('maptool-initialized', function (evt, arg) {
 
   }
   loadedMonsterQueue.update();
-  mobController.mapToolInitialized();
-
-
+  if (mobController) 
+    mobController.mapToolInitialized();
 
 });
 
