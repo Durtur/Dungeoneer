@@ -131,15 +131,15 @@ var combatLoader = function () {
         return false;
     }
     function rollForDamageSelectedRow() {
-        var dmgField = selectedRow.parentNode.getElementsByClassName("damage_field")[0];
+        var dmgField = selectedRow.closest(".combatRow").getElementsByClassName("damage_field")[0];
         var formerText = dmgField.innerHTML;
 
         if (formerText.indexOf("=") >= 0) {
             dmgField.innerHTML =
-                formerText.substring(0, formerText.indexOf("="));
+                formerText.substring(0, formerText.indexOf("=")).trim();
         }
 
-        dmgField.innerHTML = dmgField.innerHTML + "       = " + diceRoller.rollFromString(dmgField.innerHTML);
+        dmgField.innerHTML = dmgField.innerHTML + " = " + diceRoller.rollFromString(dmgField.innerHTML);
     }
 
 
@@ -816,14 +816,16 @@ var combatLoader = function () {
             button.setAttribute("data-party_index", i);
             button.classList.add("button_style");
             button.innerHTML = "Attack " + partyArray[i].character_name;
+   
             button.onclick = function (e) {
+                var parent = selectedRow.closest(".combatRow");
                 var index = parseInt(e.target.getAttribute("data-party_index"));
                 var ac = partyAlternativeACArray[index] ? partyArray[index].alternative_ac : partyArray[index].ac;
-                selectedRow.parentNode.getElementsByClassName("code_ac")[0].value = ac;
+                parent.getElementsByClassName("code_ac")[0].value = ac;
                 if (selectedMultiselectFields.length > 0) {
                     selectedMultiselectFields.forEach(field => field.value = ac);
                 }
-                selectedRow.parentNode.getElementsByClassName("die_d20")[0].click();
+                parent.getElementsByClassName("die_d20")[0].click();
             }
             cont.appendChild(button);
 
