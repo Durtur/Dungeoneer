@@ -302,7 +302,7 @@ hr {
   display: none;
 }
 
-.statblock_hp_and_ac_row:hover .roll_statblock_hit_dice {
+.statblock_hp_and_ac_row:hover .roll_statblock_hit_dice, .statblock_hp_and_ac_row:hover .statblock_edit_ac_container {
   display: block;
 }
 
@@ -687,9 +687,10 @@ input, textarea, .cell_row {
   background-color: var(--dark-transparent-bg);
   padding: 1em;
   position: absolute;
-  top: 50%;  /* position the top  edge of the element at the middle of the parent */
-  left: 50%; /* position the left edge of the element at the middle of the parent */
-
+  top: 50%;
+  /* position the top  edge of the element at the middle of the parent */
+  left: 50%;
+  /* position the left edge of the element at the middle of the parent */
   transform: translate(-50%, -50%);
 }
 
@@ -876,6 +877,24 @@ input, textarea, .cell_row {
   border-radius: 50%;
   background-color: transparent;
   background-image: url(img/rolling-dices.png);
+  background-size: contain;
+  border: none;
+}
+
+.statblock_edit_ac_container {
+  position: absolute;
+  top: -1.5em;
+  left: 4em;
+  display: none;
+}
+
+.statblock_edit_armor {
+  width: 2.5em;
+  height: 2.5em;
+  filter: drop-shadow(2px 4px 6px black);
+  border-radius: 50%;
+  background-color: transparent;
+  background-image: url(img/armor-upgrade.png);
   background-size: contain;
   border: none;
 }

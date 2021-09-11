@@ -462,7 +462,7 @@ var combatLoader = function () {
             { date: "", text: `Starting hit points are ${monster.hit_points}`, entryType: LogEntryType.Good }
         ]));
 
-
+        row.setAttribute("monster_original_name", monster.original_name || "");
         damageLabel = row.getElementsByClassName("text_upper_damage_label")[0];
 
         //Validate
@@ -1144,7 +1144,7 @@ var combatLoader = function () {
                 currentSortMarkFunction = function () {
                     var rows = [...document.querySelectorAll("#combatMain .combatRow")];
                     rows.forEach(x => {
-                        var name = x.getElementsByClassName("name_field")[0].value;
+                        var name = x.getAttribute("monster_original_name") || x.getElementsByClassName("name_field")[0].value;
                         if (currentInitiativeActorName != name) {
                             x.classList.add("inactive_row")
                         } else {
@@ -1157,8 +1157,8 @@ var combatLoader = function () {
                     }
                 }
                 currentSortFunction = function (a, b) {
-                    var nameA = a.getElementsByClassName("name_field")[0].value;
-                    var nameB = b.getElementsByClassName("name_field")[0].value;
+                    var nameA = a.getAttribute("monster_original_name") || a.getElementsByClassName("name_field")[0].value;
+                    var nameB = b.getAttribute("monster_original_name") || b.getElementsByClassName("name_field")[0].value;
                     if (nameA == nameB)
                         return 0;
                     if (currentInitiativeActorName == nameA)

@@ -38,6 +38,43 @@ class StatblockEditor {
 
     }
 
+    static equipArmor(monster, armor) {
+        if (armor.is_shield) {
+            monster.armor_class = parseInt(monster.armor_class) + armor.mod;
+            monster.ac_source.push(armor.type);
+            return;
+        }
+
+        var oldArmorList = monster.ac_source.map(y => constants.armorTypes.find(x => x.type.toLowerCase() == y.toLowerCase()));
+        var shield = oldArmorList.find(x => x.is_shield);
+        var oldArmor = oldArmorList.find(x => !x.is_shield);
+
+        var currentAc = monster.armor_class;
+        var dex = getAbilityScoreModifier(monster.dexterity);
+        
+        var dexPlus = getDex(oldArmor);
+        console.log(dexPlus, oldArmor)
+        var expectedOldAc = (10 + dexPlus + parseInt(oldArmor.mod) + parseInt(shield?.mod || "0"));
+        var unexplainedDiff = currentAc - expectedOldAc;
+        console.log(expectedOldAc)
+        dexPlus = getDex(armor);
+        console.log(dexPlus, armor)
+        monster.armor_class = 10+(dexPlus + parseInt(armor.mod) + parseInt(shield?.mod || "0")) + unexplainedDiff;
+        monster.ac_source = [armor.type];
+        if (shield)
+            monster.ac_source.push(shield.type);
+
+        // "type": "hide armor",
+        // "mod": 2,
+        // "maxDex": 2
+        function getDex(ar){
+            if(!ar.maxDex )return dex;
+            var res = parseInt(ar.maxDex);
+            if(res == 0)return 0;
+            return Math.min(res, dex);
+        }
+    }
+
     static rollHitDice(monster) {
         if (!monster.hit_dice) return monster;
 
@@ -50,14 +87,14 @@ class StatblockEditor {
         var descString = "";
         if (ratio < 0.45) {
             descString = "frail"
-        }else if(ratio < 1){
+        } else if (ratio < 1) {
             descString = "feeble"
-        }else if(ratio >1.3){
+        } else if (ratio > 1.3) {
             descString = "brute"
-        }else if(ratio >1){
+        } else if (ratio > 1) {
             descString = "beefy";
         }
-     
+
         monster.original_name = monster.original_name || monster.name;
         if (descString)
             monster.name = monster.original_name + ` (${descString})`;

@@ -102,7 +102,7 @@ class StatblockPresenter {
       statblock.appendChild(h2);
       h2.classList = "statblock_name";
       delete values.name;
-      if(statblockType != "monsters")return;
+      if (statblockType != "monsters") return;
       var path = await dataAccess.getTokenPath(values.id + "0");
 
       if (!path) path = "./mappingTool/tokens/default.png";
@@ -162,9 +162,9 @@ class StatblockPresenter {
       if (!(values.hit_points || values.armor_class || values.challenge_rating)) return;
       var hpAndACRow = document.createElement("div");
       hpAndACRow.classList = "statblock_hp_and_ac_row";
-      if (values.hit_points){
+      if (values.hit_points) {
         var hpCol = createCol("hit_points");
-        if(editMode){
+        if (editMode) {
           hpCol.appendChild(createRollHpButton());
           hpCol.classList.add("position_relative");
         }
@@ -173,7 +173,11 @@ class StatblockPresenter {
       if (values.armor_class) {
         var acDesc = values.ac_source?.join(", ")?.toProperCase();
         delete values.ac_source;
-        createCol("armor_class", false, acDesc);
+        var col = createCol("armor_class", false, acDesc);
+        if (acDesc) {
+          col.appendChild(createEditAcButton());
+          col.classList.add("position_relative");
+        }
       }
       if (values.challenge_rating)
         createCol("challenge_rating", "CR", (encounterModule ? encounterModule : new EncounterModule()).getXpValueForCR(values.challenge_rating) + " xp");
@@ -518,11 +522,40 @@ class StatblockPresenter {
       return h2;
     }
 
-    function createRollHpButton(){
+    function createEditAcButton() {
+      var button = Util.ele("button", "statblock_edit_armor");
+      var containerDiv = Util.ele("div", "position_relative statblock_edit_ac_container");
+      containerDiv.appendChild(button);
+
+      var input = document.createElement("input");
+      containerDiv.appendChild(input);
+      input.classList = "hidden";
+      button.onclick = () => {
+        button.classList.add("hidden");
+        input.classList.remove("hidden");
+        input.focus();
+      }
+      input.addEventListener("focusout", () => { input.classList.add("hidden"); button.classList.remove("hidden"); })
+      new Awesomplete(input, { list: constants.armorTypes.filter(x => x.mod).map(x => x.type.toProperCase()), autoFirst: true, minChars: 0 });
+      input.addEventListener("awesomplete-selectcomplete", (evt) => {
+        var selectedArmor = constants.armorTypes.find(x => x.type.toLowerCase() == evt.target.value.toLowerCase());
+        if (selectedArmor.is_shield) {
+          if (statblockEntry.ac_source.find(x => x.toLowerCase() == selectedArmor.type.toLowerCase()))
+            return;
+        }
+        cls.statblockEditor.equipArmor(statblockEntry, selectedArmor);
+        cls.createStatblock(statblock, statblockEntry, "monster", true);
+
+
+      });
+      return containerDiv;
+    }
+
+    function createRollHpButton() {
       var btn = Util.ele("button", "randomize_dice roll_statblock_hit_dice");
       btn.title = "Roll hit dice";
 
-      btn.onclick = ()=> {
+      btn.onclick = () => {
         cls.statblockEditor.rollHitDice(statblockEntry);
         cls.createStatblock(statblock, statblockEntry, "monster", true);
       }
