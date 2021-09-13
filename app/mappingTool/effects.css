@@ -289,7 +289,45 @@
     animation-duration:7s;
     animation-name: poisonSmudge;  
 }
+.pulse{
+    animation-iteration-count: infinite;
+    animation-duration:3s;
+    animation-name: pulse;   
+}
 
+@keyframes pulse{
+    0%{
+        transform:scale(0.95);
+    }
+    50%{
+        transform:scale(1.05 );
+    }
+    100%{
+        transform:scale(0.95);
+    }
+}
+.rotate_slow{
+    animation-iteration-count: infinite;
+    animation-duration:7s;
+    animation-name: rotate; 
+    animation-timing-function: linear;    
+}
+
+
+.rotate_medium{
+    animation-iteration-count: infinite;
+    animation-duration:4s;
+    animation-name: rotate;   
+    animation-timing-function: linear; 
+}
+@keyframes rotate{
+    0%{
+        transform:rotate(0);
+    }
+    100%{
+        transform:rotate(359deg)
+    }
+}
 @keyframes poisonSmudge {
     0% {
         filter: blur(10px) brightness(85%);

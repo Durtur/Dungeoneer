@@ -4,15 +4,16 @@ const { ipcRenderer, webFrame } = require('electron');
 const Awesomplete = require(pathModule.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
-
+const SoundManager = require("./js/soundManager")
+const soundManager = new SoundManager();
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative");
 const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 const TokenSelector = require('./js/tokenSelector');
 const tokenSelector = new TokenSelector();
-
-var pawnId = 1;
+soundManager.initialize();
+var pawnId = 1, effectId = 1;
 
 var cellSize = 35, originalCellSize = cellSize;
 var canvasWidth = 400;
@@ -49,7 +50,7 @@ var visibilityLayerVisible = false;
 var lastMeasuredPoint = null;
 
 var effectData;
-var MAX_BG_ZOOM = 10;
+var MAX_BG_ZOOM = 10, MIN_BG_ZOOM = 0.1;
 //Visibility
 
 var effects = [], currentlySelectedEffectDropdown;
@@ -150,7 +151,7 @@ function setBackgroundFilter() {
         filtered = true;
         filterDd.classList.add("toggle_button_toggled");
     }
-    console.log(filterValue);
+
     if (fovLighting.viewerHasDarkvision() && settings.applyDarkvisionFilter) {
         filterValue = "grayscale(80%)";
     }
@@ -536,6 +537,7 @@ document.addEventListener("DOMContentLoaded", function () {
     foregroundCanvas.data_transform_x = 0;
     foregroundCanvas.data_transform_y = 0;
     loadSettings();
+    refreshHowlerListenerLocation();
     let window2 = remote.getGlobal('mainWindow');
     if (window2) window2.webContents.send('maptool-initialized');
     var bgSize = parseInt($("#foreground").css("background-size"));
@@ -688,6 +690,11 @@ function moveMap(x, y) {
     mapContainer.style.setProperty("--bg-translate-x", x);
     mapContainer.style.setProperty("--bg-translate-y", y);
 
+
+}
+
+function refreshHowlerListenerLocation() {
+    soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
 }
 
 function resetEverything() {
@@ -704,7 +711,10 @@ function resetEverything() {
 
 function onSettingsLoaded() {
     refreshPawns();
-    window.onresize = function () { window.requestAnimationFrame(resizeAndDrawGrid) }
+    window.onresize = function () {
+        window.requestAnimationFrame(resizeAndDrawGrid);
+        refreshHowlerListenerLocation();
+    }
     console.log("Settings loaded");
     resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
     setupGridLayer();
@@ -1261,8 +1271,10 @@ function zoomIntoMap(event, resizeAmount) {
         var newSize = backgroundSizeBeforeResize + resizeAmount;
 
         if (newSize > MAX_BG_ZOOM) newSize = MAX_BG_ZOOM;
-        if (newSize < 0.1) newSize = 0.1;
+        if (newSize < MIN_BG_ZOOM) newSize = MIN_BG_ZOOM;
         mapContainer.data_bg_scale = newSize;
+
+        soundManager.setListenerCords(null, null, (MAX_BG_ZOOM - newSize) * soundManager.multiplier());
         mapContainer.style.setProperty("--bg-scale", newSize);
 
         var newRect = foregroundCanvas.getBoundingClientRect();
@@ -1293,7 +1305,7 @@ function zoomIntoMap(event, resizeAmount) {
 
         gridMoveOffsetX -= moveMapX;
         gridMoveOffsetY -= moveMapY;
-        moveMap(bgX, bgY);
+        moveMap(bgX, bgY, moveMapX, moveMapY);
 
         newRect = foregroundCanvas.getBoundingClientRect();
 
@@ -1316,19 +1328,20 @@ function zoomIntoMap(event, resizeAmount) {
                 cellsFromTop = (top - backgroundOriginY)
                     / (originalCellSize * backgroundSizeBeforeResize);
 
-                arr[i].style.top = (cellsFromTop * cellSize + newBackgroundOriginY) + "px";
-                arr[i].style.left = (cellsFromLeft * cellSize + newBackgroundOriginX) + "px";
-
+                var x = (cellsFromLeft * cellSize + newBackgroundOriginX);
+                var y = (cellsFromTop * cellSize + newBackgroundOriginY);
+                pawn.style.top = y + "px";
+                pawn.style.left = x + "px";
+                if (pawn.sound) {
+                    soundManager.adjustPlacement(pawn.id, x, y);
+                }
             }
         });
+
         resizeAndDrawGrid(null, event);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
         fovLighting.drawFogOfWar();
     });
-}
-
-function adjustMapThingsToNewMapSize(oldRect) {
-
 }
 
 
@@ -1580,7 +1593,8 @@ function startDeletingEffects(e) {
                 while (target.parentNode != tokenLayer) {
                     target = target.parentNode;
                 }
-
+                if (target.sound)
+                    soundManager.removeEffect(target);
                 target.parentNode.removeChild(target);
                 effects.splice(effects.indexOf(target), 1);
                 unattachObjectFromPawns(target);
@@ -2493,7 +2507,9 @@ function createEffect(e, isPreviewElement) {
     } else if (currentlySelectedEffectDropdown == 1) {
         newEffect = addLightEffectHandler(e, isPreviewElement);
     }
-
+    if (newEffect.sound && !isPreviewElement) {
+        soundManager.addEffect(newEffect.sound, newEffect.id);
+    }
     return newEffect;
 
 }
@@ -2535,9 +2551,11 @@ function createBaseEffect(effectObj, isPreviewElement, e) {
     newEffect.style.width = actualWidth + "px";
     newEffect.style.height = actualHeight + "px";
     newEffect.style.transform = "rotate(" + effectAngle + "deg)";
-
-    newEffect.style.top = e.clientY - actualHeight / 2 + "px";
-    newEffect.style.left = e.clientX - actualWidth / 2 + "px";
+    newEffect.id = "effect_" + effectId++;
+    var x = e.clientX - actualWidth / 2;
+    var y = e.clientY - actualHeight / 2;
+    newEffect.style.top = y + "px";
+    newEffect.style.left = x + "px";
 
     if (effectObj.classes) {
         effectObj.classes.forEach(effClass => newEffect.classList.add(effClass));
@@ -2558,8 +2576,11 @@ function createBaseEffect(effectObj, isPreviewElement, e) {
         effects.push(newEffect)
         previewPlacement(createEffect(e, true));
     }
-
-
+    if (effectObj.sound) {
+        newEffect.sound = effectObj.sound;
+        newEffect.sound.x = x;
+        newEffect.sound.y = y;
+    }
 
     return newEffect;
 }
@@ -3082,6 +3103,8 @@ function dragPawn(elmnt) {
                     pwn.attached_objects.forEach(obj => {
                         obj.style.top = (obj.offsetTop - posY) + "px";
                         obj.style.left = (obj.offsetLeft - posX) + "px";
+                        if (obj.sound)
+                            soundManager.adjustPlacement( obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
                     });
                 }
                 tooltip.style.top = (selectedPawns[0].offsetTop - posY - 40) + "px";
@@ -3100,9 +3123,10 @@ function dragPawn(elmnt) {
                 elmnt.style.top = (elmnt.offsetTop - posY) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - posX) + "px";
                 elmnt.attached_objects.forEach(obj => {
-
                     obj.style.top = (obj.offsetTop - posY) + "px";
                     obj.style.left = (obj.offsetLeft - posX) + "px";
+                    if (obj.sound)
+                        soundManager.adjustPlacement(obj.id,(obj.offsetLeft - posX), (obj.offsetTop - posY));
                 });
             }
             //Clear old
@@ -3215,15 +3239,21 @@ function addPawnListeners() {
 
 }
 function nudgePawns(x, y) {
-    for (var i = 0; i < pawns.all.length; i++) {
-        pawns.all[i].style.top = parseFloat(pawns.all[i].style.top) + y + "px";
-        pawns.all[i].style.left = parseFloat(pawns.all[i].style.left) + x + "px";
-    }
 
-    for (var i = 0; i < effects.length; i++) {
-        effects[i].style.top = parseFloat(effects[i].style.top) + y + "px";
-        effects[i].style.left = parseFloat(effects[i].style.left) + x + "px";
-    }
+    [pawns.all, effects].forEach(arr => {
+        for (var i = 0; i < arr.length; i++) {
+            var pawn = arr[i];
+            var posX = parseFloat(pawn.style.left) + x;
+            var posY = parseFloat(pawn.style.top) + y;
+            pawn.style.top = posY + "px";
+            pawn.style.left = posX + "px";
+            if (pawn.sound) {
+                soundManager.adjustPlacement(pawn.id, posX, posY);
+            }
+        }
+
+    });
+
 }
 function resizeEffects() {
 
