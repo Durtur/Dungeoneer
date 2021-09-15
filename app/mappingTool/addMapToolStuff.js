@@ -1,4 +1,6 @@
 const dataAccess = require("./js/dataaccess");
+const SoundManager = require("./js/soundManager");
+const soundManager = new SoundManager();
 var allEffects;
 const dialog = require('electron').remote.dialog;
 var editingEffectName = null;
@@ -20,7 +22,79 @@ document.addEventListener("DOMContentLoaded", (e) => {
     });
 
     $("#classlist_select").on("change", previewEffectClasses);
+    addSoundList();
 });
+
+async function addSoundList() {
+    soundManager.initialize();
+    var list = (await soundManager.getAvailableSounds()).map(x => {
+        return {
+            label: x.name,
+            value: x.path
+        }
+    });
+    console.log(list)
+    var input = document.getElementById("sound_input");
+    new Awesomplete(input, { list: list, autoFirst: true, minChars: 0 })
+    input.addEventListener("awesomplete-selectcomplete", (e) => {
+
+        input.value = e.text.label;
+        input.setAttribute("data-sound", e.text.value);
+        updateCurrentSound();
+    });
+    input.addEventListener("focusout", (e) => {
+        updateCurrentSound();
+    });
+
+
+    var soundProfiles = Object.keys(soundManager.getSoundProfiles());
+    var select = document.getElementById("sound_profile_select");
+    soundProfiles.forEach(profile => {
+        var ele = Util.ele("option", "", profile);
+        if (profile == "normal")
+            ele.selected = true;
+        select.appendChild(ele);
+    });
+    select.addEventListener("change", (e) => {
+        updateCurrentSound();
+    })
+    var volumeInp = document.getElementById("sound_volume");
+    volumeInp.oninput = function (e) {
+        var value = parseFloat(volumeInp.value);
+        if (value > 1) volumeInp.value = 1;
+        if (value < 0) volumeInp.value = 0;
+        soundManager.globalVolume(parseFloat(volumeInp.value))
+    }
+
+}
+var currentSoundId, currentSoundName;
+async function updateCurrentSound() {
+
+
+    var soundName = document.getElementById("sound_input").value;
+    if (currentSoundName == soundName)
+        return;
+    currentSoundName = soundName;
+    if (currentSoundId)
+        soundManager.removeSound(currentSoundId);
+
+    if (!soundName) {
+        document.getElementById("sound_options_rest").classList.add("hidden");
+        return;
+    }
+    document.getElementById("sound_options_rest").classList.remove("hidden");
+    var volume = document.getElementById("sound_volume").value;
+    var src = await soundManager.getSoundInfo(soundName);
+    if(!src){
+        document.getElementById("sound_input").value = null;
+        document.getElementById("sound_options_rest").classList.add("hidden");
+    }else{
+     
+        currentSoundId = soundManager.addGlobalSound(src.path, parseFloat(volume));
+    }
+
+
+}
 
 function previewEffectClasses() {
     var classes = $("#classlist_select").val().join(" ");
@@ -50,6 +124,20 @@ function startEditingEntry() {
         createToken("");
     }
     previewEffectClasses();
+    if (entryObj.sound) {
+        document.getElementById("sound_input").value = entryObj.sound.src;
+        var select = document.getElementById("sound_profile_select");
+        [...select.options].forEach(option => {
+            if (option.innerHTML.toLowerCase() == entryObj.sound.distance.toLowerCase())
+                option.selected = true;
+        })
+        if (entryObj.sound.volume)
+            document.getElementById("sound_volume").value = entryObj.sound.volume;
+     
+    }else{
+        document.getElementById("sound_input").value = null;
+    }
+    updateCurrentSound();
 }
 function addArtToEffect() {
     var imagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
@@ -136,6 +224,17 @@ function saveEffect() {
     }
     editObject.filePaths = pathArr;
     editObject.isLightEffect = document.getElementById("isLightEffect").checked;
+    var soundName = document.getElementById("sound_input").value;
+    if (soundName) {
+        var select = document.getElementById("sound_profile_select");
+        var profile = select.options[select.selectedIndex].value;
+        var volume = document.getElementById("sound_volume").value || 1;
+        editObject.sound = {
+            src: soundName,
+            distance: profile,
+            volume: parseFloat(volume)
+        }
+    }
     console.log(editObject);
     allEffects.push(editObject);
     commitSave(() => closeWindow(editingEffectName ? editingEffectName + " successfully edited" : effectName + " successfully added"));

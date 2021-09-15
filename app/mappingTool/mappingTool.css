@@ -64,6 +64,21 @@ body {
     background-size: 200%;
 }
 
+.toggle_mute_button[toggled="false"]{
+    background-image: url(../css/img/sound-off.png) !important;
+}
+
+.toggle_mute_button[toggled="true"]{
+    background-image: url(../css/img/sound-on.png);
+}
+
+.title_bar .toggle_mute_button{
+    background-size:51%;
+}
+
+.title_bar .sounds_playing{
+    background-color:var(--main-emphasis-color);
+}
 .title_bar {
     margin-top: 0;
     z-index: 46;

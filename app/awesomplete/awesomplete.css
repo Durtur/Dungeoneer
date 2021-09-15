@@ -10,7 +10,7 @@
 .awesomplete {
     display: inline-block;
     position: relative;
-	background-image:var(--foreground-image);
+	/* background-image:var(--foreground-image); */
 	background-size:cover;
 }
 

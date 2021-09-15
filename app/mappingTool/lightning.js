@@ -124,23 +124,23 @@ var fovLighting = function () {
 
         forcedPerspectiveOrigin.forEach(entry => draw(entry, true));
         maskCtx.globalCompositeOperation = 'destination-out';
-        forcedPerspectiveOrigin.forEach(entry=> {
+        forcedPerspectiveOrigin.forEach(entry => {
             drawVisionLines(parseFloat(entry.style.left) + entry.clientWidth / 2,
-            parseFloat(entry.style.top) + entry.clientHeight / 2, maskCtx);
+                parseFloat(entry.style.top) + entry.clientHeight / 2, maskCtx);
             maskCtx.fill();
         });
 
         fogOfWarLayerContext.globalCompositeOperation = 'source-over';
         fogOfWarLayerContext.drawImage(maskCanvas, 0, 0);
-        
-   
+
+
         clearMask();
         mapIsBlack = false;
     }
     function draw(currentPawn, isOrigin) {
 
         if (currentPawn.sight_mode == "darkvision" && !activeViewerHasDarkvision && !isPlayerPawn(currentPawn) ||
-            (forcedPerspectiveOrigin && !forcedPerspectiveOrigin.find(x=> x == currentPawn) && currentPawn.sight_mode == "darkvision")) {
+            (forcedPerspectiveOrigin && !forcedPerspectiveOrigin.find(x => x == currentPawn) && currentPawn.sight_mode == "darkvision")) {
             return;
         }
         var pawnX, pawnY;
@@ -149,7 +149,7 @@ var fovLighting = function () {
 
         if (!isOrigin && isOffScreen(currentPawn))
             return;
-   
+
         fogOfWarLayerContext.globalCompositeOperation = 'destination-out';
         drawVisionLines(pawnX, pawnY, fogOfWarLayerContext);
         paintVision(currentPawn, pawnX, pawnY);
@@ -570,11 +570,13 @@ var fovLighting = function () {
     function resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight) {
         var ratioX = newWidth / oldWidth;
         var ratioY = newHeight / oldHeight;
-
+       
         for (var i = 4; i < segments.length; i++) {
             ["a", "b"].forEach(line => {
-                segments[i][line].x *= ratioX;
-                segments[i][line].y *= ratioY;
+                var oldDistanceFromX = oldWidth - segments[i][line].x;
+                var oldDistanceFromY = oldHeight - segments[i][line].y;
+                segments[i][line].x = (newWidth - oldDistanceFromX*ratioX);
+                segments[i][line].y = (newHeight - oldDistanceFromY*ratioY);
             });
 
         }
@@ -700,9 +702,9 @@ var fovLighting = function () {
             forcedPerspectiveOrigin = null;
             drawFogOfWar();
             return;
-        }else if (selectedIndex == 1){
-            forcedPerspectiveOrigin = pawns.players.map(x=> x[0]);
-       
+        } else if (selectedIndex == 1) {
+            forcedPerspectiveOrigin = pawns.players.map(x => x[0]);
+
         }
         for (var i = 0; i < pawns.players.length; i++) {
             if (pawns.players[i][1] == name) {
@@ -735,7 +737,7 @@ var fovLighting = function () {
     function clearMask() {
         maskCtx.beginPath();
         maskCtx.clearRect(0, 0, gridLayer.width, gridLayer.height);
-    
+
     }
     function attemptToDeleteSegment(linepoint) {
         var seg;

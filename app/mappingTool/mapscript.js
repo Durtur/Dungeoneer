@@ -12,6 +12,7 @@ const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 const TokenSelector = require('./js/tokenSelector');
 const tokenSelector = new TokenSelector();
+const SaveManager = require("./mappingTool/saveManager");
 soundManager.initialize();
 var pawnId = 1, effectId = 1;
 
@@ -795,7 +796,6 @@ function onSettingsLoaded() {
 
         moveMap(bgX, bgY);
         drawGrid();
-
         offsetChangeX = gridMoveOffsetX - offsetChangeX;
         offsetChangeY = gridMoveOffsetY - offsetChangeY;
         nudgePawns(offsetChangeX, offsetChangeY)
@@ -872,68 +872,10 @@ function onSettingsLoaded() {
     document.getElementById("next_facet_button").onclick = setTokenNextFacetHandler;
 
     document.getElementById("save_map_button").onclick = function (e) {
-        var path = dialog.showSaveDialogSync(
-            remote.getCurrentWindow(),
-            {
-                filters: [{ name: 'Map', extensions: ['dungeoneer_map'] }],
-                title: "Save",
-                defaultPath: "map"
-            });
-
-        if (path != null) {
-            var data = {};
-            /*
-                    var pawnsToSave = [...pawns.all].filter(paw => !isPlayerPawn(paw));
-                    data.pawns = [];
-                
-                    pawnsToSave.forEach(p => {
-                        data.pawns.push({
-                            html: p.outerHTML,
-                            lightEffect: isLightEffect(p),
-                            sightRadius: { b: p.sight_radius_bright_light, d: p.sight_radius_dim_light },
-                            dnd_hexes : p.dnd_hexes,
-                            dnd_size : p.dnd_size,
-                            sight_mode : p.sight_mode,
-                            "data-dnd_conditions": p["data-dnd_conditions"],
-                            flying_height: p.flying_height
-        
-                        })
-                    })
-                    */
-            //data.pawns = pawnsToSave;
-            data.moveOffsetX = gridMoveOffsetX;
-            data.moveOffsetY = gridMoveOffsetY;
-            var effectsToAdd = [];
-
-            for (var i = 0; i < effects.length; i++) {
-                var newEff = {
-                    data_classList: [...effects[i].classList],
-                    data_x: effects[i].style.left,
-                    data_y: effects[i].style.top
-                };
-                effectsToAdd.push(newEff)
-
-            }
-            data.effects = effectsToAdd;
-            data.map = settings.currentMap;
-            data.mapX = mapContainer.data_transform_x;
-            data.mapY = mapContainer.data_transform_y;
-            data.bg_scale = mapContainer.data_bg_scale;
-
-            data.bgX = foregroundCanvas.data_transform_x;
-            data.bgY = foregroundCanvas.data_transform_y;
-            data.segments = fovLighting.getSegments();
-
-            data.bg_height_width_ratio = foregroundCanvas.heightToWidthRatio;
-            data.bg_width = parseFloat(foregroundCanvas.style.width);
-
-            data.layer2Map = settings.currentBackground;
-            data.layer2_height_width_ratio = backgroundCanvas.heightToWidthRatio;
-            data.layer2_width = parseFloat(backgroundCanvas.style.width);
-            fs.writeFile(path, JSON.stringify(data), (err) => {
-                if (err) return console.log(err)
-            });
-        }
+        SaveManager.saveCurrentMap();
+    }
+    document.getElementById("load_map_button").onclick = function (e) {
+        SaveManager.loadMapDialog();
     }
     document.querySelector("#backdrop_window_button").onclick = function (e) {
         ipcRenderer.send("open-maptool-backdrop-window");
@@ -959,106 +901,7 @@ function onSettingsLoaded() {
         saveSettings();
     }
 
-    document.getElementById("load_map_button").onclick = function (e) {
-        var path = dialog.showOpenDialogSync(
 
-            remote.getCurrentWindow(),
-            {
-                properties: ['openFile'],
-                message: "Choose map",
-                filters: [{ name: 'Map', extensions: ['dungeoneer_map', "dd2vtt"] }]
-            })[0];
-        if (path == null) return;
-        if (path.substring(path.lastIndexOf(".") + 1) == "dd2vtt") {
-            fovLighting.importDungeondraftVttMap(path);
-            return;
-        }
-        fs.readFile(path, function (err, data) {
-            if (err) {
-                dialog.showErrorBox("Unable to open map", "The provided file does not exist");
-
-            }
-            data = JSON.parse(data);
-            //  pawns = data.pawns;
-
-            gridMoveOffsetX = data.moveOffsetX;
-            gridMoveOffsetY = data.moveOffsetY;
-
-            foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
-
-            resizeForeground(data.bg_width);
-
-            //    foregroundCanvas.style.width = data.bg_width + "px";
-            //    foregroundCanvas.style.height = data.bg_width * foregroundCanvas.heightToWidthRatio + "px";
-
-            //    document.getElementById("foreground_size_slider").value = data.bg_width;
-
-            fovLighting.setSegments(data.segments);
-
-            settings.currentMap = data.map;
-            $('#foreground').css('background-image', 'url("' + data.map + '")');
-
-            foregroundCanvas.data_transform_x = data.bgX;
-            foregroundCanvas.data_transform_y = data.bgY;
-            moveForeground(data.bgX, data.bgY);
-            mapContainer.data_transform_x = data.mapX;
-            mapContainer.data_transform_y = data.mapY;
-            mapContainer.data_bg_scale = data.bg_scale;
-            moveMap(data.mapX, data.mapY);
-            fovLighting.drawSegments();
-            settings.currentBackground = data.layer2Map;
-            backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
-
-            setMapBackground(data.layer2Map, data.layer2_width);
-
-            //Fake zoom to adjust segments
-            zoomIntoMap({ x: 0, y: 0 }, 0);
-            //Light effects
-            var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
-            while (oldEffects.length > 0) {
-                var oldEffect = oldEffects.pop();
-                pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
-
-                tokenLayer.removeChild(oldEffect);
-            }
-
-            //Standard effects
-            oldEffects = [...tokenLayer.getElementsByClassName("sfx_effect")];
-            while (oldEffects.length > 0) {
-                var oldEffect = oldEffects.pop();
-                pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
-
-                tokenLayer.removeChild(oldEffect);
-            }
-            if (data.pawns) {
-                data.pawns.forEach((p) => {
-                    var newP = document.createElement("div");
-
-
-                    if (p.lightEffect)
-                        pawns.lightEffects.push(newP);
-                    newP.sight_radius_bright_light = p.sightRadius.b;
-                    newP.sight_radius_dim_light = p.sightRadius.d;
-                    newP.dnd_hexes = p.dnd_hexes;
-
-                    newP.dnd_size = p.dnd_size;
-                    newP.sight_mode = p.sight_mode;
-                    newP["data-dnd_conditions"] = p["data-dnd_conditions"];
-                    newP.flying_height = p.flying_height;
-                    tokenLayer.appendChild(newP);
-                    newP.outerHTML = p.html;
-                })
-                refreshPawns();
-                resizePawns();
-                addPawnListeners();
-                nudgePawns();
-            }
-
-            data.effects.forEach((effect) => restoreEffect(effect))
-            saveSettings();
-
-        });
-    }
 }
 
 function createEffectMenus() {
@@ -1086,27 +929,7 @@ function createEffectMenus() {
     }
 }
 
-function restoreEffect(effect) {
-    console.log("restoring " + effect)
-    var newEffect = document.createElement("div");
-    newEffect.style = effect.data_style;
-    effect.data_classList.forEach((className) => newEffect.classList.add(className));
-    newEffect.style.top = effect.data_y;
-    newEffect.style.left = effect.data_x;
-    newEffect.dnd_height = effect.dnd_height;
-    newEffect.dnd_width = effect.dnd_width;
-    newEffect.flying_height = effect.flying_height;
-    newEffect.sight_radius_bright_light = effect.sight_radius_bright_light;
-    newEffect.sight_radius_dim_light = effect.sight_radius_dim_light;
-    tokenLayer.appendChild(newEffect);
-    effects.push(newEffect);
-    if (newEffect.classList.contains("light_effect")) {
-        pawns.lightSources.push(newEffect)
-    }
 
-
-
-}
 
 function getBackgroundFromFile(e) {
     var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
@@ -1222,16 +1045,16 @@ function toggleSaveTimer() {
  */
 
 function resizeForeground(newWidth) {
-
-    var oldHeight = parseFloat(foregroundCanvas.style.height);
-    var oldWidth = parseFloat(foregroundCanvas.style.height);
-    var newHeight = newWidth * foregroundCanvas.heightToWidthRatio;
+    var oldRect = foregroundCanvas.getBoundingClientRect();
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
 
     document.getElementById("foreground_size_slider").value = newWidth;
     settings.gridSettings.mapSize = newWidth;
-    fovLighting.resizeSegmentsFromMapSizeChanged(oldWidth, oldHeight, newWidth, newHeight)
+    var newRect = foregroundCanvas.getBoundingClientRect();
+
+    fovLighting.resizeSegmentsFromMapSizeChanged(oldRect.width, oldRect.height, newRect.width, newRect.height);
+    fovLighting.drawSegments();
 }
 
 function resizeBackground(newWidth) {
@@ -2028,7 +1851,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
     refreshPawns();
     resizePawns();
     addPawnListeners();
-    nudgePawns();
+
     return newPawn;
 }
 
@@ -2057,15 +1880,15 @@ function setPawnBackgroundFromPathArray(element, paths) {
     var pathString;
     var tokenPaths = [];
     if (typeof paths == "string") {
-        pathString = util.cssify(paths);
+        pathString = Util.cssify(paths);
         tokenPaths.push(pathString)
     } else {
         var rand = Math.round(Math.random() * (paths.length - 1));
         paths.forEach(path => {
-            path = util.cssify(path);
+            path = Util.cssify(path);
             tokenPaths.push(path);
         })
-        pathString = util.cssify(paths[rand]);
+        pathString = Util.cssify(paths[rand]);
     }
     element.getElementsByClassName("token_photo")[0].style.backgroundImage = pathString;
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(tokenPaths))
@@ -3104,7 +2927,7 @@ function dragPawn(elmnt) {
                         obj.style.top = (obj.offsetTop - posY) + "px";
                         obj.style.left = (obj.offsetLeft - posX) + "px";
                         if (obj.sound)
-                            soundManager.adjustPlacement( obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
+                            soundManager.adjustPlacement(obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
                     });
                 }
                 tooltip.style.top = (selectedPawns[0].offsetTop - posY - 40) + "px";
@@ -3126,7 +2949,7 @@ function dragPawn(elmnt) {
                     obj.style.top = (obj.offsetTop - posY) + "px";
                     obj.style.left = (obj.offsetLeft - posX) + "px";
                     if (obj.sound)
-                        soundManager.adjustPlacement(obj.id,(obj.offsetLeft - posX), (obj.offsetTop - posY));
+                        soundManager.adjustPlacement(obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
                 });
             }
             //Clear old

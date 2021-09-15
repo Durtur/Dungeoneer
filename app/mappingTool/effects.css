@@ -82,6 +82,7 @@
     pointer-events: none;
     z-index: 5;
     animation-direction: alternate;
+    background-size:contain;
 }
 
 .light_source_torch {

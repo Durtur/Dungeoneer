@@ -3,7 +3,7 @@ var fs = require('fs');
 
 const remote = require('electron').remote;
 const app = remote.app;
-
+const { readdir } = require('fs').promises;
 const uniqueID = require('uniqid');
 var pathModule = require('path');
 const sharp = process.platform != "linux" ? require("sharp") : {};
@@ -461,7 +461,16 @@ module.exports = function () {
         fs.createReadStream(path).pipe(fs.createWriteStream(newPath));
         return { name: basename, path: newPath };
     }
+    async function getFiles(dir) {
+        const dirents = await readdir(dir, { withFileTypes: true });
+        const files = await Promise.all(dirents.map((dirent) => {
+            const res = pathModule.resolve(dir, dirent.name);
+            return dirent.isDirectory() ? getFiles(res) : res;
+        }));
+        return Array.prototype.concat(...files);
+    }
     return {
+        getFiles:getFiles,
         readFile: readFile,
         getTokenPathSync: getTokenPathSync,
         getTokenPath: getTokenPath,

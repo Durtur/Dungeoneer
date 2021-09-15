@@ -32,8 +32,18 @@ h2 {
     width: 100%;
     justify-content: center;
 }
+#effect_token_container{
+    height:10em;
+}
 
-#effect_name {
+#sound_options_rest{
+    margin-top:1em;
+
+}
+#sound_options_rest>*{
+    margin:0.25em;
+}
+.main_column .big_input {
     width: 210px;
     height: 40px;
     text-align: center;

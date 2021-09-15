@@ -32,7 +32,7 @@
                 <h2 id="editing_header">New effect</h2>
                 <div class="column center" style="margin-top:20px; margin-bottom:0;">
                     <div class="row">
-                        <input id="effect_name" placeholder="Effect name" value="New effect">
+                        <input class="big_input" id="effect_name" placeholder="Effect name" value="New effect">
                     </div>
 
 
@@ -46,8 +46,8 @@
                             <option value="poisonCloud">Poison cloud effect</option>
                             <option value="jagged_shape">Jagged edges</option>
                             <option value="white_hue">White hue</option>
-                            <option value="light_effect_torch" >Torch</option>
-                            
+                            <option value="light_effect_torch">Torch</option>
+
                             <option value="light_source_torch">Torchlight </option>
                             <option value="azure_orb">Azure Orb </option>
                             <option value="azure_light">Azure Light </option>
@@ -61,10 +61,9 @@
                         </select>
                     </div>
                     <div class="row" style="margin-top:40px; justify-content: center;">
-                        <label for = "isLightEffect">Provides light</label>
+                        <label for="isLightEffect">Provides light</label>
                         <label class="container_for_checkbox">
-                            <input type="checkbox" id="isLightEffect" class="center"
-                                title="Advantage">
+                            <input type="checkbox" id="isLightEffect" class="center" title="Advantage">
                             <span class="checkmark"></span>
                         </label>
                     </div>
@@ -72,14 +71,36 @@
                 <div class="column center" style="margin-top:20px;">
 
 
-                    <div class="row" style = "justify-content: center;">
+                    <div class="row" style="justify-content: center;">
                         <h2>Effect art</h4><button class="small brown" onclick="addArtToEffect()">+</button>
                     </div>
 
 
-                    <div class = "row" id="effect_token_container">
+                    <div class="row" id="effect_token_container">
                         <div class="token"></div>
                     </div>
+
+                    <div class="column">
+                        <h2>Sound</h2>
+                        <input class="big_input" id="sound_input" placeholder="No sound effect">
+                        <div class="column hidden"  id="sound_options_rest">
+
+                            <div class="row space_between">
+                                <label for="sound_profile_select">Spread: </label>
+                                <select id="sound_profile_select">
+
+                                </select>
+                            </div>
+                            <div class="row space_between">
+                                <label for="sound_volume">Volume: </label>
+                                <input value="1" type="number" min="0" step="0.1" max="1" id="sound_volume">
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
                 </div>
                 <div class="column save_button_container">
                     <button class="button_style red hidden" id="deleteButton" onclick="deleteEffect()">Delete</button>
@@ -88,6 +109,7 @@
                 </div>
 
             </div>
+
             <div class="success_message popup_message center semi_hidden">
                 <p id="close_message"></p>
             </div>
@@ -102,6 +124,8 @@
         <script src="awesomplete/awesomplete.js"></script>
         <script src="chosen/chosen.jquery.js"></script>
         <script src="js/guicontrol.js"></script>
+        <script src='mappingTool/howler/howler.core.min.js'></script>
+        <script src='mappingTool/howler/howler.spatial.min.js'></script>
 
     </body>
 </div>
