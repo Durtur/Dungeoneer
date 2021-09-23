@@ -1,7 +1,9 @@
 var effectAngle = 0;
 
 var previewPlacementElement;
+
 function previewPlacement(elmnt, callback) {
+
     if (elmnt == null)
         return closeDragElement();
     if (previewPlacementElement != null) {
@@ -104,7 +106,7 @@ function clearPreviewPlacement() {
     [effects, pawns.lightSources].forEach(arr => {
         if (arr.indexOf(previewPlacementElement) >= 0)
             arr.splice(arr.indexOf(previewPlacementElement), 1);
-    })
+    });
 
     previewPlacement(null);
 }

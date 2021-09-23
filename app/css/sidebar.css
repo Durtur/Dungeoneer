@@ -69,6 +69,13 @@
 .right_toolbar * {
     pointer-events: all;
 }
+.sidebar_close_button{
+    position: absolute;
+    bottom: 3em;
+    width: 100%;
+    padding: 1em;
+    
+}
 
 .sidebar {
     width: 2.5em;

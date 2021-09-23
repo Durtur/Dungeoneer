@@ -6,7 +6,7 @@ var pathModule = require('path');
 const THEME_PATH = pathModule.join(app.getAppPath(), 'app', 'css', 'themes');
 const BASE_CSS_PATH = pathModule.join(app.getAppPath(), 'app', 'css');
 const SlimSelect = require("slim-select");
-const { readdir } = require('fs').promises;
+
 
 const dialog = require('electron').remote.dialog;
 var playerPlaques = document.querySelector("#showPlayerPlaques");

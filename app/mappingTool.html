@@ -91,10 +91,10 @@
                                     <ul>
                                         <li><a class="button_style" id="save_map_button" href="#"
                                                 title="Saves the map in the current state, excluding tokens.">Save
-                                                map</a></li>
+                                                map (ctrl+s)</a></li>
                                         <li><a class="button_style" id="load_map_button" href="#"
                                                 title="Loads an earlier map in the same state, excluding tokens.">Load
-                                                map</a>
+                                                map (ctrl+o)</a>
                                         </li>
                                         <!-- <li><a class="button_style" id="map_library_button" href="#"
                                                 title="Loads an earlier map in the same state, excluding tokens.">Library folder</a>
@@ -262,6 +262,10 @@
                         <div>Shift foreground:</div>
                         <div class="list_value">Shift + Arrow keys </div>
                     </li>
+                    <li>
+                        <div>View global listener position:</div>
+                        <div class="list_value">L + P </div>
+                    </li>
                 </ul>
                 <strong>Tokens</strong>
                 <ul>
@@ -404,7 +408,7 @@
                 </div>
 
             </div>
-
+            <button class = "button_style sidebar_close_button" onclick = "effectManager.close()">Close</button>
 
 
         </div>

@@ -6,21 +6,31 @@ module.exports = function () {
     }
 
     function showInfo(title, text) {
-        var newEle = document.createElement("div");
+
         var para = document.createElement("p");
         para.innerHTML = text;
         var heading = document.createElement("h2");
         heading.innerHTML = title;
-        newEle.classList = "info_popup";
+        var newEle = ele("div","column");
         newEle.appendChild(heading);
         newEle.appendChild(para);
-        newEle.style.top = window.innerHeight / 2 - newEle.clientHeight / 2 + "px";
-        newEle.style.left = window.innerWidth / 2 - newEle.clientWidth / 2 + "px";
+        fadeOutInfoBox(newEle);
+    }
+
+    function fadeOutInfoBox(innerElement, pos, onFadeOut){
+        var newEle = document.createElement("div");
+        newEle.classList = "info_popup";
+        newEle.style.top = (pos ? pos.y : window.innerHeight / 2 - newEle.clientHeight / 2) + "px";
+        newEle.style.left = (pos ? pos.x : window.innerWidth / 2 - newEle.clientWidth / 2) + "px";
         document.body.appendChild(newEle);
+        newEle.appendChild(innerElement);
+        console.log(pos)
         window.setTimeout(function (evt) {
             newEle.classList.add("fade_out");
             if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
+            if(onFadeOut)onFadeOut();
         }, 6000);
+        return newEle;
     }
 
     function showBubblyText(text, point, smallfont, multiple) {
@@ -231,7 +241,8 @@ module.exports = function () {
         isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
         cssify: cssify,
-        showInfo: showInfo
+        showInfo: showInfo,
+        fadeOutInfoBox:fadeOutInfoBox
     }
 }();
 

@@ -1807,6 +1807,8 @@ input[data-before_label]:before {
 }
 
 .info_popup {
+  border-radius: var(--rounded-corners);
+  pointer-events: none;
   background-color: rgb(0 0 0 / 80%);
   position: absolute;
   z-index: 99999;

@@ -40,6 +40,9 @@ var fovLighting = function () {
     const SEGMENT_SELECTION_MARGIN = 3;
     var mapIsBlack = false;
     var fovLayer = document.getElementById("fog_of_war");
+   // var fogOfWarLayerCanvas = document.getElementById("fog_of_war");
+    var fogOfWarLayerContext = document.getElementById("fog_of_war").getContext("2d");
+    var fovSegmentLayerContext = document.getElementById("fog_of_war_segments").getContext("2d");
     const SEGMENT_COUNT_BEFORE_OPTIMIZATION = 1200;
     var activeFogType = MapFogEnum.None;
     var activeViewerHasDarkvision = false;
@@ -116,8 +119,8 @@ var fovLighting = function () {
         fogOfWarLayerContext.globalCompositeOperation = 'source-over';
 
         // Ensure same dimensions
-        maskCanvas.width = fogOfWarLayerCanvas.width;
-        maskCanvas.height = fogOfWarLayerCanvas.height;
+        maskCanvas.width = fovLayer.width;
+        maskCanvas.height = fovLayer.height;
 
         maskCtx.fillStyle = settings.fogOfWarHue;
         maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);

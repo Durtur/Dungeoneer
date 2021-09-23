@@ -200,8 +200,15 @@ li {
     padding-left: 3em;
     background-position: 5px center;
     background-size: 2em;
+    border:none;
 }
 
+.global_listener_position_icon{
+    width:2em;
+    height:2em;
+    background-image: url('../css/img/listener.png');
+    background-size: contain;
+}
 #move_effects_button {
     background-image: url("../css/img/move.png");
 }

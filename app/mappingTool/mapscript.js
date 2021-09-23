@@ -15,6 +15,7 @@ const TokenSelector = require('./js/tokenSelector');
 const tokenSelector = new TokenSelector();
 const SaveManager = require("./mappingTool/saveManager");
 const effectManager = require('./mappingTool/effectManager');
+
 soundManager.initialize();
 var pawnId = 1, effectId = 1;
 
@@ -33,12 +34,10 @@ var measurementsLayerContext = measurementsLayer.getContext("2d");
 var gridLayer = document.getElementById("grid");
 var gridLayerContext = gridLayer.getContext("2d");
 var tokenLayer = document.getElementById("tokens");
-var fogOfWarLayerCanvas = document.getElementById("fog_of_war");
-var fogOfWarLayerContext = document.getElementById("fog_of_war").getContext("2d");
-var fovSegmentLayerContext = document.getElementById("fog_of_war_segments").getContext("2d");
 //
 
 
+var LAST_KEY; //Last pressed key
 //Grid 
 var gridMoveOffsetX = 0, gridMoveOffsetY = 0, offsetChangeX = 0, offsetChangeY = 0, canvasMoveRate = 2;
 var resetMoveIncrementTimer;
@@ -170,7 +169,6 @@ function switchActiveViewer() {
     setBackgroundFilter();
 
 }
-
 
 function switchMapLighting(index) {
     window.setTimeout(function () {
@@ -468,7 +466,7 @@ ipcRenderer.on("next-player-round", function (evt, params) {
 
 });
 
-function onPerspectiveChanged(){
+function onPerspectiveChanged() {
     fovLighting.setPerspective();
     updateHowlerListenerLocation();
 }
@@ -700,8 +698,8 @@ var currentListenerPawn;
 function updateHowlerListenerLocation() {
     var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
     var currentPerspective = forcedPerpspectiveDD.options[forcedPerpspectiveDD.selectedIndex].value;
-    var player = pawns.players.find(x=> x[1] == currentPerspective);
-    if(player){
+    var player = pawns.players.find(x => x[1] == currentPerspective);
+    if (player) {
         currentListenerPawn = player[0];
         soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
     }
@@ -718,7 +716,7 @@ function resetEverything() {
 
     clearSelectedPawns();
     hideAllTooltips();
-    stopAddingEffects();
+    effectManager.close();
     if (document.getElementById("move_effects_button").getAttribute("toggled") != "false")
         document.getElementById("move_effects_button").click();
     gridLayer.onmousedown = generalMousedowngridLayer;
@@ -747,14 +745,47 @@ function onSettingsLoaded() {
     document.getElementById("filter_tool").onchange = setBackgroundFilter;
     effectManager.initialize();
 
+    //Drag drop
+    document.addEventListener('drop', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log(event.dataTransfer.files)
+        if (event.dataTransfer.files?.length > 0) {
+            var f = event.dataTransfer.files[0];
+            console.log('File Path of dragged files: ', f.path)
+            var path = f.path;
+            var extension = pathModule.extname(path).replaceAll(".", "");
+            console.log(extension);
+            if (SaveManager.supportedMapTypes().includes(extension))
+                SaveManager.loadMapFromPath(path);
+
+        }
+
+    });
+    document.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+
 
     document.querySelector("#vision_button").onclick = showLightSourceTooltip;
     document.querySelector("#conditions_button").onclick = showConditionsMenu;
     document.querySelector("body").onkeydown = function (event) {
         var keyIndex = [37, 38, 39, 40, 65, 87, 68, 83].indexOf(event.keyCode);
+
+        var lastKey = LAST_KEY;
+        LAST_KEY = event.key;
         if (event.key === "Escape") {
             return resetEverything;
-        } else if (keyIndex < 0 || (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)) {
+            //Show global listener position
+        } else if (event.key.toLowerCase() == "p" && lastKey.toLowerCase() == "l") {
+            return soundManager.displayGlobalListenerPosition();
+        } else if (event.ctrlKey && event.key.toLowerCase() == "s") {
+            return SaveManager.saveCurrentMap();
+        } else if(event.ctrlKey && event.key.toLowerCase() == "o"){
+            return SaveManager.loadMapDialog();
+        }else if (keyIndex < 0 || (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)) {
             return;
         }
         window.clearInterval(resetMoveIncrementTimer);
@@ -1055,7 +1086,7 @@ function zoomIntoMap(event, resizeAmount) {
         if (newSize > MAX_BG_ZOOM) newSize = MAX_BG_ZOOM;
         if (newSize < MIN_BG_ZOOM) newSize = MIN_BG_ZOOM;
         mapContainer.data_bg_scale = newSize;
-        
+
         soundManager.setListenerCords(null, null, (MAX_BG_ZOOM - newSize) * soundManager.multiplier());
         mapContainer.style.setProperty("--bg-scale", newSize);
 
@@ -2736,6 +2767,7 @@ function nudgePawns(x, y) {
         }
 
     });
+    updateHowlerListenerLocation();
 
 }
 

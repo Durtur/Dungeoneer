@@ -63,7 +63,7 @@ class SoundManager {
         this.updatePlayingStatus();
     }
 
-    globalVolume(volume){
+    globalVolume(volume) {
         Howler.volume(volume);
 
     }
@@ -91,8 +91,9 @@ class SoundManager {
     async addEffect(effect, elementId) {
         var info = await this.getSoundInfo(effect.src);
 
-        if(!info){
-            console.log(`Sound ${effect.src} not found in library` )
+        if (!info) {
+            console.log(`Sound ${effect.src} not found in library`);
+            return;
         }
         var soundEffect = new Howl({
             src: [info.path],
@@ -131,12 +132,24 @@ class SoundManager {
             this.globalListener.y = y;
         if (z)
             this.globalListener.z = z;
-            console.log(this.globalListener.x, this.globalListener.y, this.globalListener.z)
+  
+        if(this.LISTENER_POS_MARKER){
+            this.LISTENER_POS_MARKER.style.top = this.globalListener.y + "px";
+            this.LISTENER_POS_MARKER.style.left = this.globalListener.x + "px";
+        }
         Howler.pos(this.globalListener.x, this.globalListener.y, this.globalListener.z);
 
 
     }
 
+    displayGlobalListenerPosition() {
+        var ele = Util.ele("div", "global_listener_position_icon");
+        this.LISTENER_POS_MARKER = Util.fadeOutInfoBox(ele, { x: this.globalListener.x, y: this.globalListener.y }, onFadeOut);
+        var cls = this;
+        function onFadeOut(){
+            cls.LISTENER_POS_MARKER = null;
+        }
+    }
     async getSoundInfo(soundName) {
         var sounds = await this.getAvailableSounds();
         return sounds.find(x => {

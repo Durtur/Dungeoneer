@@ -200,11 +200,13 @@ var effectManager = function () {
         [...document.querySelectorAll(".sound_effect")].forEach(x => x.classList.add("hidden"))
     }
     function onEffectSizeChanged(event) {
-        previewPlacement(createEffect(event));
+        console.log(event)
+        previewPlacement(createEffect(event, true));
     }
 
 
     function createEffect(e, isPreviewElement) {
+        console.log(e)
         var newEffect;
         if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.sfx) {
             newEffect = addSfxEffectHandler(e, isPreviewElement);
@@ -217,9 +219,11 @@ var effectManager = function () {
         if (newEffect.sound && !isPreviewElement) {
             soundManager.addEffect(newEffect.sound, newEffect.id);
         }
+
         return newEffect;
 
     }
+
 
     var selectedSfxBackground;
     function addSfxEffectHandler(e, isPreviewElement) {
@@ -249,7 +253,7 @@ var effectManager = function () {
                 </div>`
 
     }
-    function getSeletedEffectInputs(){
+    function getSeletedEffectInputs() {
         if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.sfx) {
             return {
                 w: document.getElementById("effect_input_width"),
@@ -265,14 +269,14 @@ var effectManager = function () {
         return null;
     }
     function getSelectedEffectSize() {
-       var inputs = getSeletedEffectInputs();
-       if(inputs == null) {
+        var inputs = getSeletedEffectInputs();
+        if (inputs == null) {
             return {
                 w: 3,
                 h: 3
             }
         }
-        return {w:inputs.w.value, h:inputs.h.value};
+        return { w: inputs.w.value, h: inputs.h.value };
     }
 
     function createBaseEffect(effectObj, isPreviewElement, e) {
@@ -338,18 +342,18 @@ var effectManager = function () {
         selectEffectType(SELECTED_EFFECT_TYPE.sfx)
         closeOnEscape()
     }
+    function close() {
+        selectEffectType(null);
+        stopAddingEffects();
+        sidebarManager.close();
 
+    }
     function closeOnEscape() {
         document.addEventListener("keydown", closeEsc)
-
-
         function closeEsc(e) {
-         
             if (e.key == "Escape") {
-                selectEffectType(null);
-                stopAddingEffects();
-                sidebarManager.close();
                 document.removeEventListener("keydown", closeEsc)
+                close();
             }
         }
     }
@@ -374,7 +378,7 @@ var effectManager = function () {
     function onPreviewPlacementResized() {
         var inputs = getSeletedEffectInputs();
         var value = inputs.h.value;
-        var value2 =  inputs.w.value;
+        var value2 = inputs.w.value;
         value = value != "" ? parseInt(value) : 20;
         value2 = value2 != "" ? parseInt(value2) : 20;
         if (isNaN(value)) value = 20;
@@ -430,9 +434,12 @@ var effectManager = function () {
             return;
 
         var pawn;
+        
         if (e.button == 0 && e.target == gridLayer) {
+
             createEffect(e);
         } else if (e.button == 0 && (pawn = pawnClicked(e.target))) {
+      
             pawn.attached_objects.push(createEffect(e));
         }
 
@@ -517,7 +524,8 @@ var effectManager = function () {
         startMovingEffects: startMovingEffects,
         showPopupMenuAddEffect: showPopupMenuAddEffect,
         createEffectMenus: createEffectMenus,
-        onPreviewPlacementResized:onPreviewPlacementResized,
+        onPreviewPlacementResized: onPreviewPlacementResized,
+        close: close,
         initialize: initialize
 
     }
