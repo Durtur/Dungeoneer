@@ -3470,7 +3470,7 @@ slice-ansi@^1.0.0:
 
 slim-select@^1.27.0:
   version "1.27.0"
-  resolved "https://registry.npmjs.org/slim-select/-/slim-select-1.27.0.tgz"
+  resolved "https://registry.yarnpkg.com/slim-select/-/slim-select-1.27.0.tgz#0d669c2d2464e69421e158782dc3d310479d976b"
   integrity sha512-l2uCHFxoY2iPacwcViTiW5jsQqv4MDrW8/dWlX3+K46eCqYhm1SKJMxUmxRzBz1KKaKC7JcwPabwyYVevFuItA==
   dependencies:
     npm-check "^5.9.2"

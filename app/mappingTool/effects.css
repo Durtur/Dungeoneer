@@ -1,5 +1,18 @@
-.animation_paused{
+.animation_paused {
     animation-play-state: paused !important;
+}
+
+.sound_effect{
+    background-image: url("../css/img/note.png");
+    position: absolute;
+    background-size: contain;
+}
+
+.effect_preview {
+    width: 2em;
+    height: 2em;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 .dynamic_filter_hue {
@@ -19,9 +32,9 @@
     }
 }
 
-.dungeondraft_imported_light{
-    background-color:yellow;
-    border:1px solid blue;
+.dungeondraft_imported_light {
+    background-color: yellow;
+    border: 1px solid blue;
 }
 
 .light_effect_torch {
@@ -40,14 +53,14 @@
     background-color: rgba(0, 0, 255, 0.1);
     animation-iteration-count: infinite;
     animation-duration: 2s;
-    will-change:filter, box-shadow;
+    will-change: filter, box-shadow;
 }
 
 .emerald_light {
     animation-name: lightSourceEmerald;
     animation-iteration-count: infinite;
     animation-duration: 1s;
-    will-change:filter, box-shadow;
+    will-change: filter, box-shadow;
 }
 
 .emerald_orb {
@@ -58,7 +71,7 @@
     animation-name: lightSourceMaroon;
     animation-iteration-count: infinite;
     animation-duration: 2s;
-    will-change:filter, box-shadow;
+    will-change: filter, box-shadow;
 }
 
 .maroon_orb {
@@ -69,9 +82,18 @@
     animation-name: lightSourceChromatic;
     animation-iteration-count: infinite;
     transition: background-image 5s;
-    will-change:filter, box-shadow, background-image;
+    will-change: filter, box-shadow, background-image;
     animation-duration: 15s;
     animation-direction: normal !important;
+}
+.light_effect_preview{
+    border-radius: 50%;
+    animation-direction: alternate;
+    background-size: contain;
+}
+
+.effect_dropdown_select{
+    margin:0.5em;
 }
 
 .light_effect {
@@ -82,7 +104,7 @@
     pointer-events: none;
     z-index: 5;
     animation-direction: alternate;
-    background-size:contain;
+    background-size: contain;
 }
 
 .light_source_torch {
@@ -243,8 +265,7 @@
 
 .smoke {
     border-radius: 50%;
-    will-change: filter, background-image;
-    position: absolute;
+    will-change: filter;
     z-index: 4;
     animation-iteration-count: infinite;
     box-shadow: 0 0 2px 5px rgba(255, 255, 255, 0.1);
@@ -280,55 +301,57 @@
     }
 }
 
-.poisonCloud{
+.poisonCloud {
     border-radius: 50%;
-    will-change: filter, background-image;
-    position: absolute;
+    will-change: filter;
     z-index: 4;
     animation-iteration-count: infinite;
     box-shadow: 0 0 2px 5px rgba(255, 255, 255, 0.1);
-    animation-duration:7s;
-    animation-name: poisonSmudge;  
-}
-.pulse{
-    animation-iteration-count: infinite;
-    animation-duration:3s;
-    animation-name: pulse;   
+    animation-duration: 7s;
+    animation-name: poisonSmudge;
 }
 
-@keyframes pulse{
-    0%{
-        transform:scale(0.95);
-    }
-    50%{
-        transform:scale(1.05 );
-    }
-    100%{
-        transform:scale(0.95);
-    }
-}
-.rotate_slow{
+.pulse {
     animation-iteration-count: infinite;
-    animation-duration:7s;
-    animation-name: rotate; 
-    animation-timing-function: linear;    
+    animation-duration: 3s;
+    animation-name: pulse;
 }
 
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(0.95);
+    }
+}
 
-.rotate_medium{
+.rotate_slow {
     animation-iteration-count: infinite;
-    animation-duration:4s;
-    animation-name: rotate;   
-    animation-timing-function: linear; 
+    animation-duration: 7s;
+    animation-name: rotate;
+    animation-timing-function: linear;
 }
-@keyframes rotate{
-    0%{
-        transform:rotate(0);
+
+.rotate_medium {
+    animation-iteration-count: infinite;
+    animation-duration: 4s;
+    animation-name: rotate;
+    animation-timing-function: linear;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
     }
-    100%{
-        transform:rotate(359deg)
+    100% {
+        transform: rotate(359deg)
     }
 }
+
 @keyframes poisonSmudge {
     0% {
         filter: blur(10px) brightness(85%);
@@ -431,24 +454,26 @@
     background-repeat: repeat;
 }
 
-.token_status{
-    pointer-events:none;
-    opacity:0.6;
-    background-size:cover;
+.token_status {
+    pointer-events: none;
+    opacity: 0.6;
+    background-size: cover;
     overflow: visible;
     width: 100%;
     height: 100%;
 }
-.pawn_wound_near_death{
-    background-image:url("../css/img/wound.png");
-    width:100%;
-}
-.pawn_wound_wounded{
-    background-image:url("../css/img/wound.png");
-    width:55%;
+
+.pawn_wound_near_death {
+    background-image: url("../css/img/wound.png");
+    width: 100%;
 }
 
-.pawn_wound_bloodied{
-    background-image:url("../css/img/wound.png");
-    width:40%;
+.pawn_wound_wounded {
+    background-image: url("../css/img/wound.png");
+    width: 55%;
+}
+
+.pawn_wound_bloodied {
+    background-image: url("../css/img/wound.png");
+    width: 40%;
 }

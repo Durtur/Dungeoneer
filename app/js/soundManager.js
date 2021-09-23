@@ -4,7 +4,7 @@ const dataaccess = require("./dataaccess");
 class SoundManager {
     defaultSoundPath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'sounds');
     soundProfiles = {
-        "short": 50,
+        "short": 75,
         "normal": 150,
         "far": 250,
         "everywhere": 5000,
@@ -124,13 +124,14 @@ class SoundManager {
         return 15;
     }
     setListenerCords(x, y, z) {
-        console.log(x, y)
+
         if (x)
             this.globalListener.x = x;
         if (y)
             this.globalListener.y = y;
         if (z)
             this.globalListener.z = z;
+            console.log(this.globalListener.x, this.globalListener.y, this.globalListener.z)
         Howler.pos(this.globalListener.x, this.globalListener.y, this.globalListener.z);
 
 

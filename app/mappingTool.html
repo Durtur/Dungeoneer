@@ -13,6 +13,8 @@
     <link href="mappingTool/mappingTool.css" rel="stylesheet">
     <link href="mappingTool/effects.css" rel="stylesheet">
     <link href="css/modals.css" rel="stylesheet">
+    <link href="css/sidebar.css" rel="stylesheet">
+    <link href="css/slimselect.css" rel="stylesheet">
     <link rel="stylesheet" href="awesomplete/awesomplete.css" />
     <link rel='stylesheet' href='mappingTool/spectrum.css' />
 </head>
@@ -210,9 +212,9 @@
             </div>
         </div>
         <div class="toolbar toolbar_right ">
-            <select title="Forced perspective" id="fov_perspective_dropdown" onchange="fovLighting.setPerspective()">
+            <select title="Forced perspective" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()">
                 <option value="0" selected>All</option>
-                <option value="1" >Players</option>
+                <option value="1">Players</option>
             </select>
         </div>
         <button id="minimize_app_button"></button>
@@ -221,6 +223,7 @@
     </div>
 
     <body>
+        <div class="sidebar side_toolbar" toggled="false" id="side_toolbar"></div>
         <div class="toolbar toolbar_center hidden" id="add_pawn_from_tool_toolbar">
             <button class="toggle_button button_style" toggled="false" id="add_from_queue_toggle_button"
                 title="Add monsters from combat table." onclick="startAddingFromQueue()">+</button>
@@ -330,48 +333,79 @@
         </div>
         <div id="popup_menu_general" class="popup_menu hidden">
             <button class="button_style" onclick="showPopupDialogAddPawn()">Token</button>
-            <button class="button_style" onclick="showPopupMenuAddEffect(event)">Effect</button>
+            <button class="button_style" onclick="effectManager.showPopupMenuAddEffect(event)">Effect</button>
         </div>
-        <div id="popup_menu_add_effect" class="popup_menu hidden column">
-            <select id="add_sfx_dropdown">
-
-
-
-            </select>
-            <select id="add_light_source_dropdown" class=" toggle_button_toggled">
-                <option value="torch" selected>Torchlight</option>
-                <option value="azure">Azure Light </option>
-                <option value="emerald">Emerald Light </option>
-                <option value="maroon">Maroon Light </option>
-                <option value="chromatic">Chromatic Light </option>
-            </select>
-            <div class="row  light_effect_input_cont">
-                <label id="label_for_effect_input_value_one" class="input_extra_text" for="effect_input_value_three">B:
-                </label>
-                <input title="Bright light radius" type="number" class="input_for_effect" id="effect_input_value_three"
-                    placeholder=20 title="Bright light radius">
-                <label title="Dim light radius" id="label_for_effect_input_value_two" class="input_extra_text"
-                    for="effect_input_value_four">D:
-                </label>
-                <input type="number" class="input_for_effect" id="effect_input_value_four" placeholder=20
-                    title="Dim light radius">
-            </div>
+        <div id="popup_menu_add_effect" class=" hidden column">
             <div class="row">
-                <label title="Effect width" id="label_for_effect_input_value_one" class="input_extra_text"
-                    for="effect_input_value_one">W:
-                </label>
-                <input type="number" class="input_for_effect" id="effect_input_value_one" placeholder=20
-                    title="Effect width" value="2">
-                <label title="Effect height" id="label_for_effect_input_value_two" class="input_extra_text"
-                    for="effect_input_value_two">H:
-                </label>
-                <input type="number" class="input_for_effect" id="effect_input_value_two" placeholder=20
-                    title="Effect height" value="2">
+
+                <button class="button button_style toggle_button effect_action_button" id="move_effects_button" toggled="false"
+                    onclick="effectManager.startMovingEffects(event)">Move</button>
+                <button class="button button_style toggle_button effect_action_button" id="delete_effects_button" toggled="false"
+                    onclick="effectManager.startDeletingEffects()">Delete</button>
             </div>
-            <button class="button_style toggle_button " id="move_effects_button" toggled="false"
-                onclick="startMovingEffects(event)">Move</button>
-            <button class="button_style toggle_button " id="delete_effects_button" toggled="false"
-                onclick="startDeletingEffects()">Remove</button>
+            <div class="column sidebar_section" id="sidebar_sfx">
+                <h2 class="interactive_header">Effect</h2>
+                <select id="add_sfx_dropdown" class="effect_dropdown_select">
+                </select>
+                <div class="row">
+                    <label title="Effect width" id="label_for_effect_input_value_one" class="input_extra_text"
+                        for="effect_input_width">Width:
+                    </label>
+                    <input type="number" class="input_for_effect" id="effect_input_width" placeholder=20
+                        title="Effect width" value="20">
+                    <label title="Effect height" class="input_extra_text" for="effect_input_height">Height:
+                    </label>
+                    <input type="number" class="input_for_effect" id="effect_input_height" placeholder=20
+                        title="Effect height" value="20">
+                </div>
+            </div>
+            <div class="column sidebar_section" id="sidebar_light">
+                <h2 class="interactive_header">Light</h2>
+                <select id="add_light_source_dropdown" class=" toggle_button_toggled">
+                    <option value="torch" selected>Torchlight</option>
+                    <option value="azure">Azure Light </option>
+                    <option value="emerald">Emerald Light </option>
+                    <option value="maroon">Maroon Light </option>
+                    <option value="chromatic">Chromatic Light </option>
+                </select>
+                <div class="row  light_effect_input_cont">
+                    <label id="label_for_effect_input_value_one" class="input_extra_text"
+                        for="effect_input_value_three">Bright light:
+                    </label>
+                    <input title="Bright light radius" type="number" class="input_for_effect"
+                        id="effect_input_value_three" placeholder=20 title="Bright light radius">
+                    <label title="Dim light radius" class="input_extra_text" for="effect_input_value_four">Dim light:
+                    </label>
+                    <input type="number" class="input_for_effect" id="effect_input_value_four" placeholder=20
+                        title="Dim light radius">
+                </div>
+                <div class="row">
+                    <label title="Effect width" class="input_extra_text" for="light_effect_input_width">Width:
+                    </label>
+                    <input type="number" class="input_for_effect" id="light_effect_input_width" placeholder=20
+                        title="Effect width" value="2">
+                    <label title="Effect height" class="input_extra_text" for="light_effect_input_height">Height:
+                    </label>
+                    <input type="number" class="input_for_effect" id="light_effect_input_height" placeholder=20
+                        title="Effect height" value="2">
+                </div>
+            </div>
+            <div class="column sidebar_section" id="sidebar_sound">
+                <h2 class="interactive_header">Sound</h2>
+                <select id="add_sound_dropdown" class="effect_dropdown_select">
+                </select>
+                <select id="add_sound_spread" class="effect_dropdown_select">
+                </select>
+                <div class="row">
+                    <label title="Sound volume" class="input_extra_text" for="add_sound_volume">Volume:
+                    </label>
+                    <input type="number" class="input_for_effect" id="add_sound_volume" placeholder=1 max=1 min=0.01
+                        step=0.1>
+                </div>
+
+            </div>
+
+
 
         </div>
         <div id="popup_dialogue_add_pawn" class="popup_dialog hidden column section__show">
@@ -437,7 +471,7 @@
         <script src='mappingTool/spectrum.js'></script>
         <script src='mappingTool/howler/howler.core.min.js'></script>
         <script src='mappingTool/howler/howler.spatial.min.js'></script>
-       
+
 
     </body>
 

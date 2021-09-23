@@ -60,25 +60,25 @@ body {
     min-height: 100%;
     overflow: hidden;
     -webkit-user-select: none;
- 
     background-size: 200%;
 }
 
-.toggle_mute_button[toggled="false"]{
+.toggle_mute_button[toggled="false"] {
     background-image: url(../css/img/sound-off.png) !important;
 }
 
-.toggle_mute_button[toggled="true"]{
+.toggle_mute_button[toggled="true"] {
     background-image: url(../css/img/sound-on.png);
 }
 
-.title_bar .toggle_mute_button{
-    background-size:51%;
+.title_bar .toggle_mute_button {
+    background-size: 51%;
 }
 
-.title_bar .sounds_playing{
-    background-color:var(--main-emphasis-color);
+.title_bar .sounds_playing {
+    background-color: var(--main-emphasis-color);
 }
+
 .title_bar {
     margin-top: 0;
     z-index: 46;
@@ -193,21 +193,36 @@ li {
     -webkit-appearance: none;
 }
 
-.input_for_effect {
-    width: 40%;
-    padding-left: 20px;
+.effect_action_button {
+    width: 50%;
+    text-align: left;
+    font-size: 1em;
+    padding-left: 3em;
+    background-position: 5px center;
+    background-size: 2em;
 }
 
-#popup_menu_add_effect {
-    width: 10em;
+#move_effects_button {
+    background-image: url("../css/img/move.png");
+}
+
+#delete_effects_button {
+    background-image: url("../css/img/cancel.png");
+}
+
+.input_for_effect {
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.25em;
+    text-align: center;
+    margin: 0.5em;
+    border-radius: var(--rounded-corners);
 }
 
 .input_extra_text {
-    color: black  !important;
-    background-color: white;
-    width: 3em;
-    color: rgb(118, 118, 118);
-    font-size: 12px;
+    color: var(--inverse-text-color);
+    flex: 1;
+    margin: 0.5em;
 }
 
 #label_for_effect_input_value_one {
@@ -503,8 +518,8 @@ li {
     top: 30px;
     right: 20px;
     z-index: var(--z-index-tooltip);
-    color:white;
-    background-color: rgba(0,0,0,0.5);
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid black;
     border-radius: 5px;
     padding: 5px;

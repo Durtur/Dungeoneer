@@ -1,4 +1,4 @@
-
+var effectAngle = 0;
 
 var previewPlacementElement;
 function previewPlacement(elmnt, callback) {
@@ -8,7 +8,8 @@ function previewPlacement(elmnt, callback) {
         closeDragElement();
     }
     previewPlacementElement = elmnt;
-    var pos1 = 0, pos2 = 0, pos3 = elmnt.offsetLeft, pos4 = elmnt.offsetTop;
+
+
     elmnt.classList.add("preview_placement");
 
     gridLayer.addEventListener("wheel", rotatePreview)
@@ -75,7 +76,7 @@ function previewPlacement(elmnt, callback) {
         gridLayer.removeEventListener("wheel", rotatePreview)
         if (previewPlacementElement) {
             previewPlacementElement.classList.remove("preview_placement")
-            previewPlacementElement.parentNode.removeChild(previewPlacementElement);
+            previewPlacementElement.parentNode?.removeChild(previewPlacementElement);
             pawns.lightSources = pawns.lightSources.filter(item => item !== previewPlacementElement)
             previewPlacementElement = null;
         }

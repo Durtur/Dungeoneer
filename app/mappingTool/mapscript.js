@@ -7,12 +7,14 @@ const MapLibrary = require("./mappingTool/mapLibrary");
 const SoundManager = require("./js/soundManager")
 const soundManager = new SoundManager();
 const dataAccess = require("./js/dataaccess");
+const sidebarManager = require("./js/sidebarmanager");
 const initiative = require("./js/initiative");
 const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 const TokenSelector = require('./js/tokenSelector');
 const tokenSelector = new TokenSelector();
 const SaveManager = require("./mappingTool/saveManager");
+const effectManager = require('./mappingTool/effectManager');
 soundManager.initialize();
 var pawnId = 1, effectId = 1;
 
@@ -50,11 +52,11 @@ var addPawnImagePaths;
 var visibilityLayerVisible = false;
 var lastMeasuredPoint = null;
 
-var effectData;
+
 var MAX_BG_ZOOM = 10, MIN_BG_ZOOM = 0.1;
 //Visibility
 
-var effects = [], currentlySelectedEffectDropdown;
+var effects = [];
 var pawns = (function () {
     var medium, large, huge, gargantuan, colossal, all;
     var lastLocationPlayers = { x: 3, y: 3 };
@@ -309,12 +311,18 @@ function refreshPawnToolTipsHelper(arr, monster) {
     }
 }
 
+function onPawnsMoved() {
+    updateHowlerListenerLocation();
+}
+
 // #region commands
 function notifySelectedPawnsChanged() {
     let mainWindow = remote.getGlobal('mainWindow');
 
     if (mainWindow) mainWindow.webContents.send('notify-maptool-selection-changed',
         { selected: selectedPawns.filter(x => x.index_in_main_window).map(x => x.index_in_main_window) });
+
+    updateHowlerListenerLocation();
 }
 
 
@@ -350,7 +358,7 @@ ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
     loadParty();
 });
 ipcRenderer.on('notify-effects-changed', function (evt, arg) {
-    createEffectMenus();
+    effectManager.createEffectMenus();
 });
 
 ipcRenderer.on("notify-main-reloaded", function () {
@@ -456,9 +464,14 @@ ipcRenderer.on("next-player-round", function (evt, params) {
         forcedPerpspectiveDD.selectedIndex = 0;
     }
 
-    fovLighting.setPerspective();
+    onPerspectiveChanged();
 
 });
+
+function onPerspectiveChanged(){
+    fovLighting.setPerspective();
+    updateHowlerListenerLocation();
+}
 ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
     console.log("Loading monsters")
     remote.getCurrentWindow().focus();
@@ -538,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
     foregroundCanvas.data_transform_x = 0;
     foregroundCanvas.data_transform_y = 0;
     loadSettings();
-    refreshHowlerListenerLocation();
+    updateHowlerListenerLocation();
     let window2 = remote.getGlobal('mainWindow');
     if (window2) window2.webContents.send('maptool-initialized');
     var bgSize = parseInt($("#foreground").css("background-size"));
@@ -597,18 +610,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }, info);
 
     }
-    document.getElementById("popup_menu_add_effect").addEventListener("mouseenter", function (evt) {
-        if (previewPlacementElement) {
-            previewPlacementElement.classList.add("invisible");
-        }
 
-    })
-    document.getElementById("popup_menu_add_effect").addEventListener("mouseleave", function (evt) {
-        if (previewPlacementElement) {
-            previewPlacementElement.classList.remove("invisible");
-
-        }
-    });
     document.getElementById("add_things_button").onclick = function (e) {
         ipcRenderer.send("open-add-maptool-stuff-window");
     }
@@ -694,8 +696,22 @@ function moveMap(x, y) {
 
 }
 
-function refreshHowlerListenerLocation() {
-    soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
+var currentListenerPawn;
+function updateHowlerListenerLocation() {
+    var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
+    var currentPerspective = forcedPerpspectiveDD.options[forcedPerpspectiveDD.selectedIndex].value;
+    var player = pawns.players.find(x=> x[1] == currentPerspective);
+    if(player){
+        currentListenerPawn = player[0];
+        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
+    }
+    else if (selectedPawns.length > 0) {
+        currentListenerPawn = selectedPawns[0];
+        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
+    } else {
+        currentListenerPawn = null;
+        soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
+    }
 }
 
 function resetEverything() {
@@ -714,14 +730,13 @@ function onSettingsLoaded() {
     refreshPawns();
     window.onresize = function () {
         window.requestAnimationFrame(resizeAndDrawGrid);
-        refreshHowlerListenerLocation();
+        updateHowlerListenerLocation();
     }
     console.log("Settings loaded");
     resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
     setupGridLayer();
     resizeAndDrawGrid();
     refreshFogOfWar();
-    createEffectMenus();
     document.getElementById("fog_of_war_hue_selector").onchange = function (event) {
         settings.fogOfWarHue = event.target.value
         saveSettings();
@@ -730,12 +745,8 @@ function onSettingsLoaded() {
     }
 
     document.getElementById("filter_tool").onchange = setBackgroundFilter;
-    document.getElementById("add_light_source_dropdown").onclick = effectDropdownChange;
-    document.getElementById("add_sfx_dropdown").onclick = effectDropdownChange;
-    //  document.getElementById("add_sfx_dropdown").onchange = selectedSfxChanged;
-    document.getElementById("effect_input_value_two").oninput = onEffectSizeChanged;
-    document.getElementById("effect_input_value_one").oninput = onEffectSizeChanged;
-    currentlySelectedEffectDropdown = 1;
+    effectManager.initialize();
+
 
     document.querySelector("#vision_button").onclick = showLightSourceTooltip;
     document.querySelector("#conditions_button").onclick = showConditionsMenu;
@@ -808,35 +819,8 @@ function onSettingsLoaded() {
 
     gridLayer.onwheel = function (event) {
         event.preventDefault();
-
         if (event.ctrlKey && previewPlacementElement) {
-
-            var value = document.getElementById("effect_input_value_one").value;
-            var value2 = document.getElementById("effect_input_value_two").value;
-            value = value != "" ? parseInt(value) : 20;
-            value2 = value2 != "" ? parseInt(value2) : 20;
-            if (isNaN(value)) value = 20;
-            if (isNaN(value2)) value2 = 20;
-            if (event.deltaY < 0) {
-                value++;
-                value2++;
-            } else {
-                value--;
-                value2--;
-            }
-            if (value == 0) value = 1;
-            if (value2 == 0) value2 = 1;
-            document.getElementById("effect_input_value_one").value = value;
-            document.getElementById("effect_input_value_two").value = value2;
-
-            var actualWidth = value * cellSize / 5;
-            var actualHeight = value2 * cellSize / 5
-
-            previewPlacementElement.dnd_width = value;
-            previewPlacementElement.dnd_height = value2;
-            previewPlacementElement.style.width = actualWidth + "px";
-            previewPlacementElement.style.height = actualHeight + "px";
-            adjustPreviewPlacement(event);
+            effectManager.onPreviewPlacementResized(event);
 
         } else if (!event.shiftKey) {
             var dir = event.deltaY > 0 ? -0.1 : 0.1;
@@ -902,31 +886,6 @@ function onSettingsLoaded() {
     }
 
 
-}
-
-function createEffectMenus() {
-    dataAccess.getMapToolData(data => {
-        effectData = data.effects;
-        createMenu("add_sfx_dropdown", effectData.filter(x => !x.isLightEffect));
-        createMenu("add_light_source_dropdown", effectData.filter(x => x.isLightEffect));
-        var newOption = document.createElement("option");
-        newOption.value = "custom";
-        newOption.innerHTML = "Custom";
-        document.getElementById("add_sfx_dropdown").appendChild(newOption)
-
-    });
-
-    function createMenu(parentId, dataset) {
-        var selectDd = document.getElementById(parentId);
-        while (selectDd.firstChild)
-            selectDd.removeChild(selectDd.firstChild);
-        dataset.forEach(eff => {
-            var newOption = document.createElement("option");
-            newOption.value = eff.name;
-            newOption.innerHTML = eff.name;
-            selectDd.appendChild(newOption);
-        })
-    }
 }
 
 
@@ -1096,7 +1055,7 @@ function zoomIntoMap(event, resizeAmount) {
         if (newSize > MAX_BG_ZOOM) newSize = MAX_BG_ZOOM;
         if (newSize < MIN_BG_ZOOM) newSize = MIN_BG_ZOOM;
         mapContainer.data_bg_scale = newSize;
-
+        
         soundManager.setListenerCords(null, null, (MAX_BG_ZOOM - newSize) * soundManager.multiplier());
         mapContainer.style.setProperty("--bg-scale", newSize);
 
@@ -1167,10 +1126,6 @@ function zoomIntoMap(event, resizeAmount) {
     });
 }
 
-
-function onEffectSizeChanged(event) {
-    previewPlacement(createEffect(event));
-}
 
 var backgroundLoop = function () {
     var background_slide_animation_frame;
@@ -1251,41 +1206,6 @@ var backgroundLoop = function () {
 }();
 
 
-
-function effectDropdownChange(event) {
-    var lightDropdown = document.getElementById("add_light_source_dropdown");
-    var sfxDropdown = document.getElementById("add_sfx_dropdown");
-    stopDeletingEffects();
-    event.target.classList.add("toggle_button_toggled");
-
-    if (event.target == lightDropdown) {
-        sfxDropdown.classList.remove("toggle_button_toggled");
-        document.querySelector(".light_effect_input_cont").classList.remove("hidden");
-        currentlySelectedEffectDropdown = 1;
-        document.querySelector("#effect_input_value_one").value = 2;
-        document.querySelector("#effect_input_value_two").value = 2;
-
-
-    } else if (event.target == sfxDropdown) {
-        if ($("#add_sfx_dropdown").val() == "custom") {
-            var sfxPath = dialog.showOpenDialogSync(remote.getCurrentWindow(),
-                {
-                    properties: ['openFile'],
-                    message: "Choose picture location",
-                    filters: [{ name: 'Images', extensions: constants.imgFilters }]
-                })[0];
-            if (!sfxPath) return;
-            selectedSfxBackground = "url(" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + ")";
-        }
-        lightDropdown.classList.remove("toggle_button_toggled")
-        document.querySelector(".light_effect_input_cont").classList.add("hidden");
-        document.querySelector("#effect_input_value_one").value = 20;
-        document.querySelector("#effect_input_value_two").value = 20;
-        currentlySelectedEffectDropdown = 0;
-    }
-    previewPlacement(createEffect(event, true));
-}
-
 function generalMousedowngridLayer(event) {
 
 
@@ -1334,7 +1254,7 @@ function drawSegmentsOnMouseMove() {
 }
 
 
-var currentlyDeletingEffects = false;
+
 var currentlyDeletingSegments = false;
 var lastgridLayerCursor;
 function startDeletingSegments() {
@@ -1364,95 +1284,6 @@ function startDeletingSegments() {
 
 }
 
-function startMovingEffects(e) {
-    clearPreviewPlacement();
-    var priorState = e.target.getAttribute("toggled");
-    if (priorState == "false") {
-        if (document.getElementById("delete_effects_button").getAttribute("toggled") != "false") document.getElementById("move_effects_button").click();
-        lastgridLayerCursor = gridLayer.style.cursor;
-        gridLayer.style.cursor = "auto";
-        gridLayer.onmousedown = function (event) {
-            if (event.button == 2) {
-                var bn = document.getElementById("move_effects_button")
-                bn.click();
-            }
-        };
-        effects.map(eff => {
-            eff.classList.add("elevated")
-            Util.makeUIElementDraggable(eff)
-        })
-    } else {
-        gridLayer.onmousedown = popupMenuAddEffectClickHandler;
-        gridLayer.style.cursor = lastgridLayerCursor;
-        effects.map(eff => {
-            eff.classList.remove("elevated")
-            eff.onmousedown = null;
-        })
-    }
-
-}
-
-function startDeletingEffects(e) {
-    clearPreviewPlacement();
-
-    currentlyDeletingEffects = !currentlyDeletingEffects;
-    if (currentlyDeletingEffects) {
-        if (document.getElementById("move_effects_button").getAttribute("toggled") != "false") document.getElementById("move_effects_button").click();
-        gridLayer.onmousedown = function (event) {
-            if (event.button == 2) {
-                var bn = document.getElementById("delete_effects_button")
-                bn.click();
-            }
-        };
-        lastgridLayerCursor = gridLayer.style.cursor;
-        gridLayer.style.cursor = "auto";
-        for (var i = 0; i < effects.length; i++) {
-            effects[i].classList.add("elevated");
-            effects[i].style.cursor = "pointer";
-            effects[i].onmousedown = function (event) {
-                if (event.buttons != 1) return;
-                var target = event.target;
-
-                while (target.parentNode != tokenLayer) {
-                    target = target.parentNode;
-                }
-                if (target.sound)
-                    soundManager.removeEffect(target);
-                target.parentNode.removeChild(target);
-                effects.splice(effects.indexOf(target), 1);
-                unattachObjectFromPawns(target);
-                if (pawns.lightSources.indexOf(target) >= 0) pawns.lightSources.splice(pawns.lightSources.indexOf(target), 1)
-                window.requestAnimationFrame(refreshFogOfWar);
-            }
-        }
-    } else {
-        gridLayer.onmousedown = popupMenuAddEffectClickHandler;
-        currentlyDeletingEffects = false;
-        gridLayer.style.cursor = lastgridLayerCursor;
-        for (var i = 0; i < effects.length; i++) {
-            effects[i].classList.remove("elevated");
-            effects[i].onmousedown = null;
-
-        }
-    }
-}
-
-function unattachObjectFromPawns(objectElement) {
-    var objectIndex;
-    for (var i = 0; i < pawns.all.length; i++) {
-        var pawn = pawns.all[i];
-        if ((objectIndex = pawn.attached_objects.indexOf(objectElement)) >= 0) {
-            pawn.attached_objects.splice(objectIndex, 1);
-        }
-    }
-}
-
-function stopDeletingEffects() {
-    if (currentlyDeletingEffects) {
-        var bn = document.getElementById("delete_effects_button")
-        bn.click();
-    }
-}
 function turnAllToolboxButtonsOff() {
     var toggleButtons = document.querySelectorAll(".toolbox_button");
     for (var i = 0; i < toggleButtons.length; i++) {
@@ -2005,7 +1836,7 @@ function refreshMobBackgroundImages(pawn) {
         tokenLayer.appendChild(next);
 
     }
-    resizeEffects();
+    effectManager.resizeEffects();
     if ([...pawn.querySelectorAll(".mob_token")].length == 0) {
         return removePawn(pawn);
     }
@@ -2308,133 +2139,6 @@ function startAddingFromQueue() {
     }
 }
 
-var measurementFillStylePath;
-function setFillStyle() {
-    measurementFillStylePath =
-        dialog.showOpenDialogSync(remote.getCurrentWindow(),
-            {
-                properties: ['openFile'],
-                message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: constants.imgFilters }]
-            })[0];
-    if (measurementFillStylePath)
-        measurementFillStylePath = measurementFillStylePath.replace(/\\/g, "/");
-    document.getElementById("effect_fill_filter_img").setAttribute("xlink:href", measurementFillStylePath);
-
-}
-
-function createEffect(e, isPreviewElement) {
-    var newEffect;
-    if (currentlySelectedEffectDropdown == 0) {
-        newEffect = addSfxEffectHandler(e, isPreviewElement);
-    } else if (currentlySelectedEffectDropdown == 1) {
-        newEffect = addLightEffectHandler(e, isPreviewElement);
-    }
-    if (newEffect.sound && !isPreviewElement) {
-        soundManager.addEffect(newEffect.sound, newEffect.id);
-    }
-    return newEffect;
-
-}
-
-var effectAngle = 0;
-var selectedSfxBackground;
-function addSfxEffectHandler(e, isPreviewElement) {
-
-    var effectDropdown = document.getElementById("add_sfx_dropdown");
-    var effectName = effectDropdown.options[effectDropdown.selectedIndex].innerHTML;
-    var effectObj = effectData.filter(x => x.name == effectName)[0];
-
-    if (!effectObj && effectName.toLowerCase() != "custom") {
-        return;
-    } else if (effectName.toLowerCase() == "custom") {
-        effectObj = { name: "custom" }
-    }
-    var newEffect = createBaseEffect(effectObj, isPreviewElement, e)
-    newEffect.classList.add("sfx_effect");
-    tokenLayer.appendChild(newEffect);
-    return newEffect;
-}
-
-function createBaseEffect(effectObj, isPreviewElement, e) {
-    var newEffect = document.createElement("div");
-
-    var chosenWidth = document.getElementById("effect_input_value_one").value;
-    var chosenHeight = document.getElementById("effect_input_value_two").value;
-    var actualWidth, actualHeight;
-
-    chosenWidth == "" ? actualWidth = 20 : actualWidth = chosenWidth;
-    chosenHeight == "" ? actualHeight = 20 : actualHeight = chosenHeight;
-
-    newEffect.dnd_width = actualWidth;
-    newEffect.dnd_height = actualHeight;
-
-    actualWidth *= cellSize / 5;
-    actualHeight *= cellSize / 5
-    newEffect.style.width = actualWidth + "px";
-    newEffect.style.height = actualHeight + "px";
-    newEffect.style.transform = "rotate(" + effectAngle + "deg)";
-    newEffect.id = "effect_" + effectId++;
-    var x = e.clientX - actualWidth / 2;
-    var y = e.clientY - actualHeight / 2;
-    newEffect.style.top = y + "px";
-    newEffect.style.left = x + "px";
-
-    if (effectObj.classes) {
-        effectObj.classes.forEach(effClass => newEffect.classList.add(effClass));
-    }
-    if (effectObj.filePaths && effectObj.filePaths.length > 0) {
-        var randEff = pickOne(effectObj.filePaths);
-        var sfxPath = pathModule.join(effectFilePath, randEff);
-        if (isPreviewElement) {
-            selectedSfxBackground = "url('" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + "')";
-        }
-    } else if (effectObj.name != "custom") {
-        selectedSfxBackground = null;
-    }
-
-    newEffect.style.backgroundImage = selectedSfxBackground;
-    //Refresh preview
-    if (!isPreviewElement) {
-        effects.push(newEffect)
-        previewPlacement(createEffect(e, true));
-    }
-    if (effectObj.sound) {
-        newEffect.sound = effectObj.sound;
-        newEffect.sound.x = x;
-        newEffect.sound.y = y;
-    }
-
-    return newEffect;
-}
-function addLightEffectHandler(e, isPreviewElement) {
-
-    var lightSourceDropdown = document.getElementById("add_light_source_dropdown");
-
-    var effectName = lightSourceDropdown.options[lightSourceDropdown.selectedIndex].innerHTML;
-    var effectObj = effectData.filter(x => x.name == effectName)[0];
-    if (!effectObj) return;
-    var newEffect = createBaseEffect(effectObj, isPreviewElement, e)
-
-    var chosenBrightLightRadius = document.getElementById("effect_input_value_three").value;
-    var chosenDimLightRadius = document.getElementById("effect_input_value_four").value;
-
-    chosenBrightLightRadius == "" ? newEffect.sight_radius_bright_light = 20 : newEffect.sight_radius_bright_light = chosenBrightLightRadius;
-    chosenDimLightRadius == "" ? newEffect.sight_radius_dim_light = 20 : newEffect.sight_radius_dim_light = chosenDimLightRadius;
-
-    newEffect.flying_height = 0;
-    newEffect.classList.add("light_effect");
-    if (visibilityLayerVisible) {
-        newEffect.classList.add("light_source_visibility_layer");
-    } else {
-        newEffect.classList.add("light_source_normal_layer");
-    }
-
-    pawns.lightSources.push(newEffect);
-    tokenLayer.appendChild(newEffect);
-    if (currentlySelectedEffectDropdown == 1) refreshFogOfWar();
-    return newEffect;
-}
 function setTokenNextFacetHandler(e) {
     selectedPawns.forEach(pawn => {
         var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
@@ -2487,52 +2191,7 @@ function addPawnHandler(e) {
 
     notifyTokenAdded(lastIndexInsertedMonsters, pawnName)
 }
-function showPopupMenuAddEffect(event) {
-    var parent = document.getElementById("popup_menu_general");
-    for (var i = 0; i < pawns.all.length; i++) {
-        pawns.all[i].data_overload_click = popupMenuAddEffectClickHandler;
-        pawns.all[i].classList.add("attach_lightsource_pawn")
-    }
-    var popup = document.getElementById("popup_menu_add_effect");
-    popup.style.left = parseInt(parent.style.left) + "px";
-    popup.style.top = parseInt(parent.style.top) + "px";
-    parent.classList.add("hidden");
-    popup.classList.remove("hidden");
 
-    gridLayer.onmousedown = popupMenuAddEffectClickHandler;
-    previewPlacement(createEffect(event, true));
-}
-
-function stopAddingEffects() {
-    document.getElementById("popup_menu_add_effect").classList.add("hidden");
-    clearPreviewPlacement();
-    gridLayer.style.cursor = "auto";
-    for (var i = 0; i < pawns.all.length; i++) {
-        pawns.all[i].data_overload_click = null;
-        pawns.all[i].classList.remove("attach_lightsource_pawn")
-    }
-    gridLayer.onmousedown = generalMousedowngridLayer;
-    effects = effects.filter(eff => eff != previewPlacementElement)
-}
-
-function popupMenuAddEffectClickHandler(e) {
-    console.log(e)
-    var pawn;
-    if (e.button == 0 && e.target == gridLayer) {
-        createEffect(e);
-    } else if (e.button == 0 && (pawn = pawnClicked(e.target))) {
-        pawn.attached_objects.push(createEffect(e));
-    } else {
-        stopAddingEffects();
-    }
-
-    function pawnClicked(clickedEle) {
-        for (var i = 0; i < pawns.all.length; i++) {
-            if (pawns.all[i] == clickedEle) return clickedEle;
-        }
-        return null;
-    }
-}
 function showPopupMenuPawn(x, y) {
     document.getElementById("popup_menu_general").classList.add("hidden");
 
@@ -2900,7 +2559,7 @@ function dragPawn(elmnt) {
         }
     }
 
-    var eleDragTimestamp;
+    var eleDragTimestamp, eleMovedEventDelay;
     function elementDrag(e) {
         window.requestAnimationFrame(function (ts) {
             if (ts == eleDragTimestamp) {
@@ -2914,7 +2573,8 @@ function dragPawn(elmnt) {
             posY = pos4 - e.clientY;
             pos3 = e.clientX;
             pos4 = e.clientY;
-
+            window.clearTimeout(eleMovedEventDelay);
+            eleMovedEventDelay = window.setTimeout(onPawnsMoved, eleMovedEventDelay)
 
             //Multiple move
             if (selectedPawns.length > 0) {
@@ -3078,22 +2738,7 @@ function nudgePawns(x, y) {
     });
 
 }
-function resizeEffects() {
 
-    effects.forEach(effect => resize(effect));
-    if (previewPlacementElement) {
-        resize(previewPlacementElement);
-    }
-
-    function resize(ele) {
-        var width, height;
-        width = parseFloat(ele.dnd_width);
-        height = parseFloat(ele.dnd_height);
-        ele.style.width = width * cellSize / 5 + "px";
-        ele.style.height = height * cellSize / 5 + "px";
-
-    }
-}
 function resizePawns() {
 
     resizeHelper(pawns.all);
@@ -3219,7 +2864,7 @@ function resizeAndDrawGrid(timestamp, event) {
 
     toggleSaveTimer();
     resizePawns();
-    resizeEffects();
+    effectManager.resizeEffects();
     refreshFogOfWar(timestamp);
     drawGrid();
     if (previewPlacementElement)

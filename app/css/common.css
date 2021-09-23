@@ -275,6 +275,13 @@ hr {
   border: none;
 }
 
+.interactive_header{
+  cursor: pointer;
+}
+
+.interactive_header:hover{
+  text-decoration: underline;
+}
 .traybutton {
   margin-left: 3px;
 }
