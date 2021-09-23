@@ -12,7 +12,8 @@
 This tool is meant to make the DM's job easier and help you run your games effectively. It handles database managment and lookup for
 homebrew and freely licensed SRD monsters and spells, and has a few standard tools.
 
-* A loot generator.
+* Encounter creator
+    * Create level appropriate encounters easily
 * Initiative tracker.
 * Stat tracker for monsters.
     * Real time encounter difficulty
@@ -33,7 +34,7 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
     * Generate taverns with a menu, some optional plot hooks
     * Generate an NPC on the fly
     * Magic item shops
-
+* A loot generator.
 ## What is it not?
  * A VTT with multiplayer support
  * A place to keep your notes
