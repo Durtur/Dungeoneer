@@ -4,6 +4,7 @@ const { ipcRenderer, webFrame } = require('electron');
 const Awesomplete = require(pathModule.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
+const backgroundLoop = require("./mappingTool/backgroundLoop");
 const SoundManager = require("./js/soundManager")
 const soundManager = new SoundManager();
 const dataAccess = require("./js/dataaccess");
@@ -1156,85 +1157,6 @@ function zoomIntoMap(event, resizeAmount) {
         fovLighting.drawFogOfWar();
     });
 }
-
-
-var backgroundLoop = function () {
-    var background_slide_animation_frame;
-    var background_slide_speed = 1, direction;
-    var styleClasses = ["background_repeat_x", "background_repeat_y"]
-    var slideCanvas = document.querySelector("#background");
-    function setBackgroundSlide(button) {
-
-        styleClasses.forEach(cls => slideCanvas.classList.remove(cls));
-        var cls;
-        var animation = button.getAttribute("data-slide");
-        if (background_slide_animation_frame) {
-            window.cancelAnimationFrame(background_slide_animation_frame);
-            background_slide_animation_frame = null;
-        }
-        if (!slideCanvas.style.backgroundPositionX)
-            slideCanvas.style.backgroundPositionX = "0";
-        if (!slideCanvas.style.backgroundPositionY)
-            slideCanvas.style.backgroundPositionY = "0";
-        var loop;
-
-        switch (animation) {
-            case "slideXReverse": {
-                loop = slideLoopX;
-                direction = -1;
-                cls = styleClasses[0];
-                break;
-            }
-            case "slideX": {
-                loop = slideLoopX;
-                direction = 1;
-                cls = styleClasses[0];
-                break;
-            }
-            case "slideYReverse": {
-                loop = slideLoopY;
-                direction = -1;
-                cls = styleClasses[1];
-                break;
-            }
-            case "slideY": {
-                loop = slideLoopY;
-                direction = 1;
-                cls = styleClasses[1];
-                break;
-            }
-            default: {
-                // slideCanvas.style.backgroundPositionX = 0 + "px";
-                // slideCanvas.style.backgroundPositionY = 0 + "px";
-                return;
-            }
-
-        }
-        slideCanvas.classList.add(cls);
-        background_slide_animation_frame = window.requestAnimationFrame(loop);
-        function slideLoopX() {
-            var curr = parseFloat(slideCanvas.style.backgroundPositionX);
-            slideCanvas.style.backgroundPositionX = (curr + (background_slide_speed * direction)) + "px";
-            background_slide_animation_frame = window.requestAnimationFrame(slideLoopX);
-
-        }
-        function slideLoopY() {
-            var curr = parseFloat(slideCanvas.style.backgroundPositionY);
-            slideCanvas.style.backgroundPositionY = (curr + (background_slide_speed * direction)) + "px";
-            background_slide_animation_frame = window.requestAnimationFrame(slideLoopY);
-
-        }
-    }
-
-
-    function updateSlideSpeed() {
-        background_slide_speed = document.getElementById("slide_speed_input").value;
-    }
-    return {
-        setBackgroundSlide: setBackgroundSlide,
-        updateSlideSpeed: updateSlideSpeed
-    }
-}();
 
 
 function generalMousedowngridLayer(event) {

@@ -68,23 +68,42 @@
                                         </li>
 
                                         <li><a class="button_style toggle_button" toggled="true" toggleGroup=15
-                                                onclick="backgroundLoop.setBackgroundSlide(this)" data-slide=""
+                                                onclick="backgroundLoop.toggleBackgroundSlide(this)" data-slide=""
                                                 title="Removes the background slide">No slide</a></li>
-                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.setBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideX">Horizontal
                                                 slide</a></li>
-                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.setBackgroundSlide(this)"
-                                                data-slide="slideXReverse"
-                                                title="Removes the background slide">Horizontal reverse slide</a></li>
-                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.setBackgroundSlide(this)" data-slide="slideY"
-                                                title="Removes the background slide">Vertical slide</a></li>
-                                        <li><a class="button_style toggle_button" toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.setBackgroundSlide(this)"
-                                                data-slide="slideYReverse" title="Removes the background slide">Vertical
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                data-slide="slideXReverse">Horizontal reverse slide</a></li>
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                data-slide="slideY">Vertical slide</a></li>
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                data-slide="slideYReverse">Vertical
                                                 reverse slide</a></li>
+
+                                        <div class="menu_seperator"></div>
+                                        <li><a class="button_style toggle_button background_slide_button" id = "toggle_bob_animation_button"
+                                                toggled="false" onclick="backgroundLoop.toggleBobAnimation()">Sway
+                                                background</a></li>
+                                        <li>
+                                            <div class="row">
+                                                <label class="button_style_label" style="width: 100%;"
+                                                    for="bob_amount_input">
+                                                    Sway amount:
+                                                </label>
+                                                <input style="text-align: center; width:60px; " type="number"
+                                                    onchange="backgroundLoop.updateBobAmount()" id="bob_amount_input"
+                                                    value="1" step="0.1">
+                                            </div>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li><a href="#" class="button_style" id="background_menu_button">Map</a>
@@ -342,10 +361,10 @@
         <div id="popup_menu_add_effect" class=" hidden column">
             <div class="row">
 
-                <button class="button button_style toggle_button effect_action_button" id="move_effects_button" toggled="false"
-                    onclick="effectManager.startMovingEffects(event)">Move</button>
-                <button class="button button_style toggle_button effect_action_button" id="delete_effects_button" toggled="false"
-                    onclick="effectManager.startDeletingEffects()">Delete</button>
+                <button class="button button_style toggle_button effect_action_button" id="move_effects_button"
+                    toggled="false" onclick="effectManager.startMovingEffects(event)">Move</button>
+                <button class="button button_style toggle_button effect_action_button" id="delete_effects_button"
+                    toggled="false" onclick="effectManager.startDeletingEffects()">Delete</button>
             </div>
             <div class="column sidebar_section" id="sidebar_sfx">
                 <h2 class="interactive_header">Effect</h2>
@@ -408,7 +427,7 @@
                 </div>
 
             </div>
-            <button class = "button_style sidebar_close_button" onclick = "effectManager.close()">Close</button>
+            <button class="button_style sidebar_close_button" onclick="effectManager.close()">Close</button>
 
 
         </div>

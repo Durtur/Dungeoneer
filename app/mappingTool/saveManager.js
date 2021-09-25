@@ -37,8 +37,7 @@ class SaveManager {
                 })
                 */
         //data.pawns = pawnsToSave;
-        data.moveOffsetX = gridMoveOffsetX;
-        data.moveOffsetY = gridMoveOffsetY;
+
         var effectsToAdd = [];
 
         for (var i = 0; i < effects.length; i++) {
@@ -62,6 +61,9 @@ class SaveManager {
         data.foregroundTranslate = { x: foregroundCanvas.data_transform_x, y: foregroundCanvas.data_transform_y }
 
         data.segments = fovLighting.getSegments();
+
+        //Map slide
+        backgroundLoop.saveSlideState(data);
 
         data.bg_height_width_ratio = foregroundCanvas.heightToWidthRatio;
         data.bg_width = parseFloat(foregroundCanvas.style.width);
@@ -112,10 +114,9 @@ class SaveManager {
         zoomIntoMap({ x: 1, y: 1 }, -10);
         window.setTimeout(() => {
             //  pawns = data.pawns;
-            // gridMoveOffsetX = data.moveOffsetX;
-            // gridMoveOffsetY = data.moveOffsetY;
+
             gridMoveOffsetX = 0;
-            gridMoveOffsetY =0;
+            gridMoveOffsetY = 0;
 
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
             data.effects.forEach((effect) => cls.restoreEffect(effect));
@@ -188,6 +189,10 @@ class SaveManager {
             //     nudgePawns();
             // }
             zoomIntoMap({ x: 1, y: 1 }, -10);
+
+            //Map slide
+            backgroundLoop.loadSlideState(data);
+        
             saveSettings();
 
         }, 300)

@@ -280,6 +280,12 @@ li {
 #background {
     background-repeat: no-repeat;
     transform-origin: 0 0;
+    background-position-x:0;
+    background-position-y:0;
+}
+
+.background_repeat{
+    background-repeat: repeat !important;
 }
 
 .background_repeat_x {
