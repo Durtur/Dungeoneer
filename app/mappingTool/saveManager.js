@@ -1,7 +1,7 @@
 
 class SaveManager {
 
-    saveCurrentMap() {
+    async saveCurrentMap() {
         var path = dialog.showSaveDialogSync(
             remote.getCurrentWindow(),
             {
@@ -12,6 +12,17 @@ class SaveManager {
 
         if (path == null) return;
         resetEverything();
+        var loadingEle = Util.createLoadingEle("Creating save", "Packaging...");
+        document.body.appendChild(loadingEle);
+        try {
+            await this.saveMap(path, loadingEle.updateText);
+        } finally {
+            loadingEle.parentNode?.removeChild(loadingEle);
+        }
+
+    }
+
+    async saveMap(path, progressFunction) {
         var mapX = mapContainer.data_transform_x;
         var mapY = mapContainer.data_transform_y;
         nudgePawns(-1 * mapX, -1 * mapY);
@@ -69,6 +80,17 @@ class SaveManager {
         data.bg_width = parseFloat(foregroundCanvas.style.width);
         data.map_edge = settings.map_edge_style;
         data.layer2Map = settings.currentBackground;
+        progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentBackground)}`);
+        data.backgroundBase64 = await Util.toBase64(settings.currentBackground);
+        progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentBackground)}`);
+        data.foregroundBase64 = await Util.toBase64(settings.currentMap);
+        progressFunction("Creating save", `Packaging ${pathModule.basename(settings.map_edge_style)}`);
+        data.mapEdgeBase64 = await Util.toBase64(settings.map_edge_style, true);
+        data.extensions = {
+            mapEdge: data.mapEdgeBase64 ? pathModule.extname(settings.map_edge_style) : null,
+            foreground: data.foregroundBase64 ? pathModule.extname(settings.currentMap) : null,
+            background: data.backgroundBase64 ? pathModule.extname(settings.currentBackground) : null
+        }
         data.layer2_height_width_ratio = backgroundCanvas.heightToWidthRatio;
         data.layer2_width = parseFloat(backgroundCanvas.style.width);
         fs.writeFile(path, JSON.stringify(data), (err) => {
@@ -76,6 +98,7 @@ class SaveManager {
         });
 
     }
+
     supportedMapTypes() { return ['dungeoneer_map', "dd2vtt"] }
 
     loadMapDialog() {
@@ -112,7 +135,7 @@ class SaveManager {
     loadMap(data) {
         var cls = this;
         zoomIntoMap({ x: 1, y: 1 }, -10);
-        window.setTimeout(() => {
+        window.setTimeout(async () => {
             //  pawns = data.pawns;
 
             gridMoveOffsetX = 0;
@@ -135,11 +158,15 @@ class SaveManager {
 
             }
 
+            if (data.foregroundBase64)
+                data.map = await dataAccess.writeTempFile(`tempfg${data.extensions.foreground}`, Buffer.from(data.foregroundBase64, "base64"));
             settings.currentMap = data.map;
 
             $('#foreground').css('background-image', 'url("' + data.map + '")');
 
-            if (data.map_edge) {
+            if (data.map_edge || data.mapEdgeBase64) {
+                if (data.mapEdgeBase64)
+                    data.map_edge = await dataAccess.writeTempFile(`tempedge${data.extensions.mapEdge}`, Buffer.from(data.mapEdgeBase64, "base64"));
                 document.querySelector(".maptool_body").style.backgroundImage = "url('" + data.map_edge + "')";
                 settings.map_edge_style = data.map_edge;
             }
@@ -147,6 +174,9 @@ class SaveManager {
             fovLighting.drawSegments();
             settings.currentBackground = data.layer2Map;
             backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
+
+            if (data.backgroundBase64)
+                data.layer2Map = await dataAccess.writeTempFile(`tempbg${data.extensions.background}`, Buffer.from(data.backgroundBase64, "base64"));
             setMapBackground(data.layer2Map, data.layer2_width);
             //Light effects
             // var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
@@ -192,7 +222,7 @@ class SaveManager {
 
             //Map slide
             backgroundLoop.loadSlideState(data);
-        
+
             saveSettings();
 
         }, 300)

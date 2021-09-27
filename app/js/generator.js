@@ -3,13 +3,6 @@ const mathyUtil = require("./js/mathyUtil")
 const remote = require('electron').remote;
 const dialog = require('electron').remote.dialog;
 
-function testRumours() {
-    dataAccess.getGeneratorData(function (data) {
-        var rumorArray = generateRumors(data.rumors.length * 2, data);
-        console.log(rumorArray)
-        dataAccess.writeTempFile("testRumors.json", JSON.stringify(rumorArray), () => { });
-    });
-}
 
 
 

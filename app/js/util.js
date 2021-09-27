@@ -1,5 +1,5 @@
 const { extname } = require("path");
-
+const sharp = process.platform != "linux" ? require("sharp") : null;
 module.exports = function () {
     function IsVowel(letter) {
         return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());
@@ -11,13 +11,13 @@ module.exports = function () {
         para.innerHTML = text;
         var heading = document.createElement("h2");
         heading.innerHTML = title;
-        var newEle = ele("div","column");
+        var newEle = ele("div", "column");
         newEle.appendChild(heading);
         newEle.appendChild(para);
         fadeOutInfoBox(newEle);
     }
 
-    function fadeOutInfoBox(innerElement, pos, onFadeOut){
+    function fadeOutInfoBox(innerElement, pos, onFadeOut) {
         var newEle = document.createElement("div");
         newEle.classList = "info_popup";
         newEle.style.top = (pos ? pos.y : window.innerHeight / 2 - newEle.clientHeight / 2) + "px";
@@ -28,7 +28,7 @@ module.exports = function () {
         window.setTimeout(function (evt) {
             newEle.classList.add("fade_out");
             if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
-            if(onFadeOut)onFadeOut();
+            if (onFadeOut) onFadeOut();
         }, 6000);
         return newEle;
     }
@@ -70,7 +70,7 @@ module.exports = function () {
 
         window.setTimeout(function (evt) {
             newEle.classList.add("fade_out");
-            window.setTimeout(()=> {
+            window.setTimeout(() => {
                 if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
             }, 2000)
 
@@ -223,8 +223,53 @@ module.exports = function () {
         return ele;
     }
 
+    //8.8mb
+    async function toBase64(path, shrink) {
+        if (!sharp || !path)
+            return null;
+
+        try {
+            console.log(`Converting ${path}, shrink ${shrink}`)
+            var shrp = sharp(path)
+            if (shrink)
+                shrp = await shrp.resize(1200);
+            var buffer = await shrp.toBuffer();
+
+            return buffer.toString('base64');
+        } catch (err) {
+            console.error(err);
+            return null;
+        }
+
+    }
+
     function cssify(path) {
         return "url('" + path.replace(/\\/g, "/") + "')";
+    }
+
+    function createLoadingEle(title, text) {
+        var imgDiv = ele("div", "center loading_ele");
+        var cont = ele("div", "loading_ele_cont ");
+        var img = ele("img", "");
+        img.src = "css/img/loading.gif"
+     
+        imgDiv.appendChild(img);
+        var title = ele("h2", "loading_title", title);
+        var text = ele("p", "loading_text", text);
+        cont.appendChild(imgDiv);
+        var column = ele("div", "column");
+        column.appendChild(title);
+        column.appendChild(text);
+        cont.appendChild(column);
+        cont.updateText = function (newTitle, newText) {
+            if (newTitle)
+                title.innerHTML = newTitle;
+
+            if (newText)
+                text.innerHTML = newText;
+        }
+        return cont;
+
     }
     return {
         showSuccessMessage: showSuccessMessage,
@@ -235,14 +280,16 @@ module.exports = function () {
         balanceCheckBoxGroup: balanceCheckBoxGroup,
         makeUIElementDraggable: makeUIElementDraggable,
         hexToHSL: hexToHSL,
+        toBase64: toBase64,
         hexToRGBA: hexToRGBA,
+        createLoadingEle: createLoadingEle,
         IsVowel: IsVowel,
         ele: ele,
         isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
         cssify: cssify,
         showInfo: showInfo,
-        fadeOutInfoBox:fadeOutInfoBox
+        fadeOutInfoBox: fadeOutInfoBox
     }
 }();
 

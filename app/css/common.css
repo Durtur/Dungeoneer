@@ -275,13 +275,14 @@ hr {
   border: none;
 }
 
-.interactive_header{
+.interactive_header {
   cursor: pointer;
 }
 
-.interactive_header:hover{
+.interactive_header:hover {
   text-decoration: underline;
 }
+
 .traybutton {
   margin-left: 3px;
 }
@@ -695,9 +696,7 @@ input, textarea, .cell_row {
   padding: 1em;
   position: absolute;
   top: 50%;
-  /* position the top  edge of the element at the middle of the parent */
   left: 50%;
-  /* position the left edge of the element at the middle of the parent */
   transform: translate(-50%, -50%);
 }
 
@@ -1804,6 +1803,47 @@ input[data-before_label]:before {
   text-align: center;
   background-color: transparent;
   border: none;
+}
+
+.loading_ele_cont {
+  margin: auto;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: var(--rounded-corners);
+  background-color: var(--dark-transparent-bg);
+  padding:1em;
+}
+
+.loading_title{
+  color:var(--inverse-text-color);
+  margin:0;
+}
+.loading_text{
+  color:var(--inverse-text-color);
+}
+
+.loading_ele {
+  display: flex;
+  background-image: url(img/icon.png);
+  width: 11em;
+  height: 10em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: auto;
+
+ 
+}
+
+.nobackground{
+  background-image:none !important
+}
+.loading_ele img {
+  width: 3.5em;
+  margin: auto;
+  margin-top: 10px;
 }
 
 .info_popup {

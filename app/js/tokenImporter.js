@@ -1,7 +1,7 @@
 const dataAccess = require("./js/dataaccess");
 const dialog = require('electron').remote.dialog;
 const { resolve, basename } = require('path');
-const { readdir } = require('fs').promises;
+
 const util = require("./js/util")
 async function startImporting(e) {
 

@@ -3,7 +3,7 @@ var fs = require('fs');
 
 const remote = require('electron').remote;
 const app = remote.app;
-const { readdir } = require('fs').promises;
+const { readdir, writeFile } = require('fs').promises;
 const uniqueID = require('uniqid');
 var pathModule = require('path');
 const sharp = process.platform != "linux" ? require("sharp") : {};
@@ -95,16 +95,15 @@ module.exports = function () {
         }
     }
 
-    function writeTempFile(fileName, dataBuffer, callback) {
+    async function writeTempFile(fileName, dataBuffer, callback) {
         if (!fs.existsSync(tempFilePath))
             fs.mkdirSync(tempFilePath);
         var filePath = pathModule.join(tempFilePath, fileName);
-        fs.writeFile(filePath, dataBuffer, function (err) {
-            if (err) {
-                throw (err);
-            }
+        await writeFile(filePath, dataBuffer);
+        filePath = filePath.replaceAll("\\", "/");
+        if (callback)
             callback(filePath);
-        });
+        return filePath;
     }
 
     function getTags(callback) {
@@ -470,7 +469,7 @@ module.exports = function () {
         return Array.prototype.concat(...files);
     }
     return {
-        getFiles:getFiles,
+        getFiles: getFiles,
         readFile: readFile,
         getTokenPathSync: getTokenPathSync,
         getTokenPath: getTokenPath,
