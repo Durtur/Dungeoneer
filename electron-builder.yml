@@ -10,6 +10,10 @@ win:
   icon: "src/build/icon.ico"
   target:
     - "nsis"
+  fileAssociations: 
+  - ext: "dungeoneer_map"
+    icon: "i"
+  - ext: "dungeondraft_vtt"
 
 mac:
   category: "public.app-category.role-playing-games"

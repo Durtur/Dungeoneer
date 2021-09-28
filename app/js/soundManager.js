@@ -28,6 +28,7 @@ class SoundManager {
     adjustPlacement(elementId, x, y) {
         var found = this.sounds.find(x => x.elementId == elementId);
         var z = this.effectZValue() + Math.random();
+        if (!found) return;
         found.howl.pos(x, y, z, found.soundId);
     }
     toggleMute() {
@@ -132,8 +133,8 @@ class SoundManager {
             this.globalListener.y = y;
         if (z)
             this.globalListener.z = z;
-  
-        if(this.LISTENER_POS_MARKER){
+
+        if (this.LISTENER_POS_MARKER) {
             this.LISTENER_POS_MARKER.style.top = this.globalListener.y + "px";
             this.LISTENER_POS_MARKER.style.left = this.globalListener.x + "px";
         }
@@ -146,7 +147,7 @@ class SoundManager {
         var ele = Util.ele("div", "global_listener_position_icon");
         this.LISTENER_POS_MARKER = Util.fadeOutInfoBox(ele, { x: this.globalListener.x, y: this.globalListener.y }, onFadeOut);
         var cls = this;
-        function onFadeOut(){
+        function onFadeOut() {
             cls.LISTENER_POS_MARKER = null;
         }
     }

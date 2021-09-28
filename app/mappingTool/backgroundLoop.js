@@ -105,7 +105,7 @@ var backgroundLoop = function () {
 
         var currY = parseFloat(slideCanvas.style.backgroundPositionY) || 0;
         slideCanvas.style.backgroundPositionY = (currY + valY * dirY) + "px";
-        console.log(bobCountY)
+   
         if (bobCountY >= 1) {
             bobCountY = 0;
             dirY *= -1;

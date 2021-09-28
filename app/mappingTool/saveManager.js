@@ -2,7 +2,7 @@
 class SaveManager {
 
     async saveCurrentMap() {
-        var path = dialog.showSaveDialogSync(
+        var path = this.lastLoadedMapPath ? this.lastLoadedMapPath : dialog.showSaveDialogSync(
             remote.getCurrentWindow(),
             {
                 filters: [{ name: 'Map', extensions: ['dungeoneer_map'] }],
@@ -12,10 +12,14 @@ class SaveManager {
 
         if (path == null) return;
         resetEverything();
+
         var loadingEle = Util.createLoadingEle("Creating save", "Packaging...");
         document.body.appendChild(loadingEle);
         try {
             await this.saveMap(path, loadingEle.updateText);
+            this.lastLoadedMapPath = path;
+            var baseName = pathModule.basename(path);
+            Util.showSuccessMessage(`Saved to ${baseName}`);
         } finally {
             loadingEle.parentNode?.removeChild(loadingEle);
         }
@@ -23,31 +27,10 @@ class SaveManager {
     }
 
     async saveMap(path, progressFunction) {
-        var mapX = mapContainer.data_transform_x;
-        var mapY = mapContainer.data_transform_y;
-        nudgePawns(-1 * mapX, -1 * mapY);
-        fovLighting.nudgeSegments(-1 * mapX, -1 * mapY);
-        moveMap(0, 0);
+        this.resetAllStates();
+
         var data = {};
-        /*
-                var pawnsToSave = [...pawns.all].filter(paw => !isPlayerPawn(paw));
-                data.pawns = [];
-            
-                pawnsToSave.forEach(p => {
-                    data.pawns.push({
-                        html: p.outerHTML,
-                        lightEffect: isLightEffect(p),
-                        sightRadius: { b: p.sight_radius_bright_light, d: p.sight_radius_dim_light },
-                        dnd_hexes : p.dnd_hexes,
-                        dnd_size : p.dnd_size,
-                        sight_mode : p.sight_mode,
-                        "data-dnd_conditions": p["data-dnd_conditions"],
-                        flying_height: p.flying_height
-    
-                    })
-                })
-                */
-        //data.pawns = pawnsToSave;
+
 
         var effectsToAdd = [];
 
@@ -80,16 +63,25 @@ class SaveManager {
         data.bg_width = parseFloat(foregroundCanvas.style.width);
         data.map_edge = settings.map_edge_style;
         data.layer2Map = settings.currentBackground;
-        progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentBackground)}`);
-        data.backgroundBase64 = await Util.toBase64(settings.currentBackground);
-        progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentBackground)}`);
-        data.foregroundBase64 = await Util.toBase64(settings.currentMap);
-        progressFunction("Creating save", `Packaging ${pathModule.basename(settings.map_edge_style)}`);
-        data.mapEdgeBase64 = await Util.toBase64(settings.map_edge_style, true);
+        if (settings.currentBackground) {
+            progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentBackground)}`);
+            data.backgroundBase64 = await Util.toBase64(settings.currentBackground);
+        }
+
+        if (settings.currentMap) {
+            progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentMap)}`);
+            data.foregroundBase64 = await Util.toBase64(settings.currentMap);
+        }
+
+        if (settings.map_edge_style) {
+            progressFunction("Creating save", `Packaging ${pathModule.basename(settings.map_edge_style)}`);
+            data.mapEdgeBase64 = await Util.toBase64(settings.map_edge_style, true);
+        }
+
         data.extensions = {
-            mapEdge: data.mapEdgeBase64 ? pathModule.extname(settings.map_edge_style) : null,
-            foreground: data.foregroundBase64 ? pathModule.extname(settings.currentMap) : null,
-            background: data.backgroundBase64 ? pathModule.extname(settings.currentBackground) : null
+            mapEdge: data.mapEdgeBase64 ? pathModule.basename(settings.map_edge_style) : null,
+            foreground: data.foregroundBase64 ? pathModule.basename(settings.currentMap) : null,
+            background: data.backgroundBase64 ? pathModule.basename(settings.currentBackground) : null
         }
         data.layer2_height_width_ratio = backgroundCanvas.heightToWidthRatio;
         data.layer2_width = parseFloat(backgroundCanvas.style.width);
@@ -118,6 +110,7 @@ class SaveManager {
     }
 
     loadMapFromPath(path) {
+        this.lastLoadedMapPath = null;
         if (path.substring(path.lastIndexOf(".") + 1) == "dd2vtt") {
             fovLighting.importDungeondraftVttMap(path);
             return;
@@ -131,42 +124,70 @@ class SaveManager {
             cls.loadMap(data);
         })
     }
+    resetAllStates() {
 
+        gridMoveOffsetX = 0;
+        gridMoveOffsetY = 0;
+        nudgePawns(-1* mapContainer.data_transform_x, -1*  mapContainer.data_transform_y);
+        fovLighting.nudgeSegments(-1* mapContainer.data_transform_x, -1*  mapContainer.data_transform_y);
+        moveMap(0, 0);
+        //zoomIntoMap({x:0,y:0}, 0);
+    }
+
+    removeExistingEffects() {
+        //Light effects
+        var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
+        while (oldEffects.length > 0) {
+            var oldEffect = oldEffects.pop();
+
+            tokenLayer.removeChild(oldEffect);
+        }
+        effects = [];
+        // //Standard effects
+        oldEffects = [...tokenLayer.getElementsByClassName("sfx_effect")];
+        while (oldEffects.length > 0) {
+            var oldEffect = oldEffects.pop();
+
+            tokenLayer.removeChild(oldEffect);
+        }
+        pawns.lightSources = pawns.lightSources.filter(x => x.parentNode);
+
+    }
     loadMap(data) {
         var cls = this;
-        zoomIntoMap({ x: 1, y: 1 }, -10);
+        this.resetAllStates();
+        zoomIntoMap({x:0, y:0}, data.bg_scale- mapContainer.data_bg_scale)
+        
         window.setTimeout(async () => {
             //  pawns = data.pawns;
-
-            gridMoveOffsetX = 0;
-            gridMoveOffsetY = 0;
-
-            foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio
+            cls.removeExistingEffects();
             data.effects.forEach((effect) => cls.restoreEffect(effect));
             fovLighting.setSegments(data.segments);
+            foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio;
+            var moveX = mapContainer.data_transform_x - data.mapX;
+            var moveY = mapContainer.data_transform_y - data.mapY;
+            nudgePawns(moveX, moveY);
+            fovLighting.nudgeSegments(moveX, moveY);
+        
             resizeForeground(data.bg_width);
-            mapContainer.data_transform_x = data.mapX;
-            mapContainer.data_transform_y = data.mapY;
-            mapContainer.data_bg_scale = data.bg_scale;
-            moveMap(data.mapX, data.mapY);
-
+            
+     
             if (data.foregroundTranslate) {
                 var trsl = data.foregroundTranslate;
                 foregroundCanvas.data_transform_x = trsl.x;
                 foregroundCanvas.data_transform_y = trsl.y;
                 foregroundCanvas.style.transform = `translate(${trsl.x}px, ${trsl.y}px)`
-
             }
 
             if (data.foregroundBase64)
-                data.map = await dataAccess.writeTempFile(`tempfg${data.extensions.foreground}`, Buffer.from(data.foregroundBase64, "base64"));
+                data.map = await dataAccess.writeTempFile(`${data.extensions.foreground}`, Buffer.from(data.foregroundBase64, "base64"));
             settings.currentMap = data.map;
 
             $('#foreground').css('background-image', 'url("' + data.map + '")');
 
             if (data.map_edge || data.mapEdgeBase64) {
                 if (data.mapEdgeBase64)
-                    data.map_edge = await dataAccess.writeTempFile(`tempedge${data.extensions.mapEdge}`, Buffer.from(data.mapEdgeBase64, "base64"));
+                    data.map_edge = await dataAccess.writeTempFile(`${data.extensions.mapEdge}`, Buffer.from(data.mapEdgeBase64, "base64"));
                 document.querySelector(".maptool_body").style.backgroundImage = "url('" + data.map_edge + "')";
                 settings.map_edge_style = data.map_edge;
             }
@@ -176,56 +197,16 @@ class SaveManager {
             backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
 
             if (data.backgroundBase64)
-                data.layer2Map = await dataAccess.writeTempFile(`tempbg${data.extensions.background}`, Buffer.from(data.backgroundBase64, "base64"));
+                data.layer2Map = await dataAccess.writeTempFile(`${data.extensions.background}`, Buffer.from(data.backgroundBase64, "base64"));
             setMapBackground(data.layer2Map, data.layer2_width);
-            //Light effects
-            // var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
-            // while (oldEffects.length > 0) {
-            //     var oldEffect = oldEffects.pop();
-            //     pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
 
-            //     tokenLayer.removeChild(oldEffect);
-            // }
-
-            // //Standard effects
-            // oldEffects = [...tokenLayer.getElementsByClassName("sfx_effect")];
-            // while (oldEffects.length > 0) {
-            //     var oldEffect = oldEffects.pop();
-            //     pawns.lightSources = pawns.lightSources.filter(item => item !== oldEffect)
-
-            //     tokenLayer.removeChild(oldEffect);
-            // }
-            // if (data.pawns) {
-            //     data.pawns.forEach((p) => {
-            //         var newP = document.createElement("div");
-
-
-            //         if (p.lightEffect)
-            //             pawns.lightEffects.push(newP);
-            //         newP.sight_radius_bright_light = p.sightRadius.b;
-            //         newP.sight_radius_dim_light = p.sightRadius.d;
-            //         newP.dnd_hexes = p.dnd_hexes;
-
-            //         newP.dnd_size = p.dnd_size;
-            //         newP.sight_mode = p.sight_mode;
-            //         newP["data-dnd_conditions"] = p["data-dnd_conditions"];
-            //         newP.flying_height = p.flying_height;
-            //         tokenLayer.appendChild(newP);
-            //         newP.outerHTML = p.html;
-            //     })
-            //     refreshPawns();
-            //     resizePawns();
-            //     addPawnListeners();
-            //     nudgePawns();
-            // }
-            zoomIntoMap({ x: 1, y: 1 }, -10);
 
             //Map slide
             backgroundLoop.loadSlideState(data);
-
+            zoomIntoMap({x:0,y:0}, 0);
             saveSettings();
 
-        }, 300)
+        }, 400)
 
     }
 

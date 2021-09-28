@@ -40,7 +40,7 @@ var tokenLayer = document.getElementById("tokens");
 
 var LAST_KEY; //Last pressed key
 //Grid 
-var gridMoveOffsetX = 0, gridMoveOffsetY = 0, offsetChangeX = 0, offsetChangeY = 0, canvasMoveRate = 2;
+var gridMoveOffsetX = 0, gridMoveOffsetY = 0, canvasMoveRate = 2;
 var resetMoveIncrementTimer;
 
 var mapContainer, foregroundCanvas, backgroundCanvas;
@@ -784,9 +784,9 @@ function onSettingsLoaded() {
             return soundManager.displayGlobalListenerPosition();
         } else if (event.ctrlKey && event.key.toLowerCase() == "s") {
             return SaveManager.saveCurrentMap();
-        } else if(event.ctrlKey && event.key.toLowerCase() == "o"){
+        } else if (event.ctrlKey && event.key.toLowerCase() == "o") {
             return SaveManager.loadMapDialog();
-        }else if (keyIndex < 0 || (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)) {
+        } else if (keyIndex < 0 || (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)) {
             return;
         }
         window.clearInterval(resetMoveIncrementTimer);
@@ -797,8 +797,7 @@ function onSettingsLoaded() {
 
         var bgX = mapContainer.data_transform_x;
         var bgY = mapContainer.data_transform_y;
-        offsetChangeX = gridMoveOffsetX;
-        offsetChangeY = gridMoveOffsetY;
+
         if (event.shiftKey) {
             bgX = foregroundCanvas.data_transform_x;
             bgY = foregroundCanvas.data_transform_y;
@@ -818,32 +817,33 @@ function onSettingsLoaded() {
             return;
         }
         //left
+        var movementX =0, movementY = 0;
         if (event.keyCode == 37 || event.keyCode == 65) {
-            bgX += canvasMoveRate;
-            gridMoveOffsetX += canvasMoveRate;
+            movementX = canvasMoveRate;
             //right
         } else if (event.keyCode == 39 || event.keyCode == 68) {
-            bgX -= canvasMoveRate;
-            gridMoveOffsetX -= canvasMoveRate;
+            movementX = -1 * canvasMoveRate;
             //up
         } else if (event.keyCode == 38 || event.keyCode == 87) {
-            bgY += canvasMoveRate;
-            gridMoveOffsetY += canvasMoveRate;
+            movementY = canvasMoveRate;
+
             //down
         } else if (event.keyCode == 40 || event.keyCode == 83) {
-            bgY -= canvasMoveRate;
-            gridMoveOffsetY -= canvasMoveRate;
+            movementY = -1* canvasMoveRate;
+
         }
         if (canvasMoveRate < 80) canvasMoveRate++;
 
+        bgY += movementY;
+        bgX += movementX;
+        gridMoveOffsetY += movementY;
+        gridMoveOffsetX += movementX;
 
         moveMap(bgX, bgY);
         drawGrid();
-        offsetChangeX = gridMoveOffsetX - offsetChangeX;
-        offsetChangeY = gridMoveOffsetY - offsetChangeY;
-        nudgePawns(offsetChangeX, offsetChangeY)
+        nudgePawns(movementX, movementY)
 
-        fovLighting.nudgeSegments(offsetChangeX, offsetChangeY);
+        fovLighting.nudgeSegments(movementX, movementY);
         fovLighting.drawSegments();
         window.requestAnimationFrame(refreshFogOfWar);
 
@@ -1039,12 +1039,12 @@ function resizeForeground(newWidth) {
     var oldRect = foregroundCanvas.getBoundingClientRect();
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
-
+   
     document.getElementById("foreground_size_slider").value = newWidth;
     settings.gridSettings.mapSize = newWidth;
     var newRect = foregroundCanvas.getBoundingClientRect();
-
-    fovLighting.resizeSegmentsFromMapSizeChanged(oldRect.width, oldRect.height, newRect.width, newRect.height);
+    console.log(oldRect.width, newRect.width)
+   // fovLighting.resizeSegmentsFromMapSizeChanged(oldRect.width, oldRect.height, newRect.width, newRect.height);
     fovLighting.drawSegments();
 }
 
@@ -1058,7 +1058,7 @@ function resizeBackground(newWidth) {
 function resetZoom() {
     var currentScale = mapContainer.data_bg_scale;
     var resizeAmount = (10 - currentScale * 10) / 10;
-    zoomIntoMap(null, resizeAmount);
+    zoomIntoMap({x:0, y:0}, resizeAmount);
 }
 
 var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
@@ -1067,7 +1067,7 @@ var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
  */
 
 function zoomIntoMap(event, resizeAmount) {
-
+    console.log(`Zoom ${resizeAmount}` )
     window.requestAnimationFrame(function (ts) {
 
         if (ts == LAST_MAP_RESIZE) {

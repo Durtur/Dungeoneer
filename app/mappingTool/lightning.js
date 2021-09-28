@@ -558,6 +558,7 @@ var fovLighting = function () {
         })(points);
     }
     function nudgeSegments(x, y) {
+
         var segment;
         for (var i = 4; i < segments.length; i++) {
             segment = segments[i];
