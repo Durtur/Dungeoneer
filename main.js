@@ -112,7 +112,11 @@ if (process.platform === 'darwin') {
 
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
-
+app.on('open-file', (event, path) =>
+{
+    event.preventDefault();
+    console.log(path);
+});
 
 ipcMain.on('open-database-window', function () {
   if (databaseWindow) {

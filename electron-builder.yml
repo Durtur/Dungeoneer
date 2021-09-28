@@ -12,7 +12,7 @@ win:
     - "nsis"
   fileAssociations: 
   - ext: "dungeoneer_map"
-    icon: "i"
+    icon: "src/build/file_icon.ico"
   - ext: "dungeondraft_vtt"
 
 mac:

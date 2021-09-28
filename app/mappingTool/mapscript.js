@@ -1151,7 +1151,7 @@ function zoomIntoMap(event, resizeAmount) {
                 }
             }
         });
-
+        updateHowlerListenerLocation();
         resizeAndDrawGrid(null, event);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
         fovLighting.drawFogOfWar();
