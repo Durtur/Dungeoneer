@@ -2,10 +2,12 @@ const electron = require('electron')
 const { app, Menu } = require('electron')
 const { ipcMain } = require('electron')
 var fs = require('fs');
-var pathModule = require('path');
+const pathModule = require('path');
 const { autoUpdater } = require('electron-updater');
 
 app.allowRendererProcessReuse = false;
+var instanceLock = app.requestSingleInstanceLock();
+console.log(`intance lock ${instanceLock}`)
 autoUpdater.logger = require("electron-log")
 autoUpdater.logger.transports.file.level = "info"
 // Module to control application life.
@@ -53,7 +55,7 @@ const template = [
   {
     label: 'View',
     submenu: [
-     
+
       { role: 'forcereload' },
       { role: 'toggledevtools' },
       { type: 'separator' },
@@ -110,12 +112,39 @@ if (process.platform === 'darwin') {
   ]
 }
 
+if (!instanceLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, commandLine, workingDirectory) => {
+    // Someone tried to run a second instance, we should focus our window.
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore()
+      mainWindow.focus()
+      if (commandLine)
+        mainWindow.webContents.send("ipc-log", commandLine);
+      checkIfCommandLineIncludesMap(commandLine);
+    }
+  })
+}
+
+const supportedFileTypes = ['.dungeoneer_map', ".dd2vtt"];
+function checkIfCommandLineIncludesMap(cmdLine) {
+  var path = cmdLine.find(x => supportedFileTypes.includes(pathModule.extname(x).toLowerCase()));
+  mainWindow.webContents.send("ipc-log", path);
+  if (path) {
+    openMapToolWindow(() => {
+      mainWindow.webContents.send("ipc-log", "Maptool opened");
+      maptoolWindow.webContents.send("load-map", path);
+    });
+
+  }
+}
+
 const menu = Menu.buildFromTemplate(template)
 Menu.setApplicationMenu(menu)
-app.on('open-file', (event, path) =>
-{
-    event.preventDefault();
-    console.log(path);
+app.on('open-file', (event, path) => {
+  event.preventDefault();
+  console.log(path);
 });
 
 ipcMain.on('open-database-window', function () {
@@ -189,9 +218,12 @@ ipcMain.on("open-maptool-backdrop-window", function () {
 
 })
 
-ipcMain.on('open-maptool-window', function () {
+ipcMain.on('open-maptool-window', () => openMapToolWindow());
+
+function openMapToolWindow(callback) {
   if (maptoolWindow) {
     maptoolWindow.focus();
+    if (callback) callback();
     return;
   }
 
@@ -203,9 +235,13 @@ ipcMain.on('open-maptool-window', function () {
       maptoolWindow = null;
     });
 
-  })
-});
+    window.webContents.once('dom-ready', () => {
+      if (callback)
+        callback();
+    })
 
+  })
+}
 
 ipcMain.on('open-maptool-extra-window', function () {
   if (maptoolExtraWindow) {
@@ -426,7 +462,7 @@ autoUpdater.on('update-available', () => {
   mainWindow.webContents.send('update_available');
 });
 autoUpdater.on('update-downloaded', () => {
-   mainWindow.webContents.send('update_downloaded');
+  mainWindow.webContents.send('update_downloaded');
   updatePending = true;
 });
 

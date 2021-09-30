@@ -102,6 +102,10 @@ ipcRenderer.on('maptool-initialized', function (evt, arg) {
 
 });
 
+ipcRenderer.on('ipc-log', function (evt, arg) {
+  console.log(evt, arg);
+
+});
 
 ipcRenderer.on('settings-changed', function (evt, arg) {
   console.log("Settings changed, applying...");

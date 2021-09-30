@@ -362,10 +362,11 @@ var effectManager = function () {
         hideSoundLayer();
         clearPreviewPlacement();
         gridLayer.style.cursor = "auto";
-        for (var i = 0; i < pawns.all.length; i++) {
-            pawns.all[i].data_overload_click = null;
-            pawns.all[i].classList.remove("attach_lightsource_pawn")
-        }
+        if (pawns.all)
+            for (var i = 0; i < pawns.all.length; i++) {
+                pawns.all[i].data_overload_click = null;
+                pawns.all[i].classList.remove("attach_lightsource_pawn")
+            }
         gridLayer.onmousedown = generalMousedowngridLayer;
         effects = effects.filter(eff => eff != previewPlacementElement)
 
@@ -434,12 +435,12 @@ var effectManager = function () {
             return;
 
         var pawn;
-        
+
         if (e.button == 0 && e.target == gridLayer) {
 
             createEffect(e);
         } else if (e.button == 0 && (pawn = pawnClicked(e.target))) {
-      
+
             pawn.attached_objects.push(createEffect(e));
         }
 

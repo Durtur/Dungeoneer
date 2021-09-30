@@ -14,12 +14,13 @@ const dialog = require('electron').remote.dialog;
 const marked = require('marked');
 const TokenSelector = require('./js/tokenSelector');
 const tokenSelector = new TokenSelector();
-const SaveManager = require("./mappingTool/saveManager");
+const saveManager = require("./mappingTool/saveManager");
 const effectManager = require('./mappingTool/effectManager');
 
 soundManager.initialize();
-var pawnId = 1, effectId = 1;
 
+var pawnId = 1, effectId = 1;
+var initialLoadComplete = false;
 var cellSize = 35, originalCellSize = cellSize;
 var canvasWidth = 400;
 var canvasHeight = 400;
@@ -335,7 +336,16 @@ function requestNotifyUpdateFromMain() {
     if (mainWindow) mainWindow.webContents.send('update-all-pawns');
 }
 
-ipcRenderer.on("intiative-updated", function (evt, arg) {
+
+ipcRenderer.on("load-map", function (evt, arg) {
+    if(!initialLoadComplete){
+        pendingMapLoad = arg;
+    }else{
+        saveManager.loadMapFromPath(arg);
+    }
+});
+ipcRenderer.on("intiative-updated",
+ function (evt, arg) {
 
     if (arg.order) {
         arg.order.forEach(x => {
@@ -557,6 +567,27 @@ document.addEventListener("DOMContentLoaded", function () {
     var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
 
+    //Drag drop
+    document.addEventListener('drop', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log(event.dataTransfer.files)
+        if (event.dataTransfer.files?.length > 0) {
+            var f = event.dataTransfer.files[0];
+            console.log('File Path of dragged files: ', f.path)
+            var path = f.path;
+            var extension = pathModule.extname(path).replaceAll(".", "");
+            console.log(extension);
+            if (saveManager.supportedMapTypes().includes(extension))
+                saveManager.loadMapFromPath(path);
+
+        }
+
+    });
+    document.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
 
 
     document.addEventListener("visibilitychange", function () {
@@ -746,27 +777,6 @@ function onSettingsLoaded() {
     document.getElementById("filter_tool").onchange = setBackgroundFilter;
     effectManager.initialize();
 
-    //Drag drop
-    document.addEventListener('drop', (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        console.log(event.dataTransfer.files)
-        if (event.dataTransfer.files?.length > 0) {
-            var f = event.dataTransfer.files[0];
-            console.log('File Path of dragged files: ', f.path)
-            var path = f.path;
-            var extension = pathModule.extname(path).replaceAll(".", "");
-            console.log(extension);
-            if (SaveManager.supportedMapTypes().includes(extension))
-                SaveManager.loadMapFromPath(path);
-
-        }
-
-    });
-    document.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-    });
 
 
 
@@ -783,9 +793,9 @@ function onSettingsLoaded() {
         } else if (event.key.toLowerCase() == "p" && lastKey.toLowerCase() == "l") {
             return soundManager.displayGlobalListenerPosition();
         } else if (event.ctrlKey && event.key.toLowerCase() == "s") {
-            return SaveManager.saveCurrentMap();
+            return saveManager.saveCurrentMap();
         } else if (event.ctrlKey && event.key.toLowerCase() == "o") {
-            return SaveManager.loadMapDialog();
+            return saveManager.loadMapDialog();
         } else if (keyIndex < 0 || (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)) {
             return;
         }
@@ -817,7 +827,7 @@ function onSettingsLoaded() {
             return;
         }
         //left
-        var movementX =0, movementY = 0;
+        var movementX = 0, movementY = 0;
         if (event.keyCode == 37 || event.keyCode == 65) {
             movementX = canvasMoveRate;
             //right
@@ -829,7 +839,7 @@ function onSettingsLoaded() {
 
             //down
         } else if (event.keyCode == 40 || event.keyCode == 83) {
-            movementY = -1* canvasMoveRate;
+            movementY = -1 * canvasMoveRate;
 
         }
         if (canvasMoveRate < 80) canvasMoveRate++;
@@ -888,10 +898,10 @@ function onSettingsLoaded() {
     document.getElementById("next_facet_button").onclick = setTokenNextFacetHandler;
 
     document.getElementById("save_map_button").onclick = function (e) {
-        SaveManager.saveCurrentMap();
+        saveManager.saveCurrentMap();
     }
     document.getElementById("load_map_button").onclick = function (e) {
-        SaveManager.loadMapDialog();
+        saveManager.loadMapDialog();
     }
     document.querySelector("#backdrop_window_button").onclick = function (e) {
         ipcRenderer.send("open-maptool-backdrop-window");
@@ -916,8 +926,12 @@ function onSettingsLoaded() {
         settings.map_edge_style = imgPath;
         saveSettings();
     }
-
-
+    initialLoadComplete = true;
+    if(pendingMapLoad)
+    {
+        saveManager.loadMapFromPath(pendingMapLoad);
+        pendingMapLoad = null;
+    }
 }
 
 
@@ -1039,12 +1053,12 @@ function resizeForeground(newWidth) {
     var oldRect = foregroundCanvas.getBoundingClientRect();
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
-   
+
     document.getElementById("foreground_size_slider").value = newWidth;
     settings.gridSettings.mapSize = newWidth;
     var newRect = foregroundCanvas.getBoundingClientRect();
     console.log(oldRect.width, newRect.width)
-   // fovLighting.resizeSegmentsFromMapSizeChanged(oldRect.width, oldRect.height, newRect.width, newRect.height);
+    // fovLighting.resizeSegmentsFromMapSizeChanged(oldRect.width, oldRect.height, newRect.width, newRect.height);
     fovLighting.drawSegments();
 }
 
@@ -1058,7 +1072,7 @@ function resizeBackground(newWidth) {
 function resetZoom() {
     var currentScale = mapContainer.data_bg_scale;
     var resizeAmount = (10 - currentScale * 10) / 10;
-    zoomIntoMap({x:0, y:0}, resizeAmount);
+    zoomIntoMap({ x: 0, y: 0 }, resizeAmount);
 }
 
 var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
@@ -1067,7 +1081,7 @@ var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
  */
 
 function zoomIntoMap(event, resizeAmount) {
-    console.log(`Zoom ${resizeAmount}` )
+    console.log(`Zoom ${resizeAmount}`)
     window.requestAnimationFrame(function (ts) {
 
         if (ts == LAST_MAP_RESIZE) {

@@ -12,8 +12,9 @@ win:
     - "nsis"
   fileAssociations: 
   - ext: "dungeoneer_map"
-    icon: "src/build/file_icon.ico"
-  - ext: "dungeondraft_vtt"
+    icon: "file_icon.ico"
+  - ext: "dd2vtt"
+    icon: "file_icon.ico"
 
 mac:
   category: "public.app-category.role-playing-games"
