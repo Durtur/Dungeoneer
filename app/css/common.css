@@ -306,7 +306,7 @@ hr {
 .roll_statblock_hit_dice {
   position: absolute;
   top: -1.5em;
-  left: 5em;
+  left: 50%;
   display: none;
 }
 
@@ -890,7 +890,7 @@ input, textarea, .cell_row {
 .statblock_edit_ac_container {
   position: absolute;
   top: -1.5em;
-  left: 4em;
+  left: 50%;
   display: none;
 }
 
@@ -1838,7 +1838,8 @@ input[data-before_label]:before {
 }
 
 .nobackground{
-  background-image:none !important
+  background-image:none !important;
+  background-color: transparent;
 }
 .loading_ele img {
   width: 3.5em;

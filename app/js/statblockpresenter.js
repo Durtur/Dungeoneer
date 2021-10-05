@@ -175,8 +175,11 @@ class StatblockPresenter {
         delete values.ac_source;
         var col = createCol("armor_class", false, acDesc);
         if (acDesc) {
-          col.appendChild(createEditAcButton());
-          col.classList.add("position_relative");
+          if(editMode){
+            col.appendChild(createEditAcButton());
+            col.classList.add("position_relative");
+          }
+
         }
       }
       if (values.challenge_rating)

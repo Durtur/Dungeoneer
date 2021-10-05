@@ -29,7 +29,7 @@ var conditionList;
 
 var pauseAlternativeKeyboardMoveMap = false;
 var frameHistoryButtons = null;
-
+var pendingMapLoad;
 //Elements
 var measurementsLayer = document.getElementById("measurements");
 var measurementsLayerContext = measurementsLayer.getContext("2d");
@@ -1028,7 +1028,7 @@ function setMapForeground(path, width) {
         document.getElementById("foreground_size_slider").value = mapWidth;
     }
     img.src = path;
-
+    settings.currentMap = path;
 }
 var saveTimer;
 function toggleSaveTimer() {
@@ -1075,13 +1075,15 @@ function resetZoom() {
     zoomIntoMap({ x: 0, y: 0 }, resizeAmount);
 }
 
-var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE;
+var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE, onZoomCallback;
 /***
  * Resizes map and other objects
  */
 
-function zoomIntoMap(event, resizeAmount) {
+function zoomIntoMap(event, resizeAmount, onZoomed) {
     console.log(`Zoom ${resizeAmount}`)
+    if(onZoomed)
+        onZoomCallback = onZoomed;
     window.requestAnimationFrame(function (ts) {
 
         if (ts == LAST_MAP_RESIZE) {
@@ -1169,6 +1171,10 @@ function zoomIntoMap(event, resizeAmount) {
         resizeAndDrawGrid(null, event);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
         fovLighting.drawFogOfWar();
+        if(onZoomCallback){
+            onZoomCallback();
+            onZoomCallback = null;
+        }
     });
 }
 

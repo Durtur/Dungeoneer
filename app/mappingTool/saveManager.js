@@ -11,7 +11,7 @@ class SaveManager {
             });
 
         if (path == null) return;
-        resetEverything();
+
 
         var loadingEle = Util.createLoadingEle("Creating save", "Packaging...");
         document.body.appendChild(loadingEle);
@@ -28,7 +28,7 @@ class SaveManager {
 
     async saveMap(path, progressFunction) {
         this.resetAllStates();
-
+        zoomIntoMap({x:0,y:0}, 0);
         var data = {};
 
 
@@ -63,6 +63,8 @@ class SaveManager {
         data.bg_width = parseFloat(foregroundCanvas.style.width);
         data.map_edge = settings.map_edge_style;
         data.layer2Map = settings.currentBackground;
+        data.layer2_height_width_ratio = backgroundCanvas.heightToWidthRatio;
+        data.layer2_width = parseFloat(backgroundCanvas.style.width);
         if (settings.currentBackground) {
             progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentBackground)}`);
             data.backgroundBase64 = await Util.toBase64(settings.currentBackground);
@@ -83,8 +85,7 @@ class SaveManager {
             foreground: data.foregroundBase64 ? pathModule.basename(settings.currentMap) : null,
             background: data.backgroundBase64 ? pathModule.basename(settings.currentBackground) : null
         }
-        data.layer2_height_width_ratio = backgroundCanvas.heightToWidthRatio;
-        data.layer2_width = parseFloat(backgroundCanvas.style.width);
+
         fs.writeFile(path, JSON.stringify(data), (err) => {
             if (err) return console.log(err)
         });
@@ -131,7 +132,7 @@ class SaveManager {
         nudgePawns(-1* mapContainer.data_transform_x, -1*  mapContainer.data_transform_y);
         fovLighting.nudgeSegments(-1* mapContainer.data_transform_x, -1*  mapContainer.data_transform_y);
         moveMap(0, 0);
-        //zoomIntoMap({x:0,y:0}, 0);
+
     }
 
     removeExistingEffects() {
@@ -156,9 +157,7 @@ class SaveManager {
     loadMap(data) {
         var cls = this;
         this.resetAllStates();
-        zoomIntoMap({x:0, y:0}, data.bg_scale- mapContainer.data_bg_scale)
-        
-        window.setTimeout(async () => {
+        zoomIntoMap({x:0, y:0}, data.bg_scale- mapContainer.data_bg_scale, async () => {
             //  pawns = data.pawns;
             cls.removeExistingEffects();
             data.effects.forEach((effect) => cls.restoreEffect(effect));
@@ -203,10 +202,10 @@ class SaveManager {
 
             //Map slide
             backgroundLoop.loadSlideState(data);
-            zoomIntoMap({x:0,y:0}, 0);
+   
             saveSettings();
-
-        }, 400)
+     
+        })
 
     }
 

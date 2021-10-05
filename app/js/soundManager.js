@@ -59,7 +59,10 @@ class SoundManager {
     }
     removeEffect(effect) {
         var found = this.sounds.find(x => x.elementId == effect.id);
-        found.howl.unload()
+        if(found){
+            found.howl.unload()
+        }
+    
         this.sounds = this.sounds.filter(x => x.elementId != effect.id);
         this.updatePlayingStatus();
     }
@@ -174,6 +177,7 @@ class SoundManager {
             return { name: basename, path: path }
 
         });
+        console.log(list);
         this.availableSoundList = list;
         return list;
     }
