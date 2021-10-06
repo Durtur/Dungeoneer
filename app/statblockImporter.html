@@ -6,7 +6,7 @@
     <title></title>
     <meta name="SÖR" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/tokenImporter.css" rel="stylesheet">
+    <link href="css/statblockImporter.css" rel="stylesheet">
     <link href="css/settings.css" rel="stylesheet">
     <link href="./css/theme.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">
@@ -25,26 +25,34 @@
     <body>
         <main style="margin-top:4em">
             <div class="column" style="min-height: 80vh;  min-width: 80vw;">
-                <p id="expl_text">To import tokens press the button below and select a root folder where all your
-                    tokens are located. Dungeoneer will look through the folders for any png images that start with a
-                    monsters name. Any monsters that have tokens already are ignored.</p>
+                <p id="expl_text">To import statblocks press the button below and select a json file.
+                    Dungeoneer will try to read the file using several formats.
+                </p>
                 <button class="button_style center green" style="width: 8em; padding:1em;     margin-top: 2em;"
-                    onclick="startImporting(event)">Select
-                    root folder</button>
-                
-                <div class = "loading_ele_cont nobackground hidden">
+                    onclick="startImporting(event)">Select JSON file</button>
+                <div class="center hidden" style=" margin-top: 2em;" id="save_actions_container">
+                    <div class="row">
+                        <button class="button_style center green" style="width: 8em; padding:1em;    "
+                            onclick="save(event)">Save</button>
+                        <label class="container_for_checkbox center" style="margin:auto">
+                            <label for="overWriteConflicts">Overwrite conflicts</label>
+                            <input type="checkbox" group="1" id="overWriteConflicts" class="center">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+
+                </div>
+                <div class="loading_ele_cont nobackground hidden">
                     <div id="loading_ele" class="loading_ele" alt="loading" class="center">
-                        <img src="css/img/loading.gif"  alt="loading"
-                            class="center">
+                        <img src="css/img/loading.gif" alt="loading" class="center">
                     </div>
                     <div class="column" style="margin-top:2em">
                         <p id="loading_title">ttile</p>
                         <p id="loading_detail">awfwf</p>
                     </div>
                 </div>
-         
-                <p class="hidden" id="nodata_text">No additional tokens found.</p>
-                <div class="column" id="importer_token_container">
+
+                <div class="column" id="import_statblocks_container">
 
                 </div>
                 <button class="button_style green center hidden" onclick="saveTokens()" id="save_tokens_button"

@@ -291,7 +291,9 @@ li {
 .background_repeat_x {
     background-repeat: repeat-x !important;
 }
-
+.loading_ele_cont{
+    background-color: var(--dark-transparent-bg);
+}
 .background_repeat_y {
     background-repeat: repeat-y !important;
 }

@@ -66,6 +66,7 @@ $(document).ready(function () {
   document.getElementById("token_importer_window_button").addEventListener("click", function (evt) {
     ipcRenderer.send('open-token-importer');
   });
+  document.getElementById("statblock_importer_window_button").addEventListener("click", () => ipcRenderer.send('open-statblock-importer'))
   populateSpellClassDropdown();
   populateDropdowns();
   dataAccess.getSettings(function (settings) {

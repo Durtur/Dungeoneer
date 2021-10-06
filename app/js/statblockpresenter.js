@@ -1,15 +1,15 @@
 const TokenSelector = require("./tokenSelector");
-
+const marked = require("marked");
 
 //If required and defined in main script
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("spell_popup").addEventListener("mouseenter", function (e) {
+  document.getElementById("spell_popup")?.addEventListener("mouseenter", function (e) {
     e.target.setAttribute("data-mouse-over", "t");
     $('#spell_popup').finish().fadeIn("fast");
   });
-  document.getElementById("spell_popup").addEventListener("mouseleave", function (e) {
+  document.getElementById("spell_popup")?.addEventListener("mouseleave", function (e) {
     e.target.setAttribute("data-mouse-over", "f");
     $('#spell_popup').finish().fadeOut("slow");
   });

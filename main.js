@@ -29,6 +29,7 @@ mapToolAddWindow = null;
 maptoolWindow = null;
 maptoolExtraWindow = null;
 massTokenImporterWindow = null;
+massStatblockImporterWindow = null;
 var updatePending = false;
 
 
@@ -186,6 +187,9 @@ ipcMain.on('open-about-window', function () {
   openAboutWindow();
 });
 
+ipcMain.on('open-statblock-importer', function () {
+  openMassStatblockImporterWindow();
+});
 
 ipcMain.on('open-token-importer', function () {
   openMassTokenImporterWindow();
@@ -308,6 +312,29 @@ function openAddMapToolStuffWindow() {
 
   mapToolAddWindow.on('closed', function () {
     mapToolAddWindow = null;
+  });
+}
+
+function openMassStatblockImporterWindow(){
+  if (massStatblockImporterWindow) {
+    massStatblockImporterWindow.focus();
+    return;
+  }
+  massStatblockImporterWindow = new BrowserWindow({
+    height: 800,
+    resizable: true,
+    width: 1050,
+    frame: false,
+    icon: "./app/css/img/icon.png",
+    webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true
+    }
+  });
+  massStatblockImporterWindow.loadURL('file://' + __dirname + '/app/statblockImporter.html');
+
+  massStatblockImporterWindow.on('closed', function () {
+    massStatblockImporterWindow = null;
   });
 }
 

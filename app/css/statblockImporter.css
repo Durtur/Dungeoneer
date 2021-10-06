@@ -1,0 +1,65 @@
+.token_path_input {
+    width: 20em;
+    border-radius: var(--rounded-corners);
+    margin: auto;
+    text-align: center;
+    padding: 1em;
+}
+
+#expl_text {
+    width: 40em;
+    margin: auto;
+}
+.statblock_select:hover::after{
+
+    position: absolute;
+    content: "Use statblock";
+    transform: translate(50%, 50%);
+    top: 25%;
+    left: 0;
+    font-size: 3em;
+    opacity: 0.7;
+    background-color: white;
+    padding: 0.25em;
+    border-radius: var(--rounded-corners);
+}
+.statblock_select:hover{
+    opacity:0.8;
+    position:relative;
+    cursor: pointer;
+}
+#loading_title, #nodata_text{
+    margin:auto;
+    font-size:1.5em;
+
+}
+.pageframe{
+    padding: 1.5em !important;
+    margin:2em;
+}
+.loading_ele_cont{
+    margin: auto;
+    text-align: center;
+}
+#loading_ele {
+    display: flex;
+    background-image: url(img/icon.png);
+    width: 11em;
+    height: 10em;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: auto;
+}
+
+p {
+    font-family: bookSanity;
+}
+
+.token_container label {
+    font-size: 1.25em;
+    font-family: bookSanity;
+}
+
+main {
+    padding: 2em;
+}

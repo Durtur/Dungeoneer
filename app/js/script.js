@@ -6,7 +6,7 @@ var loadedMonsterQueue = [];
 
 var loadedEncounter = [];
 
-var marked = require('marked');
+const marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
 

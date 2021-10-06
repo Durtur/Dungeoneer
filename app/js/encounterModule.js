@@ -400,3 +400,5 @@ const encounterCalculatorTable = {
         [2800, 5700, 8500, 12700]
     ]
 }
+
+module.exports = EncounterModule;

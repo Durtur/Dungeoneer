@@ -1813,7 +1813,7 @@ input[data-before_label]:before {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: var(--rounded-corners);
-  background-color: var(--dark-transparent-bg);
+
   padding:1em;
 }
 

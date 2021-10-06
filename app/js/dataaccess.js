@@ -162,6 +162,18 @@ module.exports = function () {
     function getHomebrewMonsters(callback) {
         return baseGet("homebrew.json", callback);
     }
+
+    function addHomebrew(dataList, overwrite, callback){
+        getHomebrewMonsters(hbData=> {
+            if(overwrite){
+                console.log("Conflicts");
+                console.log(hbData.filter(x=> dataList.find(y=> y.name == x.name)));
+                hbData = hbData.filter(x=> !dataList.find(y=> y.name == x.name));
+            }
+            hbData = hbData.concat(dataList);
+            setHomebrewMonsters(hbData, callback);    
+        });
+    }
     function setHomebrewMonsters(data, callback) {
         getMonsters(hbList => {
             setMetadata(data.concat(hbList));
@@ -480,6 +492,7 @@ module.exports = function () {
         setMonsters: setMonsters,
         getHomebrewMonsters: getHomebrewMonsters,
         setHomebrewMonsters: setHomebrewMonsters,
+        addHomebrew:addHomebrew,
         getHomebrewAndMonsters: getHomebrewAndMonsters,
         getEncounters: getEncounters,
         setEncounters: setEncounters,
