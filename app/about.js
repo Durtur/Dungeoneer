@@ -22,7 +22,7 @@ window.addEventListener('mousedown', (e) => {
 
 window.addEventListener("DOMContentLoaded", ()=>{
     var modal = document.getElementById("myModal");
-   
+    createSoundAttribution();
     // Get the image and insert it inside the modal - use its "alt" text as a caption
     var images = document.getElementsByTagName("img");
     var img = document.getElementById("myImg");
@@ -67,4 +67,17 @@ function setDrawer(index) {
 
 function openDataFolder(){
      shell.openPath(resourcePath);
+}
+
+function createSoundAttribution(){
+    var arr = Object.keys(SOUND_ATTRIBUTION);
+    var valueArr = Object.values(SOUND_ATTRIBUTION);
+    var res = [];
+    for(var i = 0 ; i < arr.length ; i++){
+        var value = valueArr[i];
+        var key = arr[i];
+        res.push(`${key}: ${value}`);
+    }
+    var ele = document.getElementById("sound_attrubtion_container");
+    ele.innerHTML = `<h3>Attribution for sound effects used</h3>\n${res.join("<br>")}`
 }

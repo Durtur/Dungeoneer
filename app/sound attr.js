@@ -1,5 +1,5 @@
 
-{
+var SOUND_ATTRIBUTION = {
     "spirits": "shadoWisp@freesound",
     "blizzard":"DBlover@freesound",
     "cave drone":"Kinoton@freesound",
