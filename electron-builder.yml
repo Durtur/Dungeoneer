@@ -19,6 +19,11 @@ win:
 mac:
   category: "public.app-category.role-playing-games"
   icon: "src/build/icon.icns"
+  fileAssociations: 
+  - ext: "dungeoneer_map"
+    icon: "file_icon.icns"
+  - ext: "dd2vtt"
+    icon: "file_icon.icns"
 
 
 # Config for the windows installer
