@@ -9677,7 +9677,15 @@
 		"casting_time": "1 action",
 		"duration": "Concentration, up to 1 minute",
 		"ritual": false,
-		"id": "cacvjpc94kgy0yg4f"
+		"id": "cacvjpc94kgy0yg4f",
+		"metadata": {
+			"savingThrow": [
+				"dexterity"
+			],
+			"conditionInflict": [
+				"restrained"
+			]
+		}
 	},
 	{
 		"name": "Find Greater Steed",

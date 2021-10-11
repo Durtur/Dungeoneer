@@ -19,6 +19,8 @@ const defaultTokenPath = pathModule.join(app.getPath("userData"), "data", "mapto
 const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "maptool_effects");
 const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
+
+
 module.exports = function () {
     var isFirstTimeLoading = false;
     function initializeData() {
@@ -163,15 +165,13 @@ module.exports = function () {
         return baseGet("homebrew.json", callback);
     }
 
-    function addHomebrew(dataList, overwrite, callback){
-        getHomebrewMonsters(hbData=> {
-            if(overwrite){
-                console.log("Conflicts");
-                console.log(hbData.filter(x=> dataList.find(y=> y.name == x.name)));
-                hbData = hbData.filter(x=> !dataList.find(y=> y.name == x.name));
+    function addHomebrew(dataList, overwrite, callback) {
+        getHomebrewMonsters(hbData => {
+            if (overwrite) {
+                hbData = hbData.filter(x => !dataList.find(y => y.name == x.name));
             }
             hbData = hbData.concat(dataList);
-            setHomebrewMonsters(hbData, callback);    
+            setHomebrewMonsters(hbData, callback);
         });
     }
     function setHomebrewMonsters(data, callback) {
@@ -460,7 +460,8 @@ module.exports = function () {
 
     function checkIfFirstTimeLoadComplete() {
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
-        if (!fs.existsSync(baseFolder)) initializeData();
+        if (!fs.existsSync(baseFolder)) 
+            initializeData();
     }
 
     function saveCoverImage(path) {
@@ -492,7 +493,7 @@ module.exports = function () {
         setMonsters: setMonsters,
         getHomebrewMonsters: getHomebrewMonsters,
         setHomebrewMonsters: setHomebrewMonsters,
-        addHomebrew:addHomebrew,
+        addHomebrew: addHomebrew,
         getHomebrewAndMonsters: getHomebrewAndMonsters,
         getEncounters: getEncounters,
         setEncounters: setEncounters,

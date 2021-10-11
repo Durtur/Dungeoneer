@@ -260,6 +260,7 @@ h1 {
   text-align: center;
   font-family: var(--basic-font);
   white-space: pre;
+  pointer-events: none;
 }
 
 .code_ac {
@@ -1292,7 +1293,7 @@ button:disabled {
 
 .pcnode:hover {
   height: 122px;
-  background-color: var(--dark-transparent-bg);
+  background-color: var(--lighter-background);
 }
 
 .pcnode {
@@ -1324,7 +1325,7 @@ button:disabled {
 
 .pcnode .pcnode_notes {
   flex: 1;
-  background-color: var(--dark-transparent-bg);
+  background-color: var(--lighter-background);
   padding: 5px;
   margin: 0;
   z-index: 1;
@@ -1514,6 +1515,8 @@ button:disabled {
   top: 0.5em;
   width: 1.5em !important;
   height: 1.5em !important;
+  background-image: url(img/close.png);
+  background-size:contain;
 }
 
 .popup_menu .awesomplete>input {

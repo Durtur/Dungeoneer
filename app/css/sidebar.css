@@ -80,7 +80,7 @@
 .sidebar {
     width: 2.5em;
     height: 100%;
-    top: 2.2em;
+    top: 1.4em;
     overflow: hidden;
     background-color: var(--main-color);
     transform: translateZ(0);

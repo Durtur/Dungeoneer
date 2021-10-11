@@ -1081,7 +1081,7 @@ var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE, onZoomCallback;
  */
 
 function zoomIntoMap(event, resizeAmount, onZoomed) {
-    console.log(`Zoom ${resizeAmount}`)
+
     if(onZoomed)
         onZoomCallback = onZoomed;
     window.requestAnimationFrame(function (ts) {
