@@ -4,7 +4,8 @@ const { ipcRenderer, webFrame } = require('electron');
 const Awesomplete = require(pathModule.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
-const backgroundLoop = require("./mappingTool/backgroundLoop");
+const SlideCanvas = require("./mappingTool/slideCanvas");
+const Menu = require("./mappingTool/menu");
 const SoundManager = require("./js/soundManager")
 const soundManager = new SoundManager();
 const dataAccess = require("./js/dataaccess");
@@ -38,13 +39,14 @@ var gridLayerContext = gridLayer.getContext("2d");
 var tokenLayer = document.getElementById("tokens");
 //
 
+var overlayLoop, backgroundLoop;
 
 var LAST_KEY; //Last pressed key
 //Grid 
 var gridMoveOffsetX = 0, gridMoveOffsetY = 0, canvasMoveRate = 2;
 var resetMoveIncrementTimer;
 
-var mapContainer, foregroundCanvas, backgroundCanvas;
+var mapContainers, foregroundCanvas, backgroundCanvas, overlayCanvas;
 //Tokens
 var loadedMonsters = [], partyArray, loadedMonstersFromMain = [];
 var settings, fogOfWarEnabled = true, filtered = false, lastBackgroundFilter, effectFilePath;
@@ -119,8 +121,11 @@ function loadSettings() {
         filterDd.selectedIndex = parseInt(filterValue);
         setBackgroundFilter();
         if (settings.currentMap) {
-
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
+        }
+
+        if (settings.currentOverlay) {
+            setMapOverlay(settings.currentOverlay, settings.gridSettings.mapOverlaySize);
         }
 
         if (settings.currentBackground) {
@@ -338,31 +343,31 @@ function requestNotifyUpdateFromMain() {
 
 
 ipcRenderer.on("load-map", function (evt, arg) {
-    if(!initialLoadComplete){
+    if (!initialLoadComplete) {
         pendingMapLoad = arg;
-    }else{
+    } else {
         saveManager.loadMapFromPath(arg);
     }
 });
 ipcRenderer.on("intiative-updated",
- function (evt, arg) {
+    function (evt, arg) {
 
-    if (arg.order) {
-        arg.order.forEach(x => {
-            if (!x.isPlayer)
-                x.name = "???";
-        });
-        return initiative.setOrder(arg.order);
-    }
-    if (arg.round_increment) {
+        if (arg.order) {
+            arg.order.forEach(x => {
+                if (!x.isPlayer)
+                    x.name = "???";
+            });
+            return initiative.setOrder(arg.order);
+        }
+        if (arg.round_increment) {
 
-        initiative.setRoundCounter(arg.round_increment);
-        var curr = initiative.currentActor();
-        Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
-        return;
-    }
-    if (arg.empty) return initiative.empty();
-})
+            initiative.setRoundCounter(arg.round_increment);
+            var curr = initiative.currentActor();
+            Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
+            return;
+        }
+        if (arg.empty) return initiative.empty();
+    })
 ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
     loadParty();
 });
@@ -551,12 +556,21 @@ function reloadMap() {
     location.reload();
 }
 document.addEventListener("DOMContentLoaded", function () {
-    mapContainer = document.querySelector("#map_layer_container");
+    backgroundLoop = new SlideCanvas(document.getElementById("background"));
+    overlayLoop = new SlideCanvas(document.getElementById("overlay"));
+    var mapContainer = document.querySelector("#map_layer_container");
+    var overlayContainer = document.querySelector("#overlay_layer_container");
+    mapContainers = [mapContainer, overlayContainer];
     backgroundCanvas = document.querySelector("#background");
     foregroundCanvas = document.querySelector("#foreground");
-    mapContainer.data_bg_scale = 1;
-    mapContainer.data_transform_x = 0;
-    mapContainer.data_transform_y = 0;
+    overlayCanvas = document.querySelector("#overlay");
+
+    mapContainers.forEach(container => {
+        container.data_bg_scale = 1;
+        container.data_transform_x = 0;
+        container.data_transform_y = 0;
+    });
+
     foregroundCanvas.data_transform_x = 0;
     foregroundCanvas.data_transform_y = 0;
     loadSettings();
@@ -614,18 +628,6 @@ document.addEventListener("DOMContentLoaded", function () {
         change: pawnBgColorChosen
     });
 
-    $("#background_color_button_change_pawn")
-    document.getElementById("foreground_size_slider").oninput = function (event) {
-
-        resizeForeground(event.target.value);
-    }
-
-    $("#background_color_button_change_pawn")
-    document.getElementById("background_size_slider").oninput = function (event) {
-        resizeBackground(event.target.value);
-
-    }
-
     function pawnBgColorChosen(color) {
         newColor = color;
         selectedPawns.forEach(element => element.style.backgroundColor = newColor);
@@ -639,10 +641,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         }, info);
 
-    }
-
-    document.getElementById("add_things_button").onclick = function (e) {
-        ipcRenderer.send("open-add-maptool-stuff-window");
     }
 
 
@@ -697,7 +695,7 @@ function centerForegroundOnBackground() {
 
     var bgRect = backgroundCanvas.getBoundingClientRect();
     var foregroundRect = foregroundCanvas.getBoundingClientRect();
-
+    var mapContainer = mapContainers[0];
     var middleX = (bgRect.width / mapContainer.data_bg_scale) / 2;
     var middleY = (bgRect.height / mapContainer.data_bg_scale) / 2;
 
@@ -717,11 +715,12 @@ function moveForeground(x, y) {
 }
 
 function moveMap(x, y) {
-
-    mapContainer.data_transform_x = x;
-    mapContainer.data_transform_y = y;
-    mapContainer.style.setProperty("--bg-translate-x", x);
-    mapContainer.style.setProperty("--bg-translate-y", y);
+    mapContainers.forEach(container => {
+        container.data_transform_x = x;
+        container.data_transform_y = y;
+        container.style.setProperty("--bg-translate-x", x);
+        container.style.setProperty("--bg-translate-y", y);
+    });
 
 
 }
@@ -767,21 +766,10 @@ function onSettingsLoaded() {
     setupGridLayer();
     resizeAndDrawGrid();
     refreshFogOfWar();
-    document.getElementById("fog_of_war_hue_selector").onchange = function (event) {
-        settings.fogOfWarHue = event.target.value
-        saveSettings();
-        refreshFogOfWar();
-        if (!settings.transparentWindow) document.body.style.backgroundColor = event.target.value;
-    }
+    Menu.initialize();
 
-    document.getElementById("filter_tool").onchange = setBackgroundFilter;
     effectManager.initialize();
 
-
-
-
-    document.querySelector("#vision_button").onclick = showLightSourceTooltip;
-    document.querySelector("#conditions_button").onclick = showConditionsMenu;
     document.querySelector("body").onkeydown = function (event) {
         var keyIndex = [37, 38, 39, 40, 65, 87, 68, 83].indexOf(event.keyCode);
 
@@ -804,9 +792,9 @@ function onSettingsLoaded() {
             canvasMoveRate = 2;
         }, 600)
 
-
-        var bgX = mapContainer.data_transform_x;
-        var bgY = mapContainer.data_transform_y;
+        var container = mapContainers[0];
+        var bgX = container.data_transform_x;
+        var bgY = container.data_transform_y;
 
         if (event.shiftKey) {
             bgX = foregroundCanvas.data_transform_x;
@@ -881,15 +869,6 @@ function onSettingsLoaded() {
         saveSettings();
     };
 
-    document.getElementById("foreground_button").onclick = getForegroundFromFile;
-    document.getElementById("foreground_menu_button").onclick = getForegroundFromFile;
-    document.getElementById("clear_background_button").onclick = function (e) {
-        setMapBackground(null);
-
-    };
-
-    document.getElementById("background_menu_button").onclick = getBackgroundFromFile;
-    document.getElementById("background_button").onclick = getBackgroundFromFile;
 
     var iconLoadButtons = [...document.querySelectorAll(".icon_load_button")];
     iconLoadButtons.forEach(button => {
@@ -897,64 +876,37 @@ function onSettingsLoaded() {
     })
     document.getElementById("next_facet_button").onclick = setTokenNextFacetHandler;
 
-    document.getElementById("save_map_button").onclick = function (e) {
-        saveManager.saveCurrentMap();
-    }
-    document.getElementById("load_map_button").onclick = function (e) {
-        saveManager.loadMapDialog();
-    }
-    document.querySelector("#backdrop_window_button").onclick = function (e) {
-        ipcRenderer.send("open-maptool-backdrop-window");
-    };
-    document.querySelector("#clear_map_edge_button").onclick = function (e) {
-        settings.map_edge_style = null;
-        document.querySelector(".maptool_body").style.backgroundImage = "none";
-    };
-    document.querySelector("#map_edge_button").onclick = function (e) {
-        var imgPath = dialog.showOpenDialogSync(remote.getCurrentWindow(),
-            {
-                properties: ['openFile'],
-                message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: constants.imgFilters }]
-            });
-
-        if (!imgPath) return;
-        imgPath = imgPath[0];
-        imgPath = imgPath.replace(/\\/g, "/");
-
-        document.querySelector(".maptool_body").style.backgroundImage = "url('" + imgPath + "')";
-        settings.map_edge_style = imgPath;
-        saveSettings();
-    }
     initialLoadComplete = true;
-    if(pendingMapLoad)
-    {
+    if (pendingMapLoad) {
         saveManager.loadMapFromPath(pendingMapLoad);
         pendingMapLoad = null;
     }
 }
 
-
-
-function getBackgroundFromFile(e) {
-    var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
+function getMapImageFromDialog() {
+    return dialog.showOpenDialogSync(remote.getCurrentWindow(), {
         properties: ['openFile'],
         message: "Choose map",
         filters: [{ name: 'Images', extensions: constants.imgFilters }]
     })[0].replace(/\\/g, "/");
+}
 
+function getBackgroundFromFile(e) {
+    var path = getMapImageFromDialog();
     if (path) {
         setMapBackground(path, settings.defaultMapSize);
     }
 };
 
-function getForegroundFromFile(e) {
-    var path = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
-        properties: ['openFile'],
-        message: "Choose map",
-        filters: [{ name: 'Images', extensions: constants.imgFilters }]
-    })[0].replace(/\\/g, "/");
+function getOverlayFromFile(e) {
+    var path = getMapImageFromDialog();
+    if (path) {
+        setMapOverlay(path, settings.defaultMapSize);
+    }
+}
 
+function getForegroundFromFile(e) {
+    var path = getMapImageFromDialog();
     if (path) {
         setMapForeground(path, settings.defaultMapSize);
         settings.currentMap = path;
@@ -983,7 +935,28 @@ function setMapBackground(path, width) {
         resizeBackground(width ? width : img.width);
     }
     img.src = path;
+}
 
+function setMapOverlay(path, width) {
+    var btn = document.getElementById("overlay_button");
+    settings.currentOverlay = path;
+    if (!path) {
+        overlayCanvas.style.backgroundImage = 'none';
+        btn.innerHTML = "Image";
+        return;
+    }
+    if (settings.matchSizeWithFileName) {
+        width = getMapWidthFromFileName(path, width);
+    }
+    btn.innerHTML = pathModule.basename(path);
+    overlayCanvas.style.backgroundImage = 'url("' + path + '")';
+    var img = new Image();
+    settings.gridSettings.mapOverlaySize = width;
+    img.onload = function () {
+        overlayCanvas.heightToWidthRatio = img.height / img.width;
+        resizeOverlay(width ? width : img.width);
+    }
+    img.src = path;
 }
 
 function getMapWidthFromFileName(path, width) {
@@ -1038,8 +1011,8 @@ function toggleSaveTimer() {
             settings.gridSettings = {}
             settings.gridSettings.cellSize = cellSize;
             settings.gridSettings.mapSize = parseFloat($("#foreground").css("width"));
-            settings.gridSettings.mapBackgroundSize = parseFloat($("#background").css("width"));;
-
+            settings.gridSettings.mapBackgroundSize = parseFloat($("#background").css("width"));
+            settings.gridSettings.mapOverlaySize = parseFloat($("#overlay").css("width"));
             saveSettings();
         }, 7000
     );
@@ -1065,12 +1038,19 @@ function resizeForeground(newWidth) {
 function resizeBackground(newWidth) {
     backgroundCanvas.style.width = newWidth + "px";
     backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
-    document.getElementById("background_size_slider").value = newWidth;
+    (document.getElementById("background_size_slider") || {}).value = newWidth;
+    toggleSaveTimer();
+}
+
+function resizeOverlay(newWidth) {
+    overlayCanvas.style.width = newWidth + "px";
+    overlayCanvas.style.height = newWidth * overlayCanvas.heightToWidthRatio + "px";
+    (document.getElementById("overlay_size_slider") || {}).value = newWidth;
     toggleSaveTimer();
 }
 
 function resetZoom() {
-    var currentScale = mapContainer.data_bg_scale;
+    var currentScale = mapContainer[0].data_bg_scale;
     var resizeAmount = (10 - currentScale * 10) / 10;
     zoomIntoMap({ x: 0, y: 0 }, resizeAmount);
 }
@@ -1082,7 +1062,7 @@ var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE, onZoomCallback;
 
 function zoomIntoMap(event, resizeAmount, onZoomed) {
 
-    if(onZoomed)
+    if (onZoomed)
         onZoomCallback = onZoomed;
     window.requestAnimationFrame(function (ts) {
 
@@ -1097,15 +1077,18 @@ function zoomIntoMap(event, resizeAmount, onZoomed) {
 
         var oldRect = foregroundCanvas.getBoundingClientRect();
 
-        var backgroundSizeBeforeResize = mapContainer.data_bg_scale;
+        var backgroundSizeBeforeResize = mapContainers[0].data_bg_scale;
         var newSize = backgroundSizeBeforeResize + resizeAmount;
 
         if (newSize > MAX_BG_ZOOM) newSize = MAX_BG_ZOOM;
         if (newSize < MIN_BG_ZOOM) newSize = MIN_BG_ZOOM;
-        mapContainer.data_bg_scale = newSize;
+        mapContainers.forEach(container => {
+            container.data_bg_scale = newSize;
+            container.style.setProperty("--bg-scale", newSize);
+        })
 
         soundManager.setListenerCords(null, null, (MAX_BG_ZOOM - newSize) * soundManager.multiplier());
-        mapContainer.style.setProperty("--bg-scale", newSize);
+
 
         var newRect = foregroundCanvas.getBoundingClientRect();
 
@@ -1127,9 +1110,9 @@ function zoomIntoMap(event, resizeAmount, onZoomed) {
         var moveMapX = newXRelative - currentRelativePositionX;
         var moveMapY = newYRelative - currentRelativePositionY;
 
-
-        var bgX = mapContainer.data_transform_x;
-        var bgY = mapContainer.data_transform_y;
+        var container = mapContainers[0]
+        var bgX = container.data_transform_x;
+        var bgY = container.data_transform_y;
         bgY -= moveMapY;
         bgX -= moveMapX;
 
@@ -1171,7 +1154,7 @@ function zoomIntoMap(event, resizeAmount, onZoomed) {
         resizeAndDrawGrid(null, event);
         fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
         fovLighting.drawFogOfWar();
-        if(onZoomCallback){
+        if (onZoomCallback) {
             onZoomCallback();
             onZoomCallback = null;
         }
@@ -2416,8 +2399,9 @@ function startMovingMap(e) {
             pos3 = e.clientX;
             pos4 = e.clientY;
             // Move bg
-            var bgX = mapContainer.data_transform_x;
-            var bgY = mapContainer.data_transform_y;
+            var container = mapContainers[0];
+            var bgX = container.data_transform_x;
+            var bgY = container.data_transform_y;
             bgY -= pos2;
             bgX -= pos1;
             gridMoveOffsetX -= pos1;

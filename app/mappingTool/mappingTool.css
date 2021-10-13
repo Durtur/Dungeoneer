@@ -3,6 +3,7 @@
     --z-index-fov: 10;
     --z-index-measurements: 3;
     --z-index-pawn: 5;
+    --z-index-overlay: 6;
     --bg-translate-x: 0;
     --bg-translate-y: 0;
     --fg-translate-x: 0;
@@ -27,6 +28,10 @@ html {
 
 .blurred {
     filter: blur(20px) !important;
+}
+
+.sidebar{
+    top: 2.1em !important;
 }
 
 .maptool_body {
@@ -311,8 +316,13 @@ li {
     transition: -webkit-filter 1s;
     transition-timing-function: ease-in;
 }
+#overlay, #overlay_layer_container{
+    pointer-events: none;
+    z-index:var(--z-index-overlay);
+    background-size:contain;
+}
 
-#map_layer_container {
+#map_layer_container, #overlay_layer_container {
     transform: matrix( calc( var(--bg-scale)), 0, 0, calc( var(--bg-scale)), calc(var(--bg-translate-x)), calc(var(--bg-translate-y)));
     position: absolute;
 }

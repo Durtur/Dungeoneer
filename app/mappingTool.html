@@ -37,7 +37,63 @@
                     <ul>
                         <li class="dropdown_root"><a class="button_style " href="#">Map</a>
                             <ul class="dropdown_content">
+                                <li><a href="#" class="button_style" id="overlay_menu_button">Overlay</a>
+                                    <ul>
+                                        <li><a href="#" id="overlay_button" class="button_style">Image</a></li>
+                                        <li><a href="#" id="clear_overlay_button" href="#" class="button_style"
+                                                title="Clears the overlay to default">Clear</a></li>
+                                        <div class="menu_seperator"></div>
+                                        <li>
+                                            <div class="row">
+                                                <label class="button_style_label" style="width: 100%;"
+                                                    for="slide_speed_input">
+                                                    Slide speed:
+                                                </label>
+                                                <input style="text-align: center; width:60px; " type="number"
+                                                    onchange="overlayLoop.updateSlideSpeed()" id="slide_speed_input"
+                                                    value="1" step="0.1">
+                                            </div>
+                                        </li>
 
+                                        <li><a class="button_style toggle_button" toggled="true" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)" data-slide=""
+                                                title="Removes the background slide">No slide</a></li>
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                data-slide="slideX">Horizontal
+                                                slide</a></li>
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                data-slide="slideXReverse">Horizontal reverse slide</a></li>
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                data-slide="slideY">Vertical slide</a></li>
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                data-slide="slideYReverse">Vertical
+                                                reverse slide</a></li>
+
+                                        <div class="menu_seperator"></div>
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                id="toggle_bob_animation_button" toggled="false"
+                                                onclick="overlayLoop.toggleBobAnimation()">Sway
+                                                overlay</a></li>
+                                        <li>
+                                            <div class="row">
+                                                <label class="button_style_label" style="width: 100%;"
+                                                    for="bob_amount_input">
+                                                    Sway amount:
+                                                </label>
+                                                <input style="text-align: center; width:60px; " type="number"
+                                                    onchange="overlayLoop.updateBobAmount()" id="bob_amount_input"
+                                                    value="1" step="0.1">
+                                            </div>
+                                        </li>
+                                    </ul>
                                 <li><a href="#" class="button_style" id="foreground_menu_button">Foreground</a>
                                     <ul>
                                         <li><a href="#" class="button_style" id="foreground_button"
@@ -49,6 +105,9 @@
 
                                     </ul>
                                 </li>
+
+
+
                                 <li><a href="#" class="button_style" id="background_menu_button">Background</a>
                                     <ul>
                                         <li><a href="#" id="background_button" class="button_style">Image</a></li>
@@ -90,8 +149,9 @@
                                                 reverse slide</a></li>
 
                                         <div class="menu_seperator"></div>
-                                        <li><a class="button_style toggle_button background_slide_button" id = "toggle_bob_animation_button"
-                                                toggled="false" onclick="backgroundLoop.toggleBobAnimation()">Sway
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                id="toggle_bob_animation_button" toggled="false"
+                                                onclick="backgroundLoop.toggleBobAnimation()">Sway
                                                 background</a></li>
                                         <li>
                                             <div class="row">
@@ -248,6 +308,8 @@
                 title="Add monsters from combat table." onclick="startAddingFromQueue()">+</button>
         </div>
         <div class="slidecontainer hidden" id="map_size_slider_container">
+            <h4>Overlay</h4>
+            <input type="range" min="100" max="15000" class="slider" id="overlay_size_slider" title="Map size">
             <h4>Foreground</h4>
             <input type="range" min="100" max="15000" class="slider" id="foreground_size_slider" title="Map size">
             <h4>Background</h4>
@@ -468,10 +530,14 @@
             <div id="map_layer_container">
                 <canvas id="background" class="canvas_layer"></canvas>
                 <canvas id="foreground" class="canvas_layer"></canvas>
+
             </div>
 
             <canvas id="effects" class="canvas_layer"></canvas>
             <div id="tokens" class="canvas_layer"></div>
+            <div id="overlay_layer_container">
+                <canvas id="overlay" class="canvas_layer"></canvas>
+            </div>
             <canvas id="fog_of_war" class="canvas_layer" width="100%" height="100%"></canvas>
             <canvas id="fog_of_war_segments" class="canvas_layer" width="100%" height="100%"></canvas>
             <canvas id="grid" class="canvas_layer" width="100%" height="100%"></canvas>

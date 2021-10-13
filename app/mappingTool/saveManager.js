@@ -28,7 +28,7 @@ class SaveManager {
 
     async saveMap(path, progressFunction) {
         this.resetAllStates();
-        zoomIntoMap({x:0,y:0}, 0);
+        zoomIntoMap({ x: 0, y: 0 }, 0);
         var data = {};
 
 
@@ -47,6 +47,7 @@ class SaveManager {
             effectsToAdd.push(newEff)
 
         }
+        var mapContainer = mapContainers[0];
         data.effects = effectsToAdd;
         data.map = settings.currentMap;
         data.mapX = mapContainer.data_transform_x;
@@ -80,10 +81,16 @@ class SaveManager {
             data.mapEdgeBase64 = await Util.toBase64(settings.map_edge_style, true);
         }
 
+        if (settings.currentOverlay) {
+            data.mapOverlaySize = settings.gridSettings.mapOverlaySize;
+            progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentOverlay)}`);
+            data.mapOverlayBase64 = await Util.toBase64(settings.currentOverlay, true);
+        }
         data.extensions = {
             mapEdge: data.mapEdgeBase64 ? pathModule.basename(settings.map_edge_style) : null,
             foreground: data.foregroundBase64 ? pathModule.basename(settings.currentMap) : null,
-            background: data.backgroundBase64 ? pathModule.basename(settings.currentBackground) : null
+            background: data.backgroundBase64 ? pathModule.basename(settings.currentBackground) : null,
+            overlay: data.mapOverlayBase64 ? pathModule.basename(settings.currentOverlay) : null
         }
 
         fs.writeFile(path, JSON.stringify(data), (err) => {
@@ -129,8 +136,9 @@ class SaveManager {
 
         gridMoveOffsetX = 0;
         gridMoveOffsetY = 0;
-        nudgePawns(-1* mapContainer.data_transform_x, -1*  mapContainer.data_transform_y);
-        fovLighting.nudgeSegments(-1* mapContainer.data_transform_x, -1*  mapContainer.data_transform_y);
+        var mapContainer = mapContainers[0];
+        nudgePawns(-1 * mapContainer.data_transform_x, -1 * mapContainer.data_transform_y);
+        fovLighting.nudgeSegments(-1 * mapContainer.data_transform_x, -1 * mapContainer.data_transform_y);
         moveMap(0, 0);
 
     }
@@ -156,8 +164,9 @@ class SaveManager {
     }
     loadMap(data) {
         var cls = this;
+        var mapContainer = mapContainers[0];
         this.resetAllStates();
-        zoomIntoMap({x:0, y:0}, data.bg_scale- mapContainer.data_bg_scale, async () => {
+        zoomIntoMap({ x: 0, y: 0 }, data.bg_scale - mapContainer.data_bg_scale, async () => {
             //  pawns = data.pawns;
             cls.removeExistingEffects();
             data.effects.forEach((effect) => cls.restoreEffect(effect));
@@ -167,10 +176,10 @@ class SaveManager {
             var moveY = mapContainer.data_transform_y - data.mapY;
             nudgePawns(moveX, moveY);
             fovLighting.nudgeSegments(moveX, moveY);
-        
+
             resizeForeground(data.bg_width);
-            
-     
+
+
             if (data.foregroundTranslate) {
                 var trsl = data.foregroundTranslate;
                 foregroundCanvas.data_transform_x = trsl.x;
@@ -179,32 +188,46 @@ class SaveManager {
             }
 
             if (data.foregroundBase64)
-                data.map = await dataAccess.writeTempFile(`${data.extensions.foreground}`, Buffer.from(data.foregroundBase64, "base64"));
+                data.map = await dataAccess.writeTempFile(`${getTempName("forground", settings.currentMap)}${pathModule.extname(data.extensions.foreground)}`, Buffer.from(data.foregroundBase64, "base64"));
             settings.currentMap = data.map;
 
             $('#foreground').css('background-image', 'url("' + data.map + '")');
 
             if (data.map_edge || data.mapEdgeBase64) {
                 if (data.mapEdgeBase64)
-                    data.map_edge = await dataAccess.writeTempFile(`${data.extensions.mapEdge}`, Buffer.from(data.mapEdgeBase64, "base64"));
+                    data.map_edge = await dataAccess.writeTempFile(`${getTempName("edge", settings.map_edge_style)}${pathModule.extname(data.extensions.mapEdge)}`, Buffer.from(data.mapEdgeBase64, "base64"));
                 document.querySelector(".maptool_body").style.backgroundImage = "url('" + data.map_edge + "')";
                 settings.map_edge_style = data.map_edge;
             }
 
             fovLighting.drawSegments();
-            settings.currentBackground = data.layer2Map;
-            backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
+
 
             if (data.backgroundBase64)
-                data.layer2Map = await dataAccess.writeTempFile(`${data.extensions.background}`, Buffer.from(data.backgroundBase64, "base64"));
-            setMapBackground(data.layer2Map, data.layer2_width);
+                data.layer2Map = await dataAccess.writeTempFile(`${getTempName("background", settings.currentBackground)}${pathModule.extname(data.extensions.background)}`, Buffer.from(data.backgroundBase64, "base64"));
 
+            if (data.mapOverlayBase64)
+                data.overlayMap = await dataAccess.writeTempFile(`${getTempName("overlay", settings.currentOverlay)}${pathModule.extname(data.extensions.overlay)}`, Buffer.from(data.mapOverlayBase64, "base64"));
+            settings.currentBackground = data.layer2Map;
+            backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
+            setMapBackground(data.layer2Map, data.layer2_width);
+            setMapOverlay(data.overlayMap, data.mapOverlaySize);
 
             //Map slide
             backgroundLoop.loadSlideState(data);
-   
+
             saveSettings();
-     
+
+            function getTempName(name, current) {
+                var prefix = "temp_";
+                console.log(prefix + name,current )
+                if (prefix + name == current) {
+                    return prefix + name + "1";
+                }
+                return prefix + name;
+
+
+            }
         })
 
     }
