@@ -23,7 +23,7 @@ var combatLoader = function () {
                     numberOfCreatures = parseInt(loadedEncounter[i][1]);
                     var name = loadedEncounter[i][0];
                     var creature = data.find(x => x.name.toLowerCase() === name.toLowerCase());
-                    if(creature == null){
+                    if (creature == null) {
                         console.error(`monster ${name} not found`);
                         continue;
                     }
@@ -89,46 +89,54 @@ var combatLoader = function () {
         for (var i = 0; i < buttons.length; i++) {
             var row = buttons[i].parentNode;
             ac = parseInt(row.getElementsByClassName("code_ac")[0].value);
-            if (ac != "") {
-                mod = parseInt(row.getElementsByClassName("attack_field")[0].value) || 0;
-                advantage = row.getElementsByClassName("combat_loader_advantage")[0].checked;
-                disadvantage = row.getElementsByClassName("combat_loader_disadvantage")[0].checked;
-                if (advantage) {
-                    rand = Math.max(d(20), d(20));
-                } else if (disadvantage) {
-                    rand = Math.min(d(20), d(20));
-                } else {
-                    rand = d(20);
-                }
-
-                var dmgField = row.getElementsByClassName("damage_field")[0];
-                var formerText = dmgField.innerHTML;
-                if (formerText.indexOf("=") >= 0) {
-                    dmgField.innerHTML =
-                        formerText.substring(0, formerText.lastIndexOf("=")).trim();
-                }
-                if (rand == 20) {
-                    buttons[i].classList.remove("die_d20_normal");
-                    buttons[i].classList.remove("die_d20_hit");
-                    buttons[i].classList.add("die_d20_crit");
-                    result = " = " + diceRoller.rollCritFromString(dmgField.innerHTML)
-                } else if ((rand + mod) >= ac) {
-                    buttons[i].classList.remove("die_d20_normal");
-                    buttons[i].classList.remove("die_d20_crit");
-                    buttons[i].classList.add("die_d20_hit");
-                    result = " = " + diceRoller.rollFromString(dmgField.innerHTML)
-                } else {
-                    result = "";
-                    buttons[i].classList.add("die_d20_normal");
-                    buttons[i].classList.remove("die_d20_crit");
-                    buttons[i].classList.remove("die_d20_hit");
-
-                }
-
-                dmgField.innerHTML = dmgField.innerHTML + result;
-                buttons[i].firstChild.data = rand;
-
+            if (!ac) continue;
+            var logStr = "Rolled attack";
+            mod = parseInt(row.getElementsByClassName("attack_field")[0].value) || 0;
+            advantage = row.getElementsByClassName("combat_loader_advantage")[0].checked;
+            disadvantage = row.getElementsByClassName("combat_loader_disadvantage")[0].checked;
+            if (advantage) {
+                rand = Math.max(d(20), d(20));
+                logStr += " with advantage"
+            } else if (disadvantage) {
+                rand = Math.min(d(20), d(20));
+                logStr += " with disadvantage"
+            } else {
+                rand = d(20);
             }
+            logStr+= ` (${rand})`;
+            var dmgField = row.getElementsByClassName("damage_field")[0];
+            var formerText = dmgField.innerHTML;
+            if (formerText.indexOf("=") >= 0) {
+                dmgField.innerHTML =
+                    formerText.substring(0, formerText.lastIndexOf("=")).trim();
+            }
+            var entry = LogEntryType.Good;
+            if (rand == 20) {
+                buttons[i].classList.remove("die_d20_normal");
+                buttons[i].classList.remove("die_d20_hit");
+                buttons[i].classList.add("die_d20_crit");
+                var dmg = diceRoller.rollCritFromString(dmgField.innerHTML)
+                result = " = " + dmg
+                logStr += " and critically hit for " + dmg + " damage";
+            } else if ((rand + mod) >= ac) {
+                buttons[i].classList.remove("die_d20_normal");
+                buttons[i].classList.remove("die_d20_crit");
+                buttons[i].classList.add("die_d20_hit");
+                var dmg = diceRoller.rollFromString(dmgField.innerHTML);
+                result = " = " + dmg;
+                logStr += " and hit for " + dmg + " damage";
+            } else {
+                result = "";
+                buttons[i].classList.add("die_d20_normal");
+                buttons[i].classList.remove("die_d20_crit");
+                buttons[i].classList.remove("die_d20_hit");
+                logStr += " and missed;"
+               entry = LogEntryType.Bad;
+            }
+            addToCombatLog(row, logStr, entry)
+            dmgField.innerHTML = dmgField.innerHTML + result;
+            buttons[i].firstChild.data = rand;
+
 
         }
 
@@ -758,7 +766,7 @@ var combatLoader = function () {
             } else {
                 newP.classList.add("harmful_log_item")
             }
-            newP.innerHTML = `${entry.date} ${entry.text}`;
+            newP.innerText = `${entry.date} ${entry.text}`;
             content.appendChild(newP)
             paragraphArray.push(newP);
         }
@@ -820,7 +828,7 @@ var combatLoader = function () {
             button.setAttribute("data-party_index", i);
             button.classList.add("button_style");
             button.innerHTML = "Attack " + partyArray[i].character_name;
-   
+
             button.onclick = function (e) {
                 var parent = selectedRow.closest(".combatRow");
                 var index = parseInt(e.target.getAttribute("data-party_index"));

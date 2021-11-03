@@ -87,8 +87,8 @@ class MobController {
         var damageLabel = row.querySelector(".text_upper_damage_label");
         if (attackActions.length > 0) {
             attackField.value = attackActions[0].attack_bonus;
-            damageField.innerHTML = attackActions[0].damage_string;
-            damageLabel.innerHTML = attackActions[0].name;
+            damageField.innerText = attackActions[0].damage_string;
+            damageLabel.innerText = attackActions[0].name;
             if (attackActions.length > 1) {
                 damageField.setAttribute("data-tooltip", actionsString);
                 damageField.classList.add("tooltipped")
@@ -98,8 +98,8 @@ class MobController {
             }
         } else {
             attackField.value = "";
-            damageField.innerHTML = "";
-            damageLabel.innerHTML = "";
+            damageField.innerText = "";
+            damageLabel.innerText = "";
             damageField.classList.remove("tooltipped");
         }
         row.setAttribute("data-dnd_actions", JSON.stringify(attackActions));
@@ -137,7 +137,7 @@ class MobController {
 
         if (actions.length > 1 && nextAction.name != null) {
             Util.showBubblyText("Switched to " + nextAction.name, { x: e.clientX, y: e.clientY }, true)
-            row.getElementsByClassName("text_upper_damage_label")[0].innerHTML = nextAction.name;
+            row.getElementsByClassName("text_upper_damage_label")[0].innerText = nextAction.name;
         }
         var actionCompare = this.createActionString(nextAction)
 
@@ -148,7 +148,7 @@ class MobController {
         if (tooltipIndex < tooltipLines.length) {
             tooltipLines[tooltipIndex] = ">" + tooltipLines[tooltipIndex];
             row.getElementsByClassName("attack_field")[0].value = nextAction.attack_bonus;
-            row.getElementsByClassName("damage_field")[0].innerHTML = nextAction.damage_string;
+            row.getElementsByClassName("damage_field")[0].innerText = nextAction.damage_string;
             row.setAttribute("data-dnd_current_action", index)
 
             e.target.setAttribute("data-tooltip", tooltipLines.join("\n"))
@@ -265,10 +265,10 @@ class MobController {
             
             }
             var tooltip = button.querySelector(".secondary_tooltip");
-            tooltip.querySelector(".roll_result_value").innerHTML = rollResultString || "";
-            tooltip.querySelector(".roll_result_crits").innerHTML = resultArray.filter(x => x.hit == "crit").length;
-            tooltip.querySelector(".roll_result_hits").innerHTML = resultArray.filter(x => x.hit == "hit").length;
-            tooltip.querySelector(".roll_result_misses").innerHTML = resultArray.filter(x => x.hit == "miss").length;
+            tooltip.querySelector(".roll_result_value").innerText = rollResultString || "";
+            tooltip.querySelector(".roll_result_crits").innerText = resultArray.filter(x => x.hit == "crit").length;
+            tooltip.querySelector(".roll_result_hits").innerText = resultArray.filter(x => x.hit == "hit").length;
+            tooltip.querySelector(".roll_result_misses").innerText = resultArray.filter(x => x.hit == "miss").length;
      
 
 

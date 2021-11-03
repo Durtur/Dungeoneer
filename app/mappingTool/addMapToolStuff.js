@@ -107,7 +107,7 @@ function startEditingEntry() {
     var entryName = document.getElementById("effect_name").value;
     document.getElementById("deleteButton").classList.remove("hidden");
     editingEffectName = entryName;
-    document.getElementById("editing_header").innerHTML = "Editing " + entryName;
+    document.getElementById("editing_header").innerText = "Editing " + entryName;
 
     var entryObj = allEffects.filter(x => x.name == entryName)[0];
     document.getElementById("isLightEffect").checked = entryObj.isLightEffect;
@@ -128,7 +128,7 @@ function startEditingEntry() {
         document.getElementById("sound_input").value = entryObj.sound.src;
         var select = document.getElementById("sound_profile_select");
         [...select.options].forEach(option => {
-            if (option.innerHTML.toLowerCase() == entryObj.sound.distance.toLowerCase())
+            if (option.innerText.toLowerCase() == entryObj.sound.distance.toLowerCase())
                 option.selected = true;
         })
         if (entryObj.sound.volume)
@@ -258,7 +258,7 @@ function validateFolderExists() {
 function closeWindow(msg) {
     if (msg) {
         $('.success_message').finish().fadeIn("fast").delay(2500).fadeOut("slow");
-        document.getElementById("close_message").innerHTML = msg;
+        document.getElementById("close_message").innerText = msg;
         window.setTimeout(function () {
             window.close();
         }, 2500)
