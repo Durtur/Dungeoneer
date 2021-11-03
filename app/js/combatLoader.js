@@ -23,6 +23,10 @@ var combatLoader = function () {
                     numberOfCreatures = parseInt(loadedEncounter[i][1]);
                     var name = loadedEncounter[i][0];
                     var creature = data.find(x => x.name.toLowerCase() === name.toLowerCase());
+                    if(creature == null){
+                        console.error(`monster ${name} not found`);
+                        continue;
+                    }
                     creature.data_extra_attributes = {};
                     creature.data_extra_attributes.initiative = data[i].initiative ? data[i].initiative : getAbilityScoreModifier(data[i].dexterity);
                     for (var j = 0; j < numberOfCreatures; j++) {

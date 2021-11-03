@@ -5,21 +5,22 @@ var loadedMonster = {};
 var loadedMonsterQueue = [];
 
 var loadedEncounter = [];
-
+const remote = require('electron').remote;
+const app = remote.app;
 const marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
-
-const remote = require('electron').remote;
+const ThemeManager = require("./js/themeManager");
+const fs = require("fs");
 const StatblockPresenter = require("./js/statblockpresenter");
 const dialog = require('electron').remote.dialog;
-const app = remote.app;
+
 const uniqueID = require('uniqid');
 marked.setOptions({
   renderer: new marked.Renderer(),
 
 });
-dataAccess.checkIfFirstTimeLoadComplete();
+dataAccess.initialize();
 
 const { ipcRenderer } = require('electron');
 const encounterModule = new EncounterModule();

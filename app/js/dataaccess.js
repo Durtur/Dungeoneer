@@ -22,11 +22,21 @@ const conditionResourcePath = pathModule.join(app.getAppPath(), 'app', 'mappingT
 
 
 module.exports = function () {
+    function initialize() {
+
+        checkIfFirstTimeLoadComplete();
+        getSettings(settings => {
+            if (settings.theme)
+                ThemeManager.initThemeFile(settings.theme);
+        });
+    }
+
     var isFirstTimeLoading = false;
     function initializeData() {
         if (isFirstTimeLoading) return;
         isFirstTimeLoading = true;
         console.log("Initalizing data...");
+
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
         if (!fs.existsSync(baseFolder))
             fs.mkdirSync(baseFolder);
@@ -460,7 +470,7 @@ module.exports = function () {
 
     function checkIfFirstTimeLoadComplete() {
         var baseFolder = pathModule.join(app.getPath("userData"), "data");
-        if (!fs.existsSync(baseFolder)) 
+        if (!fs.existsSync(baseFolder))
             initializeData();
     }
 
@@ -525,7 +535,7 @@ module.exports = function () {
         saveCoverImage: saveCoverImage,
         getMonsterTypes: getMonsterTypes,
         writeTempFile: writeTempFile,
-        checkIfFirstTimeLoadComplete: checkIfFirstTimeLoadComplete,
+        initialize: initialize,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize
 

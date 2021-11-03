@@ -2,7 +2,7 @@
 class EncounterModule {
     parseCR(str) {
         if (typeof str != "string") return str;
-        str = str.trim();
+        str = str.replaceAll(" ", "");
         if (str.trim() === "1/8") {
             return 0.125
         } else if (str.trim() === "1/4") {
@@ -10,7 +10,8 @@ class EncounterModule {
         } else if (str.trim() === "1/2") {
             return 0.5
         } else {
-            return parseFloat(str);
+            var res = parseFloat(str);
+            return isNaN(res) ? null : res;
         }
     }
     parseCRIndex(num) {
@@ -205,7 +206,7 @@ class EncounterModule {
 
                     )
                 var allAvailableCrs = [...new Set(monsterArray.map(b => this.parseCRIndex(b.challenge_rating)))].sort();
-                console.log("Availble challenge ratings: ", allAvailableCrs);
+         
                 var pickedMonsters = [];
 
                 //Adjust count if this amount of creatures is not available:

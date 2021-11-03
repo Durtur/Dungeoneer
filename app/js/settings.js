@@ -1,14 +1,12 @@
 
 const { ipcRenderer } = require('electron');
 const dataAccess = require("./js/dataaccess");
-
-var pathModule = require('path');
-const THEME_PATH = pathModule.join(app.getAppPath(), 'app', 'css', 'themes');
-const BASE_CSS_PATH = pathModule.join(app.getAppPath(), 'app', 'css');
+const ThemeManager = require("./js/themeManager");
 const SlimSelect = require("slim-select");
 
 
 const dialog = require('electron').remote.dialog;
+
 var playerPlaques = document.querySelector("#showPlayerPlaques");
 var autoRoll = document.querySelector("#autoRollInitiative");
 var roundCounter = document.querySelector("#roundCounterIntitiative");
@@ -97,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function readThemes(selectedTheme) {
     if (!selectedTheme) selectedTheme = "oldschool";
-    var themes = await readdir(THEME_PATH);
+    var themes = await ThemeManager.getThemes();
     var select = document.getElementById("theme_select");
     var optionList = themes.map(x => {
 
@@ -113,9 +111,7 @@ async function readThemes(selectedTheme) {
     });
     select.onchange = function(e){
         oldSettings.theme = select.value;
-        var themePath = pathModule.join(THEME_PATH, oldSettings.theme, "theme.css");
-        var writePath = pathModule.join(BASE_CSS_PATH, "theme.css");
-        fs.createReadStream(themePath).pipe(fs.createWriteStream(writePath));
+        ThemeManager.initThemeFile(oldSettings.theme);
     }
 }
 

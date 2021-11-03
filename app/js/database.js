@@ -933,7 +933,7 @@ function displayAddEncounterMonsterList() {
     var string = $(this).find(':first-child').html();
 
     var foundMonster = monsterMasterList.filter(x => x.name == string)[0];
-    console.log(tab)
+
     new StatblockPresenter(document.getElementById("statblock"), foundMonster, tab)
     document.getElementById("statblock").classList.remove("hidden");
     [...document.querySelectorAll(".selected_row")].forEach(e => e.classList.remove("selected_row"));
@@ -1102,27 +1102,16 @@ function deleteFromHomebrew(toRemove) {
 function showCRForCreature(element) {
   var monsterCR, monsterListString;
   var searchValue = element.value.toLowerCase();
-  for (var i = 0; i < monsterNames.length; i++) {
-    if (monsterNames[i][1].toLowerCase() == searchValue) {
-      monsterListString = monsterNames[i][0];
-    }
-  }
-  if (monsterListString == null) return;
-  var crString = monsterListString.substring(monsterListString.lastIndexOf(" - cr ") + 6);
+  dataAccess.getHomebrewAndMonsters(data => {
+    var monster = data.find(x => x.name.toLowerCase() == searchValue);
+    if (monster == null)
+      return;
+    var parent = element.parentNode.parentNode;
 
-  if (crString === "1/8") {
-    monsterCR = 0.125;
-  } else if (crString === "1/4") {
-    monsterCR = 0.25;
-  } else if (crString === "1/2") {
-    monsterCR = 0.5;
-  } else {
-    monsterCR = parseInt(crString);
-  }
-  var parent = element.parentNode.parentNode;
+    parent.getElementsByClassName("encounter_creature_cr")[0].value = monster.challenge_rating;
+    updateCRTotalXP()
+  });
 
-  parent.getElementsByClassName("encounter_creature_cr")[0].value = monsterCR;
-  updateCRTotalXP()
 }
 
 function addEncounterHandler(element) {
@@ -1144,9 +1133,22 @@ function updateCRTotalXP() {
 
 
     for (var i = 0; i < crFields.length; i++) {
-      for (var j = 0; j < parseInt(numFields[i].value); j++) {
-        allCrs.push(crFields[i].value);
+      var field = crFields[i];
+      var parsed = encounterModule.parseCR(field.value);
+      var num = parseInt(numFields[i].value);
+      if (isNaN(num))
+        continue;
+
+      if (parsed == null) {
+        field.classList.add("validation_error_field")
+      } else {
+        field.classList.remove("validation_error_field");
+
+        for (var j = 0; j < num; j++) {
+          allCrs.push(parsed);
+        }
       }
+
 
     }
     var useCurrentParty = document.querySelector("#userCurrentPartyForEncounterDiff").checked;
@@ -1222,7 +1224,6 @@ function calculateEncounterDifficulty() {
   var allLevels = [];
   var altInpCont = document.getElementById("encounter_challenge_manual_input");
 
-  console.log("Levels: ", allLevels)
   if (!altInpCont.classList.contains("hidden")) {
     partySize = parseInt(document.querySelector("#encounter_challenge_calculator_character_size").value);
     partyLevel = parseInt(document.querySelector("#encounter_challenge_calculator_character_level").value);
@@ -2230,7 +2231,7 @@ function addRow(str) {
     child = "nth-child(21)";
     className = "jsonValue";
   }
-  //sértilfelli því það veldur bugs að klóna awesomplete
+
   if (tab == "encounters") {
     var newRow = document.createElement("div");
     newRow.classList.add("row");
@@ -2246,11 +2247,8 @@ function addRow(str) {
     newRow.appendChild(newNumberOfCreatures);
 
     var newCreatureCr = document.createElement("input");
-    newCreatureCr.setAttribute("type", "number");
-    newCreatureCr.setAttribute("placeholder", "CR");
-    newCreatureCr.setAttribute("min", "0");
-    newCreatureCr.setAttribute("max", "30");
     newCreatureCr.classList.add("encounter_creature_cr", "smaller");
+    newCreatureCr.placeholder = "CR";
     newRow.appendChild(newCreatureCr);
 
     [newCreatureInput, newNumberOfCreatures, newCreatureCr].forEach(element => element.setAttribute("tabindex", "1"));
@@ -2668,8 +2666,6 @@ function evaluateRarity(str) {
   }
   return -1;
 }
-
-
 
 
 

@@ -97,7 +97,9 @@ table {
 input[type=checkbox] {
   background-color: white;
 }
-
+.validation_error_field{
+  background-color:var(--error-bg-input) !important;
+}
 .brown_input {
   background-color: var(--alt-emphasis-color);
   border: none;
