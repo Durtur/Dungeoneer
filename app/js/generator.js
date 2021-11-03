@@ -117,12 +117,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             var generatedNameTextField = document.querySelector("#generated_npc_name");
             var values = generateNPC(data, gender, foundNameSet, type)
-            generatedNameTextField.innerHTML = values.firstname + " " + values.lastname;
+            generatedNameTextField.innerText = values.firstname + " " + values.lastname;
             if (values.age)
                 values.profession += ` (${values.age})`;
 
-            document.querySelector("#generated_npc_profession").innerHTML = values.profession;
-            document.querySelector("#generated_npc_description").innerHTML = values.description;
+            document.querySelector("#generated_npc_profession").innerText = values.profession;
+            document.querySelector("#generated_npc_description").innerText = values.description;
 
         });
 
@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
             newOption.setAttribute("value", cretType);
             var unSerialized = unSerialize(cretType);
             console.log(unSerialized);
-            newOption.innerHTML = unSerialized.substring(0, 1).toUpperCase() + unSerialized.substring(1).toLowerCase();
+            newOption.innerText = unSerialized.substring(0, 1).toUpperCase() + unSerialized.substring(1).toLowerCase();
             creatureNameSelect.appendChild(newOption);
         })
     }
@@ -299,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener('awesomplete-selectcomplete', function (e) {
             dataAccess.getGeneratorData(data => {
                 var creature = data.names[e.target.value];
-                document.getElementById("currently_editing_navigator").innerHTML = e.target.value + " names" + (creature == null ? " (new)" : "");
+                document.getElementById("currently_editing_navigator").innerText = e.target.value + " names" + (creature == null ? " (new)" : "");
                 if (!creature) {
                     creature = { male: [""], female: [""], lastnames: [""] };
                 } else {
@@ -324,7 +324,7 @@ document.addEventListener("DOMContentLoaded", function () {
             dataAccess.getGeneratorData(data => {
 
                 var creature = data.generated_creatures[e.target.value];
-                document.getElementById("currently_editing_navigator").innerHTML = e.target.value + (creature == null ? " (new)" : "");
+                document.getElementById("currently_editing_navigator").innerText = e.target.value + (creature == null ? " (new)" : "");
                 if (creature == null) {
                     creature = {
                         professions: {
@@ -386,18 +386,18 @@ function rerollNpc(key) {
         }
 
         function replaceDescription() {
-            document.querySelector("#generated_npc_profession").innerHTML = values.profession;
-            document.querySelector("#generated_npc_description").innerHTML = values.description;
+            document.querySelector("#generated_npc_profession").innerText = values.profession;
+            document.querySelector("#generated_npc_description").innerText = values.description;
         }
 
         function replaceName() {
             var oldName = generatedNameTextField.innerHTML.split(" ")[0];
 
-            generatedNameTextField.innerHTML = values.firstname + " " + values.lastname;
+            generatedNameTextField.innerText = values.firstname + " " + values.lastname;
             if (oldName == "") return;
             var descriptionEle = document.querySelector("#generated_npc_description");
 
-            descriptionEle.innerHTML = descriptionEle.innerHTML.replace(new RegExp(oldName, "g"), values.firstname)
+            descriptionEle.innerText = descriptionEle.innerHTML.replace(new RegExp(oldName, "g"), values.firstname)
         }
 
     });
@@ -431,7 +431,7 @@ function createCreatureTreeList(object) {
 
                 li.appendChild(caret);
                 caret.classList = "treeview_caret";
-                caret.innerHTML = unSerialize(key);
+                caret.innerText = unSerialize(key);
                 var ul = document.createElement("ul");
                 ul.classList = "treeview_nested";
 
@@ -476,7 +476,7 @@ function createCreatureTreeList(object) {
             return;
         }
         var p = document.createElement("p");
-        p.innerHTML = text;
+        p.innerText = text;
         p.ondblclick = editListAttribute;
         li.appendChild(p);
         return p;
@@ -803,7 +803,7 @@ function generateEncounterTable(obj) {
     currentHeader.appendChild(currentRow);
     newTable.appendChild(currentHeader);
     newNode = document.createElement("th");
-    newNode.innerHTML = "Creatures";
+    newNode.innerText = "Creatures";
     currentRow.appendChild(newNode);
 
 
@@ -1053,7 +1053,7 @@ function generateRandomTable(jsonObj) {
     for (arr in jsonObj) {
         columnCount++;
         newNode = document.createElement("th");
-        newNode.innerHTML = unSerialize(arr);
+        newNode.innerText = unSerialize(arr);
         currentRow.appendChild(newNode);
     }
     currentHeader = document.createElement("tbody");
@@ -1070,7 +1070,7 @@ function generateRandomTable(jsonObj) {
                 createTableNameAwesomeplete(newInput);
 
             } else {
-                newNode.innerHTML = Object.values(jsonObj)[j][i];
+                newNode.innerText = Object.values(jsonObj)[j][i];
                 newNode.setAttribute("contenteditable", true);
             }
 
@@ -1395,9 +1395,9 @@ function generateTavern() {
         var tavernOwner = ownerAndNameobj.owner;
 
         var tavernHeader = document.querySelector("#tavern_name");
-        tavernHeader.innerHTML = tavernName;
+        tavernHeader.innerText = tavernName;
 
-        document.querySelector("#tavern_description").innerHTML = tavernDescription;
+        document.querySelector("#tavern_description").innerText = tavernDescription;
         tavernHeader.classList.remove("hidden");
 
 
@@ -1418,7 +1418,7 @@ function generateTavern() {
         if (ownerName != "" && ownerName != null) ownerName = " " + ownerName;
         description += "<br><br>The owner, " + tavernOwner.firstname + (ownerName || "") + "," + tavernOwner.tavernKeepDescription;
 
-        document.getElementById("tavern_description").innerHTML = description;
+        document.getElementById("tavern_description").innerText = description;
 
         // adjustHeaderCurveAndShow(tavernHeader, tavernHeaderCurve, tavernNameHeaderBox)
 
@@ -1509,7 +1509,7 @@ function generateTavernRumorsAndMenu(data) {
     if (rumorArray.length > 0) {
         var rumorContainer = document.createElement("div");
         var rumorHeader = document.createElement("h2");
-        rumorHeader.innerHTML = "Rumors";
+        rumorHeader.innerText = "Rumors";
         rumorContainer.appendChild(rumorHeader);
         rumorContainer.classList.add("rumor_container")
         rumorContainer.classList = "column";
@@ -1521,7 +1521,7 @@ function generateTavernRumorsAndMenu(data) {
             currentNameEle.classList.add("rumor_row_name");
 
             currentRow.classList.add("rumor_row");
-            currentP.innerHTML = `"${rumorArray[i]}"`;
+            currentP.innerText = `"${rumorArray[i]}"`;
             currentP.classList.add("rumor_row_rumor");
             currentRumorMonger = generateNPC(data, pickOne(["male", "female"]), data.names.anglo, "humanoid")
 
@@ -1735,12 +1735,10 @@ function generateShopDescription(shopType, shopWealth, inventorySize) {
         var ownerName = shopOwner.lastname;
         if (ownerName) ownerName = " " + ownerName;
         description += "<br><br>The owner, " + shopOwner.firstname + (ownerName || "") + "," + creatureString + commaString + shopOwner.shopKeepDescription;
-        headerBox.innerHTML = shopName;
-        var shopHeaderCurve = document.querySelector("#curve_shop_name");
-        var shopNameHeaderBox = document.querySelector("#shop_name_headerbox");
+        headerBox.innerText = shopName;
         headerBox.classList.remove("hidden");
-        // adjustHeaderCurveAndShow(headerBox, shopHeaderCurve, shopNameHeaderBox)
-        descriptionBox.innerHTML = description;
+
+        descriptionBox.innerText = description;
 
     });
 
@@ -1939,7 +1937,7 @@ function generateHTMLTable(jsonObj) {
     for (arr in jsonObj) {
         columnCount++;
         newNode = document.createElement("th");
-        newNode.innerHTML = arr;
+        newNode.innerText = arr;
         currentRow.appendChild(newNode);
     }
     currentHeader = document.createElement("tbody");
@@ -1948,7 +1946,7 @@ function generateHTMLTable(jsonObj) {
         currentHeader.appendChild(currentRow);
         for (var j = 0; j < columnCount; j++) {
             newNode = document.createElement("td");
-            newNode.innerHTML = Object.values(jsonObj)[j][i];
+            newNode.innerText = Object.values(jsonObj)[j][i];
             currentRow.appendChild(newNode);
 
         }
