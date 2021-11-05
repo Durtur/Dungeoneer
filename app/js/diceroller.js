@@ -134,23 +134,32 @@ var diceRoller = function () {
       return 0;
     return value;
   }
+
   function addRow() {
     var newRow = $(".diceRollerContainer:nth-child(1)").clone();
-    newRow.appendTo(".diceRollerPanel");
-    var inputs = newRow.children(".diceroller_die_no");
+    newRow.appendTo("#diceRollerTable");
+    var inputs = newRow.children(".diceroller_input");
 
     var allRows = $(".diceRollerContainer");
-
 
     var newDie = dicePossibleSides[
       allRows.length > dicePossibleSides.length ?
         dicePossibleSides.length - 1 :
         allRows.length - 1];
     inputs[0].setAttribute("data-default-die", newDie);
-    inputs[0].setAttribute("placeholder", "1d" + newDie)
-
+    inputs[0].setAttribute("placeholder", "1d" + newDie);
+    inputs[1].value = null;
 
     inputs.on("input", diceRollerInputSanitizer);
+  }
+
+  function removeRow() {
+    const diceContainer = $('#diceRollerTable');
+    const dices = diceContainer.children();
+
+    if (dices.length > 1) {
+      dices.last().remove();
+    }
   }
 
   function loadHandlers() {
@@ -196,6 +205,7 @@ var diceRoller = function () {
   return {
     roll: roll,
     addRow: addRow,
+    removeRow: removeRow,
     loadHandlers: loadHandlers,
     rollFromString: rollFromString,
     getExpectedValue: getExpectedValue,

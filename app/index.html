@@ -197,24 +197,27 @@ initiative</p>
             <h2 class="frontpage_heading" style="width:6em" id="diceRollerHeader">Dice roller</h2>
             <section class="diceRollerPanel__container section__show " id="diceRoller">
               <section class="diceRollerPanel">
-                <div class="diceRollerContainer">
-                  <input class="diceroller_input diceroller_die_no" type="text" tabindex="1" placeholder="1d100"
-                    data-default-die="100">
-                  <input class="diceroller_input diceroller_result" type="text" readonly>
-                </div>
-                <div class="diceRollerContainer">
-                  <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d20"
-                    data-default-die="20">
-                  <input class="diceroller_input diceroller_result" type="text" readonly>
-                </div>
-                <div class="diceRollerContainer">
-                  <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d12"
-                    data-default-die="12">
-                  <input class="diceroller_input diceroller_result" type="text" readonly>
+                <div id="diceRollerTable">
+                  <div class="diceRollerContainer">
+                    <input class="diceroller_input diceroller_die_no" type="text" tabindex="1" placeholder="1d100"
+                      data-default-die="100">
+                    <input class="diceroller_input diceroller_result" type="text" readonly>
+                  </div>
+                  <div class="diceRollerContainer">
+                    <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d20"
+                      data-default-die="20">
+                    <input class="diceroller_input diceroller_result" type="text" readonly>
+                  </div>
+                  <div class="diceRollerContainer">
+                    <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d12"
+                      data-default-die="12">
+                    <input class="diceroller_input diceroller_result" type="text" readonly>
+                  </div>
                 </div>
                 <button class="button button_style diceRoller " onclick="diceRoller.roll()">Roll</button>
               </section>
               <button class="button_style small" onclick="diceRoller.addRow()">+</button>
+              <button class="button_style small" onclick="diceRoller.removeRow()">-</button>
             </section>
           </div>
 
