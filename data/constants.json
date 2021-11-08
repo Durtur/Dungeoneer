@@ -115,21 +115,25 @@
         {
             "type": "shield",
             "mod": 2,
-            "is_shield": true
+            "is_shield": true,
+            "ddb_name":"shield"
         },
         {
             "type": "leather armor",
-            "mod": 1
+            "mod": 1,
+            "ddb_name":"leather"
         },
         {
             "type": "hide armor",
             "mod": 2,
-            "maxDex": 2
+            "maxDex": 2,
+            "ddb_name":"hide"
         },
         {
             "type": "chain shirt",
             "mod": 3,
-            "maxDex": 2
+            "maxDex": 2,
+            "ddb_name":"chain shirt"
         },
         {
             "type": "barkskin",
@@ -138,12 +142,14 @@
         {
             "type": "scale mail",
             "mod": 4,
-            "maxDex": 2
+            "maxDex": 2,
+            "ddb_name":"scale mail"
         },
         {
             "type": "plate armor",
             "mod": 8,
-            "maxDex": 0
+            "maxDex": 0,
+            "ddb_name":"plate"
         },
         {
             "type": "patchwork armor",
@@ -152,12 +158,14 @@
         {
             "type": "chain mail",
             "mod": 6,
-            "maxDex": 0
+            "maxDex": 0,
+            "ddb_name":"chain mail"
         },
         {
             "type": "breastplate",
             "mod": 4,
-            "maxDex": 2
+            "maxDex": 2,
+            "ddb_name":"breastplate"
         },
         {
             "type": "armor scraps",
@@ -166,21 +174,25 @@
         {
             "type": "splint armor",
             "mod": 7,
-            "maxDex": 0
+            "maxDex": 0,
+            "ddb_name":"splint"
         },
         {
             "type": "ring mail",
             "mod": 4,
-            "maxDex": 0
+            "maxDex": 0,
+            "ddb_name":"ring mail"
         },
         {
             "type": "half plate armor",
             "mod": 5,
-            "maxDex": 2
+            "maxDex": 2,
+            "ddb_name":"half plate"
         },
         {
             "type": "padded armor",
-            "mod": 1
+            "mod": 1,
+            "ddb_name":"padded"
         }
     ],
     "itemTypeValues": [
@@ -869,5 +881,27 @@
             ]
         }
     ],
-    "ability_scores":["Strength", "Dexterity", "Constitution","Intelligence", "Wisdom", "Charisma"]
+    "ability_scores":["Strength", "Dexterity", "Constitution","Intelligence", "Wisdom", "Charisma"],
+    "prof_bonus": [
+        {
+            "bonus":2
+        },
+        {
+            "level":5,
+            "bonus":3
+        },
+        {
+            "level":9,
+            "bonus":4
+        },
+        {
+            "level":13,
+            "bonus":5
+        },
+        {
+            "level":17,
+            "bonus":6
+        }
+    ]
+    
 }

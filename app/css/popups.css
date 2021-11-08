@@ -43,6 +43,26 @@
   display: flex;
   flex-flow: column nowrap;
 }
+.link_button[data-linked="true"]{
+  background-color:var(--main-success-color) !important;
+}
+.link_button{
+  background-image: url(img/link.png);
+  background-size: contain;
+  border: none;
+  background-color: transparent;
+  background-position: center;
+  height: 2.25em;
+  width: 2.25em;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  margin-left: -2.5em;
+  margin-top: 0.5em;
+  background-color: var(--main-color);
+ 
+  border-radius: 50%;
+}
 
 .pcform_bottom_row {
   position: relative;

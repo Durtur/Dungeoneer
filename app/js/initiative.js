@@ -1,5 +1,5 @@
 
-const prompt = require('electron-prompt');
+
 const app = require('electron').remote.app
 const icon = app.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png";
 const customStylesheet = app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";

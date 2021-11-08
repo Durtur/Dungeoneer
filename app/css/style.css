@@ -80,9 +80,12 @@ html, body {
   margin: 0px;
   overflow-x: hidden;
 }
-
+.mainpage_header  {
+  background-image: url("img/bg.jpg");
+}
 body {
   height: 100%;
+
 }
 
 main {

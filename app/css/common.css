@@ -606,7 +606,12 @@ hr {
   background: #ffffca;
   color: #000023;
 }
-
+.padding{
+  padding:0.5em;
+}
+.margin{
+  margin:1em;
+}
 .center {
   margin: auto;
   text-align: center;

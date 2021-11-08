@@ -10,80 +10,6 @@ var webCrawler = function () {
         }
     });
 
-    function mineSpells() {
-        var url = "https://www.dnd-spells.com/spell/";
-        var spells;
-        dataAccess.getSpells(data => {
-            spells = data;
-            crawlerSpells = spells;
-            for (var i = 0; i < spells.length; i++) {
-                if (spells[i].description.includes("This spell is not available"))
-                    getSpellDesc(spells, i);
-            }
-          
-            window.setTimeout(function(){
-                fs.writeFile("missingSpells.json", JSON.stringify(spells), (err) => { console.log("Spells saved") });
-            },35000)
-      
-        });
-
-        function getSpellDesc(spellArr,index) {
-         
-            try {
-                var spellName = spellArr[index].name;
-                var xhttp = new XMLHttpRequest();
-                console.log(spellName)
-                spellName = spellName.toLowerCase().replace(/ /g, "-").replace(/'/g, "");
-       
-                xhttp.onreadystatechange = function () {
-                    
-                    if (this.readyState == 4 && this.status == 200) {
-                  
-                        const parser = new DOMParser();
-                        const htmlDocument = parser.parseFromString(this.responseText, "text/html");
-                        var doc = htmlDocument.documentElement;
-                        var paragraphs = [... doc.querySelectorAll("p")].filter(x=> x.innerHTML != "");
-                        
-                        if(paragraphs.length == 0)return;
-                        var description = paragraphs[3].innerHTML.trim();
-                        if(description.includes("our mailing list"))return
-                        description = description.replace(/<br>/g, "\n\n");
-                        console.log(description);
-                        spellArr[index].description = description;
-                        var headers = [... doc.querySelectorAll(".classic-title")].filter(x=> x.innerHTML.includes("higher level"));
-                        if(headers.length > 0){
-                            var atHigherLevels = paragraphs[4].innerHTML.trim();
-                            spellArr[index].higher_levels = atHigherLevels;
-                        }
-                        
-
-                    }
-                };
-
-                xhttp.open("GET", url + spellName, true);
-                xhttp.send();
-            } catch(err){
-                console.log(err)
-            }
- 
-           
-    }
-
-    function nextByClass(node, cls) {
-        while (node = node.nextSibling) {
-            if (hasClass(node, cls)) {
-                return node;
-            }
-        }
-        return null;
-    }
-    function hasClass(elem, cls) {
-        var str = " " + elem.className + " ";
-        var testCls = " " + cls + " ";
-        return(str.indexOf(testCls) != -1) ;
-    }
-    
-}
 
 function toTitleCase(str) {
     return str.replace(
@@ -169,15 +95,7 @@ function checkDndBeyond(url, callback) {
             if (monObject.challenge) {
                 monObject.challenge_rating = parseInt(monObject.challenge);
                 delete monObject.challenge;
-                /*
-                                    if(monObject.hit_points){
-                                  
-                                        var hpSplit = monObject.hit_points.split(" ");
-                                        console.log(hpSplit)
-                                        monObject.hit_points = hpSplit[0];
-                                        monObject.hit_dice = hpSplit[1].replace(/[\(\)\s]/g, "");
-                                    }
-                                    */
+                
             }
 
 
@@ -227,7 +145,6 @@ function baseAddActionArray(block, isAction) {
             if (dmgAndBonus) {
                 if (dmgAndBonus.length > 0) dmgAndBonus = dmgAndBonus.join("+");
                 dmgAndBonus = dmgAndBonus.replace(/[\(\)\s]/g, "")
-                console.log(dmgAndBonus)
                 var splt = dmgAndBonus.split("+");
                 var dmgDice = "";
                 var dmgBonus;
@@ -275,7 +192,6 @@ function turndown(string){
 }
 return {
     checkDndBeyond: checkDndBeyond,
-    mineSpells: mineSpells,
     turndown: turndown
 }
 }();

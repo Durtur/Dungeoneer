@@ -68,9 +68,9 @@ class StatblockEditor {
         // "mod": 2,
         // "maxDex": 2
         function getDex(ar){
-            if(!ar.maxDex )return dex;
             var res = parseInt(ar.maxDex);
             if(res == 0)return 0;
+            if(!ar.maxDex )return dex;
             return Math.min(res, dex);
         }
     }

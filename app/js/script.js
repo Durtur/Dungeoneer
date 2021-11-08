@@ -10,12 +10,20 @@ const app = remote.app;
 const marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
+const DnDBeyondImporter = require("./js/DnDBeyondImporter")
+const CharacterSyncer = require("./js/characterSyncer");
+const Modals = require("./js/modals")
 const ThemeManager = require("./js/themeManager");
 const fs = require("fs");
 const StatblockPresenter = require("./js/statblockpresenter");
 const dialog = require('electron').remote.dialog;
 
+const icon = app.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png";
+const customStylesheet = app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
+const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
+const charSyncers = [];
+
 marked.setOptions({
   renderer: new marked.Renderer(),
 
@@ -24,6 +32,7 @@ dataAccess.initialize();
 
 const { ipcRenderer } = require('electron');
 const encounterModule = new EncounterModule();
+const dndBeyondImporter = new DnDBeyondImporter();
 var mobController;
 
 var encounterIsLoaded;
@@ -98,7 +107,7 @@ ipcRenderer.on('maptool-initialized', function (evt, arg) {
 
   }
   loadedMonsterQueue.update();
-  if (mobController) 
+  if (mobController)
     mobController.mapToolInitialized();
 
 });
@@ -613,13 +622,11 @@ function applySettings() {
 }
 
 
-
-/**
- * Hleður party úr JSON. Uppfærir partyArray með nýjustu upplýsingum um virka spilara. 
- * Býr til Nodes fyrir AC og annað. 
- */
 function loadParty() {
   console.log("Getting party")
+  charSyncers.forEach(x => x.destroy());
+  charSyncers.length = 0;
+
   dataAccess.getParty(function (data) {
     partyArray = [];
     console.log("received ", data)
@@ -638,7 +645,6 @@ function loadParty() {
       if (!b.sort_index) return 1;
       return a.sort_index - b.sort_index;
     })
-
 
     if (settings.playerPlaques) {
       addPlayerPlaques();
@@ -723,26 +729,32 @@ function addPlayerPlaques() {
   }
 
   for (var i = 0; i < partyArray.length; i++) {
-    var player = partyArray[i];
-    $(".pcnode:nth-child(" + (i + 1) + ")").attr("data-pc_id", partyArray[i].id);
-    $(".pcnode:nth-child(" + (i + 1) + ")").find("p").html(partyArray[i].character_name);
-    $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_notes").html(!partyArray[i].notes ? "No notes" : partyArray[i].notes);
 
-    $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
-    $(".pcnode:nth-child(" + (i + 1) + ")").find(".acnode").val(partyArray[i].ac);
-    $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
+    var player = partyArray[i];
+
+    var node = $(".pcnode:nth-child(" + (i + 1) + ")");
+
+    node.attr("data-pc_id", partyArray[i].id);
+    node.find("p").html(partyArray[i].character_name);
+    node.find(".pcnode_notes").html(!partyArray[i].notes ? "No notes" : partyArray[i].notes);
+
+    node.find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
+    node.find(".acnode").val(partyArray[i].ac);
+    node.find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
     if (player.darkvision) {
-      $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").removeClass("hidden");
-      $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision>p").html(partyArray[i].darkvision + " ft");
+      node.find(".pcnode__darkvision").removeClass("hidden");
+      node.find(".pcnode__darkvision>p").html(partyArray[i].darkvision + " ft");
     } else {
-      $(".pcnode:nth-child(" + (i + 1) + ")").find(".pcnode__darkvision").addClass("hidden");
+      node.find(".pcnode__darkvision").addClass("hidden");
     }
 
-
     if (partyArray[i].alternative_ac == "") {
-      $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "none");
+      node.find(".acspinner").css("display", "none");
     } else {
-      $(".pcnode:nth-child(" + (i + 1) + ")").find(".acspinner").css("display", "block");
+      node.find(".acspinner").css("display", "block");
+    }
+    if (player.external_source) {
+      charSyncers.push(new CharacterSyncer(player.external_source.url, node[0], dndBeyondImporter))
     }
 
   }
@@ -779,8 +791,6 @@ function loadPCNodeHandlers() {
 
 
   $(".acnode").on('keyup input change paste focus-lost', function () {
-
-
     var parent = $(this)[0].closest(".pcnode");
     var id = parent.getAttribute("data-pc_id");
     var index, selectedPlayer;
@@ -1233,8 +1243,14 @@ $(function () {
 });
 
 function addPlayerRow() {
+
   var row = $(".pcRow:nth-child(1)").clone();
   row.attr("data-char_id", null);
+  var linkButton = row[0].querySelector(".link_button");
+  linkButton.setAttribute("data-linked", "false");
+  linkButton.onclick = (e) => {
+    showCharacterLinkModal(e.target);
+  }
   row[0].getElementsByClassName("pc_input_character_token")[0].src = null;
   row.appendTo("#party--stats");
 
@@ -1283,6 +1299,66 @@ function pickPlayerToken(evt) {
   evt.target.setAttribute("src", tokenPath);
 }
 
+function showCharacterLinkModal(linkbutton) {
+  var modal = Modals.createModal("Add character source", (result) => {
+
+  });
+  var dndBeyondButton = Util.ele("button", " button_style margin padding", "DnDBeyond")
+  modal.appendChild(dndBeyondButton);
+  dndBeyondButton.onclick = (e) => {
+    modal.close();
+    prompt({
+      title: 'Character URL',
+      label: 'Enter the public URL for your DnDBeyond character:',
+      icon: icon,
+      customStylesheet: customStylesheet,
+      inputAttrs: { // attrs to be set if using 'input'
+        type: 'text'
+      }
+
+    })
+      .then((value) => {
+        //Break if user cancels
+        if (!value) return;;
+        dndBeyondImporter.getCharacter(value, function (character, errorCode) {
+          console.log(character);
+
+          if (errorCode || !character) {
+            console.error("Error contacting DnDBeyond", errorCode);
+            Util.showFailedMessage(`${errorCode || ""}: Character retrieval failed`);
+            return;
+          }
+
+          var charId = linkbutton.closest(".pcRow").getAttribute("data-char_id");
+
+          setCharacterSource(charId, value, "dndbeyond");
+          linkbutton.setAttribute("data-linked", "true");
+        });
+
+
+      });
+
+  }
+  document.body.appendChild(modal);
+
+}
+
+function setCharacterSource(charId, url, source) {
+  dataAccess.getParty(party => {
+    var members = party.members;
+    console.log(party);
+    var member = members.find(x => x.id == charId);
+    if (!member) throw "member not found";
+
+    member.external_source = source == null ? null :
+      {
+        url: url,
+        source: source
+      };
+    dataAccess.setParty(party, () => { });
+  });
+}
+
 function fillPartyPopup() {
   $(".pcRow").not(':first').remove();  //Clear html to default
   dataAccess.getParty(function (data) {
@@ -1290,8 +1366,10 @@ function fillPartyPopup() {
     var parties = ["Any"];
     partyInformationList.parties = [];
     $(".pcRow").attr("data-char_id", null);
-    for (var i = 0; i < members.length - 1; i++)
-      $(".pcRow:nth-child(1)").clone().appendTo("#party--stats");
+    for (var i = 0; i < members.length - 1; i++) {
+      var row = $(".pcRow:nth-child(1)").clone();
+      row.appendTo("#party--stats");
+    }
 
     var tokenPhotos = document.getElementsByClassName("pc_input_character_token");
     [...tokenPhotos].forEach(token => token.onclick = pickPlayerToken);
@@ -1304,14 +1382,19 @@ function fillPartyPopup() {
             row.getElementsByClassName("pc_input_" + field)[0].value = members[index][field];
 
           });
-        var token = dataAccess.getTokenPathSync(members[index].id);
-
+        var pMember = members[index];
+        var token = dataAccess.getTokenPathSync(pMember.id);
+        var linkButton = row.querySelector(".link_button");
+        linkButton.setAttribute("data-linked", pMember.external_source ? "true" : "false");
+        linkButton.onclick = (e) => {
+          showCharacterLinkModal(e.target)
+        }
         row.getElementsByClassName("pc_input_character_token")[0].setAttribute("src", token);
-        if (members[index].party && parties.indexOf(members[index].party) < 0) {
+        if (pMember.party && parties.indexOf(pMember.party) < 0) {
 
-          partyInformationList.parties.push(members[index].party)
-          parties.push(members[index].party)
-        } else if (!members[index].party) {
+          partyInformationList.parties.push(pMember.party)
+          parties.push(pMember.party)
+        } else if (!pMember.party) {
           row.getElementsByClassName("change_party_button")[0].classList.add("no_party_loaded");
         }
         row.setAttribute("data-pc_party", members[index].party);
@@ -1422,59 +1505,68 @@ function savePcToJson() {
 
 }
 function saveParty(showWarnings, dontClose) {
+  dataAccess.getParty(party => {
 
-  var allRows = document.getElementsByClassName("pcRow");
 
-  var tempArr = [];
-  var pcObject;
-  [...allRows].forEach(row => {
-    if (row.getElementsByClassName("pc_input_character_name")[0].value == "") {
-      if (!showWarnings) return;
-      row.getElementsByClassName("pc_input_character_name")[0].classList.add("required_field");
-      if (row.getAttribute("data-pc_party") != document.getElementById("active_party_input").value) {
-        document.getElementById("active_party_input").value = "Any";
-        filterPcRowsBySelectedParty();
+    var allRows = document.getElementsByClassName("pcRow");
+
+    var tempArr = [];
+    var pcObject;
+    [...allRows].forEach(row => {
+      if (row.getElementsByClassName("pc_input_character_name")[0].value == "") {
+        if (!showWarnings) return;
+        row.getElementsByClassName("pc_input_character_name")[0].classList.add("required_field");
+        if (row.getAttribute("data-pc_party") != document.getElementById("active_party_input").value) {
+          document.getElementById("active_party_input").value = "Any";
+          filterPcRowsBySelectedParty();
+        }
+
+        window.setTimeout(function () {
+          row.getElementsByClassName("pc_input_character_name")[0].classList.remove("required_field");
+        }, 3000)
+        return;
       }
 
-      window.setTimeout(function () {
-        row.getElementsByClassName("pc_input_character_name")[0].classList.remove("required_field");
-      }, 3000)
-      return;
-    }
-    pcObject = {};
+      var charId = row.getAttribute("data-char_id");
+      pcObject = {};
+      if (!charId) {
+        charId = uniqueID();
+      } else {
+        pcObject = party.members.find(x => x.id == charId);
+        if (!pcObject) throw "party member not found";
+      }
 
-    ["player_name", "character_name", "dexterity",
-      "perception", "level", "ac", "alternative_ac", "darkvision", "notes"].forEach(field => {
-        pcObject[field] = row.getElementsByClassName("pc_input_" + field)[0].value;
-      })
-    pcObject.active = row.getElementsByClassName("checkbox_party_menu")[0].checked;
-    pcObject.color = row.querySelector(".pc_input_background_color").value;
-    pcObject.party = row.getAttribute("data-pc_party");
-    if (parseInt(pcObject.level) <= 0) pcObject.level = "1";
-    tempArr.push(pcObject);
-    var charId = row.getAttribute("data-char_id");
-    if (!charId)
-      charId = uniqueID();
+      ["player_name", "character_name", "dexterity",
+        "perception", "level", "ac", "alternative_ac", "darkvision", "notes"].forEach(field => {
+          pcObject[field] = row.getElementsByClassName("pc_input_" + field)[0].value;
+        })
+      pcObject.active = row.getElementsByClassName("checkbox_party_menu")[0].checked;
+      pcObject.color = row.querySelector(".pc_input_background_color").value;
+      pcObject.party = row.getAttribute("data-pc_party");
+      if (parseInt(pcObject.level) <= 0) pcObject.level = "1";
+      tempArr.push(pcObject);
 
-    var saveTokenPath = row.getAttribute("data-token_to_save");
-    if (saveTokenPath)
-      dataAccess.saveToken(charId, saveTokenPath);
-    pcObject.id = charId;
-  });
-  if (tempArr.length < allRows.length) return;
-  partyArray = tempArr;
-  partyArray.sort(function (a, b) {
-    if (a.player_name > b.player_name) return 1;
-    if (b.player_name > a.player_name) return -1;
-    return 0;
-  })
 
-  var obj = { "members": partyArray, partyInfo: partyInformationList }
-  console.log("Saving party ", obj)
-  if (dontClose) return;
-  $('[data-popup="' + "popup-1" + '"]').fadeOut(350);
-  dataAccess.setParty(obj, function (data) {
-    loadParty();
+      var saveTokenPath = row.getAttribute("data-token_to_save");
+      if (saveTokenPath)
+        dataAccess.saveToken(charId, saveTokenPath);
+      pcObject.id = charId;
+    });
+    if (tempArr.length < allRows.length) return;
+    partyArray = tempArr;
+    partyArray.sort(function (a, b) {
+      if (a.player_name > b.player_name) return 1;
+      if (b.player_name > a.player_name) return -1;
+      return 0;
+    })
+
+    var obj = { "members": partyArray, partyInfo: partyInformationList }
+    console.log("Saving party ", obj)
+    if (dontClose) return;
+    $('[data-popup="' + "popup-1" + '"]').fadeOut(350);
+    dataAccess.setParty(obj, function (data) {
+      loadParty();
+    });
   });
 }
 
@@ -1582,7 +1674,4 @@ function observeArrayChanges(arr, raiseChanged) {
   arr.pop = function () { var ret = Array.prototype.pop.apply(this, arguments); raiseChanged(); return ret; }
   arr.propertyChanged = raiseChanged;
 }
-
-
-
 
