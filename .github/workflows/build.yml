@@ -1,6 +1,6 @@
 name: Build/release
 
-on: workflow_dispatch
+on: push
 
 jobs:
   release:
@@ -9,7 +9,10 @@ jobs:
     strategy:
       matrix:
         os: [ windows-latest, macos-latest]
-
+        
+    env:
+      USE_HARD_LINKS: false
+      
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v1
