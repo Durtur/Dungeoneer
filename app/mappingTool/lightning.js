@@ -287,8 +287,8 @@ var fovLighting = function () {
             dataAccess.writeTempFile("tempmap.png", bitmap, function (path) {
                 setMapForeground(path.replaceAll("\\", "/"), parseFloat(data.resolution.map_size.x) * originalCellSize);
 
-                var offsetX = mapContainer.data_transform_x;
-                var offsetY = mapContainer.data_transform_y;
+                var offsetX = mapContainers[0].data_transform_x;
+                var offsetY = mapContainers[0].data_transform_y;
                 var wallLines = [];
                 getLines(false, true);
                 if (wallLines.length > maxSegmentCount) {

@@ -287,7 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
             newOption.setAttribute("value", cretType);
             var unSerialized = unSerialize(cretType);
             console.log(unSerialized);
-            newOption.innerText = unSerialized.substring(0, 1).toUpperCase() + unSerialized.substring(1).toLowerCase();
+            newOption.innerHTML = unSerialized.substring(0, 1).toUpperCase() + unSerialized.substring(1).toLowerCase();
             creatureNameSelect.appendChild(newOption);
         })
     }
@@ -386,18 +386,18 @@ function rerollNpc(key) {
         }
 
         function replaceDescription() {
-            document.querySelector("#generated_npc_profession").innerText = values.profession;
-            document.querySelector("#generated_npc_description").innerText = values.description;
+            document.querySelector("#generated_npc_profession").innerHTML = values.profession;
+            document.querySelector("#generated_npc_description").innerHTML = values.description;
         }
 
         function replaceName() {
             var oldName = generatedNameTextField.innerHTML.split(" ")[0];
 
-            generatedNameTextField.innerText = values.firstname + " " + values.lastname;
+            generatedNameTextField.innerHTML = values.firstname + " " + values.lastname;
             if (oldName == "") return;
             var descriptionEle = document.querySelector("#generated_npc_description");
 
-            descriptionEle.innerText = descriptionEle.innerHTML.replace(new RegExp(oldName, "g"), values.firstname)
+            descriptionEle.innerHTML = descriptionEle.innerHTML.replace(new RegExp(oldName, "g"), values.firstname)
         }
 
     });
@@ -1397,10 +1397,7 @@ function generateTavern() {
         var tavernHeader = document.querySelector("#tavern_name");
         tavernHeader.innerText = tavernName;
 
-        document.querySelector("#tavern_description").innerText = tavernDescription;
         tavernHeader.classList.remove("hidden");
-
-
         generateTavernRumorsAndMenu(data);
     
         var description = "<strong>" + tavernName + "</strong>" + pickOne([" is located", " is situated", " can be found", " is placed "]) + " " + pickOne(data.tavern.locations) + ". ";
@@ -1418,9 +1415,8 @@ function generateTavern() {
         if (ownerName != "" && ownerName != null) ownerName = " " + ownerName;
         description += "<br><br>The owner, " + tavernOwner.firstname + (ownerName || "") + "," + tavernOwner.tavernKeepDescription;
 
-        document.getElementById("tavern_description").innerText = description;
+        document.getElementById("tavern_description").innerHTML = description;
 
-        // adjustHeaderCurveAndShow(tavernHeader, tavernHeaderCurve, tavernNameHeaderBox)
 
     });
 
@@ -1738,7 +1734,7 @@ function generateShopDescription(shopType, shopWealth, inventorySize) {
         headerBox.innerText = shopName;
         headerBox.classList.remove("hidden");
 
-        descriptionBox.innerText = description;
+        descriptionBox.innerHTML = description;
 
     });
 

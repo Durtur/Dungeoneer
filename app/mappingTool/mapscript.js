@@ -1050,7 +1050,7 @@ function resizeOverlay(newWidth) {
 }
 
 function resetZoom() {
-    var currentScale = mapContainer[0].data_bg_scale;
+    var currentScale = mapContainers[0].data_bg_scale;
     var resizeAmount = (10 - currentScale * 10) / 10;
     zoomIntoMap({ x: 0, y: 0 }, resizeAmount);
 }
@@ -1059,7 +1059,6 @@ var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE, onZoomCallback;
 /***
  * Resizes map and other objects
  */
-
 function zoomIntoMap(event, resizeAmount, onZoomed) {
 
     if (onZoomed)
