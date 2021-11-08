@@ -1305,6 +1305,7 @@ function showCharacterLinkModal(linkbutton) {
   });
   var dndBeyondButton = Util.ele("button", " button_style margin padding", "DnDBeyond")
   modal.appendChild(dndBeyondButton);
+
   dndBeyondButton.onclick = (e) => {
     modal.close();
     prompt({
@@ -1339,6 +1340,16 @@ function showCharacterLinkModal(linkbutton) {
       });
 
   }
+  if (linkbutton.getAttribute("data-linked") == "true") {
+    var removeButton = Util.ele("button", " button_style  padding red", "Remove");
+    modal.appendChild(removeButton);
+    removeButton.onclick = (e) => {
+      modal.close();
+      var charId = linkbutton.closest(".pcRow").getAttribute("data-char_id");
+      setCharacterSource(charId, null, null);
+      linkbutton.setAttribute("data-linked", "false");
+    }
+  }
   document.body.appendChild(modal);
 
 }
@@ -1346,7 +1357,7 @@ function showCharacterLinkModal(linkbutton) {
 function setCharacterSource(charId, url, source) {
   dataAccess.getParty(party => {
     var members = party.members;
-    console.log(party);
+
     var member = members.find(x => x.id == charId);
     if (!member) throw "member not found";
 

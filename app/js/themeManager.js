@@ -13,7 +13,7 @@ class ThemeManager {
 
     initThemeFile(selectedTheme) {
         console.log("Init theme file");
-        console.log(selectedTheme);
+
         var themePath = pathModule.join(this.THEME_PATH, selectedTheme, "theme.css");
         var writePath = pathModule.join(this.BASE_CSS_PATH, "theme.css");
         fs.createReadStream(themePath).pipe(fs.createWriteStream(writePath));
