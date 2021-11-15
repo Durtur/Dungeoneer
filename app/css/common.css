@@ -69,6 +69,11 @@ button {
   cursor: pointer;
 }
 
+.path_button{
+  max-width:20em;
+  overflow: hidden;
+}
+
 .awesomplete {
   font-family: var(--header-font);
   font-size: 16px;

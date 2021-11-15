@@ -1,11 +1,13 @@
 
+
 const dataaccess = require("./dataaccess");
 
 class SoundManager {
     defaultSoundPath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'sounds');
     soundProfiles = {
-        "short": 75,
+     
         "normal": 150,
+        "short": 75,
         "far": 250,
         "everywhere": 5000,
     }
@@ -157,6 +159,7 @@ class SoundManager {
     async getSoundInfo(soundName) {
         var sounds = await this.getAvailableSounds();
         return sounds.find(x => {
+            console.log(x)
             var basename = pathModule.basename(x.path);
             basename = basename.substring(0, basename.lastIndexOf("."));
             return soundName.toLowerCase() == basename.toLowerCase();
@@ -164,22 +167,38 @@ class SoundManager {
     }
 
     async getAvailableSounds() {
+
         if (this.availableSoundList)
             return this.availableSoundList;
         var cls = this;
-        var files = await dataaccess.getFiles(this.defaultSoundPath);
 
-        var list = files.map(x => {
-            var basename = pathModule.basename(x);
-            var path = pathModule.join(cls.defaultSoundPath, basename);
-            basename = basename.substring(0, basename.lastIndexOf("."));
+        var soundPaths = [this.defaultSoundPath];
 
-            return { name: basename, path: path }
+        if(settings.soundLibraryPath){
+            console.log(settings.soundLibraryPath);
 
-        });
-        console.log(list);
-        this.availableSoundList = list;
-        return list;
+            soundPaths.push(settings.soundLibraryPath);
+
+        }
+        var allSounds = [];
+        for(var i = 0 ; i < soundPaths.length ; i++){
+            var path = soundPaths[i];
+            var files = await dataaccess.getFiles(path);
+            var list = files.map(x => {
+                var basename = pathModule.basename(x);
+                var soundPath = pathModule.join(path, basename);
+                basename = basename.substring(0, basename.lastIndexOf("."));
+    
+                return { name: basename, path: soundPath }
+    
+            });
+            allSounds =allSounds.concat(list);
+        }
+     
+       
+        console.log(allSounds);
+        this.availableSoundList = allSounds;
+        return allSounds;
     }
 
 }

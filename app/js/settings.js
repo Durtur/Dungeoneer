@@ -29,6 +29,7 @@ var defaultMapSizeX = document.getElementById("defaultMapsizeX");
 var matchSizeWithFileName = document.getElementById("matchSizeWithFileName");
 var initiativeNoGroup =  document.getElementById("initiativeNoGroup");
 var coverImagePath = null;
+var soundLibraryPath = null;
 var doneSaving = false;
 
 var oldSettings;
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     dataAccess.getSettings(function (data) {
         oldSettings = data;
         coverImagePath = data.coverImagePath;
+        soundLibraryPath = data.maptool.soundLibraryPath;
         playerPlaques.checked = data.playerPlaques;
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
@@ -70,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if(coverImagePath){
             coverBtn.innerHTML = coverImagePath.name;
         }
+    
         coverBtn.onclick =  function(e){
             var selected = dialog.showOpenDialogSync(
                 remote.getCurrentWindow(), {
@@ -88,6 +91,31 @@ document.addEventListener("DOMContentLoaded", function () {
             
               coverImagePath = null;
               coverBtn.innerHTML = "Cover image";
+        };
+
+        var soundBtn =  document.getElementById("sound_library_button");
+        if(soundLibraryPath){
+            soundBtn.innerText = soundLibraryPath;
+        }
+
+            
+        soundBtn.onclick =  function(e){
+            var selected = dialog.showOpenDialogSync(
+                remote.getCurrentWindow(), {
+                properties: ['openDirectory'],
+                message: "Choose library location"
+              });
+              if (selected == null)
+                return;
+              selected = selected[0];
+              soundLibraryPath =  selected;
+         
+              soundBtn.innerText = soundLibraryPath;
+        };
+        document.getElementById("clear_sound_library_button").onclick =  function(e){
+            
+            soundLibraryPath = null;
+            soundBtn.innerText = "Sound library";
         };
     });
 
@@ -150,6 +178,7 @@ function saveSettings(closeImmediately) {
         data = {};
         if (oldSettings != null) data = oldSettings;
         data.coverImagePath = coverImagePath;
+  
         data.playerPlaques = playerPlaques.checked;
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;
@@ -157,6 +186,7 @@ function saveSettings(closeImmediately) {
         data.maptool.defaultMonsterTokenRotate = defaultMonsterTokenRotate.value || 90;
         data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || -90;
 
+        data.maptool.soundLibraryPath = soundLibraryPath;
         data.maptool.matchSizeWithFileName = matchSizeWithFileName.checked;
         data.maptool.addPlayersAutomatically = addPlayersAutomatically.checked;
         data.maptool.snapToGrid = snapToGrid.checked;
