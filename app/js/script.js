@@ -1062,9 +1062,7 @@ function loadEncounter(encounterObject) {
 function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
   var getFunction;
   switch (key) {
-    case "monsters": getFunction = dataAccess.getMonsters;
-      break;
-    case "homebrew": getFunction = dataAccess.getHomebrewMonsters;
+    case "monsters": getFunction = dataAccess.getHomebrewAndMonsters;
       break;
     case "encounters": getFunction = dataAccess.getEncounters;
       break;
@@ -1080,7 +1078,7 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       break;
   }
   getFunction(function (data) {
-    statblockType = key == "homebrew" ? "monsters" : key;
+    statblockType = key;
     if (key == "monsters" || key == "homebrew" || key == "encounters") {
       if (key != "encounters") {
         encounterIsLoaded = false;
@@ -1126,8 +1124,6 @@ function search(key, showStatblock, optionalSearchString, ignoreSearchInput) {
       if (found == false) {
         //Recursively look through homebrew
         if (key == "monsters") {
-          return search("homebrew", showStatblock, searchstring, ignoreSearchInput);
-        } else if (key == "homebrew") {
           return search("encounters", showStatblock, searchstring, ignoreSearchInput);
         } else if (key == "tables") {
           return search("random_tables", showStatblock, searchstring, true);
