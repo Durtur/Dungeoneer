@@ -307,7 +307,7 @@ var effectManager = function () {
             effectObj.classes.forEach(effClass => newEffect.classList.add(effClass));
         }
         if (effectObj.filePaths && effectObj.filePaths.length > 0) {
-            var randEff = pickOne(effectObj.filePaths);
+            var randEff = effectObj.filePaths.pickOne();
             var sfxPath = pathModule.join(effectFilePath, randEff);
             if (isPreviewElement) {
                 selectedSfxBackground = "url('" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + "')";

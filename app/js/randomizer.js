@@ -22,7 +22,7 @@ var randomizer = function () {
         randomizerRaritySelect.classList.add("hidden");
         randomizerEncounterDangerSelect.classList.add("hidden");
         randomizerEncounterCreatureNumberSelect.classList.add("hidden");
-  
+
         if (searchSet.substring(0, 9) == "Encounter")
             return generateRandomEncounter(searchSet);
 
@@ -43,16 +43,16 @@ var randomizer = function () {
         var selectedNumber = randomizerEncounterCreatureNumberSelect.options[randomizerEncounterCreatureNumberSelect.selectedIndex].value;
         var difficulty = randomizerEncounterDangerSelect.options[randomizerEncounterDangerSelect.selectedIndex].value;
         if (difficulty == "any")
-            difficulty = pickOne([...randomizerEncounterDangerSelect.options].map(x => x.value).filter(x => x != "any"));
+            difficulty = [...randomizerEncounterDangerSelect.options].map(x => x.value).filter(x => x != "any").pickOne();
 
         if (selectedNumber == "any")
-            selectedNumber = pickOne([...randomizerEncounterCreatureNumberSelect.options].map(x => x.value).filter(x => x != "any"))
+            selectedNumber = [...randomizerEncounterCreatureNumberSelect.options].map(x => x.value).filter(x => x != "any").pickOne()
 
-        var encounterDescription = searchString.substring(0, searchString.indexOf(":")+2);
-        var searchSet = searchString.substring(searchString.indexOf(":")+2);
+        var encounterDescription = searchString.substring(0, searchString.indexOf(":") + 2);
+        var searchSet = searchString.substring(searchString.indexOf(":") + 2);
         var filterTypes = encounterDescription.indexOf("(type)") >= 0;
         var filterTags = encounterDescription.indexOf("(tag)") >= 0;
- 
+
         var monsterSet = null, monsterTags;
         var forcedType = null;
         if (userDefinedEncounterSets) {
@@ -61,7 +61,7 @@ var randomizer = function () {
 
         if (filterTypes)
             forcedType = searchSet != "Any" ? searchSet : null;
-        if(filterTags)
+        if (filterTags)
             monsterTags = searchSet;
 
         var pcLevels = [];
@@ -92,7 +92,7 @@ var randomizer = function () {
         });
     }
     function randomizeItems(searchSet) {
-    
+
         randomizerRaritySelect.classList.remove("hidden");
         var selectedRarity = randomizerRaritySelect.options[randomizerRaritySelect.selectedIndex].value;
         if (searchSet == "Scroll") {
@@ -288,14 +288,14 @@ var randomizer = function () {
                 dataAccess.getTags(tags => {
 
                     if (hbMonsters) monsters = monsters.concat(hbMonsters);
-                    
+
                     creatureTypeList = [];
                     monsters.forEach(mon => {
                         if (mon.type && creatureTypeList.indexOf(mon.type.toLowerCase().trim()) < 0) {
                             creatureTypeList.push(mon.type.toLowerCase().trim());
                         }
                     });
-                    tags.forEach(tag => {allValues.push("Encounter(tag): " + tag)});
+                    tags.forEach(tag => { allValues.push("Encounter(tag): " + tag) });
                     creatureTypeList = creatureTypeList.map(elem => elem.substring(0, 1).toUpperCase() + elem.substring(1));
                     creatureTypeList.forEach(type => {
                         allValues.push("Encounter(type): " + type);

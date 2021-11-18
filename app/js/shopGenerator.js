@@ -52,19 +52,19 @@ class ShopGenerator {
                 } else {
                     itemData = typeFilter(itemData, shopType)
                 }
-                //Velja nokkur scroll til að henda inn í  
+
             } else {
                 var currentScrollRarity;
 
                 for (var i = 0; i <= shopWealth; i++) {
                     currentScrollRarity = [];
                     for (var j = 0; j < scrollData.length; j++) {
-                        if (evaluateRarity(scrollData[j].rarity) == i) {
+                        if (cls.evaluateRarity(scrollData[j].rarity) == i) {
                             currentScrollRarity.push([scrollData[j].name, scrollData[j].rarity, scrollData[j].type, { description: scrollData[j].description }])
 
                         }
                     }
-                    var chosen = pickX(currentScrollRarity, shopSize * (d(2) - 1));
+                    var chosen = currentScrollRarity.pickX(shopSize * (d(2) - 1));
                     shopInventoryArray = shopInventoryArray.concat(chosen);
                 }
 
@@ -74,7 +74,7 @@ class ShopGenerator {
             for (var i = 0; i <= shopWealth; i++) {
                 currentRarity = [];
                 for (var j = 0; j < itemData.length; j++) {
-                    if (evaluateRarity(itemData[j].rarity) == i) {
+                    if (cls.evaluateRarity(itemData[j].rarity) == i) {
                         currentRarity.push([itemData[j].name, itemData[j].rarity, itemData[j].type,
                         {
                             description: itemData[j].description,
@@ -83,7 +83,7 @@ class ShopGenerator {
                     }
 
                 }
-                chosen = pickX(currentRarity, shopSize * d(4));
+                chosen = currentRarity.pickX(shopSize * d(4));
                 shopInventoryArray = shopInventoryArray.concat(chosen);
             }
 
@@ -111,12 +111,12 @@ class ShopGenerator {
             shopInventoryArray.forEach(function (subArray) {
                 shopInventory.Name.push(subArray[0])
                 shopInventory.Rarity.push(subArray[1]);
-                var price = randomizeItemPrice(subArray[1]); ///Finna viðeigandi randomized verð
+                var price = cls.randomizeItemPrice(subArray[1]); ///Finna viðeigandi randomized verð
                 if (subArray[2].toLowerCase() === "potion" || subArray[2].toLowerCase() === "scroll") {
                     price /= 2;
                 }
                 price *= shopPricing;
-                shopInventory.Price.push(makePrettyPriceString(price));
+                shopInventory.Price.push(cls.makePrettyPriceString(price));
             });
 
             cls.shopInventoryObject = shopInventory;
@@ -124,7 +124,33 @@ class ShopGenerator {
             if (generateDescription) cls.generateShopDescription(shopType, shopWealth, shopInventory.Price.length);
 
         });
+
+
+        function typeFilter(jsonObj, type) {
+
+            var results = [];
+            for (var i = 0; i < jsonObj.length; i++) {
+                if (typeof jsonObj[i].type != "string") continue;
+                if (jsonObj[i].type.toLowerCase() == type) {
+                    results.push(jsonObj[i]);
+                }
+            }
+            return results;
+        }
+
     }
+
+
+    makePrettyPriceString(str) {
+        return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " gp";
+    }
+    undoPrettyPriceString(str) {
+        str = str.substring(0, str.length - 3);
+        str = str.replace(/,/g, "");
+
+        return str;
+    }
+
 
     emptyAndCreateTable() {
         var shopInventory = this.shopInventoryObject;
@@ -148,6 +174,51 @@ class ShopGenerator {
             headers[i].addEventListener("click", this.sortByHeaderValue);
         }
     }
+
+
+    randomizeItemPrice(rarity) {
+        if (rarity == null) return 0;
+        rarity = rarity.toLowerCase();
+
+        switch (rarity) {
+            case "common":
+                return 10 * (d(6) + 1);
+            case "uncommon":
+                return d(6) * 100;
+            case "rare":
+                return 2 * d(10) * 1000;
+            case "very rare":
+                return (d(4) + 1) * 10000;
+            case "legendary":
+                return 2 * d(6) * 25000;
+            case "artifact":
+                return "Priceless";
+
+        }
+        return 0;
+    }
+    evaluateRarity(str) {
+        if (str == null) return -1;
+        str = str.toLowerCase();
+
+        switch (str) {
+            case "common":
+                return 0;
+            case "uncommon":
+                return 1
+            case "rare":
+                return 2;
+            case "very rare":
+                return 3;
+            case "legendary":
+                return 4;
+            case "artifact":
+                return 5;
+
+        }
+        return -1;
+    }
+
 
 
     sortByHeaderValue() {
@@ -222,22 +293,22 @@ class ShopGenerator {
         //staðsetning speisuð
         rand = Math.random();
         var creatureType = "humanoid";
-        var ownerGender = pickOne(["male", "female"]);
+        var ownerGender = ["male", "female"].pickOne();
         if (rand < fantasyProbability) {
             locationSet = data.shops.location_fantastic;
             var nameset;
-            creatureType = pickOne(["celestial", "fey", "aberration", "fiend", "humanoid"])
+            creatureType = ["celestial", "fey", "aberration", "fiend", "humanoid"].pickOne()
             if (creatureType === "humanoid") {
                 nameset = "anglo";
             } else {
                 nameset = creatureType;
             }
 
-            shopOwner = generateNPC(data, ownerGender, data.names[nameset], creatureType);
+            shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names[nameset], creatureType);
 
         } else {
             locationSet = data.shops.location;
-            shopOwner = generateNPC(data, ownerGender, data.names.anglo, "humanoid");
+            shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names.anglo, "humanoid");
         }
 
         var ownerLastName;
@@ -247,18 +318,19 @@ class ShopGenerator {
             ownerLastName = shopOwner.firstname;
         }
 
-
+ 
         var ownerName = randomIndex >= 1 ? shopOwner.firstname : ownerLastName;
+        console.log(shopOwner)
         var ending = "'s";
         if (ownerName.substring(ownerName.length - 1) === "s") ending = "'";
-        shopName = shopName.replace(/_typeboundname/g, pickOne(data.shops.names.typeboundname[shopType]));
-        shopName = shopName.replace(/_typebound/g, pickOne(data.shops.names.typebound[shopType]));
+        shopName = shopName.replace(/_typeboundname/g, data.shops.names.typeboundname[shopType].pickOne());
+        shopName = shopName.replace(/_typebound/g, data.shops.names.typebound[shopType].pickOne());
 
-        shopName = shopName.replace(/_wealthbound/g, pickOne(data.shops.names.wealthbound[shopWealth]));
+        shopName = shopName.replace(/_wealthbound/g, data.shops.names.wealthbound[shopWealth].pickOne());
         shopName = shopName.replace(/_name/g, ownerName + ending);
-        shopName = shopName.replace(/_adjective/g, pickOne(data.shops.names.adjective));
+        shopName = shopName.replace(/_adjective/g, data.shops.names.adjective.pickOne());
 
-        shopName = shopName.replace(/_wares/g, pickOne(data.shops.names.wares[shopType]));
+        shopName = shopName.replace(/_wares/g, data.shops.names.wares[shopType].pickOne());
         shopName = shopName.replace(/_surname/g, ownerLastName + ending);
 
         shopName = replacePlaceholders(shopName, null, data);
@@ -267,20 +339,19 @@ class ShopGenerator {
         headerBox.classList.remove("hidden");
         shopName = shopName.toProperCase();
 
-        var description = "<strong>" + shopName + "</strong>" + pickOne([" is located", " is situated", " can be found", " is placed "]) + pickOne(locationSet) + ". ";
-        description = description.replace(/_roominhouse/g, pickOne(data.roominhouse));
+        var description = "<strong>" + shopName + "</strong>" + [" is located", " is situated", " can be found", " is placed "].pickOne() + locationSet.pickOne() + ". ";
+        description = description.replace(/_roominhouse/g, data.roominhouse.pickOne());
         if (description.includes("!nointerior")) {
             description = description.replace(/!nointerior/g, "");
         } else {
-            description += "The interior of the shop is " + pickOne(descriptionSet) + ". "
-                + pickOne(clutterSet) + "."
-            description = description.replace(/_material/g, pickOne(data.material[shopWealth]));
-            description = description.replace(/_metal/g, pickOne(data.metals));
-            description = description.replace(/_element/g, pickOne(["earth", "fire", "water", "air"]));
-            description = description.replace(/_inventory/g, pickOne(["inventory is", "merchandise is", "stock is"]));
-            description = description.replace(/_inventorypl/g, pickOne(["wares are", "commodities are", "goods are"]));
-            description = description.replace(/_figures/g, pickOne(data.figures));
-            description = description.replace(/_color/g, pickOne(data.color));
+            description += "The interior of the shop is " + descriptionSet.pickOne() + ". "
+                + clutterSet.pickOne() + "."
+            description = description.replace(/_material/g, data.material[shopWealth].pickOne());
+            description = description.replace(/_metal/g, data.metals.pickOne());
+            description = description.replace(/_element/g, ["earth", "fire", "water", "air"].pickOne());
+            description = description.replace(/_inventory/g, ["inventory is", "merchandise is", "stock is"].pickOne());
+            description = description.replace(/_inventorypl/g, ["wares are", "commodities are", "goods are"].pickOne());
+
             if (shopWealth < 2 && inventorySize < 10) {
                 var waresString;
                 if (shopType === "potion") {

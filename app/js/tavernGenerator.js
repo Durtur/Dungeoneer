@@ -31,13 +31,13 @@ class TavernGenerator {
         tavernHeader.classList.remove("hidden");
         this.generateTavernRumorsAndMenu();
 
-        var description = "<strong>" + tavernName + "</strong>" + pickOne([" is located", " is situated", " can be found", " is placed "]) + " " + pickOne(data.tavern.locations) + ". ";
+        var description = "<strong>" + tavernName + "</strong>" + [" is located", " is situated", " can be found", " is placed "].pickOne() + " " + data.tavern.locations.pickOne() + ". ";
 
-        description += "The interior is " + pickOne(data.shops.interior.description[tavernWealth]) + " with a " + pickOne(data.tavern.flooring[tavernWealth]) + " floor.";
-        description += " The bar is " + pickOne(data.tavern.barstyle) + ". " + pickOne(["Round", "Square"]) + " tables are " + pickOne(data.tavern.table_setup) + ".";
+        description += "The interior is " + data.shops.interior.description[tavernWealth].pickOne() + " with a " + data.tavern.flooring[tavernWealth].pickOne() + " floor.";
+        description += " The bar is " + data.tavern.barstyle.pickOne() + ". " + ["Round", "Square"].pickOne() + " tables are " + data.tavern.table_setup.pickOne() + ".";
 
-        description += " " + pickOne(data.tavern.that_little_extra[tavernWealth]) + ".";
-        description = description.replace(/_material/g, pickOne(data.material[tavernWealth]));
+        description += " " + data.tavern.that_little_extra[tavernWealth].pickOne() + ".";
+        description = description.replace(/_material/g, data.material[tavernWealth].pickOne());
 
         description = replacePlaceholders(description, Math.random() > 0.5, data);
 
@@ -67,8 +67,9 @@ class TavernGenerator {
 
         var menuArray = data.tavern.menu[menuType];
         //cheaper =0 , more expensive = 1
-        var arr = [pickX(menuArray[tavernWealth][0], d(2)), pickX(menuArray[tavernWealth][1], d(2))];
-        var drinks = pickX(data.tavern.drinks[menuType][tavernWealth], d(4) + tavernWealth);
+        var arr = [menuArray[tavernWealth][0].pickX(d(2)), menuArray[tavernWealth][1].pickX(d(2))];
+        var drinks = data.tavern.drinks[menuType][tavernWealth].pickX(
+            d(4) + tavernWealth);
         var finalMenuArray = [];
         var pricesArray = [];
         var priceBase, coinString, dish, drink;
@@ -86,17 +87,17 @@ class TavernGenerator {
         for (var i = 1; i < 3; i++) {
             for (var j = 0; j < arr[i - 1].length; j++) {
                 dish = arr[i - 1][j];
-                vegetables = pickX(data.vegetables, 2)
-                exoticVegetables = pickX(data.exotic_vegetables, 2)
+                vegetables = data.vegetables.pickX(2)
+                exoticVegetables = data.exotic_vegetables.pickX(2)
 
                 dish = dish.replace(/_2vegetables/g, vegetables[0] + " and " + vegetables[1]);
                 dish = dish.replace(/_2exotic_vegetables/g, exoticVegetables[0] + " and " + exoticVegetables[1]);
-                dish = dish.replace(/_exotic_vegetables/g, pickOne(data.exotic_vegetables));
-                dish = dish.replace(/_vegetables/g, pickOne(data.vegetables));
-                dish = dish.replace(/_meat/g, pickOne(data.meat));
-                dish = dish.replace(/_exoticmeat/g, pickOne(data.exotic_meat));
-                dish = dish.replace(/_fish/g, pickOne(data.fish));
-                dish = dish.replace(/_dessert/g, pickOne(data.tavern.desserts));
+                dish = dish.replace(/_exotic_vegetables/g, data.exotic_vegetables.pickOne());
+                dish = dish.replace(/_vegetables/g, data.vegetables.pickOne());
+                dish = dish.replace(/_meat/g, data.meat.pickOne());
+                dish = dish.replace(/_exoticmeat/g, data.exotic_meat.pickOne());
+                dish = dish.replace(/_fish/g, data.fish.pickOne());
+                dish = dish.replace(/_dessert/g, data.tavern.desserts.pickOne());
                 dish = dish.toProperCase();
                 finalMenuArray.push(dish);
                 finalPrice = i * priceBase;
@@ -106,7 +107,7 @@ class TavernGenerator {
         //Drinks
         for (var i = 0; i < drinks.length; i++) {
             drink = drinks[i];
-            drink = drink.replace(/_brewer/g, pickOne(data.tavern.brewers));
+            drink = drink.replace(/_brewer/g, data.tavern.brewers.pickOne());
             pricesArray.push(this.convertAmountToHighestCurrency(priceBase, coinString));
             finalMenuArray.push(drink);
         }
@@ -145,7 +146,7 @@ class TavernGenerator {
                 currentRow.classList.add("rumor_row");
                 currentP.innerText = `"${rumorArray[i]}"`;
                 currentP.classList.add("rumor_row_rumor");
-                currentRumorMonger = generateNPC(data, pickOne(["male", "female"]), data.names.anglo, "humanoid")
+                currentRumorMonger = npcGenerator.generateNPC(data, ["male", "female"].pickOne(), data.names.anglo, "humanoid")
 
                 currentDescEle = document.createElement("p");
                 currentDescEle.classList.add("rumor_row_description");
@@ -162,38 +163,38 @@ class TavernGenerator {
         }
     }
     generateTavernName(data) {
-        var tavernName = pickOne(data.tavern.name.template);
-        var ownerGender = pickOne(["male", "female"]);
-        var tavernOwner = generateNPC(data, ownerGender, data.names["anglo"], "humanoid");
+        var tavernName = data.tavern.name.template.pickOne();
+        var ownerGender = ["male", "female"].pickOne();
+        var tavernOwner = npcGenerator.generateNPC(data, ownerGender, data.names["anglo"], "humanoid");
 
         var ending = "'s";
         if (tavernOwner.firstname.substring(tavernOwner.firstname.length - 1) === "s") ending = "'";
         tavernName = tavernName.replace(/_name/g, tavernOwner.firstname + ending);
-        tavernName = tavernName.replace(/_common_animal/g, pickOne(data.common_animal));
-        tavernName = tavernName.replace(/_adjective/g, pickOne(data.tavern.name.adjective));
-        tavernName = tavernName.replace(/_tavern/g, pickOne(data.tavern.name.tavern));
-        tavernName = tavernName.replace(/_profession/g, pickOne(data.tavern.name.profession));
-        tavernName = tavernName.replace(/_unique/g, pickOne(data.tavern.name.unique));
+        tavernName = tavernName.replace(/_common_animal/g, data.common_animal.pickOne());
+        tavernName = tavernName.replace(/_adjective/g, data.tavern.name.adjective.pickOne());
+        tavernName = tavernName.replace(/_tavern/g, data.tavern.name.tavern.pickOne());
+        tavernName = tavernName.replace(/_profession/g, data.tavern.name.profession.pickOne());
+        tavernName = tavernName.replace(/_unique/g, data.tavern.name.unique.pickOne());
         return { name: tavernName, owner: tavernOwner };
     }
     generateRumors(rumorAmount, data) {
-        var rumorArray = pickX(data.rumors, rumorAmount);
+        var rumorArray = data.rumors.pickX(rumorAmount);
         if (rumorAmount > data.rumors.length) rumorAmount = data.rumors.length;
         var rumor;
 
         for (var i = 0; i < rumorAmount; i++) {
             rumor = rumorArray[i];
-            rumor = rumor.replace(/_manwoman/g, pickOne(["man", "woman"]));
+            rumor = rumor.replace(/_manwoman/g, ["man", "woman"].pickOne());
             rumor = rumor.replace(/_tavernname/g, this.generateTavernName(data).name);
-            rumor = rumor.replace(/_noble/g, pickOne(data.noble));
-            rumor = rumor.replace(/_forest/g, pickOne(data.forests));
+            rumor = rumor.replace(/_noble/g, data.noble.pickOne());
+            rumor = rumor.replace(/_forest/g, data.forests.pickOne());
             rumor = replaceAll(rumor, "_creatures", data.creatures);
             rumor = replaceAll(rumor, "_monster", data.monsters);
             rumor = replaceAll(rumor, "_mountain", data.mountains);
             rumor = replaceAll(rumor, "_structure", data.structures);
             var allProfessions = [data.generated_creatures.humanoid.professions.common, data.generated_creatures.humanoid.professions.uncommon, data.generated_creatures.humanoid.professions.rare].flat();
 
-            rumor = rumor.replace(/_profession/g, pickOne(allProfessions).toLowerCase());
+            rumor = rumor.replace(/_profession/g, allProfessions.pickOne().toLowerCase());
 
 
             rumor = replaceAll(rumor, "_forest", data.forests);
@@ -201,7 +202,7 @@ class TavernGenerator {
             rumor = replaceAll(rumor, "_femalename", data.names.anglo.female);
             rumor = replaceAll(rumor, "_lastname", data.names.anglo.lastnames);
             rumor = replaceAll(rumor, "_locale", data.locales);
-            rumor = capitalizeAndDot(rumor);
+            rumor = rumor.capitalizeAndDot();
             rumorArray[i] = rumor;
 
         }

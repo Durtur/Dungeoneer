@@ -1058,8 +1058,8 @@ function getRandomEncounter() {
 
   encounterModule.getRandomEncounter(
     levels,
-    pickOne(["easy", "medium", "hard", "deadly", "2x deadly"]),
-    pickOne(["solitary", "squad", "mob"]),
+    ["easy", "medium", "hard", "deadly", "2x deadly"].pickOne(),
+    ["solitary", "squad", "mob"].pickOne(),
     allowedMonsters,
     null,
     null,

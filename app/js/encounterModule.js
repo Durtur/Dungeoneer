@@ -301,11 +301,11 @@ class EncounterModule {
     pickCreature(availablePool, monsterArray, pickedMonsters, allAvailableCrs, removeFromSet) {
         var highestAvailable = this.getOptimalCrForCreatureNumber(1, allAvailableCrs, availablePool);
         console.log("Highest available CR: ", encounterCalculatorTable.xpByCR[highestAvailable]);
-        var lietenantCreature = pickOne(monsterArray.filter(x => this.getXpValueForCR(x.challenge_rating) == encounterCalculatorTable.xpByCR[highestAvailable]));
-        if (lietenantCreature) {
-            if (removeFromSet) monsterArray = monsterArray.splice(monsterArray.indexOf(lietenantCreature), 1);
-            pickedMonsters.push(lietenantCreature);
-            return this.getXpValueForCR(lietenantCreature.challenge_rating);
+        var lieutenantCreature = monsterArray.filter(x => this.getXpValueForCR(x.challenge_rating) == encounterCalculatorTable.xpByCR[highestAvailable]).pickOne();
+        if (lieutenantCreature) {
+            if (removeFromSet) monsterArray = monsterArray.splice(monsterArray.indexOf(lieutenantCreature), 1);
+            pickedMonsters.push(lieutenantCreature);
+            return this.getXpValueForCR(lieutenantCreature.challenge_rating);
         }
         return 0;
     }

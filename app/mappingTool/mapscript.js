@@ -1711,7 +1711,7 @@ async function setPawnImageWithDefaultPath(pawnElement, path) {
     }
 
     if (possibleNames.length > 0) {
-        tokenPath = "url('" + pickOne(possibleNames).replace(/\\/g, "/") + "')";
+        tokenPath = "url('" + possibleNames.pickOne().replace(/\\/g, "/") + "')";
     } else {
         tokenPath = " url('mappingTool/tokens/default.png')";
     }

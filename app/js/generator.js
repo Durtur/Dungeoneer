@@ -6,7 +6,8 @@ const TavernGenerator = require("./js/tavernGenerator");
 const tavernGenerator = new TavernGenerator();
 const ShopGenerator = require("./js/shopGenerator");
 const shopGenerator = new ShopGenerator();
-
+const NpcGenerator = require("./js/npcGenerator");
+const npcGenerator = new NpcGenerator();
 var marked = require('marked');
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -76,13 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    document.getElementById("regenerate_name_button").addEventListener("click", function (e) {
-        rerollNpc("name");
-    });
 
-    document.getElementById("regenerate_creature_button").addEventListener("click", function (e) {
-        rerollNpc("creature");
-    });
     document.querySelector("#copyButton").addEventListener("click", function () {
         var npcString = document.querySelector("#generated_npc_name").innerHTML;
         npcString += "\n";
@@ -92,36 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
         clipboard.writeText(npcString)
     });
 
-    document.querySelector("#generate_npc_button").addEventListener("click", function () {
-        document.querySelector("#regenerate_name_button").classList.remove("hidden");
-        document.querySelector("#regenerate_creature_button").classList.remove("hidden");
 
-        var dropDownGender = document.querySelector("#choose_gender");
-        var dropDownType = document.querySelector("#choose_type_generated_creature");
-        var type = dropDownType.options[dropDownType.selectedIndex].value;
-        var gender = dropDownGender.options[dropDownGender.selectedIndex].value;
-        var dropDownSet = document.querySelector("#choose_nameset");
-        var set = dropDownSet.options[dropDownSet.selectedIndex].value;
-        dataAccess.getGeneratorData(function (data) {
-            var foundNameSet = null;
-    
-            for (var i = 0; i < Object.keys(Object.values(data)[0]).length; i++) {
-                if (set === Object.keys(Object.values(data)[0])[i]) {
-                    foundNameSet = Object.values(Object.values(data)[0])[i];
-                }
-            }
-            var generatedNameTextField = document.querySelector("#generated_npc_name");
-            var values = generateNPC(data, gender, foundNameSet, type)
-            generatedNameTextField.innerText = values.firstname + " " + values.lastname;
-            if (values.age)
-                values.profession += ` (${values.age})`;
-
-            document.querySelector("#generated_npc_profession").innerText = values.profession;
-            document.querySelector("#generated_npc_description").innerText = values.description;
-
-        });
-
-    });
 
     dataAccess.getMonsters(mData => {
         dataAccess.getHomebrewMonsters(hData => {
@@ -135,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var creatures = data.generated_creatures;
         var creatureTypes = Object.keys(creatures);
         tavernGenerator.initialize(data, document.querySelector("#taverns_section .genchooser_smaller"), document.querySelector("#taverns_section .genchooser_larger"));
-
+        npcGenerator.initialize(data, document.querySelector("#npc_section .genchooser_smaller"), document.querySelector("#npc_section .genchooser_larger"));
         shopGenerator.initialize(data, document.querySelector("#shops_section .genchooser_smaller"), document.querySelector("#shops_section .genchooser_larger"));
         updateCreatureTypeList(creatureTypes);
         updateCreatureNamesetsList(data.names)
@@ -343,57 +309,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-function rerollNpc(key) {
-  
-    var dropDownGender = document.querySelector("#choose_gender");
-    var dropDownType = document.querySelector("#choose_type_generated_creature");
-    var type = dropDownType.options[dropDownType.selectedIndex].value;
-    var gender = dropDownGender.options[dropDownGender.selectedIndex].value;
-    var dropDownSet = document.querySelector("#choose_nameset");
-    gender = gender == "any" ? pickOne(["male", "female"]) : gender;
-    var set = dropDownSet.options[dropDownSet.selectedIndex].value;
-    dataAccess.getGeneratorData(function (data) {
-        var foundNameSet = null;
-        //Finna valið nafnamengi
-        for (var i = 0; i < Object.keys(Object.values(data)[0]).length; i++) {
-            if (set === Object.keys(Object.values(data)[0])[i]) {
-                foundNameSet = Object.values(Object.values(data)[0])[i];
-            }
-        }
-        var generatedNameTextField = document.querySelector("#generated_npc_name");
-        if (key == "name") {
-         
-            var values = generateNPC(data, gender, foundNameSet, type)
-            replaceName(values);
-        } else if (key == "creature") {
-            var names = generatedNameTextField.innerHTML.split(" ");
-            if (names[1] == null) names[1] = "";
-            var values = generateNPC(data,gender, { male: [names[0]], lastnames: [names[1]], female: [names[0]], lastnames: [names[1]] }, type)
-            if (values.age)
-                values.profession += ` (${values.age})`;
-            replaceDescription(values);
-        }
-
-        function replaceDescription() {
-            document.querySelector("#generated_npc_profession").innerHTML = values.profession;
-            document.querySelector("#generated_npc_description").innerHTML = values.description;
-        }
-
-        function replaceName() {
-            var oldName = generatedNameTextField.innerHTML.split(" ")[0];
-
-            generatedNameTextField.innerHTML = values.firstname + " " + values.lastname;
-            if (oldName == "") return;
-            var descriptionEle = document.querySelector("#generated_npc_description");
-
-            descriptionEle.innerHTML = descriptionEle.innerHTML.replace(new RegExp(oldName, "g"), values.firstname)
-        }
-
-    });
-
-
-}
-
 var editingListAttribute = false;
 function createCreatureTreeList(object) {
     var cont = document.getElementById("creature_navigator");
@@ -489,7 +404,7 @@ function createCreatureTreeList(object) {
                 } else if (evt.keyCode == 13) {
                     if (evt.target.value != "") {
                         var parentList = input.closest(".treeview_nested");
-                     
+
                         window.setTimeout(() => {
                             editingListAttribute = false;
 
@@ -513,7 +428,7 @@ function createCreatureTreeList(object) {
             function doStopEditing(evt) {
                 editingListAttribute = false;
                 var oldText = evt.target.getAttribute("data-old_value");
-      
+
                 var text = evt.target.value;
                 var parent = evt.target.parentNode;
                 if (parent.contains(evt.target)) parent.removeChild(evt.target);
@@ -713,7 +628,7 @@ function refreshMonsterListInputs() {
         if (allInputValues.indexOf(awes.input.value) < 0)
             allInputValues.push(awes.input.value)
     });
-  
+
     encounterSetAwesompletes.forEach(awes => {
         allInputValues.forEach(value => {
             if (awes._list.indexOf(value) >= 0) {
@@ -746,7 +661,7 @@ function deleteEncounterSet() {
     dataAccess.getRandomTables(function (data) {
         var obj = data;
         data = obj.encounter_sets;
-  
+
         if (data[encounterSetName] == null) return;
         var response = dialog.showMessageBox(
             remote.getCurrentWindow(),
@@ -763,7 +678,7 @@ function deleteEncounterSet() {
         encounterSetName = unSerialize(encounterSetName);
         obj.encounter_sets = data;
         dataAccess.setRandomTables(obj, function (data) {
- 
+
             if (encounterSetAwesomplete._list.indexOf(encounterSetName) > 0)
                 encounterSetAwesomplete._list.splice(encounterSetAwesomplete._list.indexOf(encounterSetName), 1)
             clearRandomTableContainer();
@@ -811,7 +726,7 @@ function saveEncounterSet() {
                 return;
             }
             document.getElementById("delete_encounter_set_button").classList.remove("hidden");
-      
+
             $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
             document.getElementById("encounter_set_name_input").value = "";
             clearRandomTableContainer();
@@ -866,11 +781,11 @@ function dumpCreateTable(evt) {
         function createProbabilityFromTableString(probString, fallback) {
             var values = probString.split(/[+|-]+/);
             var finalValue;
-   
+
             if (values.length > 1) {
                 var higherNumber = Math.max(parseInt(values[0]), parseInt(values[1]));
                 var lowerNumber = Math.min(parseInt(values[0]), parseInt(values[1]));
-         
+
                 finalValue = higherNumber - lowerNumber;
                 if (isNaN(finalValue))
                     return fallback;
@@ -966,7 +881,7 @@ function deleteRandomTable() {
     dataAccess.getRandomTables(function (data) {
         var obj = data;
         data = obj.tables;
-    
+
         if (!data || data[tblName] == null) return;
         var response = dialog.showMessageBoxSync(
             remote.getCurrentWindow(),
@@ -977,15 +892,15 @@ function deleteRandomTable() {
                 message: "Do you wish to delete table " + input.value + " ?"
             }
         );
-  
+
         if (response != 0)
             return;
-    
+
         delete data[tblName];
 
         obj.tables = data;
         dataAccess.setRandomTables(obj, function (data) {
- 
+
             if (randomTableNames.indexOf(input.value) < 0) {
                 randomTableNames.splice(randomTableNames.indexOf(input.value), 1);
             }
@@ -1040,7 +955,7 @@ function saveRandomTable() {
         if (data == null) data = {};
         data[tblName] = arr;
         obj.tables = data;
-  
+
         dataAccess.setRandomTables(obj, function (data, err) {
             if (err) {
                 $('#save_failed').fadeIn("fast").delay(2500).fadeOut("slow");
@@ -1114,156 +1029,23 @@ function addRandomTableRow() {
     var row = document.createElement("tr");
     for (var i = 0; i < 3; i++) {
         var td = document.createElement("td");
-        td.setAttribute("contenteditable","true");
+        td.setAttribute("contenteditable", "true");
 
         row.appendChild(td);
-        
+
     }
     var td = document.createElement("td");
-    td.setAttribute("contenteditable","true");
+    td.setAttribute("contenteditable", "true");
     var tdInput = document.createElement("input");
     tdInput.classList = "random_table_followup_input";
     td.appendChild(tdInput);
     createTableNameAwesomeplete(tdInput);
-    
+
     row.appendChild(td)
     randomizeTable.getElementsByTagName("tbody")[0].appendChild(row);
 }
 
-function generateNPC(data, gender, foundNameSet, creatureType) {
 
-    var genderHeShe, subset;
-    var npcValues = {};
-    if (gender == "any") gender = pickOne(["male", "female"])
-    if (gender == "male") {
-        subset = foundNameSet.male;
-
-        genderHeShe = "he";
-
-    } else {
-        subset = foundNameSet.female;
-        genderPosessive = "her";
-        genderAbout = "her";
-        genderHeShe = "she";
-        genderManWoman = "woman";
-    }
-
-
-    npcValues.firstname = pickOne(subset);
-    npcValues.lastname = pickOne(foundNameSet.lastnames)
-
-
-    //profession
-    var likely, midlikely, selectedProfessionSet;
-    likely = 65;
-    midlikely = 93;
-
-    var creatureSet = data.generated_creatures[creatureType];
-    var randomIndex = Math.ceil(Math.random() * 100);
-    if (randomIndex < likely) {
-        selectedProfessionSet = creatureSet.professions.common;
-    } else if (randomIndex < midlikely) {
-        selectedProfessionSet = creatureSet.professions.uncommon;
-    } else {
-        selectedProfessionSet = creatureSet.professions.rare;
-    }
-    var joblessString = "", connectionString;
-    if (creatureType === "humanoid") {
-        var jobless = Math.random() * 100;
-        if (jobless > 98) joblessString = "Unemployed ";
-        connectionString = ", and ";
-
-    } else {
-        connectionString = ". " + genderHeShe.charAt(0).toUpperCase() + genderHeShe.slice(1) + " ";
-    }
-    npcValues.profession = joblessString + pickOne(selectedProfessionSet);
-
-    if (creatureSet.population_data) {
-        var popData = creatureSet.population_data;
-        var age = mathyUtil.getNormallyDistributedNum(popData.mean, popData.STD);
-        if (popData.min && age < popData.min)
-            age = popData.min;
-        age = Math.round(age);
-        npcValues.age = age;
-    }
-
-    npcValues.description = " " + pickOne(creatureSet.traits) + ". " + genderHeShe.charAt(0).toUpperCase() +
-        genderHeShe.slice(1) + " has a " + pickOne(creatureSet.appearance.face_shape) + ", " + pickOne(creatureSet.appearance.face_aesthetics) + " face"
-        + connectionString + pickOne(creatureSet.appearance.build) + ". " +
-        npcValues.firstname + " " + pickOne(creatureSet.hooks) + ".";
-
-
-
-    npcValues.description = replacePlaceholders(npcValues.description, gender == "male", data);
-
-    npcValues.shopKeepDescription = npcValues.description + " " + npcValues.firstname + " " + pickOne(data.shops.owner_attitude) + " towards customers.";
-    npcValues.tavernKeepDescription = npcValues.description;
-    npcValues.description = npcValues.firstname + npcValues.description;
-
-
-    return npcValues;
-}
-
-function replacePlaceholders(string, isMale, data) {
-    if (!string) return;
-    console.log(isMale)
-    replacementValues.forEach(replacement => {
-        var replWith = replacement.replace_with;
-
-        if (Array.isArray(replWith)) {
-            string = replaceAll(string, replacement.value, replWith);
-        } else if (typeof replWith == "string") {
-            if (isArrayReference(replWith)) {
-                replWith = replWith.substring(6);
-                var split = replWith.split(".");
-                var replacementValue;
-                split.forEach(splitV => { replacementValue = data[splitV] })
-
-                if (replacementValue == null) return;
-                string = replaceAll(string, replacement.value, replacementValue);
-            }
-        } else if (typeof replWith == "object") {
-
-            if (isMale != null && replWith.male && replWith.female) {
-                console.log(replWith.male);
-                var replacementArr = isMale ? replWith.male : replWith.female;
-                console.log(replacementArr, replacementArr[0].split("."))
-                if (replacementArr[0] && isArrayReference(replacementArr[0]))
-                    replacementArr = data[replacementArr[0].split(".")[1]];
-                string = replaceAll(string, replacement.value, replacementArr);
-            }
-        }
-    });
-
-    return string;
-}
-function isArrayReference(string) {
-    return string.substring(0, 5) == "$this";
-}
-
-function capitalizeAndDot(string) {
-    string = string.substring(0, 1).toUpperCase() + string.substring(1) + ".";
-    return string;
-}
-function replaceAll(string, replacementString, replaceArray) {
-    while (string.indexOf(replacementString) > -1) {
-        string = string.replace(replacementString, pickOne(replaceArray));
-    }
-    return string;
-
-}
-
-function typeFilter(jsonObj, type) {
-    console.log("filtering " + type)
-    var results = [];
-    for (var i = 0; i < jsonObj.length; i++) {
-        if (typeof jsonObj[i].type != "string") continue;
-        if (jsonObj[i].type.toLowerCase() == type) {
-            results.push(jsonObj[i]);
-        }
-    }
-    return results;
-}
 
 
 
@@ -1296,7 +1078,7 @@ function setTab(x) {
     var tabs = document.getElementsByClassName("tab");
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].classList.remove("toggle_button_toggled");
-        var currentSection = document.querySelector("#" +tabs[i].getAttribute("data-section_id") + "_section")
+        var currentSection = document.querySelector("#" + tabs[i].getAttribute("data-section_id") + "_section")
         currentSection.classList.add("hidden");
     }
 
@@ -1319,99 +1101,50 @@ function populateGenerationSetMenu() {
 }
 
 
-function makePrettyPriceString(str) {
-    return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " gp";
-}
-function undoPrettyPriceString(str) {
-    str = str.substring(0, str.length - 3);
-    str = str.replace(/,/g, "");
+function replacePlaceholders(string, isMale, data) {
+    if (!string) return;
 
-    return str;
-}
+    data.replacement_values.forEach(replacement => {
+        var replWith = replacement.replace_with;
 
+        if (Array.isArray(replWith)) {
+            string = replaceAll(string, replacement.value, replWith);
+        } else if (typeof replWith == "string") {
+            if (isArrayReference(replWith)) {
+                replWith = replWith.substring(6);
+                var split = replWith.split(".");
+                var replacementValue;
+                split.forEach(splitV => { replacementValue = data[splitV] })
 
+                if (replacementValue == null) return;
+                string = replaceAll(string, replacement.value, replacementValue);
+            }
+        } else if (typeof replWith == "object") {
 
-function generateHook(iterations) {
+            if (isMale != null && replWith.male && replWith.female) {
 
-    dataAccess.getGeneratorHookData(function (data) {
-        var route = pickX(data.routes, iterations);
-        var message = "";
-        for (var i = 0; i < route.length; i++) {
-            message += pickOne(data.messageFromHal[route[i]]);
+                var replacementArr = isMale ? replWith.male : replWith.female;
+                if (replacementArr[0] && isArrayReference(replacementArr[0]))
+                    replacementArr = data[replacementArr[0].split(".")[1]];
+                string = replaceAll(string, replacement.value, replacementArr);
+            }
         }
-        message += ".";
-
-        return message;
-
     });
-}
-
-function pickOne(arr) {
-    if (arr == null) return null;
-    var randomIndex = Math.floor(Math.random() * arr.length);
-
-    return arr[randomIndex];
-}
-
-function pickX(arr, num) {
-    if (arr.length <= num) return arr;
-    var picked = [];
-    var results = [];
-    var randomIndex;
-    for (var i = 0; i < num; i++) {
-        randomIndex = Math.floor(Math.random() * arr.length);
-        while (picked.includes(randomIndex)) {
-            randomIndex = Math.floor(Math.random() * arr.length);
-        }
-        results.push(arr[randomIndex]);
-        picked.push(randomIndex);
+    return string;
+    function isArrayReference(string) {
+        return string.substring(0, 5) == "$this";
     }
 
-    return results;
+
+
+
 }
-
-
-function randomizeItemPrice(rarity) {
-    if (rarity == null) return 0;
-    rarity = rarity.toLowerCase();
-
-    switch (rarity) {
-        case "common":
-            return 10 * (d(6) + 1);
-        case "uncommon":
-            return d(6) * 100;
-        case "rare":
-            return 2 * d(10) * 1000;
-        case "very rare":
-            return (d(4) + 1) * 10000;
-        case "legendary":
-            return 2 * d(6) * 25000;
-        case "artifact":
-            return "Priceless";
-
+function replaceAll(string, replacementString, replaceArray) {
+    while (string.indexOf(replacementString) > -1) {
+        string = string.replace(replacementString, replaceArray.pickOne());
     }
-    return 0;
-}
-function evaluateRarity(str) {
-    if (str == null) return -1;
-    str = str.toLowerCase();
+    return string;
 
-    switch (str) {
-        case "common":
-            return 0;
-        case "uncommon":
-            return 1
-        case "rare":
-            return 2;
-        case "very rare":
-            return 3;
-        case "legendary":
-            return 4;
-        case "artifact":
-            return 5;
-
-    }
-    return -1;
 }
 
 function updateScrollList() {

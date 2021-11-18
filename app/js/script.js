@@ -1500,7 +1500,7 @@ function changePartyHandler(evt) {
 function getRandomTableEntry(event) {
   [...document.getElementsByClassName("randomly_chosen_table_row")].forEach(row => row.classList.remove("randomly_chosen_table_row"));
   var allRows = document.getElementById("statblock").querySelectorAll("tbody>tr");
-  pickOne(allRows).classList.add("randomly_chosen_table_row");
+  allRows.pickOne().classList.add("randomly_chosen_table_row");
   $(".main_content_wrapper").animate({
     scrollTop: $(".randomly_chosen_table_row").offset().top - 20
   }, 600);

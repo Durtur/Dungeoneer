@@ -1,6 +1,6 @@
 
 const constants = require("./js/dataaccess").getConstantsSync();
-constants.imgFilters = ["png", "gif","jpg", "jpeg", "webp", "avif"];
+constants.imgFilters = ["png", "gif", "jpg", "jpeg", "webp", "avif"];
 const remoteModule = require("electron").remote;
 //const generatorResourcePath = "./resources/app/app/generators/";
 
@@ -16,7 +16,7 @@ const settingsPath="./resources/app/app/settings/";
 
 function checkIfImageExists(imageSrc, exists, doesNotExist) {
   var img = new Image();
-  img.onload = good; 
+  img.onload = good;
   img.onerror = bad;
   img.src = imageSrc;
 }
@@ -37,53 +37,35 @@ function dice(sides, times) {
 document.addEventListener("DOMContentLoaded", function () {
 
   var tbText = document.getElementById("title_bar_text");
-  if(tbText && app)
+  if (tbText && app)
     tbText.innerHTML = "Version " + app.getVersion();
 });
 /*Henda þessu siðan */
 window.addEventListener('mousedown', (e) => {
   if (e.ctrlKey && e.button == 1)
-  remoteModule.getCurrentWindow().inspectElement(e.clientX, e.clientY);
+    remoteModule.getCurrentWindow().inspectElement(e.clientX, e.clientY);
 
 }, false)
 
-function pickOne(arr) {
-  return pickX(arr, 1)[0];
-}
-function pickX(arr, num) {
-  if (arr.length <= num) return arr;
-  var picked = [];
-  var results = [];
-  var randomIndex;
-  for (var i = 0; i < num; i++) {
-    randomIndex = Math.floor(Math.random() * arr.length);
-    while (picked.includes(randomIndex)) {
-      randomIndex = Math.floor(Math.random() * arr.length);
-    }
-    results.push(arr[randomIndex]);
-    picked.push(randomIndex);
-  }
 
-  return results;
-}
 
 function lightenColor(colorString) {
   var csColors, startIndex;
 
   if (colorString.substring(0, 4) == "rgba") {
-      startIndex = 5;
+    startIndex = 5;
   } else if (colorString.substring(0, 3) == "rgb") {
-      startIndex = 4;
+    startIndex = 4;
   }
   if (startIndex == null)
-      return colorString;
+    return colorString;
   csColors = colorString.substring(startIndex, colorString.length - 1).split(",");
   for (var i = 0; i < csColors.length; i++) {
-      var colorValue = parseInt(csColors[i]);
-      colorValue += 20;
-      if (colorValue > 256)
-          colorValue = 256;
-      csColors[i] = colorValue;
+    var colorValue = parseInt(csColors[i]);
+    colorValue += 20;
+    if (colorValue > 256)
+      colorValue = 256;
+    csColors[i] = colorValue;
   }
 
   return "rgba(" + csColors.join(",") + ",0.6)";
@@ -116,6 +98,31 @@ function serialize(string) {
 }
 
 
+Array.prototype.pickOne = function () {
+  return this.pickX(1)[0];
+}
+
+Array.prototype.pickX = function (num) {
+  if (this.length <= num) return this;
+  var picked = [];
+  var results = [];
+  var randomIndex;
+  for (var i = 0; i < num; i++) {
+    randomIndex = Math.floor(Math.random() * this.length);
+    while (picked.includes(randomIndex)) {
+      randomIndex = Math.floor(Math.random() * this.length);
+    }
+    results.push(this[randomIndex]);
+    picked.push(randomIndex);
+  }
+
+  return results;
+}
+
+
+String.prototype.capitalizeAndDot = function () {
+  return this.toProperCase() + ".";;
+}
 String.prototype.serialize = function () {
   return this.replace(/ /g, "_").toLowerCase();
 };
@@ -125,7 +132,7 @@ String.prototype.deserialize = function () {
 };
 
 String.prototype.toProperCase = function () {
-  return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+  return this.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
 };
 
 function isNumber(char) {
@@ -140,9 +147,9 @@ function loadDefaultSettings() {
     "countRounds": true,
     "maxAutoLoads": "80",
     "maptool": {
-      "defaultMonsterTokenRotate":"90",
-      "defaultPlayerTokenRotate":"-90",
-      "matchSizeWithFileName":false,
+      "defaultMonsterTokenRotate": "90",
+      "defaultPlayerTokenRotate": "-90",
+      "matchSizeWithFileName": false,
       "transparentWindow": false,
       "snapToGrid": true,
       "enableGrid": true,
@@ -166,7 +173,8 @@ function loadDefaultSettings() {
       "diceRoller": true,
       "saveRoller": true,
       "mobController": false,
-    }}
+    }
+  }
 }
 
 const currencies = constants.currencies;
