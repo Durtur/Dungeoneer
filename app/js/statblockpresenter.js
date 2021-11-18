@@ -1,4 +1,5 @@
 const TokenSelector = require("./tokenSelector");
+const ElementCreator = require("./lib/elementCreator");
 const marked = require("marked");
 
 //If required and defined in main script
@@ -145,7 +146,7 @@ class StatblockPresenter {
 
     function addTable() {
       if (!statblock_table) return;
-      var table = generateHTMLTable(statblock_table);
+      var table = ElementCreator.generateHTMLTable(statblock_table);
       [...table.querySelectorAll("td")].forEach(x => x.innerHTML = marked(x.innerHTML));
       statblock.append(table);
     }

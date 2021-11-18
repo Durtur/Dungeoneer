@@ -2,9 +2,10 @@ const dataAccess = require("./js/dataaccess");
 const mathyUtil = require("./js/mathyUtil")
 const remote = require('electron').remote;
 const dialog = require('electron').remote.dialog;
-
-
-
+const TavernGenerator = require("./js/tavernGenerator");
+const tavernGenerator = new TavernGenerator();
+const ShopGenerator = require("./js/shopGenerator");
+const shopGenerator = new ShopGenerator();
 
 var marked = require('marked');
 marked.setOptions({
@@ -72,15 +73,9 @@ document.addEventListener("DOMContentLoaded", function () {
     updateEncounterSetNames();
 
     // concatDescriptionArrays();
-    document.getElementById("reroll_tavern_button").addEventListener("click", function (evnt) {
-        dataAccess.getGeneratorData(function (data) {
-            generateTavernRumorsAndMenu(data);
-        });
-    });
 
-    document.getElementById("reroll_shop_button").addEventListener("click", function (devt) {
-        dataAccess.getItems(data => generateShop(data, false));
-    });
+
+
     document.getElementById("regenerate_name_button").addEventListener("click", function (e) {
         rerollNpc("name");
     });
@@ -109,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
         var set = dropDownSet.options[dropDownSet.selectedIndex].value;
         dataAccess.getGeneratorData(function (data) {
             var foundNameSet = null;
-            //Finna valið nafnamengi
+    
             for (var i = 0; i < Object.keys(Object.values(data)[0]).length; i++) {
                 if (set === Object.keys(Object.values(data)[0])[i]) {
                     foundNameSet = Object.values(Object.values(data)[0])[i];
@@ -128,13 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-    document.querySelector("#generate_shop_button").addEventListener("click", function () {
-        dataAccess.getItems(function (data) {
-            document.getElementById("reroll_shop_button").classList.remove("hidden");
-            generateShop(data, true);
-        });
-
-    });
     dataAccess.getMonsters(mData => {
         dataAccess.getHomebrewMonsters(hData => {
             mData.forEach(mon => listOfAllMonsters.push(mon.name));
@@ -144,10 +132,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     dataAccess.getGeneratorData(function (data) {
         replacementValues = data.replacement_values;
-
         var creatures = data.generated_creatures;
         var creatureTypes = Object.keys(creatures);
+        tavernGenerator.initialize(data, document.querySelector("#taverns_section .genchooser_smaller"), document.querySelector("#taverns_section .genchooser_larger"));
 
+        shopGenerator.initialize(data, document.querySelector("#shops_section .genchooser_smaller"), document.querySelector("#shops_section .genchooser_larger"));
         updateCreatureTypeList(creatureTypes);
         updateCreatureNamesetsList(data.names)
         populateCreatureTypeSelect(creatureTypes);
@@ -564,130 +553,6 @@ function createCreatureTreeList(object) {
 }
 
 
-function generateShop(data, generateDescription) {
-    var shopWealthDropdown = document.querySelector("#shop_wealth");
-    var shopWealth = shopWealthDropdown.selectedIndex;
-    var shopTypeDropdown = document.querySelector("#shop_type");
-    var shopType = shopTypeDropdown.options[shopTypeDropdown.selectedIndex].value;
-    var shopSizeDropdown = document.querySelector("#shop_size");
-    var shopSize = shopSizeDropdown.selectedIndex;
-    shopSize++;
-    var shopPricingDropdown = document.querySelector("#shop_pricing");
-    var shopPricing = shopPricingDropdown.options[shopPricingDropdown.selectedIndex].value;
-    shopPricing = parseFloat(shopPricing);
-    var currentRarity;
-
-    var shopInventoryArray = [];
-    tooltipsForTable = [];
-    var shopInventory = {};
-    shopInventory.Name = [];
-    shopInventory.Rarity = [];
-    shopInventory.Price = [];
-    dataAccess.getScrolls(function (scrollData) {
-        if (shopType.toLowerCase() != "general") {
-            if (shopType === "scroll") {
-                data = scrollData;
-            } else {
-                data = typeFilter(data, shopType)
-            }
-            //Velja nokkur scroll til að henda inn í  
-        } else {
-            var currentScrollRarity;
-
-            for (var i = 0; i <= shopWealth; i++) {
-                currentScrollRarity = [];
-                for (var j = 0; j < scrollData.length; j++) {
-                    if (evaluateRarity(scrollData[j].rarity) == i) {
-                        currentScrollRarity.push([scrollData[j].name, scrollData[j].rarity, scrollData[j].type, { description: scrollData[j].description }])
-
-                    }
-                }
-                var chosen = pickX(currentScrollRarity, shopSize * (d(2) - 1));
-                shopInventoryArray = shopInventoryArray.concat(chosen);
-            }
-
-
-
-        }
-        for (var i = 0; i <= shopWealth; i++) {
-            currentRarity = [];
-            for (var j = 0; j < data.length; j++) {
-                if (evaluateRarity(data[j].rarity) == i) {
-                    currentRarity.push([data[j].name, data[j].rarity, data[j].type,
-                    {
-                        description: data[j].description,
-                        attunement: (data[j].requires_attunement ? `(requires attunement${data[j].requires_attunement_by ? " " + data[j].requires_attunement_by : ""})` : "")
-                    }])
-                }
-
-            }
-            chosen = pickX(currentRarity, shopSize * d(4));
-            shopInventoryArray = shopInventoryArray.concat(chosen);
-        }
-
-        shopInventoryArray.sort(function (a, b) {
-
-            if (a[0] < b[0]) return -1;
-            if (a[0] > b[0]) return 1;
-            return 0;
-        });
-        var str;
-
-        for (var i = 0; i < shopInventoryArray.length; i++) {
-
-            str = shopInventoryArray[i][3];
-            if (str.length > 1200) {
-                str = str.substring(0, 1200);
-                str = str.substring(0, str.lastIndexOf(" ")) + " ...";
-            }
-
-            // tooltipsForTable.push(str.replace(/(\*\* || \*\*\* )/g, ""));
-            var tooltip = str.attunement ? `-- ${str.attunement} -- \n\n ${str.description.replace(/\*/g, " -- ")}` : str.description.replace(/\*/g, " -- ");
-            tooltipsForTable.push(tooltip);
-            shopInventoryArray[i].splice(3, 1);
-        }
-
-        shopInventoryArray.forEach(function (subArray) {
-            shopInventory.Name.push(subArray[0])
-            shopInventory.Rarity.push(subArray[1]);
-            var price = randomizeItemPrice(subArray[1]); ///Finna viðeigandi randomized verð
-            if (subArray[2].toLowerCase() === "potion" || subArray[2].toLowerCase() === "scroll") {
-                price /= 2;
-            }
-            price *= shopPricing;
-            shopInventory.Price.push(makePrettyPriceString(price));
-        });
-
-        shopInventoryObject = shopInventory;
-        emptyAndCreateTable();
-        if (generateDescription) generateShopDescription(shopType, shopWealth, shopInventory.Price.length);
-
-    });
-}
-var shopInventoryObject;
-var tooltipsForTable;
-function emptyAndCreateTable() {
-    var shopInventory = shopInventoryObject;
-    var table = generateHTMLTable(shopInventory);
-    var nameFields = table.querySelectorAll("td:first-of-type");
-    for (var i = 0; i < nameFields.length; i++) {
-        nameFields[i].classList.add("tooltipped", "tooltipped_large");
-        nameFields[i].setAttribute("data-tooltip", tooltipsForTable[i])
-    }
-    var tableContainer = document.querySelector("#shop_generator_table");
-    while (tableContainer.firstChild) {
-        tableContainer.removeChild(tableContainer.firstChild);
-    }
-    tableContainer.setAttribute("data-shop_inventory", JSON.stringify(shopInventory));
-    tableContainer.appendChild(table)
-
-
-
-    var headers = document.querySelectorAll("th");
-    for (var i = 0; i < headers.length; i++) {
-        headers[i].addEventListener("click", sortByHeaderValue);
-    }
-}
 
 var randomTableNames;
 function updateRandomTableNames() {
@@ -1265,14 +1130,6 @@ function addRandomTableRow() {
     randomizeTable.getElementsByTagName("tbody")[0].appendChild(row);
 }
 
-/* #endregion random tables */
-/**
- * 
- * @param {*} data Allt data klabbið
- * @param {*} gender "male" eða "female"
- * @param {*} foundNameSet Nafnasettið, t.d. "anglo" nöfn
- * @param {*} creatrueType Hvort um sé að ræða celestial, humanoid eða annað slíkt
- */
 function generateNPC(data, gender, foundNameSet, creatureType) {
 
     var genderHeShe, subset;
@@ -1383,205 +1240,6 @@ function replacePlaceholders(string, isMale, data) {
 function isArrayReference(string) {
     return string.substring(0, 5) == "$this";
 }
-function generateTavern() {
-    dataAccess.getGeneratorData(function (data) {
-        document.getElementById("reroll_tavern_button").classList.remove("hidden");
-        var tavernWealthDropdown = document.querySelector("#tavern_wealth");
-        var tavernWealth = tavernWealthDropdown.options[tavernWealthDropdown.selectedIndex].value;
-        var tavernDescription = "";
-
-        var ownerAndNameobj = generateTavernName(data)
-        var tavernName = ownerAndNameobj.name;
-        var tavernOwner = ownerAndNameobj.owner;
-
-        var tavernHeader = document.querySelector("#tavern_name");
-        tavernHeader.innerText = tavernName;
-
-        tavernHeader.classList.remove("hidden");
-        generateTavernRumorsAndMenu(data);
-    
-        var description = "<strong>" + tavernName + "</strong>" + pickOne([" is located", " is situated", " can be found", " is placed "]) + " " + pickOne(data.tavern.locations) + ". ";
-
-        description += "The interior is " + pickOne(data.shops.interior.description[tavernWealth]) + " with a " + pickOne(data.tavern.flooring[tavernWealth]) + " floor.";
-        description += " The bar is " + pickOne(data.tavern.barstyle) + ". " + pickOne(["Round", "Square"]) + " tables are " + pickOne(data.tavern.table_setup) + ".";
-
-        description += " " + pickOne(data.tavern.that_little_extra[tavernWealth]) + ".";
-        description = description.replace(/_material/g, pickOne(data.material[tavernWealth]));
-
-        description = replacePlaceholders(description, Math.random() > 0.5, data);
-
-
-        var ownerName = tavernOwner.lastname;
-        if (ownerName != "" && ownerName != null) ownerName = " " + ownerName;
-        description += "<br><br>The owner, " + tavernOwner.firstname + (ownerName || "") + "," + tavernOwner.tavernKeepDescription;
-
-        document.getElementById("tavern_description").innerHTML = description;
-
-
-    });
-
-
-}
-
-function generateTavernRumorsAndMenu(data) {
-    var menuTable = {};
-
-    var tavernPriceDropdown = document.querySelector("#tavern_pricing");
-    var tavernWealthDropdown = document.querySelector("#tavern_wealth");
-    var rumorDropdown = document.querySelector("#tavern_rumours");
-    var tavernMenuTypeDropdown = document.querySelector("#tavern_menu");
-
-    var menuType = tavernMenuTypeDropdown.options[tavernMenuTypeDropdown.selectedIndex].value;
-    var rumourCount = rumorDropdown.options[rumorDropdown.selectedIndex].value;
-    var tavernWealth = tavernWealthDropdown.options[tavernWealthDropdown.selectedIndex].value;
-    var tavernPrice = tavernPriceDropdown.options[tavernPriceDropdown.selectedIndex].value;
-
-    var menuArray = data.tavern.menu[menuType];
-    //cheaper =0 , more expensive = 1
-    var arr = [pickX(menuArray[tavernWealth][0], d(2)), pickX(menuArray[tavernWealth][1], d(2))];
-    var drinks = pickX(data.tavern.drinks[menuType][tavernWealth], d(4) + tavernWealth);
-    var finalMenuArray = [];
-    var pricesArray = [];
-    var priceBase, coinString, dish, drink;
-    var tavernEconomyArray = [
-        [d(4), "cp"],
-        [d(3), "sp"],
-        [d(10), "sp"],
-        [d(6), "gp"]
-    ]
-    priceBase = tavernEconomyArray[tavernWealth][0];
-    priceBase *= tavernPrice;
-    coinString = tavernEconomyArray[tavernWealth][1];
-    var vegetables, exoticVegetables, finalPrice, finalPriceString;
-    //Food
-    for (var i = 1; i < 3; i++) {
-        for (var j = 0; j < arr[i - 1].length; j++) {
-            dish = arr[i - 1][j];
-            vegetables = pickX(data.vegetables, 2)
-            exoticVegetables = pickX(data.exotic_vegetables, 2)
-
-            dish = dish.replace(/_2vegetables/g, vegetables[0] + " and " + vegetables[1]);
-            dish = dish.replace(/_2exotic_vegetables/g, exoticVegetables[0] + " and " + exoticVegetables[1]);
-            dish = dish.replace(/_exotic_vegetables/g, pickOne(data.exotic_vegetables));
-            dish = dish.replace(/_vegetables/g, pickOne(data.vegetables));
-            dish = dish.replace(/_meat/g, pickOne(data.meat));
-            dish = dish.replace(/_exoticmeat/g, pickOne(data.exotic_meat));
-            dish = dish.replace(/_fish/g, pickOne(data.fish));
-            dish = dish.replace(/_dessert/g, pickOne(data.tavern.desserts));
-            dish = dish.toProperCase();
-            finalMenuArray.push(dish);
-            finalPrice = i * priceBase;
-            pricesArray.push(convertAmountToHighestCurrencty(finalPrice, coinString));
-        }
-    }
-    //Drinks
-    for (var i = 0; i < drinks.length; i++) {
-        drink = drinks[i];
-        drink = drink.replace(/_brewer/g, pickOne(data.tavern.brewers));
-        pricesArray.push(convertAmountToHighestCurrencty(priceBase, coinString));
-        finalMenuArray.push(drink);
-    }
-
-    menuTable.Item = finalMenuArray;
-    menuTable.Price = pricesArray;
-
-
-
-
-    var table = generateHTMLTable(menuTable);
-    var tableContainer = document.querySelector("#tavern_table");
-    while (tableContainer.firstChild) {
-        tableContainer.removeChild(tableContainer.firstChild);
-    }
-    tableContainer.appendChild(table);
-
-
-    var rumorArray = generateRumors(d(3) * parseInt(rumourCount), data)
-    var tavernRumorsParentContainer = document.getElementById("tavern_rumors")
-    while (tavernRumorsParentContainer.firstChild) {
-        tavernRumorsParentContainer.removeChild(tavernRumorsParentContainer.firstChild);
-    }
-
-    if (rumorArray.length > 0) {
-        var rumorContainer = document.createElement("div");
-        var rumorHeader = document.createElement("h2");
-        rumorHeader.innerText = "Rumors";
-        rumorContainer.appendChild(rumorHeader);
-        rumorContainer.classList.add("rumor_container")
-        rumorContainer.classList = "column";
-        var currentRow, currentP, currentRumorMonger, currentNameEle, currentDescEle;
-        for (var i = 0; i < rumorArray.length; i++) {
-            currentRow = document.createElement("div");
-            currentP = document.createElement("p");
-            currentNameEle = document.createElement("p");
-            currentNameEle.classList.add("rumor_row_name");
-
-            currentRow.classList.add("rumor_row");
-            currentP.innerText = `"${rumorArray[i]}"`;
-            currentP.classList.add("rumor_row_rumor");
-            currentRumorMonger = generateNPC(data, pickOne(["male", "female"]), data.names.anglo, "humanoid")
-
-            currentDescEle = document.createElement("p");
-            currentDescEle.classList.add("rumor_row_description");
-            var travelingString = Math.random() > 0.8 ? "traveling" : "local";
-            currentNameEle.innerHTML = `<strong>${currentRumorMonger.firstname} ${currentRumorMonger.lastname || ""}, a ${travelingString} ${currentRumorMonger.profession.toLowerCase()} ${(currentRumorMonger.age ? `(${currentRumorMonger.age})` : "")}</strong>`;
-            currentDescEle.innerHTML = currentRumorMonger.description;
-            currentRow.appendChild(currentNameEle);
-            currentRow.appendChild(currentP);
-            currentRow.appendChild(currentDescEle);
-            rumorContainer.appendChild(currentRow)
-        }
-        document.getElementById("tavern_rumors").appendChild(rumorContainer);
-    }
-}
-function generateTavernName(data) {
-    var tavernName = pickOne(data.tavern.name.template);
-    var ownerGender = pickOne(["male", "female"]);
-    var tavernOwner = generateNPC(data, ownerGender, data.names["anglo"], "humanoid");
-
-    var ending = "'s";
-    if (tavernOwner.firstname.substring(tavernOwner.firstname.length - 1) === "s") ending = "'";
-    tavernName = tavernName.replace(/_name/g, tavernOwner.firstname + ending);
-    tavernName = tavernName.replace(/_common_animal/g, pickOne(data.common_animal));
-    tavernName = tavernName.replace(/_adjective/g, pickOne(data.tavern.name.adjective));
-    tavernName = tavernName.replace(/_tavern/g, pickOne(data.tavern.name.tavern));
-    tavernName = tavernName.replace(/_profession/g, pickOne(data.tavern.name.profession));
-    tavernName = tavernName.replace(/_unique/g, pickOne(data.tavern.name.unique));
-    return { name: tavernName, owner: tavernOwner };
-}
-function generateRumors(rumorAmount, data) {
-    var rumorArray = pickX(data.rumors, rumorAmount);
-    if (rumorAmount > data.rumors.length) rumorAmount = data.rumors.length;
-    var rumor;
-
-    for (var i = 0; i < rumorAmount; i++) {
-        rumor = rumorArray[i];
-        rumor = rumor.replace(/_manwoman/g, pickOne(["man", "woman"]));
-        rumor = rumor.replace(/_tavernname/g, generateTavernName(data).name);
-        rumor = rumor.replace(/_noble/g, pickOne(data.noble));
-        rumor = rumor.replace(/_forest/g, pickOne(data.forests));
-        rumor = replaceAll(rumor, "_creatures", data.creatures);
-        rumor = replaceAll(rumor, "_monster", data.monsters);
-        rumor = replaceAll(rumor, "_mountain", data.mountains);
-        rumor = replaceAll(rumor, "_structure", data.structures);
-        var allProfessions = [data.generated_creatures.humanoid.professions.common, data.generated_creatures.humanoid.professions.uncommon, data.generated_creatures.humanoid.professions.rare].flat();
-
-        rumor = rumor.replace(/_profession/g, pickOne(allProfessions).toLowerCase());
-
-
-        rumor = replaceAll(rumor, "_forest", data.forests);
-        rumor = replaceAll(rumor, "_name", data.names.anglo.male);
-        rumor = replaceAll(rumor, "_femalename", data.names.anglo.female);
-        rumor = replaceAll(rumor, "_lastname", data.names.anglo.lastnames);
-        rumor = replaceAll(rumor, "_locale", data.locales);
-        rumor = capitalizeAndDot(rumor);
-        rumorArray[i] = rumor;
-
-    }
-
-
-    return rumorArray;
-}
 
 function capitalizeAndDot(string) {
     string = string.substring(0, 1).toUpperCase() + string.substring(1) + ".";
@@ -1592,151 +1250,6 @@ function replaceAll(string, replacementString, replaceArray) {
         string = string.replace(replacementString, pickOne(replaceArray));
     }
     return string;
-
-}
-function convertAmountToHighestCurrencty(amountString, coinString) {
-    var currentCurrencyIndex = currencies.coins.indexOf(coinString);
-    if (amountString > currencies.conversions[currentCurrencyIndex] && currentCurrencyIndex != currencies.coins.length - 1) {
-        var priceNextCurrency = Math.ceil(amountString / currencies.conversions[currentCurrencyIndex]);
-        var remainder = (amountString % currencies.conversions[currentCurrencyIndex])
-        return priceNextCurrency + " " + currencies.coins[currentCurrencyIndex + 1] +
-            (remainder == 0 ? "" : " and " + remainder + " " + coinString);
-
-        //Þessi partur virkar ekki rétt og ég nennti ekki að laga svo ég rúnaði
-    } else if (amountString < currencies.conversions[currentCurrencyIndex] && currentCurrencyIndex != 0) {
-        var priceNextCurrency = (amountString * currencies.conversions[currentCurrencyIndex - 1]);
-
-
-        return Math.floor(priceNextCurrency) + " " + currencies.coins[currentCurrencyIndex - 1]
-    } else {
-        return (amountString < 1 ? Math.ceil(amountString) : amountString) + " " + coinString;
-    }
-
-}
-
-function generateShopDescription(shopType, shopWealth, inventorySize) {
-    shopType = shopType.serialize();
-    dataAccess.getGeneratorData(function (data) {
-        var randomIndex = Math.floor(Math.random() * data.shops.names.template.length);
-
-        var shopOwner;
-        var shopName = "" + data.shops.names.template[randomIndex];
-        var fantasyProbability = 0.1 + 0.1 * shopWealth;
-        var rand = Math.random();
-        var descriptionSet, clutterSet, locationSet;
-        //Interior speisaður
-        if (rand < fantasyProbability) {
-            descriptionSet = data.shops.interior.description_fantastic[shopWealth];
-            clutterSet = data.shops.interior.clutter_fantastic;
-        } else {
-            descriptionSet = data.shops.interior.description[shopWealth];
-            clutterSet = data.shops.interior.clutter;
-        }
-
-        //staðsetning speisuð
-        rand = Math.random();
-        var creatureType = "humanoid";
-        var ownerGender = pickOne(["male", "female"]);
-        if (rand < fantasyProbability) {
-            locationSet = data.shops.location_fantastic;
-            var nameset;
-            creatureType = pickOne(["celestial", "fey", "aberration", "fiend", "humanoid"])
-            if (creatureType === "humanoid") {
-                nameset = "anglo";
-            } else {
-                nameset = creatureType;
-            }
-
-            shopOwner = generateNPC(data, ownerGender, data.names[nameset], creatureType);
-
-        } else {
-            locationSet = data.shops.location;
-            shopOwner = generateNPC(data, ownerGender, data.names.anglo, "humanoid");
-        }
-
-        var ownerLastName;
-        if (shopOwner.lastname) {
-            ownerLastName = shopOwner.lastname;
-        } else {
-            ownerLastName = shopOwner.firstname;
-        }
-
-
-        var ownerName = randomIndex >= 1 ? shopOwner.firstname : ownerLastName;
-        var ending = "'s";
-        if (ownerName.substring(ownerName.length - 1) === "s") ending = "'";
-        shopName = shopName.replace(/_typeboundname/g, pickOne(data.shops.names.typeboundname[shopType]));
-        shopName = shopName.replace(/_typebound/g, pickOne(data.shops.names.typebound[shopType]));
-
-        shopName = shopName.replace(/_wealthbound/g, pickOne(data.shops.names.wealthbound[shopWealth]));
-        shopName = shopName.replace(/_name/g, ownerName + ending);
-        shopName = shopName.replace(/_adjective/g, pickOne(data.shops.names.adjective));
-
-        shopName = shopName.replace(/_wares/g, pickOne(data.shops.names.wares[shopType]));
-        shopName = shopName.replace(/_surname/g, ownerLastName + ending);
-
-        shopName = replacePlaceholders(shopName, null, data);
-        var descriptionBox = document.querySelector("#shop_description");
-        var headerBox = document.querySelector("#shop_name");
-        headerBox.classList.remove("hidden");
-        shopName = shopName.toProperCase();
-
-        var description = "<strong>" + shopName + "</strong>" + pickOne([" is located", " is situated", " can be found", " is placed "]) + pickOne(locationSet) + ". ";
-        description = description.replace(/_roominhouse/g, pickOne(data.roominhouse));
-        if (description.includes("!nointerior")) {
-            description = description.replace(/!nointerior/g, "");
-        } else {
-            description += "The interior of the shop is " + pickOne(descriptionSet) + ". "
-                + pickOne(clutterSet) + "."
-            description = description.replace(/_material/g, pickOne(data.material[shopWealth]));
-            description = description.replace(/_metal/g, pickOne(data.metals));
-            description = description.replace(/_element/g, pickOne(["earth", "fire", "water", "air"]));
-            description = description.replace(/_inventory/g, pickOne(["inventory is", "merchandise is", "stock is"]));
-            description = description.replace(/_inventorypl/g, pickOne(["wares are", "commodities are", "goods are"]));
-            description = description.replace(/_figures/g, pickOne(data.figures));
-            description = description.replace(/_color/g, pickOne(data.color));
-            if (shopWealth < 2 && inventorySize < 10) {
-                var waresString;
-                if (shopType === "potion") {
-                    waresString = "medicinal and magical herbs, useful for crafting potions, "
-                } else if (shopType === "weapon") {
-                    waresString = "nonmagical but finely crafted weapons"
-                } else if (shopType === "scroll") {
-                    waresString = "rare tomes and books containing various lore"
-                } else if (shopType === "item") {
-                    waresString = "rare jewels and wondrous item ingreidents"
-                } else {
-                    waresString = "various adventuring gear"
-                }
-                description += "<br><br> In addition to the items displayed in the magic item table, the shop has " + waresString + " for sale. "
-            }
-        }
-
-
-
-        var creatureString, commaString;
-        if (creatureType === "humanoid") {
-            creatureString = "";
-            commaString = "";
-        } else {
-            if (ownerGender === "male") {
-                creatureString = " is a " + creatureType + ". He ";
-                commaString = "";
-            } else {
-                creatureString = " is a " + creatureType + ". She ";
-                commaString = "";
-            }
-
-        }
-        var ownerName = shopOwner.lastname;
-        if (ownerName) ownerName = " " + ownerName;
-        description += "<br><br>The owner, " + shopOwner.firstname + (ownerName || "") + "," + creatureString + commaString + shopOwner.shopKeepDescription;
-        headerBox.innerText = shopName;
-        headerBox.classList.remove("hidden");
-
-        descriptionBox.innerHTML = description;
-
-    });
 
 }
 
@@ -1754,58 +1267,6 @@ function typeFilter(jsonObj, type) {
 
 
 
-var sortDirections = [false, false, false]
-var keys = ["Name", "Rarity", "Price"]
-var switchFunctions = [,]
-function sortByHeaderValue(element) {
-    var rows, switching, i, x, y, shouldSwitch, switchFunction, switchcount = 0;
-    var n = keys.indexOf(this.innerHTML)
-
-    if (n < 2) {
-        switchFunction = function (x, y) { return x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase() }
-    } else {
-        switchFunction = function (x, y) { return parseInt(undoPrettyPriceString(x.innerHTML)) > parseInt(undoPrettyPriceString(y.innerHTML)) }
-    }
-    switching = true;
-    sortDirections[n] = true;
-    while (switching) {
-        switching = false;
-        rows = document.querySelectorAll("#shop_generator_table>table>tbody>tr");
-
-        for (i = 0; i < rows.length - 1; i++) {
-            shouldSwitch = false;
-            x = rows[i].getElementsByTagName("TD")[n];
-
-            y = rows[i + 1].getElementsByTagName("TD")[n];
-
-            if (sortDirections[n]) {
-                if (switchFunction(x, y)) {
-                    shouldSwitch = true;
-                    break;
-                }
-            } else if (!sortDirections[n]) {
-                if (switchFunction(y, x)) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-        }
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            // Each time a switch is done, increase this count by 1:
-            switchcount++;
-        } else {
-            /* If no switching has been done AND the direction is "asc",
-            set the direction to "desc" and run the while loop again. */
-            if (switchcount == 0 && sortDirections[n]) {
-                sortDirections[n] = false;
-                switching = true;
-            }
-        }
-    }
-
-}
 function d(sides) {
     return Math.floor(Math.random() * sides) + 1;
 }
@@ -1910,49 +1371,6 @@ function pickX(arr, num) {
 }
 
 
-/**Býr til html töflu úr json obj sem hefur uppbyggingu
- * "h1"[1,2,3],
- * "h2"[3,4,5].
- **/
-function generateHTMLTable(jsonObj) {
-
-    var expectedLength = Object.values(jsonObj)[0].length;
-    for (var i = 1; i < Object.values(jsonObj).length; i++) {
-        if (Object.values(jsonObj)[i].length != expectedLength) {
-            console.log("Cannot create table from arrays of unequal length.");
-            return;
-        }
-    }
-    var newTable = document.createElement("table");
-    var newNode;
-    var currentHeader = document.createElement("thead");
-    var currentRow = document.createElement("tr");
-    var columnCount = 0;
-    currentHeader.appendChild(currentRow);
-    newTable.appendChild(currentHeader);
-    for (arr in jsonObj) {
-        columnCount++;
-        newNode = document.createElement("th");
-        newNode.innerText = arr;
-        currentRow.appendChild(newNode);
-    }
-    currentHeader = document.createElement("tbody");
-    for (var i = 0; i < expectedLength; i++) {
-        currentRow = document.createElement("tr");
-        currentHeader.appendChild(currentRow);
-        for (var j = 0; j < columnCount; j++) {
-            newNode = document.createElement("td");
-            newNode.innerText = Object.values(jsonObj)[j][i];
-            currentRow.appendChild(newNode);
-
-        }
-    }
-    newTable.appendChild(currentHeader);
-    return newTable;
-}
-
-
-
 function randomizeItemPrice(rarity) {
     if (rarity == null) return 0;
     rarity = rarity.toLowerCase();
@@ -2028,6 +1446,7 @@ function joinAndCapitalize(array, separator) {
     return array.join(separator);
 }
 
+
 var scrollLevels = [
     [
         "Common",
@@ -2067,6 +1486,7 @@ var scrollLevels = [
     ]
 
 ]
+
 
 
 

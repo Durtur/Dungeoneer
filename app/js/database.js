@@ -2604,47 +2604,6 @@ function lookFor(id, data) {
   return false;
 }
 
-/**Býr til html töflu úr json obj sem hefur uppbyggingu
- * "h1"[1,2,3],
- * "h2"[3,4,5].
- **/
-function generateHTMLTable(jsonObj) {
-
-  var expectedLength = Object.values(jsonObj)[0].length;
-  for (var i = 1; i < Object.values(jsonObj).length; i++) {
-    if (Object.values(jsonObj)[i].length != expectedLength) {
-      console.log("Cannot create table from arrays of unequal length.");
-      return;
-    }
-  }
-  var newTable = document.createElement("table");
-  var newNode;
-  var currentHeader = document.createElement("thead");
-  var currentRow = document.createElement("tr");
-  var columnCount = 0;
-  currentHeader.appendChild(currentRow);
-  newTable.appendChild(currentHeader);
-  for (arr in jsonObj) {
-    columnCount++;
-    newNode = document.createElement("th");
-    newNode.innerHTML = arr;
-    currentRow.appendChild(newNode);
-  }
-  currentHeader = document.createElement("tbody");
-  for (var i = 0; i < expectedLength; i++) {
-    currentRow = document.createElement("tr");
-    currentHeader.appendChild(currentRow);
-    for (var j = 0; j < columnCount; j++) {
-      newNode = document.createElement("td");
-      newNode.innerHTML = Object.values(jsonObj)[j][i];
-      currentRow.appendChild(newNode);
-
-    }
-  }
-  newTable.appendChild(currentHeader);
-  return newTable;
-}
-
 function evaluateRarity(str) {
   switch (str) {
     case "common":

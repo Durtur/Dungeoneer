@@ -141,7 +141,7 @@ class SlideCanvas {
         if (toggledSlideButton) {
             saveObject.bg_slide_type = toggledSlideButton.getAttribute("data-slide");
         }
-        if (bobAnimation) {
+        if (this.bobAnimation) {
             saveObject.bobMultiplier = parseFloat(document.getElementById("bob_amount_input").value);
             saveObject.bobAnimate = true;
         }

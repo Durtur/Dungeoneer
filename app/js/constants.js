@@ -46,52 +46,7 @@ window.addEventListener('mousedown', (e) => {
   remoteModule.getCurrentWindow().inspectElement(e.clientX, e.clientY);
 
 }, false)
-function generateHTMLTable(jsonObj) {
-  var jsonKeys = Object.keys(jsonObj);
-  jsonKeys.forEach(key=>{
-      var isEmpty = jsonObj[key].filter(x=> x != undefined && x!= "").length == 0;
-      if(isEmpty)
-        delete jsonObj[key];
-  });
 
-  var jsonObjValues = Object.values(jsonObj);
-  //filter out empty arrays
-
-  
-  var expectedLength = jsonObjValues[0].length;
-  for (var i = 1; i < jsonObjValues.length; i++) {
-    if (jsonObjValues[i].length != expectedLength) {
-      console.log("Cannot create table from arrays of unequal length.");
-      return;
-    }
-  }
-  var newTable = document.createElement("table");
-  var newNode;
-  var currentHeader = document.createElement("thead");
-  var currentRow = document.createElement("tr");
-  var columnCount = 0;
-  currentHeader.appendChild(currentRow);
-  newTable.appendChild(currentHeader);
-  for (arr in jsonObj) {
-    columnCount++;
-    newNode = document.createElement("th");
-    newNode.innerHTML = marked(arr.replace("_"," "));
-    currentRow.appendChild(newNode);
-  }
-  currentHeader = document.createElement("tbody");
-  for (var i = 0; i < expectedLength; i++) {
-    currentRow = document.createElement("tr");
-    currentHeader.appendChild(currentRow);
-    for (var j = 0; j < columnCount; j++) {
-      newNode = document.createElement("td");
-      newNode.innerHTML = marked(""+ jsonObjValues[j][i]);
-      currentRow.appendChild(newNode);
-
-    }
-  }
-  newTable.appendChild(currentHeader);
-  return newTable;
-}
 function pickOne(arr) {
   return pickX(arr, 1)[0];
 }
