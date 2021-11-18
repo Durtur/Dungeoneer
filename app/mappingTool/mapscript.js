@@ -10,6 +10,8 @@ const SoundManager = require("./js/soundManager")
 const soundManager = new SoundManager();
 const dataAccess = require("./js/dataaccess");
 const sidebarManager = require("./js/sidebarmanager");
+const InfoTooltip = require("./mappingTool/infotooltip");
+const info = new InfoTooltip();
 const initiative = require("./js/initiative");
 const dialog = require('electron').remote.dialog;
 const marked = require('marked');
@@ -41,7 +43,7 @@ var tokenLayer = document.getElementById("tokens");
 
 var overlayLoop, backgroundLoop;
 
-var LAST_KEY; //Last pressed key
+var LAST_KEY, lastKeyNull; //Last pressed key
 //Grid 
 var gridMoveOffsetX = 0, gridMoveOffsetY = 0, canvasMoveRate = 2;
 var resetMoveIncrementTimer;
@@ -556,6 +558,7 @@ function reloadMap() {
     location.reload();
 }
 document.addEventListener("DOMContentLoaded", function () {
+
     backgroundLoop = new SlideCanvas(document.getElementById("background"));
     overlayLoop = new SlideCanvas(document.getElementById("overlay"));
     var mapContainer = document.querySelector("#map_layer_container");
@@ -744,7 +747,8 @@ function updateHowlerListenerLocation() {
 }
 
 function resetEverything() {
-
+    if (currentlyDeletingSegments)
+        document.getElementById("delete_segments_button").click();
     clearSelectedPawns();
     hideAllTooltips();
     effectManager.close();
@@ -775,11 +779,17 @@ function onSettingsLoaded() {
 
         var lastKey = LAST_KEY;
         LAST_KEY = event.key;
+        window.clearTimeout(lastKeyNull)
+        lastKeyNull = window.setTimeout(() => LAST_KEY = "", 1000);
+        console.log(lastKey, event.key, currentlyDeletingSegments)
         if (event.key === "Escape") {
             return resetEverything;
             //Show global listener position
         } else if (event.key.toLowerCase() == "p" && lastKey.toLowerCase() == "l") {
             return soundManager.displayGlobalListenerPosition();
+        } else if (event.key.toLowerCase() == "e" && lastKey.toLowerCase() == "d") {
+            if (currentlyDeletingSegments) return;
+            document.getElementById("delete_segments_button").click();
         } else if (event.ctrlKey && event.key.toLowerCase() == "s") {
             return saveManager.saveCurrentMap();
         } else if (event.ctrlKey && event.key.toLowerCase() == "o") {
@@ -1212,7 +1222,7 @@ function drawSegmentsOnMouseMove() {
 
 var currentlyDeletingSegments = false;
 var lastgridLayerCursor;
-function startDeletingSegments() {
+function toggleDeleteSegments() {
     turnAllToolboxButtonsOff();
 
     gridLayer.style.cursor = "not-allowed";
