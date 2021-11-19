@@ -137,8 +137,13 @@ tr {
   padding: 3px;
 }
 
+td>p{
+  padding: 0.5em;
+  margin:0;
+}
+
 td {
-  padding: 5px;
+
   background-color: transparent;
   border: none;
   color: var(--main-text-color);
@@ -155,7 +160,7 @@ td>strong {
   font-size: 13px;
 }
 
-thead>tr, .table_header, th {
+thead>tr, .table_header, th, th>p {
   font-family: var(--header-font);
   font-size: 1.2em;
   border: none;

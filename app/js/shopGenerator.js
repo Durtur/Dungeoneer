@@ -170,8 +170,11 @@ class ShopGenerator {
 
 
         var headers = document.querySelectorAll("th");
+        var cls = this;
         for (var i = 0; i < headers.length; i++) {
-            headers[i].addEventListener("click", this.sortByHeaderValue);
+            headers[i].addEventListener("click", (e)=> {
+                cls.sortByHeaderValue(e, this)
+            });
         }
     }
 
@@ -221,17 +224,18 @@ class ShopGenerator {
 
 
 
-    sortByHeaderValue() {
+    sortByHeaderValue(e, cls) {
+
         var rows, switching, i, x, y, shouldSwitch, switchcount = 0;
-        var n = keys.indexOf(this.innerHTML)
+        var n = cls.keys.indexOf(e.target.innerText)
 
         if (n < 2) {
-            this.switchFunction = function (x, y) { return x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase() }
+            cls.switchFunction = function (x, y) { return x.innerText.toLowerCase() > y.innerText.toLowerCase() }
         } else {
-            this.switchFunction = function (x, y) { return parseInt(undoPrettyPriceString(x.innerHTML)) > parseInt(undoPrettyPriceString(y.innerHTML)) }
+            cls.switchFunction = function (x, y) { return parseInt(cls.undoPrettyPriceString(x.innerText)) > parseInt(cls.undoPrettyPriceString(y.innerText)) }
         }
         switching = true;
-        this.sortDirections[n] = true;
+        cls.sortDirections[n] = true;
         while (switching) {
             switching = false;
             rows = document.querySelectorAll("#shop_generator_table>table>tbody>tr");
@@ -242,13 +246,13 @@ class ShopGenerator {
 
                 y = rows[i + 1].getElementsByTagName("TD")[n];
 
-                if (sortDirections[n]) {
-                    if (this.switchFunction(x, y)) {
+                if (cls.sortDirections[n]) {
+                    if (cls.switchFunction(x, y)) {
                         shouldSwitch = true;
                         break;
                     }
-                } else if (!sortDirections[n]) {
-                    if (this.switchFunction(y, x)) {
+                } else if (!cls.sortDirections[n]) {
+                    if (cls.switchFunction(y, x)) {
                         shouldSwitch = true;
                         break;
                     }
@@ -262,8 +266,8 @@ class ShopGenerator {
             } else {
                 /* If no switching has been done AND the direction is "asc",
                 set the direction to "desc" and run the while loop again. */
-                if (switchcount == 0 && sortDirections[n]) {
-                    this.sortDirections[n] = false;
+                if (switchcount == 0 && cls.sortDirections[n]) {
+                    cls.sortDirections[n] = false;
                     switching = true;
                 }
             }

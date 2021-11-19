@@ -29,7 +29,7 @@ class ElementCreator {
         for (var arr in jsonObj) {
             columnCount++;
             newNode = document.createElement("th");
-            newNode.innerHTML = marked(arr.replace("_", " "));
+            newNode.innerHTML = marked(arr.deserialize().toProperCase());
             currentRow.appendChild(newNode);
         }
         currentHeader = document.createElement("tbody");

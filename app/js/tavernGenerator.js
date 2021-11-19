@@ -10,8 +10,8 @@ class TavernGenerator {
         var cls = this;
         document.getElementById("reroll_tavern_button").addEventListener("click", function (evnt) {
 
-            cls.generateTavernRumorsAndMenu();
-
+            cls.generateTavernRumorsAndMenu(cls.currentTavern);
+            cls.displayTavern();
         });
     }
 
@@ -19,57 +19,67 @@ class TavernGenerator {
         var data = this.generatorData;
         this.container.querySelector("#reroll_tavern_button").classList.remove("hidden");
         var tavernWealthDropdown = this.container.querySelector("#tavern_wealth");
-        var tavernWealth = tavernWealthDropdown.options[tavernWealthDropdown.selectedIndex].value;
 
-        var ownerAndNameobj = this.generateTavernName(data)
-        var tavernName = ownerAndNameobj.name;
-        var tavernOwner = ownerAndNameobj.owner;
 
-        var tavernHeader = this.resultContainer.querySelector("#tavern_name");
-        tavernHeader.innerText = tavernName;
+        var tavern = this.generateTavernName(data);
+        tavern.wealth = tavernWealthDropdown.options[tavernWealthDropdown.selectedIndex].value;
+        var tavernName = tavern.name;
 
-        tavernHeader.classList.remove("hidden");
-        this.generateTavernRumorsAndMenu();
+        var tavernOwner = tavern.owner;
+
 
         var description = "<strong>" + tavernName + "</strong>" + [" is located", " is situated", " can be found", " is placed "].pickOne() + " " + data.tavern.locations.pickOne() + ". ";
 
-        description += "The interior is " + data.shops.interior.description[tavernWealth].pickOne() + " with a " + data.tavern.flooring[tavernWealth].pickOne() + " floor.";
+        description += "The interior is " + data.shops.interior.description[tavern.wealth].pickOne() + " with a " + data.tavern.flooring[tavern.wealth].pickOne() + " floor.";
         description += " The bar is " + data.tavern.barstyle.pickOne() + ". " + ["Round", "Square"].pickOne() + " tables are " + data.tavern.table_setup.pickOne() + ".";
 
-        description += " " + data.tavern.that_little_extra[tavernWealth].pickOne() + ".";
-        description = description.replace(/_material/g, data.material[tavernWealth].pickOne());
+        description += " " + data.tavern.that_little_extra[tavern.wealth].pickOne() + ".";
+        description = description.replace(/_material/g, data.material[tavern.wealth].pickOne());
 
         description = replacePlaceholders(description, Math.random() > 0.5, data);
 
-
+        tavern.description = description;
         var ownerName = tavernOwner.lastname;
         if (ownerName != "" && ownerName != null) ownerName = " " + ownerName;
         description += "<br><br>The owner, " + tavernOwner.firstname + (ownerName || "") + "," + tavernOwner.tavernKeepDescription;
 
-        document.getElementById("tavern_description").innerHTML = description;
+        this.generateTavernRumorsAndMenu(tavern);
+        this.setTavern(tavern);
+
+        this.displayTavern();
 
     }
 
+    setTavern(tavern) {
+        this.currentTavern = tavern;
+    }
 
-    generateTavernRumorsAndMenu() {
+    displayTavern() {
+        var tavernHeader = this.resultContainer.querySelector("#tavern_name");
+        tavernHeader.innerText = this.currentTavern.name;
+
+        tavernHeader.classList.remove("hidden");
+        document.getElementById("tavern_description").innerHTML = this.currentTavern.description;
+        this.displayRumorsAndMenu();
+    }
+
+    generateTavernRumorsAndMenu(tavern) {
         var data = this.generatorData;
-        var menuTable = {};
-
         var tavernPriceDropdown = this.container.querySelector("#tavern_pricing");
         var tavernWealthDropdown = this.container.querySelector("#tavern_wealth");
         var rumorDropdown = this.container.querySelector("#tavern_rumours");
         var tavernMenuTypeDropdown = this.container.querySelector("#tavern_menu");
 
-        var menuType = tavernMenuTypeDropdown.options[tavernMenuTypeDropdown.selectedIndex].value;
-        var rumourCount = rumorDropdown.options[rumorDropdown.selectedIndex].value;
-        var tavernWealth = tavernWealthDropdown.options[tavernWealthDropdown.selectedIndex].value;
-        var tavernPrice = tavernPriceDropdown.options[tavernPriceDropdown.selectedIndex].value;
+        tavern.menuType = tavernMenuTypeDropdown.options[tavernMenuTypeDropdown.selectedIndex].value;
+        tavern.rumourCount = rumorDropdown.options[rumorDropdown.selectedIndex].value;
 
-        var menuArray = data.tavern.menu[menuType];
+        tavern.price = tavernPriceDropdown.options[tavernPriceDropdown.selectedIndex].value;
+
+        var menuArray = data.tavern.menu[tavern.menuType];
         //cheaper =0 , more expensive = 1
-        var arr = [menuArray[tavernWealth][0].pickX(d(2)), menuArray[tavernWealth][1].pickX(d(2))];
-        var drinks = data.tavern.drinks[menuType][tavernWealth].pickX(
-            d(4) + tavernWealth);
+        var arr = [menuArray[tavern.wealth][0].pickX(d(2)), menuArray[tavern.wealth][1].pickX(d(2))];
+        var drinks = data.tavern.drinks[tavern.menuType][tavern.wealth].pickX(
+            d(4) + tavern.wealth);
         var finalMenuArray = [];
         var pricesArray = [];
         var priceBase, coinString, dish, drink;
@@ -79,10 +89,10 @@ class TavernGenerator {
             [d(10), "sp"],
             [d(6), "gp"]
         ]
-        priceBase = tavernEconomyArray[tavernWealth][0];
-        priceBase *= tavernPrice;
-        coinString = tavernEconomyArray[tavernWealth][1];
-        var vegetables, exoticVegetables, finalPrice, finalPriceString;
+        priceBase = tavernEconomyArray[tavern.wealth][0];
+        priceBase *=  tavern.price;
+        coinString = tavernEconomyArray[tavern.wealth][1];
+        var vegetables, exoticVegetables, finalPrice;
         //Food
         for (var i = 1; i < 3; i++) {
             for (var j = 0; j < arr[i - 1].length; j++) {
@@ -112,10 +122,14 @@ class TavernGenerator {
             finalMenuArray.push(drink);
         }
 
-        menuTable.Item = finalMenuArray;
-        menuTable.Price = pricesArray;
 
-        var table = ElementCreator.generateHTMLTable(menuTable);
+        tavern.menu = { item: finalMenuArray, price: pricesArray };
+        tavern.rumors = this.generateRumors(d(3) * parseInt(tavern.rumourCount), data);
+
+    }
+
+    displayRumorsAndMenu() {
+        var table = ElementCreator.generateHTMLTable(this.currentTavern.menu);
         var tableContainer = document.querySelector("#tavern_table");
         while (tableContainer.firstChild) {
             tableContainer.removeChild(tableContainer.firstChild);
@@ -123,45 +137,46 @@ class TavernGenerator {
         tableContainer.appendChild(table);
 
 
-        var rumorArray = this.generateRumors(d(3) * parseInt(rumourCount), data)
-        var tavernRumorsParentContainer = document.getElementById("tavern_rumors")
+        var rumorArray = this.currentTavern.rumors;
+        var tavernRumorsParentContainer = document.getElementById("tavern_rumors");
         while (tavernRumorsParentContainer.firstChild) {
             tavernRumorsParentContainer.removeChild(tavernRumorsParentContainer.firstChild);
         }
 
-        if (rumorArray.length > 0) {
-            var rumorContainer = document.createElement("div");
-            var rumorHeader = document.createElement("h2");
-            rumorHeader.innerText = "Rumors";
-            rumorContainer.appendChild(rumorHeader);
-            rumorContainer.classList.add("rumor_container")
-            rumorContainer.classList = "column";
-            var currentRow, currentP, currentRumorMonger, currentNameEle, currentDescEle;
-            for (var i = 0; i < rumorArray.length; i++) {
-                currentRow = document.createElement("div");
-                currentP = document.createElement("p");
-                currentNameEle = document.createElement("p");
-                currentNameEle.classList.add("rumor_row_name");
+        if (rumorArray.length == 0) return;
+        var rumorContainer = document.createElement("div");
+        var rumorHeader = document.createElement("h2");
+        rumorHeader.innerText = "Rumors";
+        rumorContainer.appendChild(rumorHeader);
+        rumorContainer.classList.add("rumor_container")
+        rumorContainer.classList = "column";
+        var currentRow, currentP, currentRumorMonger, currentNameEle, currentDescEle;
+        for (var i = 0; i < rumorArray.length; i++) {
+            currentRow = document.createElement("div");
+            currentP = document.createElement("p");
+            currentNameEle = document.createElement("p");
+            currentNameEle.classList.add("rumor_row_name");
 
-                currentRow.classList.add("rumor_row");
-                currentP.innerText = `"${rumorArray[i]}"`;
-                currentP.classList.add("rumor_row_rumor");
-                currentRumorMonger = npcGenerator.generateNPC(data, ["male", "female"].pickOne(), data.names.anglo, "humanoid")
+            currentRow.classList.add("rumor_row");
+            currentP.innerText = `"${rumorArray[i].rumor}"`;
+            currentP.classList.add("rumor_row_rumor");
+            currentRumorMonger = rumorArray[i].monger;
 
-                currentDescEle = document.createElement("p");
-                currentDescEle.classList.add("rumor_row_description");
-                var travelingString = Math.random() > 0.8 ? "traveling" : "local";
-                currentNameEle.innerHTML = `<strong>${currentRumorMonger.firstname} ${currentRumorMonger.lastname || ""}, a ${travelingString} ${currentRumorMonger.profession.toLowerCase()} ${(currentRumorMonger.age ? `(${currentRumorMonger.age})` : "")}</strong>`;
-                currentDescEle.innerHTML = currentRumorMonger.description;
-                currentRow.appendChild(currentNameEle);
-                currentRow.appendChild(currentP);
-                currentRow.appendChild(currentDescEle);
-                rumorContainer.appendChild(currentRow)
-            }
-            console.log(this, this.container)
-            this.resultContainer.querySelector("#tavern_rumors").appendChild(rumorContainer);
+            currentDescEle = document.createElement("p");
+            currentDescEle.classList.add("rumor_row_description");
+            var travelingString = Math.random() > 0.8 ? "traveling" : "local";
+            currentNameEle.innerHTML = `<strong>${currentRumorMonger.firstname} ${currentRumorMonger.lastname || ""}, a ${travelingString} ${currentRumorMonger.profession.toLowerCase()} ${(currentRumorMonger.age ? `(${currentRumorMonger.age})` : "")}</strong>`;
+            currentDescEle.innerHTML = currentRumorMonger.description;
+            currentRow.appendChild(currentNameEle);
+            currentRow.appendChild(currentP);
+            currentRow.appendChild(currentDescEle);
+            rumorContainer.appendChild(currentRow)
         }
+
+        this.resultContainer.querySelector("#tavern_rumors").appendChild(rumorContainer);
+
     }
+
     generateTavernName(data) {
         var tavernName = data.tavern.name.template.pickOne();
         var ownerGender = ["male", "female"].pickOne();
@@ -203,7 +218,8 @@ class TavernGenerator {
             rumor = replaceAll(rumor, "_lastname", data.names.anglo.lastnames);
             rumor = replaceAll(rumor, "_locale", data.locales);
             rumor = rumor.capitalizeAndDot();
-            rumorArray[i] = rumor;
+            var monger = npcGenerator.generateNPC(data, ["male", "female"].pickOne(), data.names.anglo, "humanoid")
+            rumorArray[i] = { rumor: rumor, monger: monger };
 
         }
 

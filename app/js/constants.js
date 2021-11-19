@@ -121,7 +121,7 @@ Array.prototype.pickX = function (num) {
 
 
 String.prototype.capitalizeAndDot = function () {
-  return this.toProperCase() + ".";;
+  return this.substring(0,1).toUpperCase() + this.substring(1) + ".";;
 }
 String.prototype.serialize = function () {
   return this.replace(/ /g, "_").toLowerCase();
