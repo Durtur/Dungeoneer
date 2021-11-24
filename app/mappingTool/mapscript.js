@@ -805,23 +805,39 @@ function onSettingsLoaded() {
         var container = mapContainers[0];
         var bgX = container.data_transform_x;
         var bgY = container.data_transform_y;
-
+        var adjustX = 0, adjustY = 0;
         if (event.shiftKey) {
             bgX = foregroundCanvas.data_transform_x;
             bgY = foregroundCanvas.data_transform_y;
             if (event.keyCode == 37) {
-                bgX -= canvasMoveRate;
+                adjustX -= canvasMoveRate;
             } else if (event.keyCode == 39) {
-                bgX += canvasMoveRate;
+                adjustX += canvasMoveRate;
             } else if (event.keyCode == 38) {
-                bgY -= canvasMoveRate;
+                adjustY -= canvasMoveRate;
             } else if (event.keyCode == 40) {
-                bgY += canvasMoveRate;
+                adjustY += canvasMoveRate;
             }
-
+            bgX += adjustX;
+            bgY += adjustY;
             moveForeground(bgX, bgY)
-
+            // fovLighting.nudgeSegments(adjustX, adjustY);
+            // fovLighting.drawSegments();
             if (canvasMoveRate < 80) canvasMoveRate++;
+            return;
+        } else if (event.altKey) {
+
+            if (event.keyCode == 37) {
+                adjustX -= 1;
+            } else if (event.keyCode == 39) {
+                adjustX += 1;
+            } else if (event.keyCode == 38) {
+                adjustY -= 1;
+            } else if (event.keyCode == 40) {
+                adjustY += 1;
+            }
+            fovLighting.nudgeSegments(adjustX, adjustY);
+            fovLighting.drawSegments();
             return;
         }
         //left
