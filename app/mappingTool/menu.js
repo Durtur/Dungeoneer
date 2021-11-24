@@ -55,10 +55,7 @@ class Menu {
         };
         document.querySelector("#map_edge_button").onclick = function (e) {
             var imgPath = getMapImageFromDialog();
-            if (!imgPath) return;
-            imgPath = imgPath[0];
-            imgPath = imgPath.replace(/\\/g, "/");
-
+         
             document.querySelector(".maptool_body").style.backgroundImage = "url('" + imgPath + "')";
             settings.map_edge_style = imgPath;
             saveSettings();

@@ -284,7 +284,8 @@ var fovLighting = function () {
             var dungeonDraftCellSize = originalCellSize;//parseInt(data.resolution.pixels_per_grid);
             var imageData = data.image;
             var bitmap = Buffer.from(imageData, "base64");
-            dataAccess.writeTempFile("tempmap.png", bitmap, function (path) {
+            var fileName = pathModule.basename(path);
+            dataAccess.writeTempFile(fileName + ".png", bitmap, function (path) {
                 setMapForeground(path.replaceAll("\\", "/"), parseFloat(data.resolution.map_size.x) * originalCellSize);
 
                 var offsetX = mapContainers[0].data_transform_x;
