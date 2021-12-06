@@ -1,29 +1,30 @@
+
 var Util = require("./js/util");
 var GLOBAL_MOUSE_DOWN = false;
 document.addEventListener("DOMContentLoaded", function () {
-    const remote = require('electron').remote;
+
     var selectOnFocus = document.querySelectorAll(".select_text_on_focus");
-    document.addEventListener("mousedown",function(evt){
+    document.addEventListener("mousedown", function (evt) {
         GLOBAL_MOUSE_DOWN = true;
     });
-    document.addEventListener("mouseup",function(evt){
+    document.addEventListener("mouseup", function (evt) {
         GLOBAL_MOUSE_DOWN = false;
     });
-    [... selectOnFocus].forEach(x=> x.addEventListener('focus', (event) => {
+    [...selectOnFocus].forEach(x => x.addEventListener('focus', (event) => {
         event.target.select();
-      }));
+    }));
     var checkBoxes = document.querySelectorAll("input[type=checkbox]");
     var closeAppButton, closeWindowButton;
     closeAppButton = document.getElementById("close_app_button");
     closeWindowButton = document.getElementById("close_window_button");
     if (closeAppButton) closeAppButton.onclick = function (evt) {
-        remote.app.quit()
+        ipcRenderer.send("close-app");
     };
     if (closeWindowButton) closeWindowButton.onclick = function (evt) {
-        window.close();
+        ipcRenderer.send("close-window");
     };
     document.getElementById("minimize_app_button").onclick = function (evt) {
-        remote.getCurrentWindow().minimize()
+        ipcRenderer.send("minimize-window");
     };
     if (document.getElementById("settings_window_button"))
         document.getElementById("settings_window_button").onclick = function (evt) {
@@ -35,12 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
     document.getElementById('min_max_button').addEventListener('click', () => {
-        const currentWindow = remote.getCurrentWindow()
-        if (currentWindow.isMaximized()) {
-            currentWindow.unmaximize()
-        } else {
-            currentWindow.maximize()
-        }
+        ipcRenderer.send("min-max-window");
     })
 
     var contextMenus = [...document.querySelectorAll(".context_menu_button")];
@@ -49,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
             var menuToShowId = e.target.getAttribute("data-menu_item")
             var menuToShow = document.getElementById(menuToShowId);
             if (menuToShow == null) return;
-            
-            [... document.querySelectorAll(".context_menu")].forEach(x=> x.classList.add("hidden"));
+
+            [...document.querySelectorAll(".context_menu")].forEach(x => x.classList.add("hidden"));
             var rect = e.target.getBoundingClientRect();
             console.log(rect)
             menuToShow.style.left = rect.left + e.target.clientWidth + "px";
@@ -129,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-function closePopupGeneric(evt){
+function closePopupGeneric(evt) {
     var popup = evt.target.closest(".popup_menu");
     popup.classList.add("hidden");
 }

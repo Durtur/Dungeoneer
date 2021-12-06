@@ -170,7 +170,7 @@ initiative</p>
               <button class="small toggle_button button_style" toggled="false" title="Show dead"
                 onclick="combatLoader.toggleShowDead()">D</button>
               <button class="small button_style" id="maptool_notify_button" title="Opens the map tool with loaded creatures.
-                No creatures are loaded." disabled onclick="combatLoader.notifyMapTool()">M</button>
+                No creatures are loaded." disabled onclick="combatLoader.loadMonsterQueue()">M</button>
 
             </div>
 
@@ -350,19 +350,7 @@ initiative</p>
 
         </div>
       </div>
-      <div id="initiative_popup_window" class="initiatie_popup_window hidden section__show popup_menu">
-        <label class=" colored_label">Initiative scores</label>
-        <div id="initiative_popup_window_inner">
-
-        </div>
-        <div class="column">
-          <button onclick="initiative.finishRoll()" class=" button_style">Confirm</button>
-
-        </div>
-        <button class="close_button button_style" onclick="initiative.cancelRoll()"></button>
-
-
-      </div>
+ 
       <div id="combat_log_popup" class="combat_log_popup_window hidden">
         <div class="column combat_loader_log_column" style="width: 86.6%">
 

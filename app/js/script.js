@@ -5,8 +5,7 @@ var loadedMonster = {};
 var loadedMonsterQueue = [];
 
 var loadedEncounter = [];
-const remote = require('electron').remote;
-const app = remote.app;
+
 const marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
@@ -16,13 +15,14 @@ const Modals = require("./js/modals")
 const ThemeManager = require("./js/themeManager");
 const fs = require("fs");
 const StatblockPresenter = require("./js/statblockpresenter");
-const dialog = require('electron').remote.dialog;
+const { ipcRenderer } = require('electron');
 
-const icon = app.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png";
-const customStylesheet = app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
-const prompt = require('electron-prompt');
+const icon = window.api.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png";
+const customStylesheet = window.api.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
+// const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
 const charSyncers = [];
+
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -30,7 +30,7 @@ marked.setOptions({
 });
 dataAccess.initialize();
 
-const { ipcRenderer } = require('electron');
+
 const encounterModule = new EncounterModule();
 const dndBeyondImporter = new DnDBeyondImporter();
 var mobController;
@@ -43,7 +43,6 @@ var partyAlternativeACArray;
 /* #region IPC */
 
 ipcRenderer.on('update-all-pawns', function () {
-
   combatLoader.sendMapToolUpdates();
 });
 
@@ -64,13 +63,14 @@ ipcRenderer.on('notify-maptool-selection-changed', function (evt, args) {
   combatLoader.setSelectedRows(args.selected);
 });
 function notifyMapToolConditionsChanged(index, conditions, isPlayer) {
-  console.log(`Notify changed ${index}`)
-  let window2 = remote.getGlobal('maptoolWindow');
-  if (window2) window2.webContents.send('condition-list-changed', { index: index, conditions: conditions, isPlayer: isPlayer });
+
+  window.api.messageWindow('maptoolWindow', 'condition-list-changed', { index: index, conditions: conditions, isPlayer: isPlayer });
 }
 
-ipcRenderer.on('condition-list-changed', function (evt, conditionList, index) {
-  console.log(index, conditionList)
+ipcRenderer.on('condition-list-changed', function (evt, args) {
+
+  var conditionList = args.conditionList; 
+  var index = args.index;
   var combatRow = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => parseInt(x.querySelector(".combat_row_monster_id").innerHTML) == index)[0];
   if (combatRow) {
     combatLoader.setConditionList(combatRow, conditionList.map(x => { return { condition: x.toLowerCase() } }));
@@ -122,25 +122,8 @@ ipcRenderer.on('settings-changed', function (evt, arg) {
   loadSettings();
 });
 
-
-
 ipcRenderer.on('monster-killed', function (evt, arg) {
   combatLoader.kill(arg, true);
-});
-
-ipcRenderer.on('look-up-item', function (evt, arg) {
-
-  document.querySelector("#searchbaritems").value = arg;
-  remote.getCurrentWindow().focus();
-  search('items', true, null);
-
-});
-
-ipcRenderer.on('look-up-spell', function (evt, arg) {
-  document.querySelector("#searchbarspells").value = arg;
-  remote.getCurrentWindow().focus();
-  search('spells', true, null);
-
 });
 
 /* #endregion */
@@ -163,19 +146,15 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   randomizer.initialize();
   window.setTimeout(() => {
-    let window2 = remote.getGlobal('maptoolWindow')
-    if (window2) window2.webContents.send('notify-main-reloaded');
+    window.api.messageWindow("maptoolWindow", 'notify-main-reloaded');
   }, 1000)
 
   combatLoader.initialize();
   $('.initiativeNode').on("click", initiative.roll);
   initiative.setAsMain();
   initiative.addEventListener(evt => {
-
-    let window2 = remote.getGlobal('maptoolWindow');
-    if (window2) window2.webContents.send('intiative-updated', evt);
+    window.api.messageWindow("maptoolWindow", 'intiative-updated', evt);
     var actor = initiative.currentActor();
-    console.log(actor);
     combatLoader.setCurrentActor(actor?.current.name);
   });
   document.querySelectorAll("#initiative_control_bar button").forEach(button => {
@@ -183,9 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelector("#initiative_control_bar").classList.add("hidden");
     })
   });
-  var initPopupWindow = document.getElementById("initiative_popup_window");
 
-  elementCreator.makeDraggable(initPopupWindow, initPopupWindow.querySelector("label:first-of-type"));
   document.querySelector(".pcnode:nth-child(1)").onmousedown = pcNodeMouseDownHandler;
   dataAccess.getConditions(function (conditions) {
     var pcNodeInp = document.getElementById("add_pc_node_condition_input");
@@ -652,9 +629,7 @@ function loadParty() {
       $(".pscontainer").addClass("hidden");
     }
     combatLoader.notifyPartyArrayUpdated();
-
-    let window2 = remote.getGlobal('maptoolWindow');
-    if (window2) window2.webContents.send('notify-party-array-updated');
+    window.api.messageWindow("maptoolWindow", 'notify-party-array-updated');
   });
 }
 
@@ -759,7 +734,6 @@ function addPlayerPlaques() {
 
   }
 
-  initiative.refreshInputFields();
   loadPCNodeHandlers();
   $(".pscontainer").removeClass("hidden");
   $(".pscontainer").removeClass("hidden_takes_space");
@@ -1281,8 +1255,7 @@ function addColorPickerHandlers() {
 function pickPlayerToken(evt) {
 
   var row = evt.target.closest(".pcRow");
-  var tokenPath = dialog.showOpenDialogSync(
-    remote.getCurrentWindow(), {
+  var tokenPath = window.dialog.showOpenDialogSync({
     properties: ['openFile'],
     message: "Choose picture location",
     filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
@@ -1296,25 +1269,17 @@ function pickPlayerToken(evt) {
 }
 
 function showCharacterLinkModal(linkbutton) {
-  var modal = Modals.createModal("Add character source", (result) => {
+  var modalCreate = Modals.createModal("Add character source", (result) => {
 
   });
+  var modal = modalCreate.modal;
   var dndBeyondButton = Util.ele("button", " button_style margin padding", "DnDBeyond")
   modal.appendChild(dndBeyondButton);
 
   dndBeyondButton.onclick = (e) => {
     modal.close();
-    prompt({
-      title: 'Character URL',
-      label: 'Enter the public URL for your DnDBeyond character:',
-      icon: icon,
-      customStylesheet: customStylesheet,
-      inputAttrs: { // attrs to be set if using 'input'
-        type: 'text'
-      }
-
-    })
-      .then((value) => {
+    Modals.prompt("Character URL", 'Enter the public URL for your DnDBeyond character:',
+      (value) => {
         //Break if user cancels
         if (!value) return;;
         dndBeyondImporter.getCharacter(value, function (character, errorCode) {
@@ -1346,7 +1311,7 @@ function showCharacterLinkModal(linkbutton) {
       linkbutton.setAttribute("data-linked", "false");
     }
   }
-  document.body.appendChild(modal);
+  document.body.appendChild(modalCreate.parent);
 
 }
 

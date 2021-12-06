@@ -1,7 +1,5 @@
-const { ipcRenderer, webFrame } = require('electron');
 
-
-const Awesomplete = require(pathModule.join(app.getAppPath(), "app", "awesomplete", "awesomplete.js"));
+const Awesomplete = require(pathModule.join(window.api.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
 const SlideCanvas = require("./mappingTool/slideCanvas");
@@ -13,7 +11,7 @@ const sidebarManager = require("./js/sidebarmanager");
 const InfoTooltip = require("./mappingTool/infotooltip");
 const info = new InfoTooltip();
 const initiative = require("./js/initiative");
-const dialog = require('electron').remote.dialog;
+
 const marked = require('marked');
 const TokenSelector = require('./js/tokenSelector');
 const tokenSelector = new TokenSelector();
@@ -297,8 +295,9 @@ function refreshPawnToolTips() {
 
 function refreshPawnToolTipsHelper(arr, monster) {
     for (var i = 0; i < arr.length; i++) {
-        element = arr[i][0];
+        var element = arr[i][0];
         var changed = element.getAttribute("data-state_changed");
+        console.log(element)
         if (changed) {
 
             flyingHeight = parseInt(element.flying_height);
@@ -324,9 +323,7 @@ function onPawnsMoved() {
 
 // #region commands
 function notifySelectedPawnsChanged() {
-    let mainWindow = remote.getGlobal('mainWindow');
-
-    if (mainWindow) mainWindow.webContents.send('notify-maptool-selection-changed',
+    window.api.messageWindow('mainWindow', 'notify-maptool-selection-changed',
         { selected: selectedPawns.filter(x => x.index_in_main_window).map(x => x.index_in_main_window) });
 
     updateHowlerListenerLocation();
@@ -339,8 +336,7 @@ function notifyTokenAdded(tokenIndex, name) {
 }
 
 function requestNotifyUpdateFromMain() {
-    let mainWindow = remote.getGlobal('mainWindow');
-    if (mainWindow) mainWindow.webContents.send('update-all-pawns');
+    window.api.messageWindow('mainWindow', 'update-all-pawns');
 }
 
 
@@ -363,9 +359,24 @@ ipcRenderer.on("intiative-updated",
         }
         if (arg.round_increment) {
 
+
             initiative.setRoundCounter(arg.round_increment);
             var curr = initiative.currentActor();
             Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
+            var dropdown = document.getElementById("fov_perspective_dropdown");
+
+            if (dropdown.value.toLowerCase() != "players") {
+                var currentDd = [...dropdown.options].find(x => x.value == curr.current.name);
+                dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
+                onPerspectiveChanged();
+            }
+            console.log(dropdown.options)
+
+
+
+            // if(dropdown && dropdown.options.indexOf(curr.current.name) >= 0){
+            //     dropdown.selectedIndex = dropdown.options.indexOf(curr.current.name)
+            // }
             return;
         }
         if (arg.empty) return initiative.empty();
@@ -462,35 +473,13 @@ ipcRenderer.on('monster-list-cleared', function (evt, arg) {
     loadedMonstersFromMain = [];
 });
 
-
-ipcRenderer.on("next-player-round", function (evt, params) {
-
-    var player = params.player;
-    var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
-    if (forcedPerpspectiveDD.selectedIndex == 1) return; //all players
-    if (player != null) {
-        for (var i = 0; i < forcedPerpspectiveDD.options.length; i++) {
-            if (forcedPerpspectiveDD.options[i].value == player) {
-                forcedPerpspectiveDD.selectedIndex = i;
-                break;
-            }
-        }
-
-    } else {
-        forcedPerpspectiveDD.selectedIndex = 0;
-    }
-
-    onPerspectiveChanged();
-
-});
-
 function onPerspectiveChanged() {
     fovLighting.setPerspective();
     updateHowlerListenerLocation();
 }
 ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
-    console.log("Loading monsters")
-    remote.getCurrentWindow().focus();
+
+
     var monsterArray = JSON.parse(arg);
 
     var counterArray = [];
@@ -578,8 +567,8 @@ document.addEventListener("DOMContentLoaded", function () {
     foregroundCanvas.data_transform_y = 0;
     loadSettings();
     updateHowlerListenerLocation();
-    let window2 = remote.getGlobal('mainWindow');
-    if (window2) window2.webContents.send('maptool-initialized');
+    window.api.messageWindow('mainWindow', 'maptool-initialized')
+
     var bgSize = parseInt($("#foreground").css("background-size"));
     var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
@@ -894,7 +883,7 @@ function onSettingsLoaded() {
 }
 
 function getMapImageFromDialog() {
-    return dialog.showOpenDialogSync(remote.getCurrentWindow(), {
+    return window.dialog.showOpenDialogSync({
         properties: ['openFile'],
         message: "Choose map",
         filters: [{ name: 'Images', extensions: constants.imgFilters }]
@@ -951,6 +940,7 @@ function setMapOverlay(path, width) {
     var btn = document.getElementById("overlay_button");
     settings.currentOverlay = path;
     if (!path) {
+        console.log("Clear overlays")
         overlayCanvas.style.backgroundImage = 'none';
         btn.innerHTML = "Image";
         return;
@@ -1567,14 +1557,16 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
                 newPawn.classList.add("pawn_numbered");
 
             }
-            var id = newPawnId();
-            newPawn.id = id;
-            newPawn.get = () => document.getElementById(id);
+
             pawns.monsters.push(newPawn);
             loadedMonsters.push([newPawn, pawn.name]);
 
             newPawn.style.backgroundColor = pawn.color;
         }
+        var id = newPawnId();
+      
+        newPawn.id = id;
+        newPawn.get = () => document.getElementById(id);
 
         newPawn.dead = "false";
         newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
@@ -1920,10 +1912,12 @@ function removePawnConditionHelper(pawnElement, conditionObj, deleteAll, originM
 }
 
 function raiseConditionsChanged(pawn) {
-
-    let window2 = remote.getGlobal('mainWindow');
-    if (window2) window2.webContents.send('condition-list-changed', pawn["data-dnd_conditions"],
-        pawn.index_in_main_window ? pawn.index_in_main_window : pawn.title);
+    console.log(pawn);
+    var idx = pawn.getAttribute("index_in_main_window");
+    window.api.messageWindow('mainWindow', 'condition-list-changed', {
+        conditionList: pawn["data-dnd_conditions"],
+        index: idx ? idx : pawn.title
+    });
 
 }
 
@@ -2035,11 +2029,11 @@ function killOrRevivePawn() {
             pawnElement.dead = "true";
             if (!isPlayer) {
                 if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
-                    let window2 = remote.getGlobal('mainWindow');
-                    if (window2) window2.webContents.send('monster-killed', [pawnElement.dnd_name, pawnElement.index_in_main_window]);
+                    window.api.messageWindow('mainWindow', 'monster-killed', [pawnElement.dnd_name, pawnElement.index_in_main_window]);
                 }
             }
         }
+        console.log(pawnElement)
         pawnElement.setAttribute("data-state_changed", 1);
     }
 }

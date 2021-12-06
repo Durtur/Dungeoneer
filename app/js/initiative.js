@@ -1,8 +1,5 @@
+const Modals = require("./modals");
 
-
-const app = require('electron').remote.app
-const icon = app.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png";
-const customStylesheet = app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
 
 module.exports = function () {
 
@@ -16,26 +13,6 @@ module.exports = function () {
         isMainWindow = true;
     }
 
-    function finishRoll() {
-        var allRows = document.querySelectorAll("#initiative_popup_window_inner>.row");
-        for (var i = 0; i < allRows.length; i++) {
-            var charName = allRows[i].getElementsByTagName("label")[0].innerHTML;
-            var charDex = parseInt(allRows[i].getAttribute("data-dex-mod"));
-            var color = allRows[i].getAttribute("data-color");
-            if (isNaN(charDex)) charDex = 0;
-            var initRoll = allRows[i].getElementsByTagName("input")[0].value;
-            order.push({
-                name: charName,
-                roll: parseInt(initRoll != "" ? initRoll : "0"),
-                dex: charDex,
-                isPlayer: true,
-                color: color == defaultPlayerColor ? playerColor : color
-
-            });
-        }
-
-        sortAndDisplay();
-    }
     function loadEventHandlers() {
         $(".initiative_explanation_text_node").on("focus", function (e) {
             e.target.select();
@@ -73,23 +50,15 @@ module.exports = function () {
         for (i = 0; i < order.length; i++) {
             if (order[i].name == nodeName) break;
         }
-
-        prompt({
-            title: 'New initiative score',
-            label: 'Initiative score for ' + nodeName + ':',
-            icon: icon,
-            customStylesheet: customStylesheet,
-            inputAttrs: { // attrs to be set if using 'input'
-                type: 'number'
-            }
-
-        })
-            .then((value) => {
-                //Break if user cancels
-                if (value == null) return false;
-                order[i].roll = parseInt(value);
+        Modals.prompt(
+            `${nodeName} - new score`,
+            "Score: ",
+            (result) => {
+                if (result == null) return false;
+                order[i].roll = parseInt(result);
                 sortAndDisplay();
-            });
+            }
+        );
 
 
     }
@@ -111,36 +80,7 @@ module.exports = function () {
             $('.initiativeNode').addClass("init_not_started")
         }
     }
-    function cancelRoll() {
-        document.querySelector("#initiative_popup_window").classList.add("hidden");
-    }
-    function refreshInputFields() {
-        var initiPopupInner = document.getElementById("initiative_popup_window_inner");
 
-        while (initiPopupInner.childNodes.length > 0) {
-            initiPopupInner.removeChild(initiPopupInner.firstChild);
-        }
-        partyArray.forEach(partyMember => {
-
-            initiPopupInner.appendChild(createInputField(partyMember.character_name, partyMember.dexterity, partyMember.color));
-        })
-    }
-    function createInputField(name, dexMod, color) {
-        var newRow = document.createElement("div");
-        newRow.classList.add("row");
-        var lbl = document.createElement("label");
-        lbl.innerHTML = name;
-        newRow.appendChild(lbl);
-        var inp = document.createElement("input");
-        inp.setAttribute("type", "number");
-        inp.setAttribute("placeholder", "Initiative score")
-        newRow.classList.add("initiative_input_row");
-        newRow.setAttribute("data-dex-mod", dexMod ? dexMod : "0");
-
-        newRow.setAttribute("data-color", color);
-        newRow.appendChild(inp);
-        return newRow;
-    }
     function roll() {
         order = [];
         if (settings.countRounds)
@@ -150,17 +90,42 @@ module.exports = function () {
             rollForMonsters(() => sortAndDisplay());
 
         } else {
-            console.log("rolling")
-            rollForMonsters(function (noMonsters) {
 
-                if (noMonsters) {
-                    if (document.getElementsByClassName("initiative_input_row").length == partyArray.length)
-                        document.getElementById("initiative_popup_window_inner").appendChild(createInputField("Monsters"));
-                } else {
-                    refreshInputFields();
-                }
-                document.querySelector("#initiative_popup_window").classList.remove("hidden");
-                $(".initiative_input_row:first-child>input")[0].focus();
+            rollForMonsters(function (noMonsters) {
+                var inputs = partyArray.map(p => {
+                    return {
+                        required: true,
+                        label: p.character_name,
+                        id: p.id
+                    }
+                });
+                if (noMonsters)
+                    inputs.push({
+                        required: false,
+                        label: "Monsters",
+                        id: "monster_init"
+                    })
+                Modals.multiInputPrompt("Initiative scores",
+                    inputs, (resultAr) => {
+                        if (!resultAr)
+                            return;
+
+                        resultAr.filter(x => x.value != "" && x.value != null).map(res => {
+                            var pc = partyArray.find(x => x.id == res.id);
+                            return {
+                                name: pc?.character_name || "Monsters",
+                                roll: parseInt(res.value || 0),
+                                dex: pc?.dexterity || 0,
+                                isPlayer: pc != null,
+                                color: pc?.color || monsterColor
+                            }
+                        }).forEach(x => order.push(x));
+                        sortAndDisplay();
+
+                    }
+                );
+
+
             })
         }
 
@@ -303,7 +268,7 @@ module.exports = function () {
     }
 
     function getColor(entry) {
-        console.log(entry);
+
         if (entry.color) return Util.hexToHSL(entry.color, 40);
         if (entry.isPlayer) return playerColor;
         return monsterColor;
@@ -330,7 +295,7 @@ module.exports = function () {
     function nextRound(sign) {
         if (!roundCounter)
             return;
-        console.log(`Next round ${sign}`)
+     
         if (roundCounter[0] == 1 && roundCounter[1] == 1 && sign < 0)
             return false;
 
@@ -373,21 +338,17 @@ module.exports = function () {
 
     function notifyMapToolNextPlayer() {
         if (settings.enable.mapTool) {
-            let window2 = remote.getGlobal('maptoolWindow');
-            if (window2) {
-                var name = document.querySelector(".initiative_node_active>.initiative_name_node").innerHTML;
-                for (var i = 0; i < partyArray.length; i++) {
-                    if (partyArray[i].character_name == name) {
-                        if (parseInt(partyArray[i].darkvision) > 0) {
-                            window2.webContents.send("next-player-round", { player: name, darkvision: true });
-                        } else {
-                            window2.webContents.send("next-player-round", { player: name, darkvision: false });
-                        }
-                        return;
-                    }
-                }
-                window2.webContents.send("next-player-round", { player: null, darkvision: false });
+
+
+            var name = document.querySelector(".initiative_node_active>.initiative_name_node").innerHTML;
+            var pc = partyArray.find(x => x.name == name);
+            if (!pc) {
+                window.api.messageWindow("maptoolWindow", "next-player-round", { player: null, darkvision: false });
+                return;
             }
+            window.api.messageWindow("maptoolWindow", "next-player-round", { player: name, darkvision: parseInt(pc.darkvision) > 0 });
+
+
         }
     }
 
@@ -396,45 +357,32 @@ module.exports = function () {
     }
 
     function add() {
-        prompt({
-            title: 'Enter combatant name',
-            label: 'Name:',
-            icon: icon,
-            customStylesheet: customStylesheet,
-            inputAttrs: { // attrs to be set if using 'input'
-                type: 'string'
+        var inputs = [
+            {
+                label: "Combatant name",
+                required: true,
+                id: "name"
+            }, {
+                label: "Initiative score (incl dex)",
+                required: true,
+                id: "init"
             }
+        ]
+        Modals.multiInputPrompt("Add to initiative", inputs, (resultArr) => {
+            //Break if user cancels
+            if (resultArr == null) return false;
+            console.log(resultArr)
+            order.push(
+                {
+                    name: resultArr.find(x => x.id == "name").value,
+                    roll: parseInt(resultArr.find(x => x.id == "init").value),
+                    dex: 0,
+                    isPlayer: false
+                });
+            sortAndDisplay();
+            nextRound(0);
 
-        })
-            .then((name) => {
-                //Break if user cancels
-                if (name == null) return false;
-                prompt({
-                    title: 'Enter combatant initiative roll',
-                    label: 'Initiative roll:',
-                    icon: icon,
-                    customStylesheet: customStylesheet,
-                    inputAttrs: { // attrs to be set if using 'input'
-                        type: 'number'
-                    }
-
-                })
-                    .then((roll) => {
-                        //Break if user cancels
-                        if (name == null) return false;
-                        order.push(
-                            {
-                                name: name,
-                                roll: parseInt(roll),
-                                dex: 0,
-                                isPlayer: false
-                            });
-                        sortAndDisplay();
-                        nextRound(0);
-
-                    })
-            })
-
+        });
     }
 
     function setOrder(orderArr) {
@@ -463,7 +411,7 @@ module.exports = function () {
 
     function currentActor() {
         var current = $(".initiativeNode:nth-child(" + roundCounter[1] + ") .initiative_name_node").html();
-        if(current == null){
+        if (current == null) {
             return null;
         }
         var nextIndex = getNextRoundCounterValue();
@@ -487,9 +435,6 @@ module.exports = function () {
         setOrder: setOrder,
         hide: hide,
         empty: emptyInitiative,
-        finishRoll: finishRoll,
-        cancelRoll: cancelRoll,
-        refreshInputFields: refreshInputFields,
         setRoundCounter: setRoundCounter,
         currentActor: currentActor
     }

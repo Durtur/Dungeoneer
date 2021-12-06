@@ -1,23 +1,17 @@
 
 var tab = "monsters", tabElementNameSuffix = "monsters";
 const { ipcRenderer } = require('electron');
+const Modals = require("./js/modals")
 
-const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
-const app = require('electron').remote.app
-const promptOptions = {
-  icon: app.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png",
-  customStylesheet: app.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css"
 
-};
 
 const dataAccess = require("./js/dataaccess");
 const CRCalculator = require("./js/CRCalculator");
 const statblockEditor = require("./js/statblockEditor");
 const TokenSelector = require("./js/tokenSelector");
 const elementCreator = require("./js/lib/elementCreator");
-const remote = require('electron').remote;
-const dialog = require('electron').remote.dialog;
+
 const pathModule = require('path');
 const fs = require('fs');
 var marked = require('marked');
@@ -104,8 +98,7 @@ $(document).ready(function () {
   document.querySelector("#encounter_table_header_row").addEventListener("click", sortEncounterMasterList);
 
   document.getElementById("condition_image_picker").onclick = function (e) {
-    var selectedConditionImagePath = dialog.showOpenDialogSync(
-      remote.getCurrentWindow(), {
+    var selectedConditionImagePath = window.dialog.showOpenDialogSync({
       properties: ['openFile'],
       message: "Choose picture location",
       filters: [{ name: 'Images', extensions: constants.imgFilters }]
@@ -195,28 +188,18 @@ $(document).ready(function () {
 
   document.getElementById("dnd_beyond_statblock_import_button").onclick = function (e) {
 
-    prompt({
-      title: 'Enter URL from DndBeyond',
-      label: 'Url:',
-      icon: promptOptions.icon,
-      customStylesheet: promptOptions.customStylesheet,
-      inputAttrs: { // attrs to be set if using 'input'
-        type: 'string'
+    Modals.prompt("Url", "Enter URL from DndBeyond: ", (url) => {
+      if (url == null) return false;
+      try {
+        webCrawler.checkDndBeyond(url, function (data) {
+          editObject(data, "");
+        })
       }
+      catch (err) {
+        console.log(err)
+      }
+    });
 
-    })
-      .then((url) => {
-        //Break if user cancels
-        if (url == null) return false;
-        try {
-          webCrawler.checkDndBeyond(url, function (data) {
-            editObject(data, "");
-          })
-        }
-        catch (err) {
-          console.log(err)
-        }
-      });
   }
 });
 
@@ -2521,9 +2504,8 @@ function saveHomebrew() {
                 });
               }, 1500)
             }
+            window.api.messageWindow('mainWindow', 'update-autofill')
 
-            let window2 = remote.getGlobal('mainWindow');
-            if (window2) window2.webContents.send('update-autofill');
 
           });
 

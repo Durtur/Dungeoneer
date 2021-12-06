@@ -1,15 +1,15 @@
 const dataAccess = require("./js/dataaccess");
-const dialog = require('electron').remote.dialog;
+
 const { resolve, basename } = require('path');
 
 const util = require("./js/util")
 async function startImporting(e) {
 
-    var filePath = dialog.showOpenDialogSync(
-        remote.getCurrentWindow(), {
-        properties: ['openDirectory'],
-        message: "Choose token root folder"
-    });
+    var filePath = window.dialog.showOpenDialogSync(
+        {
+            properties: ['openDirectory'],
+            message: "Choose token root folder"
+        });
     if (!filePath || filePath.length == 0) return;
     filePath = filePath[0];
     e.target.classList.add("hidden");

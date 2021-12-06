@@ -2,7 +2,6 @@
 const dataAccess = require("./js/dataaccess");
 const StatblockPresenter = require("./js/statblockPresenter");
 
-const dialog = require('electron').remote.dialog;
 const { resolve, basename } = require('path');
 const EncounterModule = require("./js/encounterModule");
 const encounterModule = new EncounterModule();
@@ -12,9 +11,7 @@ const STAGE_THREE_TEXT = "The following monsters will be added to your homebrew.
 
 var currentJSONData, currentStatblockSchema, convertedData;
 function startImporting(e) {
-    var path = dialog.showOpenDialogSync(
-
-        remote.getCurrentWindow(),
+    var path = window.dialog.showOpenDialogSync(
         {
             properties: ['openFile'],
             message: "Choose map",
@@ -59,7 +56,7 @@ function startImporting(e) {
 }
 
 function useSchema(statblockImporterSchema) {
-  
+
     document.getElementById("expl_text").innerHTML = STAGE_THREE_TEXT;
     var parent = document.getElementById("import_statblocks_container");
     while (parent.firstChild)
@@ -77,14 +74,14 @@ function useSchema(statblockImporterSchema) {
 
     document.getElementById("save_actions_container").classList.remove("hidden");
 
-    
+
 }
 
-function save(){
+function save() {
     var overwrite = document.getElementById("overWriteConflicts").checked;
-    dataAccess.addHomebrew(convertedData, overwrite, ()=>{
+    dataAccess.addHomebrew(convertedData, overwrite, () => {
         Util.showSuccessMessage("Save successful");
-        window.setTimeout(()=> window.close(), 3000);
+        window.setTimeout(() => window.close(), 3000);
     });
     console.log(`Saving, overwrite: ${overwrite}`)
 }

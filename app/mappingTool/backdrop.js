@@ -1,6 +1,4 @@
-
-const dialog = require('electron').remote.dialog;
-const remote = require('electron').remote;
+const dataAccess = require("../js/dataaccess");
 
 var videoContainer, buttonContainer;
 document.addEventListener("DOMContentLoaded", function (e) {
@@ -8,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function (e) {
     buttonContainer = document.querySelector(".button_cont");
   
     document.querySelector("#choose_file").onclick = function (e) {
-        var imgPath = dialog.showOpenDialogSync(remote.getCurrentWindow(),
+        var imgPath = window.dialog.showOpenDialogSync(
             {
                 properties: ['openFile'],
                 message: "Choose picture location",

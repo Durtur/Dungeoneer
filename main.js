@@ -1,11 +1,11 @@
 const electron = require('electron')
-const { app, Menu } = require('electron')
+const { app, Menu, dialog } = require('electron')
 const { ipcMain } = require('electron')
 var fs = require('fs');
 const pathModule = require('path');
 const { autoUpdater } = require('electron-updater');
 
-app.allowRendererProcessReuse = false;
+app.allowRendererProcessReuse = true;
 var instanceLock = app.requestSingleInstanceLock();
 console.log(`intance lock ${instanceLock}`)
 autoUpdater.logger = require("electron-log")
@@ -32,6 +32,16 @@ massTokenImporterWindow = null;
 massStatblockImporterWindow = null;
 var updatePending = false;
 
+
+function getWindow(windowName) {
+  switch (windowName) {
+    case 'databaseWindow': return databaseWindow;
+    case 'generatorWindow': return generatorWindow;
+    case 'mainWindow': return mainWindow;
+    case 'maptoolWindow': return maptoolWindow;
+    default: return null;
+  }
+}
 
 const template = [
   {
@@ -116,6 +126,7 @@ if (process.platform === 'darwin') {
 if (!instanceLock) {
   app.quit()
 } else {
+
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
@@ -154,20 +165,7 @@ ipcMain.on('open-database-window', function () {
     return;
   }
 
-  databaseWindow = new BrowserWindow({
-    height: 600,
-    resizable: true,
-    title: "Database",
-    width: 1200,
-    frame: false,
-    icon: "./app/css/img/icon.png",
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
-    }
-  });
-
-  databaseWindow.loadURL('file://' + __dirname + '/app/database.html');
+  databaseWindow = createBaseWindow({ title: "Database" }, '/app/database.html')
 
   databaseWindow.on('closed', function () {
     databaseWindow = null;
@@ -175,9 +173,87 @@ ipcMain.on('open-database-window', function () {
 });
 
 
+function createBaseWindow(options, fileToLoad, whenOpenedFn, show = true) {
+
+  var window = new BrowserWindow(
+    {
+      width: 1250,
+      frame: false,
+      height: 850,
+      title: options?.title || "Dungeoneer",
+      icon: "./app/css/img/icon.png",
+      show: show,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false
+      }
+    }
+  );
+  window.loadURL(url.format({
+    pathname: path.join(__dirname, fileToLoad),
+    protocol: 'file:',
+    slashes: true
+  }));
+  if (whenOpenedFn) {
+    window.on('ready-to-show', () => {
+      whenOpenedFn();
+    });
+  }
+
+  return window;
+
+}
+
+ipcMain.on('notify-window', (sender, args) => {
+  var windowName = args.name;
+  var window = getWindow(windowName);
+  if (window) {
+    window.webContents.send(args.event, args.args);
+    if (args.openIfClosed) {
+      window.focus();
+    }
+  }
+  else if (args.openIfClosed) {
+    if (windowName == "maptoolWindow") {
+      openMapToolWindow(() => {
+        maptoolWindow.webContents.send(args.event, args.args);
+        maptoolWindow.focus();
+      })
+    }
+
+  }
+
+
+});
+
 ipcMain.on('open-settings-window', function () {
   openSettingsWindow();
 });
+
+ipcMain.on('get-path', function (event, folderType) {
+  event.returnValue = app.getPath(folderType);
+});
+
+ipcMain.on('app-path', function (event, folderType) {
+  event.returnValue = app.getAppPath();
+});
+
+ipcMain.on('app-version', function (event, folderType) {
+  event.returnValue = app.getVersion();
+});
+
+ipcMain.on('show-save-dialog', function (event, options) {
+  event.returnValue = dialog.showSaveDialogSync(BrowserWindow.getFocusedWindow(), options);
+});
+
+ipcMain.on('open-dialog', function (event, options) {
+  event.returnValue = dialog.showOpenDialogSync(BrowserWindow.getFocusedWindow(), options);
+});
+
+ipcMain.on('show-message-box', function (event, options) {
+  event.returnValue = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+});
+
 
 ipcMain.on('open-add-maptool-stuff-window', function () {
   openAddMapToolStuffWindow();
@@ -225,6 +301,7 @@ ipcMain.on("open-maptool-backdrop-window", function () {
 ipcMain.on('open-maptool-window', () => openMapToolWindow());
 
 function openMapToolWindow(callback) {
+  console.log("Open map tool")
   if (maptoolWindow) {
     maptoolWindow.focus();
     if (callback) callback();
@@ -232,6 +309,7 @@ function openMapToolWindow(callback) {
   }
 
   createMapToolWindow(function (window) {
+    2
     maptoolWindow = window;
     window.maximize();
     window.loadURL('file://' + __dirname + '/app/mappingTool.html');
@@ -239,7 +317,7 @@ function openMapToolWindow(callback) {
       maptoolWindow = null;
     });
 
-    window.webContents.once('dom-ready', () => {
+    window.webContents.once('ready-to-show', () => {
       if (callback)
         callback();
     })
@@ -271,19 +349,7 @@ ipcMain.on('open-generator-window', function () {
     return;
   }
 
-  generatorWindow = new BrowserWindow({
-    height: 600,
-    resizable: true,
-    width: 1200,
-    frame: false,
-    icon: "./app/css/img/icon.png",
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
-    }
-  });
-
-  generatorWindow.loadURL('file://' + __dirname + '/app/generators.html');
+  generatorWindow = createBaseWindow({}, '/app/generators.html');
 
   generatorWindow.on('closed', function () {
     generatorWindow = null;
@@ -315,24 +381,12 @@ function openAddMapToolStuffWindow() {
   });
 }
 
-function openMassStatblockImporterWindow(){
+function openMassStatblockImporterWindow() {
   if (massStatblockImporterWindow) {
     massStatblockImporterWindow.focus();
     return;
   }
-  massStatblockImporterWindow = new BrowserWindow({
-    height: 800,
-    resizable: true,
-    width: 1050,
-    frame: false,
-    icon: "./app/css/img/icon.png",
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
-    }
-  });
-  massStatblockImporterWindow.loadURL('file://' + __dirname + '/app/statblockImporter.html');
-
+  massStatblockImporterWindow = createBaseWindow({ title: "Statblock importer" }, '/app/statblockImporter.html', null);
   massStatblockImporterWindow.on('closed', function () {
     massStatblockImporterWindow = null;
   });
@@ -343,19 +397,7 @@ function openMassTokenImporterWindow() {
     massTokenImporterWindow.focus();
     return;
   }
-  massTokenImporterWindow = new BrowserWindow({
-    height: 800,
-    resizable: true,
-    width: 750,
-    frame: false,
-    icon: "./app/css/img/icon.png",
-    webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
-    }
-  });
-  massTokenImporterWindow.loadURL('file://' + __dirname + '/app/tokenImporter.html');
-
+  massTokenImporterWindow = createBaseWindow({ title: "Token importer" }, '/app/tokenImporter.html', null);
   massTokenImporterWindow.on('closed', function () {
     massTokenImporterWindow = null;
   });
@@ -420,21 +462,12 @@ function createWindow() {
   // Create the browser window.
   loading = new BrowserWindow({
     width: 200, height: 200, show: false, frame: false, transparent: true, icon: "./app/css/img/icon.png", webPreferences: {
-      nodeIntegration: true,
-      enableRemoteModule: true
+
     }
   });
 
   loading.once('show', () => {
-    mainWindow = new BrowserWindow(
-      {
-        width: 1250, frame: false, height: 850, icon: "./app/css/img/icon.png", show: false,
-        webPreferences: {
-          nodeIntegration: true,
-          enableRemoteModule: true
-        }
-      }
-    );
+    mainWindow = createBaseWindow(null, 'app/index.html', null, false);
 
     mainWindow.webContents.once('dom-ready', () => {
 
@@ -457,12 +490,7 @@ function createWindow() {
 
     })
     // long loading html
-    mainWindow.loadURL(url.format({
-      pathname: path.join(__dirname, 'app/index.html'),
-      protocol: 'file:',
 
-      slashes: true
-    }))
   })
 
 
@@ -498,6 +526,27 @@ ipcMain.on('open-autofill', function () {
 
 });
 
+ipcMain.on('minimize-window', function (sender) {
+  BrowserWindow.getFocusedWindow().minimize();
+
+});
+
+ipcMain.on('close-window', function (sender) {
+  BrowserWindow.getFocusedWindow().close();
+});
+
+ipcMain.on('min-max-window', function (sender) {
+  var window = BrowserWindow.getFocusedWindow();
+  if (window.isMaximized()) {
+    window.unmaximize()
+  } else {
+    window.maximize()
+  }
+});
+ipcMain.on('close-app', function (sender) {
+  app.quit();
+});
+
 function createMapToolWindow(callback) {
 
   fs.readFile(settingsPath, function (err, data) {
@@ -521,7 +570,7 @@ function createMapToolWindow(callback) {
       transparent: transparentWindow,
       webPreferences: {
         nodeIntegration: true,
-        enableRemoteModule: true
+        contextIsolation: false
       }
     }));
 

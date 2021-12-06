@@ -1,23 +1,13 @@
 const shell = require('electron').shell;
-const remote = require('electron').remote;
-
-const app = remote.app;
 
 var pathModule = require('path');
-const resourcePath = pathModule.join(app.getPath("userData"), 'data');
+const resourcePath = pathModule.join(window.api.getPath("userData"), 'data');
 // assuming $ is jQuery
 $(document).on('click', 'a[href^="http"]', function (event) {
     event.preventDefault();
     shell.openExternal(this.href);
 });
 
-
-/*Henda þessu siðan */
-window.addEventListener('mousedown', (e) => {
-    if (e.ctrlKey && e.button == 1)
-        remote.getCurrentWindow().inspectElement(e.clientX, e.clientY);
-
-}, false);
 
 
 window.addEventListener("DOMContentLoaded", ()=>{

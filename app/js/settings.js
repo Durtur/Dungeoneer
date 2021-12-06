@@ -27,7 +27,7 @@ var defaultMonsterTokenRotate = document.querySelector("#defaultMonsterTokenRota
 var defaultPlayerTokenRotate = document.querySelector("#defaultPlayerTokenRotate");
 var defaultMapSizeX = document.getElementById("defaultMapsizeX");
 var matchSizeWithFileName = document.getElementById("matchSizeWithFileName");
-var initiativeNoGroup =  document.getElementById("initiativeNoGroup");
+var initiativeNoGroup = document.getElementById("initiativeNoGroup");
 var coverImagePath = null;
 var soundLibraryPath = null;
 var doneSaving = false;
@@ -68,52 +68,52 @@ document.addEventListener("DOMContentLoaded", function () {
         hideOrShowGridSettings(true);
         addHeaderHandlers();
         readThemes(data.theme);
-        var coverBtn =  document.getElementById("cover_image_button");
-        if(coverImagePath){
+        var coverBtn = document.getElementById("cover_image_button");
+        if (coverImagePath) {
             coverBtn.innerHTML = coverImagePath.name;
         }
-    
-        coverBtn.onclick =  function(e){
-            var selected = dialog.showOpenDialogSync(
-                remote.getCurrentWindow(), {
-                properties: ['openFile'],
-                message: "Choose picture location",
-                filters: [{ name: 'Images', extensions: constants.imgFilters }]
-              });
-              if (selected == null)
+
+        coverBtn.onclick = function (e) {
+            var selected = window.dialog.showOpenDialogSync(
+                {
+                    properties: ['openFile'],
+                    message: "Choose picture location",
+                    filters: [{ name: 'Images', extensions: constants.imgFilters }]
+                });
+            if (selected == null)
                 return;
-              selected = selected[0];
-              coverImagePath =  dataAccess.saveCoverImage(selected);
-              console.log(coverImagePath);
-              coverBtn.innerHTML = coverImagePath.name;
+            selected = selected[0];
+            coverImagePath = dataAccess.saveCoverImage(selected);
+            console.log(coverImagePath);
+            coverBtn.innerHTML = coverImagePath.name;
         };
-        document.getElementById("clear_cover_image_button").onclick =  function(e){
-            
-              coverImagePath = null;
-              coverBtn.innerHTML = "Cover image";
+        document.getElementById("clear_cover_image_button").onclick = function (e) {
+
+            coverImagePath = null;
+            coverBtn.innerHTML = "Cover image";
         };
 
-        var soundBtn =  document.getElementById("sound_library_button");
-        if(soundLibraryPath){
+        var soundBtn = document.getElementById("sound_library_button");
+        if (soundLibraryPath) {
             soundBtn.innerText = soundLibraryPath;
         }
 
-            
-        soundBtn.onclick =  function(e){
+
+        soundBtn.onclick = function (e) {
             var selected = dialog.showOpenDialogSync(
                 remote.getCurrentWindow(), {
                 properties: ['openDirectory'],
                 message: "Choose library location"
-              });
-              if (selected == null)
+            });
+            if (selected == null)
                 return;
-              selected = selected[0];
-              soundLibraryPath =  selected;
-         
-              soundBtn.innerText = soundLibraryPath;
+            selected = selected[0];
+            soundLibraryPath = selected;
+
+            soundBtn.innerText = soundLibraryPath;
         };
-        document.getElementById("clear_sound_library_button").onclick =  function(e){
-            
+        document.getElementById("clear_sound_library_button").onclick = function (e) {
+
             soundLibraryPath = null;
             soundBtn.innerText = "Sound library";
         };
@@ -130,14 +130,14 @@ async function readThemes(selectedTheme) {
         return {
             text: x,
             selected: x === selectedTheme,
-            value:x
+            value: x
         }
     })
     new SlimSelect({
         select: select,
         data: optionList
     });
-    select.onchange = function(e){
+    select.onchange = function (e) {
         oldSettings.theme = select.value;
         ThemeManager.initThemeFile(oldSettings.theme);
     }
@@ -166,10 +166,9 @@ function addHeaderHandlers() {
     }
 }
 function notifySettingsChanged() {
-    let mainWindow = remote.getGlobal('mainWindow');
-    let maptoolWindow = remote.getGlobal('maptoolWindow');
-    if (mainWindow) mainWindow.webContents.send('settings-changed');
-    if (maptoolWindow) maptoolWindow.webContents.send('settings-changed');
+    window.api.messageWindow('mainWindow', 'settings-changed');
+    window.api.messageWindow('maptoolWindow', 'settings-changed');
+
 }
 
 function saveSettings(closeImmediately) {
@@ -178,7 +177,7 @@ function saveSettings(closeImmediately) {
         data = {};
         if (oldSettings != null) data = oldSettings;
         data.coverImagePath = coverImagePath;
-  
+
         data.playerPlaques = playerPlaques.checked;
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;

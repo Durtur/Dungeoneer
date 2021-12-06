@@ -9,8 +9,8 @@ function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 var _require = require('electron'),
-    ipcRenderer = _require.ipcRenderer,
-    webFrame = _require.webFrame;
+  ipcRenderer = _require.ipcRenderer,
+  webFrame = _require.webFrame;
 
 var path = require("path");
 
@@ -19,9 +19,9 @@ var Awesomplete = require(path.resolve('app/awesomplete/awesomplete.js'));
 var marked = require('marked');
 
 var cellSize = 35,
-    minCellsize = 10,
-    maxCellsize = 150,
-    originalCellSize = cellSize;
+  minCellsize = 10,
+  maxCellsize = 150,
+  originalCellSize = cellSize;
 var canvasWidth = 400;
 var canvasHeight = 400;
 var zIndexPawnCap = 9;
@@ -41,21 +41,21 @@ var fovSegmentLayerContext = document.getElementById("fog_of_war_segments").getC
 //Grid 
 
 var moveOffsetX = 0,
-    moveOffsetY = 0,
-    offsetChangeX = 0,
-    offsetChangeY = 0,
-    canvasMoveRate = 2;
+  moveOffsetY = 0,
+  offsetChangeX = 0,
+  offsetChangeY = 0,
+  canvasMoveRate = 2;
 var resetMoveIncrementTimer;
 var backgroundCanvas; //Tokens
 
 var loadedMonsters = [],
-    partyArray,
-    loadedMonstersFromMain = [];
+  partyArray,
+  loadedMonstersFromMain = [];
 var settings,
-    fogOfWarEnabled,
-    filtered = false,
-    lastBackgroundFilter,
-    effectFilePath;
+  fogOfWarEnabled,
+  filtered = false,
+  lastBackgroundFilter,
+  effectFilePath;
 var addPawnImagePaths; //Measurements
 
 var visibilityLayerVisible = false;
@@ -64,9 +64,9 @@ var effectData;
 var MAX_BG_SIZE = 10; //Visibility
 
 var activeViewerHasDarkvision = false,
-    mapInDarkness = false;
+  mapInDarkness = false;
 var effects = [],
-    currentlySelectedEffectDropdown;
+  currentlySelectedEffectDropdown;
 
 var pawns = function () {
   var medium, large, huge, gargantuan, colossal, all;
@@ -373,8 +373,7 @@ function refreshPawnToolTipsHelper(arr, monster) {
 
 
 function notifyTokenAdded(tokenIndex, name) {
-  var mainWindow = remote.getGlobal('mainWindow');
-  if (mainWindow) mainWindow.webContents.send('notify-token-added-in-maptool', [tokenIndex, name]);
+  window.api.messageWindow('mainWindow', 'notify-token-added-in-maptool', [tokenIndex, name]);
 }
 
 ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
@@ -492,7 +491,7 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
 
   var counterArray = [];
   var inArray = false,
-      indexInArray = 0;
+    indexInArray = 0;
   ;
   monsterArray.forEach(function (element) {
     for (var i = 0; i < counterArray.length; i++) {
@@ -1094,7 +1093,7 @@ function resetZoom() {
 }
 
 var MAP_RESIZE_BUFFER = 0,
-    LAST_MAP_RESIZE;
+  LAST_MAP_RESIZE;
 /***
  * Resizes map and other objects
  */
@@ -1156,7 +1155,7 @@ function onEffectSizeChanged(event) {
 var backgroundLoop = function () {
   var background_slide_animation_frame;
   var background_slide_speed = 1,
-      direction;
+    direction;
   var slideCanvas = document.querySelector(".maptool_body");
 
   function setBackgroundSlide(button) {
@@ -1421,7 +1420,7 @@ function turnAllToolboxButtonsOff() {
 }
 
 var measurementTargetOrigin = null,
-    measurementTargetDestination = null;
+  measurementTargetDestination = null;
 var measurementOriginPosition;
 var currentlyMeasuring = false;
 var measurementPaused = false;
@@ -1783,7 +1782,7 @@ function refreshMeasurementTooltip() {
 
 var lastMeasuredSphere;
 var lastMeasuredLineDrawn,
-    totalMeasuredDistance = 0;
+  totalMeasuredDistance = 0;
 
 function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
   var measuredDistance = Math.round(Math.sqrt(Math.pow(destinationPoint.x - originPosition.x, 2) + Math.pow(destinationPoint.y - originPosition.y, 2) + Math.pow(destinationPoint.z - originPosition.z, 2)) / cellSize * 5) + totalMeasuredDistance;
@@ -3053,9 +3052,9 @@ function startMovingMap(e) {
   gridLayer.style.cursor = "-webkit-grabbing";
   var dragMoveTimestamp;
   var pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
+    pos2 = 0,
+    pos3 = 0,
+    pos4 = 0;
   var bg = $("#background");
   pos3 = e.clientX;
   pos4 = e.clientY;
@@ -3124,14 +3123,14 @@ var selectedPawns = [];
 
 function dragPawn(elmnt) {
   var pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0,
-      originPosition = {
-    x: elmnt.offsetLeft,
-    y: elmnt.offsetTop
-  },
-      oldLine;
+    pos2 = 0,
+    pos3 = 0,
+    pos4 = 0,
+    originPosition = {
+      x: elmnt.offsetLeft,
+      y: elmnt.offsetTop
+    },
+    oldLine;
   elmnt.onmousedown = dragMouseDown;
   var tooltip = document.getElementById("tooltip");
   var distance;

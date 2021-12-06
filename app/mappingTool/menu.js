@@ -38,7 +38,7 @@ class Menu {
         document.getElementById("background_menu_button").onclick = getBackgroundFromFile;
         document.getElementById("background_button").onclick = getBackgroundFromFile;
         document.getElementById("overlay_button").onclick = getOverlayFromFile;
-
+        document.getElementById("clear_overlay_button").onclick = () => setMapOverlay(null);
         document.getElementById("save_map_button").onclick = function (e) {
             saveManager.saveCurrentMap();
         }
@@ -55,7 +55,7 @@ class Menu {
         };
         document.querySelector("#map_edge_button").onclick = function (e) {
             var imgPath = getMapImageFromDialog();
-         
+
             document.querySelector(".maptool_body").style.backgroundImage = "url('" + imgPath + "')";
             settings.map_edge_style = imgPath;
             saveSettings();

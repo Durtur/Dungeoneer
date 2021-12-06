@@ -1,7 +1,6 @@
 const dataAccess = require("./js/dataaccess");
 const mathyUtil = require("./js/mathyUtil")
-const remote = require('electron').remote;
-const dialog = require('electron').remote.dialog;
+
 const TavernGenerator = require("./js/tavernGenerator");
 const tavernGenerator = new TavernGenerator();
 const ShopGenerator = require("./js/shopGenerator");
@@ -130,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("delete_creature_set_button").onclick = function (e) {
         var set = document.getElementById("creature_type_name_input").value;
-        if (dialog.showMessageBox(remote.getCurrentWindow(), {
+        if (window.api.showMessageBox({
             type: "question",
             buttons: ["Ok", "Cancel"],
             title: "Delete nameset?",
@@ -153,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("delete_nameset_button").onclick = function (e) {
         var nameSet = document.getElementById("creature_namesets_name_input").value;
-        if (dialog.showMessageBox(remote.getCurrentWindow(), {
+        if (window.api.showMessageBox({
             type: "question",
             buttons: ["Ok", "Cancel"],
             title: "Delete nameset?",

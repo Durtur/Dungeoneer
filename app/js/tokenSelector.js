@@ -18,12 +18,13 @@ class TokenSelector {
             this.removeQueue.forEach(ele => {
                 document.removeEventListener(ele.list, ele.func)
             });
-            this.modal?.close();
+            this.modal?.close(true);
             this.hidePreview();
             callback(result)
         }
         dataAccess.getSettings(settings => {
-            var modal = Modals.createModal(title, cls.done);
+            var modalCreate = Modals.createModal(title, cls.done);
+            var modal = modalCreate.modal;
             cls.modal = modal;
             if (!settings.tokenFolder) {
                 cls._createNoTokenFolder(modal);
@@ -33,7 +34,7 @@ class TokenSelector {
             }
 
 
-            document.body.appendChild(modal);
+            document.body.appendChild(modalCreate.parent);
         });
 
 
@@ -291,7 +292,7 @@ class TokenSelector {
         btn.classList = "button_base button_style";
         btn.innerHTML = "Select token folder";
         btn.onclick = () => {
-            var folderPath = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
+            var folderPath = window.dialog.showOpenDialogSync({
                 properties: ['openDirectory'],
                 message: "Choose token folder location"
             });

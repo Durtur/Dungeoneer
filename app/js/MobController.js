@@ -325,12 +325,7 @@ class MobController {
         var controller = this;
         this.notifyTimerMobChanged = window.setTimeout(
             function () {
-                let maptoolWindow = remote.getGlobal('maptoolWindow');
-
-                if (!maptoolWindow)
-                    return;
-                console.log(controller.notifyMobBuffer)
-                maptoolWindow.webContents.send("notify-map-tool-mob-changed", JSON.stringify(controller.notifyMobBuffer));
+                window.api.messageWindow("maptoolWindow", "notify-map-tool-mob-changed", JSON.stringify(controller.notifyMobBuffer));
                 controller.notifyMobBuffer.clear();
             }, 1000
         );
@@ -338,19 +333,8 @@ class MobController {
     }
 
     notifyMapTool() {
-
-        let window2 = remote.getGlobal('maptoolWindow');
-
-        if (window2) {
-            window2.webContents.send("notify-map-tool-monsters-loaded", JSON.stringify(this.loadedMobs));
-        } else {
-            ipcRenderer.send("open-maptool-window");
-
-            window.setTimeout(function () {
-                window2 = remote.getGlobal('maptoolWindow');
-                if (window2) window2.webContents.send("notify-map-tool-monsters-loaded", JSON.stringify(this.loadedMobs));
-            }, 4000)
-        }
+        window.api.openWindowWithArgs("maptoolWindow", "notify-map-tool-monsters-loaded",JSON.stringify(this.loadedMobs));
+       
         this.loadedMobs.clear();
         this.updateButton();
     }

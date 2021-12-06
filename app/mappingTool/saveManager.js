@@ -2,8 +2,8 @@
 class SaveManager {
 
     async saveCurrentMap() {
-        var path = this.lastLoadedMapPath ? this.lastLoadedMapPath : dialog.showSaveDialogSync(
-            remote.getCurrentWindow(),
+        var path = this.lastLoadedMapPath ? this.lastLoadedMapPath : window.dialog.showSaveDialogSync(
+       
             {
                 filters: [{ name: 'Map', extensions: ['dungeoneer_map'] }],
                 title: "Save",
@@ -103,16 +103,14 @@ class SaveManager {
 
     loadMapDialog() {
         var extensions = this.supportedMapTypes();
-        var path = dialog.showOpenDialogSync(
-
-            remote.getCurrentWindow(),
+        var path = window.dialog.showOpenDialogSync(
             {
                 properties: ['openFile'],
                 message: "Choose map",
                 filters: [{ name: 'Map', extensions: extensions }]
             })[0];
         if (path == null) return;
-
+      
         this.loadMapFromPath(path);
 
     }

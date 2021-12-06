@@ -1,18 +1,7 @@
 
 const constants = require("./js/dataaccess").getConstantsSync();
 constants.imgFilters = ["png", "gif", "jpg", "jpeg", "webp", "avif"];
-const remoteModule = require("electron").remote;
-//const generatorResourcePath = "./resources/app/app/generators/";
 
-/*
-const resourcePath="./resources/app/app/js/lib/";
-const settingsPath="./resources/app/app/settings/";
-*/
-
-/**Býr til html töflu úr json obj sem hefur uppbyggingu
- * "h1"[1,2,3],
- * "h2"[3,4,5].
- **/
 
 function checkIfImageExists(imageSrc, exists, doesNotExist) {
   var img = new Image();
@@ -37,15 +26,15 @@ function dice(sides, times) {
 document.addEventListener("DOMContentLoaded", function () {
 
   var tbText = document.getElementById("title_bar_text");
-  if (tbText && app)
-    tbText.innerHTML = "Version " + app.getVersion();
+  if (tbText && window.api)
+    tbText.innerHTML = "Version " + window.api.getAppVersion();
 });
-/*Henda þessu siðan */
-window.addEventListener('mousedown', (e) => {
-  if (e.ctrlKey && e.button == 1)
-    remoteModule.getCurrentWindow().inspectElement(e.clientX, e.clientY);
+// /*Henda þessu siðan */
+// window.addEventListener('mousedown', (e) => {
+//   if (e.ctrlKey && e.button == 1)
+//     remoteModule.getCurrentWindow().inspectElement(e.clientX, e.clientY);
 
-}, false)
+// }, false)
 
 
 

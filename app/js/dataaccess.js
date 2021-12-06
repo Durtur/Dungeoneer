@@ -1,24 +1,39 @@
 
 var fs = require('fs');
+const { ipcRenderer } = require('electron');
 
-const remote = require('electron').remote;
-const app = remote.app;
+//Refactor to preload script
+window.api = {
+    getPath: (arg) => { return ipcRenderer.sendSync('get-path', arg) },
+    getAppPath: () => { return ipcRenderer.sendSync('app-path') },
+    getAppVersion: () => { return ipcRenderer.sendSync('app-version') },
+    messageWindow: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args })},
+    openWindowWithArgs: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args, openIfClosed:true })},
+
+}
+window.dialog = {
+    showOpenDialogSync: (options) => { return ipcRenderer.sendSync('open-dialog', options) },
+    showMessageBox: (options) => {return ipcRenderer.sendSync("show-message-box", options) },
+    showSaveDialogSync: (options) => {return ipcRenderer.sendSync("show-save-dialog", options) }
+}
+
+
 const { readdir, writeFile } = require('fs').promises;
 const uniqueID = require('uniqid');
 var pathModule = require('path');
 const sharp = process.platform != "linux" ? require("sharp") : {};
 
-const settingsPath = pathModule.join(app.getPath("userData"), "data", "settings");
-const resourcePath = pathModule.join(app.getPath("userData"), 'data');
-const tempFilePath = pathModule.join(app.getPath("userData"), 'temp');
+const settingsPath = pathModule.join(window.api.getPath("userData"), "data", "settings");
+const resourcePath = pathModule.join(window.api.getPath("userData"), 'data');
+const tempFilePath = pathModule.join(window.api.getPath("userData"), 'temp');
 const baseTokenSize = 280;
-const defaultResourcePath = pathModule.join(app.getAppPath(), 'data');
-const defaultGeneratorResourcePath = pathModule.join(app.getAppPath(), "data", "generators");
-const generatorResourcePath = pathModule.join(app.getPath("userData"), "data", "generators");
-const defaultTokenPath = pathModule.join(app.getPath("userData"), "data", "maptool_tokens");
-const defaultEffectPath = pathModule.join(app.getPath("userData"), "data", "maptool_effects");
-const conditionImagePath = pathModule.join(app.getPath("userData"), "data", "condition_images");
-const conditionResourcePath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
+const defaultResourcePath = pathModule.join(window.api.getAppPath(), 'data');
+const defaultGeneratorResourcePath = pathModule.join(window.api.getAppPath(), "data", "generators");
+const generatorResourcePath = pathModule.join(window.api.getPath("userData"), "data", "generators");
+const defaultTokenPath = pathModule.join(window.api.getPath("userData"), "data", "maptool_tokens");
+const defaultEffectPath = pathModule.join(window.api.getPath("userData"), "data", "maptool_effects");
+const conditionImagePath = pathModule.join(window.api.getPath("userData"), "data", "condition_images");
+const conditionResourcePath = pathModule.join(window.api.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
 
 
 module.exports = function () {
@@ -37,7 +52,7 @@ module.exports = function () {
         isFirstTimeLoading = true;
         console.log("Initalizing data...");
 
-        var baseFolder = pathModule.join(app.getPath("userData"), "data");
+        var baseFolder = pathModule.join(window.api.getPath("userData"), "data");
         if (!fs.existsSync(baseFolder))
             fs.mkdirSync(baseFolder);
         loadDefaults("monsters.json");
@@ -469,7 +484,7 @@ module.exports = function () {
 
 
     function checkIfFirstTimeLoadComplete() {
-        var baseFolder = pathModule.join(app.getPath("userData"), "data");
+        var baseFolder = pathModule.join(window.api.getPath("userData"), "data");
         if (!fs.existsSync(baseFolder))
             initializeData();
     }

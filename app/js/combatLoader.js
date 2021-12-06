@@ -63,19 +63,9 @@ var combatLoader = function () {
         createAttackPcButtons();
     }
 
-    function notifyMapTool() {
+    function loadMonsterQueue() {
         if (loadedMonsterQueue.length == 0) return;
-        let window2 = remote.getGlobal('maptoolWindow');
-        if (window2) {
-            window2.webContents.send("notify-map-tool-monsters-loaded", JSON.stringify(popQueue(loadedMonsterQueue)));
-        } else {
-            ipcRenderer.send("open-maptool-window");
-
-            window.setTimeout(function () {
-                window2 = remote.getGlobal('maptoolWindow');
-                if (window2) window2.webContents.send("notify-map-tool-monsters-loaded", JSON.stringify(popQueue(loadedMonsterQueue)));
-            }, 4000)
-        }
+        window.api.openWindowWithArgs('maptoolWindow', "notify-map-tool-monsters-loaded", JSON.stringify(popQueue(loadedMonsterQueue)));
     }
 
     function roll() {
@@ -103,7 +93,7 @@ var combatLoader = function () {
             } else {
                 rand = d(20);
             }
-            logStr+= ` (${rand})`;
+            logStr += ` (${rand})`;
             var dmgField = row.getElementsByClassName("damage_field")[0];
             var formerText = dmgField.innerHTML;
             if (formerText.indexOf("=") >= 0) {
@@ -131,7 +121,7 @@ var combatLoader = function () {
                 buttons[i].classList.remove("die_d20_crit");
                 buttons[i].classList.remove("die_d20_hit");
                 logStr += " and missed;"
-               entry = LogEntryType.Bad;
+                entry = LogEntryType.Bad;
             }
             addToCombatLog(row, logStr, entry)
             dmgField.innerHTML = dmgField.innerHTML + result;
@@ -276,9 +266,8 @@ var combatLoader = function () {
                 kill(monsterIndexInRow, false)
             else
                 revive({ index: monsterIndexInRow })
+            window.api.messageWindow("maptoolWindow", 'monster-health-changed', { index: monsterIndex, healthPercentage: hpPercentage, dead: isDead });
 
-            let window2 = remote.getGlobal('maptoolWindow');
-            if (window2) window2.webContents.send('monster-health-changed', { index: monsterIndex, healthPercentage: hpPercentage, dead: isDead });
             sort();
             return
 
@@ -568,9 +557,7 @@ var combatLoader = function () {
         frameHistoryButtons.clearAll();
         loadedMonsterQueue.length = 0;
         loadedMonsterQueue.update();
-        let window2 = remote.getGlobal('maptoolWindow');
-        if (window2) window2.webContents.send('monster-list-cleared');
-
+        window.api.messageWindow("maptoolWindow", 'monster-list-cleared');
         rowCountChanged();
     }
 
@@ -1233,7 +1220,7 @@ var combatLoader = function () {
         toggleShowDead: toggleShowDead,
         loadFieldHandlers: loadFieldHandlers,
         notifyPartyArrayUpdated: notifyPartyArrayUpdated,
-        notifyMapTool: notifyMapTool,
+        loadMonsterQueue: loadMonsterQueue,
         revive: revive,
         kill: kill,
         clearSelection: clearSelection,

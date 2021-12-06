@@ -3,7 +3,7 @@
 const dataaccess = require("./dataaccess");
 
 class SoundManager {
-    defaultSoundPath = pathModule.join(app.getAppPath(), 'app', 'mappingTool', 'sounds');
+    defaultSoundPath = pathModule.join(window.api.getAppPath(), 'app', 'mappingTool', 'sounds');
     soundProfiles = {
      
         "normal": 150,

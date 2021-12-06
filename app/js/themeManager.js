@@ -2,8 +2,8 @@ const pathModule = require("path");
 
 class ThemeManager {
     constructor() {
-        this.THEME_PATH = pathModule.join(app.getAppPath(), 'app', 'css', 'themes');
-        this.BASE_CSS_PATH = pathModule.join(app.getAppPath(), 'app', 'css');
+        this.THEME_PATH = pathModule.join(window.api.getAppPath(), 'app', 'css', 'themes');
+        this.BASE_CSS_PATH = pathModule.join(window.api.getAppPath(), 'app', 'css');
     }
 
     async getThemes() {

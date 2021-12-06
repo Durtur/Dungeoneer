@@ -1,5 +1,6 @@
 :root {
   --z-index-tooltip: 12;
+  --z-index-alot:9999;
   --statblock-emphasis-color: #500c00;
 }
 
@@ -656,6 +657,9 @@ input, textarea, .cell_row {
   font-family: var(--header-font);
 }
 
+.base_margin{
+  margin: 0.25em;
+}
 .row_margin {
   margin-left: 5px;
 }
@@ -715,6 +719,7 @@ input, textarea, .cell_row {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index:var(--z-index-alot);
 }
 
 .disappearing_title {
@@ -880,6 +885,10 @@ input, textarea, .cell_row {
 .row_wrap {
   display: flex;
   flex-flow: row wrap;
+}
+
+.flex_end{
+  justify-content: flex-end;
 }
 
 .column {

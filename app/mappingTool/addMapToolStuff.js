@@ -2,7 +2,7 @@ const dataAccess = require("./js/dataaccess");
 const SoundManager = require("./js/soundManager");
 const soundManager = new SoundManager();
 var allEffects;
-const dialog = require('electron').remote.dialog;
+
 var editingEffectName = null;
 var effectFilePath;
 document.addEventListener("DOMContentLoaded", (e) => {
@@ -140,7 +140,7 @@ function startEditingEntry() {
     updateCurrentSound();
 }
 function addArtToEffect() {
-    var imagePaths = dialog.showOpenDialogSync(remote.getCurrentWindow(), {
+    var imagePaths = window.dialog.showOpenDialogSync( {
         properties: ['openFile', 'multiSelections'],
         message: "Choose picture location",
         filters: [{ name: 'Images', extensions: ['png', "jpg", "gif"] }]
@@ -243,8 +243,7 @@ function commitSave(callback) {
     dataAccess.getMapToolData(data => {
         data.effects = allEffects;
         dataAccess.setMapToolData(data, function () {
-            let window2 = remote.getGlobal('maptoolWindow');
-            if (window2) window2.webContents.send('notify-effects-changed');
+            window.api.messageWindow('maptoolWindow', 'notify-effects-changed')
             if (callback) callback();
         });
     })
