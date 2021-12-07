@@ -7,14 +7,18 @@ window.api = {
     getPath: (arg) => { return ipcRenderer.sendSync('get-path', arg) },
     getAppPath: () => { return ipcRenderer.sendSync('app-path') },
     getAppVersion: () => { return ipcRenderer.sendSync('app-version') },
-    messageWindow: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args })},
-    openWindowWithArgs: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args, openIfClosed:true })},
-
+    messageWindow: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args }) },
+    openBrowser: (path) => { return ipcRenderer.send("open-browser", path) },
+    openWindowWithArgs: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args, openIfClosed: true }) },
+    openExplorer: (path) => { return ipcRenderer.send("open-explorer", path) }
+  
 }
 window.dialog = {
     showOpenDialogSync: (options) => { return ipcRenderer.sendSync('open-dialog', options) },
-    showMessageBox: (options) => {return ipcRenderer.sendSync("show-message-box", options) },
-    showSaveDialogSync: (options) => {return ipcRenderer.sendSync("show-save-dialog", options) }
+    showMessageBoxSync: (options) => { return ipcRenderer.sendSync("show-message-box", options) },
+    showSaveDialogSync: (options) => { return ipcRenderer.sendSync("show-save-dialog", options) }
+
+
 }
 
 

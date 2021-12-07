@@ -4,9 +4,6 @@ const dataAccess = require("./js/dataaccess");
 const ThemeManager = require("./js/themeManager");
 const SlimSelect = require("slim-select");
 
-
-const dialog = require('electron').remote.dialog;
-
 var playerPlaques = document.querySelector("#showPlayerPlaques");
 var autoRoll = document.querySelector("#autoRollInitiative");
 var roundCounter = document.querySelector("#roundCounterIntitiative");
@@ -100,8 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         soundBtn.onclick = function (e) {
-            var selected = dialog.showOpenDialogSync(
-                remote.getCurrentWindow(), {
+            var selected = window.dialog.showOpenDialogSync({
                 properties: ['openDirectory'],
                 message: "Choose library location"
             });
@@ -214,9 +210,9 @@ function saveSettings(closeImmediately) {
         notifySettingsChanged();
         if (closeImmediately) {
             doneSaving = true;
-            remote.getCurrentWindow().close()
+            ipcRenderer.send("close-window");
         } else {
-            setTimeout(function () { remote.getCurrentWindow().close() }, 1000);
+            setTimeout(function () { ipcRenderer.send("close-window"); }, 1000);
         }
 
 

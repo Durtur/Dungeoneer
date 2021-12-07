@@ -246,7 +246,7 @@ var combatLoader = function () {
 
             var isDead = currentHp <= 0;
             var hasTempHp = currentHp > originalHp;
-            console.log(currentHp, originalHp)
+          
             var ratio = currentHp / originalHp;
             var healthBar = row.querySelector(".health_bar");
 

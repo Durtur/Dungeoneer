@@ -69,7 +69,7 @@ function notifyMapToolConditionsChanged(index, conditions, isPlayer) {
 
 ipcRenderer.on('condition-list-changed', function (evt, args) {
 
-  var conditionList = args.conditionList; 
+  var conditionList = args.conditionList;
   var index = args.index;
   var combatRow = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => parseInt(x.querySelector(".combat_row_monster_id").innerHTML) == index)[0];
   if (combatRow) {
@@ -123,7 +123,7 @@ ipcRenderer.on('settings-changed', function (evt, arg) {
 });
 
 ipcRenderer.on('monster-killed', function (evt, arg) {
-  combatLoader.kill(arg, true);
+  combatLoader.kill(arg[1], true);
 });
 
 /* #endregion */
@@ -462,9 +462,7 @@ var autofill = function () {
 
   }
   function notifyAutoFillComplete() {
-    let window2 = remote.getGlobal('settingsWindow');
-
-    if (window2) window2.webContents.send('update-autofill-complete');
+    window.api.messageWindow('databaseWindow', 'update-autofill-complete');
 
   }
   return {

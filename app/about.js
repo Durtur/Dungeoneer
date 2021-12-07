@@ -1,11 +1,13 @@
-const shell = require('electron').shell;
 
 var pathModule = require('path');
+const dataAccess = require("./js/dataaccess")
 const resourcePath = pathModule.join(window.api.getPath("userData"), 'data');
+const {ipcRenderer} = require("electron")
 // assuming $ is jQuery
 $(document).on('click', 'a[href^="http"]', function (event) {
     event.preventDefault();
-    shell.openExternal(this.href);
+    window.api.openBrowser(this.href)
+
 });
 
 
@@ -56,7 +58,8 @@ function setDrawer(index) {
 }
 
 function openDataFolder(){
-     shell.openPath(resourcePath);
+    window.api.openExplorer(resourcePath)
+    
 }
 
 function createSoundAttribution(){

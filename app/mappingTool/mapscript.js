@@ -297,22 +297,20 @@ function refreshPawnToolTipsHelper(arr, monster) {
     for (var i = 0; i < arr.length; i++) {
         var element = arr[i][0];
         var changed = element.getAttribute("data-state_changed");
-        console.log(element)
-        if (changed) {
+        if (!changed)
+            continue;
 
-            flyingHeight = parseInt(element.flying_height);
-            element.title = arr[i][1];
-            if (flyingHeight != 0) element.title += "\n Flying: " + flyingHeight + " ft"
-            if (element.dead == "true") {
-
-                element.get().title += "\n Dead/Unconscious"
-                element.get().classList.add("pawn_dead");
-            } else {
-
-                element.get().classList.remove("pawn_dead");
-            }
-            element.setAttribute("data-state_changed", null);
+        flyingHeight = parseInt(element.flying_height);
+        element.title = arr[i][1];
+        if (flyingHeight != 0) element.title += "\n Flying: " + flyingHeight + " ft"
+        if (element.dead == "true") {
+            element.title += "\n Dead/Unconscious"
+            element.classList.add("pawn_dead");
+        } else {
+            element.classList.remove("pawn_dead");
         }
+        element.setAttribute("data-state_changed", null);
+
 
     }
 }
@@ -331,8 +329,7 @@ function notifySelectedPawnsChanged() {
 
 
 function notifyTokenAdded(tokenIndex, name) {
-    let mainWindow = remote.getGlobal('mainWindow');
-    if (mainWindow) mainWindow.webContents.send('notify-token-added-in-maptool', [tokenIndex, name]);
+    window.api.messageWindow('mainWindow', 'notify-token-added-in-maptool', [tokenIndex, name]);
 }
 
 function requestNotifyUpdateFromMain() {
@@ -1525,7 +1522,9 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         var pawn = pawnArray[i];
         newPawn = document.createElement("div");
         newPawn.classList.add("pawn");
-
+        var id = newPawnId();
+        newPawn.id = id;
+        newPawn.get = () => document.getElementById(id);
 
         newPawn.title = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
         newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
@@ -1563,10 +1562,6 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
             newPawn.style.backgroundColor = pawn.color;
         }
-        var id = newPawnId();
-      
-        newPawn.id = id;
-        newPawn.get = () => document.getElementById(id);
 
         newPawn.dead = "false";
         newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
@@ -2019,8 +2014,7 @@ function killOrRevivePawn() {
             pawnElement.dead = "false";
             if (!isPlayer) {
                 if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
-                    let window2 = remote.getGlobal('mainWindow');
-                    if (window2) window2.webContents.send('monster-revived', { name: pawnElement.dnd_name, index: pawnElement.index_in_main_window });
+                    window.api.messageWindow('mainWindow', 'monster-revived', { name: pawnElement.dnd_name, index: pawnElement.index_in_main_window });
                 }
             }
         } else {
@@ -2028,12 +2022,13 @@ function killOrRevivePawn() {
                 return;
             pawnElement.dead = "true";
             if (!isPlayer) {
+                console.log()
                 if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
                     window.api.messageWindow('mainWindow', 'monster-killed', [pawnElement.dnd_name, pawnElement.index_in_main_window]);
                 }
             }
         }
-        console.log(pawnElement)
+        console.log(pawnElement.dead)
         pawnElement.setAttribute("data-state_changed", 1);
     }
 }

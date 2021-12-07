@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("delete_creature_set_button").onclick = function (e) {
         var set = document.getElementById("creature_type_name_input").value;
-        if (window.api.showMessageBox({
+        if (window.api.showMessageBoxSync({
             type: "question",
             buttons: ["Ok", "Cancel"],
             title: "Delete nameset?",
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("delete_nameset_button").onclick = function (e) {
         var nameSet = document.getElementById("creature_namesets_name_input").value;
-        if (window.api.showMessageBox({
+        if (window.api.showMessageBoxSync({
             type: "question",
             buttons: ["Ok", "Cancel"],
             title: "Delete nameset?",
@@ -662,8 +662,7 @@ function deleteEncounterSet() {
         data = obj.encounter_sets;
 
         if (data[encounterSetName] == null) return;
-        var response = dialog.showMessageBox(
-            remote.getCurrentWindow(),
+        var response = window.dialog.showMessageBoxSync(
             {
                 type: "question",
                 buttons: ["Ok", "Cancel"],
@@ -693,8 +692,7 @@ function deleteEncounterSet() {
 function saveEncounterSet() {
     var encounterSetName = document.getElementById("encounter_set_name_input").value;
     if (encounterSetName == "") {
-        dialog.showMessageBox(
-            remote.getCurrentWindow(),
+        window.dialog.showMessageBoxSync(
             {
                 type: "info",
                 buttons: ["Ok"],
@@ -875,6 +873,7 @@ function createTableNameAwesomeplete(newInput) {
 }
 
 function deleteRandomTable() {
+    console.log("to")
     var input = document.getElementById("random_table_name_input");
     var tblName = serialize(input.value);
     dataAccess.getRandomTables(function (data) {
@@ -882,8 +881,8 @@ function deleteRandomTable() {
         data = obj.tables;
 
         if (!data || data[tblName] == null) return;
-        var response = dialog.showMessageBoxSync(
-            remote.getCurrentWindow(),
+        var response = window.dialog.showMessageBoxSync(
+
             {
                 type: "question",
                 buttons: ["Ok", "Cancel"],
@@ -916,8 +915,7 @@ function deleteRandomTable() {
 function saveRandomTable() {
     var input = document.getElementById("random_table_name_input");
     if (input.value == "") {
-        dialog.showMessageBox(
-            remote.getCurrentWindow(),
+        window.dialog.showMessageBoxSync(
             {
                 type: "info",
                 buttons: ["Ok"],

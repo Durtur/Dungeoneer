@@ -1,5 +1,5 @@
 const electron = require('electron')
-const { app, Menu, dialog } = require('electron')
+const { app, Menu, dialog, shell } = require('electron')
 const { ipcMain } = require('electron')
 var fs = require('fs');
 const pathModule = require('path');
@@ -230,6 +230,9 @@ ipcMain.on('open-settings-window', function () {
   openSettingsWindow();
 });
 
+ipcMain.on('open-explorer', function (event, path) {
+  shell.openPath(path);
+});
 ipcMain.on('get-path', function (event, folderType) {
   event.returnValue = app.getPath(folderType);
 });
@@ -242,16 +245,16 @@ ipcMain.on('app-version', function (event, folderType) {
   event.returnValue = app.getVersion();
 });
 
+ipcMain.on('show-message-box', function (event, options) {
+  event.returnValue = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
+});
+
 ipcMain.on('show-save-dialog', function (event, options) {
   event.returnValue = dialog.showSaveDialogSync(BrowserWindow.getFocusedWindow(), options);
 });
 
 ipcMain.on('open-dialog', function (event, options) {
   event.returnValue = dialog.showOpenDialogSync(BrowserWindow.getFocusedWindow(), options);
-});
-
-ipcMain.on('show-message-box', function (event, options) {
-  event.returnValue = dialog.showMessageBoxSync(BrowserWindow.getFocusedWindow(), options);
 });
 
 
@@ -285,7 +288,7 @@ ipcMain.on("open-maptool-backdrop-window", function () {
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      contextIsolation: false
     }
   });
 
@@ -370,7 +373,7 @@ function openAddMapToolStuffWindow() {
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      contextIsolation: false
     }
   });
 
@@ -417,7 +420,7 @@ function openAboutWindow() {
     icon: "./app/css/img/icon.png",
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      contextIsolation: false
     }
   });
 
@@ -442,7 +445,7 @@ function openSettingsWindow() {
     icon: "./app/css/img/settings.png",
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      contextIsolation: false
     }
   });
 
@@ -523,8 +526,14 @@ autoUpdater.on('update-downloaded', () => {
 
 ipcMain.on('open-autofill', function () {
   ipcMain.send('open-autofill');
-
 });
+
+ipcMain.on('open-browser', function (sender, path) {
+  shell.openExternal(path);
+});
+
+
+
 
 ipcMain.on('minimize-window', function (sender) {
   BrowserWindow.getFocusedWindow().minimize();

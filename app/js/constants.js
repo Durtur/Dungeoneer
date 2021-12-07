@@ -29,13 +29,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (tbText && window.api)
     tbText.innerHTML = "Version " + window.api.getAppVersion();
 });
-// /*Henda þessu siðan */
-// window.addEventListener('mousedown', (e) => {
-//   if (e.ctrlKey && e.button == 1)
-//     remoteModule.getCurrentWindow().inspectElement(e.clientX, e.clientY);
-
-// }, false)
-
 
 
 function lightenColor(colorString) {
