@@ -308,11 +308,11 @@ class ShopGenerator {
                 nameset = creatureType;
             }
 
-            shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names[nameset], creatureType);
+            shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names[nameset], creatureType, "shop");
 
         } else {
             locationSet = data.shops.location;
-            shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names.anglo, "humanoid");
+            shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names.anglo, "humanoid", "shop");
         }
 
         var ownerLastName;

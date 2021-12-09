@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("delete_creature_set_button").onclick = function (e) {
         var set = document.getElementById("creature_type_name_input").value;
-        if (window.api.showMessageBoxSync({
+        if (window.dialog.showMessageBoxSync({
             type: "question",
             buttons: ["Ok", "Cancel"],
             title: "Delete nameset?",
@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("delete_nameset_button").onclick = function (e) {
         var nameSet = document.getElementById("creature_namesets_name_input").value;
-        if (window.api.showMessageBoxSync({
+        if (window.dialog.showMessageBoxSync({
             type: "question",
             buttons: ["Ok", "Cancel"],
             title: "Delete nameset?",

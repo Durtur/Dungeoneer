@@ -11,7 +11,7 @@ window.api = {
     openBrowser: (path) => { return ipcRenderer.send("open-browser", path) },
     openWindowWithArgs: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args, openIfClosed: true }) },
     openExplorer: (path) => { return ipcRenderer.send("open-explorer", path) }
-  
+
 }
 window.dialog = {
     showOpenDialogSync: (options) => { return ipcRenderer.sendSync('open-dialog', options) },
@@ -25,6 +25,7 @@ window.dialog = {
 const { readdir, writeFile } = require('fs').promises;
 const uniqueID = require('uniqid');
 var pathModule = require('path');
+const { settings } = require('cluster');
 const sharp = process.platform != "linux" ? require("sharp") : {};
 
 const settingsPath = pathModule.join(window.api.getPath("userData"), "data", "settings");
@@ -510,6 +511,57 @@ module.exports = function () {
         }));
         return Array.prototype.concat(...files);
     }
+
+    function getPersistedGeneratorData(group, callback) {
+        baseGetWithFullPath(pathModule.join(generatorResourcePath, "generator_persisted.json"), (data) => {
+
+            if (group) {
+                callback(data[group]);
+            } else {
+                callback(data);
+            }
+
+        }, []);
+    }
+    function persistGeneratorData(data, group, callback) {
+        var savePath = pathModule.join(generatorResourcePath, "generator_persisted.json");
+        if (!fs.existsSync(generatorResourcePath))
+            fs.mkdirSync(generatorResourcePath);
+
+        if (!fs.existsSync(savePath)) {
+            var saveData = {};
+            saveData[group] = [];
+            saveData[group].push(data)
+            baseSetWithFullPath(savePath, saveData, callback);
+            return;
+        }
+
+        getPersistedGeneratorData(null, saveData => {
+            if (!saveData[group])
+                saveData[group] = [];
+            if (settings && settings.currentParty)
+                data.party = settings.currentParty;
+            if (data.id)
+                saveData[group] = saveData[group].filter(x => x.id != data.id);
+            else
+                data.id = uniqueID();
+
+            saveData[group].push(data)
+            baseSetWithFullPath(savePath, saveData, callback);
+        });
+
+
+
+    }
+
+    function deleteGeneratorPersisted(group, id, callback) {
+        if (!id) return;
+        var savePath = pathModule.join(generatorResourcePath, "generator_persisted.json");
+        getPersistedGeneratorData(null, saveData => {
+            saveData[group] = saveData[group].filter(x => x.id != id);
+            baseSetWithFullPath(savePath, saveData, callback);
+        });
+    }
     return {
         getFiles: getFiles,
         readFile: readFile,
@@ -555,6 +607,9 @@ module.exports = function () {
         getMonsterTypes: getMonsterTypes,
         writeTempFile: writeTempFile,
         initialize: initialize,
+        persistGeneratorData: persistGeneratorData,
+        deleteGeneratorPersisted: deleteGeneratorPersisted,
+        getPersistedGeneratorData: getPersistedGeneratorData,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize
 

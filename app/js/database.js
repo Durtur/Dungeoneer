@@ -109,7 +109,7 @@ $(document).ready(function () {
     var imgEle = document.getElementById("condition_image_picker");
     imgEle.setAttribute("src", selectedConditionImagePath);
   }
-  $(".listSearch").on("keyup paste", filterListAndShow)
+  $(".search_input").on("keyup paste", filterListAndShow)
   $("#encounter_monster_list_search").on("keyup paste", searchMasterListAfterInput)
   $("#spell_class_dropdown").on("change", filterListAndShow)
   $(".monsterCR").on("change keyup paste", calculateSuggestedCR);
@@ -635,7 +635,7 @@ function setTab(x) {
 
   }
   window.setTimeout(() => loadAll(), 200)
-  var searchBar = document.getElementsByClassName("listSearch");
+  var searchBar = document.getElementsByClassName("search_input");
   [...searchBar].forEach(bar => bar.value = "");
 }
 

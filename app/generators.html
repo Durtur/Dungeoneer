@@ -11,9 +11,12 @@
     <link rel="stylesheet" href="awesomplete/awesomplete.css" />
     <link rel='stylesheet' href='chosen/chosen.css' />
     <link href="css/theme.css" rel="stylesheet">
+    <link href="css/modals.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">
     <link href="css/sidebar.css" rel="stylesheet">
     <link href="css/generators.css" rel="stylesheet">
+    <link href="css/quill/snow.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -46,21 +49,22 @@
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a class="navbar_icon tab npc_icon button button_style generator_tab" data-section_id="npc" id="npc"
-                            onclick="setTab('npc')"></a>
+                        <a class="navbar_icon tab npc_icon button button_style generator_tab" data-section_id="npc"
+                            id="npc" onclick="setTab('npc')"></a>
                     </li>
                     <li>
-                        <a class="navbar_icon tab shop_icon button button_style generator_tab" data-section_id="shops" id="shops"
-                            onclick="setTab('shops')"><i></i> <span class=""></span></a>
+                        <a class="navbar_icon tab shop_icon button button_style generator_tab" data-section_id="shops"
+                            id="shops" onclick="setTab('shops')"><i></i> <span class=""></span></a>
 
                     </li>
 
                     <li>
-                        <a class="navbar_icon tab tavern_icon button button_style generator_tab"  data-section_id="taverns" id="taverns"
-                            onclick="setTab('taverns')"><i></i> <span class=""></span></a>
+                        <a class="navbar_icon tab tavern_icon button button_style generator_tab"
+                            data-section_id="taverns" id="taverns" onclick="setTab('taverns')"><i></i> <span
+                                class=""></span></a>
                     </li>
                     <li>
-                        <a class="navbar_icon tab customize_icon button button_style generator_tab"  id="customize"
+                        <a class="navbar_icon tab customize_icon button button_style generator_tab" id="customize"
                             onclick="setTab('customize')" data-section_id="customize"><i></i> <span class=""></span></a>
 
                     </li>
@@ -72,7 +76,7 @@
         </aside>
         <div class="column" style="    width: 100%;
         margin-top: 1.6em;">
-       
+
 
             <section class="section__show section__tool__large row spread_children" id="customize_section">
 
@@ -206,6 +210,9 @@
             <section class="section__show section__tool__large row spread_children" id="taverns_section">
                 <div class="column genchooser_smaller">
                     <h2>Tavern Generator</h2>
+                    <div class="row">
+                        <input class="saved_taverns_search search_input hidden" placeholder="Saved taverns">
+                    </div>
                     <label for="tavern_wealth">Wealth</label>
                     <select name="tavern_wealth" id="tavern_wealth">
                         <option value="0">Poor</option>
@@ -241,6 +248,14 @@
                         <button class="generate_button button_style button_wide margin_top hidden"
                             id="reroll_tavern_button">Reroll
                             rumors/menu</button>
+                        <div class="column" style="margin-top: 3em;">
+                            <button class="generate_button button_style button_wide margin_top hidden green"
+                                id="save_tavern_button">Save</button>
+                            <button class="generate_button button_style button_wide margin_top hidden red"
+                                id="delete_tavern_button">Delete</button>
+                        </div>
+
+
                     </div>
 
                 </div>
@@ -250,7 +265,10 @@
 
                         <h1 class="shop__name hidden" id="tavern_name">
                         </h1>
-                        <p class="text" id="tavern_description"></p>
+
+                        <div id="tavern_metadata"></div>
+                        <p class="text" id="tavern_description">
+                        </p>
                         <div class="table_and_rumors">
                             <div id="tavern_table">
 

@@ -222,6 +222,12 @@ module.exports = function () {
             ele.innerHTML = innerHTML;
         return ele;
     }
+    function wrapper(tag, classList, childNode) {
+        var par = ele(tag, classList);
+        par.appendChild(childNode);
+  
+        return par;
+    }
 
     //8.8mb
     async function toBase64(path, shrink) {
@@ -285,6 +291,7 @@ module.exports = function () {
         createLoadingEle: createLoadingEle,
         IsVowel: IsVowel,
         ele: ele,
+        wrapper:wrapper,
         isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
         cssify: cssify,

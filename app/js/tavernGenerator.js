@@ -1,5 +1,10 @@
 
 const ElementCreator = require("../js/lib/elementCreator");
+const Modals = require("./modals");
+const util = require("./util");
+
+const NotePad = require("./notepad");
+
 class TavernGenerator {
     initialize(generatorData, container, resultContainer) {
         this.generatorData = generatorData;
@@ -7,19 +12,142 @@ class TavernGenerator {
         this.resultContainer = resultContainer;
         this.replacementValues = generatorData.replacement_values;
 
+        this.createSavedTavernsSearch();
+
         var cls = this;
         document.getElementById("reroll_tavern_button").addEventListener("click", function (evnt) {
 
             cls.generateTavernRumorsAndMenu(cls.currentTavern);
             cls.displayTavern();
         });
+
+        document.getElementById("save_tavern_button").addEventListener("click", function (e) {
+            cls.saveTavern();
+        });
+        document.getElementById("delete_tavern_button").addEventListener("click", function (e) {
+            cls.deleteTavern();
+        });
+    }
+
+    deleteTavern() {
+        if (window.dialog.showMessageBoxSync({
+            type: "question",
+            buttons: ["Ok", "Cancel"],
+            title: "Delete tavern?",
+            message: `Do you wish to delete ${this.currentTavern.name}?`
+        }) == 1) return;
+
+        dataAccess.deleteGeneratorPersisted("tavern", this.currentTavern.id, (data, err) => {
+            if (err) {
+                util.showFailedMessage("Error deleting tavern");
+                return;
+            }
+            this.currentTavern = null;
+            this.displayTavern();
+            this.createSavedTavernsSearch();
+
+        });
+
+    }
+
+    saveTavern() {
+        this.showTavernMetadataModal((result) => {
+            if (!result)
+                return;
+
+            this.currentTavern.metadata = result;
+            dataAccess.persistGeneratorData(this.currentTavern, "tavern", (data, err) => {
+                if (err) {
+                    util.showFailedMessage("Couldn't save tavern");
+                } else {
+                    util.showSuccessMessage("Tavern saved");
+                    this.currentTavern.metadata.saved = true;
+                    this.createSavedTavernsSearch();
+                    this.displayTavern();
+                }
+
+            });
+        });
+
+
+    }
+    createSavedTavernsSearch() {
+
+        var cls = this;
+        dataAccess.getPersistedGeneratorData("tavern", (data) => {
+
+            if (!data || data.length == 0) {
+                if (this.searchInput) this.searchInput.classList.add("hidden");
+                return;
+
+            }
+            var templ = cls.container.querySelector(".saved_taverns_search");
+
+            if (templ) {
+                this.searchInput = templ;
+                templ.classList.remove("hidden");
+            } else {
+                cls.searchInput = util.ele("input", "saved_taverns_search search_input");
+                cls.searchInput.placeholder = "Saved taverns...";
+                cls.container.appendChild(cls.searchInput);
+            }
+
+
+            var searchData = data.map(x => { return { label: x.name, value: x.id } });
+            if (this.searchAwesomplete)
+                this.searchAwesomplete.destroy();
+            this.searchAwesomplete = new Awesomplete(cls.searchInput, { list: searchData, autoFirst: true, minChars: 0 });
+            cls.searchInput.addEventListener("awesomplete-selectcomplete", (e) => {
+
+                cls.searchInput.value = e.text.label;
+                cls.fetchTavern(e.text.value);
+
+
+            })
+        });
+    }
+    fetchTavern(id) {
+        var cls = this;
+        dataAccess.getPersistedGeneratorData("tavern", (data) => {
+            var tavern = data.find(x => x.id == id);
+            console.log(tavern);
+            if (!tavern)
+                return;
+            cls.currentTavern = tavern;
+            cls.displayTavern(tavern);
+        });
+    }
+    async showTavernMetadataModal(callback) {
+        var modalCreate = Modals.createModal("Tavern data", () => {
+
+
+        });
+        var modal = modalCreate.modal;
+        var notePad = new NotePad(this.currentTavern?.metadata?.description, false);
+        var desc = notePad.container();
+
+        util.ele("textarea", "tavern_description_data");
+        var lbl = util.ele("label", "text_left", "Notes");
+        var col = util.ele("div", "column");
+        col.appendChild(lbl);
+        col.appendChild(desc);
+        modal.appendChild(col);
+
+        var btn = util.ele("button", "button_style button_wide green base_margin", "Ok");
+        btn.onclick = (e) => {
+            modal.close(true);
+            callback({ description: notePad.getContents() });
+        }
+        modal.appendChild(util.wrapper("div", "row flex_end", btn));
+        document.body.appendChild(modalCreate.parent);
+        notePad.render(true);
+
     }
 
     generateTavern() {
         var data = this.generatorData;
         this.container.querySelector("#reroll_tavern_button").classList.remove("hidden");
         var tavernWealthDropdown = this.container.querySelector("#tavern_wealth");
-
 
         var tavern = this.generateTavernName(data);
         tavern.wealth = tavernWealthDropdown.options[tavernWealthDropdown.selectedIndex].value;
@@ -38,11 +166,12 @@ class TavernGenerator {
 
         description = replacePlaceholders(description, Math.random() > 0.5, data);
 
-        tavern.description = description;
+
         var ownerName = tavernOwner.lastname;
+
         if (ownerName != "" && ownerName != null) ownerName = " " + ownerName;
         description += "<br><br>The owner, " + tavernOwner.firstname + (ownerName || "") + "," + tavernOwner.tavernKeepDescription;
-
+        tavern.description = description;
         this.generateTavernRumorsAndMenu(tavern);
         this.setTavern(tavern);
 
@@ -55,12 +184,54 @@ class TavernGenerator {
     }
 
     displayTavern() {
+        this.resetUi();
         var tavernHeader = this.resultContainer.querySelector("#tavern_name");
-        tavernHeader.innerText = this.currentTavern.name;
-
+        tavernHeader.innerText = this.currentTavern?.name || "";
+        this.createMetaData();
         tavernHeader.classList.remove("hidden");
-        document.getElementById("tavern_description").innerHTML = this.currentTavern.description;
+        document.getElementById("tavern_description").innerHTML = this.currentTavern?.description || "";
         this.displayRumorsAndMenu();
+
+        var saveBtn = document.getElementById("save_tavern_button");
+        if (saveBtn && this.currentTavern?.name)
+            saveBtn.classList.remove("hidden");
+
+        if (this.currentTavern?.id) {
+            var deleteBtn = document.getElementById("delete_tavern_button");
+            if (deleteBtn)
+                deleteBtn.classList.remove("hidden");
+
+        }
+    }
+
+    resetUi() {
+        var deleteBtn = document.getElementById("delete_tavern_button");
+        if (deleteBtn)
+            deleteBtn.classList.add("hidden");
+
+        var saveBtn = document.getElementById("save_tavern_button");
+        if (saveBtn)
+            saveBtn.classList.add("hidden");
+
+    }
+
+    createMetaData(readonly = true) {
+        var cont = this.resultContainer.querySelector("#tavern_metadata");
+        var cls = this;
+        if (!cont)
+            return;
+        while (cont.firstChild)
+            cont.removeChild(cont.firstChild);
+        if (!this.currentTavern?.metadata?.description)
+            return;
+        var parent = util.ele("div", "column");
+        var note = new NotePad(this.currentTavern?.metadata.description, readonly, (e) => {
+            cls.saveTavern();
+        });
+        parent.appendChild(note.container());
+        cont.appendChild(parent);
+        note.render();
+
     }
 
     generateTavernRumorsAndMenu(tavern) {
@@ -90,7 +261,7 @@ class TavernGenerator {
             [d(6), "gp"]
         ]
         priceBase = tavernEconomyArray[tavern.wealth][0];
-        priceBase *=  tavern.price;
+        priceBase *= tavern.price;
         coinString = tavernEconomyArray[tavern.wealth][1];
         var vegetables, exoticVegetables, finalPrice;
         //Food
@@ -129,19 +300,23 @@ class TavernGenerator {
     }
 
     displayRumorsAndMenu() {
-        var table = ElementCreator.generateHTMLTable(this.currentTavern.menu);
+
         var tableContainer = document.querySelector("#tavern_table");
         while (tableContainer.firstChild) {
             tableContainer.removeChild(tableContainer.firstChild);
         }
-        tableContainer.appendChild(table);
-
-
-        var rumorArray = this.currentTavern.rumors;
         var tavernRumorsParentContainer = document.getElementById("tavern_rumors");
         while (tavernRumorsParentContainer.firstChild) {
             tavernRumorsParentContainer.removeChild(tavernRumorsParentContainer.firstChild);
         }
+
+        if (!this.currentTavern)
+            return;
+        var table = ElementCreator.generateHTMLTable(this.currentTavern.menu);
+        tableContainer.appendChild(table);
+
+
+        var rumorArray = this.currentTavern.rumors;
 
         if (rumorArray.length == 0) return;
         var rumorContainer = document.createElement("div");
@@ -180,7 +355,7 @@ class TavernGenerator {
     generateTavernName(data) {
         var tavernName = data.tavern.name.template.pickOne();
         var ownerGender = ["male", "female"].pickOne();
-        var tavernOwner = npcGenerator.generateNPC(data, ownerGender, data.names["anglo"], "humanoid");
+        var tavernOwner = npcGenerator.generateNPC(data, ownerGender, data.names["anglo"], "humanoid", "tavern");
 
         var ending = "'s";
         if (tavernOwner.firstname.substring(tavernOwner.firstname.length - 1) === "s") ending = "'";

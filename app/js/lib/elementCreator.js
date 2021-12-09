@@ -2,7 +2,7 @@
 
 class ElementCreator {
     static generateHTMLTable(jsonObj) {
-        console.log(jsonObj)
+
         var jsonKeys = Object.keys(jsonObj);
         jsonKeys.forEach(key => {
             var isEmpty = jsonObj[key].filter(x => x != undefined && x != "").length == 0;

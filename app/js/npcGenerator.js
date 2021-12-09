@@ -49,7 +49,7 @@ class NpcGenerator {
     }
 
 
-    generateNPC(data, gender, foundNameSet, creatureType) {
+    generateNPC(data, gender, foundNameSet, creatureType, descType = "generic") {
 
         var genderHeShe, subset, genderPosessive, genderAbout, genderManWoman;
         var npcValues = {};
@@ -114,11 +114,13 @@ class NpcGenerator {
 
 
         npcValues.description = replacePlaceholders(npcValues.description, gender == "male", data);
-
-        npcValues.shopKeepDescription = npcValues.description + " " + npcValues.firstname + " " + data.shops.owner_attitude.pickOne() + " towards customers.";
-        npcValues.tavernKeepDescription = npcValues.description;
-        npcValues.description = npcValues.firstname + npcValues.description;
-
+        if (descType == "generic") {
+            npcValues.description = npcValues.firstname + npcValues.description;
+        } else if (descType == "tavern") {
+            npcValues.tavernKeepDescription = npcValues.description;
+        } else if (descType == "shop") {
+            npcValues.shopKeepDescription = npcValues.description + " " + npcValues.firstname + " " + data.shops.owner_attitude.pickOne() + " towards customers.";
+        }
 
         return npcValues;
     }

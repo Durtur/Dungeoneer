@@ -276,14 +276,6 @@ html {
   margin-left: 1em;
 }
 
-.listSearch {
-  background: white url(img/searchG.png) no-repeat scroll 7px 0;
-  background-size: contain;
-  padding-left: 3em;
-  text-align: left;
-  height: 2em;
-  border-radius: 5px;
-}
 
 #listFrame__spells>div>.chosen-container-multi {
   margin: auto;

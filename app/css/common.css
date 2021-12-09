@@ -687,6 +687,16 @@ input, textarea, .cell_row {
   background-image: url("img/search.png");
 }
 
+.search_input {
+  background: white url(img/searchG.png) no-repeat scroll 7px 0;
+  background-size: contain;
+  padding-left: 3em;
+  text-align: left;
+  height: 2em;
+  border-radius: 5px;
+}
+
+
 .load {
   background-image: url("img/load.png");
   background-position: center;
@@ -885,6 +895,12 @@ input, textarea, .cell_row {
 .row_wrap {
   display: flex;
   flex-flow: row wrap;
+}
+.notepad_container{
+  border-radius: 10px;
+}
+.text_left{
+  text-align: left;;
 }
 
 .flex_end{
