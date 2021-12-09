@@ -30,19 +30,19 @@
   }
   
   
-@font-face {
+  @font-face {
     font-family: 'Source Sans Pro';
-    src: url("./fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf");
+    src: url("./themes/darkmode/fonts/Source_Sans_Pro/SourceSansPro-SemiBold.ttf");
   }
-  
+
   @font-face {
     font-family: 'Open sans';
-    src: url("./fonts/Open_Sans/OpenSans-Regular.ttf");
+    src: url("./themes/darkmode/fonts/Open_Sans/OpenSans-Regular.ttf");
   }
   
   @font-face {
     font-family: 'Open sans quote';
-    src: url("./fonts/Open_Sans/OpenSans-LightItalic.ttf");
+    src: url("./themes/darkmode/fonts/Open_Sans/OpenSans-LightItalic.ttf");
   }
 
   .combatRow>.die_d20, .mobcontroller_row .die_d20 {

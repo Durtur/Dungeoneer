@@ -896,6 +896,10 @@ input, textarea, .cell_row {
   display: flex;
   flex-flow: row wrap;
 }
+
+.ql-container.ql-snow, .ql-toolbar.ql-snow  {
+  border:none !important;
+}
 .notepad_container{
   border-radius: 10px;
 }

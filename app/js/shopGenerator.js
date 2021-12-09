@@ -1,5 +1,7 @@
 const ElementCreator = require("../js/lib/elementCreator");
-
+const NotePad = require("./notepad");
+const Modals = require("./modals");
+const util = require("./util");
 class ShopGenerator {
     initialize(generatorData, container, resultContainer) {
         this.generatorData = generatorData;
@@ -7,44 +9,181 @@ class ShopGenerator {
         this.resultContainer = resultContainer;
         var cls = this;
         document.getElementById("reroll_shop_button").addEventListener("click", function (devt) {
-            dataAccess.getItems(data => cls.generateShop(data, false));
+        
+            dataAccess.getItems(function (data) {
+                cls.generateShopInventory(data)
+            });
+
+
         });
 
 
         document.querySelector("#generate_shop_button").addEventListener("click", function () {
-            dataAccess.getItems(function (data) {
-                document.getElementById("reroll_shop_button").classList.remove("hidden");
-                cls.generateShop(data, true);
-            });
+            cls.generateShop();
 
         });
 
         this.sortDirections = [false, false, false]
         this.keys = ["Name", "Rarity", "Price"]
         this.switchFunctions = [,]
+
+        document.getElementById("save_shop_button").addEventListener("click", function (e) {
+            cls.saveShop();
+        });
+        document.getElementById("embed_shop_button").addEventListener("click", (e) => {
+            getEmbeddable(cls.resultContainer, (resText) => {
+                clipboard.writeText(resText);
+                util.showSuccessMessage("Copied embeddable shop");
+            })
+        });
+        document.getElementById("delete_shop_button").addEventListener("click", function (e) {
+            cls.deleteShop();
+        });
+        this.createSavedShopsSearch();
     }
 
+    saveShop() {
+        this.showShopMetadataModal((result) => {
+            if (!result)
+                return;
 
-    generateShop(itemData, generateDescription) {
+            this.currentShop.metadata = result;
+            dataAccess.persistGeneratorData(this.currentShop, "shop", (data, err) => {
+                if (err) {
+                    util.showFailedMessage("Couldn't save shop");
+                } else {
+                    util.showSuccessMessage("Shop saved");
+                    this.currentShop = data.shop.find(x => x.name == this.currentShop.name);
+                    this.createSavedShopsSearch();
+                    this.displayShop();
+                }
+
+            });
+        });
+
+
+    }
+
+    createSavedShopsSearch() {
+        var cls = this;
+        dataAccess.getPersistedGeneratorData("shop", (data) => {
+            if (!data || data.length == 0) {
+                if (this.searchInput) this.searchInput.classList.add("hidden");
+                return;
+
+            }
+            var templ = cls.container.querySelector(".saved_shops_search");
+
+            if (templ) {
+                this.searchInput = templ;
+                templ.classList.remove("hidden");
+            } else {
+                cls.searchInput = util.ele("input", "saved_shops_search search_input");
+                cls.searchInput.placeholder = "Saved taverns...";
+                cls.container.appendChild(cls.searchInput);
+            }
+
+
+            var searchData = data.map(x => { return { label: x.name, value: x.id } });
+            if (this.searchAwesomplete)
+                this.searchAwesomplete.destroy();
+            this.searchAwesomplete = new Awesomplete(cls.searchInput, { list: searchData, autoFirst: true, minChars: 0 });
+            cls.searchInput.addEventListener("awesomplete-selectcomplete", (e) => {
+                cls.searchInput.value = e.text.label;
+                cls.fetchShop(e.text.value);
+
+
+            })
+        });
+    }
+
+    fetchShop(id) {
+        var cls = this;
+        dataAccess.getPersistedGeneratorData("shop", (data) => {
+            var shop = data.find(x => x.id == id);
+            console.log(shop);
+            if (!shop)
+                return;
+            cls.currentShop = shop;
+            cls.displayShop();
+        });
+    }
+    deleteShop() {
+        if (window.dialog.showMessageBoxSync({
+            type: "question",
+            buttons: ["Ok", "Cancel"],
+            title: "Delete shop?",
+            message: `Do you wish to delete ${this.currentShop.name}?`
+        }) == 1) return;
+
+        dataAccess.deleteGeneratorPersisted("shop", this.currentShop.id, (data, err) => {
+            if (err) {
+                util.showFailedMessage("Error deleting shop");
+                return;
+            }
+            this.currentShop = null;
+            this.displayShop();
+            this.createSavedShopsSearch();
+
+        });
+    }
+
+    createMetaData(readonly = true) {
+        var cont = this.resultContainer.querySelector("#shop_metadata");
+        var cls = this;
+        if (!cont)
+            return;
+        while (cont.firstChild)
+            cont.removeChild(cont.firstChild);
+        if (!this.currentShop?.metadata?.description)
+            return;
+        var parent = util.ele("div", "column");
+        var note = new NotePad(this.currentShop?.metadata.description, readonly, (e) => {
+            cls.saveShop();
+        }, true);
+        parent.appendChild(note.container());
+        cont.appendChild(parent);
+        note.render();
+
+    }
+
+    fetchShopParams() {
         var shopWealthDropdown = document.querySelector("#shop_wealth");
-        var shopWealth = shopWealthDropdown.selectedIndex;
+        this.currentShop.wealth = shopWealthDropdown.selectedIndex;
         var shopTypeDropdown = document.querySelector("#shop_type");
-        var shopType = shopTypeDropdown.options[shopTypeDropdown.selectedIndex].value;
+        this.currentShop.type = shopTypeDropdown.options[shopTypeDropdown.selectedIndex].value;
         var shopSizeDropdown = document.querySelector("#shop_size");
-        var shopSize = shopSizeDropdown.selectedIndex;
-        shopSize++;
+        this.currentShop.size = shopSizeDropdown.selectedIndex;
+        this.currentShop.size++;
         var shopPricingDropdown = document.querySelector("#shop_pricing");
-        var shopPricing = shopPricingDropdown.options[shopPricingDropdown.selectedIndex].value;
-        shopPricing = parseFloat(shopPricing);
+        this.currentShop.price = parseFloat(shopPricingDropdown.options[shopPricingDropdown.selectedIndex].value);
+
+    }
+
+    generateShop() {
+        dataAccess.getItems(data => {
+            this.currentShop = {};
+            this.generateShopInventory(data, () => this.generateShopDescription());
+
+        });
+
+
+    }
+    generateShopInventory(itemData, callback) {
+        this.fetchShopParams();
+        var shopWealth = this.currentShop.wealth;
+        var shopType = this.currentShop.type;
+        var shopSize = this.currentShop.size
+        var shopPricing = this.currentShop.price
         var currentRarity;
 
         var shopInventoryArray = [];
-        this.tooltipsForTable = [];
+        var tooltipsForTable = [];
         var cls = this;
         var shopInventory = {};
-        shopInventory.Name = [];
-        shopInventory.Rarity = [];
-        shopInventory.Price = [];
+        shopInventory.name = [];
+        shopInventory.rarity = [];
+        shopInventory.price = [];
         dataAccess.getScrolls(function (scrollData) {
             if (shopType.toLowerCase() != "general") {
                 if (shopType === "scroll") {
@@ -104,25 +243,26 @@ class ShopGenerator {
                 }
 
                 var tooltip = str.attunement ? `-- ${str.attunement} -- \n\n ${str.description.replace(/\*/g, " -- ")}` : str.description.replace(/\*/g, " -- ");
-                cls.tooltipsForTable.push(tooltip);
+                tooltipsForTable.push(tooltip);
                 shopInventoryArray[i].splice(3, 1);
             }
 
             shopInventoryArray.forEach(function (subArray) {
-                shopInventory.Name.push(subArray[0])
-                shopInventory.Rarity.push(subArray[1]);
-                var price = cls.randomizeItemPrice(subArray[1]); ///Finna viðeigandi randomized verð
+                shopInventory.name.push(subArray[0])
+                shopInventory.rarity.push(subArray[1]);
+                var price = cls.randomizeItemPrice(subArray[1]);
                 if (subArray[2].toLowerCase() === "potion" || subArray[2].toLowerCase() === "scroll") {
                     price /= 2;
                 }
                 price *= shopPricing;
-                shopInventory.Price.push(cls.makePrettyPriceString(price));
+                shopInventory.price.push(cls.makePrettyPriceString(price));
             });
 
-            cls.shopInventoryObject = shopInventory;
-            cls.emptyAndCreateTable();
-            if (generateDescription) cls.generateShopDescription(shopType, shopWealth, shopInventory.Price.length);
+            cls.currentShop.inventory = shopInventory;
+            cls.currentShop.inventoryTooltips = tooltipsForTable;
 
+            cls.displayShop();
+            if (callback) callback();
         });
 
 
@@ -151,14 +291,56 @@ class ShopGenerator {
         return str;
     }
 
+    resetUi() {
+        var deleteBtn = document.getElementById("delete_shop_button");
+        if (deleteBtn)
+            deleteBtn.classList.add("hidden");
+
+        var saveBtn = document.getElementById("save_shop_button");
+        if (saveBtn)
+            saveBtn.classList.add("hidden");
+
+        var embedBtn = document.getElementById("embed_shop_button");
+        if (embedBtn)
+            embedBtn.classList.add("hidden");
+
+    }
+    displayShop() {
+        this.resetUi();
+        this.emptyAndCreateTable();
+        var descriptionBox = document.querySelector("#shop_description");
+        var headerBox = document.querySelector("#shop_name");
+        headerBox.classList.remove("hidden");
+        headerBox.innerText = this.currentShop?.name || "";
+        headerBox.classList.remove("hidden");
+        descriptionBox.innerHTML = this.currentShop?.description || "";
+        this.createMetaData();
+        if (!this.currentShop?.name)
+            return;
+        document.getElementById("reroll_shop_button").classList.remove("hidden");
+        var embedBtn = document.getElementById("embed_shop_button");
+        if (embedBtn)
+            embedBtn.classList.remove("hidden");
+
+        var saveBtn = document.getElementById("save_shop_button");
+        if (saveBtn)
+            saveBtn.classList.remove("hidden");
+
+        if (this.currentShop?.id) {
+            var deleteBtn = document.getElementById("delete_shop_button");
+            if (deleteBtn)
+                deleteBtn.classList.remove("hidden");
+
+        }
+    }
 
     emptyAndCreateTable() {
-        var shopInventory = this.shopInventoryObject;
+        var shopInventory = this.currentShop?.inventory;
         var table = ElementCreator.generateHTMLTable(shopInventory);
         var nameFields = table.querySelectorAll("td:first-of-type");
         for (var i = 0; i < nameFields.length; i++) {
             nameFields[i].classList.add("tooltipped", "tooltipped_large");
-            nameFields[i].setAttribute("data-tooltip", this.tooltipsForTable[i])
+            nameFields[i].setAttribute("data-tooltip", this.currentShop?.inventoryTooltips[i])
         }
         var tableContainer = document.querySelector("#shop_generator_table");
         while (tableContainer.firstChild) {
@@ -172,7 +354,7 @@ class ShopGenerator {
         var headers = document.querySelectorAll("th");
         var cls = this;
         for (var i = 0; i < headers.length; i++) {
-            headers[i].addEventListener("click", (e)=> {
+            headers[i].addEventListener("click", (e) => {
                 cls.sortByHeaderValue(e, this)
             });
         }
@@ -274,10 +456,35 @@ class ShopGenerator {
         }
 
     }
-    generateShopDescription(shopType, shopWealth, inventorySize) {
+
+    async showShopMetadataModal(callback) {
+        var modalCreate = Modals.createModal("Shop", () => { });
+        var modal = modalCreate.modal;
+        var notePad = new NotePad(this.currentShop?.metadata?.description, false);
+        var desc = notePad.container();
+
+        var lbl = util.ele("label", "text_left", "Notes");
+        var col = util.ele("div", "column");
+        col.appendChild(lbl);
+        col.appendChild(desc);
+        modal.appendChild(col);
+
+        var btn = util.ele("button", "button_style button_wide green base_margin", "Ok");
+        btn.onclick = (e) => {
+            modal.close(true);
+            callback({ description: notePad.getContents() });
+        }
+        modal.appendChild(util.wrapper("div", "row flex_end", btn));
+        document.body.appendChild(modalCreate.parent);
+        notePad.render(true);
+
+    }
+    generateShopDescription() {
+        var shopWealth = this.currentShop.wealth;
+        var shopType = this.currentShop.type;
         shopType = shopType.serialize();
         var data = this.generatorData;
-
+        var inventorySize = this.currentShop.inventory.price.length;
         var randomIndex = Math.floor(Math.random() * data.shops.names.template.length);
 
         var shopOwner;
@@ -285,7 +492,7 @@ class ShopGenerator {
         var fantasyProbability = 0.1 + 0.1 * shopWealth;
         var rand = Math.random();
         var descriptionSet, clutterSet, locationSet;
-        //Interior speisaður
+
         if (rand < fantasyProbability) {
             descriptionSet = data.shops.interior.description_fantastic[shopWealth];
             clutterSet = data.shops.interior.clutter_fantastic;
@@ -294,7 +501,7 @@ class ShopGenerator {
             clutterSet = data.shops.interior.clutter;
         }
 
-        //staðsetning speisuð
+
         rand = Math.random();
         var creatureType = "humanoid";
         var ownerGender = ["male", "female"].pickOne();
@@ -322,9 +529,9 @@ class ShopGenerator {
             ownerLastName = shopOwner.firstname;
         }
 
- 
+
         var ownerName = randomIndex >= 1 ? shopOwner.firstname : ownerLastName;
-        console.log(shopOwner)
+
         var ending = "'s";
         if (ownerName.substring(ownerName.length - 1) === "s") ending = "'";
         shopName = shopName.replace(/_typeboundname/g, data.shops.names.typeboundname[shopType].pickOne());
@@ -338,9 +545,7 @@ class ShopGenerator {
         shopName = shopName.replace(/_surname/g, ownerLastName + ending);
 
         shopName = replacePlaceholders(shopName, null, data);
-        var descriptionBox = document.querySelector("#shop_description");
-        var headerBox = document.querySelector("#shop_name");
-        headerBox.classList.remove("hidden");
+
         shopName = shopName.toProperCase();
 
         var description = "<strong>" + shopName + "</strong>" + [" is located", " is situated", " can be found", " is placed "].pickOne() + locationSet.pickOne() + ". ";
@@ -392,10 +597,9 @@ class ShopGenerator {
         var ownerName = shopOwner.lastname;
         if (ownerName) ownerName = " " + ownerName;
         description += "<br><br>The owner, " + shopOwner.firstname + (ownerName || "") + "," + creatureString + commaString + shopOwner.shopKeepDescription;
-        headerBox.innerText = shopName;
-        headerBox.classList.remove("hidden");
-
-        descriptionBox.innerHTML = description;
+        this.currentShop.description = description;
+        this.currentShop.name = shopName;
+        this.displayShop();
 
     }
 

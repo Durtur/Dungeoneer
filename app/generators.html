@@ -339,6 +339,9 @@
             <section class="section__show section__tool__large row spread_children" id="shops_section">
                 <div class="column genchooser_smaller">
                     <h2>Magic shop generator</h2>
+                    <div class="row">
+                        <input class="saved_shops_search search_input hidden" placeholder="Saved shops">
+                    </div>
                     <label for="shop_type">Shop type</label>
                     <select name="shop_type" id="shop_type">
                         <option value="general">General</option>
@@ -382,12 +385,23 @@
                             id="reroll_shop_button">Reroll
                             inventory</button>
                     </div>
+                    <div class="column" style="margin-top: 3em;">
+                        <button class="generate_button button_style button_wide margin_top hidden green"
+                            id="save_shop_button">Save</button>
+
+                        <button class="generate_button button_style button_wide margin_top hidden green"
+                            id="embed_shop_button">&lt;Embed&gt;</button>
+
+                        <button class="generate_button button_style button_wide margin_top hidden red"
+                            id="delete_shop_button">Delete</button>
+                    </div>
 
                 </div>
 
                 <div class="column genchooser_larger ">
                     <h1 class="shop__name hidden" id="shop_name">
                     </h1>
+                    <div id="shop_metadata"></div>
                     <div id="shop_generator_table">
 
                     </div>

@@ -112,6 +112,7 @@ class TavernGenerator {
             })
         });
     }
+
     fetchTavern(id) {
         var cls = this;
         dataAccess.getPersistedGeneratorData("tavern", (data) => {
@@ -241,7 +242,7 @@ class TavernGenerator {
         var parent = util.ele("div", "column");
         var note = new NotePad(this.currentTavern?.metadata.description, readonly, (e) => {
             cls.saveTavern();
-        });
+        }, true);
         parent.appendChild(note.container());
         cont.appendChild(parent);
         note.render();

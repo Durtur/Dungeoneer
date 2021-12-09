@@ -23,13 +23,18 @@ const EDITOR_TOOLBAR = [
 ];
 
 class NotePad {
-    constructor(data, readonly, editFn) {
+    constructor(data, readonly, editFn, transparent = false) {
 
         this.cont = util.ele("div", "");
         this.readonly = readonly;
         this.data = data;
         this.parent = util.wrapper("div", "column notepad_container", this.cont);
-        this.parent.style.backgroundColor = "white";
+        if(transparent){
+            this.parent.classList.add("white_on_hover");
+        }else{
+            this.parent.style.backgroundColor = "white";
+        }
+
         var cls = this;
         if (editFn && readonly) {
             this.cont.addEventListener("dblclick", (e) => {
