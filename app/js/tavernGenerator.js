@@ -24,6 +24,12 @@ class TavernGenerator {
         document.getElementById("save_tavern_button").addEventListener("click", function (e) {
             cls.saveTavern();
         });
+        document.getElementById("embed_tavern_button").addEventListener("click", (e) => {
+            getEmbeddable(cls.resultContainer, (resText) => {
+                clipboard.writeText(resText);
+                util.showSuccessMessage("Copied embeddable tavern");
+            })
+        });
         document.getElementById("delete_tavern_button").addEventListener("click", function (e) {
             cls.deleteTavern();
         });
@@ -118,10 +124,7 @@ class TavernGenerator {
         });
     }
     async showTavernMetadataModal(callback) {
-        var modalCreate = Modals.createModal("Tavern data", () => {
-
-
-        });
+        var modalCreate = Modals.createModal("Tavern", () => { });
         var modal = modalCreate.modal;
         var notePad = new NotePad(this.currentTavern?.metadata?.description, false);
         var desc = notePad.container();
@@ -192,8 +195,15 @@ class TavernGenerator {
         document.getElementById("tavern_description").innerHTML = this.currentTavern?.description || "";
         this.displayRumorsAndMenu();
 
+        if (!this.currentTavern?.name)
+            return;
+
+        var embedBtn = document.getElementById("embed_tavern_button");
+        if (embedBtn)
+            embedBtn.classList.remove("hidden");
+
         var saveBtn = document.getElementById("save_tavern_button");
-        if (saveBtn && this.currentTavern?.name)
+        if (saveBtn)
             saveBtn.classList.remove("hidden");
 
         if (this.currentTavern?.id) {
@@ -212,6 +222,10 @@ class TavernGenerator {
         var saveBtn = document.getElementById("save_tavern_button");
         if (saveBtn)
             saveBtn.classList.add("hidden");
+
+        var embedBtn = document.getElementById("embed_tavern_button");
+        if (embedBtn)
+            embedBtn.classList.add("hidden");
 
     }
 

@@ -1,5 +1,5 @@
 
-const { ipcRenderer } = require('electron');
+
 const dataAccess = require("./js/dataaccess");
 const ThemeManager = require("./js/themeManager");
 const SlimSelect = require("slim-select");

@@ -208,6 +208,7 @@ path {
     max-width: 70%;
     min-width: 63%;
     padding-right: 3em;
+    margin: auto;
 }
 
 .generator_customization_section input {

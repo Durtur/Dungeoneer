@@ -14,10 +14,10 @@
     --transition-delay: 300ms;
     --base-margin: 10px;
     --rounded-corners: 5px;
-    --background-image:url("./img/phbbgbig.png");
+    --background-image:url("./img/phbbgbig.png") , url("https://github.com/Durtur/Dungeoneer/blob/master/app/css/img/phbbg.png?raw=true");
     --main-header-color: #500c00;
     --background-color:transparent;
-    --foreground-image: url("./img/phbbg.png");
+    --foreground-image: url("./img/phbbg.png"), url("https://github.com/Durtur/Dungeoneer/blob/master/app/css/img/phbbg.png?raw=true");
     --foreground-color:transparent;
     --main-text-color:black;
     --muted-text-color:rgb(85, 85, 85);

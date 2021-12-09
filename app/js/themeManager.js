@@ -11,6 +11,10 @@ class ThemeManager {
         return themes;
     }
 
+    rootStyles(){
+        
+    }
+
     initThemeFile(selectedTheme) {
         console.log("Init theme file");
 

@@ -1,7 +1,9 @@
 
 var fs = require('fs');
 const { ipcRenderer } = require('electron');
-
+const { readdir, writeFile } = require('fs').promises;
+const uniqueID = require('uniqid');
+var pathModule = require('path');
 //Refactor to preload script
 window.api = {
     getPath: (arg) => { return ipcRenderer.sendSync('get-path', arg) },
@@ -10,7 +12,8 @@ window.api = {
     messageWindow: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args }) },
     openBrowser: (path) => { return ipcRenderer.send("open-browser", path) },
     openWindowWithArgs: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args, openIfClosed: true }) },
-    openExplorer: (path) => { return ipcRenderer.send("open-explorer", path) }
+    openExplorer: (path) => { return ipcRenderer.send("open-explorer", path) },
+    path: pathModule
 
 }
 window.dialog = {
@@ -22,10 +25,8 @@ window.dialog = {
 }
 
 
-const { readdir, writeFile } = require('fs').promises;
-const uniqueID = require('uniqid');
-var pathModule = require('path');
-const { settings } = require('cluster');
+
+
 const sharp = process.platform != "linux" ? require("sharp") : {};
 
 const settingsPath = pathModule.join(window.api.getPath("userData"), "data", "settings");
@@ -479,11 +480,12 @@ module.exports = function () {
         });
     }
 
-    function readFile(path, callback) {
-        fs.readFile(path, function (err, data) {
+    function readFile(path, callback, asJson = true) {
+        fs.readFile(path,  "utf8", function (err, data) {
             if (err)
                 throw err;
-            callback(JSON.parse(data));
+            if (asJson) data = JSON.parse(data);
+            callback(data);
         });
     }
 

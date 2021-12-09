@@ -7,6 +7,8 @@ const ShopGenerator = require("./js/shopGenerator");
 const shopGenerator = new ShopGenerator();
 const NpcGenerator = require("./js/npcGenerator");
 const npcGenerator = new NpcGenerator();
+const ThemeManager = require("./js/themeManager");
+var settings;
 var marked = require('marked');
 marked.setOptions({
     renderer: new marked.Renderer(),
@@ -71,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateScrollList();
     updateRandomTableNames();
     updateEncounterSetNames();
-
+    dataAccess.getSettings(data => settings = data);
     // concatDescriptionArrays();
 
 
@@ -1131,10 +1133,23 @@ function replacePlaceholders(string, isMale, data) {
     function isArrayReference(string) {
         return string.substring(0, 5) == "$this";
     }
+}
 
+function getEmbeddable(element, callback) {
+    dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "generators.css"), (styleCont) => {
+        console.log(styleCont);
+        dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "theme.css"), rootCont => {
+            dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "common.css"), commonCss => {
+                dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "quill", "snow.css"), snowCss => {
 
+                    styleCont = rootCont + commonCss + styleCont + snowCss;
+                    callback(`<link rel = 'stylesheet' url <div>${element.outerHTML} <style>${styleCont}</style> </div>`);
+                }, false)
 
+            }, false)
 
+        }, false)
+    }, false);
 }
 function replaceAll(string, replacementString, replaceArray) {
     while (string.indexOf(replacementString) > -1) {
