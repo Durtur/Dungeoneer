@@ -9,7 +9,7 @@ class ShopGenerator {
         this.resultContainer = resultContainer;
         var cls = this;
         document.getElementById("reroll_shop_button").addEventListener("click", function (devt) {
-        
+
             dataAccess.getItems(function (data) {
                 cls.generateShopInventory(data)
             });
@@ -292,18 +292,20 @@ class ShopGenerator {
     }
 
     resetUi() {
-        var deleteBtn = document.getElementById("delete_shop_button");
-        if (deleteBtn)
-            deleteBtn.classList.add("hidden");
+        this.toggleShopButtons(false);
+    }
+    toggleShopButtons(visible){
+        ["delete_shop_button", "save_shop_button", "embed_shop_button", "reroll_shop_button"].forEach(id => {
+            var btn = document.getElementById(id);
+            if (!btn)return;
+            if(visible){
+                btn.classList.remove("hidden");
+            }
+            else{
 
-        var saveBtn = document.getElementById("save_shop_button");
-        if (saveBtn)
-            saveBtn.classList.add("hidden");
-
-        var embedBtn = document.getElementById("embed_shop_button");
-        if (embedBtn)
-            embedBtn.classList.add("hidden");
-
+                btn.classList.add("hidden");
+            }
+        })
     }
     displayShop() {
         this.resetUi();
@@ -335,17 +337,20 @@ class ShopGenerator {
     }
 
     emptyAndCreateTable() {
+        var tableContainer = document.querySelector("#shop_generator_table");
+        while (tableContainer.firstChild) {
+            tableContainer.removeChild(tableContainer.firstChild);
+        }
         var shopInventory = this.currentShop?.inventory;
+        if (!shopInventory)
+            return;
         var table = ElementCreator.generateHTMLTable(shopInventory);
         var nameFields = table.querySelectorAll("td:first-of-type");
         for (var i = 0; i < nameFields.length; i++) {
             nameFields[i].classList.add("tooltipped", "tooltipped_large");
             nameFields[i].setAttribute("data-tooltip", this.currentShop?.inventoryTooltips[i])
         }
-        var tableContainer = document.querySelector("#shop_generator_table");
-        while (tableContainer.firstChild) {
-            tableContainer.removeChild(tableContainer.firstChild);
-        }
+
         tableContainer.setAttribute("data-shop_inventory", JSON.stringify(shopInventory));
         tableContainer.appendChild(table)
 
