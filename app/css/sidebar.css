@@ -35,7 +35,7 @@
 .sidebar_section {
     padding: 1.25em;
     /* flex: 1; */
-    height: 13em;
+   
     justify-content: space-around;
 }
 
@@ -47,6 +47,7 @@
 
 .sidebar>.column {
     width: 100%;
+    overflow-y:auto;
 }
 
 .sidebar h2, .sidebar h1 {

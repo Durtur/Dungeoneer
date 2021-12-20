@@ -166,12 +166,14 @@ var fovLighting = function () {
         var totalRadius = pawn.sight_radius_brigth_pixels + pawn.sight_radius_dim_pixels;
         var margin = pawn.sight_mode == "darkvision" ? 0 : totalRadius;
         var rect = pawn.getBoundingClientRect();
-
-        return (
+        var isOffScren = 
+     (
             (rect.x + rect.width) < 0 - margin
             || (rect.y + rect.height) < 0 - margin
             || (rect.x > window.innerWidth + margin || rect.y > window.innerHeight + margin)
         );
+        if(!isOffScren)console.log("Inside", pawn)
+        return isOffScren;
     }
 
     function paintVision(currentPawn, pawnX, pawnY) {
