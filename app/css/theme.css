@@ -54,3 +54,7 @@
   .die_d20:hover {
     background-image: url("./img/d20hover.png");
   }
+
+  .mainpage_header{
+    background-image: var(--foreground-image);
+  }
