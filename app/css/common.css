@@ -1,6 +1,6 @@
 :root {
   --z-index-tooltip: 12;
-  --z-index-alot:9999;
+  --z-index-alot: 9999;
   --statblock-emphasis-color: #500c00;
 }
 
@@ -36,6 +36,7 @@ body {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -48,7 +49,7 @@ body {
 
 h1, h2, h3, h4, h5, .header_text {
   font-family: var(--header-font);
-  color: var( --main-header-color);
+  color: var(--main-header-color);
 }
 
 select {
@@ -70,8 +71,8 @@ button {
   cursor: pointer;
 }
 
-.path_button{
-  max-width:20em;
+.path_button {
+  max-width: 20em;
   overflow: hidden;
 }
 
@@ -103,9 +104,11 @@ table {
 input[type=checkbox] {
   background-color: white;
 }
-.validation_error_field{
-  background-color:var(--error-bg-input) !important;
+
+.validation_error_field {
+  background-color: var(--error-bg-input) !important;
 }
+
 .brown_input {
   background-color: var(--alt-emphasis-color);
   border: none;
@@ -138,9 +141,9 @@ tr {
   padding: 3px;
 }
 
-td>p{
+td>p {
   padding: 0.5em;
-  margin:0;
+  margin: 0;
 }
 
 td {
@@ -617,12 +620,15 @@ hr {
   background: #ffffca;
   color: #000023;
 }
-.padding{
-  padding:0.5em;
+
+.padding {
+  padding: 0.5em;
 }
-.margin{
-  margin:1em;
+
+.margin {
+  margin: 1em;
 }
+
 .center {
   margin: auto;
   text-align: center;
@@ -657,9 +663,10 @@ input, textarea, .cell_row {
   font-family: var(--header-font);
 }
 
-.base_margin{
+.base_margin {
   margin: 0.25em;
 }
+
 .row_margin {
   margin-left: 5px;
 }
@@ -729,7 +736,7 @@ input, textarea, .cell_row {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index:var(--z-index-alot);
+  z-index: var(--z-index-alot);
 }
 
 .disappearing_title {
@@ -766,9 +773,11 @@ input, textarea, .cell_row {
   0% {
     color: white
   }
+
   100% {
     color: #06A70B;
   }
+
   ;
 }
 
@@ -780,9 +789,11 @@ input, textarea, .cell_row {
   0% {
     color: white
   }
+
   100% {
     color: #BB000A;
   }
+
   ;
 }
 
@@ -897,17 +908,20 @@ input, textarea, .cell_row {
   flex-flow: row wrap;
 }
 
-.ql-container.ql-snow, .ql-toolbar.ql-snow  {
-  border:none !important;
-}
-.notepad_container{
-  border-radius: 10px;
-}
-.text_left{
-  text-align: left;;
+.ql-container.ql-snow, .ql-toolbar.ql-snow {
+  border: none !important;
 }
 
-.flex_end{
+.notepad_container {
+  border-radius: 10px;
+}
+
+.text_left {
+  text-align: left;
+  ;
+}
+
+.flex_end {
   justify-content: flex-end;
 }
 
@@ -974,6 +988,63 @@ input, textarea, .cell_row {
   width: 160px;
   flex: 1;
   max-width: 150px;
+}
+
+.timer_container {
+  z-index: 999999;
+  background-color: var(--black-bg);
+  position: absolute;
+  margin: auto;
+  color: white;
+  padding: 0.5em;
+  font-size: 1.5em;
+  border-radius: var(--rounded-corners);
+  pointer-events: none;
+  top:1.5em;
+  right:0;
+
+}
+
+.hourglass {
+  background-image: url('img/hourglass.png');
+  background-size: contain;
+  height: 1em;
+  width: 1em;
+}
+
+.timer_label {
+  font-family: var(--header-font);
+  margin-left:0.25em;
+}
+
+.hourglass_animate {
+  animation-name: hourGlassSpin;
+  animation-duration: 2s;
+
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+}
+
+@keyframes hourGlassSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  25% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  75% {
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg)
+  }
 }
 
 .main_content_wrapper .extra_fat_header {
@@ -1305,6 +1376,7 @@ header {
   12% {
     opacity: 1;
   }
+
   100% {
     transform: translate(0, -60px);
   }
@@ -1318,6 +1390,7 @@ header {
   40% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -1429,9 +1502,11 @@ header {
   20% {
     box-shadow: 0 0 5px 5px var(--main-emphasis-color);
   }
+
   85% {
     box-shadow: 0 0 5px 5px var(--main-emphasis-color);
   }
+
   100% {
     box-shadow: none;
   }
@@ -1860,15 +1935,16 @@ input[data-before_label]:before {
   transform: translate(-50%, -50%);
   border-radius: var(--rounded-corners);
 
-  padding:1em;
+  padding: 1em;
 }
 
-.loading_title{
-  color:var(--inverse-text-color);
-  margin:0;
+.loading_title {
+  color: var(--inverse-text-color);
+  margin: 0;
 }
-.loading_text{
-  color:var(--inverse-text-color);
+
+.loading_text {
+  color: var(--inverse-text-color);
 }
 
 .loading_ele {
@@ -1880,13 +1956,14 @@ input[data-before_label]:before {
   background-repeat: no-repeat;
   margin: auto;
 
- 
+
 }
 
-.nobackground{
-  background-image:none !important;
+.nobackground {
+  background-image: none !important;
   background-color: transparent;
 }
+
 .loading_ele img {
   width: 3.5em;
   margin: auto;

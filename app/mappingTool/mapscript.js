@@ -5,6 +5,8 @@ const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
 const SlideCanvas = require("./mappingTool/slideCanvas");
 const Menu = require("./mappingTool/menu");
+const Timer = require("./js/timer");
+
 const SoundManager = require("./js/soundManager")
 const soundManager = new SoundManager();
 const dataAccess = require("./js/dataaccess");
@@ -39,7 +41,7 @@ var gridLayer = document.getElementById("grid");
 var gridLayerContext = gridLayer.getContext("2d");
 var tokenLayer = document.getElementById("tokens");
 //
-
+var roundTimer;
 var overlayLoop, backgroundLoop;
 
 var LAST_KEY, lastKeyNull; //Last pressed key
@@ -356,8 +358,6 @@ ipcRenderer.on("intiative-updated",
             return initiative.setOrder(arg.order);
         }
         if (arg.round_increment) {
-
-
             initiative.setRoundCounter(arg.round_increment);
             var curr = initiative.currentActor();
             Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
@@ -368,7 +368,12 @@ ipcRenderer.on("intiative-updated",
                 dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
                 onPerspectiveChanged();
             }
-            console.log(dropdown.options)
+        
+            if (roundTimer) {
+                roundTimer.stop();
+                roundTimer.reset();
+                roundTimer.start();
+            }
 
 
 
@@ -456,6 +461,7 @@ ipcRenderer.on('settings-changed', function (evt, arg) {
     dataAccess.getSettings(function (data) {
         settings = data.maptool;
         resizeAndDrawGrid();
+        onSettingsChanged();
     });
 });
 
@@ -746,6 +752,16 @@ function resetEverything() {
     return turnAllToolboxButtonsOff();
 }
 
+function onSettingsChanged(){
+    if(settings.roundTimer){
+        if(roundTimer){
+            roundTimer.destroy();
+        }
+        roundTimer = new Timer(settings.roundTimer);
+        roundTimer.render();
+    }
+}
+
 function onSettingsLoaded() {
     refreshPawns();
     window.onresize = function () {
@@ -760,6 +776,7 @@ function onSettingsLoaded() {
     Menu.initialize();
 
     effectManager.initialize();
+    onSettingsChanged();
 
     document.querySelector("body").onkeydown = function (event) {
         var keyIndex = [37, 38, 39, 40, 65, 87, 68, 83].indexOf(event.keyCode);

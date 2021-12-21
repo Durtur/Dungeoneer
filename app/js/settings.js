@@ -21,6 +21,7 @@ var mapToolCheckBox = document.querySelector("#mapTool");
 var saveRoller = document.querySelector("#saveRoller");
 var colorTokenBases = document.querySelector("#colorTokenBases");
 var defaultMonsterTokenRotate = document.querySelector("#defaultMonsterTokenRotate");
+var roundTimer = document.querySelector("#roundTimer");
 var defaultPlayerTokenRotate = document.querySelector("#defaultPlayerTokenRotate");
 var defaultMapSizeX = document.getElementById("defaultMapsizeX");
 var matchSizeWithFileName = document.getElementById("matchSizeWithFileName");
@@ -43,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
         initiativeNoGroup.checked = data.initiativeNoGroup;
+        roundTimer.value = data.maptool.roundTimer;
         defaultMonsterTokenRotate.value = data.maptool.defaultMonsterTokenRotate || 90;
         defaultPlayerTokenRotate.value = data.maptool.defaultPlayerTokenRotate || -90;
         addPlayersAutomatically.checked = data.maptool.addPlayersAutomatically;
@@ -180,7 +182,7 @@ function saveSettings(closeImmediately) {
         data.initiativeNoGroup = initiativeNoGroup.checked;
         data.maptool.defaultMonsterTokenRotate = defaultMonsterTokenRotate.value || 90;
         data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || -90;
-
+        data.maptool.roundTimer = roundTimer.value;
         data.maptool.soundLibraryPath = soundLibraryPath;
         data.maptool.matchSizeWithFileName = matchSizeWithFileName.checked;
         data.maptool.addPlayersAutomatically = addPlayersAutomatically.checked;

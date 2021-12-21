@@ -128,6 +128,7 @@ function loadDefaultSettings() {
     "initiativeNoGroup": false,
     "countRounds": true,
     "maxAutoLoads": "80",
+    "party_settings": {},
     "maptool": {
       "defaultMonsterTokenRotate": "90",
       "defaultPlayerTokenRotate": "-90",

@@ -1,13 +1,43 @@
+const pathModule = require("path");
+const dataaccess = require("../js/dataaccess");
+const Modals = require("../js/modals");
 
-var mapLibrary = function(){
 
-    function loadLibrary(libraryPath){
+class MapLibrary {
+
+     constructor(path, libName, container) {
+        this.container = container;
+        this.libraryName = libName;
+        // var files = await dataaccess.getFiles(path);
+        // if (!files) {
+        //     this.createSetupLib();
+        // }
 
     }
 
-    return{
-        loadLibrary: loadLibrary
+    open() {
+        var modal = Modals.createModal(`Map library ${this.libraryName}`, () => {
+            this.close();
+        });
+        modal.appendChild(this.container);
+        this.container.classList.remove("hidden");
     }
+
+    close() {
+        this.container.classList.add("hidden");
+        if (this.container.parentNode)
+            this.container.parentNode.removeChild(this.container);
+
+    }
+
+    createSetupLib() {
+
+        this.initialized = true;
+    }
+
+
+
 }
 
-module.exports = mapLibrary;
+
+module.exports = MapLibrary;
