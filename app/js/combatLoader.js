@@ -544,6 +544,7 @@ var combatLoader = function () {
             loadedMonsterQueue.push({ monsterId: monster.id, name: monster.name, hit_points: monster.hit_points, size: monster.size.toLowerCase(), index: lastIndex });
             frameHistoryButtons.createButtonIfNotExists(monster);
         }
+        rowCountChanged();
     }
     function createActionString(action) {
         return action.name + (action.attack_bonus == null ? " " : ": +" + action.attack_bonus + ", ")
@@ -785,6 +786,7 @@ var combatLoader = function () {
         });
 
         var totalCr = encounterModule.getXpSumForEncounter(crList, partyArray.length);
+        console.log(crList)
         var difficulty = encounterModule.getEncounterDifficultyString(totalCr.adjusted, partyArray.map(x => x.level))
 
         xpEle.innerHTML = difficulty;

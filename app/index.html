@@ -13,6 +13,7 @@
   <link href="css/modals.css" rel="stylesheet">
   <link href="css/theme.css" rel="stylesheet">
   <link href="css/common.css" rel="stylesheet">
+  <link href="css/quill/snow.css" rel="stylesheet">
   <link rel="stylesheet" href="awesomplete/awesomplete.css" />
   <link href="css/popups.css" rel="stylesheet">
 
@@ -106,232 +107,235 @@ initiative</p>
 
     </header>
 
+    <main class="main_page_main column">
+      <div class="row">
 
 
+        <section class="topContainer">
+          <div class=" pscontainer hidden_takes_space">
+            <div class="pcnode column  ">
+              <div class="pcnode_name">
+                <div class="pcNode_condition_container"></div>
+                <p>Athalasar</p>
+              </div>
+              <div class="pcnodeInner ">
+                <div class="row">
 
-
-    <main class="main_page_main">
-
-      <section class="topContainer">
-        <div class=" pscontainer hidden_takes_space">
-          <div class="pcnode column  ">
-            <div class="pcnode_name">
-              <div class="pcNode_condition_container"></div>
-              <p>Athalasar</p>
-            </div>
-            <div class="pcnodeInner ">
-              <div class="row">
-
-                <div class="column">
-                  <div class="acspinner" title="Switch between AC and alternative AC."></div>
-                  <input type="number" value="18" class="acnode pcnode_normal_ac" title="Armor class">
-                </div>
-
-
-                <div class="column">
-                  <div class="pcnode__passiveperception" title="Passive perception">
-                    <p></p>
+                  <div class="column">
+                    <div class="acspinner" title="Switch between AC and alternative AC."></div>
+                    <input type="number" value="18" class="acnode pcnode_normal_ac" title="Armor class">
                   </div>
-                  <div class="pcnode__darkvision" title="Darkvision">
-                    <p></p>
-                  </div>
-                </div>
-                <div class="pcnode_notes_container">
-                  <p class="pcnode_notes">A majestic gnome with a flowing beard. Athalasar prefers opulent robes. His
-                    personal hygiene is markedly bad.</p>
 
+
+                  <div class="column">
+                    <div class="pcnode__passiveperception" title="Passive perception">
+                      <p></p>
+                    </div>
+                    <div class="pcnode__darkvision" title="Darkvision">
+                      <p></p>
+                    </div>
+                  </div>
+                  <div class="pcnode_notes_container">
+                    <p class="pcnode_notes">A majestic gnome with a flowing beard. Athalasar prefers opulent robes. His
+                      personal hygiene is markedly bad.</p>
+
+                  </div>
                 </div>
               </div>
+              <div class="pcnode_color_bar"></div>
             </div>
-            <div class="pcnode_color_bar"></div>
           </div>
-        </div>
 
-        <!-- <h2 class="frontpage_heading" style="width:10em">Combat panel</h2> -->
-        <div class="column section__tool section__show">
-          <section class="combatGUI" id="combatMain" style="user-select: none;">
-            <p class="no_data_text">Search for creatures to add them to this panel</p>
+          <!-- <h2 class="frontpage_heading" style="width:10em">Combat panel</h2> -->
+          <div class="column section__tool section__show">
+            <section class="combatGUI" id="combatMain" style="user-select: none;">
+              <p class="no_data_text">Search for creatures to add them to this panel</p>
 
-          </section>
-          <div class="row float_up combat_toolbar">
+            </section>
+            <div class="row float_up combat_toolbar">
 
-            <div style="user-select: none" class="combat_loader_current_xp tooltipped" id="combat_loader_current_xp">
+              <div style="user-select: none" class="combat_loader_current_xp tooltipped" id="combat_loader_current_xp">
 
-            </div>
+              </div>
 
-            <div class="row hidden" id ="combat_tracker_sort_buttons">
-              <button class="small toggle_button button_style sort_by_number "  title="Sort by number" toggled="true" toggleGroup="56">#</button>
-              <button class="small toggle_button button_style sort_by_name" title="Sort by name"  toggled="false" toggleGroup="56">A</button>
-              <button class="small toggle_button button_style sort_by_initiative"  title="Current initiative actors first" toggled="false" toggleGroup="56"></button>
-              <button class="small toggle_button button_style sort_by_hit_points " title="Sort by hit points"  toggled="false" toggleGroup="56"></button>
-            </div>
-            <div class="row" style="justify-content: flex-end;">
-              <button class="small button_style" title="Clear combat panel" onclick="combatLoader.clear()">C</button>
-              <button class="small toggle_button button_style" toggled="false" title="Show dead"
-                onclick="combatLoader.toggleShowDead()">D</button>
-              <button class="small button_style" id="maptool_notify_button" title="Opens the map tool with loaded creatures.
+              <div class="row hidden" id="combat_tracker_sort_buttons">
+                <button class="small toggle_button button_style sort_by_number " title="Sort by number" toggled="true"
+                  toggleGroup="56">#</button>
+                <button class="small toggle_button button_style sort_by_name" title="Sort by name" toggled="false"
+                  toggleGroup="56">A</button>
+                <button class="small toggle_button button_style sort_by_initiative"
+                  title="Current initiative actors first" toggled="false" toggleGroup="56"></button>
+                <button class="small toggle_button button_style sort_by_hit_points " title="Sort by hit points"
+                  toggled="false" toggleGroup="56"></button>
+              </div>
+              <div class="row" style="justify-content: flex-end;">
+                <button class="small button_style" title="Clear combat panel" onclick="combatLoader.clear()">C</button>
+                <button class="small toggle_button button_style" toggled="false" title="Show dead"
+                  onclick="combatLoader.toggleShowDead()">D</button>
+                <button class="small button_style" id="maptool_notify_button" title="Opens the map tool with loaded creatures.
                 No creatures are loaded." disabled onclick="combatLoader.loadMonsterQueue()">M</button>
 
+              </div>
+
             </div>
-
           </div>
-        </div>
 
-        <div class="column section__tool section__show">
+          <div class="column section__tool section__show">
 
-          <section class="combatGUI" id="mobcontroller_element">
-            <p class="no_data_text">Search for creatures to add mobs</p>
-          </section>
-          <div class="row float_up combat_toolbar" style="justify-content: flex-end;">
-            <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
-            <button class="small  button_style" id="maptool_mob_add_button" title="Opens the map tool with loaded mobs.
+            <section class="combatGUI" id="mobcontroller_element">
+              <p class="no_data_text">Search for creatures to add mobs</p>
+            </section>
+            <div class="row float_up combat_toolbar" style="justify-content: flex-end;">
+              <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
+              <button class="small  button_style" id="maptool_mob_add_button" title="Opens the map tool with loaded mobs.
               No mobs are loaded." disabled onclick="mobController.notifyMapTool()">M</button>
-          </div>
-        </div>
-
-
-
-        <div class="assorted_tool_container">
-
-          <div class="column">
-            <h2 class="frontpage_heading" style="width:6em" id="diceRollerHeader">Dice roller</h2>
-            <section class="diceRollerPanel__container section__show " id="diceRoller">
-              <section class="diceRollerPanel">
-                <div id="diceRollerTable">
-                  <div class="diceRollerContainer">
-                    <input class="diceroller_input diceroller_die_no" type="text" tabindex="1" placeholder="1d100"
-                      data-default-die="100">
-                    <input class="diceroller_input diceroller_result" type="text" readonly>
-                  </div>
-                  <div class="diceRollerContainer">
-                    <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d20"
-                      data-default-die="20">
-                    <input class="diceroller_input diceroller_result" type="text" readonly>
-                  </div>
-                  <div class="diceRollerContainer">
-                    <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d12"
-                      data-default-die="12">
-                    <input class="diceroller_input diceroller_result" type="text" readonly>
-                  </div>
-                </div>
-                <button class="button button_style diceRoller " onclick="diceRoller.roll()">Roll</button>
-              </section>
-              <button class="button_style small" onclick="diceRoller.addRow()">+</button>
-              <button class="button_style small" onclick="diceRoller.removeRow()">-</button>
-            </section>
-          </div>
-
-          <div class="column">
-            <h2 class="frontpage_heading" style="width:6em" id="randomizerHeader">Randomizer</h2>
-            <section class="randomizerPanel__container section__show " id="randomizer">
-              <div class="column">
-                <input id="randomizerInput" class="list_search_style">
-              </div>
-
-              <div class="row">
-                <h5 id="randomizer_item_title"></h5>
-                <label id="randomizer_item_value"></label>
-              </div>
-              <div class="column">
-                <div class="randomizer_item_content" id="randomizer_item_content"></div>
-              </div>
-              <button class="button_style randomizerButton" onclick="randomizer.go()"
-                id="randomizerButton">Roll</button>
-              <button class="button button_style hidden" onclick="randomizer.clear()"
-                id="randomizer_clear_button">Clear</button>
-              <select class="hidden" id="randomizer_rarity_select">
-                <option selected value="any">Any</option>
-              </select>
-              <select class="hidden" id="randomizer_encounter_danger_select">
-                <option selected value="any">Any</option>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-                <option value="deadly">Deadly</option>
-                <option value="2x deadly">Extra deadly</option>
-              </select>
-
-              <select class="hidden" id="randomizer_encounter_creature_number_select">
-                <option selected value="any">Any</option>
-                <option value="solitary">Solitary</option>
-                <option value="squad">Squad</option>
-                <option value="mob">Mob</option>
-                <option value="horde">Horde</option>
-              </select>
-
-            </section>
-          </div>
-
-
-
-
-          <div class="column">
-            <h2 id="saveRollerHeader" class="frontpage_heading" style="width:6em;">Save roller</h2>
-            <div class="section__show semislim row saveRoller " id="saveRoller">
-              <input class="saveRoller_input" id="saveRollsNo" type="number" min="0" title="Number of rolls"
-                placeholder="# of rolls">
-              <input class="saveRoller_input" id="saveRollsDc" type="number" min="0" title="Roll DC" placeholder="DC">
-              <input class="saveRoller_input" id="saveRollsMod" type="number" title="Modifier" placeholder="Modifier">
-
-              <div class="checkbox_row row">
-                <div class="column save_roller_checkbox_container">
-                  <label for="saveRollsAdvantage" class="small_font checbox_label_saveroller"
-                    title="Advantage">Adv</label>
-                  <label class="container_for_checkbox">
-                    <input type="checkbox" group="1" id="saveRollsAdvantage" class="center">
-                    <span class="checkmark"></span>
-                  </label>
-
-                </div>
-                <div class="column save_roller_checkbox_container">
-                  <label for="saveRollsDisadvantage" class="small_font checbox_label_saveroller"
-                    title="Disadvantage">Dis</label>
-                  <label class="container_for_checkbox">
-                    <input type="checkbox" group="1" id="saveRollsDisadvantage" class="center" title="Disadvantage">
-                    <span class="checkmark"></span>
-                  </label>
-
-                </div>
-              </div>
-              <button onclick="rollSaves()" class="die_d20  die_d20_normal">20</button>
-
-              <label class="tooltipped cell_row" id="saveRollResultsSuccess" data-tooltip="Successful saves. "></label>
-              <label class="tooltipped cell_row" readonly id="saveRollResultsFailures"
-                data-tooltip="Failed saves. "></label>
             </div>
           </div>
 
-          <div class="column">
-            <h2 id="lootRollerHeader" style="width:5em" class="frontpage_heading">Loot</h2>
-            <section class="lootgenerator marginTop section__show searchMain slimmest" id="lootRoller">
-              <input placeholder="CR" id="lootcr" style="width:40%">
-              <input type="text" id="lootValue" readonly style="width:60%; margin-left:1em;">
-            </section>
+          <div class="assorted_tool_container">
+
+            <div class="column">
+              <h2 class="frontpage_heading" style="width:6em" id="diceRollerHeader">Dice roller</h2>
+              <section class="diceRollerPanel__container section__show " id="diceRoller">
+                <section class="diceRollerPanel">
+                  <div id="diceRollerTable">
+                    <div class="diceRollerContainer">
+                      <input class="diceroller_input diceroller_die_no" type="text" tabindex="1" placeholder="1d100"
+                        data-default-die="100">
+                      <input class="diceroller_input diceroller_result" type="text" readonly>
+                    </div>
+                    <div class="diceRollerContainer">
+                      <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d20"
+                        data-default-die="20">
+                      <input class="diceroller_input diceroller_result" type="text" readonly>
+                    </div>
+                    <div class="diceRollerContainer">
+                      <input class="diceroller_input diceroller_die_no" type="text" placeholder="1d12"
+                        data-default-die="12">
+                      <input class="diceroller_input diceroller_result" type="text" readonly>
+                    </div>
+                  </div>
+                  <button class="button button_style diceRoller " onclick="diceRoller.roll()">Roll</button>
+                </section>
+                <button class="button_style small" onclick="diceRoller.addRow()">+</button>
+                <button class="button_style small" onclick="diceRoller.removeRow()">-</button>
+              </section>
+            </div>
+
+            <div class="column">
+              <h2 class="frontpage_heading" style="width:6em" id="randomizerHeader">Randomizer</h2>
+              <section class="randomizerPanel__container section__show " id="randomizer">
+                <div class="column">
+                  <input id="randomizerInput" class="list_search_style">
+                </div>
+
+                <div class="row">
+                  <h5 id="randomizer_item_title"></h5>
+                  <label id="randomizer_item_value"></label>
+                </div>
+                <div class="column">
+                  <div class="randomizer_item_content" id="randomizer_item_content"></div>
+                </div>
+                <button class="button_style randomizerButton" onclick="randomizer.go()"
+                  id="randomizerButton">Roll</button>
+                <button class="button button_style hidden" onclick="randomizer.clear()"
+                  id="randomizer_clear_button">Clear</button>
+                <select class="hidden" id="randomizer_rarity_select">
+                  <option selected value="any">Any</option>
+                </select>
+                <select class="hidden" id="randomizer_encounter_danger_select">
+                  <option selected value="any">Any</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                  <option value="deadly">Deadly</option>
+                  <option value="2x deadly">Extra deadly</option>
+                </select>
+
+                <select class="hidden" id="randomizer_encounter_creature_number_select">
+                  <option selected value="any">Any</option>
+                  <option value="solitary">Solitary</option>
+                  <option value="squad">Squad</option>
+                  <option value="mob">Mob</option>
+                  <option value="horde">Horde</option>
+                </select>
+
+              </section>
+            </div>
+
+
+
+
+            <div class="column">
+              <h2 id="saveRollerHeader" class="frontpage_heading" style="width:6em;">Save roller</h2>
+              <div class="section__show semislim row saveRoller " id="saveRoller">
+                <input class="saveRoller_input" id="saveRollsNo" type="number" min="0" title="Number of rolls"
+                  placeholder="# of rolls">
+                <input class="saveRoller_input" id="saveRollsDc" type="number" min="0" title="Roll DC" placeholder="DC">
+                <input class="saveRoller_input" id="saveRollsMod" type="number" title="Modifier" placeholder="Modifier">
+
+                <div class="checkbox_row row">
+                  <div class="column save_roller_checkbox_container">
+                    <label for="saveRollsAdvantage" class="small_font checbox_label_saveroller"
+                      title="Advantage">Adv</label>
+                    <label class="container_for_checkbox">
+                      <input type="checkbox" group="1" id="saveRollsAdvantage" class="center">
+                      <span class="checkmark"></span>
+                    </label>
+
+                  </div>
+                  <div class="column save_roller_checkbox_container">
+                    <label for="saveRollsDisadvantage" class="small_font checbox_label_saveroller"
+                      title="Disadvantage">Dis</label>
+                    <label class="container_for_checkbox">
+                      <input type="checkbox" group="1" id="saveRollsDisadvantage" class="center" title="Disadvantage">
+                      <span class="checkmark"></span>
+                    </label>
+
+                  </div>
+                </div>
+                <button onclick="rollSaves()" class="die_d20  die_d20_normal">20</button>
+
+                <label class="tooltipped cell_row" id="saveRollResultsSuccess"
+                  data-tooltip="Successful saves. "></label>
+                <label class="tooltipped cell_row" readonly id="saveRollResultsFailures"
+                  data-tooltip="Failed saves. "></label>
+              </div>
+            </div>
+
+            <div class="column">
+              <h2 id="lootRollerHeader" style="width:5em" class="frontpage_heading">Loot</h2>
+              <section class="lootgenerator marginTop section__show searchMain slimmest" id="lootRoller">
+                <input placeholder="CR" id="lootcr" style="width:40%">
+                <input type="text" id="lootValue" readonly style="width:60%; margin-left:1em;">
+              </section>
+
+            </div>
+
 
           </div>
 
+        </section>
+        <div class="iframewrap statblock_container" id="iframewrapper">
+          <div class="history_button_row" id="history_button_row">
 
+          </div>
+          <div class="statblock_control_buttons">
+            <button class="randomize_button die_d20_normal die_d20 hidden" title="Get random table entry"
+              id="statblock_random_table_button" onclick="getRandomTableEntry(event)">?</button>
+            <button class=" button_style load" style="right: 41px;" id="loaderButton"
+              onclick="combatLoader.loadCombat()" title="Load into combat panel (ctrl + e)."></button>
+            <button class=" button_style " style="right: 61px;" id="mobPanelLoadButton" onclick="addMob()"
+              title="Load into mob panel (ctrl + d)."></button>
+            <button class=" button_style " onclick="hideFrame('search')">Hide</button>
+
+          </div>
+
+          <section class="pageframe" id="statblock"></section>
         </div>
-
-      </section>
-      <div class="iframewrap statblock_container" id="iframewrapper">
-        <div class="history_button_row" id="history_button_row">
-
-        </div>
-        <div class="statblock_control_buttons">
-          <button class="randomize_button die_d20_normal die_d20 hidden" title="Get random table entry"
-            id="statblock_random_table_button" onclick="getRandomTableEntry(event)">?</button>
-          <button class=" button_style load" style="right: 41px;" id="loaderButton" onclick="combatLoader.loadCombat()"
-            title="Load into combat panel (ctrl + e)."></button>
-          <button class=" button_style " style="right: 61px;" id="mobPanelLoadButton" onclick="addMob()"
-            title="Load into mob panel (ctrl + d)."></button>
-          <button class=" button_style " onclick="hideFrame('search')">Hide</button>
-
-        </div>
-
-        <section class="pageframe" id="statblock"></section>
       </div>
-
+      <div class="column notepad_container" id="notebook_container" >
+      </div>
 
       <div class="initiative_control_bar  hidden" id="initiative_control_bar">
 
@@ -350,7 +354,7 @@ initiative</p>
 
         </div>
       </div>
- 
+
       <div id="combat_log_popup" class="combat_log_popup_window hidden">
         <div class="column combat_loader_log_column" style="width: 86.6%">
 
@@ -674,7 +678,7 @@ initiative</p>
             </div>
             <div id="party--stats" class="partyStats">
               <div class="pcRow">
-                <button class = "link_button" data-linked = "false"></button>
+                <button class="link_button" data-linked="false"></button>
                 <input type=text class="pc_input_player_name" placeholder="Player name" title="Player name"></input>
                 <input type=text class="pc_input_character_name" placeholder="Character name"
                   title="Character name"></input>
@@ -712,6 +716,7 @@ initiative</p>
           </div>
 
         </div>
+
       </div>
     </footer>
     <script>

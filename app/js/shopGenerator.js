@@ -1,5 +1,5 @@
 const ElementCreator = require("../js/lib/elementCreator");
-const NotePad = require("./notepad");
+const NotePad = require("./notepad/notepad");
 const Modals = require("./modals");
 const util = require("./util");
 class ShopGenerator {

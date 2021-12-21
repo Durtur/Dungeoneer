@@ -3,7 +3,7 @@ const ElementCreator = require("../js/lib/elementCreator");
 const Modals = require("./modals");
 const util = require("./util");
 
-const NotePad = require("./notepad");
+const NotePad = require("./notepad/notepad");
 
 class TavernGenerator {
     initialize(generatorData, container, resultContainer) {

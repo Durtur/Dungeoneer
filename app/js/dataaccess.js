@@ -466,7 +466,7 @@ module.exports = function () {
                     });
                 } else {
                     initializeData();
-                    throw err;
+                    console.error(err);
                 }
 
 
@@ -480,10 +480,16 @@ module.exports = function () {
         });
     }
 
-    function readFile(path, callback, asJson = true) {
-        fs.readFile(path,  "utf8", function (err, data) {
-            if (err)
-                throw err;
+    function readFile(path, callback, asJson = true, nullIfDoesNotExist) {
+        fs.readFile(path, "utf8", function (err, data) {
+            if (err) {
+                if (nullIfDoesNotExist) {
+                    return callback(null);
+                } else {
+                    throw err;
+                }
+            }
+
             if (asJson) data = JSON.parse(data);
             callback(data);
         });
@@ -497,8 +503,7 @@ module.exports = function () {
     }
 
     function saveCoverImage(path) {
-        console.log(path);
-        console.log(pathModule.basename(path));
+
         var basename = pathModule.basename(path);
         var ext = pathModule.extname(basename);
         var newPath = pathModule.join(resourcePath, "cover_image" + ext);
@@ -564,6 +569,25 @@ module.exports = function () {
             baseSetWithFullPath(savePath, saveData, callback);
         });
     }
+
+    function getScratchPad(callback) {
+        var party = settings?.current_party ? settings.current_party : "";
+
+        readFile(pathModule.join(resourcePath, party + "_scratchpad.json"), data => {
+            if (data) {
+                return callback(data);
+            }
+            readFile(pathModule.join(resourcePath, "_scratchpad.json"), globalData => {
+                callback(globalData);
+            }, true, true);
+        }, true, true);
+
+    }
+
+    function setScratchPad(data) {
+        var party = settings?.current_party ? settings.current_party : "";
+        baseSet(party + "_scratchpad.json", data, (err) => { if (err) console.log(err) });
+    }
     return {
         getFiles: getFiles,
         readFile: readFile,
@@ -585,6 +609,8 @@ module.exports = function () {
         setConditions: setConditions,
         getItems: getItems,
         setItems: setItems,
+        getScratchPad: getScratchPad,
+        setScratchPad: setScratchPad,
         getSpells: getSpells,
         setSpells: setSpells,
         getSettings: getSettings,

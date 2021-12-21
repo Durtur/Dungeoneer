@@ -4,32 +4,38 @@
     flex-flow: row wrap;
     height: 200px;
   }
+
   .searchwrap {
     margin-top: 20px;
     position: relative;
     margin: auto;
     position: relative;
   }
+
   .wrap {
     margin: 0;
     margin: auto;
   }
+
   .iframewrap {
     margin: 0 !important;
-    margin-left: -14px!important;
+    margin-left: -14px !important;
     width: 97%;
     z-index: 1;
   }
+
   .iconbar {
     position: relative;
     margin: auto;
   }
-  .main_page_main {
-    flex-flow: column-reverse nowrap;
-  }
+
   .statblock_control_buttons {
     right: 7px;
   }
+}
+
+.notepad_container {
+  margin-top: 1.5em;
 }
 
 .statblock_edit_button:hover {
@@ -80,9 +86,11 @@ html, body {
   margin: 0px;
   overflow-x: hidden;
 }
-.mainpage_header  {
+
+.mainpage_header {
   background-image: url("img/bg.jpg");
 }
+
 body {
   height: 100%;
 
@@ -877,8 +885,8 @@ h1 {
   z-index: 2;
 }
 
-.inactive_row{
-  filter:brightness(0.6);
+.inactive_row {
+  filter: brightness(0.6);
 }
 
 .combatRow>input, .mobcontroller_row input {
@@ -1055,15 +1063,18 @@ h1 {
   margin-left: 10px;
   z-index: 1;
 }
-.combatGUI .health_bar{
+
+.combatGUI .health_bar {
   height: 0.25em;
   min-width: 100%;
   background-color: rgb(0, 172, 72);
   position: absolute;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  transform-origin: left;;
+  transform-origin: left;
+  ;
 }
+
 .combatGUI {
   float: left;
   flex-flow: column wrap;
@@ -1072,12 +1083,14 @@ h1 {
   display: flex;
 }
 
-.combat_toolbar .sort_by_initiative{
- background-image: url(img/sort-init.png);
+.combat_toolbar .sort_by_initiative {
+  background-image: url(img/sort-init.png);
 }
-.combat_toolbar .sort_by_hit_points{
+
+.combat_toolbar .sort_by_hit_points {
   background-image: url(img/sort-hp.png);
 }
+
 .combatRow>input[type="number"], .mobcontroller_row input[type="number"] {
   width: 40px;
 }
@@ -1495,7 +1508,7 @@ button:disabled {
   width: 1.5em !important;
   height: 1.5em !important;
   background-image: url(img/close.png);
-  background-size:contain;
+  background-size: contain;
 }
 
 .popup_menu .awesomplete>input {

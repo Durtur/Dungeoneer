@@ -9,7 +9,8 @@ var loadedEncounter = [];
 const marked = require('marked');
 const dataAccess = require("./js/dataaccess");
 const initiative = require("./js/initiative")
-const DnDBeyondImporter = require("./js/DnDBeyondImporter")
+const DnDBeyondImporter = require("./js/DnDBeyondImporter");
+
 const CharacterSyncer = require("./js/characterSyncer");
 const Modals = require("./js/modals")
 const ThemeManager = require("./js/themeManager");
@@ -21,6 +22,7 @@ const icon = window.api.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.
 const customStylesheet = window.api.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
 // const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
+const NotePad = require('./js/notepad/notepad');
 const charSyncers = [];
 
 
@@ -33,13 +35,13 @@ dataAccess.initialize();
 
 const encounterModule = new EncounterModule();
 const dndBeyondImporter = new DnDBeyondImporter();
-var mobController;
+var mobController, notePad;
 
 var encounterIsLoaded;
 
 var partyArray, partyInformationList, partyInputAwesomeplete, conditionList;
 var partyAlternativeACArray;
-
+var NOTEPAD_AUTOSAVE;
 /* #region IPC */
 
 ipcRenderer.on('update-all-pawns', function () {
@@ -243,6 +245,9 @@ document.addEventListener("DOMContentLoaded", function () {
     e.target.value = "";
 
   });
+
+
+
   //DEBUG AND TESTING
   //designTimeAndDebug();
 });
@@ -501,7 +506,19 @@ function shiftEncode(str, shiftAmount = 2) {
   return newString;
 }
 
-
+function loadScratchPad() {
+  dataAccess.getScratchPad(data => {
+    notePad = new NotePad(data, false, null);
+    document.getElementById("notebook_container").appendChild(notePad.container());
+    notePad.render();
+    notePad.onChange((delta, oldDelta, source) => {
+      window.clearTimeout(NOTEPAD_AUTOSAVE);
+      NOTEPAD_AUTOSAVE = window.setTimeout(() => {
+        dataAccess.setScratchPad(notePad.getContents())
+      }, 1500);
+    });
+  });
+}
 /**
  * Settings variables
  */
@@ -514,6 +531,8 @@ function loadSettings() {
     settings.maptool.currentMap = {};
     applySettings();
     loadParty();
+    loadScratchPad();
+
   });
 }
 

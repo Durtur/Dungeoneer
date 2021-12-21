@@ -1,6 +1,10 @@
 const Quill = require('quill');
-const util = require("./util");
+window.Quill = Quill;
+const util = require("../util");
 
+
+const ImageResize = require("./ImageResize");
+Quill.register('modules/ImageResize', ImageResize);
 const EDITOR_TOOLBAR = [
     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
     ['blockquote', 'code-block'],
@@ -29,9 +33,9 @@ class NotePad {
         this.readonly = readonly;
         this.data = data;
         this.parent = util.wrapper("div", "column notepad_container", this.cont);
-        if(transparent){
+        if (transparent) {
             this.parent.classList.add("white_on_hover");
-        }else{
+        } else {
             this.parent.style.backgroundColor = "white";
         }
 
@@ -42,6 +46,12 @@ class NotePad {
             })
         }
 
+    }
+
+    onChange(fn) {
+        this.editor.on('text-change', function (delta, oldDelta, source) {
+            fn(delta, oldDelta, source);
+        });
     }
 
     getContents() {
@@ -68,6 +78,9 @@ class NotePad {
         var options = {
             modules: {
                 toolbar: readonly ? null : EDITOR_TOOLBAR,
+                ImageResize: {
+                    modules: readonly ? [] : ['Resize', 'DisplaySize', 'Toolbar']
+                },
                 // mention: {
                 //     mentionDenotationChars: mentionChars,
                 //     source: async function (searchTerm, renderList, char) {
