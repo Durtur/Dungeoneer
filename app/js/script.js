@@ -507,7 +507,9 @@ function shiftEncode(str, shiftAmount = 2) {
 }
 
 function loadScratchPad() {
+  if (notePad) return;
   dataAccess.getScratchPad(data => {
+
     notePad = new NotePad(data, false, null);
     document.getElementById("notebook_container").appendChild(notePad.container());
     notePad.render();
