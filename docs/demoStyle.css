@@ -78,6 +78,7 @@
     margin:0.5em;
     background-size: contain;
     cursor: pointer;
+    user-select: none;
 }
 .icon_human{
     background-image:url("img/visored-helm.svg")
