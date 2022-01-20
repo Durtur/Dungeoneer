@@ -29,8 +29,11 @@
     --lighter-background:rgb(255 255 255 / 50%);
   }
 .generator_result{
-    margin:auto;
-    width:40em;
+    margin: auto;
+    margin-top: 2em;
+    max-width: 40em;
+    /* height: auto; */
+    width: 95%;
 }
 
 .dungeoneer_link{
@@ -99,3 +102,7 @@
 .icon_aberration{
     background-image:url("img/brain-tentacle.svg")
 }
+
+.icon_row{
+    margin-top:4em !important;
+}   
