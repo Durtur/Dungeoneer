@@ -48,6 +48,8 @@
     line-height: 1.5;
     height: 2em !important;
     cursor: pointer;
+
+    margin-top: 4em !important;
 }
 
 #generated_npc_name{
