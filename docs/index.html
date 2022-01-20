@@ -8,23 +8,28 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-   
+
+    <link href="./demoStyle.css" rel="stylesheet">
     <link href="../app/css/common.css" rel="stylesheet">
 
 
 </head>
 
 <body>
+    <div class="main_content_wrapper column">
+        <p class ="hidden">A concise NPC generator for your fantasy games. Generate a quick character. </p> 
+        <div class="column" style ="height:100%;">
 
-
-    <div class="main_content_wrapper">
-
-        <div class="column" style="    width: 100%;
-        margin-top: 1.6em;">
-
-
-            <section class="section__show section__tool__large row spread_children" id="npc_section">
-                <div class="column genchooser_smaller">
+            <div class="row center" style="margin-bottom:0.5em;">
+                <div class ="generator_icon icon_human tooltipped" data-tooltip="Human" onclick = ' generate("anglo","humanoid")'></div>
+                <div class ="generator_icon icon_dwarf tooltipped" data-tooltip="Dwarf" onclick = ' generate("dwarven","dwarf")'></div>
+                <div class ="generator_icon icon_fiend tooltipped" data-tooltip="Fiend" onclick = ' generate("fiend","fiend")'></div>
+                <div class ="generator_icon icon_celestial tooltipped" data-tooltip="Celestial" onclick = ' generate("celestial","celestial")'></div>
+                <div class ="generator_icon icon_fey tooltipped" data-tooltip="Fey" onclick = ' generate("fey","fey")'></div>
+                <div class ="generator_icon icon_aberration tooltipped" data-tooltip="Aberration" onclick = ' generate("aberration","aberration")'></div>
+            </div>
+            <section class="generator_result  row spread_children" id="npc_section">
+                <div class="column genchooser_smaller hidden">
                     <h2>NPC generator</h2>
 
 
@@ -46,7 +51,7 @@
 
                 </div>
 
-                <div class="column genchooser_larger" style="margin-left:2em;">
+                <div class="column generator_result" style="margin-left:2em;">
                     <div class="generator_reroll_container">
                         <button class="hidden regenerate_button" id="regenerate_name_button"></button>
                         <div id="generated_npc_name" class="invisible_editable_header">
@@ -61,19 +66,22 @@
 
 
 
-                    <div class="invisible_editable_text" id="generated_npc_description" contenteditable></div>
-                    <button class="button_style button_wide margin_top" id="copyButton"
-                        title="Copy to clipboard">Copy</button>
+                    <div class="invisible_editable_text" id="generated_npc_description" ></div>
+
 
                 </div>
             </section>
 
             </section>
         </div>
+        <a class ="button_wide button_style  center dungeoneer_link" href="https://durtur.github.io/">Dungeoneer</a>
     </div>
 
 
 
+    <script src="./data.js"></script>
+    <script src="../app/js/mathyUtil.js"></script>
+    <script src="../app/js/generatorsCommon.js"></script>
     <script src="./generatorDemo.js"></script>
 
     <script src="../app/js/npcGenerator.js"></script>

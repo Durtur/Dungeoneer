@@ -24,22 +24,8 @@ class NpcGenerator {
             var gender = dropDownGender.options[dropDownGender.selectedIndex].value;
             var dropDownSet = document.querySelector("#choose_nameset");
             var set = dropDownSet.options[dropDownSet.selectedIndex].value;
-            var data = cls.generatorData;
-            var foundNameSet = null;
 
-            for (var i = 0; i < Object.keys(Object.values(data)[0]).length; i++) {
-                if (set === Object.keys(Object.values(data)[0])[i]) {
-                    foundNameSet = Object.values(Object.values(data)[0])[i];
-                }
-            }
-            var generatedNameTextField = document.querySelector("#generated_npc_name");
-            var values = cls.generateNPC(data, gender, foundNameSet, type)
-            generatedNameTextField.innerText = values.firstname + " " + values.lastname;
-            if (values.age)
-                values.profession += ` (${values.age})`;
-
-            document.querySelector("#generated_npc_profession").innerText = values.profession;
-            document.querySelector("#generated_npc_description").innerText = values.description;
+            cls.generate(set, type, gender);
 
 
 
@@ -47,7 +33,24 @@ class NpcGenerator {
 
 
     }
+    generate(nameSet, creatureType, gender) {
 
+        var data = this.generatorData;
+        var foundNameSet = null;
+        for (var i = 0; i < Object.keys(Object.values(data)[0]).length; i++) {
+            if (nameSet === Object.keys(Object.values(data)[0])[i]) {
+                foundNameSet = Object.values(Object.values(data)[0])[i];
+            }
+        }
+        var generatedNameTextField = document.querySelector("#generated_npc_name");
+        var values = this.generateNPC(data, gender, foundNameSet, creatureType)
+        generatedNameTextField.innerText = values.firstname + " " + values.lastname;
+        if (values.age)
+            values.profession += ` (${values.age})`;
+
+        document.querySelector("#generated_npc_profession").innerText = values.profession;
+        document.querySelector("#generated_npc_description").innerText = values.description;
+    }
 
     generateNPC(data, gender, foundNameSet, creatureType, descType = "generic") {
 

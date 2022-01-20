@@ -1,0 +1,98 @@
+:root {
+    --main-color: rgb(31, 31, 31);
+    --alt-main-color: #451A17;
+    --main-emphasis-color: white;
+    --color-red: #a72424;;
+    --black:black;
+    --alt-emphasis-color: rgb(189 151 74 / 40%);
+    --highlight-color:hsl(54deg 58% 43%);
+    --main-underline-color: rgb(61, 17, 9);
+    --main-success-color: rgb(4, 64, 4);
+    --main-success-color-darker: rgb(2, 44, 2);
+    --dark-transparent-bg: rgba(0, 0, 0, 0.5);
+    --main-success-color-lighter: rgb(10, 125, 10);
+    --transition-delay: 300ms;
+    --base-margin: 10px;
+    --rounded-corners: 5px;
+
+    --main-header-color: white;
+    --background-color:black;
+
+    --foreground-color:transparent;
+    --main-text-color:white;
+    --muted-text-color:rgb(85, 85, 85);
+    --inverse-text-color:white;
+    --black-bg: rgba(34, 34, 34, 0.8);
+    --basic-font: "roboto";
+    --header-font: "mrEaves";
+    --error-bg-input: #ff9b9b;
+    --lighter-background:rgb(255 255 255 / 50%);
+  }
+.generator_result{
+    margin:auto;
+    width:40em;
+}
+
+.dungeoneer_link{
+    width: 8em !important;
+    margin-bottom: 1.25em !important;
+    font-size: 1.5em !important;
+    background-color:var(--main-success-color) !important;
+    border:none !important;
+    text-decoration: none;
+    height: 4em !important;
+    text-align: center !important;
+    line-height: 1.5;
+    height: 2em !important;
+    cursor: pointer;
+}
+
+#generated_npc_name{
+    font-size:2em;
+    margin:0.25em;
+}
+#generated_npc_profession{
+    font-size:1.25em;
+    margin:0.25em;
+}
+#generated_npc_description{
+    font-size:1.25em;
+    margin:0.25em;
+}
+
+.button_style{
+    font-size:1.25em;
+}
+
+.generator_icon{
+    width: 4em;
+    height: 4em;
+    margin:0.5em;
+    background-size: contain;
+    cursor: pointer;
+}
+.icon_human{
+    background-image:url("img/visored-helm.svg")
+}
+
+.icon_dwarf{
+    background-image:url("img/dwarf-helmet.svg")
+}
+
+.icon_celestial{
+    background-image:url("img/angel-wings.svg")
+}
+
+
+.icon_fey{
+    background-image:url("img/fairy.svg")
+}
+
+
+.icon_fiend{
+    background-image:url("img/pick-of-destiny.svg")
+}
+
+.icon_aberration{
+    background-image:url("img/brain-tentacle.svg")
+}
