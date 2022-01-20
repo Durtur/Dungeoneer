@@ -1591,7 +1591,7 @@ input[data-before_label]:before {
   visibility: hidden;
   line-height: 1.3em;
   transition: all 0.5s ease;
-  width: 15em;
+
   transition-delay: 0.7s;
 }
 
