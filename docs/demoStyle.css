@@ -63,7 +63,10 @@
 .button_style{
     font-size:1.25em;
 }
-
+.row_wrap{
+    display: flex;
+    flex-flow:row wrap
+}
 .generator_icon{
     width: 4em;
     height: 4em;
