@@ -1,0 +1,201 @@
+:root {
+    --basic-font: 'Roboto', sans-serif;
+    --header-font: 'Open Sans', sans-serif;
+}
+
+video {
+    /* override other styles to make responsive */
+    width: 100% !important;
+    height: auto !important;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: var(--header-font);
+}
+
+p {
+    font-family: var(--basic-font);
+}
+.sharebar{
+
+   
+    padding: 0.5em;
+}
+.link_base {
+    width: 3.5em;
+    height: 3.5em;
+    background-repeat: no-repeat;
+    display: block;
+    background-size: 95%;
+    margin: 0.25em;
+    margin-top:0.5em;
+}
+
+.reddit_link {
+    color: transparent;
+    background-image: url("img/link/reddit.png");
+}
+
+.github_link{
+    background-image: url("img/link/github.png");
+}
+
+main {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    min-height: 100vh;
+}
+
+.icon {
+    min-height: 112px;
+    min-width: 82px;
+    background-position: center;
+    background-image: url(./icon.png);
+
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.title_card h1{
+    margin-bottom: 0.5em;
+}
+.title_card p{
+    margin:0;
+}
+.title_card {
+    position: absolute;
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    padding: 2em;
+    border-radius: 5px;
+}
+
+.bullet_article:hover .bullet_img_rotate {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 600px) {
+    .cover_img{
+        background-size: 778px;
+    }
+    .card {
+        width: 100vw;
+    }
+    .sharebar {
+        justify-content: center;
+        display: flex;
+    }
+}
+
+@media (min-width: 601px) {
+    .cover_img{
+        background-size: 920px;
+    }
+    .card {
+        width: 70vw;
+        max-width: 60em;
+    }
+    .sharebar {
+        position: fixed;
+        top: 45%;
+        right: 0;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius:5px;
+    }
+}
+
+.cover_img {
+    height: 100vh;
+
+    margin: 0;
+    
+
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-position-y:top;
+    padding: 0;
+    background-image: url(img/dungeoneer.JPG);
+}
+
+.bullet_article {
+    width: 25%;
+    display: flex;
+    max-width: 30em;
+    min-width: 12em;
+    margin: 1.5em;
+    flex-flow: column nowrap;
+}
+
+.bullet_img {
+    transition: all 300ms;
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+.bullet_article p {
+    margin: 0;
+    padding: 0;
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.rownowrap {
+    display: flex;
+    flex-flow: row;
+}
+
+.column {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.card {
+    display: flex;
+    margin-top: 2em;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    min-width: 100vw;
+    min-height: 100vh;
+    color: white;
+    background-color: black;
+    flex-flow: column nowrap;
+}
+
+.button_like {
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 1em;
+}
+
+.green {
+    background-color: #093509;
+    ;
+}
+
+.download_button {
+    background-color: #093509;
+    margin-top: 2em !important;
+    border-radius: 5px;
+    padding: 1em;
+    font-size: 1.25em;
+}
+
+a {
+    text-decoration: none;
+    ;
+    color: white;
+}
+
+.center {
+    margin: auto;
+}
+
+.space-around {
+    justify-content: space-around;
+}

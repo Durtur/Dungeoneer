@@ -1,93 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <title>Dungeoneer</title>
     <meta charset="UTF-8">
-    <title>Dungeoneer: Generators</title>
-    <meta name="author" content="">
-    <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-    <link href="./demoStyle.css" rel="stylesheet">
-    <link href="./common.css" rel="stylesheet">
-
+    <meta name="author" content="Durtur">
+    <meta name="description" content="D&D5e DM tool">
+    <meta property="og:title" content="Dungeoneer D&D tool">
+    <meta property="og:description" content="Dungeoneer is a modern, open sourced and performmant dungeon master helper tool, includes generators, a battlemap (VTT), combat trackers and more.">
+    <meta property="og:image" content="./img/ogimg.JPG">
+  
+    <meta property="og:site_name" content="Dungeoneer D&D Tool">
+    <meta name="twitter:card" content="./img/ogimg.JPG">
+    <meta name="twitter:image:alt" content="Dungeoneer tool">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="./icon.png">
+    <link href="style.css" rel="stylesheet">
 
 </head>
 
 <body>
-    <div class="main_content_wrapper column">
-        <p class ="hidden">A concise NPC generator for your fantasy games. Generate a quick character. </p> 
-        <div class="column" style ="height:70%;">
 
-            <div class="row_wrap center spread_children icon_row" style="margin-bottom:0.5em;">
-                <div class ="generator_icon icon_human tooltipped" data-tooltip="Human" onclick = ' generate("anglo","humanoid")'></div>
-                <div class ="generator_icon icon_dwarf tooltipped" data-tooltip="Dwarf" onclick = ' generate("dwarven","dwarf")'></div>
-                <div class ="generator_icon icon_fiend tooltipped" data-tooltip="Fiend" onclick = ' generate("fiend","fiend")'></div>
-                <div class ="generator_icon icon_celestial tooltipped" data-tooltip="Celestial" onclick = ' generate("celestial","celestial")'></div>
-                <div class ="generator_icon icon_fey tooltipped" data-tooltip="Fey" onclick = ' generate("fey","fey")'></div>
-                <div class ="generator_icon icon_aberration tooltipped" data-tooltip="Aberration" onclick = ' generate("aberration","aberration")'></div>
+    <section class="cover_img">
+        <div class="title_card">
+            <div class="rownowrap">
+                <div class = "icon"></div>
+                <div class = "column">
+                    <h1>Dungeoneer</h1>
+                    <p>The open sourced DM helper tool for fifth edition D&D.</p>
+                </div>
+                
             </div>
-            <section class="generator_result  row spread_children" id="npc_section">
-                <div class="column genchooser_smaller hidden">
-                    <h2>NPC generator</h2>
-
-
-                    <label for="choose_type_generated_creature">Creature type</label>
-                    <select name="choose_type_generated_creature" id="choose_type_generated_creature">
-                    </select>
-                    <label for="choose_nameset">Name set</label>
-                    <select name="nameset" id="choose_nameset"></select>
-                    <label for="choose_gender">Gender</label>
-                    <select name="gender" id="choose_gender">
-                        <option value="any">Any</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                    <div class="column">
-                        <button class="generate_button button_style button_wide margin_top"
-                            id="generate_npc_button">Generate</button>
-                    </div>
-
-                </div>
-
-                <div class="column generator_result" style="margin-left:2em;">
-                    <div class="generator_reroll_container">
-                        <button class="hidden regenerate_button" id="regenerate_name_button"></button>
-                        <div id="generated_npc_name" class="invisible_editable_header">
-                        </div>
-
-                    </div>
-                    <div class="generator_reroll_container">
-
-                        <button class="hidden regenerate_button" id="regenerate_creature_button"></button>
-                        <div class="invisible_editable_text" id="generated_npc_profession"></div>
-                    </div>
-
-
-
-                    <div class="invisible_editable_text" id="generated_npc_description" ></div>
-
-
-                </div>
-            </section>
-
-            <a class ="button_wide button_style  center dungeoneer_link" href="https://durtur.github.io/">Dungeoneer</a>
-            </section>
+          
         </div>
-     
-    </div>
+
+    </section>
+    <main class="center">
+
+        <section class="card">
+            <a class="center download_button green" href="https://github.com/Durtur/Dungeoneer/releases/latest">Download
+                Dungeoneer</a>
+        </section>
+
+        <section class="card  row space-around">
+
+            <article class="bullet_article">
+                <img class="bullet_img bullet_img_rotate center" src="img/perspective-dice-six-faces-random.svg"
+                    width="60">
+                <h2>Randomize like never before</h2>
+                <p>Random items, scrolls, loot, encounters and even your own multi level random tables.</p>
+            </article>
+
+            <article class="bullet_article">
+                <img class="bullet_img  center" src="img/bookmarklet.svg" width="60">
+                <h2>Keep your stats on hand</h2>
+                <p>Dungeoneer comes with all available SRD content, and gives you the tools to homebrew efficiently and
+                    effortlessly.</p>
+            </article>
 
 
 
-    <script src="./data.js"></script>
-    <script src="./mathyUtil.js"></script>
-    <script src="./generatorsCommon.js"></script>
-    <script src="./generatorDemo.js"></script>
+            <article class="bullet_article">
+                <img class="bullet_img bullet_img_rotate center" src="img/dice-twenty-faces-twenty.svg" width="60">
+                <h2>Track everything and take a break</h2>
+                <p>The DM's life is taxing. Track initiative, monster hit points, attacks, player stats and more to make
+                    your life easier.</p>
+            </article>
 
-    <script src="./npcGenerator.js"></script>
+            <article class="bullet_article">
+                <img class="bullet_img  center" src="img/tv.svg" width="60">
+                <h2>Integrated VTT</h2>
+                <p>Show your players your perfect maps with Dungeoneer's very own integrated virtual tabletop, which
+                    syncs with your combat tracker.</p>
+            </article>
+
+            <article class="bullet_article">
+                <img class="bullet_img  center" src="img/gear-hammer.png" width="60">
+                <h2>Generate </h2>
+                <p>Don't strain your brain. Generate random NPC's, shops, or taverns including inventory, rumors, and
+                    Dungeoneer's population generation engine.</p>
+            </article>
+
+            <article class="bullet_article">
+                <img class="bullet_img  center" src="img/scroll-quill.svg" width="60">
+                <h2>Contribute </h2>
+                <p>Dungeoneer is open sourced and anyone can contribute. Add your own features or add to the generators.
+                </p>
+            </article>
 
 
+        </section>
+
+        <section class="card" style="margin-bottom:4em">
+            <div class = "column">
+                <div id = "sharebar" class = "sharebar">
+                    <a class = "link_base reddit_link" href = "https://www.reddit.com/r/dungeoneerVTT"></a>
+
+                    <a class = "link_base github_link" href = "https://www.github.com/durtur/dungeoneer"></a>
+                </div>
+                <video src="dungeoneer demo.mp4" width="720" height="420" controls type="video/mp4">
+            </div>
+         
+        </section>
+
+    </main>
+
+
+    <script src="./script.js"></script>
 </body>
 
 </html>
