@@ -3,7 +3,7 @@ class SaveManager {
 
     async saveCurrentMap() {
         var path = this.lastLoadedMapPath ? this.lastLoadedMapPath : window.dialog.showSaveDialogSync(
-       
+
             {
                 filters: [{ name: 'Map', extensions: ['dungeoneer_map'] }],
                 title: "Save",
@@ -110,12 +110,13 @@ class SaveManager {
                 filters: [{ name: 'Map', extensions: extensions }]
             })[0];
         if (path == null) return;
-      
+
         this.loadMapFromPath(path);
 
     }
 
     loadMapFromPath(path) {
+        recentMaps.addToPath(path);
         this.lastLoadedMapPath = null;
         if (path.substring(path.lastIndexOf(".") + 1) == "dd2vtt") {
             fovLighting.importDungeondraftVttMap(path);
@@ -167,6 +168,7 @@ class SaveManager {
         zoomIntoMap({ x: 0, y: 0 }, data.bg_scale - mapContainer.data_bg_scale, async () => {
             //  pawns = data.pawns;
             cls.removeExistingEffects();
+            var cacheBreaker = `? ${new Date().getTime()}`;
             data.effects.forEach((effect) => cls.restoreEffect(effect));
             fovLighting.setSegments(data.segments);
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio;
@@ -189,12 +191,12 @@ class SaveManager {
                 data.map = await dataAccess.writeTempFile(`${getTempName("forground", settings.currentMap)}${pathModule.extname(data.extensions.foreground)}`, Buffer.from(data.foregroundBase64, "base64"));
             settings.currentMap = data.map;
 
-            $('#foreground').css('background-image', 'url("' + data.map + '")');
+            $('#foreground').css('background-image', 'url("' + data.map+cacheBreaker + '")');
 
             if (data.map_edge || data.mapEdgeBase64) {
                 if (data.mapEdgeBase64)
                     data.map_edge = await dataAccess.writeTempFile(`${getTempName("edge", settings.map_edge_style)}${pathModule.extname(data.extensions.mapEdge)}`, Buffer.from(data.mapEdgeBase64, "base64"));
-                document.querySelector(".maptool_body").style.backgroundImage = "url('" + data.map_edge + "')";
+                document.querySelector(".maptool_body").style.backgroundImage = "url('" + data.map_edge+cacheBreaker + "')";
                 settings.map_edge_style = data.map_edge;
             }
 
@@ -208,8 +210,8 @@ class SaveManager {
                 data.overlayMap = await dataAccess.writeTempFile(`${getTempName("overlay", settings.currentOverlay)}${pathModule.extname(data.extensions.overlay)}`, Buffer.from(data.mapOverlayBase64, "base64"));
             settings.currentBackground = data.layer2Map;
             backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
-            setMapBackground(data.layer2Map, data.layer2_width);
-            setMapOverlay(data.overlayMap, data.mapOverlaySize);
+            setMapBackground(data.layer2Map+cacheBreaker, data.layer2_width);
+            setMapOverlay(data.overlayMap+cacheBreaker, data.mapOverlaySize);
 
             //Map slide
             backgroundLoop.loadSlideState(data);
@@ -218,7 +220,7 @@ class SaveManager {
 
             function getTempName(name, current) {
                 var prefix = "temp_";
-                console.log(prefix + name,current )
+                console.log(prefix + name, current)
                 if (prefix + name == current) {
                     return prefix + name + "1";
                 }

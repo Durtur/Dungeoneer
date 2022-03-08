@@ -6,7 +6,8 @@ const MapLibrary = require("./mappingTool/mapLibrary");
 const SlideCanvas = require("./mappingTool/slideCanvas");
 const Menu = require("./mappingTool/menu");
 const Timer = require("./js/timer");
-
+const Recents = require("./mappingTool/recents");
+var recentMaps = new Recents();
 const SoundManager = require("./js/soundManager")
 const soundManager = new SoundManager();
 const dataAccess = require("./js/dataaccess");
@@ -98,6 +99,7 @@ function loadSettings() {
     dataAccess.getSettings(function (data) {
 
         settings = data.maptool;
+ 
         if (!settings.colorTokenBases) {
             document.getElementById("background_color_button_add_pawn").value = "rgba(255, 255, 255, 0)";
         }
@@ -773,6 +775,9 @@ function onSettingsLoaded() {
     setupGridLayer();
     resizeAndDrawGrid();
     refreshFogOfWar();
+    console.log(document.querySelector("#recent_maps_button").parentNode.querySelector("li"))
+    recentMaps.initialize(document.querySelector("#recent_maps_button>ul"));
+  
     Menu.initialize();
 
     effectManager.initialize();
