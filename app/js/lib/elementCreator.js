@@ -1,5 +1,5 @@
 
-
+const util = require("../util");
 class ElementCreator {
     static generateHTMLTable(jsonObj) {
 
@@ -93,6 +93,15 @@ class ElementCreator {
         }
     }
 
+    static createTextOverlayImage(imgSrc, text){
+        var cont = util.ele("div", "text_overlay_img_container");
+        var img = util.ele("img", "tile_image");
+        img.src = imgSrc;
+        var text = util.ele("p", "center overlay_text", text);
+        cont.appendChild(img);
+        cont.appendChild(text);
+        return cont;
+    }
 
 }
 

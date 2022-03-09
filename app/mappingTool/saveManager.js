@@ -1,4 +1,5 @@
 
+
 class SaveManager {
 
     async saveCurrentMap() {
@@ -99,9 +100,14 @@ class SaveManager {
 
     }
 
-    supportedMapTypes() { return ['dungeoneer_map', "dd2vtt"] }
+    supportedMapTypes() { return dataAccess.supportedMapTypes() }
 
     loadMapDialog() {
+        
+        mapLibrary.open();
+    }
+
+    loadMapFileDialog(){
         var extensions = this.supportedMapTypes();
         var path = window.dialog.showOpenDialogSync(
             {
@@ -112,7 +118,6 @@ class SaveManager {
         if (path == null) return;
 
         this.loadMapFromPath(path);
-
     }
 
     loadMapFromPath(path) {

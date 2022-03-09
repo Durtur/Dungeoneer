@@ -40,7 +40,6 @@ class Recents {
         ele.setAttribute("data-path", path);
         ele.onclick = this.recentNodeClicked;
         var wrapper = util.wrapper("li", "", ele);
-        console.log(wrapper);
         return wrapper;
 
     }

@@ -3,6 +3,7 @@
 const Awesomplete = require(pathModule.join(window.api.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
+var mapLibrary = new MapLibrary();
 const SlideCanvas = require("./mappingTool/slideCanvas");
 const Menu = require("./mappingTool/menu");
 const Timer = require("./js/timer");
@@ -777,9 +778,9 @@ function onSettingsLoaded() {
     refreshFogOfWar();
     console.log(document.querySelector("#recent_maps_button").parentNode.querySelector("li"))
     recentMaps.initialize(document.querySelector("#recent_maps_button>ul"));
-  
+    mapLibrary.initialize();
     Menu.initialize();
-
+    
     effectManager.initialize();
     onSettingsChanged();
 
@@ -790,7 +791,7 @@ function onSettingsLoaded() {
         LAST_KEY = event.key;
         window.clearTimeout(lastKeyNull)
         lastKeyNull = window.setTimeout(() => LAST_KEY = "", 1000);
-        console.log(lastKey, event.key, currentlyDeletingSegments)
+  
         if (event.key === "Escape") {
             return resetEverything;
             //Show global listener position
@@ -1050,7 +1051,7 @@ function resizeForeground(newWidth) {
     document.getElementById("foreground_size_slider").value = newWidth;
     settings.gridSettings.mapSize = newWidth;
     var newRect = foregroundCanvas.getBoundingClientRect();
-    console.log(oldRect.width, newRect.width)
+
     // fovLighting.resizeSegmentsFromMapSizeChanged(oldRect.width, oldRect.height, newRect.width, newRect.height);
     fovLighting.drawSegments();
 }
@@ -1510,7 +1511,7 @@ function loadParty() {
 
 function fillForcedPerspectiveDropDown() {
     var dropDown = document.getElementById("fov_perspective_dropdown");
-    console.log(dropDown.childNodes)
+
     while (dropDown.childNodes.length > 4) {
         dropDown.removeChild(dropDown.lastChild);
     }
@@ -1930,7 +1931,7 @@ function removePawnConditionHelper(pawnElement, conditionObj, deleteAll, originM
 }
 
 function raiseConditionsChanged(pawn) {
-    console.log(pawn);
+
     var idx = pawn.getAttribute("index_in_main_window");
     window.api.messageWindow('mainWindow', 'condition-list-changed', {
         conditionList: pawn["data-dnd_conditions"],
@@ -2045,7 +2046,7 @@ function killOrRevivePawn() {
                 return;
             pawnElement.dead = "true";
             if (!isPlayer) {
-                console.log()
+    
                 if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
                     window.api.messageWindow('mainWindow', 'monster-killed', [pawnElement.dnd_name, pawnElement.index_in_main_window]);
                 }

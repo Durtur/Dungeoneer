@@ -4,6 +4,7 @@ const { ipcRenderer } = require('electron');
 const { readdir, writeFile } = require('fs').promises;
 const uniqueID = require('uniqid');
 var pathModule = require('path');
+
 //Refactor to preload script
 window.api = {
     getPath: (arg) => { return ipcRenderer.sendSync('get-path', arg) },
@@ -38,6 +39,7 @@ const defaultGeneratorResourcePath = pathModule.join(window.api.getAppPath(), "d
 const generatorResourcePath = pathModule.join(window.api.getPath("userData"), "data", "generators");
 const defaultTokenPath = pathModule.join(window.api.getPath("userData"), "data", "maptool_tokens");
 const defaultEffectPath = pathModule.join(window.api.getPath("userData"), "data", "maptool_effects");
+const maptoolLibraryFolder = pathModule.join(window.api.getPath("userData"), "data", "maptool_libraries");
 const conditionImagePath = pathModule.join(window.api.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(window.api.getAppPath(), 'app', 'mappingTool', 'tokens', 'conditions');
 
@@ -72,18 +74,12 @@ module.exports = function () {
         loadDefaults("party.json");
         loadDefaults("encounters.json");
 
-        if (!fs.existsSync(defaultTokenPath))
-            fs.mkdirSync(defaultTokenPath);
-
-        if (!fs.existsSync(settingsPath))
-            fs.mkdirSync(settingsPath);
-
-        if (!fs.existsSync(generatorResourcePath))
-            fs.mkdirSync(generatorResourcePath);
+        [defaultTokenPath, settingsPath, generatorResourcePath, maptoolLibraryFolder, defaultEffectPath].forEach(folder => {
+            if (!fs.existsSync(folder))
+                fs.mkdirSync(folder);
+        })
 
         loadGeneratorDefaults();
-        if (!fs.existsSync(defaultEffectPath))
-            fs.mkdirSync(defaultEffectPath);
 
         if (!fs.existsSync(conditionImagePath)) {
             fs.mkdirSync(conditionImagePath);
@@ -450,9 +446,9 @@ module.exports = function () {
         return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue);
     }
 
-    function baseGetWithFullPath(path, callback, fallbackValue) {
+    function baseGetWithFullPath(path, callback, fallbackValue, fallbackPath) {
 
-        fs.readFile(path, function (err, data, fallbackPath) {
+        fs.readFile(path, function (err, data) {
 
             if (err) {
                 console.log("Error getting file", err, fallbackValue)
@@ -467,13 +463,13 @@ module.exports = function () {
                 } else {
                     initializeData();
                     console.error(err);
+                    callback(fallbackValue);
                 }
 
 
             } else {
 
                 var ret = JSON.parse(data);
-
                 callback(ret);
             }
             if (typeof (callback) != "function") console.log("Attempted to open " + path + " without a callback function, received " + callback);
@@ -517,6 +513,93 @@ module.exports = function () {
             return dirent.isDirectory() ? getFiles(res) : res;
         }));
         return Array.prototype.concat(...files);
+    }
+
+    function getMapToolLibraryData(libraryName, callback) {
+        baseGetWithFullPath(pathModule.join(maptoolLibraryFolder, libraryName, "library_data.json"), (data) => {
+            callback(data);
+        }, null);
+
+    }
+
+    function supportedMapTypes() {
+        return ['dungeoneer_map', "dd2vtt"];
+    }
+
+    function getMapLibraryThumbNailPath(libName) {
+        var destinationFolder = pathModule.join(maptoolLibraryFolder, libName);
+        var thumbnailFolder = pathModule.join(destinationFolder, "thumbnails");
+
+        if (!fs.existsSync(destinationFolder))
+            fs.mkdirSync(destinationFolder);
+
+        if (!fs.existsSync(thumbnailFolder))
+            fs.mkdirSync(thumbnailFolder);
+        return thumbnailFolder;
+    }
+    async function createLibraryFolder(libraryName, folderPath, callback) {
+        console.log(`Creating library ${libraryName}`)
+        var files = await getFiles(folderPath);
+        var thumbnailSize = 256;
+        var destinationFolder = pathModule.join(maptoolLibraryFolder, libraryName);
+        var thumbnailFolder = getMapLibraryThumbNailPath(libraryName);
+        if (!fs.existsSync(maptoolLibraryFolder))
+            fs.mkdirSync(maptoolLibraryFolder);
+
+
+        baseGetWithFullPath(pathModule.join(destinationFolder, "library_data.json"), async (data) => {
+
+            if (data == null) {
+                data =
+                {
+                    paths: [],
+                    name: libraryName
+                }
+            }
+
+            var newFiles = files.filter(x => !data.paths.find(y => pathModule.basename(x) == pathModule.basename(y)));
+
+            var dungeoneerMaps = newFiles.filter(x => [".dd2vtt", ".dungeoneer_map"].includes(pathModule.extname(x)));
+            var images = newFiles.filter(x => constants.imgFilters.includes(pathModule.extname(x).replace(".", "")));
+            var libraryList = [...images, ...dungeoneerMaps];
+            data.paths = [...data.paths, ...libraryList];
+            var workCount = data.paths.length;
+            var processedImages = 0;
+            images.forEach(async img => {
+
+                await sharp(img)
+                    .resize(
+                        {
+                            width: thumbnailSize
+                        })
+                    .png()
+                    .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(img)}.png`));
+                processedImages++;
+                if (processedImages == workCount)
+                    callback();
+
+            });
+
+            dungeoneerMaps.forEach(path => {
+
+                readFile(path, async (data) => {
+                    var buffer = pathModule.extname(path) == ".dungeoneer_map" ? Buffer.from(data.foregroundBase64, "base64") : Buffer.from(data.image, "base64");
+                    console.log(buffer)
+                    await sharp(buffer)
+                        .resize(
+                            {
+                                width: thumbnailSize
+                            })
+                        .png()
+                        .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(path)}.png`));
+                    processedImages++;
+                    if (processedImages == workCount)
+                        callback();
+
+                });
+            });
+            fs.writeFileSync(pathModule.join(destinationFolder, "library_data.json"), JSON.stringify(data));
+        }, null);
     }
 
     function getPersistedGeneratorData(group, callback) {
@@ -638,6 +721,10 @@ module.exports = function () {
         persistGeneratorData: persistGeneratorData,
         deleteGeneratorPersisted: deleteGeneratorPersisted,
         getPersistedGeneratorData: getPersistedGeneratorData,
+        getMapToolLibraryData: getMapToolLibraryData,
+        createLibraryFolder: createLibraryFolder,
+        getMapLibraryThumbNailPath:getMapLibraryThumbNailPath,
+        supportedMapTypes: supportedMapTypes,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize
 
