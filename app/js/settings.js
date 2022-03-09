@@ -28,6 +28,7 @@ var matchSizeWithFileName = document.getElementById("matchSizeWithFileName");
 var initiativeNoGroup = document.getElementById("initiativeNoGroup");
 var coverImagePath = null;
 var soundLibraryPath = null;
+var tokenFolderPath = null;
 var doneSaving = false;
 
 var oldSettings;
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         oldSettings = data;
         coverImagePath = data.coverImagePath;
         soundLibraryPath = data.maptool.soundLibraryPath;
+        tokenFolderPath = data.tokenFolder;
         playerPlaques.checked = data.playerPlaques;
         autoRoll.checked = data.autoInitiative;
         roundCounter.checked = data.countRounds;
@@ -98,6 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
+
         soundBtn.onclick = function (e) {
             var selected = window.dialog.showOpenDialogSync({
                 properties: ['openDirectory'],
@@ -115,6 +118,31 @@ document.addEventListener("DOMContentLoaded", function () {
             soundLibraryPath = null;
             soundBtn.innerText = "Sound library";
         };
+
+        var tokenBtn = document.getElementById("token_library_button");
+        if (tokenFolderPath) {
+            tokenBtn.innerText = tokenFolderPath;
+        }
+
+
+
+        tokenBtn.onclick = function (e) {
+            var selected = window.dialog.showOpenDialogSync({
+                properties: ['openDirectory'],
+                message: "Choose library location"
+            });
+            if (selected == null)
+                return;
+            selected = selected[0];
+            tokenFolderPath = selected;
+            tokenBtn.innerText = tokenFolderPath;
+        };
+        document.getElementById("clear_token_library_button").onclick = function (e) {
+
+            tokenFolderPath = null;
+            tokenBtn.innerText = "Monster token folder";
+        };
+        
     });
 
 });
@@ -184,6 +212,7 @@ function saveSettings(closeImmediately) {
         data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || -90;
         data.maptool.roundTimer = roundTimer.value;
         data.maptool.soundLibraryPath = soundLibraryPath;
+        data.tokenFolder = tokenFolderPath;
         data.maptool.matchSizeWithFileName = matchSizeWithFileName.checked;
         data.maptool.addPlayersAutomatically = addPlayersAutomatically.checked;
         data.maptool.snapToGrid = snapToGrid.checked;
