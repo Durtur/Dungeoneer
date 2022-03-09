@@ -160,7 +160,8 @@ class MapLibrary {
         editBtn.onclick = () => {
             cls.editLibrary();
         }
-        h2.appendChild(editBtn);
+        if (library.name != "Default")
+            h2.appendChild(editBtn);
         var cont = util.ele("div", "mosaic_layout map_tiles");
         this.mapTileContainer = cont;
         this.filterResults();

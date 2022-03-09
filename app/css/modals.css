@@ -184,9 +184,9 @@
     margin:auto;
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1200px) {
     .mosaic_layout{
-        max-width:1150px !important;
+        max-width:1100px !important;
         column-count: 5 !important;
     }
 }
@@ -203,7 +203,7 @@
     /* Prevent vertical gaps */
 
     line-height: 0;
-    max-width:1450px;
+    max-width:1550px;
     -webkit-column-count: 5;
     -webkit-column-gap: 0px;
     -moz-column-count: 5;
