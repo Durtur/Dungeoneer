@@ -6,7 +6,8 @@ const Modals = function () {
         title.innerHTML = titleText;
 
         var modal = document.createElement("div");
-        modal.appendChild(title);
+        if (titleText)
+            modal.appendChild(title);
         modal.classList = "modal";
         var closeBtn = document.createElement("button");
         closeBtn.classList = "close_x_button";

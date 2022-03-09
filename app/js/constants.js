@@ -142,7 +142,7 @@ function loadDefaultSettings() {
       "applyDarkvisionFilter": true,
       "fogOfWarHue": "#000000",
       "currentFilter": 0,
-      "currentMap": __dirname.replaceAll("\\", "/") + "/mappingTool/default.png",
+      "currentMap": "../data/default_library/forest_road.png",
       "gridSettings": {
         "showGrid": true,
         "cellSize": 35

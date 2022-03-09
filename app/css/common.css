@@ -2004,3 +2004,23 @@ input[data-before_label]:before {
   text-align: center;
   color: white;
 }
+
+
+.edit_button {
+  background-color: transparent;
+  border: none;
+  background-image: url(img/quill.png);
+  background-repeat: no-repeat;
+  background-size: 150%;
+  background-position-y: -5px;
+  width: 23px;
+  height: 32px;
+  margin-left: 7px;
+  margin-top: -10px;
+  z-index: 1;
+}
+
+
+.edit_button:hover {
+  background-image: url("img/quillH.png");
+}

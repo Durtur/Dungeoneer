@@ -5,6 +5,7 @@ const { readdir, writeFile } = require('fs').promises;
 const uniqueID = require('uniqid');
 var pathModule = require('path');
 
+
 //Refactor to preload script
 window.api = {
     getPath: (arg) => { return ipcRenderer.sendSync('get-path', arg) },
@@ -548,23 +549,37 @@ module.exports = function () {
 
 
         baseGetWithFullPath(pathModule.join(destinationFolder, "library_data.json"), async (data) => {
-            if (data == null) {
+            if (data == null)
                 data =
                 {
                     paths: [],
                     name: libraryName,
-                    pinned: []
+                    pinned: [],
+                    rootFolder:folderPath
                 }
-            }
+
             var newFiles = files.filter(x => !data.paths.find(y => pathModule.basename(x) == pathModule.basename(y)));
+            var deletedFiles = data.paths.filter(x => !files.find(y => pathModule.basename(x) == pathModule.basename(y)));
+          
+            deletedFiles.forEach(x => {
+                var thumbnailPath = pathModule.join(thumbnailFolder, `${pathModule.basename(x)}.png`);
+                fs.unlink(thumbnailPath, err => {
+                    if (err) console.error(err);
+                });
+            });
+
             var dungeoneerMaps = newFiles.filter(x => [".dd2vtt", ".dungeoneer_map"].includes(pathModule.extname(x)));
             var images = newFiles.filter(x => constants.imgFilters.includes(pathModule.extname(x).replace(".", "")));
             var libraryList = [...images, ...dungeoneerMaps];
+            data.paths = data.paths.filter(x => !deletedFiles.includes(x));
             data.paths = [...data.paths, ...libraryList];
-            var workCount = data.paths.length;
+            var workCount = dungeoneerMaps.length + images.length;
             var processedImages = 0;
-            images.forEach(async img => {
+            console.log("New files:");
+            console.log([...images, ...dungeoneerMaps]);
 
+            images.forEach(async img => {
+                console.log(img);
                 await sharp(img)
                     .resize(
                         {
@@ -572,6 +587,7 @@ module.exports = function () {
                         })
                     .png()
                     .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(img)}.png`));
+
                 processedImages++;
                 if (processedImages == workCount)
                     callback();
@@ -579,7 +595,7 @@ module.exports = function () {
             });
 
             dungeoneerMaps.forEach(path => {
-
+                console.log(path);
                 readFile(path, async (data) => {
                     var buffer = pathModule.extname(path) == ".dungeoneer_map" ? Buffer.from(data.foregroundBase64, "base64") : Buffer.from(data.image, "base64");
                     console.log(buffer)
@@ -590,6 +606,7 @@ module.exports = function () {
                             })
                         .png()
                         .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(path)}.png`));
+
                     processedImages++;
                     if (processedImages == workCount)
                         callback();
@@ -597,6 +614,8 @@ module.exports = function () {
                 });
             });
             fs.writeFileSync(pathModule.join(destinationFolder, "library_data.json"), JSON.stringify(data));
+            if (workCount == 0)
+                callback()
         }, null);
     }
     function saveLibraryState(libraryObject) {
@@ -724,7 +743,7 @@ module.exports = function () {
         getPersistedGeneratorData: getPersistedGeneratorData,
         getMapToolLibraryData: getMapToolLibraryData,
         createLibraryFolder: createLibraryFolder,
-        saveLibraryState:saveLibraryState,
+        saveLibraryState: saveLibraryState,
         getMapLibraryThumbNailPath: getMapLibraryThumbNailPath,
         supportedMapTypes: supportedMapTypes,
         tokenFilePath: defaultTokenPath,

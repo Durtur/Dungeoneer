@@ -6,8 +6,9 @@ const elementCreator = require("../js/lib/elementCreator");
 const Modals = require("../js/modals");
 
 
+
 const NEW_LIB_TEXT = "Select a root folder as your map library for your current party. Dungeoneer will go through the folder to find dungeoneer and dungeondraft maps to catalog, as well as image files. For best results, select a folder that only has maps and not tokens and other images."
-const DEFAULT_LIBRARIES = ["Default"];
+const DEFAULT_LIBRARIES = ["Default", "Common"];
 class MapLibrary {
     constructor() {
         this.libraries = [];
@@ -15,7 +16,27 @@ class MapLibrary {
 
     initialize() {
         var path = pathModule.join(defaultResourcePath, "default_library");
-        dataAccess.createLibraryFolder("Default", path);
+        dataaccess.createLibraryFolder("Default", path, () => { });
+        this.scanLibrary("common");
+        var cls = this;
+        dataaccess.getSettings(globalSettings => {
+            console.log(globalSettings.current_party)
+            if (globalSettings.current_party && globalSettings.current_party != "Any") {
+                cls.scanLibrary(globalSettings.current_party);
+
+            }
+        })
+    }
+
+    scanLibrary(libName) {
+        console.log(`Scannning ${libName}`);
+        dataaccess.getMapToolLibraryData(libName, libData => {
+            if (libData != null && libData.rootFolder) {
+                dataaccess.createLibraryFolder(libName, libData.rootFolder, () => {
+                    console.log("Libary scan complete");
+                })
+            }
+        });
     }
     open() {
         this.modal = Modals.createModal(null, () => {
@@ -33,16 +54,15 @@ class MapLibrary {
         dataaccess.getSettings(globalSettings => {
 
             var cls = this;
-            var party = (globalSettings.current_party && globalSettings.current_party != "Any") ? globalSettings.current_party : "Common library";
+            var party = (globalSettings.current_party && globalSettings.current_party != "Any") ? globalSettings.current_party : null;
+            var allLibraries = party ? [party, ...DEFAULT_LIBRARIES] : DEFAULT_LIBRARIES;
+            if (!settings.selectedLibrary || !allLibraries.find(x => x == settings.selectedLibrary))
+                settings.selectedLibrary = DEFAULT_LIBRARIES[0];
 
-            if (!settings.selectedLibrary || !DEFAULT_LIBRARIES.find(x => x == settings.selectedLibrary))
-                settings.selectedLibrary = party;
-
-            var allLibraries = [party, ...DEFAULT_LIBRARIES];
             allLibraries.forEach(library => {
                 cls.createLibrary(library, () => {
-                    if (cls.libraries.length == allLibraries.length){
-                        cls.libraries.sort((a,b) => a.name.localeCompare(b.name));
+                    if (cls.libraries.length == allLibraries.length) {
+                        cls.libraries.sort((a, b) => a.name.localeCompare(b.name));
                         cls.generateModal();
                     }
                 });
@@ -64,13 +84,19 @@ class MapLibrary {
         this.container.appendChild(cont);
     }
 
+    editLibrary() {
+        var selected = this.libraries.find(x => x.name == settings.selectedLibrary);
+        selected.data = null;
+        this.generateModal();
+    }
+
     createControlButtons() {
-        var div = util.ele("div", "row");
+        var div = util.ele("div", "row space_between");
         var cls = this;
         var btnRow = util.ele("div", "row");
         this.libraries.forEach(lib => {
             console.log(lib)
-            var btn = util.ele("button", "button_style toggle_button", lib.name);
+            var btn = util.ele("button", "button_style toggle_button button_wide", lib.name);
             if (lib.name == settings.selectedLibrary) {
                 btn.setAttribute("toggled", "true");
             } else {
@@ -83,27 +109,41 @@ class MapLibrary {
             btnRow.appendChild(btn);
         });
         div.appendChild(btnRow);
+
+        var searchBar = util.ele("input", "search_input");
+        if (this.searchBar)
+            searchBar.value = this.searchBar.value;
+        this.searchBar = searchBar;
+        searchBar.oninput = function (e) {
+            window.clearTimeout(cls.searchTimeout);
+            cls.searchTimeout = window.setTimeout(() => cls.filterResults(), 150);
+        };
+        div.appendChild(searchBar);
+        window.setTimeout(() => searchBar.focus(), 450);
         return div;
     }
-
-    createLibraryUI(library) {
-
-        var h2 = util.ele("h1", "", `${library.name} map library`);
-        var cont = util.ele("div", "mosaic_layout");
+    filterResults() {
+        while (this.mapTileContainer.firstChild)
+            this.mapTileContainer.removeChild(this.mapTileContainer.firstChild);
+        var library = this.selectedLibrary;
         var thumbnailFolder = dataaccess.getMapLibraryThumbNailPath(library.name);
         var cls = this;
+        var searchString = this.searchBar?.value?.toLowerCase();
+        var displayData = !searchString ? library.data.paths : library.data.paths.filter(x => x.includes(searchString));
+
         if (library.data.pinned.length > 0) {
-            library.data.paths.sort((a, b) => {
+            displayData.sort((a, b) => {
                 if (library.data.pinned.includes(a)) return -1;
                 if (library.data.pinned.includes(b)) return 1;
                 return 0;
             });
         }
-        library.data.paths.forEach(path => {
+
+        displayData.forEach(path => {
             var img = elementCreator.createTextOverlayImage(pathModule.join(thumbnailFolder, pathModule.basename(path) + ".png"), pathModule.basename(path));
             img.classList.add("map_library_tile");
             img.appendChild(cls.createFavIcon(path, library));
-            cont.appendChild(img);
+            cls.mapTileContainer.appendChild(img);
             img.addEventListener("click", (e) => {
                 if (e.target.classList.contains("map_tile_favorite_button"))
                     return;
@@ -111,6 +151,19 @@ class MapLibrary {
                 cls.modal.modal.close();
             });
         });
+    }
+    createLibraryUI(library) {
+        var cls = this;
+        this.selectedLibrary = library;
+        var h2 = util.ele("h1", "", `${library.name} map library`);
+        var editBtn = util.ele("button", "edit_button");
+        editBtn.onclick = () => {
+            cls.editLibrary();
+        }
+        h2.appendChild(editBtn);
+        var cont = util.ele("div", "mosaic_layout map_tiles");
+        this.mapTileContainer = cont;
+        this.filterResults();
         var parent = util.wrapper("div", "column", h2);
         parent.appendChild(cont);
         return parent;
@@ -142,18 +195,20 @@ class MapLibrary {
         this.saveLibraryState(library);
     }
     unpin(path, library) {
-        library.data.pinned = libary.data.pinned.filter(x => x != path);
+        library.data.pinned = library.data.pinned.filter(x => x != path);
         this.saveLibraryState(library);
     }
     saveLibraryState(library) {
         dataaccess.saveLibraryState(library.data);
     }
     createLibrarySetup(libName) {
+        var cls = this;
         var h2 = util.ele("h1", "", `${libName} map library`);
+
         var p = util.ele("p", "", NEW_LIB_TEXT);
         var btn = util.ele("button", "button_base button_style green center", "Select library folder");
         btn.style.width = "12em";
-        var cls = this;
+
         btn.onclick = (e) => {
             var filePath = window.dialog.showOpenDialogSync(
                 {
