@@ -6,7 +6,7 @@
     left: 0;
     right: 0;
     text-align: center;
-
+    min-height:40vh;
     background-color: var(--main-color);
     background-image: var(--foreground-image);
     background-size: cover;
@@ -140,6 +140,34 @@
     pointer-events: none;
 }
 
+.map_library_tile .map_tile_favorite_button_pinned{
+    display:block !important;
+}
+.map_tile_favorite_button{
+    width:1.75em;
+    height:1.75em;
+    background-image: url(img/pin.svg);
+    background-size:80%;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top:0.5em;
+    right:0.5em;
+    padding:0.25em;
+    background-color:var(--dark-transparent-bg);
+    border-radius: var(--rounded-corners);
+    border:none;
+
+}
+
+
+.map_library_tile:hover .map_tile_favorite_button{
+    display:block;
+}
+
+.map_library_tile .map_tile_favorite_button{
+    display:none;
+}
 .map_library_tile {
     cursor: pointer;
     display:flex;

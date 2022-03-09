@@ -548,17 +548,15 @@ module.exports = function () {
 
 
         baseGetWithFullPath(pathModule.join(destinationFolder, "library_data.json"), async (data) => {
-
             if (data == null) {
                 data =
                 {
                     paths: [],
-                    name: libraryName
+                    name: libraryName,
+                    pinned: []
                 }
             }
-
             var newFiles = files.filter(x => !data.paths.find(y => pathModule.basename(x) == pathModule.basename(y)));
-
             var dungeoneerMaps = newFiles.filter(x => [".dd2vtt", ".dungeoneer_map"].includes(pathModule.extname(x)));
             var images = newFiles.filter(x => constants.imgFilters.includes(pathModule.extname(x).replace(".", "")));
             var libraryList = [...images, ...dungeoneerMaps];
@@ -601,7 +599,10 @@ module.exports = function () {
             fs.writeFileSync(pathModule.join(destinationFolder, "library_data.json"), JSON.stringify(data));
         }, null);
     }
-
+    function saveLibraryState(libraryObject) {
+        var destinationFolder = pathModule.join(maptoolLibraryFolder, libraryObject.name);
+        fs.writeFileSync(pathModule.join(destinationFolder, "library_data.json"), JSON.stringify(libraryObject));
+    }
     function getPersistedGeneratorData(group, callback) {
         baseGetWithFullPath(pathModule.join(generatorResourcePath, "generator_persisted.json"), (data) => {
 
@@ -723,7 +724,8 @@ module.exports = function () {
         getPersistedGeneratorData: getPersistedGeneratorData,
         getMapToolLibraryData: getMapToolLibraryData,
         createLibraryFolder: createLibraryFolder,
-        getMapLibraryThumbNailPath:getMapLibraryThumbNailPath,
+        saveLibraryState:saveLibraryState,
+        getMapLibraryThumbNailPath: getMapLibraryThumbNailPath,
         supportedMapTypes: supportedMapTypes,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize

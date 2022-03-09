@@ -1,3 +1,4 @@
+const util = require("../js/util");
 
 
 class SaveManager {
@@ -103,11 +104,11 @@ class SaveManager {
     supportedMapTypes() { return dataAccess.supportedMapTypes() }
 
     loadMapDialog() {
-        
+
         mapLibrary.open();
     }
 
-    loadMapFileDialog(){
+    loadMapFileDialog() {
         var extensions = this.supportedMapTypes();
         var path = window.dialog.showOpenDialogSync(
             {
@@ -125,6 +126,9 @@ class SaveManager {
         this.lastLoadedMapPath = null;
         if (path.substring(path.lastIndexOf(".") + 1) == "dd2vtt") {
             fovLighting.importDungeondraftVttMap(path);
+            return;
+        } else if (util.isImage(path)) {
+            setMapForeground(path.replaceAll("\\", "/"));
             return;
         }
         var cls = this;
@@ -196,12 +200,12 @@ class SaveManager {
                 data.map = await dataAccess.writeTempFile(`${getTempName("forground", settings.currentMap)}${pathModule.extname(data.extensions.foreground)}`, Buffer.from(data.foregroundBase64, "base64"));
             settings.currentMap = data.map;
 
-            $('#foreground').css('background-image', 'url("' + data.map+cacheBreaker + '")');
+            $('#foreground').css('background-image', 'url("' + data.map + cacheBreaker + '")');
 
             if (data.map_edge || data.mapEdgeBase64) {
                 if (data.mapEdgeBase64)
                     data.map_edge = await dataAccess.writeTempFile(`${getTempName("edge", settings.map_edge_style)}${pathModule.extname(data.extensions.mapEdge)}`, Buffer.from(data.mapEdgeBase64, "base64"));
-                document.querySelector(".maptool_body").style.backgroundImage = "url('" + data.map_edge+cacheBreaker + "')";
+                document.querySelector(".maptool_body").style.backgroundImage = "url('" + data.map_edge + cacheBreaker + "')";
                 settings.map_edge_style = data.map_edge;
             }
 
@@ -215,8 +219,8 @@ class SaveManager {
                 data.overlayMap = await dataAccess.writeTempFile(`${getTempName("overlay", settings.currentOverlay)}${pathModule.extname(data.extensions.overlay)}`, Buffer.from(data.mapOverlayBase64, "base64"));
             settings.currentBackground = data.layer2Map;
             backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
-            setMapBackground(data.layer2Map+cacheBreaker, data.layer2_width);
-            setMapOverlay(data.overlayMap+cacheBreaker, data.mapOverlaySize);
+            setMapBackground(data.layer2Map + cacheBreaker, data.layer2_width);
+            setMapOverlay(data.overlayMap + cacheBreaker, data.mapOverlaySize);
 
             //Map slide
             backgroundLoop.loadSlideState(data);
