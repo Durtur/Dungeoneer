@@ -148,18 +148,9 @@ var effectManager = function () {
                 effects[i].style.cursor = "pointer";
                 effects[i].onmousedown = function (event) {
                     if (event.buttons != 1) return;
-                    var target = event.target;
+                    removeEffect(event.target);
 
-                    while (target.parentNode != tokenLayer) {
-                        target = target.parentNode;
-                    }
-                    if (target.sound)
-                        soundManager.removeEffect(target);
-                    target.parentNode.removeChild(target);
-                    effects.splice(effects.indexOf(target), 1);
-                    unattachObjectFromPawns(target);
-                    if (pawns.lightSources.indexOf(target) >= 0) pawns.lightSources.splice(pawns.lightSources.indexOf(target), 1)
-                    window.requestAnimationFrame(refreshFogOfWar);
+
                 }
             }
         } else {
@@ -173,6 +164,19 @@ var effectManager = function () {
 
             }
         }
+    }
+
+    function removeEffect(target) {
+        while (target.parentNode != tokenLayer) {
+            target = target.parentNode;
+        }
+        if (target.sound)
+            soundManager.removeEffect(target);
+        target.parentNode.removeChild(target);
+        effects.splice(effects.indexOf(target), 1);
+        unattachObjectFromPawns(target);
+        if (pawns.lightSources.indexOf(target) >= 0) pawns.lightSources.splice(pawns.lightSources.indexOf(target), 1)
+        window.requestAnimationFrame(refreshFogOfWar);
     }
 
     function unattachObjectFromPawns(objectElement) {
@@ -527,7 +531,8 @@ var effectManager = function () {
         createEffectMenus: createEffectMenus,
         onPreviewPlacementResized: onPreviewPlacementResized,
         close: close,
-        initialize: initialize
+        initialize: initialize,
+        removeEffect:removeEffect
 
     }
 }();

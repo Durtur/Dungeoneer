@@ -128,7 +128,9 @@ class SaveManager {
             fovLighting.importDungeondraftVttMap(path);
             return;
         } else if (util.isImage(path)) {
+            setMapBackground(null);
             setMapForeground(path.replaceAll("\\", "/"));
+            this.removeExistingEffects();
             return;
         }
         var cls = this;
@@ -152,23 +154,8 @@ class SaveManager {
     }
 
     removeExistingEffects() {
-        //Light effects
-        var oldEffects = [...tokenLayer.getElementsByClassName("light_effect")];
-        while (oldEffects.length > 0) {
-            var oldEffect = oldEffects.pop();
 
-            tokenLayer.removeChild(oldEffect);
-        }
-        effects = [];
-        // //Standard effects
-        oldEffects = [...tokenLayer.getElementsByClassName("sfx_effect")];
-        while (oldEffects.length > 0) {
-            var oldEffect = oldEffects.pop();
-
-            tokenLayer.removeChild(oldEffect);
-        }
-        pawns.lightSources = pawns.lightSources.filter(x => x.parentNode);
-
+        effects.forEach(effect => effectManager.removeEffect(effect))
     }
     loadMap(data) {
         var cls = this;

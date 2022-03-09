@@ -147,10 +147,11 @@ class SlideCanvas {
         }
     }
     loadSlideState(data) {
-
+        console.log(data);
         if (data.bg_slide_type) {
             if (data.bg_slide_speed) document.getElementById("slide_speed_input").value = data.bg_slide_speed;
             var button = [...document.querySelectorAll(".background_slide_button")].find(x => x.getAttribute("data-slide") == data.bg_slide_type);
+            console.log(button);
             button.click();
         }
         if (data.bobAnimate) {
