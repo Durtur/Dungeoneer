@@ -6,6 +6,8 @@ const MapLibrary = require("./mappingTool/mapLibrary");
 var mapLibrary = new MapLibrary();
 const SlideCanvas = require("./mappingTool/slideCanvas");
 const Menu = require("./mappingTool/menu");
+const TokenDialog = require("./mappingTool/tokenDialog");
+const tokenDialog = new TokenDialog();
 const Timer = require("./js/timer");
 const Recents = require("./mappingTool/recents");
 var recentMaps = new Recents();
@@ -55,7 +57,7 @@ var mapContainers, foregroundCanvas, backgroundCanvas, overlayCanvas;
 //Tokens
 var loadedMonsters = [], partyArray, loadedMonstersFromMain = [];
 var settings, fogOfWarEnabled = true, filtered = false, lastBackgroundFilter, effectFilePath;
-var addPawnImagePaths;
+
 //Measurements
 var visibilityLayerVisible = false;
 var lastMeasuredPoint = null;
@@ -100,7 +102,7 @@ function loadSettings() {
     dataAccess.getSettings(function (data) {
 
         settings = data.maptool;
- 
+
         if (!settings.colorTokenBases) {
             document.getElementById("background_color_button_add_pawn").value = "rgba(255, 255, 255, 0)";
         }
@@ -371,7 +373,7 @@ ipcRenderer.on("intiative-updated",
                 dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
                 onPerspectiveChanged();
             }
-        
+
             if (roundTimer) {
                 roundTimer.stop();
                 roundTimer.reset();
@@ -587,10 +589,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.log(event.dataTransfer.files)
         if (event.dataTransfer.files?.length > 0) {
             var f = event.dataTransfer.files[0];
-            console.log('File Path of dragged files: ', f.path)
+
             var path = f.path;
             var extension = pathModule.extname(path).replaceAll(".", "");
-            console.log(extension);
+
             if (saveManager.supportedMapTypes().includes(extension))
                 saveManager.loadMapFromPath(path);
 
@@ -632,15 +634,6 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedPawns.forEach(element => element.style.backgroundColor = newColor);
     }
 
-    document.getElementById("icon_load_button_add_pawn").onclick = async function () {
-        var info = { name: document.getElementById("add_pawn_name").value }
-        await tokenSelector.getNewTokenPaths(true, imagePaths => {
-            if (imagePaths == null) return;
-            addPawnImagePaths = imagePaths;
-
-        }, info);
-
-    }
 
 
     dataAccess.getConditions(function (data) {
@@ -674,20 +667,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
-
-    populateSizeDropdown();
-    function populateSizeDropdown() {
-        var parent = document.getElementById("add_pawn_size");
-        var count = 0;
-        creaturePossibleSizes.sizes.forEach(size => {
-            var newOption = document.createElement("option");
-            newOption.setAttribute("value", count);
-            if (size == "medium") newOption.setAttribute("selected", true)
-            newOption.innerHTML = size;
-            count++;
-            parent.appendChild(newOption);
-        })
-    }
+    tokenDialog.initialize();
+   
 });
 
 function centerForegroundOnBackground() {
@@ -755,9 +736,9 @@ function resetEverything() {
     return turnAllToolboxButtonsOff();
 }
 
-function onSettingsChanged(){
-    if(settings.roundTimer){
-        if(roundTimer){
+function onSettingsChanged() {
+    if (settings.roundTimer) {
+        if (roundTimer) {
             roundTimer.destroy();
         }
         roundTimer = new Timer(settings.roundTimer);
@@ -780,7 +761,7 @@ function onSettingsLoaded() {
     recentMaps.initialize(document.querySelector("#recent_maps_button>ul"));
     mapLibrary.initialize();
     Menu.initialize();
-    
+
     effectManager.initialize();
     onSettingsChanged();
 
@@ -791,7 +772,7 @@ function onSettingsLoaded() {
         LAST_KEY = event.key;
         window.clearTimeout(lastKeyNull)
         lastKeyNull = window.setTimeout(() => LAST_KEY = "", 1000);
-  
+
         if (event.key === "Escape") {
             return resetEverything;
             //Show global listener position
@@ -2046,7 +2027,7 @@ function killOrRevivePawn() {
                 return;
             pawnElement.dead = "true";
             if (!isPlayer) {
-    
+
                 if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
                     window.api.messageWindow('mainWindow', 'monster-killed', [pawnElement.dnd_name, pawnElement.index_in_main_window]);
                 }
@@ -2055,13 +2036,6 @@ function killOrRevivePawn() {
         console.log(pawnElement.dead)
         pawnElement.setAttribute("data-state_changed", 1);
     }
-}
-function closeAddPawnDialogue() {
-    document.getElementById("popup_dialogue_add_pawn").classList.add("hidden");
-    pauseAlternativeKeyboardMoveMap = false;
-    gridLayer.onmousedown = generalMousedowngridLayer;
-    gridLayer.style.cursor = "auto";
-
 }
 
 
@@ -2147,28 +2121,6 @@ async function setTokenImageHandler(e) {
 };
 
 
-function addPawnHandler(e) {
-
-    var pawnSizeDropDown = document.getElementById("add_pawn_size");
-    var pawnName = document.getElementById("add_pawn_name").value;
-
-    var sizeIndex = pawnSizeDropDown.options[pawnSizeDropDown.selectedIndex].value.toLowerCase();
-    var pawnSize = creaturePossibleSizes.sizes[sizeIndex];
-    var dndSize = creaturePossibleSizes.hexes[sizeIndex];
-
-    var color = document.getElementById("background_color_button_add_pawn").value;
-
-    generatePawns([{
-        name: pawnName,
-        size: pawnSize,
-        color: color,
-        bgPhoto: addPawnImagePaths
-
-    }], true,
-        { x: e.clientX - (dndSize * cellSize) / 2, y: e.clientY - (dndSize * cellSize) / 2 })
-
-    notifyTokenAdded(lastIndexInsertedMonsters, pawnName)
-}
 
 function showPopupMenuPawn(x, y) {
     document.getElementById("popup_menu_general").classList.add("hidden");
@@ -2202,21 +2154,10 @@ function showPopupMenuPawn(x, y) {
     }
 }
 
-function showPopupDialogAddPawn(event) {
+function showPopupDialogAddPawn() {
     pauseAlternativeKeyboardMoveMap = true;
-    var dialogue = document.getElementById("popup_dialogue_add_pawn");
-    var oiriginDialogue = document.getElementById("popup_menu_general");
-    dialogue.style.top = parseInt(oiriginDialogue.style.top) + "px";
-    dialogue.style.left = parseInt(oiriginDialogue.style.left) + "px";
-    dialogue.classList.remove("hidden");
-    gridLayer.style.cursor = "copy";
-    gridLayer.onmousedown = function (e) {
-        if (e.button == 0) {
-            addPawnHandler(e);
-        } else {
-            closeAddPawnDialogue();
-        }
-    }
+    tokenDialog.show();
+  
 }
 
 function hideAllTooltips() {
