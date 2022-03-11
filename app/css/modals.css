@@ -70,7 +70,8 @@
     width: 2em;
     border: none;
     background-color: transparent;
-    background-size: contain;
+    background-size: 80%;
+    background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
 }

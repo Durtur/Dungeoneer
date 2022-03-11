@@ -108,7 +108,7 @@ class SaveManager {
         mapLibrary.open();
     }
 
-    loadMapFileDialog() {
+    loadMapFileDialog(callback) {
         var extensions = this.supportedMapTypes();
         var path = window.dialog.showOpenDialogSync(
             {
@@ -119,6 +119,7 @@ class SaveManager {
         if (path == null) return;
 
         this.loadMapFromPath(path);
+        if(callback)callback();
     }
 
     loadMapFromPath(path) {

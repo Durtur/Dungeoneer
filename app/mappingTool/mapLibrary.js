@@ -118,7 +118,15 @@ class MapLibrary {
             window.clearTimeout(cls.searchTimeout);
             cls.searchTimeout = window.setTimeout(() => cls.filterResults(), 150);
         };
-        div.appendChild(searchBar);
+
+        var fileButton = util.ele("button", "file_button");
+        fileButton.title = "Open map file"
+        fileButton.onclick = () => saveManager.loadMapFileDialog(()=> {
+            cls.modal.modal.close();
+        });
+        var searchWrapper = util.wrapper("div", "row", fileButton);
+        searchWrapper.appendChild(searchBar);
+        div.appendChild(searchWrapper);
         window.setTimeout(() => searchBar.focus(), 450);
         return div;
     }

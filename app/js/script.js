@@ -23,6 +23,7 @@ const customStylesheet = window.api.getAppPath().replaceAll("\\", "/") + "/app/c
 // const prompt = require('electron-prompt');
 const uniqueID = require('uniqid');
 const NotePad = require('./js/notepad/notepad');
+
 const charSyncers = [];
 
 
@@ -1277,7 +1278,7 @@ function pickPlayerToken(evt) {
   var tokenPath = window.dialog.showOpenDialogSync({
     properties: ['openFile'],
     message: "Choose picture location",
-    filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif'] }]
+    filters: [{ name: 'Images', extensions: constants.imgFilters }]
   });
   if (tokenPath == null)
     return;

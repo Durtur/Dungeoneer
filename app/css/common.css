@@ -2005,6 +2005,17 @@ input[data-before_label]:before {
   color: white;
 }
 
+.file_button{
+  background-image:url(img/open-folder.svg);
+  background-size:100%;
+  background-color: transparent;
+  min-width:2em;
+  min-height:2em;
+  width:2em;
+  height:2em;
+  border:none;
+  margin:0 0.5em;
+}
 
 .edit_button {
   background-color: transparent;

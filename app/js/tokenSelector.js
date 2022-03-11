@@ -4,6 +4,7 @@ const Modals = require("./modals")
 const { resolve, basename } = require('path');
 const { readdir } = require('fs').promises;
 const util = require("./util");
+
 class TokenSelector {
 
     async getNewTokenPaths(multiSelect = true, callback, monsterInfo) {
@@ -84,13 +85,34 @@ class TokenSelector {
 
         
         var searchInp = util.ele("input", "list_search_style token_search_input");
+      
         buttonContainerParent.appendChild(searchInp);
-        buttonContainerParent.appendChild(buttonContainer);
-
+        var fileBtn = util.ele("button", "file_button");
+     
         var tokenSelectionText = document.createElement("p");
         tokenSelectionText.style.margin = "1em";
-        buttonContainer.appendChild(tokenSelectionText);
-        buttonContainer.appendChild(btn);
+        var buttonWrapper = util.wrapper("div","row", tokenSelectionText);
+
+        
+        fileBtn.onclick = ()=> {
+ 
+            var tokenPath = window.dialog.showOpenDialogSync({
+                properties: ['openFile'],
+                message: "Choose token location",
+                filters: [{ name: 'Images', extensions:constants.imgFilters}]
+              });
+              if (tokenPath == null)
+                return;
+              tokenPath = tokenPath[0];
+              cls.done(tokenPath);
+        };
+        buttonContainerParent.appendChild(buttonContainer);
+
+        buttonWrapper.appendChild(fileBtn);
+      
+        buttonWrapper.appendChild(btn);
+        
+        buttonContainer.appendChild(buttonWrapper);
         var info = document.createElement("div");
         info.innerHTML = "CTRL hover to enlarge";
         info.style.position = "absolute";
