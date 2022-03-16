@@ -2,6 +2,8 @@
 const sidebarManager = function () {
     var onClosedFn;
     function showInSideBar(element, onclosedFn) {
+        if (onClosedFn)
+            this.close();
         onClosedFn = onclosedFn;
         var sidebar = document.getElementById("side_toolbar");
         sidebar.setAttribute("toggled", "true");
@@ -16,6 +18,7 @@ const sidebarManager = function () {
         var sidebar = document.getElementById("side_toolbar");
         sidebar.setAttribute("toggled", "false");
         if (onClosedFn) onClosedFn();
+        onClosedFn = null;
     }
     return {
         close: close,

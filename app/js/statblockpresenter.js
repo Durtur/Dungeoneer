@@ -106,9 +106,7 @@ class StatblockPresenter {
       if (statblockType != "monsters") return;
       var path = await dataAccess.getTokenPath(values.id + "0");
 
-      if (!path) path = "./mappingTool/tokens/default.png";
-      var tokenEle = document.createElement("img");
-      tokenEle.classList = "statblock_token";
+      var tokenEle = elementCreator.createTokenElement(path);
       tokenEle.onclick = async () => {
         await cls.tokenSelector.getNewTokenPaths(false, paths => {
           if (!paths) return;
@@ -118,7 +116,7 @@ class StatblockPresenter {
         }, { name: statblockEntry.name, type: statblockEntry.type });
 
       }
-      tokenEle.src = path;
+
       h2.appendChild(tokenEle);
     }
     var statblockDescriptionText;
@@ -176,7 +174,7 @@ class StatblockPresenter {
         delete values.ac_source;
         var col = createCol("armor_class", false, acDesc);
         if (acDesc) {
-          if(editMode){
+          if (editMode) {
             col.appendChild(createEditAcButton());
             col.classList.add("position_relative");
           }

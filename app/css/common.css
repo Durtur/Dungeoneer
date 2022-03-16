@@ -653,6 +653,16 @@ input, textarea, .cell_row {
   border: none;
   color: black;
 }
+.padding1{
+  padding:1em;
+}
+
+
+.input_base{
+  padding:0.5em;
+  border-radius:var(--rounded-corners);
+  font-size:1em;
+}
 
 .draggable_element {
   position: absolute;
@@ -1872,6 +1882,10 @@ input[data-before_label]:before {
   color: black;
   background-color: white;
   border-radius: 0;
+}
+
+.popup_dialog{
+  border-radius: var(--rounded-corners);
 }
 
 .popup_menu {

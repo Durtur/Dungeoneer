@@ -78,22 +78,18 @@
                                         <li><a class="button_style toggle_button" toggled="true" toggleGroup=15
                                                 onclick="overlayLoop.toggleBackgroundSlide(this)" data-slide=""
                                                 title="Removes the background slide">No slide</a></li>
-                                        <li><a class="button_style toggle_button overlay_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button overlay_slide_button" toggled="false"
+                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideX">Horizontal
                                                 slide</a></li>
-                                        <li><a class="button_style toggle_button overlay_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button overlay_slide_button" toggled="false"
+                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideXReverse">Horizontal reverse slide</a></li>
-                                        <li><a class="button_style toggle_button overlay_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button overlay_slide_button" toggled="false"
+                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideY">Vertical slide</a></li>
-                                        <li><a class="button_style toggle_button overlay_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button overlay_slide_button" toggled="false"
+                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideYReverse">Vertical
                                                 reverse slide</a></li>
 
@@ -109,8 +105,8 @@
                                                     Sway amount:
                                                 </label>
                                                 <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="overlayLoop.updateBobAmount()" id="overlay_bob_amount_input"
-                                                    value="1" step="0.1">
+                                                    onchange="overlayLoop.updateBobAmount()"
+                                                    id="overlay_bob_amount_input" value="1" step="0.1">
                                             </div>
                                         </li>
                                     </ul>
@@ -503,19 +499,30 @@
 
 
         </div>
-        <div id="popup_dialogue_add_pawn" class="popup_dialog hidden column section__show">
-            <input type="text" id="add_pawn_name" placeholder="Pawn name">
-            <select id="add_pawn_size">
+        <div id="popup_dialogue_add_pawn" class="space_between hidden column ">
+            <div class="column">
 
-            </select>
+                <div class="column spread_children padding1" style="height:12em">
 
-            <button
-                title="Choose icon. If nothing is chosen, a default for the creature name is shown. If multiple files are chosen, one will be chosen randomly for each pawn."
-                id="icon_load_button_add_pawn" class="button_style">Choose Token</button>
-            <input type="text" value='rgba(255,255,255,0.5)' title="Base color" id="background_color_button_add_pawn">
+                    <input type="text" id="add_pawn_name" class="input_base" placeholder="Pawn name">
+                    <select id="add_pawn_size" class="margin1">
 
-            <button class="button_style margin_top hidden" onclick="addPawnHandler()">Create</button>
-            <button class="button_style" onclick="closeAddPawnDialogue()">Close</button>
+                    </select>
+
+                    <input type="text" value='rgba(255,255,255,0.5)' title="Base color"
+                    id="background_color_button_add_pawn">
+                    <button class="button_style green padding1"
+                        title="Choose icon. If nothing is chosen, a default for the creature name is shown. If multiple files are chosen, one will be chosen randomly for each pawn."
+                        id="icon_load_button_add_pawn" class="button_style">Choose Token</button>
+
+                 
+
+                </div>
+                <div class="hidden row padding1" id="add_pawn_selected_row"></div>
+            </div>
+
+
+            <button class="button_style sidebar_close_button" onclick="tokenDialog.close()">Close</button>
         </div>
         <div id="vision_tooltip_category" class="popup_menu hidden">
             <button class="button_style" onclick="setLightSource(0, 0)">None</button>

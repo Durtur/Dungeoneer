@@ -264,22 +264,27 @@ function setTool(source, toolIndex) {
     for (var i = 0; i < toolbox.length; i++) {
         toolbox[i] = false;
     }
+    document.onmousemove = null;
+    document.onmouseup = null;
+    measurementTargetOrigin = null;
+    measurementTargetDestination = null;
+    measurementPaused = false;
+    measurements.clearMeasurements();
     if (source.getAttribute("toggled") === "false") {
         gridLayer.onmousedown = measurements.startMeasuring;
         toolbox[toolIndex] = true;
         gridLayer.style.cursor = "crosshair";
         tooltip.classList.add("hidden");
-        document.onmousemove = null;
-        document.onmouseup = null;
-        measurementTargetOrigin = null;
-        measurementTargetDestination = null;
-        measurementPaused = false;
-        measurements.clearMeasurements();
+
         if (toolIndex != 0) {
             gridLayer.style.zIndex = 5;
         }
     } else {
         gridLayer.style.cursor = "auto";
+        stopMeasuring(null, true);
+        //toggle button handler will then set to false
+        source.setAttribute("toggled", "true");
+  
     }
 }
 var toolbox = [false, false, false, false, false];
@@ -668,7 +673,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     tokenDialog.initialize();
-   
+
 });
 
 function centerForegroundOnBackground() {
@@ -1380,7 +1385,7 @@ function stopMeasuring(event, ignoreClick) {
             var toggleButtons = document.querySelectorAll(".toolbox_button");
             for (var i = 0; i < toggleButtons.length; i++) {
                 if (toggleButtons[i].getAttribute("toggled") == "true") {
-                    toggleButtons[i].click();
+                    toggleButtons[i].setAttribute("toggled", "false");
                 }
             }
             document.onmousedown = null;
@@ -2157,7 +2162,7 @@ function showPopupMenuPawn(x, y) {
 function showPopupDialogAddPawn() {
     pauseAlternativeKeyboardMoveMap = true;
     tokenDialog.show();
-  
+
 }
 
 function hideAllTooltips() {

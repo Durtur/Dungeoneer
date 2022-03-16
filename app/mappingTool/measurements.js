@@ -83,7 +83,7 @@ let measurements = function () {
             } else if (fovToolbox[2]) {
                 document.onmousemove = measureSphereSegment;
             } else {
-                return;
+                return stopMeasuring(event);
             }
     
             currentlyAddingSegments = true;

@@ -93,7 +93,7 @@ class ElementCreator {
         }
     }
 
-    static createTextOverlayImage(imgSrc, text){
+    static createTextOverlayImage(imgSrc, text) {
         var cont = util.ele("div", "text_overlay_img_container");
         var img = util.ele("img", "tile_image");
         img.src = imgSrc;
@@ -101,6 +101,14 @@ class ElementCreator {
         cont.appendChild(img);
         cont.appendChild(text);
         return cont;
+    }
+
+    static createTokenElement(path) {
+        if (!path) path = "./mappingTool/tokens/default.png";
+        var tokenEle = document.createElement("img");
+        tokenEle.classList = "statblock_token";
+        tokenEle.src = path;
+        return tokenEle;
     }
 
 }

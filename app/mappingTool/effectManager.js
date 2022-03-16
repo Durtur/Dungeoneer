@@ -341,7 +341,10 @@ var effectManager = function () {
             pawns.all[i].classList.add("attach_lightsource_pawn")
         }
         var popup = document.getElementById("popup_menu_add_effect");
-        sidebarManager.showInSideBar(popup);
+        sidebarManager.showInSideBar(popup, ()=> {
+            popup.classList.add("hidden");
+            document.body.appendChild(popup);
+        });
         popup.classList.remove("hidden");
         selectEffectType(SELECTED_EFFECT_TYPE.sfx)
         closeOnEscape()
@@ -350,7 +353,6 @@ var effectManager = function () {
         selectEffectType(null);
         stopAddingEffects();
         sidebarManager.close();
-
     }
     function closeOnEscape() {
         document.addEventListener("keydown", closeEsc)

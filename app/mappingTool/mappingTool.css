@@ -672,3 +672,12 @@ li {
     border-top: 0.5em solid rgba(0, 0, 0, 0.2);
     width: 100%;
 }
+
+#add_pawn_selected_row{
+    margin:1em;
+    padding:0.25em;
+    background-color: var(--inverse-text-color);
+    border-radius: var(--rounded-corners);
+    display:flex;
+    justify-content: space-around;
+}
