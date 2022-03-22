@@ -274,6 +274,7 @@ var fovLighting = function () {
     }
     const minWallLength = 15;
     const maxSegmentCount = 900;
+    //Refactor to savemanager.js
     function importDungeondraftVttMap(path) {
 
         resetEverything();
@@ -374,10 +375,8 @@ var fovLighting = function () {
 
 
                 //Normalize and add
-                wallLines.forEach(line => {
-                    addSegment(line.a, line.b)
-
-                });
+                setSegments(wallLines);
+        
                 drawSegments();
             });
         });
