@@ -538,10 +538,10 @@ module.exports = function () {
             fs.mkdirSync(thumbnailFolder);
         return thumbnailFolder;
     }
-    async function createLibraryFolder(libraryName, folderPath, callback) {
+    async function createLibraryFolder(libraryName, folderPath, callback, thumbnailSize) {
         console.log(`Creating library ${libraryName}`)
         var files = await getFiles(folderPath);
-        var thumbnailSize = 256;
+
         var destinationFolder = pathModule.join(maptoolLibraryFolder, libraryName);
         var thumbnailFolder = getMapLibraryThumbNailPath(libraryName);
         if (!fs.existsSync(maptoolLibraryFolder))
@@ -555,12 +555,12 @@ module.exports = function () {
                     paths: [],
                     name: libraryName,
                     pinned: [],
-                    rootFolder:folderPath
+                    rootFolder: folderPath
                 }
 
             var newFiles = files.filter(x => !data.paths.find(y => pathModule.basename(x) == pathModule.basename(y)));
             var deletedFiles = data.paths.filter(x => !files.find(y => pathModule.basename(x) == pathModule.basename(y)));
-          
+
             deletedFiles.forEach(x => {
                 var thumbnailPath = pathModule.join(thumbnailFolder, `${pathModule.basename(x)}.png`);
                 fs.unlink(thumbnailPath, err => {
@@ -579,12 +579,11 @@ module.exports = function () {
             console.log([...images, ...dungeoneerMaps]);
 
             images.forEach(async img => {
-                console.log(img);
+
                 await sharp(img)
                     .resize(
-                        {
-                            width: thumbnailSize
-                        })
+                        await getMosaicDimensions(img, thumbnailSize)
+                    )
                     .png()
                     .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(img)}.png`));
 
@@ -598,12 +597,11 @@ module.exports = function () {
                 console.log(path);
                 readFile(path, async (data) => {
                     var buffer = pathModule.extname(path) == ".dungeoneer_map" ? Buffer.from(data.foregroundBase64, "base64") : Buffer.from(data.image, "base64");
-                    console.log(buffer)
+                    var dimensions = await getMosaicDimensions(buffer, thumbnailSize)
                     await sharp(buffer)
                         .resize(
-                            {
-                                width: thumbnailSize
-                            })
+                            dimensions
+                        )
                         .png()
                         .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(path)}.png`));
 
@@ -617,6 +615,28 @@ module.exports = function () {
             if (workCount == 0)
                 callback()
         }, null);
+    }
+
+    async function getMosaicDimensions(img, thumbnailSize) {
+
+        var metaData = await sharp(img).metadata();
+
+        return {
+            height: getHeight(),
+            width: getWidth()
+        }
+
+        function getWidth() {
+            var returnValue = metaData.width / metaData.height * thumbnailSize;
+            returnValue -= returnValue % thumbnailSize;
+            return returnValue == 0 ? thumbnailSize : returnValue;
+        }
+        function getHeight() {
+            var returnValue = metaData.height / metaData.width * thumbnailSize;
+            returnValue -= returnValue % thumbnailSize;
+            return returnValue == 0 ? thumbnailSize : returnValue;
+        }
+
     }
     function saveLibraryState(libraryObject) {
         var destinationFolder = pathModule.join(maptoolLibraryFolder, libraryObject.name);

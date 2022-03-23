@@ -5,7 +5,7 @@ const dataaccess = require("./dataaccess");
 class SoundManager {
     defaultSoundPath = pathModule.join(window.api.getAppPath(), 'app', 'mappingTool', 'sounds');
     soundProfiles = {
-     
+
         "normal": 150,
         "short": 75,
         "far": 250,
@@ -61,10 +61,10 @@ class SoundManager {
     }
     removeEffect(effect) {
         var found = this.sounds.find(x => x.elementId == effect.id);
-        if(found){
+        if (found) {
             found.howl.unload()
         }
-    
+
         this.sounds = this.sounds.filter(x => x.elementId != effect.id);
         this.updatePlayingStatus();
     }
@@ -174,28 +174,33 @@ class SoundManager {
 
         var soundPaths = [this.defaultSoundPath];
 
-        if(settings.soundLibraryPath){
+        if (settings.soundLibraryPath) {
             console.log(settings.soundLibraryPath);
 
             soundPaths.push(settings.soundLibraryPath);
 
         }
         var allSounds = [];
-        for(var i = 0 ; i < soundPaths.length ; i++){
-            var path = soundPaths[i];
-            var files = await dataaccess.getFiles(path);
-            var list = files.map(x => {
-                var basename = pathModule.basename(x);
-                var soundPath = pathModule.join(path, basename);
-                basename = basename.substring(0, basename.lastIndexOf("."));
-    
-                return { name: basename, path: soundPath }
-    
-            });
-            allSounds =allSounds.concat(list);
+        for (var i = 0; i < soundPaths.length; i++) {
+            try {
+                var path = soundPaths[i];
+                var files = await dataaccess.getFiles(path);
+                var list = files.map(x => {
+                    var basename = pathModule.basename(x);
+                    var soundPath = pathModule.join(path, basename);
+                    basename = basename.substring(0, basename.lastIndexOf("."));
+
+                    return { name: basename, path: soundPath }
+
+                });
+                allSounds = allSounds.concat(list);
+            } catch (ex) {
+                console.error(ex);
+            }
+
         }
-     
-       
+
+
         console.log(allSounds);
         this.availableSoundList = allSounds;
         return allSounds;

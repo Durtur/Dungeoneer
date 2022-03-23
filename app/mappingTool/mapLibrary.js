@@ -12,11 +12,12 @@ const DEFAULT_LIBRARIES = ["Default", "Common"];
 class MapLibrary {
     constructor() {
         this.libraries = [];
+        this.THUMBNAIL_SIZE = 256;
     }
 
     initialize() {
         var path = pathModule.join(defaultResourcePath, "default_library");
-        dataaccess.createLibraryFolder("Default", path, () => { });
+        dataaccess.createLibraryFolder("Default", path, () => { }, this.THUMBNAIL_SIZE);
         this.scanLibrary("common");
         var cls = this;
         dataaccess.getSettings(globalSettings => {
@@ -34,7 +35,7 @@ class MapLibrary {
             if (libData != null && libData.rootFolder) {
                 dataaccess.createLibraryFolder(libName, libData.rootFolder, () => {
                     console.log("Libary scan complete");
-                })
+                }, this.THUMBNAIL_SIZE)
             }
         });
     }
@@ -95,7 +96,7 @@ class MapLibrary {
         var cls = this;
         var btnRow = util.ele("div", "row");
         this.libraries.forEach(lib => {
-            console.log(lib)
+
             var btn = util.ele("button", "button_style toggle_button button_wide", lib.name);
             if (lib.name == settings.selectedLibrary) {
                 btn.setAttribute("toggled", "true");
@@ -121,7 +122,7 @@ class MapLibrary {
 
         var fileButton = util.ele("button", "file_button");
         fileButton.title = "Open map file"
-        fileButton.onclick = () => saveManager.loadMapFileDialog(()=> {
+        fileButton.onclick = () => saveManager.loadMapFileDialog(() => {
             cls.modal.modal.close();
         });
         var searchWrapper = util.wrapper("div", "row", fileButton);
@@ -148,7 +149,9 @@ class MapLibrary {
         }
 
         displayData.forEach(path => {
-            var img = elementCreator.createTextOverlayImage(pathModule.join(thumbnailFolder, pathModule.basename(path) + ".png"), pathModule.basename(path));
+            var thumbnailPath = pathModule.join(thumbnailFolder, pathModule.basename(path) + ".png");
+            var img = elementCreator.createTextOverlayImage(thumbnailPath, pathModule.basename(path));
+      
             img.classList.add("map_library_tile");
             img.appendChild(cls.createFavIcon(path, library));
             cls.mapTileContainer.appendChild(img);
@@ -158,6 +161,14 @@ class MapLibrary {
                 saveManager.loadMapFromPath(path);
                 cls.modal.modal.close();
             });
+            var imageObj = new Image();
+            imageObj.onload = () => {
+
+                img.style.gridColumnEnd = `span ${Math.round(imageObj.width/this.THUMBNAIL_SIZE)}`;
+                img.style.gridRowEnd = `span ${Math.round(imageObj.height/this.THUMBNAIL_SIZE)}`
+           
+            }
+            imageObj.src = thumbnailPath;
         });
     }
     createLibraryUI(library) {
@@ -202,10 +213,12 @@ class MapLibrary {
         library.data.pinned = library.data.pinned.filter(x => x != path);
         library.data.pinned.push(path);
         this.saveLibraryState(library);
+ 
     }
     unpin(path, library) {
         library.data.pinned = library.data.pinned.filter(x => x != path);
         this.saveLibraryState(library);
+
     }
     saveLibraryState(library) {
         dataaccess.saveLibraryState(library.data);
@@ -231,7 +244,7 @@ class MapLibrary {
             dataaccess.createLibraryFolder(libName, filePath[0], (result) => {
                 console.log("DONE!");
                 cls.loadLibraries();
-            });
+            },this.THUMBNAIL_SIZE);
 
         };
         var div = util.wrapper("div", "column", h2);
