@@ -397,7 +397,7 @@ let measurements = function () {
         }
     
         function measureDistance(event) {
-    
+            console.log("Measure distance")
             if (measurementPaused) return;
             window.requestAnimationFrame(function () {
     

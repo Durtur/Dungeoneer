@@ -269,6 +269,7 @@ function setTool(source, toolIndex) {
     measurementTargetOrigin = null;
     measurementTargetDestination = null;
     measurementPaused = false;
+    console.log(`Set tool ${toolIndex}`)
     measurements.clearMeasurements();
     if (source.getAttribute("toggled") === "false") {
         gridLayer.onmousedown = measurements.startMeasuring;
@@ -1396,6 +1397,9 @@ function stopMeasuring(event, ignoreClick) {
             gridLayer.style.zIndex = 4;
         }
 
+        for (var i = 0; i < toolbox.length; i++) {
+            toolbox[i] = false;
+        }
         tooltip.classList.add("hidden");
         document.onmousemove = null;
         totalMeasuredDistance = 0;
