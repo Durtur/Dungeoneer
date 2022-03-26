@@ -30,6 +30,7 @@ maptoolWindow = null;
 maptoolExtraWindow = null;
 massTokenImporterWindow = null;
 massStatblockImporterWindow = null;
+serverWindow = null;
 var updatePending = false;
 
 
@@ -169,6 +170,20 @@ ipcMain.on('open-database-window', function () {
 
   databaseWindow.on('closed', function () {
     databaseWindow = null;
+  });
+});
+
+
+ipcMain.on('open-server-window', function () {
+  if (serverWindow) {
+    serverWindow.focus();
+    return;
+  }
+
+  serverWindow = createBaseWindow({ title: "Server" }, '/app/server.html')
+
+  serverWindow.on('closed', function () {
+    serverWindow = null;
   });
 });
 

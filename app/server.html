@@ -1,0 +1,46 @@
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <title>Dungeoneer: Serer</title>
+    <meta name="author" content="">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="css/common.css" rel="stylesheet">
+    <link href="server/server.css" rel="stylesheet">
+
+</head>
+
+
+</head>
+<main>
+    <div class="column center spread_children">
+        <p id ="status_text">Start your host server to allow your players to connect via P2P. </p>
+        <button id="init_server_button" class="button_style green button_wide center">Start server</button>
+        <div id="loading" class="hidden column">
+            <div style="display:flex; background-image: url('css/img/icon.png'); width:200px; height:200px; background-size:contain; background-repeat:no-repeat"
+                alt="loading" class="center">
+                <img src="css/img/loading.gif" style="width:60px; margin:auto; margin-top:10px" alt="loading"
+                    class="center">
+
+            </div>
+            <p id="loading_text"></p>
+        </div>
+        <div class="column hidden" style="min-width:24em;" id="server_info_container">
+            <div class="column">
+                <label>Host ID:</label>
+                <input readonly class="server_id padding" id="server_id">
+            </div>
+            <button id="invite_link_button" class="button_style green button_wide center">Invite link</button>
+        </div>
+        <p class="error_text" id="error_message"></p>
+
+    </div>
+</main>
+<script src="js/constants.js"></script>
+<script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+<script src="server/server.js"></script>
+
+</html>

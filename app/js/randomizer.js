@@ -141,7 +141,7 @@ var randomizer = function () {
         var cont = (typeof data[rand].description != "string") ? data[rand].description.join("\n") : data[rand].description;
 
         showEntry({
-            title: data[rand].name,
+            title: data[rand].name + (data[rand].rarity ? ` (${data[rand].rarity})`:""),
             content: cont != "" ? marked(cont) : "No items fit the criteria"
         }, rand / 100)
 

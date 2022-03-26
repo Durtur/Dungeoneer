@@ -78,14 +78,18 @@ module.exports = function () {
     }
 
     function showSuccessMessage(text) {
-        showMessage(text, "success");
+        showMessageHelper(text, "success");
     }
 
     function showFailedMessage(text) {
-        showMessage(text, "failed");
+        showMessageHelper(text, "failed");
     }
 
-    function showMessage(text, messageType) {
+    function showMessage(text){
+        showMessageHelper(text, "neutral");
+    }
+
+    function showMessageHelper(text, messageType) {
         var newEle = document.createElement("p");
         newEle.innerHTML = text;
         newEle.classList.add("popup_message");
@@ -280,6 +284,7 @@ module.exports = function () {
     return {
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
+        showMessage:showMessage,
         showBubblyText: showBubblyText,
         showDisappearingTitleAndSubtitle: showDisappearingTitleAndSubtitle,
         showOrHide: showOrHide,

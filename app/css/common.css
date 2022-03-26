@@ -109,6 +109,11 @@ input[type=checkbox] {
   background-color: var(--error-bg-input) !important;
 }
 
+.error_text {
+  color: var(--color-red) !important;
+  font-size: 1.25em;
+}
+
 .brown_input {
   background-color: var(--alt-emphasis-color);
   border: none;
@@ -630,7 +635,7 @@ hr {
 }
 
 .center {
-  margin: auto;
+  margin: auto !important;
   text-align: center;
 }
 
@@ -653,15 +658,16 @@ input, textarea, .cell_row {
   border: none;
   color: black;
 }
-.padding1{
-  padding:1em;
+
+.padding1 {
+  padding: 1em;
 }
 
 
-.input_base{
-  padding:0.5em;
-  border-radius:var(--rounded-corners);
-  font-size:1em;
+.input_base {
+  padding: 0.5em;
+  border-radius: var(--rounded-corners);
+  font-size: 1em;
 }
 
 .draggable_element {
@@ -1010,8 +1016,8 @@ input, textarea, .cell_row {
   font-size: 1.5em;
   border-radius: var(--rounded-corners);
   pointer-events: none;
-  top:1.5em;
-  right:0;
+  top: 1.5em;
+  right: 0;
 
 }
 
@@ -1024,7 +1030,7 @@ input, textarea, .cell_row {
 
 .timer_label {
   font-family: var(--header-font);
-  margin-left:0.25em;
+  margin-left: 0.25em;
 }
 
 .hourglass_animate {
@@ -1348,6 +1354,11 @@ header {
   color: #003F02;
 }
 
+.neutral_message {
+  background-color: var(--dark-transparent-bg);
+  color: white;
+}
+
 .failed_message {
   background-color: rgb(161, 96, 96);
   color: rgb(63, 0, 0);
@@ -1362,8 +1373,10 @@ header {
   animation-timing-function: ease-out;
   font-family: 'var(--basic-font)';
   font-size: 18px;
-  top: 45%;
-  right: 45%;
+  top: 50%;
+  
+  left: 50%;
+  transform: translate(-50%, -50%);
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
   padding: 20px;
   border-radius: 5px;
@@ -1884,7 +1897,7 @@ input[data-before_label]:before {
   border-radius: 0;
 }
 
-.popup_dialog{
+.popup_dialog {
   border-radius: var(--rounded-corners);
 }
 
@@ -2019,16 +2032,16 @@ input[data-before_label]:before {
   color: white;
 }
 
-.file_button{
-  background-image:url(img/open-folder.svg);
-  background-size:100%;
+.file_button {
+  background-image: url(img/open-folder.svg);
+  background-size: 100%;
   background-color: transparent;
-  min-width:2em;
-  min-height:2em;
-  width:2em;
-  height:2em;
-  border:none;
-  margin:0 0.5em;
+  min-width: 2em;
+  min-height: 2em;
+  width: 2em;
+  height: 2em;
+  border: none;
+  margin: 0 0.5em;
 }
 
 .edit_button {

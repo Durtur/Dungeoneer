@@ -1,4 +1,6 @@
 
+var lastMeasuredSphere, lastMeasuredCube, lastMeasuredCone;
+
 let measurements = function () {
     var lastLineDash, lastLineWidth, lastFillStyle;
     function clearMeasurements() {

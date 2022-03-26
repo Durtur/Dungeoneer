@@ -60,6 +60,10 @@ class Menu {
             settings.map_edge_style = imgPath;
             saveSettings();
         }
+
+        document.getElementById("open_server_button").onclick = (e) => {
+            ipcRenderer.send("open-server-window")
+        }
     }
 }
 
