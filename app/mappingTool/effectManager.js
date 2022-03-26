@@ -189,6 +189,16 @@ var effectManager = function () {
         }
     }
 
+    function isLightEffect(pawnElement) {
+        for (var i = 0; i < pawns.lightSources.length; i++) {
+            if (pawns.lightSources[i] == pawnElement) {
+                return true;
+    
+            }
+        }
+        return false;
+    }
+
     function stopDeletingEffects() {
         if (currentlyDeletingEffects) {
             var bn = document.getElementById("delete_effects_button")
