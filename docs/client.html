@@ -1,8 +1,73 @@
-<html>
-    <body>
-        <main>
-       
-        </main>
-    </body>
+<head>
+    <title>Dungeoneer</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Durtur">
+    <meta name="description" content="D&D5e DM tool">
+    <meta property="og:title" content="Dungeoneer D&D tool">
+    <meta property="og:description"
+        content="Dungeoneer is a modern, open sourced and performmant dungeon master helper tool, includes generators, a battlemap (VTT), combat trackers and more.">
+    <meta property="og:image" content="./img/ogimg.JPG">
 
+    <meta property="og:site_name" content="Dungeoneer D&D Tool">
+    <meta name="twitter:card" content="./img/ogimg.JPG">
+    <meta name="twitter:image:alt" content="Dungeoneer tool">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="./icon.png">
+    <link href="style.css" rel="stylesheet">
+    <link href="client.css" rel="stylesheet">
+    <link href="common.css" rel="stylesheet">
+    <link href="css/theme.css" rel="stylesheet">
+    <link href="../app//mappingTool/mappingTool.css" rel="stylesheet">
+</head>
+
+
+<html>
+
+<body>
+
+    <main>
+        <div class = "sidebar" id = "toolbar">
+            <div id = "connection_status"></div>
+        </div> 
+        <div id="connect_container" class="column">
+            <input id="user_name_input" placeholder="Name" class="padding">
+            <input id="host_id_input" placeholder="Host ID" class="padding">
+            <button class="button_style button_wide green padding center hidden" id = "connect_button" style = "margin-top:2em">Connect</button>
+        </div>
+        <div class="initiative" id="initBar">
+            <div class="initiativeNode init_not_started init--PC">
+                <p class="initiative_name_node"></p>
+
+            </div>
+        </div>
+        <div class="canvas_wrapper">
+            <div class="maptool_body"></div>
+            <div id="map_layer_container">
+                <canvas id="background" class="canvas_layer"></canvas>
+                <canvas id="foreground" class="canvas_layer"></canvas>
+
+            </div>
+
+            <canvas id="effects" class="canvas_layer"></canvas>
+            <div id="tokens" class="canvas_layer"></div>
+            <div id="overlay_layer_container">
+                <canvas id="overlay" class="canvas_layer"></canvas>
+            </div>
+            <canvas id="fog_of_war" class="canvas_layer" width="100%" height="100%"></canvas>
+            <canvas id="fog_of_war_segments" class="canvas_layer" width="100%" height="100%"></canvas>
+            <canvas id="grid" class="canvas_layer" width="100%" height="100%"></canvas>
+
+            <canvas id="measurements" class="canvas_layer" width="100%" height="100%"></canvas>
+
+        </div>
+
+    </main>
+</body>
+<script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+<script src="client/client.js"></script>
+<script src="client/map.js"></script>
+<script src="client/map.client.js"></script>
 </html>

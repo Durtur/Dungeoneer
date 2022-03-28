@@ -1,0 +1,51 @@
+
+
+button{
+    color:white;
+
+}
+
+input{
+    border-radius:var(--rounded-corners);
+}
+
+#connect_container input{
+    padding:1em;
+    margin:1em;
+    text-align: center;
+}
+#sidebar{
+    position: absolute;
+    top: 50%;
+    left: 5%;
+    transform: translate(-50%, 0);
+    z-index:500000;
+}
+
+#connection_status {
+    height:2em;
+    width:2em;
+    border-radius:50%;
+    background-color: var(--color-red);
+
+}
+
+.connected{
+    background-color:var( --main-success-color-lighter) !important;
+
+}
+
+#connect_container{
+    max-width:30em;
+    width:20em;
+    padding:1.25em;
+    top: 50%;
+  
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index:500000;
+    position: absolute;
+    background-color:rgba(0,0,0, 0.5);
+    display:flex;
+    margin:auto;
+}

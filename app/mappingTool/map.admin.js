@@ -347,8 +347,6 @@ function onSettingsLoaded() {
         event.preventDefault();
         if (event.ctrlKey && previewPlacementElement) {
             effectManager.onPreviewPlacementResized(event);
-
-
         }
 
         return map.onzoom(event);
@@ -458,15 +456,8 @@ function toggleSaveTimer() {
     );
 }
 
-/***
- * Resizes map only
- */
-
-
-
 
 function generalMousedowngridLayer(event) {
-
 
     if (event.button == 2) {
         clearSelectedPawns();
@@ -555,10 +546,7 @@ function turnAllToolboxButtonsOff() {
     gridLayer.style.zIndex = 4;
     stopMeasuring(null, true);
 }
-var measurementTargetOrigin = null, measurementTargetDestination = null;
-var measurementOriginPosition;
-var currentlyMeasuring = false;
-var measurementPaused = false;
+
 
 function snapPawnToGrid(elmnt) {
 

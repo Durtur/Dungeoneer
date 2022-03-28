@@ -62,6 +62,7 @@ class Menu {
         }
 
         document.getElementById("open_server_button").onclick = (e) => {
+            saveSettings();
             ipcRenderer.send("open-server-window")
         }
     }

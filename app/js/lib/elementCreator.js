@@ -111,6 +111,30 @@ class ElementCreator {
         return tokenEle;
     }
 
+    static checkBox(labelText, onchange) {
+        var label = document.createElement("label");
+        label.innerHTML = labelText;
+
+        var cont = document.createElement("label");
+        cont.classList = "container_for_checkbox";
+        var inp = document.createElement("input");
+        inp.setAttribute("type", "checkbox");
+        inp.title = labelText;
+        var span = document.createElement("span");
+        span.classList = "checkmark";
+        cont.appendChild(inp);
+        cont.appendChild(span);
+        var parent = document.createElement("div");
+        parent.classList = "row";
+        parent.appendChild(label);
+        parent.appendChild(cont);
+        if (onchange) {
+            inp.onchange = onchange;
+        }
+        return parent;
+
+    }
+
 }
 
 module.exports = ElementCreator;

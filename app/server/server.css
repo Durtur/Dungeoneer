@@ -1,5 +1,5 @@
 main{
-    -webkit-app-region:drag;
+    /* -webkit-app-region:drag; */
     padding:2em;
     display:flex;
     height:100vh;
@@ -11,6 +11,36 @@ button, input, p{
 
 #server_info_container>*{
     margin:1em;
+}
+
+.peer_node{
+    padding:1em 1.75em;
+    border-radius:var(--rounded-corners);
+}
+
+.peer_name{
+    font-size: 1.5em;
+    padding: 0;
+    margin: 0.5em;
+}
+
+.peer_node .checkmark{
+    background-color: var(--main-success-color-lighter);
+}
+
+.peer_node .container_for_checkbox:hover input~.checkmark {
+    background-color: var(--main-success-color-lighter);
+}
+
+.peer_node .container_for_checkbox input:checked~.checkmark {
+    background-color: var(--main-success-color-lighter);
+}
+.peer_node label, .peer_node p{
+    color:white;
+}
+
+.peer_connected{
+    background-color:var(--main-success-color);
 }
 .server_id{
     cursor: pointer;

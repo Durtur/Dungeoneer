@@ -173,6 +173,11 @@ ipcMain.on('open-database-window', function () {
   });
 });
 
+ipcMain.on("maptool-server-event", function (event, data) {
+  if (serverWindow) {
+    serverWindow.webContents.send("maptool-server-event", data);
+  }
+});
 
 ipcMain.on('open-server-window', function () {
   if (serverWindow) {
@@ -235,10 +240,7 @@ ipcMain.on('notify-window', (sender, args) => {
         maptoolWindow.focus();
       })
     }
-
   }
-
-
 });
 
 ipcMain.on('open-settings-window', function () {

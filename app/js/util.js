@@ -233,7 +233,7 @@ module.exports = function () {
         return par;
     }
 
-    //8.8mb
+
     async function toBase64(path, shrink) {
         if (!sharp || !path)
             return null;
