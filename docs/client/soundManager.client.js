@@ -1,9 +1,7 @@
 
 
-const dataaccess = require("./dataaccess");
-
 class SoundManager {
-    defaultSoundPath = "../.."
+
     soundProfiles = {
 
         "normal": 150,
@@ -167,53 +165,13 @@ class SoundManager {
     }
 
     async getAvailableSounds() {
-        return [];
+        var basePath = "./sounds/";
+        return [
+            "beach ocean.mp3",
+            "blizzard.mp3"
+        ].map(x=> basePath+x);
+
 
     }
 
 }
-
-class AdminSoundManager extends SoundManager {
-    defaultSoundPath = pathModule.join(window.api.getAppPath(),  'docs', 'client', 'sounds');
-    async getAvailableSounds() {
-
-        if (this.availableSoundList)
-            return this.availableSoundList;
-        var cls = this;
-
-        var soundPaths = [this.defaultSoundPath];
-
-        if (settings.soundLibraryPath) {
-            console.log(settings.soundLibraryPath);
-
-            soundPaths.push(settings.soundLibraryPath);
-
-        }
-        var allSounds = [];
-        for (var i = 0; i < soundPaths.length; i++) {
-            try {
-                var path = soundPaths[i];
-                var files = await dataaccess.getFiles(path);
-                var list = files.map(x => {
-                    var basename = pathModule.basename(x);
-                    var soundPath = pathModule.join(path, basename);
-                    basename = basename.substring(0, basename.lastIndexOf("."));
-
-                    return { name: basename, path: soundPath }
-
-                });
-                allSounds = allSounds.concat(list);
-            } catch (ex) {
-                console.error(ex);
-            }
-
-        }
-
-
-        console.log(allSounds);
-        this.availableSoundList = allSounds;
-        return allSounds;
-    }
-
-}
-module.exports = AdminSoundManager;

@@ -1,5 +1,5 @@
 var hostConnection;
-var settings = {};
+
 var dataBuffer = {};
 var connectionObj =
 {
@@ -30,6 +30,14 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     connectButton.onclick = () => connect();
+
+    refreshPawns();
+    window.onresize = function () {
+        window.requestAnimationFrame(resizeAndDrawGrid);
+        // updateHowlerListenerLocation();
+    }
+
+    setupGridLayer();
 
 })
 
@@ -80,23 +88,33 @@ function handleMessage(message) {
             setState(message);
             dataBuffer[message.messageType] = null;
         }
+    } else {
+        setState(message);
     }
 
 }
 
 function toBase64Url(base64data) {
+    if (base64data == null) return "none";
     return `url(data:image/png;base64,${base64data})`
 }
 
 function setState(message) {
     console.log("Set state", message)
-    console.log(dataBuffer[message.messageType].length)
+
     switch (message.messageType) {
         case "map_edge":
             setMapEdge(toBase64Url(dataBuffer[message.messageType]));
             break;
         case "foreground":
-            setMapForegroundAsBase64(toBase64Url(dataBuffer[message.messageType]), message.data.width);
+            setMapForegroundAsBase64(toBase64Url(dataBuffer[message.messageType]), message.data.metadata.width);
+            break;
+        case "tokens":
+            importTokens(dataBuffer[message.messageType]);
+            break;
+        case "constants":
+            constants = message.data;
+            creaturePossibleSizes = constants.creaturePossibleSizes;
             break;
     }
 
@@ -105,6 +123,16 @@ function setState(message) {
     // foreground: mt.currentMap ? await util.toBase64(mt.currentMap) : null,
     // background: mt.currentBackground ? await util.toBase64(mt.currentBackground) : null,
     // mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null
+}
+
+function importTokens(tokenStr) {
+    var arr = JSON.parse(tokenStr);
+
+    arr.forEach(pawn => {
+        pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
+        generatePawns([pawn], !pawn.player, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+    })
+
 }
 
 function setMapEdge(url) {

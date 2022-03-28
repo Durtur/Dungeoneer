@@ -7,6 +7,10 @@ ipcRenderer.on("load-map", function (evt, arg) {
         saveManager.loadMapFromPath(arg);
     }
 });
+ipcRenderer.on("get-state", (evt, arg) => {
+    serverNotifier.sendState();
+});
+
 ipcRenderer.on("intiative-updated",
     function (evt, arg) {
 

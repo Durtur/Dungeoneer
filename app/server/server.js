@@ -2,12 +2,26 @@ const util = require("./js/util");
 const ElementCreator = require("./js/lib/elementCreator");
 const dataAccess = require("./js/dataaccess");
 const { ipcRenderer } = require('electron');
-
+const pathModule = require('path');
 const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"//"https://www.ogreforge.me/Dungeoneer"
+const pendingStateRequests = [];
 
-ipcRenderer.on("maptool-server-event", function (event, data) {
+
+ipcRenderer.on("maptool-server-event", function (event, message) {
     console.log(event);
-    console.log(data);
+    console.log(message);
+    if (message.event == 'maptool-state') {
+        sendMaptoolState(message.data);
+    }
+
+    // notifyServer("foreground", { path: path , width});
+
+    // notifyServer("background", { path: path , width});
+    // notifyServer("overlay", { path: path , width});
+    // window.setTimeout(() => notifyServer("foreground-size", { width: newWidth }), 1000);
+    // window.setTimeout(() => notifyServer("background-size", { width: newWidth }), 1000);
+    // window.setTimeout(() => notifyServer("overlay-size", { width: newWidth }), 1000);
+    // notifyServer("segments", {segments: newSegments});
 });
 
 var connectionObj =
@@ -36,7 +50,7 @@ peers.onchange = function () {
     var cont = document.getElementById("peers_container");
     while (cont.firstChild)
         cont.removeChild(cont.firstChild);
- 
+
     peers.forEach(peer => cont.appendChild(createPeerElement(peer)));
 }
 
@@ -116,14 +130,14 @@ function onConnected(conn) {
     });
     conn.on('error', function (err) {
         showError(`Error in peer connection ${err}`);
-        var disonnected = peers.filter(x=> !x.connection.open);
+        var disonnected = peers.filter(x => !x.connection.open);
         disonnected.forEach(peer => peers.remove(peer));
     });
 
     conn.on('close', () => {
         peers.onchange();
         console.log("Connection closed");
-        var disonnected = peers.filter(x=> !x.connection.open);
+        var disonnected = peers.filter(x => !x.connection.open);
         disonnected.forEach(peer => peers.remove(peer));
     });
 }
@@ -132,41 +146,79 @@ function handleDataEvent(data, connection) {
     console.log(`Data from ${connection}`)
     console.log(data);
     if (data.messageType == "init") {
+
         var peer = peers.find(x => x.connectionId == connection.connectionId);
         if (!peer)
             throw "peer not found";
         peer.name = data.name;
         peers.onchange();
-        sendMaptoolState(peer);
-    }
+        pendingStateRequests.push(peer);
+        ipcRenderer.send('request-maptool-state');
 
+    }
 }
 
-function sendMaptoolState(peer) {
+
+
+function sendMaptoolState(maptoolState) {
+
     dataAccess.getSettings(async (settings) => {
-        var mt = settings.maptool;
+        while (pendingStateRequests.length > 0) {
+            var peer = pendingStateRequests.pop();
 
-        var dataObject = {
-            foreground: mt.currentMap ? await util.toBase64(mt.currentMap) : null,
-            background: mt.currentBackground ? await util.toBase64(mt.currentBackground) : null,
-            mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null
-        };
+            var mt = settings.maptool;
 
-        sendBase64(peer.connection, "foreground", dataObject.foreground, mt.gridSettings.mapSize);
-        sendBase64(peer.connection, "map_edge", dataObject.mapEdge)
-        sendBase64(peer.connection, "background", dataObject.background)
 
+            var dataObject = {
+                foreground: mt.currentMap ? await util.toBase64(mt.currentMap) : null,
+                background: mt.currentBackground ? await util.toBase64(mt.currentBackground) : null,
+                mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null,
+                overlay: mt.currentOverlay ? await util.toBase64(mt.currentOverlay) : null,
+            };
+            peer.connection.send({ messageType: "constants", data: constants })
+
+            sendBatched(peer.connection, "foreground", dataObject.foreground, { width: mt.gridSettings.mapSize });
+            sendBatched(peer.connection, "map_edge", dataObject.mapEdge)
+            sendBatched(peer.connection, "background", dataObject.background, { width: mt.gridSettings.mapBackgroundSize });
+            sendBatched(peer.connection, "overlay", dataObject.overlay, { width: mt.gridSettings.mapOverlaySize });
+            var distinctTokenImages = [... new Set(maptoolState.tokens.map(x => x.bgPhoto))];
+            console.log(maptoolState.tokens.map(x => x.bgPhoto))
+            for (var i = 0; i < distinctTokenImages.length; i++) {
+                var path = distinctTokenImages[i];
+                console.log(path)
+                var filtered = maptoolState.tokens.filter(x => x.bgPhoto == path);
+                var base64 = await util.toBase64(path);
+
+                filtered.forEach(x => {
+                    var basename = pathModule.basename(x.bgPhoto);
+                    x.bgPhotoBase64 = base64;
+                    x.bgPhoto = null;
+                    x.tokenName = basename;
+                });
+            }
+            var tokenJSON = JSON.stringify(maptoolState.tokens);
+            console.log(maptoolState.tokens)
+            sendBatched(peer.connection, "tokens", tokenJSON);
+
+            // tokens: tokens,
+            // backgroundLoop: bgState,
+            // overlayLoop: overlayState,
+            // effects: getEffectsForExport()
+        }
     });
 }
 
 const CHUNK_SIZE = 1000000;
-function sendBase64(connection, key, base64str, width, height) {
-    var totalLength = base64str.length;
+function sendBatched(connection, key, msgString, metadata) {
+    if (msgString == null) {
+        return connection.send({ messageType: key, data: { base64: null, chunk: 1, chunks: 1 } });
+    }
+    var totalLength = msgString.length;
     var chunks = Math.ceil(totalLength / CHUNK_SIZE);
 
     for (var i = 0; i < chunks; i++) {
         var start = i * CHUNK_SIZE;
-        connection.send({ messageType: key, data: { base64: base64str.substring(start, start + CHUNK_SIZE), chunk: i + 1, chunks: chunks, width: width } });
+        connection.send({ messageType: key, data: { base64: msgString.substring(start, start + CHUNK_SIZE), chunk: i + 1, chunks: chunks, metadata: metadata } });
     }
 
 }

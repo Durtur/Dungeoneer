@@ -1,16 +1,29 @@
+var settings = { gridSettings: {},
+enableGrid:true
+};
+var module = {}, previewPlacementElement;
+var addingFromMainWindow = false;
+function require() {
+    return null;
+}
+
+var creaturePossibleSizes;
+var soundManager;
+
+document.addEventListener("DOMContentLoaded", () => {
+    soundManager = new SoundManager();
+    soundManager.initialize();
+    map.init();
+});
 
 gridLayer.onwheel = function (event) {
     event.preventDefault();
-    if (event.ctrlKey && previewPlacementElement) {
-        effectManager.onPreviewPlacementResized(event);
-    }
-
     return map.onzoom(event);
 };
 
 function generalMousedowngridLayer(event) {
 
-   if (event.button == 0) {
+    if (event.button == 0) {
         clearSelectedPawns();
         if (event.ctrlKey) {
             clearSelectedPawns();
@@ -23,3 +36,5 @@ function generalMousedowngridLayer(event) {
         startMovingMap(event);
     }
 }
+
+

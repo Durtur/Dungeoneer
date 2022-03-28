@@ -86,6 +86,8 @@ function loadSettings() {
     });
 }
 
+
+
 function saveSettings() {
     dataAccess.getSettings(function (data) {
         data.maptool = settings;
@@ -100,7 +102,6 @@ function switchActiveViewer() {
     setBackgroundFilter();
 
 }
-
 
 // #region commands
 function notifySelectedPawnsChanged() {
@@ -229,23 +230,7 @@ function centerForegroundOnBackground() {
     var newY = middleY - (foregroundRect.height / 2) / mapContainer.data_bg_scale;
     moveForeground(newX, newY);
 }
-var currentListenerPawn;
-function updateHowlerListenerLocation() {
-    var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
-    var currentPerspective = forcedPerpspectiveDD.options[forcedPerpspectiveDD.selectedIndex].value;
-    var player = pawns.players.find(x => x[1] == currentPerspective);
-    if (player) {
-        currentListenerPawn = player[0];
-        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
-    }
-    else if (selectedPawns.length > 0) {
-        currentListenerPawn = selectedPawns[0];
-        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
-    } else {
-        currentListenerPawn = null;
-        soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
-    }
-}
+
 
 function resetEverything() {
     if (currentlyDeletingSegments)
@@ -271,17 +256,12 @@ function onSettingsChanged() {
 }
 
 function onSettingsLoaded() {
-    refreshPawns();
-    window.onresize = function () {
-        window.requestAnimationFrame(resizeAndDrawGrid);
-        updateHowlerListenerLocation();
-    }
+
+
     console.log("Settings loaded");
     resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
-    setupGridLayer();
-    resizeAndDrawGrid();
-    refreshFogOfWar();
-    console.log(document.querySelector("#recent_maps_button").parentNode.querySelector("li"))
+    map.init();
+  
     recentMaps.initialize(document.querySelector("#recent_maps_button>ul"));
     mapLibrary.initialize();
     Menu.initialize();
@@ -427,6 +407,7 @@ function setMapOverlay(path, width) {
         resizeOverlay(width ? width : img.width);
     }
     img.src = path;
+    serverNotifier.notifyServer("overlay", { path: path, width: width });
 }
 
 function getMapWidthFromFileName(path, width) {
@@ -505,8 +486,6 @@ function drawSegmentsOnMouseMove() {
 
 
 
-var currentlyDeletingSegments = false;
-var lastgridLayerCursor;
 function toggleDeleteSegments() {
     turnAllToolboxButtonsOff();
 

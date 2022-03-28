@@ -58,7 +58,7 @@ var pawns = (function () {
     }
 
     players.onchange = function () {
-        notifyServer("players-changed", players.map(x => x[1]));
+        serverNotifier.notifyServer("players-changed", players.map(x => x[1]));
     }
 
     return {
@@ -79,6 +79,10 @@ var pawns = (function () {
 
 })();
 
+window.onresize = function () {
+    window.requestAnimationFrame(resizeAndDrawGrid);
+    updateHowlerListenerLocation();
+}
 
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -96,8 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
         container.data_transform_y = 0;
     });
 
-    foregroundCanvas.data_transform_x = 0;
-    foregroundCanvas.data_transform_y = 0;
+    // foregroundCanvas.data_transform_x = 0;
+    // foregroundCanvas.data_transform_y = 0;
 
     gridLayer.onmousedown = generalMousedowngridLayer;
     backgroundLoop = new SlideCanvas(document.getElementById("background"));
@@ -130,7 +134,7 @@ function setBackgroundFilter() {
     if (fovLighting.viewerHasDarkvision() && settings.applyDarkvisionFilter) {
         filterValue = "grayscale(80%)";
     }
-    $("#map_layer_container").css("filter", filterValue);
+    document.querySelector("#map_layer_container").style.filter = filterValue;
 
     settings.currentFilter = filterDd.selectedIndex;
     saveSettings();
@@ -144,11 +148,17 @@ async function setPawnImageWithDefaultPath(pawnElement, path) { }
 
 
 function suspendAllAnimations() {
-    $(".pawn, .sfx_effect, .light_effect").addClass("animation_paused");
+    [".pawn", ".sfx_effect", ".light_effect"].forEach(cls => {
+        [...document.querySelectorAll(cls)].forEach(ele => ele.classList.add("animation_paused"))
+    });
+
 }
 
 function resumeAllAnimations() {
-    $(".pawn, .sfx_effect, .light_effect").removeClass("animation_paused");
+    [".pawn", ".sfx_effect", ".light_effect"].forEach(cls => {
+        [...document.querySelectorAll(cls)].forEach(ele => ele.classList.remove("animation_paused"))
+    });
+
 }
 
 
@@ -300,9 +310,10 @@ function setMapForeground(path, width) {
     }
     img.src = path;
     settings.currentMap = path;
-
+    serverNotifier.notifyServer("foreground", { path: path, width: width });
 
 }
+
 function resizeForeground(newWidth) {
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
@@ -311,6 +322,7 @@ function resizeForeground(newWidth) {
     settings.gridSettings.mapSize = newWidth;
 
     fovLighting.drawSegments();
+    window.setTimeout(() => serverNotifier.notifyServer("foreground-size", { width: newWidth }), 1000);
 }
 
 function resizeBackground(newWidth) {
@@ -318,6 +330,7 @@ function resizeBackground(newWidth) {
     backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
     (document.getElementById("background_size_slider") || {}).value = newWidth;
     toggleSaveTimer();
+    window.setTimeout(() => serverNotifier.notifyServer("background-size", { width: newWidth }), 1000);
 }
 
 function resizeOverlay(newWidth) {
@@ -325,6 +338,7 @@ function resizeOverlay(newWidth) {
     overlayCanvas.style.height = newWidth * overlayCanvas.heightToWidthRatio + "px";
     (document.getElementById("overlay_size_slider") || {}).value = newWidth;
     toggleSaveTimer();
+    window.setTimeout(() => serverNotifier.notifyServer("overlay-size", { width: newWidth }), 1000);
 }
 function setMapBackground(path, width) {
     var btn = document.getElementById("background_button");
@@ -353,13 +367,13 @@ function setMapBackground(path, width) {
 var toolbox = [false, false, false, false, false];
 
 function refreshPawns() {
-    pawns.small = $(".pawn_small");
-    pawns.medium = $(".pawn_medium");
-    pawns.large = $(".pawn_large");
-    pawns.huge = $(".pawn_huge");
-    pawns.gargantuan = $(".pawn_gargantuan");
-    pawns.colossal = $(".pawn_colossal");
-    pawns.all = $(".pawn");
+    pawns.small = document.querySelectorAll(".pawn_small");
+    pawns.medium = document.querySelectorAll(".pawn_medium");
+    pawns.large = document.querySelectorAll(".pawn_large");
+    pawns.huge = document.querySelectorAll(".pawn_huge");
+    pawns.gargantuan = document.querySelectorAll(".pawn_gargantuan");
+    pawns.colossal = document.querySelectorAll(".pawn_colossal");
+    pawns.all = document.querySelectorAll(".pawn");
 
 }
 
@@ -477,6 +491,7 @@ function resetZoom() {
 }
 
 
+
 var MAP_RESIZE_BUFFER = 0, LAST_MAP_RESIZE, onZoomCallback;
 /***
  * Resizes map and other objects
@@ -539,7 +554,8 @@ function zoomIntoMap(event, resizeAmount, onZoomed) {
 
         gridMoveOffsetX -= moveMapX;
         gridMoveOffsetY -= moveMapY;
-        moveMap(bgX, bgY, moveMapX, moveMapY);
+        console.log(bgX, bgY, moveMapX, moveMapY)
+        moveMap(bgX, bgY);
 
         newRect = foregroundCanvas.getBoundingClientRect();
 
@@ -941,16 +957,16 @@ function addToPawnBackgrounds(element, paths) {
 
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths))
 }
-function setPawnBackgroundFromPathArray(element, paths) {
+function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
     var pathString;
     var tokenPaths = [];
     if (typeof paths == "string") {
-        pathString = Util.cssify(paths);
+        pathString = cssify ? Util.cssify(paths) : paths;
         tokenPaths.push(pathString)
     } else {
         var rand = Math.round(Math.random() * (paths.length - 1));
         paths.forEach(path => {
-            path = Util.cssify(path);
+            path =cssify ? Util.cssify(path) : path;
             tokenPaths.push(path);
         })
         pathString = Util.cssify(paths[rand]);
@@ -1168,6 +1184,7 @@ function dragPawn(elmnt) {
         measurements.clearMeasurements();
         originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }
         tooltip.classList.add("hidden");
+  
     }
 }
 
@@ -1329,6 +1346,23 @@ function nudgePawns(x, y) {
 
 }
 
+var currentListenerPawn;
+function updateHowlerListenerLocation() {
+    var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
+    var currentPerspective = forcedPerpspectiveDD.options[forcedPerpspectiveDD.selectedIndex].value;
+    var player = pawns.players.find(x => x[1] == currentPerspective);
+    if (player) {
+        currentListenerPawn = player[0];
+        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
+    }
+    else if (selectedPawns.length > 0) {
+        currentListenerPawn = selectedPawns[0];
+        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
+    } else {
+        currentListenerPawn = null;
+        soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
+    }
+}
 
 function startSelectingPawns(e) {
     if (currentlyMeasuring) return;
@@ -1414,10 +1448,7 @@ function resizePawns() {
 }
 
 
-/**
- * 
- * @param {*} pawnArray [name , size] or name [name, size, color, bgphoto, indexInMain, darkVisionRadius]
- */
+
 var lastIndexInsertedMonsters = 1;
 var lastColorIndex = 0;
 function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
@@ -1510,10 +1541,10 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             newPawnStatus.className = "token_status";
             newPawn.appendChild(newPawnStatus);
 
-            //Checka hvort gefið hafi verið input fæll
-            optionalPaths = pawn.bgPhoto;
+
+            optionalPaths = pawn.bgPhoto || pawn.bgPhotoBase64;
             if (optionalPaths != null) {
-                setPawnBackgroundFromPathArray(newPawn, optionalPaths);
+                setPawnBackgroundFromPathArray(newPawn, optionalPaths, pawn.bgPhotoBase64 == null);
             } else {
                 monsters ?
                     setPawnImageWithDefaultPath(newPawn, pawn.monsterId)
@@ -1521,7 +1552,7 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             }
         }
 
-        rotatePawn(newPawn, rotate)
+        rotatePawn(newPawn, pawn.deg || rotate)
         newPawn.sight_radius_bright_light = sightRadiusBright;
         newPawn.sight_radius_dim_light = sightRadiusDim;
         newPawn.sight_mode = sightMode;
@@ -1548,7 +1579,9 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
     refreshPawns();
     resizePawns();
     addPawnListeners();
-
+    window.setTimeout(() => {
+        serverNotifier.serverTokensChanged();
+    });
     return newPawn;
 }
 
@@ -1610,6 +1643,13 @@ function refreshFogOfWar(timestamp) {
 /* #endregion */
 
 var map = function () {
+    function init(){
+        refreshPawns();
+        setupGridLayer();
+        resizeAndDrawGrid();
+        refreshFogOfWar();
+    }
+
     function onzoom(event) {
         if (!event.shiftKey) {
             var dir = event.deltaY > 0 ? -0.1 : 0.1;
@@ -1694,9 +1734,35 @@ var map = function () {
         gridLayerContext.stroke();
     }
 
+
+    //Returns grid coordinates of an element
+    function gridCoords(pawn) {
+        var rect = foregroundCanvas.getBoundingClientRect();
+        var backgroundOriginX = rect.left;
+        var backgroundOriginY = rect.top;
+        var left = parseFloat(pawn.style.left);
+        var top = parseFloat(pawn.style.top);
+        var cellsFromLeft = (left - backgroundOriginX)
+            / (cellSize);
+        var cellsFromTop = (top - backgroundOriginY)
+            / (cellSize);
+        return { x: cellsFromLeft, y: cellsFromTop }
+
+    }
+
+    function pixelsFromGridCoords(cellsX, cellsY) {
+        var rect = foregroundCanvas.getBoundingClientRect();
+        var backgroundOriginX = rect.left;
+        var backgroundOriginY = rect.top;
+        return { x: cellsX * cellSize + backgroundOriginX, y: cellsY * cellSize + backgroundOriginY }
+    }
+
     return {
+        init:init,
         onkeydown: onkeydown,
         onzoom: onzoom,
+        gridCoords: gridCoords,
+        pixelsFromGridCoords: pixelsFromGridCoords,
         drawGrid: drawGrid
     }
 }();

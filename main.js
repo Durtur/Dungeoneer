@@ -242,6 +242,10 @@ ipcMain.on('notify-window', (sender, args) => {
     }
   }
 });
+ipcMain.on('request-maptool-state', function () {
+  if (maptoolWindow)
+    maptoolWindow.webContents.send("get-state");
+});
 
 ipcMain.on('open-settings-window', function () {
   openSettingsWindow();
