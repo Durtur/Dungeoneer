@@ -242,7 +242,7 @@ function resetEverything() {
     effectManager.close();
     if (document.getElementById("move_effects_button").getAttribute("toggled") != "false")
         document.getElementById("move_effects_button").click();
-    gridLayer.onmousedown = generalMousedowngridLayer;
+    resetGridLayer();
     gridLayer.style.cursor = "auto";
     return turnAllToolboxButtonsOff();
 }
@@ -508,7 +508,7 @@ function toggleDeleteSegments() {
             refreshFogOfWar();
         };
     } else {
-        gridLayer.onmousedown = generalMousedowngridLayer;
+        resetGridLayer();
         gridLayer.style.cursor = "auto";
         document.removeEventListener("mousemove", recordMouse, false);
         document.removeEventListener("mousemove", fovLighting.drawSegments, false);
@@ -523,7 +523,7 @@ function turnAllToolboxButtonsOff() {
             toggleButtons[i].click();
         }
     }
-    gridLayer.onmousedown = generalMousedowngridLayer;
+    resetGridLayer();
     currentlyMeasuring = false;
     gridLayer.style.zIndex = 4;
     stopMeasuring(null, true);
@@ -835,7 +835,7 @@ function startAddingFromQueue() {
     }
 
     function stopAddingFromQueue() {
-        gridLayer.onmousedown = generalMousedowngridLayer;
+        resetGridLayer();
         gridLayer.style.cursor = "auto";
         document.onmousemove = null;
         tooltip.classList.add("hidden");

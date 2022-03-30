@@ -115,7 +115,7 @@ var effectManager = function () {
                 Util.makeUIElementDraggable(eff)
             })
         } else {
-            gridLayer.onmousedown = generalMousedowngridLayer;
+            resetGridLayer();
             gridLayer.style.cursor = lastgridLayerCursor;
             hideSoundLayer();
             effects.map(eff => {
@@ -155,7 +155,7 @@ var effectManager = function () {
             }
         } else {
             hideSoundLayer();
-            gridLayer.onmousedown = generalMousedowngridLayer;
+            resetGridLayer();
             currentlyDeletingEffects = false;
             gridLayer.style.cursor = lastgridLayerCursor;
             for (var i = 0; i < effects.length; i++) {
@@ -383,7 +383,7 @@ var effectManager = function () {
                 pawns.all[i].data_overload_click = null;
                 pawns.all[i].classList.remove("attach_lightsource_pawn")
             }
-        gridLayer.onmousedown = generalMousedowngridLayer;
+        resetGridLayer();
         effects = effects.filter(eff => eff != previewPlacementElement)
 
         if (currentlySelectedEffectDropdown == null) {

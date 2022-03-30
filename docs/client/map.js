@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         container.data_transform_y = 0;
     });
 
-    gridLayer.onmousedown = generalMousedowngridLayer;
+    resetGridLayer();
     backgroundLoop = new SlideCanvas(document.getElementById("background"), "background_loop_menu");
     overlayLoop = new SlideCanvas(document.getElementById("overlay"), "overlay_loop_menu");
     document.addEventListener("visibilitychange", function () {
@@ -870,7 +870,7 @@ function stopMeasuring(event, ignoreClick) {
                 }
             }
             document.onmousedown = null;
-            gridLayer.onmousedown = generalMousedowngridLayer;
+            resetGridLayer();
             currentlyMeasuring = false;
             currentlyAddingSegments = false;
             lastMeasuredPoint = null;
@@ -997,6 +997,12 @@ function isPlayerPawn(pawnElement) {
     return false;
 }
 
+function resetGridLayer(){
+    gridLayer.onmousedown = generalMousedowngridLayer;
+    gridLayer.ontouchstart = generalMousedowngridLayer;
+    gridLayer.style.cursor = "auto";
+}
+
 
 var selectedPawns = [];
 function dragPawn(elmnt) {
@@ -1041,7 +1047,7 @@ function dragPawn(elmnt) {
                 gridLayer.onmousedown = function (event) {
 
                     clearSelectedPawns();
-                    gridLayer.onmousedown = generalMousedowngridLayer;
+                    resetGridLayer();
                 }
             } else {
 
@@ -1395,7 +1401,7 @@ function startSelectingPawns(e) {
     gridLayer.onmousedown = function (event) {
         measurements.clearMeasurements();
         generalMousedowngridLayer(event);
-        gridLayer.onmousedown = generalMousedowngridLayer;
+        resetGridLayer();
     }
     document.onmouseup = function (event) {
         measurements.clearMeasurements();

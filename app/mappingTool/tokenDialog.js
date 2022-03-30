@@ -57,7 +57,7 @@ class TokenDialog {
         dialog.classList.add("hidden");
         sidebarManager.close();
         pauseAlternativeKeyboardMoveMap = false;
-        gridLayer.onmousedown = generalMousedowngridLayer;
+        resetGridLayer();
         gridLayer.style.cursor = "auto";
     }
 
