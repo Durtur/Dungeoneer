@@ -14,12 +14,18 @@ input{
     margin:1em;
     text-align: center;
 }
-#sidebar{
+#toolbar{
     position: absolute;
-    top: 50%;
-    left: 5%;
-    transform: translate(-50%, 0);
+
     z-index:500000;
+
+    left: 1em;
+    width: 5vw;
+    height: 50vh;
+    border-radius: 100px;
+    background-color: #00000085;
+    position: absolute;
+    padding: 0.5em;
 }
 
 #connection_status {

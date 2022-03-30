@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSettings();
     updateHowlerListenerLocation();
     window.api.messageWindow('mainWindow', 'maptool-initialized')
-
+    serverNotifier.notifyServer("initialized");
     var bgSize = parseInt($("#foreground").css("background-size"));
     var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
@@ -407,9 +407,10 @@ function setMapOverlay(path, width) {
     img.onload = function () {
         overlayCanvas.heightToWidthRatio = img.height / img.width;
         resizeOverlay(width ? width : img.width);
+        serverNotifier.notifyServer("overlay", serverNotifier.getOverlayState());
     }
     img.src = path;
-    serverNotifier.notifyServer("overlay", { path: path, width: width });
+
 }
 
 function getMapWidthFromFileName(path, width) {
@@ -529,30 +530,6 @@ function turnAllToolboxButtonsOff() {
 }
 
 
-function snapPawnToGrid(elmnt) {
-
-    var positionOnTranslatedGrid = {
-        x: Math.round((elmnt.offsetLeft - gridMoveOffsetX) / cellSize) * cellSize,
-        y: Math.round((elmnt.offsetTop - gridMoveOffsetY) / cellSize) * cellSize
-    }
-    var oldLeft = parseFloat(elmnt.style.left);
-    var oldTop = parseFloat(elmnt.style.top);
-    var diffX = oldLeft - (positionOnTranslatedGrid.x + gridMoveOffsetX);
-    var diffY = oldTop - (positionOnTranslatedGrid.y + gridMoveOffsetY);
-    elmnt.style.left = positionOnTranslatedGrid.x + gridMoveOffsetX + "px";
-    elmnt.style.top = positionOnTranslatedGrid.y + gridMoveOffsetY + "px";
-    if (elmnt.attached_objects)
-        elmnt.attached_objects.forEach(obj => {
-            var currX = parseFloat(obj.style.left);
-            var currY = parseFloat(obj.style.top);
-            currX -= diffX;
-            currY -= diffY;
-            obj.style.left = currX + "px";
-            obj.style.top = currY + "px";
-        });
-}
-
-
 
 function showMapSizeSlider(element) {
     var cont = document.getElementById("map_size_slider_container");
@@ -654,16 +631,17 @@ function fillForcedPerspectiveDropDown() {
 async function setPlayerPawnImage(pawnElement, path) {
     var tokenPath;
     var path = await dataAccess.getTokenPath(path);
-
+    var imgEle = pawnElement.getElementsByClassName("token_photo")[0];
     if (path != null) {
         path = path.replace(/\\/g, "/")
         tokenPath = `url('${path}')`;
-        pawnElement.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify([path]));
+        imgEle.setAttribute("data-token_facets", JSON.stringify([path]));
+        imgEle.setAttribute("data-token_current_facet", 0);
     } else {
         tokenPath = " url('mappingTool/tokens/default.png')";
     }
 
-    pawnElement.getElementsByClassName("token_photo")[0].style.backgroundImage = tokenPath;
+    imgEle.style.backgroundImage = tokenPath;
 }
 
 async function setPawnImageWithDefaultPath(pawnElement, path) {
@@ -686,8 +664,10 @@ async function setPawnImageWithDefaultPath(pawnElement, path) {
     } else {
         tokenPath = 'mappingTool/tokens/default.png';
     }
-    pawnElement.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(possibleNames))
-    pawnElement.getElementsByClassName("token_photo")[0].style.backgroundImage = `url('${tokenPath}')`;
+    var imgEle = pawnElement.getElementsByClassName("token_photo")[0];
+    imgEle.setAttribute("data-token_facets", JSON.stringify(possibleNames));
+    imgEle.setAttribute("data-token_current_facet", possibleNames.indexOf(tokenPath));
+    imgEle.style.backgroundImage = `url('${tokenPath}')`;
 }
 
 async function setPawnMobBackgroundImages(pawn, path) {
@@ -816,7 +796,7 @@ function startAddingFromQueue() {
     var tooltip = document.getElementById("tooltip");
     addingFromMainWindow = true;
     tooltip.classList.remove("hidden");
-    tooltip.innerHTML = "Creature #" + pawns.addQueue[0].indexInMain;
+    tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window ;
 
     document.onmousemove = function (e) {
         tooltip.style.top = e.clientY - 50 + "px";
@@ -849,7 +829,7 @@ function startAddingFromQueue() {
 
             return stopAddingFromQueue()
         }
-        tooltip.innerHTML = "Creature #" + pawns.addQueue[0].indexInMain;
+        tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window ;
 
 
     }

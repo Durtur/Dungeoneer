@@ -1,8 +1,8 @@
 
 var serverNotifier = function () {
+    var timeouts = {};
 
-
-    function sendState() {
+    async function sendState() {
         var bgState = {};
         backgroundLoop.saveSlideState(bgState)
         console.log(`BG STATE`, bgState)
@@ -12,16 +12,21 @@ var serverNotifier = function () {
 
         ipcRenderer.send("maptool-server-event", {
             event: "maptool-state", data: {
-                tokens: getTokensForExport(),
+                tokens: await getTokensForExport(),
                 backgroundLoop: bgState,
                 overlayLoop: overlayState,
                 foreground: getForegroundState(),
                 overlay: getOverlayState(),
                 background: getBackgroundState(),
-                effects: getEffectsForExport()
+                effects: getEffectsForExport(),
+                segments: { segments: fovLighting.getSegments() }
             }
         });
 
+    }
+
+    function isServer(){
+        return true;
     }
 
     function getBackgroundState() {
@@ -45,8 +50,8 @@ var serverNotifier = function () {
     }
 
 
-    function serverTokensChanged() {
-        var tokens = getTokensForExport();
+    async function serverTokensChanged() {
+        var tokens = await getTokensForExport();
         ipcRenderer.send("maptool-server-event", { event: "tokens", data: tokens });
     }
 
@@ -56,10 +61,15 @@ var serverNotifier = function () {
     }
 
 
-    function getTokensForExport() {
-
-        var tokens = loadedMonsters.map(x => saveManager.exportPawn(x));
-        tokens = tokens.concat(pawns.players.map(x => saveManager.exportPawn(x)));
+    async function getTokensForExport() {
+        var tokens = [];
+        for(var i = 0 ; i < loadedMonsters.length; i++){
+            tokens.push(await saveManager.exportPawn(loadedMonsters[i]) )
+        }
+        for(var i = 0 ; i < pawns.players.length; i++){
+            tokens.push(await saveManager.exportPawn(pawns.players[i]) )
+        }
+       
         return tokens;
     }
 
@@ -70,6 +80,11 @@ var serverNotifier = function () {
     return {
         notifyServer: notifyServer,
         sendState: sendState,
-        serverTokensChanged: serverTokensChanged
+        getForegroundState: getForegroundState,
+        getBackgroundState: getBackgroundState,
+        getOverlayState: getOverlayState,
+        serverTokensChanged: serverTokensChanged,
+        isServer:isServer,
+        timeouts: timeouts
     }
 }();

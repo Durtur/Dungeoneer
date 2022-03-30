@@ -185,7 +185,7 @@ ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
             color: settings.colorTokenBases ? color : "rgba(100,100,100,0)",
             name: monsterArray[i].name,
             size: monsterArray[i].size,
-            indexInMain: monsterArray[i].index,
+            index_in_main_window: monsterArray[i].index,
             monsterId: monsterArray[i].monsterId,
             isMob: monsterArray[i].isMob == true,
             mobCountDead: 0,

@@ -53,7 +53,7 @@ function connect() {
 
         hostConnection.on('open', () => {
             connectedStateChanged();
-            send({ messageType: "init", name: name });
+            send({ event: "init", name: name });
         })
         hostConnection.on('data', function (data) {
             console.log('Received', data);
@@ -78,15 +78,15 @@ function connect() {
 function handleMessage(message) {
     console.log(message)
     if (message.data?.chunks) {
-        if (!dataBuffer[message.messageType]) {
-            dataBuffer[message.messageType] = message.data.base64;
+        if (!dataBuffer[message.event]) {
+            dataBuffer[message.event] = message.data.base64;
         } else {
-            dataBuffer[message.messageType] += message.data.base64;
+            dataBuffer[message.event] += message.data.base64;
         }
         //Message end
         if (message.data.chunk == message.data.chunks) {
             setState(message);
-            dataBuffer[message.messageType] = null;
+            dataBuffer[message.event] = null;
         }
     } else {
         setState(message);
@@ -102,19 +102,25 @@ function toBase64Url(base64data) {
 function setState(message) {
     console.log("Set state", message)
 
-    switch (message.messageType) {
+    switch (message.event) {
+        case "initialized":
+            map.removeAllPawns();
+            break;
+        case "players-changed":
+            ///???
+            break;
         case "map_edge":
-            setMapEdge(toBase64Url(dataBuffer[message.messageType]));
+            setMapEdge(toBase64Url(dataBuffer[message.event]));
             break;
         case "foreground":
             clientSetForeground(message)
             break;
         case "background":
-            setMapBackgroundAsBase64(toBase64Url(dataBuffer[message.messageType]), message.data.metadata.width, message.data.metadata.height);
+            setMapBackgroundAsBase64(toBase64Url(dataBuffer[message.event]), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
             break;
         case "tokens-set":
             map.removeAllPawns();
-            importTokens(dataBuffer[message.messageType]);
+            importTokens(dataBuffer[message.event]);
             break;
         case "constants":
             constants = message.data;
@@ -126,17 +132,46 @@ function setState(message) {
         case "backgroundLoop":
             backgroundLoop.loadSlideState(message.data);
             break;
+        case "pawn-removed":
+            var removed = document.getElementById(message.data);
+            if (removed)
+                map.removePawn(removed)
+            break;
+        case "pawn-add":
+            addPawn(message.data)
+            break;
+        case "foreground-size":
+            resizeForeground(message.data.width);
+            break;
+        case "background-size":
+            resizeBackground(message.data.width);
+            break;
+        case "overlay-size":
+            resizeOverlay(message.data.width);
+            break;
+        case "segments":
+            fovLighting.setSegments(message.data.segments);
+            break;
+        case "object-moved":
+            moveObjects(message.data);
+            break;
     }
 
-    // setForeground(state.foreground ? `url(data:image/png;base64,${state.foreground})` : "none");
-    // setBackground(state.currentBackground ? `url(data:image/png;base64,${state.currentBackground})` : "none");
-    // foreground: mt.currentMap ? await util.toBase64(mt.currentMap) : null,
-    // background: mt.currentBackground ? await util.toBase64(mt.currentBackground) : null,
-    // mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null
+}
+
+function moveObjects(arr) {
+    console.log("Set positions:")
+    console.log(arr);
+    arr.forEach(pawnInfo => {
+        var pawn = document.getElementById(pawnInfo.id);
+        var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
+
+        map.moveObject(pawn, tanslatedPixels)
+    })
 }
 
 function clientSetForeground(message) {
-    setMapForegroundAsBase64(toBase64Url(dataBuffer[message.messageType]), message.data.metadata.width, message.data.metadata.height);
+    setMapForegroundAsBase64(toBase64Url(dataBuffer[message.event]), message.data.metadata.width, message.data.metadata.height);
 
     if (message.data.metadata.translate) {
         var trsl = message.data.metadata.translate;
@@ -146,12 +181,17 @@ function clientSetForeground(message) {
     }
 }
 
+function addPawn(pawn) {
+    pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
+    generatePawns([pawn], !pawn.player, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+}
+
 function importTokens(tokenStr) {
     var arr = JSON.parse(tokenStr);
 
     arr.forEach(pawn => {
-        pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
-        generatePawns([pawn], !pawn.player, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+        addPawn(pawn);
+
     })
 
 }

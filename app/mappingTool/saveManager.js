@@ -229,26 +229,31 @@ class SaveManager {
 
     }
 
-    exportPawn(pawn) {
+    async exportPawn(pawn) {
         var element = pawn[0];
         var img = element.querySelector(".token_photo");
         var images = JSON.parse(img.getAttribute("data-token_facets"));
-        
+
         var currentIndex = parseInt(img.getAttribute("data-token_current_facet")) || 0;
+
+        var base64 = await util.toBase64(images[currentIndex]);
+        pathModule.basename(images[currentIndex]);
+
         return {
             name: pawn[1],
             id: element.id,
+            isPlayer: isPlayerPawn(pawn[0]),
             dead: element.dead,
             deg: element.deg,
             hexes: element.dnd_hexes,
-            color:element.style.backgroundColor,
+            color: element.style.backgroundColor,
             size: element.dnd_size,
             flying_height: element.flying_height,
             index_in_main_window: element.index_in_main_window,
             sight_mode: element.sight_mode,
             sight_radius_bright_light: element.sight_radius_bright_light,
             sight_radius_dim_light: element.sight_radius_dim_light,
-            bgPhoto: images[currentIndex],
+            bgPhotoBase64:base64,
             pos: map.gridCoords(element)
             //attached_objects : element.attached_objects
         }

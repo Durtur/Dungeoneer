@@ -525,7 +525,7 @@ var fovLighting = function () {
         segments[1] = { a: { x: boxWidth, y: offset }, b: { x: boxWidth, y: canvasHeight } };
         segments[2] = { a: { x: boxWidth, y: boxHeight }, b: { x: offset, y: boxHeight } };
         segments[3] = { a: { x: offset, y: boxHeight }, b: { x: offset, y: offset } };
-        generateUniquePoints();
+        onSegmentsChanged();
 
 
     }
@@ -533,11 +533,10 @@ var fovLighting = function () {
     function addSegment(a, b) {
 
         segments.push({ a: a, b: b });
-        generateUniquePoints();
+        onSegmentsChanged();
     }
 
     function generateUniquePoints() {
-        // Get all unique points
         var points = (function (segments) {
             var a = [];
             segments.forEach(function (seg) {
@@ -559,6 +558,14 @@ var fovLighting = function () {
             });
         })(points);
     }
+
+    function onSegmentsChanged(serverNotify = true) {
+        generateUniquePoints();
+        if (serverNotify)
+            serverNotifier.notifyServer("segments", { segments: segments });
+
+
+    }
     function nudgeSegments(x, y) {
 
         var segment;
@@ -569,7 +576,7 @@ var fovLighting = function () {
             segment.b.x += x;
             segment.b.y += y;
         }
-        generateUniquePoints();
+        onSegmentsChanged(false);
 
     }
 
@@ -606,7 +613,7 @@ var fovLighting = function () {
 
         }
         drawSegments();
-        generateUniquePoints();
+        onSegmentsChanged(false);
     }
 
     var showVisibilityLayer = false;
@@ -623,7 +630,7 @@ var fovLighting = function () {
 
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: destinationPoint.x, y: originPoint.y } });
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: originPoint.x, y: destinationPoint.y } });
-        generateUniquePoints();
+        onSegmentsChanged();
         drawSegments();
     }
 
@@ -666,11 +673,10 @@ var fovLighting = function () {
 
     function addLineSegment(originPoint, destinationPoint) {
         segments.push({ a: originPoint, b: destinationPoint });
-        generateUniquePoints();
+        onSegmentsChanged();
         drawSegments();
     }
     function drawSegments() {
-
         fovSegmentLayerContext.beginPath();
         fovSegmentLayerContext.save();
         fovSegmentLayerContext.setTransform(1, 0, 0, 1, 0, 0);
@@ -750,15 +756,14 @@ var fovLighting = function () {
             if (pointIsOnLine(seg.a, seg.b, linepoint, SEGMENT_SELECTION_MARGIN)) {
                 segments.splice(i, 1);
                 drawSegments();
-                generateUniquePoints();
+                onSegmentsChanged();
                 break;
             }
         }
     }
     function setSegments(newSegments) {
         segments = newSegments;
-        generateUniquePoints();
-        serverNotifier.notifyServer("segments", { segments: newSegments });
+        onSegmentsChanged();
     }
 
     function getSegments() {

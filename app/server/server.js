@@ -11,18 +11,29 @@ ipcRenderer.on("maptool-server-event", function (event, message) {
     console.log(event);
     console.log(message);
     if (message.event == 'maptool-state') {
-        sendMaptoolState(message.data);
+        return sendMaptoolState(message.data);
+    }
+    if(["foreground", "background","overlay"].find(x=> x == message.event)){
+       return sendLayerInfo(message);
     }
 
-    // notifyServer("foreground", { path: path , width});
+    notifyPeers(message);
 
-    // notifyServer("background", { path: path , width});
-    // notifyServer("overlay", { path: path , width});
-    // window.setTimeout(() => notifyServer("foreground-size", { width: newWidth }), 1000);
-    // window.setTimeout(() => notifyServer("background-size", { width: newWidth }), 1000);
-    // window.setTimeout(() => notifyServer("overlay-size", { width: newWidth }), 1000);
-    // notifyServer("segments", {segments: newSegments});
 });
+
+function notifyPeers(message){
+    peers.forEach(peer => {
+        peer.connection.send(message);
+    })
+}
+
+function sendLayerInfo(message){
+    peers.forEach(async peer => {
+        var base64layer = await util.toBase64(message.data.path);
+        sendBatched(peer.connection, message.event, base64layer, { width: message.data.width, height: message.data.height, translate: message.data.translate });
+    })
+   
+}
 
 var connectionObj =
 {
@@ -145,7 +156,7 @@ function onConnected(conn) {
 function handleDataEvent(data, connection) {
     console.log(`Data from ${connection}`)
     console.log(data);
-    if (data.messageType == "init") {
+    if (data.event == "init") {
 
         var peer = peers.find(x => x.connectionId == connection.connectionId);
         if (!peer)
@@ -158,10 +169,7 @@ function handleDataEvent(data, connection) {
     }
 }
 
-
-
 function sendMaptoolState(maptoolState) {
-
     dataAccess.getSettings(async (settings) => {
         while (pendingStateRequests.length > 0) {
             var peer = pendingStateRequests.pop();
@@ -175,51 +183,52 @@ function sendMaptoolState(maptoolState) {
                 mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null,
                 overlay: maptoolState.overlay.path ? await util.toBase64(maptoolState.overlay.path) : null,
             };
-            peer.connection.send({ messageType: "constants", data: constants })
+            peer.connection.send({ event: "constants", data: constants })
 
             sendBatched(peer.connection, "foreground", dataObject.foreground, { width: maptoolState.foreground.width, height: maptoolState.foreground.height, translate: maptoolState.foreground.translate });
             sendBatched(peer.connection, "map_edge", dataObject.mapEdge)
             sendBatched(peer.connection, "background", dataObject.background, { width: maptoolState.background.width, height: maptoolState.background.height });
             sendBatched(peer.connection, "overlay", dataObject.overlay, { width: maptoolState.overlay.width, height: maptoolState.overlay.height });
-            var distinctTokenImages = [... new Set(maptoolState.tokens.map(x => x.bgPhoto))];
-            console.log(maptoolState.tokens.map(x => x.bgPhoto))
-            for (var i = 0; i < distinctTokenImages.length; i++) {
-                var path = distinctTokenImages[i];
-                console.log(path)
-                var filtered = maptoolState.tokens.filter(x => x.bgPhoto == path);
-                var base64 = await util.toBase64(path);
+            // var distinctTokenImages = [... new Set(maptoolState.tokens.map(x => x.bgPhoto))];
+           
+            // for (var i = 0; i < distinctTokenImages.length; i++) {
+            //     var path = distinctTokenImages[i];
+            //     console.log(path)
+            //     var filtered = maptoolState.tokens.filter(x => x.bgPhoto == path);
+            //     var base64 = await util.toBase64(path);
 
-                filtered.forEach(x => {
-                    var basename = pathModule.basename(x.bgPhoto);
-                    x.bgPhotoBase64 = base64;
-                    x.bgPhoto = null;
-                    x.tokenName = basename;
-                });
-            }
+            //     filtered.forEach(x => {
+            //         var basename = pathModule.basename(x.bgPhoto);
+            //         x.bgPhotoBase64 = base64;
+            //         x.bgPhoto = null;
+            //         x.tokenName = basename;
+            //     });
+            // }
             var tokenJSON = JSON.stringify(maptoolState.tokens);
          
             sendBatched(peer.connection, "tokens-set", tokenJSON);
-            peer.connection.send({messageType:"backgroundLoop", data:maptoolState.backgroundLoop})
-            peer.connection.send({messageType:"overlayLoop", data:maptoolState.overlayLoop})
- 
+            peer.connection.send({event:"backgroundLoop", data:maptoolState.backgroundLoop})
+            peer.connection.send({event:"overlayLoop", data:maptoolState.overlayLoop})
+            peer.connection.send({event:"segments", data:maptoolState.segments})
             // tokens: tokens,
-
+          
             // effects: getEffectsForExport()
         }
     });
 }
 
+
 const CHUNK_SIZE = 1000000;
 function sendBatched(connection, key, msgString, metadata) {
     if (msgString == null) {
-        return connection.send({ messageType: key, data: { base64: null, chunk: 1, chunks: 1 } });
+        return connection.send({ event: key, data: { base64: null, chunk: 1, chunks: 1 } });
     }
     var totalLength = msgString.length;
     var chunks = Math.ceil(totalLength / CHUNK_SIZE);
 
     for (var i = 0; i < chunks; i++) {
         var start = i * CHUNK_SIZE;
-        connection.send({ messageType: key, data: { base64: msgString.substring(start, start + CHUNK_SIZE), chunk: i + 1, chunks: chunks, metadata: metadata } });
+        connection.send({ event: key, data: { base64: msgString.substring(start, start + CHUNK_SIZE), chunk: i + 1, chunks: chunks, metadata: metadata } });
     }
 
 }

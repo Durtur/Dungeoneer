@@ -282,7 +282,7 @@ function setForegroundHelper(path, width, height) {
     settings.gridSettings.foregroundHeight = height;
 
     toggleSaveTimer();
-    serverNotifier.notifyServer("foreground", { path: path, width: width, height: height });
+    serverNotifier.notifyServer("foreground", serverNotifier.getForegroundState());
 }
 
 function setMapForeground(path, width) {
@@ -326,6 +326,7 @@ function setMapBackgroundHelper(path, width, height) {
 
     backgroundCanvas.style.backgroundImage = path;
     resizeBackground(width);
+    serverNotifier.notifyServer("background", serverNotifier.getBackgroundState());
 }
 
 function setMapBackground(path, desiredWidth) {
@@ -355,11 +356,12 @@ function resizeForeground(newWidth) {
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
 
-    document.getElementById("foreground_size_slider").value = newWidth;
+    (document.getElementById("foreground_size_slider") || {}).value = newWidth;
     settings.gridSettings.mapSize = newWidth;
 
     fovLighting.drawSegments();
-    window.setTimeout(() => serverNotifier.notifyServer("foreground-size", { width: newWidth }), 1000);
+    window.clearTimeout(serverNotifier.timeouts.foreground);
+    serverNotifier.timeouts.foreground = window.setTimeout(() => serverNotifier.notifyServer("foreground-size", { width: newWidth }), 1000);
 }
 
 function resizeBackground(newWidth) {
@@ -368,7 +370,8 @@ function resizeBackground(newWidth) {
     backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
     (document.getElementById("background_size_slider") || {}).value = newWidth;
     toggleSaveTimer();
-    window.setTimeout(() => serverNotifier.notifyServer("background-size", { width: newWidth }), 1000);
+    window.clearTimeout(serverNotifier.timeouts.background)
+    serverNotifier.timeouts.background = window.setTimeout(() => serverNotifier.notifyServer("background-size", { width: newWidth }), 1000);
 }
 
 function resizeOverlay(newWidth) {
@@ -376,7 +379,8 @@ function resizeOverlay(newWidth) {
     overlayCanvas.style.height = newWidth * overlayCanvas.heightToWidthRatio + "px";
     (document.getElementById("overlay_size_slider") || {}).value = newWidth;
     toggleSaveTimer();
-    window.setTimeout(() => serverNotifier.notifyServer("overlay-size", { width: newWidth }), 1000);
+    window.clearTimeout(serverNotifier.timeouts.overlay)
+    serverNotifier.timeouts.overlay = window.setTimeout(() => serverNotifier.notifyServer("overlay-size", { width: newWidth }), 1000);
 }
 
 
@@ -964,13 +968,15 @@ function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
     } else {
         var rand = Math.round(Math.random() * (paths.length - 1));
         paths.forEach(path => {
-            path = cssify ? Util.cssify(path) : path;
+
             tokenPaths.push(path);
         })
         pathString = Util.cssify(paths[rand]);
     }
-    element.getElementsByClassName("token_photo")[0].style.backgroundImage = pathString;
-    element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(tokenPaths))
+    var imgEle = element.getElementsByClassName("token_photo")[0]
+    imgEle.style.backgroundImage = pathString;
+    imgEle.setAttribute("data-token_facets", JSON.stringify(tokenPaths));
+    imgEle.setAttribute("data-token_current_facet", rand);
 }
 
 
@@ -1168,10 +1174,10 @@ function dragPawn(elmnt) {
     function closeDragElement(e) {
         if (settings.snapToGrid) {
             if (selectedPawns.length == 0) {
-                snapPawnToGrid(elmnt);
+                map.snapToGrid(elmnt);
             } else {
                 selectedPawns.forEach(pwn => {
-                    snapPawnToGrid(pwn);
+                    map.snapToGrid(pwn);
                 })
             }
         }
@@ -1182,6 +1188,16 @@ function dragPawn(elmnt) {
         measurements.clearMeasurements();
         originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }
         tooltip.classList.add("hidden");
+        serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
+            return {
+                pos: map.gridCoords(pawn),
+                id: pawn.id
+            }
+        }).concat({
+            pos: map.gridCoords(elmnt),
+            id: elmnt.id
+
+        }));
 
     }
 }
@@ -1232,6 +1248,10 @@ function addPawnListeners() {
 
 
 }
+
+
+
+
 
 function isSelectedPawn(pawn) {
     for (var i = 0; i < selectedPawns.length; i++) {
@@ -1449,7 +1469,7 @@ function resizePawns() {
 
 var lastIndexInsertedMonsters = 1;
 var lastColorIndex = 0;
-function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
+async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
     var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;
     console.log("Generating ", pawnArray)
     if (monsters) {
@@ -1491,8 +1511,8 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
             }
         } else {
-            if (addingFromMainWindow) {
-                var index = pawn.indexInMain ? pawn.indexInMain : lastIndexInsertedMonsters++;
+            if (addingFromMainWindow || pawn.index_in_main_window) {
+                var index = pawn.index_in_main_window ? pawn.index_in_main_window : lastIndexInsertedMonsters++;
                 removeDuplicatePawnNumbers(index);
                 newPawn.setAttribute("index_in_main_window", index);
                 newPawn.index_in_main_window = index;
@@ -1545,8 +1565,8 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
                 setPawnBackgroundFromPathArray(newPawn, optionalPaths, pawn.bgPhotoBase64 == null);
             } else {
                 monsters ?
-                    setPawnImageWithDefaultPath(newPawn, pawn.monsterId)
-                    : setPlayerPawnImage(newPawn, pawn.id)
+                    await setPawnImageWithDefaultPath(newPawn, pawn.monsterId)
+                    : await setPlayerPawnImage(newPawn, pawn.id)
             }
         }
 
@@ -1573,13 +1593,14 @@ function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         }
 
         tokenLayer.appendChild(newPawn);
+        if (serverNotifier.isServer()) {
+            serverNotifier.notifyServer("pawn-add", await saveManager.exportPawn([newPawn, pawn.name]));
+        }
     };
     refreshPawns();
     resizePawns();
     addPawnListeners();
-    window.setTimeout(() => {
-        serverNotifier.serverTokensChanged();
-    });
+
     return newPawn;
 }
 
@@ -1735,6 +1756,7 @@ var map = function () {
 
     //Returns grid coordinates of an element
     function gridCoords(pawn) {
+
         var rect = foregroundCanvas.getBoundingClientRect();
         var backgroundOriginX = rect.left;
         var backgroundOriginY = rect.top;
@@ -1757,7 +1779,7 @@ var map = function () {
 
 
     function removePawn(element) {
-        console.log()
+
         var isPlayer = isPlayerPawn(element);
         if (!isPlayer) {
             var indexInLoadedMonsters = -1;
@@ -1775,18 +1797,51 @@ var map = function () {
             pawns.monsters.splice(pawns.monsters.indexOf(element), 1);
         }
         element.parentNode.removeChild(element);
+        serverNotifier.notifyServer("pawn-removed", element.id)
     }
 
     function removeAllPawns() {
-        [... document.querySelectorAll(".pawn")].forEach(x=> x.parentNode.removeChild(x));
+        [...document.querySelectorAll(".pawn")].forEach(x => x.parentNode.removeChild(x));
         loadedMonsters = [];
         pawns.players = [];
     }
 
+    function moveObject(elmnt, point) {
+        var oldX = parseFloat(elmnt.style.left);
+        var oldY = parseFloat(elmnt.style.top);
+        var diffX = oldX - point.x;
+        var diffY = oldY - point.y;
+        elmnt.style.left = point.x + "px";
+        elmnt.style.top = point.y + "px";
+        if (elmnt.attached_objects)
+            elmnt.attached_objects.forEach(obj => {
+                var currX = parseFloat(obj.style.left);
+                var currY = parseFloat(obj.style.top);
+                currX -= diffX;
+                currY -= diffY;
+                obj.style.left = currX + "px";
+                obj.style.top = currY + "px";
+            });
+    }
+
+
+    function snapToGrid(elmnt) {
+
+        var positionOnTranslatedGrid = {
+            x: Math.round((elmnt.offsetLeft - gridMoveOffsetX) / cellSize) * cellSize,
+            y: Math.round((elmnt.offsetTop - gridMoveOffsetY) / cellSize) * cellSize
+        }
+
+        moveObject(elmnt, { x: positionOnTranslatedGrid.x + gridMoveOffsetX, y: positionOnTranslatedGrid.y + gridMoveOffsetY });
+
+    }
+
     return {
         init: init,
-        removePawn:removePawn,
-        removeAllPawns:removeAllPawns,
+        snapToGrid: snapToGrid,
+        removePawn: removePawn,
+        moveObject: moveObject,
+        removeAllPawns: removeAllPawns,
         onkeydown: onkeydown,
         onzoom: onzoom,
         gridCoords: gridCoords,

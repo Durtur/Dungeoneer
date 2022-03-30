@@ -3,6 +3,7 @@ enableGrid:true
 };
 var module = {}, previewPlacementElement;
 var addingFromMainWindow = false;
+
 function require() {
     return null;
 }
@@ -13,7 +14,8 @@ var soundManager;
 document.addEventListener("DOMContentLoaded", () => {
     soundManager = new SoundManager();
     soundManager.initialize();
-
+    visibilityLayerVisible = true;
+    fovLighting.setVisibilityLayerVisible(true);
     map.init();
 });
 
