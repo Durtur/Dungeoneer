@@ -1,0 +1,479 @@
+.animation_paused {
+    animation-play-state: paused !important;
+}
+
+.sound_effect{
+    background-image: url("../css/img/note.png");
+    position: absolute;
+    background-size: contain;
+}
+
+.effect_preview {
+    width: 2em;
+    height: 2em;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.dynamic_filter_hue {
+    animation-name: hueDifferentiate;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    transition: filter 300ms;
+}
+
+@keyframes hueDifferentiate {
+    50% {
+        filter: hue-rotate(10deg);
+    }
+    100% {
+        filter: hue-rotate(-10deg);
+    }
+}
+
+.dungeondraft_imported_light {
+    background-color: yellow;
+    border: 1px solid blue;
+}
+
+.light_effect_torch {
+    animation-name: lightEffectTorch;
+    animation-iteration-count: infinite;
+    background-image: radial-gradient(circle, rgb(255, 76, 5) 5%, rgba(255, 255, 0, 4), rgba(255, 0, 0, 0));
+    animation-duration: 0.5s;
+}
+
+.azure_orb {
+    background-image: radial-gradient(circle, rgb(255, 255, 255) 2%, rgb(72, 0, 255), rgba(255, 0, 0, 0));
+}
+
+.azure_light {
+    animation-name: lightSourceAzure;
+    background-color: rgba(0, 0, 255, 0.1);
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+    will-change: filter, box-shadow;
+}
+
+.emerald_light {
+    animation-name: lightSourceEmerald;
+    animation-iteration-count: infinite;
+    animation-duration: 1s;
+    will-change: filter, box-shadow;
+}
+
+.emerald_orb {
+    background-image: radial-gradient(circle, rgb(255, 255, 255) 2%, rgb(30, 79, 2), rgba(255, 0, 0, 0));
+}
+
+.maroon_light {
+    animation-name: lightSourceMaroon;
+    animation-iteration-count: infinite;
+    animation-duration: 2s;
+    will-change: filter, box-shadow;
+}
+
+.maroon_orb {
+    background-image: radial-gradient(circle, rgb(255, 255, 255) 2%, rgb(79, 2, 2), rgba(255, 0, 0, 0));
+}
+
+.chromatic_orb {
+    animation-name: lightSourceChromatic;
+    animation-iteration-count: infinite;
+    transition: background-image 5s;
+    will-change: filter, box-shadow, background-image;
+    animation-duration: 15s;
+    animation-direction: normal !important;
+}
+.light_effect_preview{
+    border-radius: 50%;
+    animation-direction: alternate;
+    background-size: contain;
+}
+
+.effect_dropdown_select{
+    margin:0.5em;
+}
+
+.light_effect {
+    width: 15px;
+    border-radius: 50%;
+    height: 15px;
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+    animation-direction: alternate;
+    background-size: contain;
+}
+
+.light_source_torch {
+    will-change: filter, box-shadow;
+    animation-name: lightSourceTorch;
+    animation-duration: 0.6s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes lightSourceTorch {
+    0% {
+        filter: drop-shadow(0 0 15px yellow) brightness(85%);
+        box-shadow: 0 0 5px 41px rgba(249, 253, 6, 0.238);
+    }
+    25% {
+        filter: drop-shadow(0 0 17px yellow) brightness(95%);
+        box-shadow: 0 0 7px 41px rgba(249, 253, 6, 0.238);
+    }
+    50% {
+        filter: drop-shadow(0 0 22px yellow) brightness(105%);
+        box-shadow: 0 0 12px 41px rgba(249, 253, 6, 0.238);
+    }
+    75% {
+        filter: drop-shadow(0 0 17px yellow) brightness(95%);
+        box-shadow: 0 0 7px 41px rgba(249, 253, 6, 0.238);
+    }
+    100% {
+        filter: drop-shadow(0 0 15px yellow) brightness(85%);
+        box-shadow: 0 0 5px 41px rgba(249, 253, 6, 0.238);
+    }
+}
+
+@keyframes lightEffectTorch {
+    0% {
+        filter: drop-shadow(0 0 15px yellow) brightness(85%);
+        box-shadow: 0 0 15px 41px rgba(255, 255, 0, 0.1);
+        transform: scale(0.85);
+    }
+    25% {
+        filter: drop-shadow(0 0 17px yellow) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(255, 255, 0, 0.1);
+        transform: scale(0.92);
+    }
+    50% {
+        filter: drop-shadow(0 0 22px yellow) brightness(105%);
+        box-shadow: 0 0 17px 43px rgba(255, 255, 0, 0.1);
+        transform: scale(1);
+    }
+    75% {
+        filter: drop-shadow(0 0 17px yellow) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(255, 255, 0, 0.1);
+        transform: scale(0.92);
+    }
+    100% {
+        filter: drop-shadow(0 0 15px yellow) brightness(85%);
+        box-shadow: 0 0 15px 41px rgba(255, 255, 0, 0.1);
+        transform: scale(0.85);
+    }
+}
+
+@keyframes lightSourceAzure {
+    0% {
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 15px 40px rgba(0, 0, 255, 0.1);
+    }
+    25% {
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(0, 0, 255, 0.1);
+    }
+    50% {
+        filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
+        box-shadow: 0 0 17px 45px rgba(0, 0, 255, 0.1);
+    }
+    75% {
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(0, 0, 255, 0.1);
+    }
+    100% {
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 17px 40px rgba(0, 0, 255, 0.1);
+    }
+}
+
+@keyframes lightSourceEmerald {
+    0% {
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 15px 40px rgba(0, 250, 0, 0.1);
+    }
+    25% {
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(0, 250, 0, 0.1);
+    }
+    50% {
+        filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
+        box-shadow: 0 0 17px 45px rgba(0, 250, 0, 0.1);
+    }
+    75% {
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(0, 250, 0, 0.1);
+    }
+    100% {
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 17px 40px rgba(0, 250, 0, 0.1);
+    }
+}
+
+@keyframes lightSourceMaroon {
+    0% {
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 15px 40px rgba(255, 0, 0, 0.1);
+    }
+    25% {
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(255, 0, 0, 0.1);
+    }
+    50% {
+        filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
+        box-shadow: 0 0 17px 45px rgba(255, 0, 0, 0.1);
+    }
+    75% {
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(255, 0, 0, 0.1);
+    }
+    100% {
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 17px 40px rgba(255, 0, 0, 0.1);
+    }
+}
+
+@keyframes lightSourceChromatic {
+    0% {
+        background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(2, 8, 79), rgba(255, 0, 0, 0));
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 15px 40px rgba(51, 0, 255, 0.1);
+    }
+    25% {
+        background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(55, 2, 79), rgba(255, 0, 0, 0));
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(0, 200, 255, 0.1);
+    }
+    50% {
+        background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(70, 2, 79), rgba(255, 0, 0, 0));
+        filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
+        box-shadow: 0 0 17px 45px rgba(71, 4, 83, 0.1);
+    }
+    75% {
+        background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(55, 2, 79), rgba(255, 0, 0, 0));
+        filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
+        box-shadow: 0 0 17px 42px rgba(0, 200, 255, 0.1);
+    }
+    100% {
+        filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
+        box-shadow: 0 0 17px 40px rgba(51, 0, 255, 0.1);
+        background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(2, 6, 79), rgba(255, 0, 0, 0));
+    }
+}
+
+.smoke {
+    border-radius: 50%;
+    will-change: filter;
+    z-index: 4;
+    animation-iteration-count: infinite;
+    box-shadow: 0 0 2px 5px rgba(255, 255, 255, 0.1);
+    animation-duration: 7s;
+    animation-name: smokeSmudge;
+}
+
+@keyframes smokeSmudge {
+    0% {
+        filter: blur(10px) brightness(85%);
+        transform: skew(-2deg, -2deg);
+        background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 75%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
+    }
+    25% {
+        filter: blur(14px) brightness(105%);
+        transform: skew(0, 0);
+        background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 69%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
+    }
+    50% {
+        filter: blur(12px) brightness(95%);
+        transform: skew(2deg, 2deg);
+        background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 98%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
+    }
+    75% {
+        filter: blur(15px) brightness(107%);
+        transform: skew(0, -0);
+        background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 68%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
+    }
+    100% {
+        filter: blur(11px) brightness(107%);
+        transform: skew(-2deg, -2deg);
+        background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 68%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
+    }
+}
+
+.poisonCloud {
+    border-radius: 50%;
+    will-change: filter;
+    z-index: 4;
+    animation-iteration-count: infinite;
+    box-shadow: 0 0 2px 5px rgba(255, 255, 255, 0.1);
+    animation-duration: 7s;
+    animation-name: poisonSmudge;
+}
+
+.pulse {
+    animation-iteration-count: infinite;
+    animation-duration: 3s;
+    animation-name: pulse;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(0.95);
+    }
+}
+
+.rotate_slow {
+    animation-iteration-count: infinite;
+    animation-duration: 7s;
+    animation-name: rotate;
+    animation-timing-function: linear;
+}
+
+.rotate_medium {
+    animation-iteration-count: infinite;
+    animation-duration: 4s;
+    animation-name: rotate;
+    animation-timing-function: linear;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(359deg)
+    }
+}
+
+@keyframes poisonSmudge {
+    0% {
+        filter: blur(10px) brightness(85%);
+        transform: skew(-2deg, -2deg);
+        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 75%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
+    }
+    25% {
+        filter: blur(14px) brightness(105%);
+        transform: skew(0, 0);
+        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 69%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
+    }
+    50% {
+        filter: blur(12px) brightness(95%);
+        transform: skew(2deg, 2deg);
+        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 98%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
+    }
+    75% {
+        filter: blur(15px) brightness(107%);
+        transform: skew(0, -0);
+        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 68%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
+    }
+    100% {
+        filter: blur(11px) brightness(107%);
+        transform: skew(-2deg, -2deg);
+        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 68%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
+    }
+}
+
+.elevated {
+    z-index: 8 !important;
+    pointer-events: auto !important;
+}
+
+.round {
+    border-radius: 50%;
+}
+
+.elevated:hover {
+    filter: drop-shadow(0 0 5px rgb(221, 255, 0)) !important;
+    animation-play-state: paused;
+}
+
+.sfx_effect {
+    position: absolute;
+    z-index: 3;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: none;
+}
+
+.jagged_shape {
+    z-index: 3;
+    clip-path: polygon(16% 11%, 14% 14%, 11% 17%, 10% 22%, 10% 26%, 9% 29%, 8% 32%, 9% 35%, 10% 38%, 10% 43%, 11% 45%, 10% 49%, 9% 52%, 9% 56%, 10% 59%, 10% 63%, 10% 66%, 8% 70%, 8% 73%, 9% 76%, 11% 77%, 14% 79%, 16% 82%, 19% 83%, 23% 83%, 25% 83%, 29% 85%, 32% 86%, 35% 85%, 37% 87%, 41% 89%, 44% 89%, 47% 89%, 51% 88%, 54% 86%, 57% 86%, 60% 88%, 64% 89%, 67% 89%, 69% 89%, 72% 86%, 75% 86%, 78% 87%, 81% 86%, 83% 85%, 86% 83%, 88% 80%, 88% 76%, 89% 73%, 90% 69%, 89% 66%, 88% 63%, 88% 59%, 90% 55%, 90% 53%, 91% 50%, 90% 46%, 88% 42%, 88% 39%, 88% 35%, 88% 31%, 88% 28%, 88% 25%, 87% 21%, 86% 17%, 84% 15%, 82% 12%, 77% 11%, 72% 11%, 68% 11%, 66% 10%, 62% 9%, 58% 9%, 54% 9%, 52% 7%, 48% 7%, 45% 9%, 41% 11%, 38% 10%, 35% 10%, 32% 10%, 29% 9%, 26% 10%, 23% 10%, 20% 10%);
+}
+
+.white_hue {
+    filter: drop-shadow(0 0 27px rgba(255, 255, 255, 0.6));
+}
+
+.fog {
+    border-radius: 50%;
+    will-change: filter, background-image;
+    z-index: 4;
+    animation-iteration-count: infinite;
+    box-shadow: 0 0 2px 5px rgba(255, 255, 255, 0.1);
+    animation-duration: 7s;
+    animation-name: fogSmudge;
+}
+
+@keyframes fogSmudge {
+    0% {
+        filter: blur(10px) brightness(85%);
+        transform: skew(-2deg, -2deg);
+        background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
+    }
+    25% {
+        filter: blur(14px) brightness(105%);
+        transform: skew(0, 0);
+        background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
+    }
+    50% {
+        filter: blur(12px) brightness(95%);
+        transform: skew(2deg, 2deg);
+        background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
+    }
+    75% {
+        filter: blur(15px) brightness(107%);
+        transform: skew(0, -0);
+        background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
+    }
+    100% {
+        filter: blur(11px) brightness(107%);
+        transform: skew(-2deg, -2deg);
+        background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
+    }
+}
+
+.repeating_bg {
+    background-size: contain;
+    background-repeat: repeat;
+}
+
+.token_status {
+    pointer-events: none;
+    opacity: 0.6;
+    background-size: cover;
+    overflow: visible;
+    width: 100%;
+    height: 100%;
+}
+
+.pawn_wound_near_death {
+    background-image: url("../css/img/wound.png");
+    width: 100%;
+}
+
+.pawn_wound_wounded {
+    background-image: url("../css/img/wound.png");
+    width: 55%;
+}
+
+.pawn_wound_bloodied {
+    background-image: url("../css/img/wound.png");
+    width: 40%;
+}

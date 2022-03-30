@@ -107,14 +107,24 @@ function setState(message) {
             setMapEdge(toBase64Url(dataBuffer[message.messageType]));
             break;
         case "foreground":
-            setMapForegroundAsBase64(toBase64Url(dataBuffer[message.messageType]), message.data.metadata.width);
+            clientSetForeground(message)
             break;
-        case "tokens":
+        case "background":
+            setMapBackgroundAsBase64(toBase64Url(dataBuffer[message.messageType]), message.data.metadata.width, message.data.metadata.height);
+            break;
+        case "tokens-set":
+            map.removeAllPawns();
             importTokens(dataBuffer[message.messageType]);
             break;
         case "constants":
             constants = message.data;
             creaturePossibleSizes = constants.creaturePossibleSizes;
+            break;
+        case "overlayLoop":
+            overlayLoop.loadSlideState(message.data);
+            break;
+        case "backgroundLoop":
+            backgroundLoop.loadSlideState(message.data);
             break;
     }
 
@@ -123,6 +133,17 @@ function setState(message) {
     // foreground: mt.currentMap ? await util.toBase64(mt.currentMap) : null,
     // background: mt.currentBackground ? await util.toBase64(mt.currentBackground) : null,
     // mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null
+}
+
+function clientSetForeground(message) {
+    setMapForegroundAsBase64(toBase64Url(dataBuffer[message.messageType]), message.data.metadata.width, message.data.metadata.height);
+
+    if (message.data.metadata.translate) {
+        var trsl = message.data.metadata.translate;
+        foregroundCanvas.data_transform_x = trsl.x;
+        foregroundCanvas.data_transform_y = trsl.y;
+        foregroundCanvas.style.transform = `translate(${trsl.x}px, ${trsl.y}px)`
+    }
 }
 
 function importTokens(tokenStr) {

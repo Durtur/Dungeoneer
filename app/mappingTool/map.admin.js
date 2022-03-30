@@ -89,6 +89,8 @@ function loadSettings() {
 
 
 function saveSettings() {
+    console.log("Saving settings");
+    console.log(settings)
     dataAccess.getSettings(function (data) {
         data.maptool = settings;
         dataAccess.saveSettings(data);
@@ -261,7 +263,7 @@ function onSettingsLoaded() {
     console.log("Settings loaded");
     resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
     map.init();
-  
+
     recentMaps.initialize(document.querySelector("#recent_maps_button>ul"));
     mapLibrary.initialize();
     Menu.initialize();
@@ -419,7 +421,7 @@ function getMapWidthFromFileName(path, width) {
     var str = basename.substring(idx, idx2);
     str = str.replace("[", "").replace("]", "");
     var whArr = str.split("x");
-    return parseInt(whArr[0]) * cellSize || width;
+    return parseInt(whArr[0]) * originalCellSize || width;
 }
 
 var saveTimer;
@@ -678,14 +680,14 @@ async function setPawnImageWithDefaultPath(pawnElement, path) {
             break;
         }
     }
-
+    possibleNames = possibleNames.map(x => x.replace(/\\/g, "/"))
     if (possibleNames.length > 0) {
-        tokenPath = "url('" + possibleNames.pickOne().replace(/\\/g, "/") + "')";
+        tokenPath = possibleNames.pickOne();
     } else {
-        tokenPath = " url('mappingTool/tokens/default.png')";
+        tokenPath = 'mappingTool/tokens/default.png';
     }
-
-    pawnElement.getElementsByClassName("token_photo")[0].style.backgroundImage = tokenPath;
+    pawnElement.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(possibleNames))
+    pawnElement.getElementsByClassName("token_photo")[0].style.backgroundImage = `url('${tokenPath}')`;
 }
 
 async function setPawnMobBackgroundImages(pawn, path) {
@@ -766,7 +768,7 @@ function raiseConditionsChanged(pawn) {
 
 function removeSelectedPawn() {
     while (selectedPawns.length > 0) {
-        removePawn(selectedPawns.pop());
+        map.removePawn(selectedPawns.pop());
     }
 
 

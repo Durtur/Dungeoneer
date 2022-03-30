@@ -33,7 +33,7 @@
 
             <div class="toolbar ">
                 <button class="button_style help_button" onclick="Util.showOrHide('help_tool_tip', 1)">Help</button>
-                <button class="button_style help_button" id = "open_server_button">Server</button>
+                <button class="button_style help_button" id="open_server_button">Server</button>
                 <div class="dropdown">
                     <ul>
                         <li class="dropdown_root"><a class="button_style " href="#">Map</a>
@@ -59,19 +59,18 @@
                         <li class="dropdown_root"><a class="button_style " href="#">Layers</a>
                             <ul class="dropdown_content">
                                 <li><a href="#" class="button_style" id="overlay_menu_button">Overlay</a>
-                                    <ul>
+                                    <ul id="overlay_loop_menu">
                                         <li><a href="#" id="overlay_button" class="button_style">Image</a></li>
                                         <li><a href="#" id="clear_overlay_button" href="#" class="button_style"
                                                 title="Clears the overlay to default">Clear</a></li>
                                         <div class="menu_seperator"></div>
                                         <li>
                                             <div class="row">
-                                                <label class="button_style_label" style="width: 100%;"
-                                                    for="slide_speed_input">
+                                                <label class="button_style_label" style="width: 100%;">
                                                     Slide speed:
                                                 </label>
                                                 <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="overlayLoop.updateSlideSpeed()" id="slide_speed_input"
+                                                    onchange="overlayLoop.updateSlideSpeed()" class="slide_speed_input"
                                                     value="1" step="0.1">
                                             </div>
                                         </li>
@@ -95,19 +94,18 @@
                                                 reverse slide</a></li>
 
                                         <div class="menu_seperator"></div>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                id="toggle_bob_animation_button" toggled="false"
+                                        <li><a class="button_style toggle_button background_slide_button toggle_bob_animation_button"
+                                                toggled="false"
                                                 onclick="overlayLoop.toggleBobAnimation()">Sway
                                                 overlay</a></li>
                                         <li>
                                             <div class="row">
-                                                <label class="button_style_label" style="width: 100%;"
-                                                    for="overlay_bob_amount_input">
+                                                <label class="button_style_label" style="width: 100%;">
                                                     Sway amount:
                                                 </label>
                                                 <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="overlayLoop.updateBobAmount()"
-                                                    id="overlay_bob_amount_input" value="1" step="0.1">
+                                                    onchange="overlayLoop.updateBobAmount()" class="bob_amount_input"
+                                                    value="1" step="0.1">
                                             </div>
                                         </li>
                                     </ul>
@@ -126,7 +124,7 @@
 
 
                                 <li><a href="#" class="button_style" id="background_menu_button">Background</a>
-                                    <ul>
+                                    <ul id="background_loop_menu">
                                         <li><a href="#" id="background_button" class="button_style">Image</a></li>
                                         <li><a href="#" id="clear_background_button" href="#" class="button_style"
                                                 title="Clears the background to default">Clear</a></li>
@@ -134,11 +132,11 @@
                                         <li>
                                             <div class="row">
                                                 <label class="button_style_label" style="width: 100%;"
-                                                    for="slide_speed_input">
+                                                  >
                                                     Slide speed:
                                                 </label>
                                                 <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="backgroundLoop.updateSlideSpeed()" id="slide_speed_input"
+                                                    onchange="backgroundLoop.updateSlideSpeed()" class="slide_speed_input"
                                                     value="1" step="0.1">
                                             </div>
                                         </li>
@@ -166,18 +164,17 @@
                                                 reverse slide</a></li>
 
                                         <div class="menu_seperator"></div>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                id="toggle_bob_animation_button" toggled="false"
+                                        <li><a class="button_style toggle_button background_slide_button toggle_bob_animation_button"
+                                                toggled="false"
                                                 onclick="backgroundLoop.toggleBobAnimation()">Sway
                                                 background</a></li>
                                         <li>
                                             <div class="row">
-                                                <label class="button_style_label" style="width: 100%;"
-                                                    for="bob_amount_input">
+                                                <label class="button_style_label" style="width: 100%;">
                                                     Sway amount:
                                                 </label>
                                                 <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="backgroundLoop.updateBobAmount()" id="bob_amount_input"
+                                                    onchange="backgroundLoop.updateBobAmount()" class="bob_amount_input"
                                                     value="1" step="0.1">
                                             </div>
                                         </li>
@@ -511,12 +508,12 @@
                     </select>
 
                     <input type="text" value='rgba(255,255,255,0.5)' title="Base color"
-                    id="background_color_button_add_pawn">
+                        id="background_color_button_add_pawn">
                     <button class="button_style green padding1"
                         title="Choose icon. If nothing is chosen, a default for the creature name is shown. If multiple files are chosen, one will be chosen randomly for each pawn."
                         id="icon_load_button_add_pawn" class="button_style">Choose Token</button>
 
-                 
+
 
                 </div>
                 <div class="hidden row padding1" id="add_pawn_selected_row"></div>

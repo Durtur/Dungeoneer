@@ -100,12 +100,9 @@ document.addEventListener("DOMContentLoaded", function () {
         container.data_transform_y = 0;
     });
 
-    // foregroundCanvas.data_transform_x = 0;
-    // foregroundCanvas.data_transform_y = 0;
-
     gridLayer.onmousedown = generalMousedowngridLayer;
-    backgroundLoop = new SlideCanvas(document.getElementById("background"));
-    overlayLoop = new SlideCanvas(document.getElementById("overlay"));
+    backgroundLoop = new SlideCanvas(document.getElementById("background"), "background_loop_menu");
+    overlayLoop = new SlideCanvas(document.getElementById("overlay"), "overlay_loop_menu");
     document.addEventListener("visibilitychange", function () {
         if (document.hidden) {
             suspendAllAnimations();
@@ -281,8 +278,11 @@ function setForegroundHelper(path, width, height) {
     foregroundCanvas.style.width = width + "px";
     foregroundCanvas.style.height = height + "px";
     settings.gridSettings.mapSize = width;
-    settings.gridSettings.heightToWidthRatio = foregroundCanvas.heightToWidthRatio;
 
+    settings.gridSettings.foregroundHeight = height;
+
+    toggleSaveTimer();
+    serverNotifier.notifyServer("foreground", { path: path, width: width, height: height });
 }
 
 function setMapForeground(path, width) {
@@ -297,6 +297,7 @@ function setMapForeground(path, width) {
     var img = new Image();
     if (settings.matchSizeWithFileName) {
         width = getMapWidthFromFileName(path, width);
+
     }
     img.onload = function () {
         var mapWidth = width ? width : img.width;
@@ -310,9 +311,45 @@ function setMapForeground(path, width) {
     }
     img.src = path;
     settings.currentMap = path;
-    serverNotifier.notifyServer("foreground", { path: path, width: width });
 
 }
+
+function setMapBackgroundAsBase64(path, width, height) {
+    setMapBackgroundHelper(path, width, height);
+}
+
+
+function setMapBackgroundHelper(path, width, height) {
+    console.log(width, height)
+    settings.gridSettings.mapBackgroundSize = width;
+    backgroundCanvas.heightToWidthRatio = height / width;
+
+    backgroundCanvas.style.backgroundImage = path;
+    resizeBackground(width);
+}
+
+function setMapBackground(path, desiredWidth) {
+    var btn = document.getElementById("background_button");
+    settings.currentBackground = path;
+    if (!path) {
+        backgroundCanvas.style.backgroundImage = 'none';
+        btn.innerHTML = "Image";
+        return;
+    }
+    if (settings.matchSizeWithFileName) {
+        desiredWidth = getMapWidthFromFileName(path, desiredWidth);
+    }
+    btn.innerHTML = pathModule.basename(path);
+    var img = new Image();
+
+    img.onload = function () {
+
+        setMapBackgroundHelper('url("' + path + '")', img.width, img.height);
+        if (desiredWidth) resizeBackground(desiredWidth);
+    }
+    img.src = path;
+}
+
 
 function resizeForeground(newWidth) {
     foregroundCanvas.style.width = newWidth + "px";
@@ -326,6 +363,7 @@ function resizeForeground(newWidth) {
 }
 
 function resizeBackground(newWidth) {
+    console.log(`Resize background ${newWidth}`)
     backgroundCanvas.style.width = newWidth + "px";
     backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
     (document.getElementById("background_size_slider") || {}).value = newWidth;
@@ -339,27 +377,6 @@ function resizeOverlay(newWidth) {
     (document.getElementById("overlay_size_slider") || {}).value = newWidth;
     toggleSaveTimer();
     window.setTimeout(() => serverNotifier.notifyServer("overlay-size", { width: newWidth }), 1000);
-}
-function setMapBackground(path, width) {
-    var btn = document.getElementById("background_button");
-    settings.currentBackground = path;
-    if (!path) {
-        backgroundCanvas.style.backgroundImage = 'none';
-        btn.innerHTML = "Image";
-        return;
-    }
-    if (settings.matchSizeWithFileName) {
-        width = getMapWidthFromFileName(path, width);
-    }
-    btn.innerHTML = pathModule.basename(path);
-    backgroundCanvas.style.backgroundImage = 'url("' + path + '")';
-    var img = new Image();
-    settings.gridSettings.mapBackgroundSize = width;
-    img.onload = function () {
-        backgroundCanvas.heightToWidthRatio = img.height / img.width;
-        resizeBackground(width ? width : img.width);
-    }
-    img.src = path;
 }
 
 
@@ -554,7 +571,7 @@ function zoomIntoMap(event, resizeAmount, onZoomed) {
 
         gridMoveOffsetX -= moveMapX;
         gridMoveOffsetY -= moveMapY;
-        console.log(bgX, bgY, moveMapX, moveMapY)
+
         moveMap(bgX, bgY);
 
         newRect = foregroundCanvas.getBoundingClientRect();
@@ -645,25 +662,6 @@ function showToolTip(event, text, tooltipId) {
 }
 
 
-function removePawn(element) {
-    var isPlayer = isPlayerPawn(element);
-    if (!isPlayer) {
-        var indexInLoadedMonsters = -1;
-        for (var i = 0; i < loadedMonsters.length; i++) {
-            if (loadedMonsters[i][0] === element) {
-                indexInLoadedMonsters = i;
-            }
-        }
-
-        if (loadedMonstersFromMain.indexOf(element) >= 0) {
-            loadedMonstersFromMain.splice(loadedMonstersFromMain.indexOf(element), 1);
-        }
-
-        loadedMonsters.splice(indexInLoadedMonsters - 1, 1);
-        pawns.monsters.splice(pawns.monsters.indexOf(element), 1);
-    }
-    element.parentNode.removeChild(element);
-}
 
 function elevatePawn() {
     selectedPawns.forEach((pawn) => elevatePawnHelper(pawn))
@@ -792,7 +790,7 @@ function refreshMobBackgroundImages(pawn) {
     }
 
     var allTokens = [...pawn.querySelectorAll(".mob_token")];
-    if (allTokens.length == 0) return removePawn(pawn);
+    if (allTokens.length == 0) return map.removePawn(pawn);
     //Make them dead  
 
     var alivePawns = allTokens.filter(x => !x.classList.contains("mob_token_dead"));
@@ -817,7 +815,7 @@ function refreshMobBackgroundImages(pawn) {
     }
     effectManager.resizeEffects();
     if ([...pawn.querySelectorAll(".mob_token")].length == 0) {
-        return removePawn(pawn);
+        return map.removePawn(pawn);
     }
 
     var deltaMax = 2;
@@ -966,7 +964,7 @@ function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
     } else {
         var rand = Math.round(Math.random() * (paths.length - 1));
         paths.forEach(path => {
-            path =cssify ? Util.cssify(path) : path;
+            path = cssify ? Util.cssify(path) : path;
             tokenPaths.push(path);
         })
         pathString = Util.cssify(paths[rand]);
@@ -1184,7 +1182,7 @@ function dragPawn(elmnt) {
         measurements.clearMeasurements();
         originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }
         tooltip.classList.add("hidden");
-  
+
     }
 }
 
@@ -1643,7 +1641,7 @@ function refreshFogOfWar(timestamp) {
 /* #endregion */
 
 var map = function () {
-    function init(){
+    function init() {
         refreshPawns();
         setupGridLayer();
         resizeAndDrawGrid();
@@ -1757,8 +1755,38 @@ var map = function () {
         return { x: cellsX * cellSize + backgroundOriginX, y: cellsY * cellSize + backgroundOriginY }
     }
 
+
+    function removePawn(element) {
+        console.log()
+        var isPlayer = isPlayerPawn(element);
+        if (!isPlayer) {
+            var indexInLoadedMonsters = -1;
+            for (var i = 0; i < loadedMonsters.length; i++) {
+                if (loadedMonsters[i][0] === element) {
+                    indexInLoadedMonsters = i;
+                }
+            }
+
+            if (loadedMonstersFromMain.indexOf(element) >= 0) {
+                loadedMonstersFromMain.splice(loadedMonstersFromMain.indexOf(element), 1);
+            }
+
+            loadedMonsters.splice(indexInLoadedMonsters - 1, 1);
+            pawns.monsters.splice(pawns.monsters.indexOf(element), 1);
+        }
+        element.parentNode.removeChild(element);
+    }
+
+    function removeAllPawns() {
+        [... document.querySelectorAll(".pawn")].forEach(x=> x.parentNode.removeChild(x));
+        loadedMonsters = [];
+        pawns.players = [];
+    }
+
     return {
-        init:init,
+        init: init,
+        removePawn:removePawn,
+        removeAllPawns:removeAllPawns,
         onkeydown: onkeydown,
         onzoom: onzoom,
         gridCoords: gridCoords,

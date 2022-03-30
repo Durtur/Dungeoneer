@@ -170,17 +170,17 @@ function sendMaptoolState(maptoolState) {
 
 
             var dataObject = {
-                foreground: mt.currentMap ? await util.toBase64(mt.currentMap) : null,
-                background: mt.currentBackground ? await util.toBase64(mt.currentBackground) : null,
+                foreground: maptoolState.foreground.path ? await util.toBase64(maptoolState.foreground.path) : null,
+                background: maptoolState.background.path ? await util.toBase64(maptoolState.background.path) : null,
                 mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null,
-                overlay: mt.currentOverlay ? await util.toBase64(mt.currentOverlay) : null,
+                overlay: maptoolState.overlay.path ? await util.toBase64(maptoolState.overlay.path) : null,
             };
             peer.connection.send({ messageType: "constants", data: constants })
 
-            sendBatched(peer.connection, "foreground", dataObject.foreground, { width: mt.gridSettings.mapSize });
+            sendBatched(peer.connection, "foreground", dataObject.foreground, { width: maptoolState.foreground.width, height: maptoolState.foreground.height, translate: maptoolState.foreground.translate });
             sendBatched(peer.connection, "map_edge", dataObject.mapEdge)
-            sendBatched(peer.connection, "background", dataObject.background, { width: mt.gridSettings.mapBackgroundSize });
-            sendBatched(peer.connection, "overlay", dataObject.overlay, { width: mt.gridSettings.mapOverlaySize });
+            sendBatched(peer.connection, "background", dataObject.background, { width: maptoolState.background.width, height: maptoolState.background.height });
+            sendBatched(peer.connection, "overlay", dataObject.overlay, { width: maptoolState.overlay.width, height: maptoolState.overlay.height });
             var distinctTokenImages = [... new Set(maptoolState.tokens.map(x => x.bgPhoto))];
             console.log(maptoolState.tokens.map(x => x.bgPhoto))
             for (var i = 0; i < distinctTokenImages.length; i++) {
@@ -197,12 +197,13 @@ function sendMaptoolState(maptoolState) {
                 });
             }
             var tokenJSON = JSON.stringify(maptoolState.tokens);
-            console.log(maptoolState.tokens)
-            sendBatched(peer.connection, "tokens", tokenJSON);
-
+         
+            sendBatched(peer.connection, "tokens-set", tokenJSON);
+            peer.connection.send({messageType:"backgroundLoop", data:maptoolState.backgroundLoop})
+            peer.connection.send({messageType:"overlayLoop", data:maptoolState.overlayLoop})
+ 
             // tokens: tokens,
-            // backgroundLoop: bgState,
-            // overlayLoop: overlayState,
+
             // effects: getEffectsForExport()
         }
     });

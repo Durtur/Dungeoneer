@@ -1,8 +1,9 @@
 
 
 class SlideCanvas {
-    constructor(canvas) {
+    constructor(canvas, menuId) {
         this.slideCanvas = canvas;
+        this.menu = document.getElementById(menuId);
         this.background_slide_speed = 1;
         this.background_slide_animation_frame = null;
         this.direction = 1;
@@ -18,7 +19,12 @@ class SlideCanvas {
 
     }
     toggleBackgroundSlide(button) {
-        this.setBackgroundSlide(button.getAttribute("data-slide"));
+
+        if (button.getAttribute("toggled") == "true") {
+            this.setBackgroundSlide(null);
+        } else {
+            this.setBackgroundSlide(button.getAttribute("data-slide"));
+        }
     }
     setBackgroundSlide(animation) {
         var _this = this;
@@ -28,6 +34,11 @@ class SlideCanvas {
         if (this.background_slide_animation_frame) {
             window.cancelAnimationFrame(this.background_slide_animation_frame);
             this.background_slide_animation_frame = null;
+            if (animation == null) {
+                this.slideCanvas.style.backgroundPositionX = "0";
+                this.slideCanvas.style.backgroundPositionY = "0";
+                return;
+            }
         }
         if (!this.slideCanvas.style.backgroundPositionX)
             this.slideCanvas.style.backgroundPositionX = "0";
@@ -82,7 +93,7 @@ class SlideCanvas {
 
 
     updateBobAmount() {
-        this.bobMultiplier = parseFloat(document.getElementById("bob_amount_input").value);
+        this.bobMultiplier = parseFloat(this.menu.querySelector(".bob_amount_input").value);
     }
 
     toggleBobAnimation() {
@@ -97,6 +108,7 @@ class SlideCanvas {
         }
 
         function bobAnimate() {
+
             cls.bobCountX += cls.bobStep;
             cls.bobCountY += cls.bobStep;
             var valX = 1 - cls.easinOut(cls.bobCountX);
@@ -129,38 +141,52 @@ class SlideCanvas {
     easinOut(k) {
 
         return Math.pow(k, 1.675);
-        // .5 * (Math.sin((k - .5) * Math.PI) + 1);
-        //    return Math.sin(k);
+
     }
     updateSlideSpeed() {
         this.background_slide_speed = document.getElementById("slide_speed_input").value;
     }
     saveSlideState(saveObject) {
-        var toggledSlideButton = [...document.querySelectorAll(".background_slide_button")].find(x => x.getAttribute("toggled") == "true");
-        saveObject.bg_slide_speed = document.getElementById("slide_speed_input").value;
-        if (toggledSlideButton) {
-            saveObject.bg_slide_type = toggledSlideButton.getAttribute("data-slide");
-        }
+        saveObject.bg_slide_speed = this.background_slide_speed;
+        saveObject.bg_slide_type = this.currentAnimation;
         if (this.bobAnimation) {
-            saveObject.bobMultiplier = parseFloat(document.getElementById("bob_amount_input").value);
+            saveObject.bobMultiplier = this.bobMultiplier;
             saveObject.bobAnimate = true;
         }
     }
     loadSlideState(data) {
-        console.log(data);
+
         if (data.bg_slide_type) {
-            if (data.bg_slide_speed) document.getElementById("slide_speed_input").value = data.bg_slide_speed;
-            var button = [...document.querySelectorAll(".background_slide_button")].find(x => x.getAttribute("data-slide") == data.bg_slide_type);
-            console.log(button);
-            button.click();
+            if (data.bg_slide_speed) {
+                this.background_slide_speed = data.bg_slide_speed;
+                if (this.menu)
+                    this.menu.querySelector(".slide_speed_input").value = data.bg_slide_speed;
+            }
+            if (this.menu) {
+                var button = [...this.menu.querySelectorAll(".background_slide_button")].find(x => x.getAttribute("data-slide") == data.bg_slide_type);
+                button.click();
+            } else {
+                this.setBackgroundSlide(data.bg_slide_type);
+            }
+
         }
         if (data.bobAnimate) {
             if (data.bobMultiplier) {
-                document.getElementById("bob_amount_input").value = data.bobMultiplier;
-                this.updateBobAmount();
+                if (this.menu) {
+                    this.menu.querySelector(".bob_amount_input").value = data.bobMultiplier;
+                    this.updateBobAmount();
+                } else {
+                    this.bobMultiplier = data.bobMultiplier;
+                }
             }
-            if (!this.bobAnimation)
-                document.getElementById("toggle_bob_animation_button").click();
+            if (!this.bobAnimation) {
+                if(this.menu){
+                    console.log(this.menu.querySelector(".toggle_bob_animation_button"))
+                    this.menu.querySelector(".toggle_bob_animation_button").click();
+                }else{
+                    this.toggleBobAnimation()
+                }
+            }
         }
     }
 }

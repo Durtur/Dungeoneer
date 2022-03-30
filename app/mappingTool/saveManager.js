@@ -109,7 +109,7 @@ class SaveManager {
     }
 
     loadMapFileDialog(callback) {
-        var extensions = this.supportedMapTypes();
+        var extensions = this.supportedMapTypes().concat(constants.imgFilters);
         var path = window.dialog.showOpenDialogSync(
             {
                 properties: ['openFile'],
@@ -233,7 +233,7 @@ class SaveManager {
         var element = pawn[0];
         var img = element.querySelector(".token_photo");
         var images = JSON.parse(img.getAttribute("data-token_facets"));
-     
+        
         var currentIndex = parseInt(img.getAttribute("data-token_current_facet")) || 0;
         return {
             name: pawn[1],

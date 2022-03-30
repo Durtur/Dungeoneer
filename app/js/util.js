@@ -238,6 +238,8 @@ module.exports = function () {
         if (!sharp || !path)
             return null;
 
+        if(path.includes("?"))
+            path = path.substring(0, path.lastIndexOf("?"));
         try {
             console.log(`Converting ${path}, shrink ${shrink}`)
             var shrp = sharp(path)

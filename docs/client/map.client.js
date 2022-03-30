@@ -13,6 +13,7 @@ var soundManager;
 document.addEventListener("DOMContentLoaded", () => {
     soundManager = new SoundManager();
     soundManager.initialize();
+
     map.init();
 });
 
@@ -35,6 +36,10 @@ function generalMousedowngridLayer(event) {
     } else if (event.button == 1) {
         startMovingMap(event);
     }
+}
+
+function notifySelectedPawnsChanged (){
+    //Do something 
 }
 
 
