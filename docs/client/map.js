@@ -245,10 +245,11 @@ function setTool(source, toolIndex) {
     measurementTargetOrigin = null;
     measurementTargetDestination = null;
     measurementPaused = false;
-    console.log(`Set tool ${toolIndex}`)
+    console.log(`Set tool ${toolIndex}`, source.getAttribute("toggled"))
     measurements.clearMeasurements();
     if (source.getAttribute("toggled") === "false") {
         gridLayer.onmousedown = measurements.startMeasuring;
+        gridLayer.ontouchstart = measurements.startMeasuring;
         toolbox[toolIndex] = true;
         gridLayer.style.cursor = "crosshair";
         tooltip.classList.add("hidden");
@@ -261,6 +262,7 @@ function setTool(source, toolIndex) {
         stopMeasuring(null, true);
         //toggle button handler will then set to false
         source.setAttribute("toggled", "true");
+        measurements.clearMeasurements();
 
     }
 }
@@ -292,8 +294,8 @@ function setMapForeground(path, width) {
         btn.innerHTML = "Image";
         return;
     }
-
-    btn.innerHTML = pathModule.basename(path);
+    if (btn)
+        btn.innerHTML = pathModule.basename(path);
     var img = new Image();
     if (settings.matchSizeWithFileName) {
         width = getMapWidthFromFileName(path, width);
@@ -462,18 +464,25 @@ function startMovingMap(e) {
 
     var dragMoveTimestamp;
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-    pos3 = e.clientX;
-    pos4 = e.clientY;
+    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    pos3 = clientX;
+    pos4 = clientY;
+    console.log(pos3, pos4);
     document.onmouseup = function (event) {
         document.onmouseup = null;
         document.onmousemove = null;
+        document.ontouchmove = null;
         gridLayer.style.cursor = "auto";
     };
+
+    document.ontouchmove = dragMoveMap;
     document.onmousemove = dragMoveMap;
     function dragMoveMap(e) {
+
         draggingMap = true;
         e = e || window.event;
+
         e.preventDefault();
         window.requestAnimationFrame(function (timestamp) {
             if (dragMoveTimestamp == timestamp) {
@@ -481,10 +490,14 @@ function startMovingMap(e) {
             } else {
                 dragMoveTimestamp = timestamp;
             }
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
+            clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+            pos1 = pos3 - clientX;
+            pos2 = pos4 - clientY;
+            pos3 = clientX;
+            pos4 = clientY;
+
             // Move bg
             var container = mapContainers[0];
             var bgX = container.data_transform_x;
@@ -657,9 +670,10 @@ function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
 
 function showToolTip(event, text, tooltipId) {
     var tooltip = document.getElementById(tooltipId);
-
-    tooltip.style.top = event.clientY - 50 + "px";;
-    tooltip.style.left = event.clientX + "px";;
+    var clientX = event.clientX || event.touches[0].clientX;
+    var clientY = event.clientY || event.touches[0].clientY;
+    tooltip.style.top = clientY - 50 + "px";;
+    tooltip.style.left = clientX + "px";;
     tooltip.innerHTML = "0 ft";
     tooltip.innerHTML = text;
     tooltip.classList.remove("hidden");
@@ -882,8 +896,10 @@ function stopMeasuring(event, ignoreClick) {
         }
         tooltip.classList.add("hidden");
         document.onmousemove = null;
-        totalMeasuredDistance = 0;
         document.onmouseup = null;
+        document.ontouchmove = null;
+        document.ontouchend = null;
+        totalMeasuredDistance = 0;
         measurementTargetOrigin = null;
         measurementTargetDestination = null;
         measurementPaused = false;
@@ -997,9 +1013,9 @@ function isPlayerPawn(pawnElement) {
     return false;
 }
 
-function resetGridLayer(){
+function resetGridLayer() {
     gridLayer.onmousedown = generalMousedowngridLayer;
-    gridLayer.ontouchstart = generalMousedowngridLayer;
+    gridLayer.ontouchstart = startMovingMap;
     gridLayer.style.cursor = "auto";
 }
 
@@ -1008,11 +1024,13 @@ var selectedPawns = [];
 function dragPawn(elmnt) {
     var posX = 0, posY = 0, pos3 = 0, pos4 = 0, originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }, oldLine;
     elmnt.onmousedown = dragMouseDown;
+    elmnt.ontouchstart = dragMouseDown;
     var tooltip = document.getElementById("tooltip");
     var distance;
     var offsetX, offsetY;
 
     function dragMouseDown(e) {
+        console.log(e)
         if (elmnt.data_overload_click) return elmnt.data_overload_click(e);
         //Line tool
         if (toolbox[0]) {
@@ -1033,7 +1051,7 @@ function dragPawn(elmnt) {
             }
             return measurements.startMeasuring(e);
         }
-        if (e.buttons == 1) {
+        if (e.buttons == 1 || e.touches) {
             //Multiple select
             if (e.ctrlKey) {
                 if (isPawn(e.target)) {
@@ -1061,11 +1079,13 @@ function dragPawn(elmnt) {
                 e.preventDefault();
 
                 // get the mouse cursor position at startup:
-                pos3 = e.clientX;
-                pos4 = e.clientY;
+                pos3 = e.clientX || e.touches[0].clientX;
+                pos4 = e.clientY || e.touches[0].clientY;
                 document.onmouseup = closeDragElement;
+                document.ontouchend = closeDragElement;
                 // call a function whenever the cursor moves:
                 document.onmousemove = elementDrag;
+                document.ontouchmove = elementDrag;
 
 
             }
@@ -1093,10 +1113,12 @@ function dragPawn(elmnt) {
 
             e.preventDefault();
             // calculate the new cursor position:
-            posX = pos3 - e.clientX;
-            posY = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
+            var clientX = e.clientX || e.touches[0].clientX;
+            var clientY = e.clientY || e.touches[0].clientY;
+            posX = pos3 - clientX;
+            posY = pos4 - clientY;
+            pos3 = clientX;
+            pos4 = clientY;
             window.clearTimeout(eleMovedEventDelay);
             eleMovedEventDelay = window.setTimeout(onPawnsMoved, eleMovedEventDelay)
 

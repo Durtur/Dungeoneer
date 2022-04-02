@@ -215,7 +215,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     });
-
+    resetGridLayer();
     tokenDialog.initialize();
 
 });

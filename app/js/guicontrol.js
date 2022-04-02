@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var toggleButtons = document.querySelectorAll(".toggle_button");
     toggleButtons.forEach(function (button) {
         button.addEventListener("click", function () {
+  
             if (this.getAttribute("toggled") === "false") {
                 if (this.getAttribute("toggleGroup") != null) {
 

@@ -31,8 +31,8 @@ let measurements = function () {
         measurementsLayerContext.setLineDash(lastLineDash);
     }
     function startMeasuring(event) {
-
-        if (event.button != 0) {
+        console.log(event.button)
+        if (event.button != null && event.button != 0) {
             lastMeasuredPoint = null;
             return;
         }
@@ -63,14 +63,19 @@ let measurements = function () {
 
                 }
                 document.onmousemove = measureDistance;
+                document.ontouchmove = measureDistance;
             } else if (toolbox[1]) {
                 document.onmousemove = measureCone;
+                document.ontouchmove = measureCone;
             } else if (toolbox[2]) {
                 document.onmousemove = measureSphere;
+                document.ontouchmove = measureSphere
             } else if (toolbox[3]) {
                 document.onmousemove = measureCube;
+                document.ontouchmove = measureCube
             } else if (toolbox[4]) {
                 document.onmousemove = measureRectangle;
+                document.ontouchmove = measureRectangle
             } else {
                 return;
             }
@@ -93,15 +98,17 @@ let measurements = function () {
         }
 
         hideAllTooltips();
-        measurementsLayerContext.moveTo(event.clientX, event.clientY);
+        var clientX = event.clientX || event.touches[0].clientX;
+        var clientY = event.clientX || event.touches[0].clientY;
+        measurementsLayerContext.moveTo(clientX, clientY);
         document.onmousedown = measurementMouseDownHandler;
 
 
         if (measurementTargetOrigin == null) {
-            measurementOriginPosition = { x: event.clientX, y: event.clientY, z: 0 }
+            measurementOriginPosition = { x: clientX, y: clientY, z: 0 }
         } else {
             measurementOriginPosition = {
-                x: event.clientX, y: event.clientY,
+                x: clientX, y: clientY,
                 z: cellSize / 5 * parseInt(measurementTargetOrigin.flying_height)
             }
         }
@@ -109,6 +116,8 @@ let measurements = function () {
         var lastMeasuredLine;
         function measureLineSegment(event) {
             if (segmentMeasurementPaused) return;
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredLine != null) {
                     measurements.eraseModeOn();
@@ -122,12 +131,12 @@ let measurements = function () {
                 }
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
-                measurementsLayerContext.lineTo(event.clientX, event.clientY);
+                measurementsLayerContext.lineTo(clientX, clientY);
                 measurementsLayerContext.stroke();
 
                 var b = {
-                    x: event.clientX,
-                    y: event.clientY
+                    x: clientX,
+                    y: clientY
                 }
                 lastMeasuredLine.a = measurementOriginPosition;
                 lastMeasuredLine.b = b;
@@ -135,6 +144,8 @@ let measurements = function () {
         }
 
         function measureSphereSegment(event) {
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
             if (segmentMeasurementPaused) return;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredSphere) {
@@ -148,8 +159,8 @@ let measurements = function () {
                     lastMeasuredSphere = {};
                 }
                 var radius = Math.sqrt(
-                    Math.pow(event.clientX - measurementOriginPosition.x, 2) +
-                    Math.pow(event.clientY - measurementOriginPosition.y, 2)
+                    Math.pow(clientX - measurementOriginPosition.x, 2) +
+                    Math.pow(clientY - measurementOriginPosition.y, 2)
                 );
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
@@ -163,6 +174,8 @@ let measurements = function () {
             })
         }
         function measureRectangleSegment(event) {
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -174,8 +187,8 @@ let measurements = function () {
                 } else {
                     lastMeasuredCube = {};
                 }
-                var width = event.clientX - measurementOriginPosition.x;
-                var height = event.clientY - measurementOriginPosition.y;
+                var width = clientX - measurementOriginPosition.x;
+                var height = clientY - measurementOriginPosition.y;
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
                 measurementsLayerContext.rect(measurementOriginPosition.x, measurementOriginPosition.y, width, height);
@@ -190,6 +203,8 @@ let measurements = function () {
 
 
         function measureRectangle(event) {
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -201,8 +216,8 @@ let measurements = function () {
                 } else {
                     lastMeasuredCube = {};
                 }
-                var width = event.clientX - measurementOriginPosition.x;
-                var height = event.clientY - measurementOriginPosition.y;
+                var width = clientX - measurementOriginPosition.x;
+                var height = clientY - measurementOriginPosition.y;
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
                 measurementsLayerContext.rect(measurementOriginPosition.x, measurementOriginPosition.y, width, height);
@@ -219,6 +234,8 @@ let measurements = function () {
 
         }
         function measureCube(event) {
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -231,8 +248,8 @@ let measurements = function () {
                     lastMeasuredCube = {};
                 }
                 var radius = Math.sqrt(
-                    Math.pow(event.clientX - measurementOriginPosition.x, 2) +
-                    Math.pow(event.clientY - measurementOriginPosition.y, 2)
+                    Math.pow(clientX - measurementOriginPosition.x, 2) +
+                    Math.pow(clientY - measurementOriginPosition.y, 2)
                 );
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x - radius, measurementOriginPosition.y - radius);
@@ -249,6 +266,8 @@ let measurements = function () {
         }
 
         function measureSphere(event) {
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredSphere) {
                     measurements.eraseModeOn();
@@ -262,8 +281,8 @@ let measurements = function () {
                     lastMeasuredSphere = {};
                 }
                 var radius = Math.sqrt(
-                    Math.pow(event.clientX - measurementOriginPosition.x, 2) +
-                    Math.pow(event.clientY - measurementOriginPosition.y, 2)
+                    Math.pow(clientX - measurementOriginPosition.x, 2) +
+                    Math.pow(clientY - measurementOriginPosition.y, 2)
                 );
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
@@ -280,6 +299,8 @@ let measurements = function () {
         }
 
         function measureCone(event) {
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCone) {
                     measurements.eraseModeOn();
@@ -293,8 +314,8 @@ let measurements = function () {
                 }
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
-                var newPoint = Geometry.rotate(0.46355945, measurementOriginPosition, { x: event.clientX, y: event.clientY });
-                var newPoint2 = Geometry.rotate(-0.46355944999997217, measurementOriginPosition, { x: event.clientX, y: event.clientY });
+                var newPoint = Geometry.rotate(0.46355945, measurementOriginPosition, { x: clientX, y: clientY });
+                var newPoint2 = Geometry.rotate(-0.46355944999997217, measurementOriginPosition, { x: clientX, y: clientY });
 
                 var midPoint = {
                     x: (newPoint.x + newPoint2.x) / 2,
@@ -320,8 +341,8 @@ let measurements = function () {
                 lastMeasuredCone.newPoint2 = newPoint2;
 
                 lastMeasuredCone.radius = Math.sqrt(
-                    Math.pow(event.clientX - measurementOriginPosition.x, 2) +
-                    Math.pow(event.clientY - measurementOriginPosition.y, 2)
+                    Math.pow(clientX - measurementOriginPosition.x, 2) +
+                    Math.pow(clientY - measurementOriginPosition.y, 2)
                 );
                 attemptToSelectPawnsFromMeasurement()
             })
@@ -399,13 +420,15 @@ let measurements = function () {
         }
 
         function measureDistance(event) {
-            console.log("Measure distance")
+            clientX = event.clientX || event.touches[0].clientX;
+            clientY = event.clientX || event.touches[0].clientY;
+            console.log(event)
             if (measurementPaused) return;
             window.requestAnimationFrame(function () {
 
                 var newPoint = {
-                    x: event.clientX,
-                    y: event.clientY,
+                    x: clientX,
+                    y: clientY,
                     z: 0
                 }
                 drawLineAndShowTooltip(measurementOriginPosition, newPoint, event);

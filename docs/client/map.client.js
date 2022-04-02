@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     visibilityLayerVisible = true;
     fovLighting.setVisibilityLayerVisible(true);
     map.init();
+    setMapForeground("./client/default.png");
+    resetGridLayer();
 });
 
 gridLayer.onwheel = function (event) {
@@ -25,7 +27,7 @@ gridLayer.onwheel = function (event) {
 };
 
 function generalMousedowngridLayer(event) {
-
+    console.log(event)
     if (event.button == 0) {
         clearSelectedPawns();
         if (event.ctrlKey) {
