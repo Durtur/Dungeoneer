@@ -21,11 +21,11 @@ document.addEventListener("DOMContentLoaded", () => {
     map.init();
     setMapForeground("./client/default.png");
     resetGridLayer();
-
+    showBubblyText("f", {clientX:50, clientY: 50})
     var hammertime = new Hammer(gridLayer, null);
     hammertime.on('pinch', function (ev) {
         console.log(ev);
-        util.showBubblyText(ev.direction, {clientX:50, clientY: 50})
+       showBubblyText(ev.direction, {clientX:50, clientY: 50})
     });
     hammertime.get('pinch').set({ enable: true })
 });
@@ -35,6 +35,24 @@ gridLayer.onwheel = function (event) {
     return map.onzoom(event);
 };
 
+function showBubblyText(text, point, smallfont, multiple) {
+    var newEle = document.createElement("div");
+
+    newEle.innerHTML = text;
+    newEle.classList.add("roll_result_effect");
+    if (!multiple)
+        [...document.getElementsByClassName("roll_result_effect")].forEach(ele => ele.parentNode.removeChild(ele));
+    document.body.appendChild(newEle);
+    if (smallfont)
+        newEle.style.fontSize = "18px";
+    newEle.style.top = point.y - newEle.clientHeight / 2 + "px";
+    newEle.style.left = point.x - newEle.clientWidth / 2 + "px";
+
+    window.setTimeout(function (evt) {
+        newEle.classList.add("fade_out");
+        if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
+    }, 3000);
+}
 function generalMousedowngridLayer(event) {
     console.log(event)
     if (event.button == 0) {
