@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var hammertime = new Hammer(gridLayer, null);
     hammertime.on('pinch', function (ev) {
         console.log(ev);
-       showBubblyText(ev.direction, {clientX:50, clientY: 50})
+       showBubblyText(ev.type, {clientX:50, clientY: 50})
     });
     hammertime.get('pinch').set({ enable: true })
 });
