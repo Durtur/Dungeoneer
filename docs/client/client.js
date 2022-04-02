@@ -21,13 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nameInput.value && hostIdInput.value)
         connectButton.classList.remove("hidden");
 
-    nameInput.oninput = () => {
-        localStorage.setItem('name', nameInput.value);
-        if (nameInput.value && hostIdInput.value)
-            connectButton.classList.remove("hidden");
-        else
-            connectButton.classList.add("hidden");
-    };
+    nameInput.oninput = connectionParamsChanged;
+    hostIdInput.oninput = connectionParamsChanged;
 
     connectButton.onclick = () => connect();
 
@@ -41,6 +36,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 })
 
+function connectionParamsChanged(e){
+    localStorage.setItem('name', nameInput.value);
+    if (nameInput.value && hostIdInput.value)
+        connectButton.classList.remove("hidden");
+    else
+        connectButton.classList.add("hidden");
+}
 function connect() {
 
     var hostId = document.getElementById("host_id_input").value;

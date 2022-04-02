@@ -1,5 +1,7 @@
-var settings = { gridSettings: {},
-enableGrid:true
+
+var settings = {
+    gridSettings: {},
+    enableGrid: true
 };
 var module = {}, previewPlacementElement;
 var addingFromMainWindow = false;
@@ -19,6 +21,13 @@ document.addEventListener("DOMContentLoaded", () => {
     map.init();
     setMapForeground("./client/default.png");
     resetGridLayer();
+
+    var hammertime = new Hammer(gridLayer, null);
+    hammertime.on('pinch', function (ev) {
+        console.log(ev);
+        util.showBubblyText(ev.direction, {clientX:50, clientY: 50})
+    });
+    hammertime.get('pinch').set({ enable: true })
 });
 
 gridLayer.onwheel = function (event) {
@@ -42,7 +51,7 @@ function generalMousedowngridLayer(event) {
     }
 }
 
-function notifySelectedPawnsChanged (){
+function notifySelectedPawnsChanged() {
     //Do something 
 }
 
