@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     map.init();
     setMapForeground("./client/default.png");
     resetGridLayer();
-    showBubblyText("f", {clientX:50, clientY: 50})
+    showBubblyText("gg", {clientX:50, clientY: 50})
     var hammertime = new Hammer(gridLayer, null);
     hammertime.on('pinch', function (ev) {
         console.log(ev);
