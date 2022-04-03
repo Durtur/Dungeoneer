@@ -37,6 +37,21 @@ let measurements = function () {
             lastMeasuredPoint = null;
             return;
         }
+        hideAllTooltips();
+        var clientX = event.clientX || event.touches[0].clientX;
+        var clientY = event.clientY || event.touches[0].clientY;
+        measurementsLayerContext.moveTo(clientX, clientY);
+        document.onmousedown = measurementMouseDownHandler;
+
+
+        if (measurementTargetOrigin == null) {
+            measurementOriginPosition = { x: clientX, y: clientY, z: 0 }
+        } else {
+            measurementOriginPosition = {
+                x: clientX, y: clientY,
+                z: cellSize / 5 * parseInt(measurementTargetOrigin.flying_height)
+            }
+        }
         if (!visibilityLayerVisible) {
             if (toolbox[0]) {
                 if (event.button == 0) {
@@ -98,21 +113,7 @@ let measurements = function () {
             setupFOVMeasurements();
         }
 
-        hideAllTooltips();
-        var clientX = event.clientX || event.touches[0].clientX;
-        var clientY = event.clientY || event.touches[0].clientY;
-        measurementsLayerContext.moveTo(clientX, clientY);
-        document.onmousedown = measurementMouseDownHandler;
 
-
-        if (measurementTargetOrigin == null) {
-            measurementOriginPosition = { x: clientX, y: clientY, z: 0 }
-        } else {
-            measurementOriginPosition = {
-                x: clientX, y: clientY,
-                z: cellSize / 5 * parseInt(measurementTargetOrigin.flying_height)
-            }
-        }
         //SEGMENT ADDING //
         var lastMeasuredLine;
         function measureLineSegment(event) {
@@ -207,8 +208,7 @@ let measurements = function () {
         function measureRectangle(event) {
             if (event.target.classList.contains("button_style"))
                 return;
-            console.log("Measure rectangle")
-            console.log(event)
+    
             clientX = event.clientX || event.touches[0].clientX;
             clientY = event.clientY || event.touches[0].clientY;
             window.requestAnimationFrame(function () {

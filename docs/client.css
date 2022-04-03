@@ -28,8 +28,26 @@ input{
     padding: 0.5em;
 }
 
+#toolbar .tool_container{
+    margin:auto;
+}
+
+#toolbar .toggle_button:hover, #toolbar .toggle_button[toggled="true"]{
+    filter: contrast(40%) sepia(1) hue-rotate(20deg) saturate(1000%);
+    background-color: transparent !important;
+}
+
+#toolbar .toggle_button{
+    width: 3.5em;
+    height: 3.5em;
+    background-color: transparent;
+    margin: auto;
+ 
+}
+
 #connection_status {
     height:2em;
+    margin:auto;
     width:2em;
     border-radius:50%;
     background-color: var(--color-red);

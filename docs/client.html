@@ -36,6 +36,24 @@
                 <option value="all" selected>All</option>
                 <option value="players">Players</option>
             </select>
+            <div class="tool_container column">
+
+                <button title="Line measurement tool" class="toggle_button button_style toolbox_button" id="line_tool"
+                    style="background-image: url(css/line.png);" toggleGroup="1" toggled="false"
+                    onclick="setTool(this,0)"></button>
+                <button title="Cone measurement tool" class="toggle_button button_style toolbox_button" id="cone_tool"
+                    style="background-image: url(css/cone.png);" toggleGroup="1" toggled="false"
+                    onclick="setTool(this,1)"></button>
+                <button title="Sphere measurement tool" class="toggle_button button_style toolbox_button"
+                    id="sphere_tool" style="background-image: url(css/sphere.png);" toggleGroup="1" toggled="false"
+                    onclick="setTool(this,2)"></button>
+                <button title="Cube measurement tool" class="toggle_button button_style toolbox_button" id="cube_tool"
+                    style="background-image: url(css/cube.png);" toggleGroup="1" toggled="false"
+                    onclick="setTool(this,3)"></button>
+                <button title="Rectangle measurement tool" class="toggle_button button_style toolbox_button"
+                    id="rect_tool" style="background-image: url(css/rect.png);" toggleGroup="1" toggled="false"
+                    onclick="setTool(this,4)"></button>
+            </div>
         </div>
         <div id="connect_container" class="column">
             <p class="error_text" id="error_message"></p>
@@ -79,7 +97,7 @@
             A tooltip
         </p>
     </main>
-    
+
 </body>
 <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
 <script src="client/hammer.min.js"></script>
@@ -93,7 +111,7 @@
 <script src="client/slideCanvas.js"></script>
 <script src="client/effectManager.client.js"></script>
 <script src="client/client.js"></script>
-
+<script src="client/controls.js"></script>
 <script src="client/soundManager.client.js"></script>
 
 </html>

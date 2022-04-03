@@ -142,6 +142,7 @@ function saveSettings() { }
 function toggleSaveTimer() { }
 async function setPlayerPawnImage() { }
 async function setPawnImageWithDefaultPath(pawnElement, path) { }
+function hideAllTooltips(){}
 
 
 function suspendAllAnimations() {
@@ -669,6 +670,7 @@ function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
 }
 
 function showToolTip(event, text, tooltipId) {
+ 
     var tooltip = document.getElementById(tooltipId);
     var clientX = event.clientX || event.touches[0].clientX;
     var clientY = event.clientY || event.touches[0].clientY;

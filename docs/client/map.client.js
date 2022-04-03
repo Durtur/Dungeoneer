@@ -16,21 +16,24 @@ var soundManager;
 document.addEventListener("DOMContentLoaded", () => {
     soundManager = new SoundManager();
     soundManager.initialize();
-    visibilityLayerVisible = true;
+    visibilityLayerVisible = false;
     fovLighting.setVisibilityLayerVisible(true);
     map.init();
     setMapForeground("./client/default.png");
     resetGridLayer();
-    showBubblyText("gg", {clientX:50, clientY: 50})
+   
     var hammertime = new Hammer(gridLayer, null);
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-       showBubblyText(ev.type, {clientX:50, clientY: 50})
+      
+  
+
+       zoomIntoMap(event, 0.1)
     });
     hammertime.on('pinchout', function (ev) {
         console.log(ev);
-       showBubblyText(ev.type, {clientX:50, clientY: 50})
+        zoomIntoMap(event, -0.1)
     });
     hammertime.get('pinch').set({ enable: true })
 });
@@ -60,6 +63,7 @@ function showBubblyText(text, point, smallfont, multiple) {
 }
 function generalMousedowngridLayer(event) {
     console.log(event)
+    event.preventDefault();
     if (event.button == 0) {
         clearSelectedPawns();
         if (event.ctrlKey) {
