@@ -21,7 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (nameInput.value && hostIdInput.value)
         connectButton.classList.remove("hidden");
 
-    nameInput.oninput = connectionParamsChanged;
+    nameInput.oninput = (e) => {
+        localStorage.setItem('name', nameInput.value);
+        connectionParamsChanged(e);
+    }
     hostIdInput.oninput = connectionParamsChanged;
 
     connectButton.onclick = () => connect();
@@ -36,8 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 })
 
-function connectionParamsChanged(e){
-    localStorage.setItem('name', nameInput.value);
+function connectionParamsChanged(e) {
+    var nameInput = document.getElementById("user_name_input");
+    var hostIdInput = document.getElementById("host_id_input");
     if (nameInput.value && hostIdInput.value)
         connectButton.classList.remove("hidden");
     else
@@ -71,12 +75,15 @@ function connect() {
 
 
     peer.on('error', (err) => {
-        console.log(err)
+        showError(err)
         connectedStateChanged();
 
     })
 }
 
+function showError(err) {
+    document.getElementById("error_message").innerHTML = err;
+}
 function handleMessage(message) {
     console.log(message)
     if (message.data?.chunks) {

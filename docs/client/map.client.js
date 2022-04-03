@@ -23,7 +23,12 @@ document.addEventListener("DOMContentLoaded", () => {
     resetGridLayer();
     showBubblyText("gg", {clientX:50, clientY: 50})
     var hammertime = new Hammer(gridLayer, null);
-    hammertime.on('pinch', function (ev) {
+
+    hammertime.on('pinchin', function (ev) {
+        console.log(ev);
+       showBubblyText(ev.type, {clientX:50, clientY: 50})
+    });
+    hammertime.on('pinchout', function (ev) {
         console.log(ev);
        showBubblyText(ev.type, {clientX:50, clientY: 50})
     });
