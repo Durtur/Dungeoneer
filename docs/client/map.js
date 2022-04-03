@@ -1016,6 +1016,7 @@ function isPlayerPawn(pawnElement) {
 }
 
 function resetGridLayer() {
+    gridLayer.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); }
     gridLayer.onmousedown = generalMousedowngridLayer;
     gridLayer.ontouchstart = startMovingMap;
     gridLayer.style.cursor = "auto";
@@ -1426,6 +1427,7 @@ function startSelectingPawns(e) {
         measurements.clearMeasurements();
         generalMousedowngridLayer(event);
         resetGridLayer();
+        return false;
     }
     document.onmouseup = function (event) {
         measurements.clearMeasurements();

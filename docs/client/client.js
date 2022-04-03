@@ -164,6 +164,16 @@ function setState(message) {
         case "object-moved":
             moveObjects(message.data);
             break;
+        case "effects-set":
+            setEffects(dataBuffer[message.event]);
+            break;
+        case "effect-add":
+            addEffect(message.data);
+            break;
+        case "effect-remove":
+            var eff = effects.find(x => x.id == message.data);
+            if (eff)
+                effectManager.removeEffect(eff)
     }
 
 }
@@ -174,7 +184,7 @@ function moveObjects(arr) {
     arr.forEach(pawnInfo => {
         var pawn = document.getElementById(pawnInfo.id);
         var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
-
+        console.log(pawn)
         map.moveObject(pawn, tanslatedPixels)
     })
 }
@@ -188,6 +198,21 @@ function clientSetForeground(message) {
         foregroundCanvas.data_transform_y = trsl.y;
         foregroundCanvas.style.transform = `translate(${trsl.x}px, ${trsl.y}px)`
     }
+}
+
+function setEffects(effectStr) {
+    var arr = JSON.parse(effectStr);
+    effects.forEach(eff => effectManager.removeEffect(eff));
+    arr.forEach(effObj => addEffect(effObj));
+}
+function addEffect(effObj) {
+    effObj.bgPhotoBase64 = toBase64Url(effObj.bgPhotoBase64);
+    var point = map.pixelsFromGridCoords(effObj.pos.x, effObj.pos.y)
+    if (effObj.isLightEffect)
+        return effectManager.addLightEffect(effObj, { clientX: point.x, clientY: point.y });
+
+    effectManager.addSfxEffect(effObj, { clientX: point.x, clientY: point.y })
+
 }
 
 function addPawn(pawn) {

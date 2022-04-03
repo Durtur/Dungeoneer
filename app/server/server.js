@@ -207,6 +207,8 @@ function sendMaptoolState(maptoolState) {
             var tokenJSON = JSON.stringify(maptoolState.tokens);
          
             sendBatched(peer.connection, "tokens-set", tokenJSON);
+            var effectJSON = JSON.stringify(maptoolState.effects)
+            sendBatched(peer.connection, "effects-set", effectJSON);
             peer.connection.send({event:"backgroundLoop", data:maptoolState.backgroundLoop})
             peer.connection.send({event:"overlayLoop", data:maptoolState.overlayLoop})
             peer.connection.send({event:"segments", data:maptoolState.segments})

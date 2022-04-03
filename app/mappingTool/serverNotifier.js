@@ -18,7 +18,7 @@ var serverNotifier = function () {
                 foreground: getForegroundState(),
                 overlay: getOverlayState(),
                 background: getBackgroundState(),
-                effects: getEffectsForExport(),
+                effects: await getEffectsForExport(),
                 segments: { segments: fovLighting.getSegments() }
             }
         });
@@ -55,9 +55,12 @@ var serverNotifier = function () {
         ipcRenderer.send("maptool-server-event", { event: "tokens", data: tokens });
     }
 
-    function getEffectsForExport() {
-
-        return [];
+    async function getEffectsForExport() {
+        var effectArr = [];
+        for(var i = 0 ; i< effects.length ; i++){
+            effectArr.push(await saveManager.exportEffect(effects[i]));
+        }
+        return effectArr;
     }
 
 
@@ -85,6 +88,7 @@ var serverNotifier = function () {
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
         isServer:isServer,
+        getEffectsForExport:  getEffectsForExport,
         timeouts: timeouts
     }
 }();

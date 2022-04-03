@@ -24,52 +24,43 @@ var effectManager = function () {
         }
     }
 
-    
-    function createEffect(e, effectType) {
-        console.log(e)
-        var newEffect;
-        if (effectType == SELECTED_EFFECT_TYPE.sfx) {
-            newEffect = addSfxEffectHandler(e);
-        } else if (effectType == SELECTED_EFFECT_TYPE.light) {
-            newEffect = addLightEffectHandler(e);
-        } else if (effectType == SELECTED_EFFECT_TYPE.sound) {
-            newEffect = addSoundEffectHandler(e);
-        }
-     
-        if (newEffect.sound) {
-            soundManager.addEffect(newEffect.sound, newEffect.id);
-        }
 
-        return newEffect;
-
-    }
 
 
     var selectedSfxBackground;
-    function addSfxEffectHandler(e) {
+    function addSfxEffect(effectObj, e) {
 
 
-        var effectName = sfxSelect.selected();
-
-        var effectObj = effectData.find(x => x.name == effectName);
-
-        if (!effectObj && effectName.toLowerCase() != "custom") {
-            return;
-        } else if (effectName.toLowerCase() == "custom") {
-            effectObj = { name: "custom" }
-        }
-        var newEffect = createBaseEffect(effectObj, e)
+        var newEffect = createBaseEffect(effectObj,false, e)
         newEffect.classList.add("sfx_effect");
         tokenLayer.appendChild(newEffect);
         return newEffect;
     }
 
+    function addLightEffect(effectObj,  e) {
+        var newEffect = createBaseEffect(effectObj, false, e)
 
-    function createBaseEffect(effectObj, e) {
+        effectObj.brightLightRadius == "" ? newEffect.sight_radius_bright_light = 20 : newEffect.sight_radius_bright_light = chosenBrightLightRadius;
+        effectObj.dimLightRadius == "" ? newEffect.sight_radius_dim_light = 20 : newEffect.sight_radius_dim_light = chosenDimLightRadius;
+
+        newEffect.flying_height = 0;
+        newEffect.classList.add("light_effect");
+        if (visibilityLayerVisible) {
+            newEffect.classList.add("light_source_visibility_layer");
+        } else {
+            newEffect.classList.add("light_source_normal_layer");
+        }
+
+        pawns.lightSources.push(newEffect);
+        tokenLayer.appendChild(newEffect);
+        refreshFogOfWar();
+    }
+
+
+    function createBaseEffect(effectObj, isPreviewElement, e) {
         var newEffect = document.createElement("div");
-        var wHeight = getSelectedEffectSize();
-        var chosenWidth = wHeight.w;
-        var chosenHeight = wHeight.h;
+        var chosenWidth =  effectObj.width;
+        var chosenHeight = effectObj.height;
         var actualWidth, actualHeight;
 
         chosenWidth == "" ? actualWidth = 20 : actualWidth = chosenWidth;
@@ -82,26 +73,37 @@ var effectManager = function () {
         actualHeight *= cellSize / 5
         newEffect.style.width = actualWidth + "px";
         newEffect.style.height = actualHeight + "px";
-        newEffect.style.transform = "rotate(" + effectAngle + "deg)";
-        newEffect.id = "effect_" + effectId++;
-        var x = e.clientX - actualWidth / 2;
-        var y = e.clientY - actualHeight / 2;
+        var angle = effectObj.angle;
+        newEffect.style.transform = "rotate(" + angle + "deg)";
+        newEffect.setAttribute("data-deg", angle)
+        newEffect.id = effectObj.id || "effect_" + effectId++;
+        var x = e.clientX ;
+        var y = e.clientY ;
         newEffect.style.top = y + "px";
         newEffect.style.left = x + "px";
 
         if (effectObj.classes) {
+            newEffect.setAttribute("data-effect-classes", JSON.stringify(effectObj.classes))
             effectObj.classes.forEach(effClass => newEffect.classList.add(effClass));
         }
         if (effectObj.filePaths && effectObj.filePaths.length > 0) {
             var randEff = effectObj.filePaths.pickOne();
             var sfxPath = pathModule.join(effectFilePath, randEff);
-         
+            if (isPreviewElement) {
+                selectedSfxBackground = "url('" + sfxPath + "')";
+            }
+        }else if (effectObj.bgPhotoBase64){
+            selectedSfxBackground = effectObj.bgPhotoBase64;
         } else if (effectObj.name != "custom") {
             selectedSfxBackground = null;
         }
 
         newEffect.style.backgroundImage = selectedSfxBackground;
-
+        //Refresh preview
+        if (!isPreviewElement) {
+            effects.push(newEffect)
+ 
+        }
         if (effectObj.sound) {
             newEffect.sound = effectObj.sound;
             newEffect.sound.x = x;
@@ -110,6 +112,7 @@ var effectManager = function () {
 
         return newEffect;
     }
+
 
     function resizeEffects() {
 
@@ -127,7 +130,8 @@ var effectManager = function () {
     return {
         resizeEffects: resizeEffects,
         removeEffect:removeEffect,
-        createEffect:createEffect,
+        addLightEffect:addLightEffect,
+        addSfxEffect:addSfxEffect
       
     }
 }();

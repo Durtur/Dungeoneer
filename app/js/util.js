@@ -240,6 +240,7 @@ module.exports = function () {
 
         if(path.includes("?"))
             path = path.substring(0, path.lastIndexOf("?"));
+        path = path.replaceAll("\"", "")
         try {
             console.log(`Converting ${path}, shrink ${shrink}`)
             var shrp = sharp(path)
@@ -257,6 +258,11 @@ module.exports = function () {
 
     function cssify(path) {
         return "url('" + path.replace(/\\/g, "/") + "')";
+    }
+    function decssify(path) {
+        if(!path)return path;
+        console.log(path.substring(4, path.length -1) )
+        return  path.substring(4, path.length -1) ;
     }
 
     function createLoadingEle(title, text) {
@@ -302,6 +308,7 @@ module.exports = function () {
         isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
         cssify: cssify,
+        decssify:decssify,
         showInfo: showInfo,
         fadeOutInfoBox: fadeOutInfoBox
     }

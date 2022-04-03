@@ -257,10 +257,10 @@ function onSettingsChanged() {
     }
 }
 
-function onSettingsLoaded() {
+async function onSettingsLoaded() {
 
 
-    console.log("Settings loaded");
+
     resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
     map.init();
 
@@ -270,7 +270,8 @@ function onSettingsLoaded() {
 
     effectManager.initialize();
     onSettingsChanged();
-
+    serverNotifier.notifyServer("effects-set", await serverNotifier.getEffectsForExport());
+    serverNotifier.notifyServer("tokens-set", await serverNotifier.getTokensForExport());
     document.querySelector("body").onkeydown = function (event) {
         var keyIndex = [37, 38, 39, 40, 65, 87, 68, 83].indexOf(event.keyCode);
 
@@ -328,7 +329,7 @@ function onSettingsLoaded() {
     gridLayer.onwheel = function (event) {
         event.preventDefault();
         if (event.ctrlKey && previewPlacementElement) {
-            effectManager.onPreviewPlacementResized(event);
+            return effectManager.onPreviewPlacementResized(event);
         }
 
         return map.onzoom(event);
@@ -796,7 +797,7 @@ function startAddingFromQueue() {
     var tooltip = document.getElementById("tooltip");
     addingFromMainWindow = true;
     tooltip.classList.remove("hidden");
-    tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window ;
+    tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window;
 
     document.onmousemove = function (e) {
         tooltip.style.top = e.clientY - 50 + "px";
@@ -829,7 +830,7 @@ function startAddingFromQueue() {
 
             return stopAddingFromQueue()
         }
-        tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window ;
+        tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window;
 
 
     }

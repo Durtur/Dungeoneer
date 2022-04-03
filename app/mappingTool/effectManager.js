@@ -112,7 +112,12 @@ var effectManager = function () {
             showSoundLayer();
             effects.map(eff => {
                 eff.classList.add("elevated")
-                Util.makeUIElementDraggable(eff)
+                Util.makeUIElementDraggable(eff, ()=> {
+                    serverNotifier.notifyServer("object-moved", [{
+                        pos: map.gridCoords(eff),
+                        id: eff.id
+                    }])
+                })
             })
         } else {
             resetGridLayer();
@@ -177,6 +182,9 @@ var effectManager = function () {
         unattachObjectFromPawns(target);
         if (pawns.lightSources.indexOf(target) >= 0) pawns.lightSources.splice(pawns.lightSources.indexOf(target), 1)
         window.requestAnimationFrame(refreshFogOfWar);
+        if (serverNotifier.isServer()) {
+            serverNotifier.notifyServer("effect-remove", target.id);
+        }
     }
 
     function unattachObjectFromPawns(objectElement) {
@@ -193,7 +201,7 @@ var effectManager = function () {
         for (var i = 0; i < pawns.lightSources.length; i++) {
             if (pawns.lightSources[i] == pawnElement) {
                 return true;
-    
+
             }
         }
         return false;
@@ -213,21 +221,21 @@ var effectManager = function () {
     function hideSoundLayer() {
         [...document.querySelectorAll(".sound_effect")].forEach(x => x.classList.add("hidden"))
     }
-    function onEffectSizeChanged(event) {
-        console.log(event)
-        previewPlacement(createEffect(event, true));
+    async function onEffectSizeChanged(event) {
+ 
+        previewPlacement(await createEffect(event, true));
     }
 
 
-    function createEffect(e, isPreviewElement) {
+    async function createEffect(e, isPreviewElement) {
         console.log(e)
         var newEffect;
         if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.sfx) {
-            newEffect = addSfxEffectHandler(e, isPreviewElement);
+            newEffect = await addSfxEffectHandler(e, isPreviewElement);
         } else if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.light) {
-            newEffect = addLightEffectHandler(e, isPreviewElement);
+            newEffect = await addLightEffectHandler(e, isPreviewElement);
         } else if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.sound) {
-            newEffect = addSoundEffectHandler(e, isPreviewElement);
+            newEffect = await addSoundEffectHandler(e, isPreviewElement);
         }
         console.log(newEffect)
         if (newEffect.sound && !isPreviewElement) {
@@ -240,7 +248,7 @@ var effectManager = function () {
 
 
     var selectedSfxBackground;
-    function addSfxEffectHandler(e, isPreviewElement) {
+    async function addSfxEffectHandler(e, isPreviewElement) {
 
 
         var effectName = sfxSelect.selected();
@@ -255,6 +263,11 @@ var effectManager = function () {
         var newEffect = createBaseEffect(effectObj, isPreviewElement, e)
         newEffect.classList.add("sfx_effect");
         tokenLayer.appendChild(newEffect);
+        if (!isPreviewElement && serverNotifier.isServer()) {
+            var obj = await saveManager.exportEffect(newEffect);
+            obj.isLightEffect = false;
+            serverNotifier.notifyServer("effect-add", obj);
+        }
         return newEffect;
     }
 
@@ -296,8 +309,8 @@ var effectManager = function () {
     function createBaseEffect(effectObj, isPreviewElement, e) {
         var newEffect = document.createElement("div");
         var wHeight = getSelectedEffectSize();
-        var chosenWidth = wHeight.w;
-        var chosenHeight = wHeight.h;
+        var chosenWidth = effectObj.width || wHeight.w;
+        var chosenHeight = effectObj.height || wHeight.h;
         var actualWidth, actualHeight;
 
         chosenWidth == "" ? actualWidth = 20 : actualWidth = chosenWidth;
@@ -310,22 +323,28 @@ var effectManager = function () {
         actualHeight *= cellSize / 5
         newEffect.style.width = actualWidth + "px";
         newEffect.style.height = actualHeight + "px";
-        newEffect.style.transform = "rotate(" + effectAngle + "deg)";
-        newEffect.id = "effect_" + effectId++;
+        var angle = effectAngle || effectObj.angle;
+        newEffect.style.transform = "rotate(" + angle + "deg)";
+        newEffect.setAttribute("data-deg", angle);
+
+        newEffect.id = effectObj.id || "effect_" + effectId++;
         var x = e.clientX - actualWidth / 2;
         var y = e.clientY - actualHeight / 2;
         newEffect.style.top = y + "px";
         newEffect.style.left = x + "px";
 
         if (effectObj.classes) {
+            newEffect.setAttribute("data-effect-classes", JSON.stringify(effectObj.classes))
             effectObj.classes.forEach(effClass => newEffect.classList.add(effClass));
         }
         if (effectObj.filePaths && effectObj.filePaths.length > 0) {
             var randEff = effectObj.filePaths.pickOne();
-            var sfxPath = pathModule.join(effectFilePath, randEff);
+            var sfxPath = pathModule.join(effectFilePath, randEff).replace(/\\/g, "/");
             if (isPreviewElement) {
-                selectedSfxBackground = "url('" + sfxPath.replace(/\\/g, "/").replace(/ /g, '%20') + "')";
+                selectedSfxBackground = "url('" + sfxPath + "')";
             }
+        } else if (effectObj.bgPhotoBase64) {
+            selectedSfxBackground = effectObj.bgPhotoBase64;
         } else if (effectObj.name != "custom") {
             selectedSfxBackground = null;
         }
@@ -334,7 +353,7 @@ var effectManager = function () {
         //Refresh preview
         if (!isPreviewElement) {
             effects.push(newEffect)
-            previewPlacement(createEffect(e, true));
+          
         }
         if (effectObj.sound) {
             newEffect.sound = effectObj.sound;
@@ -351,7 +370,7 @@ var effectManager = function () {
             pawns.all[i].classList.add("attach_lightsource_pawn")
         }
         var popup = document.getElementById("popup_menu_add_effect");
-        sidebarManager.showInSideBar(popup, ()=> {
+        sidebarManager.showInSideBar(popup, () => {
             popup.classList.add("hidden");
             document.body.appendChild(popup);
         });
@@ -421,7 +440,7 @@ var effectManager = function () {
         previewPlacementElement.style.height = actualHeight + "px";
         adjustPreviewPlacement(event);
     }
-    function selectEffectType(effectType) {
+    async function selectEffectType(effectType) {
 
         [...document.querySelectorAll(".sidebar_section")].forEach(x => x.classList.remove("selected_section"));
         currentlySelectedEffectDropdown = effectType;
@@ -438,7 +457,7 @@ var effectManager = function () {
             document.getElementById("sidebar_sound").classList.add("selected_section");
         }
         gridLayer.onmousedown = popupMenuAddEffectClickHandler;
-        previewPlacement(createEffect(event, true));
+        previewPlacement(await createEffect(event, true));
 
     }
 
@@ -467,7 +486,7 @@ var effectManager = function () {
             return null;
         }
     }
-    function addSoundEffectHandler(e, isPreviewElement) {
+    async function addSoundEffectHandler(e, isPreviewElement) {
         var selectedEffect = soundSelect.selected();
         var selectedSpread = soundRangeSelect.selected();
         var volume = parseFloat(document.getElementById("add_sound_volume").value);
@@ -484,20 +503,41 @@ var effectManager = function () {
 
         var effect = createBaseEffect(effectObj, isPreviewElement, e);
         tokenLayer.appendChild(effect);
+        if (!isPreviewElement && serverNotifier.isServer()) {
+            var obj = await saveManager.exportEffect(newEffect);
+            obj.isLightEffect = false;
+            serverNotifier.notifyServer("effect-add", obj);
+        }
         return effect;
     }
-    function addLightEffectHandler(e, isPreviewElement) {
+    async function addLightEffectHandler(e, isPreviewElement) {
 
         var effectName = lightSourceSelect.selected();
         var effectObj = effectData.filter(x => x.name == effectName)[0];
-        if (!effectObj) return;
-        var newEffect = createBaseEffect(effectObj, isPreviewElement, e)
+        if (!effectObj)
+            return;
 
         var chosenBrightLightRadius = document.getElementById("effect_input_value_three").value;
         var chosenDimLightRadius = document.getElementById("effect_input_value_four").value;
 
-        chosenBrightLightRadius == "" ? newEffect.sight_radius_bright_light = 20 : newEffect.sight_radius_bright_light = chosenBrightLightRadius;
-        chosenDimLightRadius == "" ? newEffect.sight_radius_dim_light = 20 : newEffect.sight_radius_dim_light = chosenDimLightRadius;
+        effectObj.dimLightRadius = chosenDimLightRadius;
+        effectObj.brightLightRadius = chosenBrightLightRadius;
+        var newEffect = addLightEffect(effectOj, isPreviewElement, e);
+        if (!isPreviewElement && serverNotifier.isServer()) {
+            var obj = await saveManager.exportEffect(newEffect);
+            obj.isLightEffect = true;
+
+            serverNotifier.notifyServer("effect-add", obj);
+        }
+
+        return newEffect;
+    }
+
+    function addLightEffect(effectObj, isPreviewElement, e) {
+        var newEffect = createBaseEffect(effectObj, isPreviewElement, e)
+
+        effectObj.brightLightRadius == "" ? newEffect.sight_radius_bright_light = 20 : newEffect.sight_radius_bright_light = chosenBrightLightRadius;
+        effectObj.dimLightRadius == "" ? newEffect.sight_radius_dim_light = 20 : newEffect.sight_radius_dim_light = chosenDimLightRadius;
 
         newEffect.flying_height = 0;
         newEffect.classList.add("light_effect");
@@ -509,13 +549,12 @@ var effectManager = function () {
 
         pawns.lightSources.push(newEffect);
         tokenLayer.appendChild(newEffect);
-        if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.light) refreshFogOfWar();
-        return newEffect;
+        refreshFogOfWar();
     }
 
-    function effectDropdownChange(event) {
+    async function effectDropdownChange(event) {
         stopDeletingEffects();
-        previewPlacement(createEffect(event, true));
+        previewPlacement(await createEffect(event, true));
 
     }
     function resizeEffects() {
@@ -544,7 +583,7 @@ var effectManager = function () {
         onPreviewPlacementResized: onPreviewPlacementResized,
         close: close,
         initialize: initialize,
-        removeEffect:removeEffect
+        removeEffect: removeEffect
 
     }
 }();

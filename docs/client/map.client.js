@@ -26,9 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-      
-  
-
        zoomIntoMap(event, 0.1)
     });
     hammertime.on('pinchout', function (ev) {
@@ -62,7 +59,7 @@ function showBubblyText(text, point, smallfont, multiple) {
     }, 3000);
 }
 function generalMousedowngridLayer(event) {
-    console.log(event)
+
     event.preventDefault();
     if (event.button == 0) {
         clearSelectedPawns();
@@ -76,6 +73,7 @@ function generalMousedowngridLayer(event) {
     } else if (event.button == 1) {
         startMovingMap(event);
     }
+    return false;
 }
 
 function notifySelectedPawnsChanged() {

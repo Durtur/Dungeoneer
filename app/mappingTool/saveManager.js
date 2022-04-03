@@ -228,6 +228,31 @@ class SaveManager {
         })
 
     }
+    async exportEffect(effect) {
+        var obj = {
+            angle: effect.getAttribute("data-deg"),
+            classes: [],
+            width: effect.dnd_width,
+            height: effect.dnd_height,
+            sound: effect.sound,
+            id: effect.id,
+            brightLightRadius: effect.sight_radius_bright_light,
+            dimLightRadius: effect.sight_radius_dim_light,
+            pos: map.gridCoords(effect),
+            bgPhotoBase64: await util.toBase64(util.decssify(effect.style.backgroundImage))
+        };
+
+        var classes = effect.getAttribute("data-effect-classes");
+        if (classes) {
+            try {
+                obj.classes = JSON.parse(classes);
+            } catch {
+                obj.classes = [];
+            }
+        }
+        console.log(obj)
+        return obj;
+    }
 
     async exportPawn(pawn) {
         var element = pawn[0];
@@ -253,7 +278,7 @@ class SaveManager {
             sight_mode: element.sight_mode,
             sight_radius_bright_light: element.sight_radius_bright_light,
             sight_radius_dim_light: element.sight_radius_dim_light,
-            bgPhotoBase64:base64,
+            bgPhotoBase64: base64,
             pos: map.gridCoords(element)
             //attached_objects : element.attached_objects
         }
