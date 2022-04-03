@@ -84,6 +84,7 @@ var serverNotifier = function () {
         notifyServer: notifyServer,
         sendState: sendState,
         getForegroundState: getForegroundState,
+        getTokensForExport:getTokensForExport,
         getBackgroundState: getBackgroundState,
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,

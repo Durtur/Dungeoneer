@@ -327,7 +327,7 @@ async function onSettingsLoaded() {
     }
 
     gridLayer.onwheel = function (event) {
-        event.preventDefault();
+       // event.preventDefault();
         if (event.ctrlKey && previewPlacementElement) {
             return effectManager.onPreviewPlacementResized(event);
         }
