@@ -26,11 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-       zoomIntoMap(event, 0.1)
+       zoomIntoMap(event, 0.01)
     });
     hammertime.on('pinchout', function (ev) {
         console.log(ev);
-        zoomIntoMap(event, -0.1)
+        zoomIntoMap(event, -0.01)
     });
     hammertime.get('pinch').set({ enable: true })
 });
