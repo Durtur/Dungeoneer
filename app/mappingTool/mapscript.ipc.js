@@ -50,6 +50,7 @@ ipcRenderer.on("intiative-updated",
     })
 ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
     loadParty();
+    serverNotifier.notifyServer("party-changed");
 });
 ipcRenderer.on('notify-effects-changed', function (evt, arg) {
     effectManager.createEffectMenus();

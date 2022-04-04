@@ -1,7 +1,8 @@
 
 var settings = {
     gridSettings: {},
-    enableGrid: true
+    enableGrid: true,
+    colorTokenBases:true
 };
 var module = {}, previewPlacementElement;
 var addingFromMainWindow = false;

@@ -118,6 +118,9 @@ function setState(message) {
         case "players-changed":
             ///???
             break;
+        case "access-changed":
+            tokenAccessChanged(message.data);
+            break;
         case "map_edge":
             setMapEdge(toBase64Url(dataBuffer[message.event]));
             break;
@@ -178,6 +181,12 @@ function setState(message) {
 
 }
 
+function tokenAccessChanged(access){
+    console.log("Access changed");
+    console.log(access);
+    TOKEN_ACCESS = access;
+}
+
 function moveObjects(arr) {
     console.log("Set positions:")
     console.log(arr);
@@ -217,7 +226,7 @@ function addEffect(effObj) {
 
 function addPawn(pawn) {
     pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
-    generatePawns([pawn], !pawn.player, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+    generatePawns([pawn], !pawn.isPlayer, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
 }
 
 function importTokens(tokenStr) {

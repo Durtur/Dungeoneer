@@ -8,6 +8,7 @@ var measurementOriginPosition;
 var currentlyMeasuring = false;
 var measurementPaused = false;
 
+var TOKEN_ACCESS;
 
 var pawnId = 1, effectId = 1;
 var pauseAlternativeKeyboardMoveMap = false;
@@ -52,6 +53,10 @@ var pawns = (function () {
     var monsters = [];
     var lightSources = [];
     var players = [];
+    players.clear = function () {
+        while (players.length > 0)
+            players.pop();
+    }
     players.add = function (element) {
         this.push(element);
         players.onchange();
@@ -142,7 +147,7 @@ function saveSettings() { }
 function toggleSaveTimer() { }
 async function setPlayerPawnImage() { }
 async function setPawnImageWithDefaultPath(pawnElement, path) { }
-function hideAllTooltips(){}
+function hideAllTooltips() { }
 
 
 function suspendAllAnimations() {
@@ -670,7 +675,7 @@ function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
 }
 
 function showToolTip(event, text, tooltipId) {
- 
+
     var tooltip = document.getElementById(tooltipId);
     var clientX = event.clientX || event.touches[0].clientX;
     var clientY = event.clientY || event.touches[0].clientY;
@@ -1016,7 +1021,7 @@ function isPlayerPawn(pawnElement) {
 }
 
 function resetGridLayer() {
-    gridLayer.oncontextmenu = function(e) { e.preventDefault(); e.stopPropagation(); }
+    gridLayer.oncontextmenu = function (e) { e.preventDefault(); e.stopPropagation(); }
     gridLayer.onmousedown = generalMousedowngridLayer;
     gridLayer.ontouchstart = startMovingMap;
     gridLayer.style.cursor = "auto";
@@ -1238,9 +1243,21 @@ function dragPawn(elmnt) {
 var hideTooltipTimer;
 function addPawnListeners() {
     for (var i = 0; i < pawns.all.length; i++) {
-        dragPawn(pawns.all[i])
-        if (pawns.all[i].deg == null) pawns.all[i].deg = 0;
-        pawns.all[i].onwheel = function (event) {
+        var pawn = pawns.all[i];
+        if (serverNotifier.isServer() || (TOKEN_ACCESS != null && TOKEN_ACCESS.find(x => x.element_id == pawn.id))) {
+            allowAccess(pawn);
+        } else {
+
+            pawn.onmousedown = null;
+            pawn.ontouchstart = null;
+            pawn.onwheel = null;
+        }
+    }
+
+    function allowAccess(pawn) {
+        dragPawn(pawn)
+        if (pawn.deg == null) pawn.deg = 0;
+        pawn.onwheel = function (event) {
             if (event.shiftKey) {
                 if (event.deltaY > 0) {
                     rotatePawn(event.target, 3);
@@ -1276,7 +1293,6 @@ function addPawnListeners() {
             }
         };
     }
-
 
 }
 
@@ -1503,7 +1519,7 @@ var lastIndexInsertedMonsters = 1;
 var lastColorIndex = 0;
 async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
     var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;
-    console.log("Generating ", pawnArray)
+    console.log("Generating ", pawnArray, monsters)
     if (monsters) {
         lastPoint = pawns.lastLocationMonsters;
         rotate = parseInt(settings.defaultMonsterTokenRotate);
@@ -1516,7 +1532,7 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         var pawn = pawnArray[i];
         newPawn = document.createElement("div");
         newPawn.classList.add("pawn");
-        var id = newPawnId();
+        var id = pawn.id || newPawnId();
         newPawn.id = id;
         newPawn.get = () => document.getElementById(id);
 
@@ -1536,12 +1552,7 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             pawns.lightSources.push(newPawn);
             pawns.players.add([newPawn, pawn.name]);
 
-            if (settings.colorTokenBases) {
-                newPawn.style.backgroundColor = pawn.color || colorPalette[lastColorIndex++];
-            } else {
-                newPawn.style.backgroundColor = "transparent";
 
-            }
         } else {
             if (addingFromMainWindow || pawn.index_in_main_window) {
                 var index = pawn.index_in_main_window ? pawn.index_in_main_window : lastIndexInsertedMonsters++;
@@ -1554,8 +1565,12 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
             pawns.monsters.push(newPawn);
             loadedMonsters.push([newPawn, pawn.name]);
-
+        }
+        if (settings.colorTokenBases) {
             newPawn.style.backgroundColor = pawn.color;
+        } else {
+            newPawn.style.backgroundColor = "transparent";
+
         }
 
         newPawn.dead = "false";
@@ -1835,7 +1850,7 @@ var map = function () {
     function removeAllPawns() {
         [...document.querySelectorAll(".pawn")].forEach(x => x.parentNode.removeChild(x));
         loadedMonsters = [];
-        pawns.players = [];
+        pawns.players.clear();
     }
 
     function moveObject(elmnt, point) {

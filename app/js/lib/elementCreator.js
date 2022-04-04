@@ -111,7 +111,7 @@ class ElementCreator {
         return tokenEle;
     }
 
-    static checkBox(labelText, onchange) {
+    static checkBox(labelText, checked, onchange) {
         var label = document.createElement("label");
         label.innerHTML = labelText;
 
@@ -120,12 +120,13 @@ class ElementCreator {
         var inp = document.createElement("input");
         inp.setAttribute("type", "checkbox");
         inp.title = labelText;
+        inp.checked = checked;
         var span = document.createElement("span");
         span.classList = "checkmark";
         cont.appendChild(inp);
         cont.appendChild(span);
         var parent = document.createElement("div");
-        parent.classList = "row";
+        parent.classList = "row space_between";
         parent.appendChild(label);
         parent.appendChild(cont);
         if (onchange) {

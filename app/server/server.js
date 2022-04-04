@@ -5,34 +5,47 @@ const { ipcRenderer } = require('electron');
 const pathModule = require('path');
 const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"//"https://www.ogreforge.me/Dungeoneer"
 const pendingStateRequests = [];
+const partyArray = [];
 
-
+loadParty();
 ipcRenderer.on("maptool-server-event", function (event, message) {
     console.log(event);
     console.log(message);
     if (message.event == 'maptool-state') {
         return sendMaptoolState(message.data);
     }
-    if(["foreground", "background","overlay"].find(x=> x == message.event)){
-       return sendLayerInfo(message);
+    if (["foreground", "background", "overlay"].find(x => x == message.event)) {
+        return sendLayerInfo(message);
+    }
+    if (message.event == "party-changed") {
+        return loadParty();
     }
 
     notifyPeers(message);
 
 });
 
-function notifyPeers(message){
+function notifyPeers(message) {
     peers.forEach(peer => {
         peer.connection.send(message);
     })
 }
 
-function sendLayerInfo(message){
+function sendLayerInfo(message) {
     peers.forEach(async peer => {
         var base64layer = await util.toBase64(message.data.path);
         sendBatched(peer.connection, message.event, base64layer, { width: message.data.width, height: message.data.height, translate: message.data.translate });
     })
-   
+
+}
+
+function loadParty() {
+    dataAccess.getParty(party => {
+        console.log(party);
+        while (partyArray.length) partyArray.pop();
+        party.members.filter(x => x.active).forEach(p => partyArray.push(p));
+        peers.onchange();
+    })
 }
 
 var connectionObj =
@@ -43,8 +56,15 @@ var connectionObj =
 }
 
 var peers = [];
-peers.add = function (element) {
-    this.push(element);
+peers.add = function (peer) {
+    this.push(peer);
+    peer.onAccessChanged = function () {
+        if (!peer.connection.open)
+            return;
+        var access =  peer.partyAccess == null ? [] : peer.partyAccess;
+        access.map(x=> x.element_id = x.id);
+        peer.connection.send({ event: "access-changed", data: access });
+    }
     this.onchange();
 }
 
@@ -65,13 +85,49 @@ peers.onchange = function () {
     peers.forEach(peer => cont.appendChild(createPeerElement(peer)));
 }
 
+
+
+function getDefaultAccess(peer) {
+    if (peer.name == null)
+        return null;
+    var access = [];
+    var players = partyArray.filter(x => x.player_name.toLowerCase() == peer.name.toLowerCase());
+    if (players.length > 0) {
+        access = players;
+    }
+    return access;
+
+}
+
 function createPeerElement(peer) {
+    if (peer.partyAccess == null || !peer.user_selected)
+        peer.partyAccess = getDefaultAccess(peer);
     var ele = util.ele("div", "peer_node column peer_connected");
     var p = util.ele("p", "peer_name", peer.name || "???");
+    peer.onAccessChanged();
+    if (peer.partyAccess == null)
+        return ele;
+
     ele.appendChild(p);
-    ele.appendChild(ElementCreator.checkBox("Pawn!", (e) => {
-        peer.connection.send("You control nothing");
-    }));
+    [{ character_name: "Full control", id: "all" }, ...partyArray].forEach(player => {
+        var isChecked = peer.partyAccess.find(x => x.id == player.id) != null;
+
+        var checkBox = ElementCreator.checkBox(player.character_name, isChecked, (e) => {
+            console.log(e.target.checked);
+            var checked = e.target.checked;
+            if (!checked) {
+                peer.partyAccess = peer.partyAccess.filter(x => x.id != player.id);
+            } else {
+                peer.partyAccess.push(player);
+            }
+            peer.user_selected = true;
+            peer.onAccessChanged();
+
+        });
+
+        ele.appendChild(checkBox);
+    });
+
     return ele;
 }
 
@@ -190,7 +246,7 @@ function sendMaptoolState(maptoolState) {
             sendBatched(peer.connection, "background", dataObject.background, { width: maptoolState.background.width, height: maptoolState.background.height });
             sendBatched(peer.connection, "overlay", dataObject.overlay, { width: maptoolState.overlay.width, height: maptoolState.overlay.height });
             // var distinctTokenImages = [... new Set(maptoolState.tokens.map(x => x.bgPhoto))];
-           
+
             // for (var i = 0; i < distinctTokenImages.length; i++) {
             //     var path = distinctTokenImages[i];
             //     console.log(path)
@@ -205,15 +261,15 @@ function sendMaptoolState(maptoolState) {
             //     });
             // }
             var tokenJSON = JSON.stringify(maptoolState.tokens);
-         
+
             sendBatched(peer.connection, "tokens-set", tokenJSON);
             var effectJSON = JSON.stringify(maptoolState.effects)
             sendBatched(peer.connection, "effects-set", effectJSON);
-            peer.connection.send({event:"backgroundLoop", data:maptoolState.backgroundLoop})
-            peer.connection.send({event:"overlayLoop", data:maptoolState.overlayLoop})
-            peer.connection.send({event:"segments", data:maptoolState.segments})
+            peer.connection.send({ event: "backgroundLoop", data: maptoolState.backgroundLoop })
+            peer.connection.send({ event: "overlayLoop", data: maptoolState.overlayLoop })
+            peer.connection.send({ event: "segments", data: maptoolState.segments })
             // tokens: tokens,
-          
+
             // effects: getEffectsForExport()
         }
     });
