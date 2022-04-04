@@ -182,9 +182,9 @@ function setState(message) {
 }
 
 function tokenAccessChanged(access){
-    console.log("Access changed");
-    console.log(access);
+
     TOKEN_ACCESS = access;
+    addPawnListeners() 
 }
 
 function moveObjects(arr) {

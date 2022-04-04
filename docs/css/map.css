@@ -529,8 +529,7 @@ li {
     width: 100px;
     height: 75px;
 }
-
-.pawn:hover, .pawn_selected {
+.pawn_accessed:hover, .pawn_selected {
     border: 2px dashed white;
 }
 

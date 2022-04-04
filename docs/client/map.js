@@ -1244,10 +1244,11 @@ var hideTooltipTimer;
 function addPawnListeners() {
     for (var i = 0; i < pawns.all.length; i++) {
         var pawn = pawns.all[i];
-        if (serverNotifier.isServer() || (TOKEN_ACCESS != null && TOKEN_ACCESS.find(x => x.element_id == pawn.id))) {
+        if (serverNotifier.isServer() || (TOKEN_ACCESS != null && TOKEN_ACCESS.find(x => x.element_id == pawn.id || x.element_id == "all"))) {
             allowAccess(pawn);
+            
         } else {
-
+            pawn.classList.remove("pawn_accessed");
             pawn.onmousedown = null;
             pawn.ontouchstart = null;
             pawn.onwheel = null;
@@ -1256,6 +1257,7 @@ function addPawnListeners() {
 
     function allowAccess(pawn) {
         dragPawn(pawn)
+        pawn.classList.add("pawn_accessed");
         if (pawn.deg == null) pawn.deg = 0;
         pawn.onwheel = function (event) {
             if (event.shiftKey) {
