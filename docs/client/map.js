@@ -124,6 +124,7 @@ function newPawnId() {
 
 function setBackgroundFilter() {
     var filterDd = document.getElementById("filter_tool");
+    if (!filterDd) return;
     filterValue = filterDd.options[filterDd.selectedIndex].value;
     if (filterValue == "none") {
         filtered = false;
@@ -1226,11 +1227,11 @@ function dragPawn(elmnt) {
         tooltip.classList.add("hidden");
         serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
             return {
-                pos: map.gridCoords(pawn),
+                pos: map.objectGridCoords(pawn),
                 id: pawn.id
             }
         }).concat({
-            pos: map.gridCoords(elmnt),
+            pos: map.objectGridCoords(elmnt),
             id: elmnt.id
 
         }));
@@ -1238,6 +1239,10 @@ function dragPawn(elmnt) {
     }
 }
 
+function onPerspectiveChanged() {
+    fovLighting.setPerspective();
+    updateHowlerListenerLocation();
+}
 
 
 var hideTooltipTimer;
@@ -1246,7 +1251,7 @@ function addPawnListeners() {
         var pawn = pawns.all[i];
         if (serverNotifier.isServer() || (TOKEN_ACCESS != null && TOKEN_ACCESS.find(x => x.element_id == pawn.id || x.element_id == "all"))) {
             allowAccess(pawn);
-            
+
         } else {
             pawn.classList.remove("pawn_accessed");
             pawn.onmousedown = null;
@@ -1707,6 +1712,12 @@ function refreshFogOfWar(timestamp) {
 }
 
 
+function switchActiveViewer() {
+    fovLighting.toggleDarkvision();
+    refreshFogOfWar();
+    setBackgroundFilter();
+
+}
 
 /* #endregion */
 
@@ -1804,19 +1815,24 @@ var map = function () {
 
 
     //Returns grid coordinates of an element
-    function gridCoords(pawn) {
+    function objectGridCoords(pawn) {
 
+
+        var left = parseFloat(pawn.style.left);
+        var top = parseFloat(pawn.style.top);
+        return toGridCoords(left, top);
+
+    }
+
+    function toGridCoords(x, y) {
         var rect = foregroundCanvas.getBoundingClientRect();
         var backgroundOriginX = rect.left;
         var backgroundOriginY = rect.top;
-        var left = parseFloat(pawn.style.left);
-        var top = parseFloat(pawn.style.top);
-        var cellsFromLeft = (left - backgroundOriginX)
+        var cellsFromLeft = (x - backgroundOriginX)
             / (cellSize);
-        var cellsFromTop = (top - backgroundOriginY)
+        var cellsFromTop = (y - backgroundOriginY)
             / (cellSize);
         return { x: cellsFromLeft, y: cellsFromTop }
-
     }
 
     function pixelsFromGridCoords(cellsX, cellsY) {
@@ -1893,7 +1909,8 @@ var map = function () {
         removeAllPawns: removeAllPawns,
         onkeydown: onkeydown,
         onzoom: onzoom,
-        gridCoords: gridCoords,
+        objectGridCoords: objectGridCoords,
+        toGridCoords: toGridCoords,
         pixelsFromGridCoords: pixelsFromGridCoords,
         drawGrid: drawGrid
     }
