@@ -120,6 +120,7 @@ function setState(message) {
     switch (message.event) {
         case "initialized":
             map.removeAllPawns();
+            map.removeAllEffects();
             break;
         case "players-changed":
             ///???
@@ -228,8 +229,8 @@ function clientSetForeground(message) {
 
 function setEffects(effectStr) {
     var arr = JSON.parse(effectStr);
-
-    effects.forEach(eff => effectManager.removeEffect(eff));
+    map.removeAllEffects();
+   
     arr.forEach(effObj => addEffect(effObj));
 }
 function addEffect(effObj) {

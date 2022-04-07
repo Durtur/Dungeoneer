@@ -26,12 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
+        showBubblyText(ev.center.x)
         ev.clientX = ev.center.x;
         ev.clientY = ev.center.y;
         zoomIntoMap(ev, -0.01)
     });
     hammertime.on('pinchout', function (ev) {
         console.log(ev);
+        showBubblyText(ev.center.x);
         ev.clientX = ev.center.x;
         ev.clientY = ev.center.y;
         zoomIntoMap(ev, 0.01)

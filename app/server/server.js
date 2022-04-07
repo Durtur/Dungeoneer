@@ -3,7 +3,7 @@ const ElementCreator = require("./js/lib/elementCreator");
 const dataAccess = require("./js/dataaccess");
 const { ipcRenderer } = require('electron');
 const pathModule = require('path');
-const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"//"https://www.ogreforge.me/Dungeoneer/client"
+const clientPath = "https://www.ogreforge.me/Dungeoneer/client"// "file:///C:/Forritun/Dungeoneer/docs/client.html"//
 const pendingStateRequests = [];
 const partyArray = [];
 
@@ -227,10 +227,13 @@ function handleDataEvent(data, connection) {
         data.data.forEach(ele => {
 
             var access = peer.partyAccess.find(x => x.element_id == ele.id);
-            console.log(access);
+           
             if (access){
                 notifyMaptool({ event: data.event, data: ele });
-                
+                var otherPeers = peers.filter(x=> x.connection.connectionId != peer.connection.connectionId);
+                otherPeers.forEach(otherPeer => {
+                    otherPeer.connection.send({ event: data.event, data: [ele] })
+                });
             }
         })
     }

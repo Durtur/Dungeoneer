@@ -461,7 +461,7 @@ var effectManager = function () {
 
     }
 
-    function popupMenuAddEffectClickHandler(e) {
+    async function popupMenuAddEffectClickHandler(e) {
         if (e.button == 2) {
             stopAddingEffects();
             return;
@@ -473,10 +473,10 @@ var effectManager = function () {
 
         if (e.button == 0 && e.target == gridLayer) {
 
-            createEffect(e);
+            await createEffect(e);
         } else if (e.button == 0 && (pawn = pawnClicked(e.target))) {
 
-            pawn.attached_objects.push(createEffect(e));
+            pawn.attached_objects.push(await createEffect(e));
         }
 
         function pawnClicked(clickedEle) {

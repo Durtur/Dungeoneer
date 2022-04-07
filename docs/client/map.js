@@ -1161,12 +1161,26 @@ function dragPawn(elmnt) {
                 elmnt.style.top = (elmnt.offsetTop - posY) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - posX) + "px";
                 elmnt.attached_objects.forEach(obj => {
+
+                    if (!obj)
+                        return;
                     obj.style.top = (obj.offsetTop - posY) + "px";
                     obj.style.left = (obj.offsetLeft - posX) + "px";
                     if (obj.sound)
                         soundManager.adjustPlacement(obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
                 });
             }
+
+            serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
+                return {
+                    pos: map.objectGridCoords(pawn),
+                    id: pawn.id
+                }
+            }).concat({
+                pos: map.objectGridCoords(elmnt),
+                id: elmnt.id
+
+            }));
             //Clear old
             if (oldLine != null) {
                 measurements.eraseModeOn();
@@ -1871,22 +1885,31 @@ var map = function () {
         pawns.players.clear();
     }
 
-    function moveObject(elmnt, point) {
+    function moveObject(elmnt, point, userAction = true) {
         var oldX = parseFloat(elmnt.style.left);
         var oldY = parseFloat(elmnt.style.top);
         var diffX = oldX - point.x;
         var diffY = oldY - point.y;
         elmnt.style.left = point.x + "px";
         elmnt.style.top = point.y + "px";
+
         if (elmnt.attached_objects)
             elmnt.attached_objects.forEach(obj => {
+                console.log(obj);
+                if (!obj)
+                    return;
                 var currX = parseFloat(obj.style.left);
                 var currY = parseFloat(obj.style.top);
                 currX -= diffX;
                 currY -= diffY;
-                obj.style.left = currX + "px";
-                obj.style.top = currY + "px";
+                moveObject(obj, { x: currX, y: currY }, userAction);
+
             });
+        if (userAction)
+            serverNotifier.notifyServer("object-moved", [{
+                pos: map.objectGridCoords(elmnt),
+                id: elmnt.id
+            }]);
     }
 
 
@@ -1900,6 +1923,9 @@ var map = function () {
         moveObject(elmnt, { x: positionOnTranslatedGrid.x + gridMoveOffsetX, y: positionOnTranslatedGrid.y + gridMoveOffsetY });
 
     }
+    function removeAllEffects() {
+        effects.forEach(eff => effectManager.removeEffect(eff));
+    }
 
     return {
         init: init,
@@ -1907,6 +1933,7 @@ var map = function () {
         removePawn: removePawn,
         moveObject: moveObject,
         removeAllPawns: removeAllPawns,
+        removeAllEffects: removeAllEffects,
         onkeydown: onkeydown,
         onzoom: onzoom,
         objectGridCoords: objectGridCoords,
