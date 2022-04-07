@@ -111,7 +111,7 @@ function handleMessage(message) {
 
 function toBase64Url(base64data) {
     if (base64data == null) return "none";
-    return `url(data:image/png;base64,${base64data})`
+    return `url(data:image/webp;base64,${base64data})`
 }
 
 function setState(message) {
@@ -212,7 +212,7 @@ function moveObjects(arr) {
         var pawn = document.getElementById(pawnInfo.id);
         var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
         console.log(pawn)
-        map.moveObject(pawn, tanslatedPixels)
+        map.moveObject(pawn, tanslatedPixels, false)
     });
     refreshFogOfWar();
 }

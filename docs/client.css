@@ -18,7 +18,7 @@ input{
     position: absolute;
 
     z-index:500000;
-
+    min-width: 4em;
     left: 1em;
     width: 5vw;
     height: 50vh;
@@ -40,8 +40,10 @@ input{
 #toolbar #fov_perspective_dropdown{
     background-color: transparent;
     border: none;
-    width: auto;
+    width: 5.5em;
+    margin: 0;
     padding: 0.5em;
+    margin-left: -6px;
     font-size: 1em;
 
 }

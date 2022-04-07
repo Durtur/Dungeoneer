@@ -246,7 +246,7 @@ module.exports = function () {
             var shrp = sharp(path)
             if (shrink)
                 shrp = await shrp.resize(1200);
-            var buffer = await shrp.toBuffer();
+            var buffer = await shrp.toFormat("webp").toBuffer();
 
             return buffer.toString('base64');
         } catch (err) {

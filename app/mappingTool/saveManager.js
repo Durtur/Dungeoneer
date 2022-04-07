@@ -89,10 +89,10 @@ class SaveManager {
             data.mapOverlayBase64 = await Util.toBase64(settings.currentOverlay, true);
         }
         data.extensions = {
-            mapEdge: data.mapEdgeBase64 ? pathModule.basename(settings.map_edge_style) : null,
-            foreground: data.foregroundBase64 ? pathModule.basename(settings.currentMap) : null,
-            background: data.backgroundBase64 ? pathModule.basename(settings.currentBackground) : null,
-            overlay: data.mapOverlayBase64 ? pathModule.basename(settings.currentOverlay) : null
+            mapEdge: data.mapEdgeBase64 ? pathModule.basename(settings.map_edge_style) + ".webp" : null,
+            foreground: data.foregroundBase64 ? pathModule.basename(settings.currentMap) + ".webp" : null,
+            background: data.backgroundBase64 ? pathModule.basename(settings.currentBackground) + ".webp" : null,
+            overlay: data.mapOverlayBase64 ? pathModule.basename(settings.currentOverlay) + ".webp" : null
         }
 
         fs.writeFile(path, JSON.stringify(data), (err) => {
