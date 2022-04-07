@@ -335,6 +335,7 @@ li {
     background-color: rgba(255, 255, 255, 0.469);
     z-index: var(--z-index-tooltip);
     font-family: "bookSanity";
+    font-size:1.5em;
 }
 
 .hidden {

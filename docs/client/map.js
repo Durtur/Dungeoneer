@@ -680,7 +680,7 @@ function showToolTip(event, text, tooltipId) {
     var tooltip = document.getElementById(tooltipId);
     var clientX = event.clientX || event.touches[0].clientX;
     var clientY = event.clientY || event.touches[0].clientY;
-    tooltip.style.top = clientY - 50 + "px";;
+    tooltip.style.top = clientY - 100 + "px";;
     tooltip.style.left = clientX + "px";;
     tooltip.innerHTML = "0 ft";
     tooltip.innerHTML = text;
