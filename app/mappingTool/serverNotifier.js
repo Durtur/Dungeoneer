@@ -19,13 +19,23 @@ var serverNotifier = function () {
                 overlay: getOverlayState(),
                 background: getBackgroundState(),
                 effects: await getEffectsForExport(),
-                segments: { segments: fovLighting.getSegments() }
+                segments: { segments: getSegments() }
             }
         });
 
     }
 
-    function isServer(){
+    function getSegments() {
+        var segments = fovLighting.getSegments();
+        return segments.map(seg => {
+            return {
+                a: map.toGridCoords(seg.a.x, seg.a.y),
+                b: map.toGridCoords(seg.b.x, seg.b.y)
+            }
+        })
+    }
+
+    function isServer() {
         return true;
     }
 
@@ -57,7 +67,7 @@ var serverNotifier = function () {
 
     async function getEffectsForExport() {
         var effectArr = [];
-        for(var i = 0 ; i< effects.length ; i++){
+        for (var i = 0; i < effects.length; i++) {
             effectArr.push(await saveManager.exportEffect(effects[i]));
         }
         return effectArr;
@@ -66,13 +76,13 @@ var serverNotifier = function () {
 
     async function getTokensForExport() {
         var tokens = [];
-        for(var i = 0 ; i < loadedMonsters.length; i++){
-            tokens.push(await saveManager.exportPawn(loadedMonsters[i]) )
+        for (var i = 0; i < loadedMonsters.length; i++) {
+            tokens.push(await saveManager.exportPawn(loadedMonsters[i]))
         }
-        for(var i = 0 ; i < pawns.players.length; i++){
-            tokens.push(await saveManager.exportPawn(pawns.players[i]) )
+        for (var i = 0; i < pawns.players.length; i++) {
+            tokens.push(await saveManager.exportPawn(pawns.players[i]))
         }
-       
+
         return tokens;
     }
 
@@ -84,12 +94,12 @@ var serverNotifier = function () {
         notifyServer: notifyServer,
         sendState: sendState,
         getForegroundState: getForegroundState,
-        getTokensForExport:getTokensForExport,
+        getTokensForExport: getTokensForExport,
         getBackgroundState: getBackgroundState,
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
-        isServer:isServer,
-        getEffectsForExport:  getEffectsForExport,
+        isServer: isServer,
+        getEffectsForExport: getEffectsForExport,
         timeouts: timeouts
     }
 }();

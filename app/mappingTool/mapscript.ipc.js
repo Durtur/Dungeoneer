@@ -1,3 +1,4 @@
+
 var initialLoadComplete = false;
 
 ipcRenderer.on("load-map", function (evt, arg) {
@@ -8,6 +9,7 @@ ipcRenderer.on("load-map", function (evt, arg) {
     }
 });
 ipcRenderer.on("get-state", (evt, arg) => {
+    console.log("Request state")
     serverNotifier.sendState();
 });
 
@@ -142,10 +144,16 @@ ipcRenderer.on('monster-list-cleared', function (evt, arg) {
     loadedMonstersFromMain = [];
 });
 
-function onPerspectiveChanged() {
-    fovLighting.setPerspective();
-    updateHowlerListenerLocation();
-}
+ipcRenderer.on("client-event", function (evt, arg) {
+    console.log(arg);
+    if(arg.event == "object-moved"){
+        var pawnInfo = arg.data;
+        var pawn = document.getElementById(pawnInfo.id);
+        var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
+    
+        map.moveObject(pawn, tanslatedPixels)
+    }
+})
 ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {
 
 

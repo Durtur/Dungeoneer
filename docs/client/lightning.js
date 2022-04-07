@@ -710,23 +710,24 @@ var fovLighting = function () {
         var selectedIndex = document.getElementById("fov_perspective_dropdown").selectedIndex;
         var name = document.getElementById("fov_perspective_dropdown").options[selectedIndex].value;
 
-        if (selectedIndex == 0) {
+        if (name == "All") {
             forcedPerspectiveOrigin = null;
             drawFogOfWar();
             return;
-        } else if (selectedIndex == 1) {
+        } else if (name == "Players") {
             forcedPerspectiveOrigin = pawns.players.map(x => x[0]);
 
         }
+        console.log(`Setting perspective ${name}`)
         for (var i = 0; i < pawns.players.length; i++) {
             if (pawns.players[i][1] == name) {
                 forcedPerspectiveOrigin = [pawns.players[i][0]];
                 if (forcedPerspectiveOrigin[0].sight_mode == "darkvision") {
                     if (!activeViewerHasDarkvision)
-                        document.getElementById("active_viewer_button").click();
+                        switchActiveViewer();
                 } else {
                     if (activeViewerHasDarkvision)
-                        document.getElementById("active_viewer_button").click();
+                        switchActiveViewer();
                 }
 
                 break;

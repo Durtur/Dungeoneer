@@ -718,15 +718,18 @@ var fovLighting = function () {
             forcedPerspectiveOrigin = pawns.players.map(x => x[0]);
 
         }
+        var button = document.getElementById("active_viewer_button");
         for (var i = 0; i < pawns.players.length; i++) {
             if (pawns.players[i][1] == name) {
                 forcedPerspectiveOrigin = [pawns.players[i][0]];
                 if (forcedPerspectiveOrigin[0].sight_mode == "darkvision") {
                     if (!activeViewerHasDarkvision)
-                        document.getElementById("active_viewer_button").click();
+                        if (button) button.click();
+                        else switchActiveViewer();
                 } else {
                     if (activeViewerHasDarkvision)
-                        document.getElementById("active_viewer_button").click();
+                        if (button) button.click();
+                        else switchActiveViewer();
                 }
 
                 break;

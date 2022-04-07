@@ -114,7 +114,7 @@ var effectManager = function () {
                 eff.classList.add("elevated")
                 Util.makeUIElementDraggable(eff, ()=> {
                     serverNotifier.notifyServer("object-moved", [{
-                        pos: map.gridCoords(eff),
+                        pos: map.objectGridCoords(eff),
                         id: eff.id
                     }])
                 })

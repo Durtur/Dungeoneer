@@ -3,7 +3,7 @@ const ElementCreator = require("./js/lib/elementCreator");
 const dataAccess = require("./js/dataaccess");
 const { ipcRenderer } = require('electron');
 const pathModule = require('path');
-const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"//"https://www.ogreforge.me/Dungeoneer"
+const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"//"https://www.ogreforge.me/Dungeoneer/client"
 const pendingStateRequests = [];
 const partyArray = [];
 
@@ -61,8 +61,8 @@ peers.add = function (peer) {
     peer.onAccessChanged = function () {
         if (!peer.connection.open)
             return;
-        var access =  peer.partyAccess == null ? [] : peer.partyAccess;
-        access.map(x=> x.element_id = x.id);
+        var access = peer.partyAccess == null ? [] : peer.partyAccess;
+        access.map(x => x.element_id = x.id);
         peer.connection.send({ event: "access-changed", data: access });
     }
     this.onchange();
@@ -212,17 +212,39 @@ function onConnected(conn) {
 function handleDataEvent(data, connection) {
     console.log(`Data from ${connection}`)
     console.log(data);
+    var peer = getPeer(connection.connectionId);
     if (data.event == "init") {
-
-        var peer = peers.find(x => x.connectionId == connection.connectionId);
-        if (!peer)
-            throw "peer not found";
         peer.name = data.name;
         peers.onchange();
         pendingStateRequests.push(peer);
         ipcRenderer.send('request-maptool-state');
 
+    } else if (data.event == "object-moved") {
+
+        if (peer.partyAccess == null)
+            return;
+
+        data.data.forEach(ele => {
+
+            var access = peer.partyAccess.find(x => x.element_id == ele.id);
+            console.log(access);
+            if (access){
+                notifyMaptool({ event: data.event, data: ele });
+                
+            }
+        })
     }
+}
+
+function notifyMaptool(data) {
+    window.api.messageWindow("maptoolWindow", "client-event", data);
+}
+
+function getPeer(connectionId) {
+    var peer = peers.find(x => x.connectionId == connectionId);
+    if (!peer)
+        throw "peer not found";
+    return peer;
 }
 
 function sendMaptoolState(maptoolState) {

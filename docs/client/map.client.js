@@ -2,11 +2,11 @@
 var settings = {
     gridSettings: {},
     enableGrid: true,
-    colorTokenBases:true
+    colorTokenBases: true
 };
 var module = {}, previewPlacementElement;
 var addingFromMainWindow = false;
-
+const PLAYERS_ALL_OPTION ="Players";
 function require() {
     return null;
 }
@@ -17,23 +17,22 @@ var soundManager;
 document.addEventListener("DOMContentLoaded", () => {
     soundManager = new SoundManager();
     soundManager.initialize();
-    visibilityLayerVisible = false;
-    fovLighting.setVisibilityLayerVisible(true);
+  
     map.init();
     setMapForeground("./client/default.png");
     resetGridLayer();
-   
+
     var hammertime = new Hammer(gridLayer, null);
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-        ev.clientX =ev.center.x;
+        ev.clientX = ev.center.x;
         ev.clientY = ev.center.y;
-       zoomIntoMap(ev, -0.01)
+        zoomIntoMap(ev, -0.01)
     });
     hammertime.on('pinchout', function (ev) {
         console.log(ev);
-        ev.clientX =ev.center.x;
+        ev.clientX = ev.center.x;
         ev.clientY = ev.center.y;
         zoomIntoMap(ev, 0.01)
     });
@@ -83,6 +82,34 @@ function generalMousedowngridLayer(event) {
 
 function notifySelectedPawnsChanged() {
     //Do something 
+}
+
+function createPerspectiveDropdown() {
+    var dd = document.getElementById("fov_perspective_dropdown");
+    var selected = dd.options[dd.selectedIndex]?.value;
+    while (dd.firstChild)
+        dd.removeChild(dd.firstChild);
+
+    dd.appendChild(createOption(PLAYERS_ALL_OPTION, "Players"));
+    if (TOKEN_ACCESS == null)
+        return;
+
+    TOKEN_ACCESS.forEach(pawn => {
+        var opt = createOption(pawn.character_name, pawn.character_name);
+        if (selected && selected == pawn.character_name)
+            opt.selected = true;
+        dd.appendChild(opt);
+    });
+
+    onPerspectiveChanged();
+}
+
+
+function createOption(value, dispay) {
+    var newOption = document.createElement("option");
+    newOption.setAttribute("value", value);
+    newOption.innerHTML = dispay;
+    return newOption;
 }
 
 

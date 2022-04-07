@@ -238,7 +238,7 @@ class SaveManager {
             id: effect.id,
             brightLightRadius: effect.sight_radius_bright_light,
             dimLightRadius: effect.sight_radius_dim_light,
-            pos: map.gridCoords(effect),
+            pos: map.objectGridCoords(effect),
             bgPhotoBase64: await util.toBase64(util.decssify(effect.style.backgroundImage))
         };
 
@@ -279,7 +279,7 @@ class SaveManager {
             sight_radius_bright_light: element.sight_radius_bright_light,
             sight_radius_dim_light: element.sight_radius_dim_light,
             bgPhotoBase64: base64,
-            pos: map.gridCoords(element)
+            pos: map.objectGridCoords(element)
             //attached_objects : element.attached_objects
         }
     }

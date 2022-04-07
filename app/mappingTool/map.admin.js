@@ -98,12 +98,6 @@ function saveSettings() {
     });
 }
 
-function switchActiveViewer() {
-    fovLighting.toggleDarkvision();
-    refreshFogOfWar();
-    setBackgroundFilter();
-
-}
 
 // #region commands
 function notifySelectedPawnsChanged() {

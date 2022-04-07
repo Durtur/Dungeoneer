@@ -37,6 +37,19 @@ input{
     background-color: transparent !important;
 }
 
+#toolbar #fov_perspective_dropdown{
+    background-color: transparent;
+    border: none;
+    width: auto;
+    padding: 0.5em;
+    font-size: 1em;
+
+}
+
+#fov_perspective_dropdown option{
+    background-color:black;
+    border:none;
+}
 #toolbar .toggle_button{
     width: 3.5em;
     height: 3.5em;

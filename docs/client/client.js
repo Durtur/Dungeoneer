@@ -86,6 +86,12 @@ function showError(err) {
 }
 function handleMessage(message) {
     console.log(message)
+    //Store foreground translate so effects and tokens are placed correctly. 
+    if(message.event =="foreground"){
+        var trsl = message.data.metadata.translate;
+        foregroundCanvas.data_transform_x = trsl.x;
+        foregroundCanvas.data_transform_y = trsl.y;
+    }
     if (message.data?.chunks) {
         if (!dataBuffer[message.event]) {
             dataBuffer[message.event] = message.data.base64;
@@ -162,7 +168,7 @@ function setState(message) {
             resizeOverlay(message.data.width);
             break;
         case "segments":
-            fovLighting.setSegments(message.data.segments);
+            importSegments(message.data.segments)
             break;
         case "object-moved":
             moveObjects(message.data);
@@ -181,10 +187,21 @@ function setState(message) {
 
 }
 
-function tokenAccessChanged(access){
+function importSegments(segments) {
+    var arr = segments.map(seg => {
+        return {
+            a: map.pixelsFromGridCoords(seg.a.x, seg.a.y),
+            b: map.pixelsFromGridCoords(seg.b.x, seg.b.y)
+        }
+    });
+    fovLighting.setSegments(arr);
+}
+
+function tokenAccessChanged(access) {
 
     TOKEN_ACCESS = access;
-    addPawnListeners() 
+    addPawnListeners();
+    createPerspectiveDropdown();
 }
 
 function moveObjects(arr) {
@@ -195,12 +212,12 @@ function moveObjects(arr) {
         var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
         console.log(pawn)
         map.moveObject(pawn, tanslatedPixels)
-    })
+    });
+    refreshFogOfWar();
 }
 
 function clientSetForeground(message) {
     setMapForegroundAsBase64(toBase64Url(dataBuffer[message.event]), message.data.metadata.width, message.data.metadata.height);
-
     if (message.data.metadata.translate) {
         var trsl = message.data.metadata.translate;
         foregroundCanvas.data_transform_x = trsl.x;
@@ -211,6 +228,7 @@ function clientSetForeground(message) {
 
 function setEffects(effectStr) {
     var arr = JSON.parse(effectStr);
+
     effects.forEach(eff => effectManager.removeEffect(eff));
     arr.forEach(effObj => addEffect(effObj));
 }
@@ -235,7 +253,8 @@ function importTokens(tokenStr) {
     arr.forEach(pawn => {
         addPawn(pawn);
 
-    })
+    });
+    onPerspectiveChanged();
 
 }
 
