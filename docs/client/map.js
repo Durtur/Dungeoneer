@@ -297,7 +297,7 @@ function setTool(source, toolIndex) {
         stopMeasuring(null, true);
         //toggle button handler will then set to false
         source.setAttribute("toggled", "true");
-        measurements.clearMeasurements();
+        window.setTimeout(()=>   measurements.clearMeasurements(), 300);
 
     }
 }
@@ -939,6 +939,7 @@ function stopMeasuring(event, ignoreClick) {
         measurementPaused = false;
         segmentMeasurementPaused = false;
         lastMeasuredPoint = null;
+        hideAllTooltips();
         measurements.clearMeasurements();
     } else if (event.button == 0 && visibilityLayerVisible && lastMeasuredPoint != null) {
         if (fovToolbox[0]) {
