@@ -1197,16 +1197,16 @@ function dragPawn(elmnt) {
                 });
             }
 
-            serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
-                return {
-                    pos: map.objectGridCoords(pawn),
-                    id: pawn.id
-                }
-            }).concat({
-                pos: map.objectGridCoords(elmnt),
-                id: elmnt.id
+            // serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
+            //     return {
+            //         pos: map.objectGridCoords(pawn),
+            //         id: pawn.id
+            //     }
+            // }).concat({
+            //     pos: map.objectGridCoords(elmnt),
+            //     id: elmnt.id
 
-            }));
+            // }));
             //Clear old
             if (oldLine != null) {
                 measurements.eraseModeOn();
@@ -1268,11 +1268,13 @@ function dragPawn(elmnt) {
         serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
             return {
                 pos: map.objectGridCoords(pawn),
-                id: pawn.id
+                id: pawn.id,
+                distance:tooltip.innerHTML
             }
         }).concat({
             pos: map.objectGridCoords(elmnt),
-            id: elmnt.id
+            id: elmnt.id,
+            distance:tooltip.innerHTML
 
         }));
 

@@ -3,7 +3,7 @@ const ElementCreator = require("./js/lib/elementCreator");
 const dataAccess = require("./js/dataaccess");
 const { ipcRenderer } = require('electron');
 const pathModule = require('path');
-const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"// "https://www.ogreforge.me/Dungeoneer/client"//
+const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"//"https://www.ogreforge.me/Dungeoneer/client"
 const pendingStateRequests = [];
 const partyArray = [];
 

@@ -557,12 +557,13 @@ var fovLighting = function () {
                 }
             });
         })(points);
+        drawFogOfWar();
     }
 
     function onSegmentsChanged(serverNotify = true) {
         generateUniquePoints();
         if (serverNotify)
-            serverNotifier.notifyServer("segments", { segments: segments });
+            serverNotifier.notifyServer("segments", { segments: serverNotifier.getSegments() });
 
 
     }

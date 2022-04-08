@@ -99,6 +99,7 @@ var serverNotifier = function () {
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
         isServer: isServer,
+        getSegments:getSegments,
         getEffectsForExport: getEffectsForExport,
         timeouts: timeouts
     }

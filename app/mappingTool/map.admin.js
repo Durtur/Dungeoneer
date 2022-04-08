@@ -298,7 +298,7 @@ async function onSettingsLoaded() {
         var bgY = foregroundCanvas.data_transform_y || 0;
 
         if (event.shiftKey) {
-          
+
             if (event.keyCode == 37) {
                 bgX -= canvasMoveRate;
             } else if (event.keyCode == 39) {
@@ -565,7 +565,7 @@ function setLightSource(brightLight, dimLight, params) {
     refreshFogOfWar();
 }
 
- function loadParty() {
+function loadParty() {
     if (partyArray == null) partyArray = [];
     if (!settings.addPlayersAutomatically) return;
     dataAccess.getParty(async function (data) {
@@ -598,7 +598,7 @@ function setLightSource(brightLight, dimLight, params) {
             }
         }
 
- 
+
         await generatePawns(newPartyArray, false);
         fillForcedPerspectiveDropDown();
 
@@ -607,16 +607,21 @@ function setLightSource(brightLight, dimLight, params) {
 
 function fillForcedPerspectiveDropDown() {
     var dropDown = document.getElementById("fov_perspective_dropdown");
+    console.log(dropDown)
+    while (dropDown.firstChild)
+        dropDown.removeChild(dropDown.firstChild);
 
-    while (dropDown.childNodes.length > 4) {
-        dropDown.removeChild(dropDown.lastChild);
-    }
+    createOption("All");
+    createOption("Players");
     partyArray.forEach(function (array) {
-        var option = document.createElement("option");
-        option.setAttribute("value", array[0]);
-        option.innerHTML = array[0];
-        dropDown.appendChild(option);
+        createOption(array[0]);
     })
+    function createOption(value) {
+        var option = document.createElement("option");
+        option.setAttribute("value", value);
+        option.innerHTML = value;
+        dropDown.appendChild(option);
+    }
 
 }
 
@@ -793,7 +798,7 @@ function startAddingFromQueue() {
 
     document.onmousemove = function (e) {
         tooltip.style.top = e.clientY - 75 + "px";
-        tooltip.style.left = e.clientX + 75+  "px";
+        tooltip.style.left = e.clientX + 75 + "px";
     }
     gridLayer.style.cursor = "copy";
     gridLayer.onmousedown = function (e) {

@@ -115,3 +115,11 @@ function createOption(value, dispay) {
 }
 
 
+
+function toggleGrid(e){
+    console.log( settings.enableGrid )
+    settings.enableGrid = !settings.enableGrid;
+    resizeAndDrawGrid();
+    console.log( settings.enableGrid )
+}
+
