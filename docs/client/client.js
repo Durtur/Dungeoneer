@@ -62,7 +62,7 @@ function connect() {
             send({ event: "init", name: name });
         })
         hostConnection.on('data', function (data) {
-           
+
             handleMessage(data);
 
         });
@@ -87,17 +87,22 @@ function showError(err) {
 function handleMessage(message) {
     console.log(message)
     //Store foreground translate so effects and tokens are placed correctly. 
-    
+
     if (message.data?.chunks) {
         if (!dataBuffer[message.event]) {
-            dataBuffer[message.event] = message.data.base64;
-        } else {
-            dataBuffer[message.event] += message.data.base64;
+            dataBuffer[message.event] = [];
+            dataBuffer[message.event].length = message.data?.chunks - 1;
+
+
         }
+        dataBuffer[message.event][message.data.chunk - 1] = message.data.base64;
         //Message end
-        if (message.data.chunk == message.data.chunks) {
+        if (!dataBuffer[message.event].find(x => x == null)) {
             setState(message);
-            dataBuffer[message.event] = null;
+            window.setTimeout(() => {
+                dataBuffer[message.event] = null;
+            }, 1000)
+
         }
     } else {
         setState(message);
@@ -125,17 +130,17 @@ function setState(message) {
             tokenAccessChanged(message.data);
             break;
         case "map_edge":
-            setMapEdge(toBase64Url(dataBuffer[message.event]));
+            setMapEdge(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)));
             break;
         case "foreground":
             clientSetForeground(message)
             break;
         case "background":
-            setMapBackgroundAsBase64(toBase64Url(dataBuffer[message.event]), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
+            setMapBackgroundAsBase64(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
             break;
         case "tokens-set":
             map.removeAllPawns();
-            importTokens(dataBuffer[message.event]);
+            importTokens(dataBuffer[message.event].reduce((a, b) => a + b));
             break;
         case "constants":
             constants = message.data;
@@ -171,7 +176,7 @@ function setState(message) {
             moveObjects(message.data);
             break;
         case "effects-set":
-            setEffects(dataBuffer[message.event]);
+            setEffects(dataBuffer[message.event].reduce((a, b) => a + b));
             break;
         case "effect-add":
             addEffect(message.data);
@@ -199,6 +204,7 @@ function importSegments(segments) {
         }
     });
     fovLighting.setSegments(arr);
+
 }
 
 function tokenAccessChanged(access) {
@@ -221,7 +227,7 @@ function moveObjects(arr) {
 }
 
 function clientSetForeground(message) {
-    setMapForegroundAsBase64(toBase64Url(dataBuffer[message.event]), message.data.metadata.width, message.data.metadata.height);
+    setMapForegroundAsBase64(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)), message.data.metadata.width, message.data.metadata.height);
     if (message.data.metadata.translate) {
         var trsl = message.data.metadata.translate;
         foregroundCanvas.data_transform_x = trsl.x;
@@ -257,9 +263,9 @@ function importTokens(tokenStr) {
     arr.forEach(pawn => {
         addPawn(pawn);
         onMonsterHealthChanged({
-            dead:pawn.dead == "true",
-            healthPercentage:pawn.health_percentage,
-            index:pawn.index_in_main_window
+            dead: pawn.dead == "true",
+            healthPercentage: pawn.health_percentage,
+            index: pawn.index_in_main_window
         });
 
     });
@@ -294,5 +300,4 @@ function send(data) {
     console.log(`Sending ${data}`);
     hostConnection.send(data);
 }
-
 
