@@ -32,14 +32,14 @@ let measurements = function () {
         measurementsLayerContext.setLineDash(lastLineDash);
     }
     function startMeasuring(event) {
-        console.log(event.button)
+
         if (event.button != null && event.button != 0) {
             lastMeasuredPoint = null;
             return;
         }
         hideAllTooltips();
-        var clientX = event.clientX || event.touches[0].clientX;
-        var clientY = event.clientY || event.touches[0].clientY;
+        var clientX = event.clientX || (event.touches[0].clientX + event.touches[0].radiusX);
+        var clientY = event.clientY || (event.touches[0].clientY + event.touches[0].radiusY);
         measurementsLayerContext.moveTo(clientX, clientY);
         document.onmousedown = measurementMouseDownHandler;
 
@@ -208,9 +208,9 @@ let measurements = function () {
         function measureRectangle(event) {
             if (event.target.classList.contains("button_style"))
                 return;
-    
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+
+            clientX = event.clientX || (event.touches[0].clientX + event.touches[0].radiusX);
+            clientY = event.clientY || (event.touches[0].clientY + event.touches[0].radiusY);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -240,8 +240,8 @@ let measurements = function () {
 
         }
         function measureCube(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = event.clientX || (event.touches[0].clientX + event.touches[0].radiusX);
+            clientY = event.clientY || (event.touches[0].clientY + event.touches[0].radiusY);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -272,8 +272,8 @@ let measurements = function () {
         }
 
         function measureSphere(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = event.clientX || (event.touches[0].clientX + event.touches[0].radiusX);
+            clientY = event.clientY || (event.touches[0].clientY + event.touches[0].radiusY);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredSphere) {
                     measurements.eraseModeOn();
@@ -305,8 +305,8 @@ let measurements = function () {
         }
 
         function measureCone(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = event.clientX || (event.touches[0].clientX + event.touches[0].radiusX);
+            clientY = event.clientY || (event.touches[0].clientY + event.touches[0].radiusY);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCone) {
                     measurements.eraseModeOn();

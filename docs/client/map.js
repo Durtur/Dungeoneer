@@ -1107,7 +1107,7 @@ function dragPawn(elmnt) {
                 if (isSelectedPawn(e.target) < 0)
                     clearSelectedPawns();
                 setupMeasurements();
-                originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop };
+                originPosition = { x: parseFloat(elmnt.style.left), y: parseFloat(elmnt.style.top) };
                 measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
                 showToolTip(e, "0 ft", "tooltip")
                 e = e || window.event;
