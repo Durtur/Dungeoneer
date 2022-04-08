@@ -33,10 +33,11 @@ input{
     height: 83%;
 }
 
-.toolbar .toggle_button:hover, .toolbar .toggle_button[toggled="true"]{
+.toolbar .toggle_button:hover, .toolbar .toggle_button[toggled="true"], .toolbar .togglable:hover, .toolbar .togglable[toggled="true"]{
     filter: contrast(40%) sepia(1) hue-rotate(20deg) saturate(1000%);
     background-color: transparent !important;
 }
+
 
 .toolbar #fov_perspective_dropdown{
     background-color: transparent;
@@ -53,7 +54,7 @@ input{
     background-color:black;
     border:none;
 }
-.toolbar .toggle_button{
+.toolbar .toggle_button, .toolbar .togglable{
     width: 3.5em;
     height: 3.5em;
     background-color: transparent;

@@ -48,6 +48,11 @@ var fovLighting = function () {
     var activeViewerHasDarkvision = false;
     function setFogStyle(fogStyle) {
         activeFogType = fogStyle;
+        serverNotifier.notifyServer("fog-set", fogStyle);
+    }
+
+    function getFogStyle() {
+        return activeFogType;
     }
 
     function toggleDarkvision() {
@@ -172,7 +177,7 @@ var fovLighting = function () {
                 || (rect.y + rect.height) < 0 - margin
                 || (rect.x > window.innerWidth + margin || rect.y > window.innerHeight + margin)
             );
-        if (!isOffScren) console.log("Inside", pawn)
+
         return isOffScren;
     }
 
@@ -848,6 +853,7 @@ var fovLighting = function () {
         importDungeondraftVttMap: importDungeondraftVttMap,
         drawFogOfWar: drawFogOfWar,
         setFogStyle: setFogStyle,
+        getFogStyle: getFogStyle,
         MapFogType: MapFogEnum,
         toggleDarkvision: toggleDarkvision,
         viewerHasDarkvision: viewerHasDarkvision,

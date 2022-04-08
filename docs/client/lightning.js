@@ -172,7 +172,7 @@ var fovLighting = function () {
                 || (rect.y + rect.height) < 0 - margin
                 || (rect.x > window.innerWidth + margin || rect.y > window.innerHeight + margin)
             );
-        if (!isOffScren) console.log("Inside", pawn)
+    
         return isOffScren;
     }
 

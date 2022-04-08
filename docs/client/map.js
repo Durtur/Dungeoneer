@@ -1269,12 +1269,14 @@ function dragPawn(elmnt) {
             return {
                 pos: map.objectGridCoords(pawn),
                 id: pawn.id,
-                distance:tooltip.innerHTML
+                distance:tooltip.innerHTML,
+                idx: elmnt.index_in_main_window
             }
         }).concat({
             pos: map.objectGridCoords(elmnt),
             id: elmnt.id,
-            distance:tooltip.innerHTML
+            distance:tooltip.innerHTML,
+            idx: elmnt.index_in_main_window
 
         }));
 
@@ -1958,6 +1960,7 @@ var map = function () {
     }
     function removeAllEffects() {
         effects.forEach(eff => effectManager.removeEffect(eff));
+        
     }
 
     return {

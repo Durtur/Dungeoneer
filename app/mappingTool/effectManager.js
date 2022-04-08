@@ -177,6 +177,8 @@ var effectManager = function () {
         }
         if (target.sound)
             soundManager.removeEffect(target);
+        console.log("Remove", target)
+        console.log(pawns.lightSources.indexOf(target) >= 0)
         target.parentNode.removeChild(target);
         effects.splice(effects.indexOf(target), 1);
         unattachObjectFromPawns(target);
@@ -520,7 +522,7 @@ var effectManager = function () {
 
         effectObj.dimLightRadius = chosenDimLightRadius;
         effectObj.brightLightRadius = chosenBrightLightRadius;
-        var newEffect = addLightEffect(effectOj, isPreviewElement, e);
+        var newEffect = await addLightEffect(effectObj, isPreviewElement, e);
         if (!isPreviewElement && serverNotifier.isServer()) {
             var obj = await saveManager.exportEffect(newEffect);
             obj.isLightEffect = true;
@@ -531,8 +533,8 @@ var effectManager = function () {
         return newEffect;
     }
 
-    function addLightEffect(effectObj, isPreviewElement, e) {
-        var newEffect = createBaseEffect(effectObj, isPreviewElement, e)
+    async function addLightEffect(effectObj, isPreviewElement, e) {
+        var newEffect = await createBaseEffect(effectObj, isPreviewElement, e)
 
         effectObj.brightLightRadius == "" ? newEffect.sight_radius_bright_light = 20 : newEffect.sight_radius_bright_light = chosenBrightLightRadius;
         effectObj.dimLightRadius == "" ? newEffect.sight_radius_dim_light = 20 : newEffect.sight_radius_dim_light = chosenDimLightRadius;
@@ -548,6 +550,7 @@ var effectManager = function () {
         pawns.lightSources.push(newEffect);
         tokenLayer.appendChild(newEffect);
         refreshFogOfWar();
+        return newEffect;
     }
 
     async function effectDropdownChange(event) {

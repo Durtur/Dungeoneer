@@ -192,6 +192,10 @@ function setState(message) {
         case "monster-health-changed":
             onMonsterHealthChanged(message.data);
             break;
+        case "fog-set":
+            fovLighting.setFogStyle(message.data);
+            refreshFogOfWar();
+            break;
     }
 
 }

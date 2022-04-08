@@ -6,7 +6,12 @@ const pathModule = require('path');
 const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"//"https://www.ogreforge.me/Dungeoneer/client"
 const pendingStateRequests = [];
 const partyArray = [];
+const SERVER_EVENTS = {
+    CONNECTED: 0,
+    MOVE: 1
+}
 
+var clientFog = 2;
 loadParty();
 ipcRenderer.on("maptool-server-event", function (event, message) {
     console.log(event);
@@ -20,6 +25,11 @@ ipcRenderer.on("maptool-server-event", function (event, message) {
     if (message.event == "party-changed") {
         return loadParty();
     }
+    if (message.event == "fog-set") {
+        return setClientFog(message.data);
+    }
+
+
 
     notifyPeers(message);
 
@@ -152,6 +162,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// Dark: 1,
+// LowLight: 0,
+// None: 2
+function setClientFog(fogType) {
+    console.log("Set fog")
+    clientFog = fogType;
+    var btns = document.querySelectorAll(".set_fog_btn");
+    [...btns].forEach(btn => {
+        btn.classList.remove("underlined");
+        if (parseInt(btn.getAttribute("data-fog-type")) == fogType)
+            btn.classList.add("underlined");
+    })
+    notifyPeers({ event: "fog-set", data: fogType })
+
+}
+
+function appendServerLog(text, eventType) {
+    var log = document.getElementById("server_activity_log");
+    if (eventType == SERVER_EVENTS.CONNECTED) {
+        wrapLog(util.ele("p", "server_activity_log_entry log_entry_connected", text))
+    } else {
+        wrapLog(util.ele("p", "server_activity_log_entry ", text))
+    }
+
+    log.scrollTop = log.scrollHeight;
+
+    function wrapLog(entry) {
+
+        var timestamp = util.ele("p", "server_activity_log_timestamp ", util.currentTimeStamp());
+        var cont = util.wrapper("div", "row", timestamp)
+        cont.appendChild(entry)
+        log.appendChild(cont);
+    }
+}
+
 function initServer() {
     showLoading("Contacting P2P server");
     var peer = new Peer(connectionObj);
@@ -160,7 +205,9 @@ function initServer() {
         document.getElementById("server_id").value = id;
         document.getElementById("server_info_container").classList.remove("hidden");
         document.getElementById("init_server_button").classList.add("hidden");
-        document.getElementById("status_text").innerHTML = "Server running";
+        appendServerLog("Server started", SERVER_EVENTS.CONNECTED);
+        document.getElementById("status_text").classList.add("hidden");
+        document.getElementById("server_activity_log").classList.remove("hidden");
         hideLoading();
     });
 
@@ -172,7 +219,7 @@ function initServer() {
     peer.on('error', function (err) {
         hideLoading();
         showError(err);
-
+        document.getElementById("server_activity_log").classList.add("hidden");
         document.getElementById("init_server_button").innerHTML = "Retry";
     });
 
@@ -190,6 +237,7 @@ function onConnected(conn) {
     if (!peer) {
         peers.add({ connection: conn, connectionId: conn.connectionId });
     }
+
     conn.on('data', function (data) {
         console.log('Received', data);
         handleDataEvent(data, conn);
@@ -216,6 +264,7 @@ function handleDataEvent(data, connection) {
     if (data.event == "init") {
         peer.name = data.name;
         peers.onchange();
+        appendServerLog(`${data.name} connected`, SERVER_EVENTS.CONNECTED);
         pendingStateRequests.push(peer);
         ipcRenderer.send('request-maptool-state');
 
@@ -227,10 +276,17 @@ function handleDataEvent(data, connection) {
         data.data.forEach(ele => {
 
             var access = peer.partyAccess.find(x => x.element_id == ele.id || x.element_id == "all");
-           
-            if (access){
+
+            if (access) {
                 notifyMaptool({ event: data.event, data: ele });
-                var otherPeers = peers.filter(x=> x.connection.connectionId != peer.connection.connectionId);
+                var player = peer.partyAccess.find(x => x.id == ele.id);
+
+                if (player || ele.idx) {
+                    var pwnName = player?.character_name || (`token ${ele.idx}`);
+                    appendServerLog(`${peer.name} moved ${pwnName} ${ele.distance}`, SERVER_EVENTS.MOVE)
+                }
+
+                var otherPeers = peers.filter(x => x.connection.connectionId != peer.connection.connectionId);
                 otherPeers.forEach(otherPeer => {
                     otherPeer.connection.send({ event: data.event, data: [ele] })
                 });
@@ -270,21 +326,7 @@ function sendMaptoolState(maptoolState) {
             sendBatched(peer.connection, "map_edge", dataObject.mapEdge)
             sendBatched(peer.connection, "background", dataObject.background, { width: maptoolState.background.width, height: maptoolState.background.height });
             sendBatched(peer.connection, "overlay", dataObject.overlay, { width: maptoolState.overlay.width, height: maptoolState.overlay.height });
-            // var distinctTokenImages = [... new Set(maptoolState.tokens.map(x => x.bgPhoto))];
 
-            // for (var i = 0; i < distinctTokenImages.length; i++) {
-            //     var path = distinctTokenImages[i];
-            //     console.log(path)
-            //     var filtered = maptoolState.tokens.filter(x => x.bgPhoto == path);
-            //     var base64 = await util.toBase64(path);
-
-            //     filtered.forEach(x => {
-            //         var basename = pathModule.basename(x.bgPhoto);
-            //         x.bgPhotoBase64 = base64;
-            //         x.bgPhoto = null;
-            //         x.tokenName = basename;
-            //     });
-            // }
             var tokenJSON = JSON.stringify(maptoolState.tokens);
 
             sendBatched(peer.connection, "tokens-set", tokenJSON);
@@ -292,10 +334,9 @@ function sendMaptoolState(maptoolState) {
             sendBatched(peer.connection, "effects-set", effectJSON);
             peer.connection.send({ event: "backgroundLoop", data: maptoolState.backgroundLoop })
             peer.connection.send({ event: "overlayLoop", data: maptoolState.overlayLoop })
-            peer.connection.send({ event: "segments", data: maptoolState.segments })
-            // tokens: tokens,
+            peer.connection.send({ event: "segments", data: maptoolState.segments });
+            setClientFog(maptoolState.fog);
 
-            // effects: getEffectsForExport()
         }
     });
 }

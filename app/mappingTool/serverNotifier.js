@@ -19,7 +19,8 @@ var serverNotifier = function () {
                 overlay: getOverlayState(),
                 background: getBackgroundState(),
                 effects: await getEffectsForExport(),
-                segments: { segments: getSegments() }
+                segments: { segments: getSegments() },
+                fog: fovLighting.getFogStyle()
             }
         });
 
@@ -99,7 +100,7 @@ var serverNotifier = function () {
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
         isServer: isServer,
-        getSegments:getSegments,
+        getSegments: getSegments,
         getEffectsForExport: getEffectsForExport,
         timeouts: timeouts
     }

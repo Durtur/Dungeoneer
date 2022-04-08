@@ -17,7 +17,8 @@
 </head>
 <main>
     <div class="column center spread_children">
-        <p id ="status_text">Start your host server to allow your players to connect via P2P. </p>
+     
+        <p id ="status_text">Start your host server to allow your players to connect to your map tool. </p>
         <button id="init_server_button" class="button_style green button_wide center">Start server</button>
         <div id="loading" class="hidden column">
             <div style="display:flex; background-image: url('css/img/icon.png'); width:200px; height:200px; background-size:contain; background-repeat:no-repeat"
@@ -36,6 +37,12 @@
             <button id="invite_link_button" class="button_style green button_wide center">Invite link</button>
         </div>
         <p class="error_text" id="error_message"></p>
+        <div class = "row center" style = "margin-bottom:1em">
+            <button class = "set_fog_btn button_style_transparent" data-fog-type="2" onclick = setClientFog(2)>Full lighting</button>
+            <button class = "set_fog_btn button_style_transparent" data-fog-type="1" onclick = setClientFog(1)>Darkness</button>
+            <button class = "set_fog_btn button_style_transparent" data-fog-type="0" onclick = setClientFog(0)>Low light</button>
+        </div>
+        <div id = "server_activity_log" class = "hidden"></div>
         <div id = "peers_container" class = "row"></div>
 
     </div>

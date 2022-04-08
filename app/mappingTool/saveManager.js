@@ -229,6 +229,7 @@ class SaveManager {
 
     }
     async exportEffect(effect) {
+        console.log(effect)
         var obj = {
             angle: effect.getAttribute("data-deg"),
             classes: [],
@@ -238,6 +239,7 @@ class SaveManager {
             id: effect.id,
             brightLightRadius: effect.sight_radius_bright_light,
             dimLightRadius: effect.sight_radius_dim_light,
+            isLightEffect: effect.sight_radius_dim_light > 0 || effect.sight_radius_bright_light > 0 ,
             pos: map.objectGridCoords(effect),
             bgPhotoBase64: await util.toBase64(util.decssify(effect.style.backgroundImage))
         };
@@ -262,7 +264,7 @@ class SaveManager {
         var images = JSON.parse(img.getAttribute("data-token_facets"));
 
         var currentIndex = parseInt(img.getAttribute("data-token_current_facet")) || 0;
-
+        var darkVisionRadius = element.sight_mode == "darkvision" ? element.sight_radius_bright_light : null;
         var base64 = await util.toBase64(images[currentIndex]);
         pathModule.basename(images[currentIndex]);
 
@@ -283,7 +285,8 @@ class SaveManager {
             sight_radius_bright_light: element.sight_radius_bright_light,
             sight_radius_dim_light: element.sight_radius_dim_light,
             bgPhotoBase64: base64,
-            pos: map.objectGridCoords(element)
+            pos: map.objectGridCoords(element),
+            darkVisionRadius:darkVisionRadius,
             //attached_objects : element.attached_objects
         }
     }

@@ -2,11 +2,12 @@
 var settings = {
     gridSettings: {},
     enableGrid: true,
-    colorTokenBases: true
+    colorTokenBases: true,
+    fogOfWarHue: "#000000"
 };
 var module = {}, previewPlacementElement;
 var addingFromMainWindow = false;
-const PLAYERS_ALL_OPTION ="Players";
+const PLAYERS_ALL_OPTION = "Players";
 function require() {
     return null;
 }
@@ -17,23 +18,28 @@ var soundManager;
 document.addEventListener("DOMContentLoaded", () => {
     soundManager = new SoundManager();
     soundManager.initialize();
-  
+
     map.init();
     setMapForeground("./client/default.png");
     resetGridLayer();
+    var gridEnable = localStorage.getItem('enableGrid');
+    console.log(gridEnable)
+    if (gridEnable != settings.enableGrid+"")
+        toggleGrid();
+
 
     var hammertime = new Hammer(gridLayer, null);
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-       
+
         ev.x = ev.center.x;
         ev.y = ev.center.y;
         zoomIntoMap(ev, -0.01)
     });
     hammertime.on('pinchout', function (ev) {
         console.log(ev);
-     
+
         ev.x = ev.center.x;
         ev.y = ev.center.y;
         zoomIntoMap(ev, 0.01)
@@ -116,10 +122,27 @@ function createOption(value, dispay) {
 
 
 
-function toggleGrid(e){
-    console.log( settings.enableGrid )
+function toggleGrid() {
+
     settings.enableGrid = !settings.enableGrid;
+  
+    localStorage.setItem('enableGrid', settings.enableGrid);
+    console.log(settings.enableGrid)
     resizeAndDrawGrid();
-    console.log( settings.enableGrid )
+
+    var btn  = document.getElementById("toggle_grid_button");
+    btn.setAttribute("toggled", settings.enableGrid);
 }
+
+
+
+var Util = function () {
+
+    function hexToRGBA(hex, opacity) {
+        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
+    }
+    return {
+        hexToRGBA: hexToRGBA
+    }
+}();
 

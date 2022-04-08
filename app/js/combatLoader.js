@@ -728,10 +728,9 @@ var combatLoader = function () {
         row = row.getElementsByClassName("name_field")[0];
         var log = row.getAttribute("data-combat_log");
         log = log == null || log == "" ? [] : JSON.parse(log);
-        var date = new Date();
-        var hours = date.getHours().toString().padStart(2, "0");
-        var minutes = date.getMinutes().toString().padStart(2, "0");
-        log.push({ date: `${hours}:${minutes}`, text: thingyToAdd, entryType: entryType });
+
+       
+        log.push({ date: Util.currentTimeStamp(), text: thingyToAdd, entryType: entryType });
         row.setAttribute("data-combat_log", JSON.stringify(log));
 
         if (row == selectedRow) {

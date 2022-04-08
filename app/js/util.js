@@ -289,6 +289,13 @@ module.exports = function () {
         return cont;
 
     }
+
+    function currentTimeStamp(){
+        var date = new Date();
+        var hours = date.getHours().toString().padStart(2, "0");
+        var minutes = date.getMinutes().toString().padStart(2, "0");
+        return `${hours}:${minutes}`
+    }
     return {
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
@@ -310,6 +317,7 @@ module.exports = function () {
         cssify: cssify,
         decssify:decssify,
         showInfo: showInfo,
+        currentTimeStamp:currentTimeStamp,
         fadeOutInfoBox: fadeOutInfoBox
     }
 }();
