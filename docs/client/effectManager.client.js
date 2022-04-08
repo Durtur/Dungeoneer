@@ -104,10 +104,12 @@ var effectManager = function () {
             effects.push(newEffect)
  
         }
-        if (effectObj.sound) {
+        if (effectObj.sound && !isPreviewElement) {
             newEffect.sound = effectObj.sound;
             newEffect.sound.x = x;
             newEffect.sound.y = y;
+            soundManager.addEffect(newEffect.sound, newEffect.id);
+
         }
 
         return newEffect;

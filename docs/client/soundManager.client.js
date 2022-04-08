@@ -75,7 +75,7 @@ class SoundManager {
     addGlobalSound(src, volume) {
         var soundEffect = new Howl({
             src: [src],
-            // html5: true,
+            html5: true,
             loop: true,
             volume: 0.75
         });
@@ -101,7 +101,7 @@ class SoundManager {
         }
         var soundEffect = new Howl({
             src: [info.path],
-            // html5: true,
+            //html5: true,
             loop: true,
             volume: 0.75
         });
@@ -113,6 +113,7 @@ class SoundManager {
             soundEffect.pos(effect.x, effect.y, cls.effectZValue(), soundId);
             soundEffect.volume(effect.volume || 1, soundId);
             var refDist = cls.soundProfiles[effect.distance];
+            console.log(effect.x, effect.y)
             soundEffect.pannerAttr({
                 panningModel: 'equalpower',
                 refDistance: refDist,
@@ -156,20 +157,28 @@ class SoundManager {
     }
     async getSoundInfo(soundName) {
         var sounds = await this.getAvailableSounds();
+        console.log(sounds)
         return sounds.find(x => {
             console.log(x)
-            var basename = pathModule.basename(x.path);
-            basename = basename.substring(0, basename.lastIndexOf("."));
+
+            var basename = x.path.substring(x.path.lastIndexOf("/")+1, x.path.lastIndexOf("."));
+            console.log(basename)
             return soundName.toLowerCase() == basename.toLowerCase();
         });
     }
 
     async getAvailableSounds() {
-        var basePath = "./sounds/";
-        return [
-            "beach ocean.mp3",
-            "blizzard.mp3"
-        ].map(x=> basePath+x);
+        var basePath = "./client/sounds/";
+        return [{
+            path: basePath + "beach ocean.mp3",
+            name: "beach ocean"
+        },
+        {
+            path: basePath + "blizzard.mp3",
+            name: "blizzard"
+        }
+
+        ];
 
 
     }

@@ -76,34 +76,7 @@ ipcRenderer.on('condition-list-changed', function (evt, arg) {
 
 
 ipcRenderer.on('monster-health-changed', function (evt, arg) {
-    var index = parseInt(arg.index);
-
-    var pawn = null;
-    for (var i = 0; i < loadedMonstersFromMain.length; i++) {
-
-        if (loadedMonstersFromMain[i].index_in_main_window == index) {
-            pawn = loadedMonstersFromMain[i];
-            break;
-        }
-    }
-    if (!pawn) return;
-    var woundEle = pawn.querySelector(".token_status");
-    constants.creatureWounds.forEach(woundType => woundEle.classList.remove(woundType.className));
-    var woundType = constants.creatureWounds.find(x => arg.healthPercentage < x.percentage);
-
-    if (woundType) {
-        woundEle.classList.add(woundType.className);
-
-    }
-
-    if (arg.dead) {
-        pawn.dead = "true";
-    } else {
-        pawn.dead = "false";
-    }
-    pawn.setAttribute("data-state_changed", 1);
-    refreshPawnToolTips();
-
+    onMonsterHealthChanged(arg);
 
 });
 

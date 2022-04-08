@@ -257,6 +257,8 @@ class SaveManager {
     async exportPawn(pawn) {
         var element = pawn[0];
         var img = element.querySelector(".token_photo");
+        if (img == null)
+            return null;
         var images = JSON.parse(img.getAttribute("data-token_facets"));
 
         var currentIndex = parseInt(img.getAttribute("data-token_current_facet")) || 0;
@@ -272,6 +274,8 @@ class SaveManager {
             deg: element.deg,
             hexes: element.dnd_hexes,
             color: element.style.backgroundColor,
+            health_percentage: element.data_health_percentage || "100",
+            dead: element.dead,
             size: element.dnd_size,
             flying_height: element.flying_height,
             index_in_main_window: element.index_in_main_window,

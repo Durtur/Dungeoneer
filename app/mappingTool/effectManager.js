@@ -112,7 +112,7 @@ var effectManager = function () {
             showSoundLayer();
             effects.map(eff => {
                 eff.classList.add("elevated")
-                Util.makeUIElementDraggable(eff, ()=> {
+                Util.makeUIElementDraggable(eff, () => {
                     serverNotifier.notifyServer("object-moved", [{
                         pos: map.objectGridCoords(eff),
                         id: eff.id
@@ -222,7 +222,7 @@ var effectManager = function () {
         [...document.querySelectorAll(".sound_effect")].forEach(x => x.classList.add("hidden"))
     }
     async function onEffectSizeChanged(event) {
- 
+
         previewPlacement(await createEffect(event, true));
     }
 
@@ -236,10 +236,6 @@ var effectManager = function () {
             newEffect = await addLightEffectHandler(e, isPreviewElement);
         } else if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.sound) {
             newEffect = await addSoundEffectHandler(e, isPreviewElement);
-        }
-        console.log(newEffect)
-        if (newEffect.sound && !isPreviewElement) {
-            soundManager.addEffect(newEffect.sound, newEffect.id);
         }
 
         return newEffect;
@@ -353,12 +349,14 @@ var effectManager = function () {
         //Refresh preview
         if (!isPreviewElement) {
             effects.push(newEffect)
-          
+
         }
-        if (effectObj.sound) {
+        if (effectObj.sound && !isPreviewElement) {
             newEffect.sound = effectObj.sound;
             newEffect.sound.x = x;
             newEffect.sound.y = y;
+            soundManager.addEffect(newEffect.sound, newEffect.id);
+
         }
 
         return newEffect;
@@ -501,14 +499,14 @@ var effectManager = function () {
         effectObj.classes = ["sound_effect"];
 
 
-        var effect = createBaseEffect(effectObj, isPreviewElement, e);
-        tokenLayer.appendChild(effect);
+        var newEffect = createBaseEffect(effectObj, isPreviewElement, e);
+        tokenLayer.appendChild(newEffect);
         if (!isPreviewElement && serverNotifier.isServer()) {
             var obj = await saveManager.exportEffect(newEffect);
             obj.isLightEffect = false;
             serverNotifier.notifyServer("effect-add", obj);
         }
-        return effect;
+        return newEffect;
     }
     async function addLightEffectHandler(e, isPreviewElement) {
 

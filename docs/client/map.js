@@ -242,6 +242,34 @@ function toggleVisibilityLayer() {
     refreshFogOfWar();
 }
 
+function onMonsterHealthChanged(arg){
+    console.log(arg)
+    var index = parseInt(arg.index);
+
+    var pawn = loadedMonsters.find(x=> x[0].index_in_main_window == index);
+    
+    console.log(pawn)
+    if (!pawn) return;
+    pawn = pawn[0];
+    pawn.data_health_percentage = arg.healthPercentage;
+    var woundEle = pawn.querySelector(".token_status");
+    constants.creatureWounds.forEach(woundType => woundEle.classList.remove(woundType.className));
+    var woundType = constants.creatureWounds.find(x => arg.healthPercentage < x.percentage);
+
+    if (woundType) {
+        woundEle.classList.add(woundType.className);
+    }
+
+    if (arg.dead) {
+        pawn.dead = "true";
+    } else {
+        pawn.dead = "false";
+    }
+    pawn.setAttribute("data-state_changed", 1);
+    refreshPawnToolTips();
+    serverNotifier.notifyServer("monster-health-changed", arg);
+}
+
 function setTool(source, toolIndex) {
 
     for (var i = 0; i < toolbox.length; i++) {
@@ -443,13 +471,10 @@ function onPawnsMoved() {
 
 
 function moveForeground(x, y) {
-    var oldRect = foregroundCanvas.getBoundingClientRect();
     foregroundCanvas.data_transform_x = x;
     foregroundCanvas.data_transform_y = y;
     foregroundCanvas.style.transform = `translate(${x}px, ${y}px)`
-    var newRect = foregroundCanvas.getBoundingClientRect();
-    gridMoveOffsetX += newRect.x - oldRect.x;
-    gridMoveOffsetY += newRect.y - oldRect.y;
+    serverNotifier.notifyServer("foreground-translate", { x: foregroundCanvas.data_transform_x, y: foregroundCanvas.data_transform_y } );
 }
 
 function moveMap(x, y) {
@@ -806,7 +831,8 @@ function refreshMobBackgroundImages(pawn) {
         for (var i = 0; i < mobsToAdd; i++) {
             var ele = document.createElement("div");
             ele.className = "mob_token";
-            ele.style.backgroundImage = "url('" + pickOne(tokenPaths).replace(/\\/g, "/") + "')";
+            ele.style.backgroundImage = Util.cssify( tokenPaths.pickOne());
+        
             container.appendChild(ele);
             var base = document.createElement("div");
             base.classList = "dead_marker";
@@ -1435,6 +1461,11 @@ function nudgePawns(x, y) {
 var currentListenerPawn;
 function updateHowlerListenerLocation() {
     var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
+    if(forcedPerpspectiveDD.selectedIndex < 0){
+        currentListenerPawn = null;
+        soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
+        return;
+    }
     var currentPerspective = forcedPerpspectiveDD.options[forcedPerpspectiveDD.selectedIndex].value;
     var player = pawns.players.find(x => x[1] == currentPerspective);
     if (player) {
@@ -1813,7 +1844,7 @@ var map = function () {
 
         var startPointX = gridMoveOffsetX % cellSize;
         var startPointY = gridMoveOffsetY % cellSize;
-
+        
 
         for (var i = startPointY; i < canvasHeight; i += cellSize) {
             ctx.moveTo(0, i);

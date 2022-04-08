@@ -294,13 +294,11 @@ async function onSettingsLoaded() {
             canvasMoveRate = 2;
         }, 600)
 
-        var container = mapContainers[0];
-        var bgX = container.data_transform_x;
-        var bgY = container.data_transform_y;
+        var bgX = foregroundCanvas.data_transform_x || 0;
+        var bgY = foregroundCanvas.data_transform_y || 0;
 
         if (event.shiftKey) {
-            bgX = foregroundCanvas.data_transform_x;
-            bgY = foregroundCanvas.data_transform_y;
+          
             if (event.keyCode == 37) {
                 bgX -= canvasMoveRate;
             } else if (event.keyCode == 39) {
@@ -321,7 +319,7 @@ async function onSettingsLoaded() {
     }
 
     gridLayer.onwheel = function (event) {
-       // event.preventDefault();
+        // event.preventDefault();
         if (event.ctrlKey && previewPlacementElement) {
             return effectManager.onPreviewPlacementResized(event);
         }
@@ -567,10 +565,10 @@ function setLightSource(brightLight, dimLight, params) {
     refreshFogOfWar();
 }
 
-function loadParty() {
+ function loadParty() {
     if (partyArray == null) partyArray = [];
     if (!settings.addPlayersAutomatically) return;
-    dataAccess.getParty(function (data) {
+    dataAccess.getParty(async function (data) {
         var newPartyArray = [];
         var alreadyInParty;
         data = data.members;
@@ -600,8 +598,8 @@ function loadParty() {
             }
         }
 
-
-        generatePawns(newPartyArray, false);
+ 
+        await generatePawns(newPartyArray, false);
         fillForcedPerspectiveDropDown();
 
     });
@@ -794,11 +792,12 @@ function startAddingFromQueue() {
     tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window;
 
     document.onmousemove = function (e) {
-        tooltip.style.top = e.clientY - 50 + "px";
-        tooltip.style.left = e.clientX + "px";
+        tooltip.style.top = e.clientY - 75 + "px";
+        tooltip.style.left = e.clientX + 75+  "px";
     }
     gridLayer.style.cursor = "copy";
     gridLayer.onmousedown = function (e) {
+        console.log(e)
         if (e.button == 0) {
             popQueue(e);
         } else {
@@ -807,11 +806,12 @@ function startAddingFromQueue() {
 
     }
 
-    function popQueue(e) {
+    async function popQueue(e) {
+
         var radiusOfPawn = creaturePossibleSizes.hexes[creaturePossibleSizes.sizes.indexOf(pawns.addQueue[0].size)];
         var offset = (radiusOfPawn * cellSize) / 2;
 
-        var pawn = generatePawns([pawns.addQueue[0]], true, { x: e.clientX - offset, y: e.clientY - offset });
+        var pawn = await generatePawns([pawns.addQueue[0]], true, { x: e.clientX - offset, y: e.clientY - offset });
         loadedMonstersFromMain.push(pawn);
         requestNotifyUpdateFromMain();
         pawns.addQueue.splice(0, 1);

@@ -62,7 +62,7 @@ class TokenDialog {
     }
 
 
-    addPawnHandler(e) {
+    async addPawnHandler(e) {
 
 
         var pawnName = document.getElementById("add_pawn_name").value;
@@ -76,7 +76,7 @@ class TokenDialog {
 
         var color = document.getElementById("background_color_button_add_pawn").value;
 
-        generatePawns([{
+        await generatePawns([{
             name: pawnName,
             size: pawnSize,
             color: color,

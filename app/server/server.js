@@ -3,7 +3,7 @@ const ElementCreator = require("./js/lib/elementCreator");
 const dataAccess = require("./js/dataaccess");
 const { ipcRenderer } = require('electron');
 const pathModule = require('path');
-const clientPath = "https://www.ogreforge.me/Dungeoneer/client"// "file:///C:/Forritun/Dungeoneer/docs/client.html"//
+const clientPath = "file:///C:/Forritun/Dungeoneer/docs/client.html"// "https://www.ogreforge.me/Dungeoneer/client"//
 const pendingStateRequests = [];
 const partyArray = [];
 
@@ -265,7 +265,7 @@ function sendMaptoolState(maptoolState) {
                 overlay: maptoolState.overlay.path ? await util.toBase64(maptoolState.overlay.path) : null,
             };
             peer.connection.send({ event: "constants", data: constants })
-
+            peer.connection.send({ event: "foreground-translate", data: maptoolState.foreground.translate })
             sendBatched(peer.connection, "foreground", dataObject.foreground, { width: maptoolState.foreground.width, height: maptoolState.foreground.height, translate: maptoolState.foreground.translate });
             sendBatched(peer.connection, "map_edge", dataObject.mapEdge)
             sendBatched(peer.connection, "background", dataObject.background, { width: maptoolState.background.width, height: maptoolState.background.height });

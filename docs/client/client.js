@@ -62,7 +62,7 @@ function connect() {
             send({ event: "init", name: name });
         })
         hostConnection.on('data', function (data) {
-            console.log('Received', data);
+           
             handleMessage(data);
 
         });
@@ -87,11 +87,7 @@ function showError(err) {
 function handleMessage(message) {
     console.log(message)
     //Store foreground translate so effects and tokens are placed correctly. 
-    if(message.event =="foreground"){
-        var trsl = message.data.metadata.translate;
-        foregroundCanvas.data_transform_x = trsl.x;
-        foregroundCanvas.data_transform_y = trsl.y;
-    }
+    
     if (message.data?.chunks) {
         if (!dataBuffer[message.event]) {
             dataBuffer[message.event] = message.data.base64;
@@ -183,7 +179,14 @@ function setState(message) {
         case "effect-remove":
             var eff = effects.find(x => x.id == message.data);
             if (eff)
-                effectManager.removeEffect(eff)
+                effectManager.removeEffect(eff);
+            break;
+        case "foreground-translate":
+            moveForeground(message.data.x, message.data.y);
+            break;
+        case "monster-health-changed":
+            onMonsterHealthChanged(message.data);
+            break;
     }
 
 }
@@ -230,7 +233,7 @@ function clientSetForeground(message) {
 function setEffects(effectStr) {
     var arr = JSON.parse(effectStr);
     map.removeAllEffects();
-   
+
     arr.forEach(effObj => addEffect(effObj));
 }
 function addEffect(effObj) {
@@ -253,6 +256,11 @@ function importTokens(tokenStr) {
 
     arr.forEach(pawn => {
         addPawn(pawn);
+        onMonsterHealthChanged({
+            dead:pawn.dead == "true",
+            healthPercentage:pawn.health_percentage,
+            index:pawn.index_in_main_window
+        });
 
     });
     onPerspectiveChanged();
