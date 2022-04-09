@@ -270,8 +270,8 @@ function onMonsterHealthChanged(arg) {
     serverNotifier.notifyServer("monster-health-changed", arg);
 }
 
-function setTool(source, toolIndex) {
-
+function setTool(event, source, toolIndex) {
+    event.stopImmediatePropagation();
     for (var i = 0; i < toolbox.length; i++) {
         toolbox[i] = false;
     }
@@ -283,6 +283,8 @@ function setTool(source, toolIndex) {
     console.log(`Set tool ${toolIndex}`, source.getAttribute("toggled"))
     measurements.clearMeasurements();
     if (source.getAttribute("toggled") === "false") {
+        source.setAttribute("toggled", "true");
+        
         gridLayer.onmousedown = measurements.startMeasuring;
         gridLayer.ontouchstart = measurements.startMeasuring;
         toolbox[toolIndex] = true;
@@ -293,6 +295,7 @@ function setTool(source, toolIndex) {
             gridLayer.style.zIndex = 5;
         }
     } else {
+        source.setAttribute("toggled", "false");
         gridLayer.style.cursor = "auto";
         stopMeasuring(null, true);
         //toggle button handler will then set to false
