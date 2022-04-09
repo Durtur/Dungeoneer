@@ -26,7 +26,8 @@ const effectManager = require('./mappingTool/effectManager');
 
 soundManager.initialize();
 
-
+const DEFAULT_TOKEN_PATH = "./mappingTool/tokens/default.png";
+const DEFAULT_TOKEN_PATH_JS_RELATIVE = pathModule.join(__dirname, "mappingTool", "tokens", "default.png");
 var conditionList;
 
 
@@ -640,6 +641,7 @@ async function setPlayerPawnImage(pawnElement, path) {
     }
 
     imgEle.style.backgroundImage = tokenPath;
+    onBackgroundChanged(pawnElement);
 }
 
 async function setPawnImageWithDefaultPath(pawnElement, path) {
@@ -660,7 +662,7 @@ async function setPawnImageWithDefaultPath(pawnElement, path) {
     if (possibleNames.length > 0) {
         tokenPath = possibleNames.pickOne();
     } else {
-        tokenPath = 'mappingTool/tokens/default.png';
+        tokenPath = DEFAULT_TOKEN_PATH;
     }
     var imgEle = pawnElement.getElementsByClassName("token_photo")[0];
     imgEle.setAttribute("data-token_facets", JSON.stringify(possibleNames));
@@ -847,10 +849,13 @@ function setTokenNextFacetHandler(e) {
     selectedPawns.forEach(pawn => {
         var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
         var images = JSON.parse(pawnPhoto.getAttribute("data-token_facets"));
+        if (images == null || images.length == 0) return;
         var currentIndex = parseInt(pawnPhoto.getAttribute("data-token_current_facet")) || 0;
+     
+        var oldIndex = currentIndex;
         currentIndex++;
         if (currentIndex >= images.length) currentIndex = 0;
-
+        if (oldIndex == currentIndex) return;
         setPawnToken(pawn, `url('${images[currentIndex]}')`);
         onBackgroundChanged(pawn);
         pawnPhoto.setAttribute("data-token_current_facet", currentIndex)
@@ -858,8 +863,16 @@ function setTokenNextFacetHandler(e) {
     })
 }
 
-function onBackgroundChanged(pawn) {
+async function onBackgroundChanged(pawn) {
+    var imgEle = pawn.getElementsByClassName("token_photo")[0];
+    var facets = JSON.parse(imgEle.getAttribute("data-token_facets"));
+    var current = parseInt(imgEle.getAttribute("data-token_current_facet") || 0);
+    var path = facets[current];
+    var base64img = await Util.toBase64(path);
+    console.log("Background changed")
     //Notify clients
+    serverNotifier.notifyServer("token-image", { id: pawn.id, base64: base64img });
+
 }
 
 async function setTokenImageHandler(e) {

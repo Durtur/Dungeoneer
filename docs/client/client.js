@@ -196,6 +196,18 @@ function setState(message) {
             fovLighting.setFogStyle(message.data);
             refreshFogOfWar();
             break;
+        case "token-image":
+            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+
+            if (!token)
+                return;
+            setPawnBackgroundFromPathArray(token[0], toBase64Url(message.data.base64), false)
+            break;
+        case "pawn-size":
+            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            if (!token)
+                return;
+            enlargeReducePawn(token[0], message.data.direction)
     }
 
 }

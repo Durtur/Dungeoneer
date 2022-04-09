@@ -149,6 +149,9 @@ function toggleSaveTimer() { }
 async function setPlayerPawnImage() { }
 async function setPawnImageWithDefaultPath(pawnElement, path) { }
 function hideAllTooltips() { }
+function onBackgroundChanged() { }
+
+
 
 
 function suspendAllAnimations() {
@@ -749,32 +752,34 @@ function rotatePawn(pawn, degrees) {
 
 }
 
-function enlargeReducePawn(direction) {
-
-    selectedPawns.forEach(element => enlargeReduceHelper(element, direction));
-
-    refreshPawns();
-    resizePawns();
-    function enlargeReduceHelper(element, direction) {
-        var sizeIndex = creaturePossibleSizes.sizes.indexOf(element.dnd_size);
-        var currentSize = creaturePossibleSizes.sizes[sizeIndex];
-        if (direction > 0) {
-            if (sizeIndex >= creaturePossibleSizes.hexes.length - 1) return;
-            sizeIndex++;
-        } else {
-            if (sizeIndex <= 0) return;
-            sizeIndex--;
-        }
-        var newSize = creaturePossibleSizes.sizes[sizeIndex];
-
-        element.classList.remove("pawn_" + currentSize);
-        element.classList.add("pawn_" + newSize);
-        element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
-        element.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
-    }
+function enlargeReduceSelectedPawns(direction) {
+    selectedPawns.forEach(element => enlargeReducePawn(element, direction));
 
 }
 
+function enlargeReducePawn(element, direction) {
+    console.log(`Enlarge reduce ${direction}`, element)
+    var sizeIndex = creaturePossibleSizes.sizes.indexOf(element.dnd_size);
+    var currentSize = creaturePossibleSizes.sizes[sizeIndex];
+    if (direction > 0) {
+        if (sizeIndex >= creaturePossibleSizes.hexes.length - 1) return;
+        sizeIndex++;
+    } else {
+        if (sizeIndex <= 0) return;
+        sizeIndex--;
+    }
+    var newSize = creaturePossibleSizes.sizes[sizeIndex];
+
+    element.classList.remove("pawn_" + currentSize);
+    element.classList.add("pawn_" + newSize);
+    element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
+    element.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
+    if (serverNotifier.isServer())
+        serverNotifier.notifyServer("pawn-size", { id: element.id, direction: direction });
+
+    refreshPawns();
+    resizePawns();
+}
 function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     var conditionString = condition.name;
     if (!conditionString || pawnElement["data-dnd_conditions"].indexOf(conditionString) > -1)
@@ -1034,6 +1039,7 @@ function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
     imgEle.style.backgroundImage = pathString;
     imgEle.setAttribute("data-token_facets", JSON.stringify(tokenPaths));
     imgEle.setAttribute("data-token_current_facet", rand);
+    onBackgroundChanged(element);
 }
 
 
