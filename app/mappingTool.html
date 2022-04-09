@@ -95,8 +95,7 @@
 
                                         <div class="menu_seperator"></div>
                                         <li><a class="button_style toggle_button background_slide_button toggle_bob_animation_button"
-                                                toggled="false"
-                                                onclick="overlayLoop.toggleBobAnimation()">Sway
+                                                toggled="false" onclick="overlayLoop.toggleBobAnimation()">Sway
                                                 overlay</a></li>
                                         <li>
                                             <div class="row">
@@ -131,13 +130,12 @@
                                         <div class="menu_seperator"></div>
                                         <li>
                                             <div class="row">
-                                                <label class="button_style_label" style="width: 100%;"
-                                                  >
+                                                <label class="button_style_label" style="width: 100%;">
                                                     Slide speed:
                                                 </label>
                                                 <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="backgroundLoop.updateSlideSpeed()" class="slide_speed_input"
-                                                    value="1" step="0.1">
+                                                    onchange="backgroundLoop.updateSlideSpeed()"
+                                                    class="slide_speed_input" value="1" step="0.1">
                                             </div>
                                         </li>
 
@@ -165,8 +163,7 @@
 
                                         <div class="menu_seperator"></div>
                                         <li><a class="button_style toggle_button background_slide_button toggle_bob_animation_button"
-                                                toggled="false"
-                                                onclick="backgroundLoop.toggleBobAnimation()">Sway
+                                                toggled="false" onclick="backgroundLoop.toggleBobAnimation()">Sway
                                                 background</a></li>
                                         <li>
                                             <div class="row">
@@ -265,15 +262,15 @@
 
 
                 <button title="Line measurement tool" class="toggle_button button_style toolbox_button" id="line_tool"
-                    toggleGroup="1" toggled="false" onclick="setTool(this,0)"></button>
+                    toggleGroup="1" toggled="false" onclick="setTool(event, this,0)"></button>
                 <button title="Cone measurement tool" class="toggle_button button_style toolbox_button" id="cone_tool"
-                    toggleGroup="1" toggled="false" onclick="setTool(this,1)"></button>
+                    toggleGroup="1" toggled="false" onclick="setTool(event,this,1)"></button>
                 <button title="Sphere measurement tool" class="toggle_button button_style toolbox_button"
-                    id="sphere_tool" toggleGroup="1" toggled="false" onclick="setTool(this,2)"></button>
+                    id="sphere_tool" toggleGroup="1" toggled="false" onclick="setTool(event,this,2)"></button>
                 <button title="Cube measurement tool" class="toggle_button button_style toolbox_button" id="cube_tool"
-                    toggleGroup="1" toggled="false" onclick="setTool(this,3)"></button>
+                    toggleGroup="1" toggled="false" onclick="setTool(event,this,3)"></button>
                 <button title="Rectangle measurement tool" class="toggle_button button_style toolbox_button"
-                    id="rect_tool" toggleGroup="1" toggled="false" onclick="setTool(this,4)"></button>
+                    id="rect_tool" toggleGroup="1" toggled="false" onclick="setTool(event,this,4)"></button>
 
                 <button title="Effect fill paint" class=" button_style hidden" id="fill_style_button" toggleGroup="1"
                     toggled="false" onclick="setFillStyle()">Fill</button>
@@ -292,7 +289,7 @@
         </div>
         <div class="toolbar toolbar_right ">
             <select title="Forced perspective" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()">
-           
+
             </select>
         </div>
         <button id="minimize_app_button"></button>

@@ -306,16 +306,15 @@ function send(data) {
 }
 
 
-function toggleToolbar(source) {
+function toggleToolbar() {
+    
     var bar = document.querySelector(".toolbar");
-    window.setTimeout(() => {
-        var toggled = source.getAttribute("toggled");
-        if (toggled != "true") {
-            bar.classList.add("toolbar_collapsed");
-        } else {
-            bar.classList.remove("toolbar_collapsed");
-        }
-    }, 150)
+    if(bar.classList.contains("toolbar_collapsed")){
+        bar.classList.remove("toolbar_collapsed");
+    }else{
+        bar.classList.add("toolbar_collapsed");
+    }
+
 
 
 }

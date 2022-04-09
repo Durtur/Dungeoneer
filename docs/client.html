@@ -31,7 +31,7 @@
 
     <main>
         <div class="toolbar column" >
-            <button class = "hamburger button_style toggle_button" toggled="true" onclick = "toggleToolbar(this)"></button>
+            <button class = "hamburger button_style togglable"  onclick = "toggleToolbar(this, event)"></button>
             <div id="connection_status"></div>
             <select title="Forced perspective" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()">
 
@@ -42,19 +42,19 @@
 
                     <button title="Line measurement tool" class="toggle_button button_style toolbox_button"
                         id="line_tool" style="background-image: url(css/line.png);" toggleGroup="1" toggled="false"
-                        onclick="setTool(this,0)"></button>
+                        onclick="setTool(event, this,0)"></button>
                     <button title="Cone measurement tool" class="toggle_button button_style toolbox_button"
                         id="cone_tool" style="background-image: url(css/cone.png);" toggleGroup="1" toggled="false"
-                        onclick="setTool(this,1)"></button>
+                        onclick="setTool(event, this,1)"></button>
                     <button title="Sphere measurement tool" class="toggle_button button_style toolbox_button"
                         id="sphere_tool" style="background-image: url(css/sphere.png);" toggleGroup="1" toggled="false"
-                        onclick="setTool(this,2)"></button>
+                        onclick="setTool(event, this,2)"></button>
                     <button title="Cube measurement tool" class="toggle_button button_style toolbox_button"
                         id="cube_tool" style="background-image: url(css/cube.png);" toggleGroup="1" toggled="false"
-                        onclick="setTool(this,3)"></button>
+                        onclick="setTool(event, this,3)"></button>
                     <button title="Rectangle measurement tool" class="toggle_button button_style toolbox_button"
                         id="rect_tool" style="background-image: url(css/rect.png);" toggleGroup="1" toggled="false"
-                        onclick="setTool(this,4)"></button>
+                        onclick="setTool(event, this,4)"></button>
                 </div>
                 <div class="column">
                     <button title="Toggle grid" class="togglable button_style " id="toggle_grid_button" style="background-image: url(css/grid.png);
