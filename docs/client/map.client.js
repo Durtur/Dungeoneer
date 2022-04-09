@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-
+        
         ev.x = ev.center.x;
         ev.y = ev.center.y;
         zoomIntoMap(ev, -0.01)

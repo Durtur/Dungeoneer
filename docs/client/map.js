@@ -284,7 +284,7 @@ function setTool(event, source, toolIndex) {
     measurements.clearMeasurements();
     if (source.getAttribute("toggled") === "false") {
         source.setAttribute("toggled", "true");
-        
+
         gridLayer.onmousedown = measurements.startMeasuring;
         gridLayer.ontouchstart = measurements.startMeasuring;
         toolbox[toolIndex] = true;
@@ -497,7 +497,7 @@ function moveMap(x, y) {
 
 
 function startMovingMap(e) {
-    if (currentlyMeasuring) return;
+    if (currentlyMeasuring || (e.touches && e.touches.length > 1)) return;
     gridLayer.style.cursor = "-webkit-grabbing";
 
     var dragMoveTimestamp;

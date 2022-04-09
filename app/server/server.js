@@ -26,6 +26,7 @@ ipcRenderer.on("maptool-server-event", function (event, message) {
         return loadParty();
     }
     if (message.event == "fog-set") {
+        if (clientFogUserSet) return;
         return setClientFog(message.data);
     }
 
@@ -162,11 +163,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+var clientFogUserSet = false;
 // Dark: 1,
 // LowLight: 0,
 // None: 2
-function setClientFog(fogType) {
-    console.log("Set fog")
+function setClientFog(fogType, userOriginated = false) {
+
+
     clientFog = fogType;
     var btns = document.querySelectorAll(".set_fog_btn");
     [...btns].forEach(btn => {
@@ -175,6 +178,9 @@ function setClientFog(fogType) {
             btn.classList.add("underlined");
     })
     notifyPeers({ event: "fog-set", data: fogType })
+    if (userOriginated) {
+        clientFogUserSet = true;
+    }
 
 }
 

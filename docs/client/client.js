@@ -258,6 +258,7 @@ function addEffect(effObj) {
 
 function addPawn(pawn) {
     pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
+    if (!pawn.isPlayer) pawn.name = "???";
     generatePawns([pawn], !pawn.isPlayer, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
 }
 
@@ -307,11 +308,11 @@ function send(data) {
 
 
 function toggleToolbar() {
-    
+
     var bar = document.querySelector(".toolbar");
-    if(bar.classList.contains("toolbar_collapsed")){
+    if (bar.classList.contains("toolbar_collapsed")) {
         bar.classList.remove("toolbar_collapsed");
-    }else{
+    } else {
         bar.classList.add("toolbar_collapsed");
     }
 
