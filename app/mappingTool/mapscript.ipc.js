@@ -69,8 +69,8 @@ ipcRenderer.on('condition-list-changed', function (evt, arg) {
         : [...document.querySelectorAll(".pawn_numbered")].filter(pw => pw.index_in_main_window == arg.index)[0];
 
     if (pawn) {
-        removeAllPawnConditions(pawn, true);
-        arg.conditions.forEach(cond => setPawnCondition(pawn, conditionList.filter(x => x.name.toLowerCase() == cond.toLowerCase())[0], true))
+        map.setTokenConditions(pawn, arg.conditions)
+   
     }
 });
 

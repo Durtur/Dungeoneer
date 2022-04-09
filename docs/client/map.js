@@ -801,9 +801,20 @@ function setPawnCondition(pawnElement, condition, originMainWindow = false) {
         newDiv.style.backgroundColor = "rgba(0,0,0,0)";
         newDiv.style.backgroundImage = "url('" + condition.condition_background_location.replace(/\\/g, "/") + "')";
     }
+    if (condition.background_image) {
+        newDiv.style.backgroundColor = "rgba(0,0,0,0)";
+        newDiv.style.backgroundImage = condition.background_image;
+    }
 
     var text = document.createElement("div");
-    text.innerHTML = marked("## " + condition.name + "\n\n" + condition.description);
+    text.classList = "column";
+    var h2 = document.createElement("h2");
+    h2.innerHTML = condition.name;
+    var p = document.createElement("p");
+    p.innerHTML = condition.description;
+    text.appendChild(h2);
+    text.appendChild(p);
+
     if (condition.condition_background_location) {
         var img = document.createElement("img");
         img.setAttribute("src", condition.condition_background_location);
@@ -811,11 +822,9 @@ function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     }
     text.className = "condition_text";
     newDiv.appendChild(text);
-
     newDiv.setAttribute("data-dnd_condition_full_name", conditionString);
     pawnElement.querySelector(".token_status").appendChild(newDiv);
-    if (!originMainWindow)
-        raiseConditionsChanged(pawnElement);
+    raiseConditionsChanged(pawnElement, originMainWindow);
 }
 
 function refreshMobSize(pawnElement) {
@@ -1758,6 +1767,52 @@ function resizeAndDrawGrid(timestamp, event) {
 }
 
 
+function removeAllPawnConditions(pawnElement, originMainWindow = false) {
+    removePawnConditionHelper(pawnElement, null, true, originMainWindow);
+}
+
+function removePawnCondition(pawnElement, conditionString) {
+    removePawnConditionHelper(pawnElement, conditionString, false)
+
+}
+function removePawnConditionHelper(pawnElement, conditionObj, deleteAll, originMainWindow = false) {
+
+    if (deleteAll) {
+        pawnElement["data-dnd_conditions"] = [];
+    } else {
+        var currentArr = pawnElement["data-dnd_conditions"];
+        pawnElement["data-dnd_conditions"] = currentArr.filter(x => { return x != conditionObj.name });
+    }
+
+    var allConditions = [...pawnElement.getElementsByClassName("condition_effect")];
+
+    allConditions.forEach(function (condition) {
+        if (deleteAll || condition.getAttribute("data-dnd_condition_full_name") == conditionObj.name) {
+
+            condition.parentNode.removeChild(condition);
+        }
+    });
+
+    raiseConditionsChanged(pawnElement, originMainWindow);
+
+}
+
+function raiseConditionsChanged(pawn, originMainWindow) {
+
+    var idx = pawn.getAttribute("index_in_main_window");
+
+    if (serverNotifier.isServer()) {
+        serverNotifier.notifyServer("token-conditions", { id: pawn.id, conditionList: pawn["data-dnd_conditions"] })
+        if (!originMainWindow)
+            window.api.messageWindow('mainWindow', 'condition-list-changed', {
+                conditionList: pawn["data-dnd_conditions"],
+                index: idx ? idx : pawn.title
+            });
+    }
+}
+
+
+
 var fogOfWarLastRefreshed_Timestamp;
 function refreshFogOfWar(timestamp) {
     if (timestamp && timestamp == fogOfWarLastRefreshed_Timestamp) {
@@ -1976,8 +2031,14 @@ var map = function () {
 
     }
 
+    function setTokenConditions(pawn, conditions) {
+        removeAllPawnConditions(pawn, true);
+        conditions.forEach(cond => setPawnCondition(pawn, conditionList.filter(x => x.name.toLowerCase() == cond.toLowerCase())[0], true))
+    }
+
     return {
         init: init,
+        setTokenConditions: setTokenConditions,
         snapToGrid: snapToGrid,
         removePawn: removePawn,
         moveObject: moveObject,

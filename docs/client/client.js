@@ -194,6 +194,7 @@ function setState(message) {
             break;
         case "fog-set":
             fovLighting.setFogStyle(message.data);
+            fovLighting.setPerspective();
             refreshFogOfWar();
             break;
         case "token-image":
@@ -214,6 +215,18 @@ function setState(message) {
             if (!token)
                 return;
             token[0].style.backgroundColor = message.data.color;
+            break;
+        case "token-conditions":
+            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            if (!token)
+                return;
+            map.setTokenConditions(token[0], message.data.conditionList);
+
+            break;
+        case "condition-list":
+            conditionList = message.data;
+            conditionList.map(x=> x.background_image = toBase64Url(x.base64img));
+            break;
 
     }
 

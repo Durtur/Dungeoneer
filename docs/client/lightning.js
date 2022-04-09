@@ -517,7 +517,8 @@ var fovLighting = function () {
         return { x: point.x, y: point.y };
     }
     function addWindowBorderToSegments() {
-        var offset = -2000;
+        //These segments appear in the client so they should be pretty far away
+        var offset = -18000;
         var boxHeight = canvasHeight - offset;
         var boxWidth = canvasWidth - offset;
 

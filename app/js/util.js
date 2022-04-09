@@ -85,7 +85,7 @@ module.exports = function () {
         showMessageHelper(text, "failed");
     }
 
-    function showMessage(text){
+    function showMessage(text) {
         showMessageHelper(text, "neutral");
     }
 
@@ -229,25 +229,38 @@ module.exports = function () {
     function wrapper(tag, classList, childNode) {
         var par = ele(tag, classList);
         par.appendChild(childNode);
-  
+
         return par;
     }
-
-
+    //MAX webp width 16383 x 16383 
+    const MAX_SHARP_WEBP_SIZE = 8320;
     async function toBase64(path, shrink) {
+        var resizeWidth = 1200;
         if (!sharp || !path)
             return null;
 
-        if(path.includes("?"))
+        if (path.includes("?"))
             path = path.substring(0, path.lastIndexOf("?"));
-        path = path.replaceAll("\"", "")
+        path = path.replaceAll("\"", "");
         try {
-            console.log(`Converting ${path}, shrink ${shrink}`)
+            var metadata = await sharp(path).metadata();
+            var width = metadata.width;
+            var height = metadata.height;
             var shrp = sharp(path)
-            if (shrink)
-                shrp = await shrp.resize(1200);
+            console.log(metadata)
+            if (shrink || width > MAX_SHARP_WEBP_SIZE || height > MAX_SHARP_WEBP_SIZE) {
+                console.log(`Converting ${width}, shrink ${MAX_SHARP_WEBP_SIZE}`)
+                if (width > height && width > MAX_SHARP_WEBP_SIZE) {
+                    shrp = await shrp.resize(MAX_SHARP_WEBP_SIZE);
+                } else if (height > MAX_SHARP_WEBP_SIZE) {
+                    shrp = await shrp.resize({ height: MAX_SHARP_WEBP_SIZE });
+                } else {
+                    shrp = await shrp.resize(resizeWidth);
+                }
+            }
+            console.log(`Converting ${path}, shrink ${shrink}`)
             var buffer = await shrp.toFormat("webp").toBuffer();
-
+            console.log(`${path} complete`)
             return buffer.toString('base64');
         } catch (err) {
             console.error(err);
@@ -260,9 +273,9 @@ module.exports = function () {
         return "url('" + path.replace(/\\/g, "/") + "')";
     }
     function decssify(path) {
-        if(!path)return path;
-        console.log(path.substring(4, path.length -1) )
-        return  path.substring(4, path.length -1) ;
+        if (!path) return path;
+        console.log(path.substring(4, path.length - 1))
+        return path.substring(4, path.length - 1);
     }
 
     function createLoadingEle(title, text) {
@@ -270,7 +283,7 @@ module.exports = function () {
         var cont = ele("div", "loading_ele_cont ");
         var img = ele("img", "");
         img.src = "css/img/loading.gif"
-     
+
         imgDiv.appendChild(img);
         var title = ele("h2", "loading_title", title);
         var text = ele("p", "loading_text", text);
@@ -290,7 +303,7 @@ module.exports = function () {
 
     }
 
-    function currentTimeStamp(){
+    function currentTimeStamp() {
         var date = new Date();
         var hours = date.getHours().toString().padStart(2, "0");
         var minutes = date.getMinutes().toString().padStart(2, "0");
@@ -299,7 +312,7 @@ module.exports = function () {
     return {
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
-        showMessage:showMessage,
+        showMessage: showMessage,
         showBubblyText: showBubblyText,
         showDisappearingTitleAndSubtitle: showDisappearingTitleAndSubtitle,
         showOrHide: showOrHide,
@@ -311,13 +324,13 @@ module.exports = function () {
         createLoadingEle: createLoadingEle,
         IsVowel: IsVowel,
         ele: ele,
-        wrapper:wrapper,
+        wrapper: wrapper,
         isImage: isImage,
         getAbilityScoreModifier: getAbilityScoreModifier,
         cssify: cssify,
-        decssify:decssify,
+        decssify: decssify,
         showInfo: showInfo,
-        currentTimeStamp:currentTimeStamp,
+        currentTimeStamp: currentTimeStamp,
         fadeOutInfoBox: fadeOutInfoBox
     }
 }();

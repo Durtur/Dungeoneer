@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSettings();
     updateHowlerListenerLocation();
     window.api.messageWindow('mainWindow', 'maptool-initialized')
-    serverNotifier.notifyServer("initialized");
+
     var bgSize = parseInt($("#foreground").css("background-size"));
     var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
@@ -175,15 +175,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function pawnBgColorChosen(color) {
 
-        selectedPawns.forEach(element =>{
+        selectedPawns.forEach(element => {
             element.style.backgroundColor = color;
-            serverNotifier.notifyServer("token-color", {id: element.id, color:color +""})
+            serverNotifier.notifyServer("token-color", { id: element.id, color: color + "" })
         });
     }
 
 
 
-    dataAccess.getConditions(function (data) {
+    dataAccess.getConditions(async function (data) {
 
         data.sort(function (a, b) {
             if (a.name < b.name) return -1;
@@ -191,6 +191,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return 0;
         });
         conditionList = data;
+        serverNotifier.notifyServer("condition-list", await serverNotifier.getConditionsForExport());
+
+        console.log(conditionList)
         var parentNode = document.getElementById("conditions_menu");
         var newButton = document.createElement("button");
         newButton.classList.add("button_style");
@@ -208,7 +211,7 @@ document.addEventListener("DOMContentLoaded", function () {
             createConditionButton(condition.name)
             selectedPawns.forEach(function (pawn) {
                 setPawnCondition(pawn, condition);
-                raiseConditionsChanged(pawn);
+           
             });
         });
 
@@ -350,6 +353,7 @@ async function onSettingsLoaded() {
         saveManager.loadMapFromPath(pendingMapLoad);
         pendingMapLoad = null;
     }
+    serverNotifier.notifyServer("maptool-state");
 }
 
 function getMapImageFromDialog() {
@@ -709,46 +713,6 @@ function removeAllConditionsHandler(event) {
 
 }
 
-function removeAllPawnConditions(pawnElement, originMainWindow = false) {
-    removePawnConditionHelper(pawnElement, null, true, originMainWindow);
-}
-
-function removePawnCondition(pawnElement, conditionString) {
-    removePawnConditionHelper(pawnElement, conditionString, false)
-
-}
-function removePawnConditionHelper(pawnElement, conditionObj, deleteAll, originMainWindow = false) {
-
-    if (deleteAll) {
-        pawnElement["data-dnd_conditions"] = [];
-    } else {
-        var currentArr = pawnElement["data-dnd_conditions"];
-        pawnElement["data-dnd_conditions"] = currentArr.filter(x => { return x != conditionObj.name });
-    }
-
-    var allConditions = [...pawnElement.getElementsByClassName("condition_effect")];
-
-    allConditions.forEach(function (condition) {
-        if (deleteAll || condition.getAttribute("data-dnd_condition_full_name") == conditionObj.name) {
-
-            condition.parentNode.removeChild(condition);
-        }
-    });
-    if (!originMainWindow)
-        raiseConditionsChanged(pawnElement);
-
-}
-
-function raiseConditionsChanged(pawn) {
-
-    var idx = pawn.getAttribute("index_in_main_window");
-    window.api.messageWindow('mainWindow', 'condition-list-changed', {
-        conditionList: pawn["data-dnd_conditions"],
-        index: idx ? idx : pawn.title
-    });
-
-}
-
 function removeSelectedPawn() {
     while (selectedPawns.length > 0) {
         map.removePawn(selectedPawns.pop());
@@ -854,7 +818,7 @@ function setTokenNextFacetHandler(e) {
         var images = JSON.parse(pawnPhoto.getAttribute("data-token_facets"));
         if (images == null || images.length == 0) return;
         var currentIndex = parseInt(pawnPhoto.getAttribute("data-token_current_facet")) || 0;
-     
+
         var oldIndex = currentIndex;
         currentIndex++;
         if (currentIndex >= images.length) currentIndex = 0;

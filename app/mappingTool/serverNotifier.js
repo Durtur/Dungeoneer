@@ -20,7 +20,8 @@ var serverNotifier = function () {
                 background: getBackgroundState(),
                 effects: await getEffectsForExport(),
                 segments: { segments: getSegments() },
-                fog: fovLighting.getFogStyle()
+                fog: fovLighting.getFogStyle(),
+                conditions:await getConditionsForExport()
             }
         });
 
@@ -91,9 +92,20 @@ var serverNotifier = function () {
     function notifyServer(eventName, data) {
         ipcRenderer.send("maptool-server-event", { event: eventName, data: data });
     }
+
+    async function getConditionsForExport(){
+        var exportList = JSON.parse(JSON.stringify(conditionList));
+        for(var i = 0 ; i < conditionList.length ; i++){
+            exportList[i].base64img = await Util.toBase64(exportList[i].condition_background_location);
+            delete exportList[i].condition_background_location;
+        }
+        return exportList;
+     
+    }
     return {
         notifyServer: notifyServer,
         sendState: sendState,
+        getConditionsForExport:getConditionsForExport,
         getForegroundState: getForegroundState,
         getTokensForExport: getTokensForExport,
         getBackgroundState: getBackgroundState,

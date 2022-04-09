@@ -45,6 +45,7 @@ function notifyPeers(message) {
 function sendLayerInfo(message) {
     peers.forEach(async peer => {
         var base64layer = await util.toBase64(message.data.path);
+
         sendBatched(peer.connection, message.event, base64layer, { width: message.data.width, height: message.data.height, translate: message.data.translate });
     })
 
@@ -327,6 +328,7 @@ function sendMaptoolState(maptoolState) {
                 overlay: maptoolState.overlay.path ? await util.toBase64(maptoolState.overlay.path) : null,
             };
             peer.connection.send({ event: "constants", data: constants })
+            peer.connection.send({ event: "condition-list", data: maptoolState.conditions })
             peer.connection.send({ event: "foreground-translate", data: maptoolState.foreground.translate })
             sendBatched(peer.connection, "foreground", dataObject.foreground, { width: maptoolState.foreground.width, height: maptoolState.foreground.height, translate: maptoolState.foreground.translate });
             sendBatched(peer.connection, "map_edge", dataObject.mapEdge)
@@ -341,7 +343,7 @@ function sendMaptoolState(maptoolState) {
             peer.connection.send({ event: "backgroundLoop", data: maptoolState.backgroundLoop })
             peer.connection.send({ event: "overlayLoop", data: maptoolState.overlayLoop })
             peer.connection.send({ event: "segments", data: maptoolState.segments });
-            setClientFog(maptoolState.fog);
+            setClientFog(clientFogUserSet ? clientFog  : maptoolState.fog);
 
         }
     });
@@ -350,14 +352,16 @@ function sendMaptoolState(maptoolState) {
 
 const CHUNK_SIZE = 1000000;
 function sendBatched(connection, key, msgString, metadata) {
+    console.log(key)
     if (msgString == null) {
         return connection.send({ event: key, data: { base64: null, chunk: 1, chunks: 1 } });
     }
     var totalLength = msgString.length;
     var chunks = Math.ceil(totalLength / CHUNK_SIZE);
-
+    console.log(chunks)
     for (var i = 0; i < chunks; i++) {
         var start = i * CHUNK_SIZE;
+        console.log(connection)
         connection.send({ event: key, data: { base64: msgString.substring(start, start + CHUNK_SIZE), chunk: i + 1, chunks: chunks, metadata: metadata } });
     }
 
