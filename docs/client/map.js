@@ -242,12 +242,12 @@ function toggleVisibilityLayer() {
     refreshFogOfWar();
 }
 
-function onMonsterHealthChanged(arg){
+function onMonsterHealthChanged(arg) {
     console.log(arg)
     var index = parseInt(arg.index);
 
-    var pawn = loadedMonsters.find(x=> x[0].index_in_main_window == index);
-    
+    var pawn = loadedMonsters.find(x => x[0].index_in_main_window == index);
+
     console.log(pawn)
     if (!pawn) return;
     pawn = pawn[0];
@@ -296,8 +296,11 @@ function setTool(source, toolIndex) {
         gridLayer.style.cursor = "auto";
         stopMeasuring(null, true);
         //toggle button handler will then set to false
-        source.setAttribute("toggled", "true");
-        window.setTimeout(()=>   measurements.clearMeasurements(), 300);
+
+        window.setTimeout(() => {
+            source.setAttribute("toggled", "false");
+            measurements.clearMeasurements();
+        }, 300);
 
     }
 }
@@ -474,7 +477,7 @@ function moveForeground(x, y) {
     foregroundCanvas.data_transform_x = x;
     foregroundCanvas.data_transform_y = y;
     foregroundCanvas.style.transform = `translate(${x}px, ${y}px)`
-    serverNotifier.notifyServer("foreground-translate", { x: foregroundCanvas.data_transform_x, y: foregroundCanvas.data_transform_y } );
+    serverNotifier.notifyServer("foreground-translate", { x: foregroundCanvas.data_transform_x, y: foregroundCanvas.data_transform_y });
 }
 
 function moveMap(x, y) {
@@ -831,8 +834,8 @@ function refreshMobBackgroundImages(pawn) {
         for (var i = 0; i < mobsToAdd; i++) {
             var ele = document.createElement("div");
             ele.className = "mob_token";
-            ele.style.backgroundImage = Util.cssify( tokenPaths.pickOne());
-        
+            ele.style.backgroundImage = Util.cssify(tokenPaths.pickOne());
+
             container.appendChild(ele);
             var base = document.createElement("div");
             base.classList = "dead_marker";
@@ -1270,13 +1273,13 @@ function dragPawn(elmnt) {
             return {
                 pos: map.objectGridCoords(pawn),
                 id: pawn.id,
-                distance:tooltip.innerHTML,
+                distance: tooltip.innerHTML,
                 idx: elmnt.index_in_main_window
             }
         }).concat({
             pos: map.objectGridCoords(elmnt),
             id: elmnt.id,
-            distance:tooltip.innerHTML,
+            distance: tooltip.innerHTML,
             idx: elmnt.index_in_main_window
 
         }));
@@ -1466,7 +1469,7 @@ function nudgePawns(x, y) {
 var currentListenerPawn;
 function updateHowlerListenerLocation() {
     var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
-    if(forcedPerpspectiveDD.selectedIndex < 0){
+    if (forcedPerpspectiveDD.selectedIndex < 0) {
         currentListenerPawn = null;
         soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
         return;
@@ -1849,7 +1852,7 @@ var map = function () {
 
         var startPointX = gridMoveOffsetX % cellSize;
         var startPointY = gridMoveOffsetY % cellSize;
-        
+
 
         for (var i = startPointY; i < canvasHeight; i += cellSize) {
             ctx.moveTo(0, i);
@@ -1961,7 +1964,7 @@ var map = function () {
     }
     function removeAllEffects() {
         effects.forEach(eff => effectManager.removeEffect(eff));
-        
+
     }
 
     return {

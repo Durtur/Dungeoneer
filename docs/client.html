@@ -31,6 +31,7 @@
 
     <main>
         <div class="toolbar column" >
+            <button class = "hamburger button_style toggle_button" toggled="true" onclick = "toggleToolbar(this)"></button>
             <div id="connection_status"></div>
             <select title="Forced perspective" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()">
 
@@ -38,6 +39,7 @@
             </select>
             <div class="tool_container column space_between">
                 <div class="column  "  id="toolbar">
+
                     <button title="Line measurement tool" class="toggle_button button_style toolbox_button"
                         id="line_tool" style="background-image: url(css/line.png);" toggleGroup="1" toggled="false"
                         onclick="setTool(this,0)"></button>

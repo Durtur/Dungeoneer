@@ -305,3 +305,18 @@ function send(data) {
     hostConnection.send(data);
 }
 
+
+function toggleToolbar(source) {
+    var bar = document.querySelector(".toolbar");
+    window.setTimeout(() => {
+        var toggled = source.getAttribute("toggled");
+        if (toggled != "true") {
+            bar.classList.add("toolbar_collapsed");
+        } else {
+            bar.classList.remove("toolbar_collapsed");
+        }
+    }, 150)
+
+
+}
+

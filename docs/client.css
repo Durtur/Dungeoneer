@@ -19,9 +19,10 @@ input{
 
     z-index:500000;
     min-width: 4em;
-    left: 1em;
+    left: 0.25em;
     width: 5vw;
-    height: 50vh;
+    top:1em;
+
     border-radius: 100px;
     background-color: #00000085;
     position: absolute;
@@ -91,4 +92,12 @@ input{
     background-color:rgba(0,0,0, 0.5);
     display:flex;
     margin:auto;
+}
+
+.hamburger{
+    background-image: url("./img/hamburger-menu.svg");
+}
+
+.toolbar_collapsed>*:not(:first-child){
+    display:none;
 }
