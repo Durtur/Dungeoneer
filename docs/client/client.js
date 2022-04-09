@@ -157,7 +157,7 @@ function setState(message) {
             if (removed)
                 map.removePawn(removed)
             break;
-        case "pawn-add":
+        case "token-add":
             addPawn(message.data)
             break;
         case "foreground-size":
@@ -203,11 +203,18 @@ function setState(message) {
                 return;
             setPawnBackgroundFromPathArray(token[0], toBase64Url(message.data.base64), false)
             break;
-        case "pawn-size":
+        case "token-size":
             var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
             if (!token)
                 return;
-            enlargeReducePawn(token[0], message.data.direction)
+            enlargeReducePawn(token[0], message.data.direction);
+            break;
+        case "token-color":
+            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            if (!token)
+                return;
+            token[0].style.backgroundColor = message.data.color;
+
     }
 
 }

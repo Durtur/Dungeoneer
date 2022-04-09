@@ -174,8 +174,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function pawnBgColorChosen(color) {
-        newColor = color;
-        selectedPawns.forEach(element => element.style.backgroundColor = newColor);
+
+        selectedPawns.forEach(element =>{
+            element.style.backgroundColor = color;
+            serverNotifier.notifyServer("token-color", {id: element.id, color:color +""})
+        });
     }
 
 

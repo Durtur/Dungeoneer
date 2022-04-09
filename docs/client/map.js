@@ -775,7 +775,7 @@ function enlargeReducePawn(element, direction) {
     element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
     element.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
     if (serverNotifier.isServer())
-        serverNotifier.notifyServer("pawn-size", { id: element.id, direction: direction });
+        serverNotifier.notifyServer("token-size", { id: element.id, direction: direction });
 
     refreshPawns();
     resizePawns();
@@ -1710,7 +1710,7 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
         tokenLayer.appendChild(newPawn);
         if (serverNotifier.isServer()) {
-            serverNotifier.notifyServer("pawn-add", await saveManager.exportPawn([newPawn, pawn.name]));
+            serverNotifier.notifyServer("token-add", await saveManager.exportPawn([newPawn, pawn.name]));
         }
     };
     refreshPawns();
