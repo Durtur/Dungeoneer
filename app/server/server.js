@@ -16,7 +16,7 @@ loadParty();
 ipcRenderer.on("maptool-server-event", function (event, message) {
     console.log(event);
     console.log(message);
-    if (message.event == 'maptool-state') {
+    if (message.event == 'F') {
         return sendMaptoolState(message.data);
     }
     if (["foreground", "background", "overlay"].find(x => x == message.event)) {
