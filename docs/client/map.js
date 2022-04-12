@@ -381,6 +381,7 @@ function setMapBackground(path, desiredWidth) {
     if (!path) {
         backgroundCanvas.style.backgroundImage = 'none';
         btn.innerHTML = "Image";
+        serverNotifier.notifyServer("background", null);
         return;
     }
     if (settings.matchSizeWithFileName) {
@@ -390,9 +391,10 @@ function setMapBackground(path, desiredWidth) {
     var img = new Image();
 
     img.onload = function () {
-
-        setMapBackgroundHelper('url("' + path + '")', img.width, img.height);
-        if (desiredWidth) resizeBackground(desiredWidth);
+        var ratio = img.height/img.width;
+        if(!desiredWidth)desiredWidth = img.width;
+        setMapBackgroundHelper('url("' + path + '")', desiredWidth, ratio* desiredWidth);
+      
     }
     img.src = path;
 }

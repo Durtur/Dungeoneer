@@ -5,7 +5,6 @@ var serverNotifier = function () {
     async function sendState() {
         var bgState = {};
         backgroundLoop.saveSlideState(bgState)
-        console.log(`BG STATE`, bgState)
         var overlayState = {};
         overlayLoop.saveSlideState(overlayState);
 
@@ -21,11 +20,12 @@ var serverNotifier = function () {
                 effects: await getEffectsForExport(),
                 segments: { segments: getSegments() },
                 fog: fovLighting.getFogStyle(),
-                conditions:await getConditionsForExport()
+                conditions: await getConditionsForExport()
             }
         });
 
     }
+
 
     function getSegments() {
         var segments = fovLighting.getSegments();
@@ -48,7 +48,7 @@ var serverNotifier = function () {
 
     function getForegroundState() {
         var hw = getCanvasState(foregroundCanvas);
-        return { path: settings.currentMap, width: hw.width, height: hw.height, translate: { x: foregroundCanvas.data_transform_x, y: foregroundCanvas.data_transform_y } }
+        return { path: settings.currentMap, width: hw.width, height: hw.height, translate: { x: foregroundCanvas.data_transform_x || 0, y: foregroundCanvas.data_transform_y || 0 } }
     }
 
 
@@ -93,19 +93,19 @@ var serverNotifier = function () {
         ipcRenderer.send("maptool-server-event", { event: eventName, data: data });
     }
 
-    async function getConditionsForExport(){
+    async function getConditionsForExport() {
         var exportList = JSON.parse(JSON.stringify(conditionList));
-        for(var i = 0 ; i < conditionList.length ; i++){
+        for (var i = 0; i < conditionList.length; i++) {
             exportList[i].base64img = await Util.toBase64(exportList[i].condition_background_location);
             delete exportList[i].condition_background_location;
         }
         return exportList;
-     
+
     }
     return {
         notifyServer: notifyServer,
         sendState: sendState,
-        getConditionsForExport:getConditionsForExport,
+        getConditionsForExport: getConditionsForExport,
         getForegroundState: getForegroundState,
         getTokensForExport: getTokensForExport,
         getBackgroundState: getBackgroundState,

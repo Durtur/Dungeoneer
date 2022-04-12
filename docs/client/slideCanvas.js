@@ -1,7 +1,7 @@
 
 
 class SlideCanvas {
-    constructor(canvas, menuId) {
+    constructor(canvas, menuId, onSlideChanged) {
         this.slideCanvas = canvas;
         this.menu = document.getElementById(menuId);
         this.background_slide_speed = 1;
@@ -16,8 +16,19 @@ class SlideCanvas {
         this.dirY = -1;
         this.bobAnimation = null;
         this.bobAnimationFrame = null;
+        this.onSlideChanged = onSlideChanged;
 
     }
+
+    saveSlideState(saveObject) {
+        saveObject.bg_slide_speed = this.background_slide_speed;
+        saveObject.bg_slide_type = this.currentAnimation;
+        if (this.bobAnimation) {
+            saveObject.bobMultiplier = this.bobMultiplier;
+            saveObject.bobAnimate = true;
+        }
+    }
+
     toggleBackgroundSlide(button) {
 
         if (button.getAttribute("toggled") == "true") {
@@ -26,17 +37,25 @@ class SlideCanvas {
             this.setBackgroundSlide(button.getAttribute("data-slide"));
         }
     }
+
+    notifyChanges() {
+        if (this.onSlideChanged)
+            this.onSlideChanged({ bg_slide_type: this.currentAnimation, bobMultiplier: this.bobMultiplier, bobAnimate: this.bobAnimation });
+    }
     setBackgroundSlide(animation) {
+
         var _this = this;
         this.styleClasses.forEach(cls => _this.slideCanvas.classList.remove(cls));
         var cls;
-        var currentAnimation = animation;
+        this.currentAnimation = animation;
+        this.notifyChanges();
         if (this.background_slide_animation_frame) {
             window.cancelAnimationFrame(this.background_slide_animation_frame);
             this.background_slide_animation_frame = null;
             if (animation == null) {
                 this.slideCanvas.style.backgroundPositionX = "0";
                 this.slideCanvas.style.backgroundPositionY = "0";
+
                 return;
             }
         }
@@ -46,7 +65,7 @@ class SlideCanvas {
             this.slideCanvas.style.backgroundPositionY = "0";
         var loop;
 
-        switch (currentAnimation) {
+        switch (this.currentAnimation) {
             case "slideXReverse": {
                 loop = slideLoopX;
                 this.direction = -1;
@@ -89,11 +108,13 @@ class SlideCanvas {
             _this.slideCanvas.style.backgroundPositionY = (curr + (_this.background_slide_speed * _this.direction)) + "px";
             _this.background_slide_animation_frame = window.requestAnimationFrame(slideLoopY);
         }
+
     }
 
 
     updateBobAmount() {
         this.bobMultiplier = parseFloat(this.menu.querySelector(".bob_amount_input").value);
+        this.notifyChanges();
     }
 
     toggleBobAnimation() {
@@ -105,7 +126,10 @@ class SlideCanvas {
         } else {
             window.cancelAnimationFrame(this.bobAnimationFrame);
             this.slideCanvas.classList.remove("background_repeat")
+            this.slideCanvas.style.backgroundPositionX = "0";
+            this.slideCanvas.style.backgroundPositionY = "0";
         }
+        this.notifyChanges();
 
         function bobAnimate() {
 
@@ -146,14 +170,7 @@ class SlideCanvas {
     updateSlideSpeed() {
         this.background_slide_speed = document.getElementById("slide_speed_input").value;
     }
-    saveSlideState(saveObject) {
-        saveObject.bg_slide_speed = this.background_slide_speed;
-        saveObject.bg_slide_type = this.currentAnimation;
-        if (this.bobAnimation) {
-            saveObject.bobMultiplier = this.bobMultiplier;
-            saveObject.bobAnimate = true;
-        }
-    }
+
     loadSlideState(data) {
 
         if (data.bg_slide_type) {
@@ -180,14 +197,24 @@ class SlideCanvas {
                 }
             }
             if (!this.bobAnimation) {
-                if(this.menu){
+                if (this.menu) {
                     console.log(this.menu.querySelector(".toggle_bob_animation_button"))
                     this.menu.querySelector(".toggle_bob_animation_button").click();
-                }else{
+                } else {
+                    this.toggleBobAnimation()
+                }
+            }
+        } else {
+            if (this.bobAnimation) {
+                if (this.menu) {
+                    console.log(this.menu.querySelector(".toggle_bob_animation_button"))
+                    this.menu.querySelector(".toggle_bob_animation_button").click();
+                } else {
                     this.toggleBobAnimation()
                 }
             }
         }
+
     }
 }
 

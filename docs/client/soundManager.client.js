@@ -161,7 +161,7 @@ class SoundManager {
         return sounds.find(x => {
             console.log(x)
 
-            var basename = x.path.substring(x.path.lastIndexOf("/")+1, x.path.lastIndexOf("."));
+            var basename = x.path.substring(x.path.lastIndexOf("/") + 1, x.path.lastIndexOf("."));
             console.log(basename)
             return soundName.toLowerCase() == basename.toLowerCase();
         });
@@ -176,10 +176,21 @@ class SoundManager {
         {
             path: basePath + "blizzard.mp3",
             name: "blizzard"
-        }
-
-        ];
-
+        },
+        { name: 'bubbling cauldron', path: 'bubbling cauldron.mp3' },
+        { name: 'bubbling mud', path: 'bubbling mud.mp3' },
+        { name: 'dark cave drone', path: 'dark cave drone.mp3' },
+        { name: 'fire ambience', path: 'fire ambience.mp3' },
+        { name: 'gibbering whispers', path: 'gibbering whispers.mp3' },
+        { name: 'mystical cavern ambience', path: 'mystical cavern ambience.mp3' },
+        { name: 'ship at sea', path: 'ship at sea.mp3' },
+        { name: 'slime', path: 'slime.wav' },
+        { name: 'spirits', path: 'spirits.mp3' },
+        { name: 'waterfall', path: 'waterfall.mp3' },
+        { name: 'wildlife ambience day', path: 'wildlife ambience day.mp3' },
+        { name: 'wind from inside', path: 'wind from inside.mp3' },
+        { name: 'wind', path: 'wind.mp3' }
+        ]
 
     }
 

@@ -247,7 +247,7 @@ module.exports = function () {
             var width = metadata.width;
             var height = metadata.height;
             var shrp = sharp(path)
-            console.log(metadata)
+
             if (shrink || width > MAX_SHARP_WEBP_SIZE || height > MAX_SHARP_WEBP_SIZE) {
                 console.log(`Converting ${width}, shrink ${MAX_SHARP_WEBP_SIZE}`)
                 if (width > height && width > MAX_SHARP_WEBP_SIZE) {
@@ -258,9 +258,9 @@ module.exports = function () {
                     shrp = await shrp.resize(resizeWidth);
                 }
             }
-            console.log(`Converting ${path}, shrink ${shrink}`)
+       
             var buffer = await shrp.toFormat("webp").toBuffer();
-            console.log(`${path} complete`)
+         
             return buffer.toString('base64');
         } catch (err) {
             console.error(err);

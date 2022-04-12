@@ -530,7 +530,8 @@ var fovLighting = function () {
         segments[1] = { a: { x: boxWidth, y: offset }, b: { x: boxWidth, y: canvasHeight } };
         segments[2] = { a: { x: boxWidth, y: boxHeight }, b: { x: offset, y: boxHeight } };
         segments[3] = { a: { x: offset, y: boxHeight }, b: { x: offset, y: offset } };
-        onSegmentsChanged();
+        generateUniquePoints();
+    
 
 
     }
@@ -538,6 +539,7 @@ var fovLighting = function () {
     function addSegment(a, b) {
 
         segments.push({ a: a, b: b });
+        generateUniquePoints();
         onSegmentsChanged();
     }
 
@@ -565,12 +567,9 @@ var fovLighting = function () {
         drawFogOfWar();
     }
 
-    function onSegmentsChanged(serverNotify = true) {
-        generateUniquePoints();
-        if (serverNotify)
-            serverNotifier.notifyServer("segments", { segments: serverNotifier.getSegments() });
-
-
+    function onSegmentsChanged() {
+        console.log("Segments changed")
+        serverNotifier.notifyServer("segments", { segments: serverNotifier.getSegments() });
     }
     function nudgeSegments(x, y) {
 
@@ -582,7 +581,8 @@ var fovLighting = function () {
             segment.b.x += x;
             segment.b.y += y;
         }
-        onSegmentsChanged(false);
+        generateUniquePoints();
+
 
     }
 
@@ -619,7 +619,8 @@ var fovLighting = function () {
 
         }
         drawSegments();
-        onSegmentsChanged(false);
+        generateUniquePoints();
+
     }
 
     var showVisibilityLayer = false;
@@ -636,6 +637,7 @@ var fovLighting = function () {
 
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: destinationPoint.x, y: originPoint.y } });
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: originPoint.x, y: destinationPoint.y } });
+        generateUniquePoints();
         onSegmentsChanged();
         drawSegments();
     }
@@ -679,6 +681,7 @@ var fovLighting = function () {
 
     function addLineSegment(originPoint, destinationPoint) {
         segments.push({ a: originPoint, b: destinationPoint });
+        generateUniquePoints();
         onSegmentsChanged();
         drawSegments();
     }

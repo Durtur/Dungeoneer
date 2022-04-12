@@ -140,7 +140,9 @@ function setState(message) {
             break;
         case "tokens-set":
             map.removeAllPawns();
-            importTokens(dataBuffer[message.event].reduce((a, b) => a + b));
+            if (dataBuffer[message.event])
+                importTokens(dataBuffer[message.event].reduce((a, b) => a + b));
+            else importTokens(message.data)
             break;
         case "constants":
             constants = message.data;
@@ -176,7 +178,10 @@ function setState(message) {
             moveObjects(message.data);
             break;
         case "effects-set":
-            setEffects(dataBuffer[message.event].reduce((a, b) => a + b));
+            if (dataBuffer[message.event])
+                setEffects(dataBuffer[message.event]?.reduce((a, b) => a + b));
+            else
+                setEffects(message.data)
             break;
         case "effect-add":
             addEffect(message.data);
@@ -200,32 +205,32 @@ function setState(message) {
         case "token-image":
             var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
 
-            if (!token)
+            if (!token || !token[0])
                 return;
             setPawnBackgroundFromPathArray(token[0], toBase64Url(message.data.base64), false)
             break;
         case "token-size":
             var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
-            if (!token)
+            if (!token || !token[0])
                 return;
             enlargeReducePawn(token[0], message.data.direction);
             break;
         case "token-color":
             var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
-            if (!token)
+            if (!token || !token[0])
                 return;
             token[0].style.backgroundColor = message.data.color;
             break;
         case "token-conditions":
             var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
-            if (!token)
+            if (!token || !token[0])
                 return;
             map.setTokenConditions(token[0], message.data.conditionList);
 
             break;
         case "condition-list":
             conditionList = message.data;
-            conditionList.map(x=> x.background_image = toBase64Url(x.base64img));
+            conditionList.map(x => x.background_image = toBase64Url(x.base64img));
             break;
 
     }
@@ -273,9 +278,8 @@ function clientSetForeground(message) {
 }
 
 function setEffects(effectStr) {
-    var arr = JSON.parse(effectStr);
+    var arr = (typeof effectStr == "string") ? JSON.parse(effectStr) : effectStr;
     map.removeAllEffects();
-
     arr.forEach(effObj => addEffect(effObj));
 }
 function addEffect(effObj) {
@@ -292,10 +296,12 @@ function addPawn(pawn) {
     pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
     if (!pawn.isPlayer) pawn.name = "???";
     generatePawns([pawn], !pawn.isPlayer, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+    if (pawn.isPlayer)
+        onPerspectiveChanged();
 }
 
 function importTokens(tokenStr) {
-    var arr = JSON.parse(tokenStr);
+    var arr = (typeof tokenStr == "string") ? JSON.parse(tokenStr) : tokenStr;
 
     arr.forEach(pawn => {
         addPawn(pawn);

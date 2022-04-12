@@ -174,9 +174,7 @@ class SaveManager {
             nudgePawns(moveX, moveY);
             fovLighting.nudgeSegments(moveX, moveY);
 
-            resizeForeground(data.bg_width);
-
-
+          
             if (data.foregroundTranslate) {
                 var trsl = data.foregroundTranslate;
                 foregroundCanvas.data_transform_x = trsl.x;
@@ -188,7 +186,8 @@ class SaveManager {
                 data.map = await dataAccess.writeTempFile(`${getTempName("forground", settings.currentMap)}${pathModule.extname(data.extensions.foreground)}`, Buffer.from(data.foregroundBase64, "base64"));
             settings.currentMap = data.map;
 
-            $('#foreground').css('background-image', 'url("' + data.map + cacheBreaker + '")');
+            setMapForeground(data.map + cacheBreaker, data.bg_width);
+   
 
             if (data.map_edge || data.mapEdgeBase64) {
                 if (data.mapEdgeBase64)

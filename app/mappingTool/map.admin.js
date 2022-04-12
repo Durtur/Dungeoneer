@@ -132,7 +132,18 @@ document.addEventListener("DOMContentLoaded", function () {
     var bgSize = parseInt($("#foreground").css("background-size"));
     var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
+    window.setTimeout(() => {
+        backgroundLoop.onSlideChanged = (state) => {
+            console.log("Hi ", state);
+            serverNotifier.notifyServer("backgroundLoop", state);
+        }
 
+        overlayLoop.onSlideChanged = (state) => {
+            console.log("Hi ", state);
+            serverNotifier.notifyServer("overlayLoop", state);
+        }
+
+    });
     //Drag drop
     document.addEventListener('drop', (event) => {
         event.preventDefault();
@@ -193,7 +204,6 @@ document.addEventListener("DOMContentLoaded", function () {
         conditionList = data;
         serverNotifier.notifyServer("condition-list", await serverNotifier.getConditionsForExport());
 
-        console.log(conditionList)
         var parentNode = document.getElementById("conditions_menu");
         var newButton = document.createElement("button");
         newButton.classList.add("button_style");
@@ -211,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
             createConditionButton(condition.name)
             selectedPawns.forEach(function (pawn) {
                 setPawnCondition(pawn, condition);
-           
+
             });
         });
 
@@ -273,6 +283,8 @@ async function onSettingsLoaded() {
     onSettingsChanged();
     serverNotifier.notifyServer("effects-set", await serverNotifier.getEffectsForExport());
     serverNotifier.notifyServer("tokens-set", await serverNotifier.getTokensForExport());
+    backgroundLoop.notifyChanges();
+    overlayLoop.notifyChanges();
     document.querySelector("body").onkeydown = function (event) {
         var keyIndex = [37, 38, 39, 40, 65, 87, 68, 83].indexOf(event.keyCode);
 
@@ -353,7 +365,7 @@ async function onSettingsLoaded() {
         saveManager.loadMapFromPath(pendingMapLoad);
         pendingMapLoad = null;
     }
-    serverNotifier.notifyServer("maptool-state");
+
 }
 
 function getMapImageFromDialog() {
