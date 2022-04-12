@@ -101,3 +101,13 @@ input{
 .toolbar_collapsed>*:not(:first-child){
     display:none;
 }
+
+.loading_ele_cont {
+    z-index: 999999 !important;
+}
+.loading_ele {
+
+    background-image: url(css/img/icon.png) !important;
+
+  
+  }

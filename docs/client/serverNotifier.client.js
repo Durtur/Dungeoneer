@@ -17,6 +17,10 @@ var serverNotifier = function () {
         return [];
     }
 
+    function getSegments() {
+        return [];
+    }
+
 
     function getTokensForExport() {
 
@@ -50,6 +54,8 @@ var serverNotifier = function () {
         sendState: sendState,
         serverTokensChanged: serverTokensChanged,
         getForegroundState: getForegroundState,
+        getSegments:getSegments,
+        getTokensForExport:getTokensForExport,
         getBackgroundState: getBackgroundState,
         getOverlayState: getOverlayState,
         isServer: isServer,

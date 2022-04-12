@@ -531,7 +531,7 @@ var fovLighting = function () {
         segments[2] = { a: { x: boxWidth, y: boxHeight }, b: { x: offset, y: boxHeight } };
         segments[3] = { a: { x: offset, y: boxHeight }, b: { x: offset, y: offset } };
         generateUniquePoints();
-    
+
 
 
     }
@@ -715,35 +715,40 @@ var fovLighting = function () {
         }
     }
 
+    function setDarkvision(enabled) {
+        var button = document.getElementById("active_viewer_button");
+        if (enabled) {
+            if (!activeViewerHasDarkvision)
+                if (button) button.click();
+                else switchActiveViewer();
+        } else {
+            if (activeViewerHasDarkvision)
+                if (button) button.click();
+                else switchActiveViewer();
+        }
+    }
+
     function setPerspective() {
         var selectedIndex = document.getElementById("fov_perspective_dropdown").selectedIndex;
         var name = document.getElementById("fov_perspective_dropdown").options[selectedIndex].value;
 
-        if (selectedIndex == 0) {
+        if (name == "All") {
             forcedPerspectiveOrigin = null;
+            setDarkvision(false);
             drawFogOfWar();
             return;
-        } else if (selectedIndex == 1) {
+        } else if (name == "Players") {
             forcedPerspectiveOrigin = pawns.players.map(x => x[0]);
-
-        }
-        var button = document.getElementById("active_viewer_button");
-        for (var i = 0; i < pawns.players.length; i++) {
-            if (pawns.players[i][1] == name) {
-                forcedPerspectiveOrigin = [pawns.players[i][0]];
-                if (forcedPerspectiveOrigin[0].sight_mode == "darkvision") {
-                    if (!activeViewerHasDarkvision)
-                        if (button) button.click();
-                        else switchActiveViewer();
-                } else {
-                    if (activeViewerHasDarkvision)
-                        if (button) button.click();
-                        else switchActiveViewer();
-                }
-
-                break;
+            console.log(forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"))
+            setDarkvision(!forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"));
+        } else {
+            var player = pawns.players.find(x => x[1] == name);
+            if (player) {
+                forcedPerspectiveOrigin = [player[0]];
+                setDarkvision(forcedPerspectiveOrigin[0].sight_mode == "darkvision");
             }
         }
+
 
         drawFogOfWar();
     }

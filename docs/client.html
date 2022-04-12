@@ -28,12 +28,23 @@
 <html>
 
 <body>
+    <div class = "loading_ele_cont nobackground hidden" id = "loading" >
+        <div id="loading_ele" class="loading_ele" alt="loading" class="center">
+            <img src="css/img/loading.gif"  alt="loading"
+                class="center">
+        </div>
+        <div class="column" style="margin-top:2em">
+            <p id="loading_title">Connecting...</p>
+          
+        </div>
+    </div>
 
-    <main>
+ 
+    <main id = "map_main">
         <div class="toolbar column" >
             <button class = "hamburger button_style togglable"  onclick = "toggleToolbar(this, event)"></button>
             <div id="connection_status"></div>
-            <select title="Forced perspective" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()">
+            <select title="Sight origin" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()">
 
                 <option value="players">Players</option>
             </select>

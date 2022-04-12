@@ -14,7 +14,7 @@ function setFovVisibilityTool(source, toolIndex) {
     lastMeasuredPoint = null;
     if (source.getAttribute("toggled") === "false") {
         gridLayer.onmousedown = measurements.startMeasuring;
-
+        gridLayer.ontouchstart = measurements.startMeasuring
         fovToolbox[toolIndex] = true;
         gridLayer.style.cursor = "crosshair";
         tooltip.classList.add("hidden");
@@ -48,6 +48,11 @@ var fovLighting = function () {
     var activeViewerHasDarkvision = false;
     function setFogStyle(fogStyle) {
         activeFogType = fogStyle;
+        serverNotifier.notifyServer("fog-set", fogStyle);
+    }
+
+    function getFogStyle() {
+        return activeFogType;
     }
 
     function toggleDarkvision() {
@@ -172,7 +177,7 @@ var fovLighting = function () {
                 || (rect.y + rect.height) < 0 - margin
                 || (rect.x > window.innerWidth + margin || rect.y > window.innerHeight + margin)
             );
-    
+
         return isOffScren;
     }
 
@@ -517,8 +522,7 @@ var fovLighting = function () {
         return { x: point.x, y: point.y };
     }
     function addWindowBorderToSegments() {
-        //These segments appear in the client so they should be pretty far away
-        var offset = -18000;
+        var offset = -2000;
         var boxHeight = canvasHeight - offset;
         var boxWidth = canvasWidth - offset;
 
@@ -526,7 +530,8 @@ var fovLighting = function () {
         segments[1] = { a: { x: boxWidth, y: offset }, b: { x: boxWidth, y: canvasHeight } };
         segments[2] = { a: { x: boxWidth, y: boxHeight }, b: { x: offset, y: boxHeight } };
         segments[3] = { a: { x: offset, y: boxHeight }, b: { x: offset, y: offset } };
-        onSegmentsChanged();
+        generateUniquePoints();
+
 
 
     }
@@ -534,6 +539,7 @@ var fovLighting = function () {
     function addSegment(a, b) {
 
         segments.push({ a: a, b: b });
+        generateUniquePoints();
         onSegmentsChanged();
     }
 
@@ -561,13 +567,9 @@ var fovLighting = function () {
         drawFogOfWar();
     }
 
-    function onSegmentsChanged(serverNotify = true) {
-        generateUniquePoints();
-        if (serverNotify)
-            serverNotifier.notifyServer("segments", { segments: segments });
-
-
-
+    function onSegmentsChanged() {
+        console.log("Segments changed")
+        serverNotifier.notifyServer("segments", { segments: serverNotifier.getSegments() });
     }
     function nudgeSegments(x, y) {
 
@@ -579,7 +581,8 @@ var fovLighting = function () {
             segment.b.x += x;
             segment.b.y += y;
         }
-        onSegmentsChanged(false);
+        generateUniquePoints();
+
 
     }
 
@@ -616,7 +619,8 @@ var fovLighting = function () {
 
         }
         drawSegments();
-        onSegmentsChanged(false);
+        generateUniquePoints();
+
     }
 
     var showVisibilityLayer = false;
@@ -633,6 +637,7 @@ var fovLighting = function () {
 
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: destinationPoint.x, y: originPoint.y } });
         segments.push({ a: { x: destinationPoint.x, y: destinationPoint.y }, b: { x: originPoint.x, y: destinationPoint.y } });
+        generateUniquePoints();
         onSegmentsChanged();
         drawSegments();
     }
@@ -676,6 +681,7 @@ var fovLighting = function () {
 
     function addLineSegment(originPoint, destinationPoint) {
         segments.push({ a: originPoint, b: destinationPoint });
+        generateUniquePoints();
         onSegmentsChanged();
         drawSegments();
     }
@@ -709,33 +715,40 @@ var fovLighting = function () {
         }
     }
 
+    function setDarkvision(enabled) {
+        var button = document.getElementById("active_viewer_button");
+        if (enabled) {
+            if (!activeViewerHasDarkvision)
+                if (button) button.click();
+                else switchActiveViewer();
+        } else {
+            if (activeViewerHasDarkvision)
+                if (button) button.click();
+                else switchActiveViewer();
+        }
+    }
+
     function setPerspective() {
         var selectedIndex = document.getElementById("fov_perspective_dropdown").selectedIndex;
         var name = document.getElementById("fov_perspective_dropdown").options[selectedIndex].value;
 
         if (name == "All") {
             forcedPerspectiveOrigin = null;
+            setDarkvision(false);
             drawFogOfWar();
             return;
         } else if (name == "Players") {
             forcedPerspectiveOrigin = pawns.players.map(x => x[0]);
-
-        }
-        console.log(`Setting perspective ${name}`)
-        for (var i = 0; i < pawns.players.length; i++) {
-            if (pawns.players[i][1] == name) {
-                forcedPerspectiveOrigin = [pawns.players[i][0]];
-                if (forcedPerspectiveOrigin[0].sight_mode == "darkvision") {
-                    if (!activeViewerHasDarkvision)
-                        switchActiveViewer();
-                } else {
-                    if (activeViewerHasDarkvision)
-                        switchActiveViewer();
-                }
-
-                break;
+            console.log(forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"))
+            setDarkvision(!forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"));
+        } else {
+            var player = pawns.players.find(x => x[1] == name);
+            if (player) {
+                forcedPerspectiveOrigin = [player[0]];
+                setDarkvision(forcedPerspectiveOrigin[0].sight_mode == "darkvision");
             }
         }
+
 
         drawFogOfWar();
     }
@@ -848,6 +861,7 @@ var fovLighting = function () {
         importDungeondraftVttMap: importDungeondraftVttMap,
         drawFogOfWar: drawFogOfWar,
         setFogStyle: setFogStyle,
+        getFogStyle: getFogStyle,
         MapFogType: MapFogEnum,
         toggleDarkvision: toggleDarkvision,
         viewerHasDarkvision: viewerHasDarkvision,

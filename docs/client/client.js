@@ -133,6 +133,7 @@ function setState(message) {
             setMapEdge(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)));
             break;
         case "foreground":
+            setLoading(false);
             clientSetForeground(message)
             break;
         case "background":
@@ -327,9 +328,21 @@ function connectedStateChanged() {
     if (hostConnection != null && hostConnection.open) {
         connectionStatusIndicator.classList.add("connected");
         connectPanel.classList.add("hidden");
+        setLoading(true);
     } else {
         connectionStatusIndicator.classList.remove("connected");
         connectPanel.classList.remove("hidden");
+        setLoading(false);
+    }
+}
+
+function setLoading(loading){
+    if(loading){
+        document.getElementById("loading").classList.remove("hidden");
+        document.getElementById("map_main").classList.add("hidden");
+    }else{
+        document.getElementById("loading").classList.add("hidden");
+        document.getElementById("map_main").classList.remove("hidden");
     }
 }
 
