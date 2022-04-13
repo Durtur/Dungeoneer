@@ -186,6 +186,8 @@ class SlideCanvas {
                 this.setBackgroundSlide(data.bg_slide_type);
             }
 
+        } else {
+            this.setBackgroundSlide(null);
         }
         if (data.bobAnimate) {
             if (data.bobMultiplier) {
