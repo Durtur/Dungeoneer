@@ -166,8 +166,8 @@ var fovLighting = function () {
     }
 
     function isOffScreen(pawn) {
-        pawn.sight_radius_brigth_pixels = parseFloat(pawn.sight_radius_bright_light) * cellSize / 5;
-        pawn.sight_radius_dim_pixels = parseFloat(pawn.sight_radius_dim_light || 1) * cellSize / 5;
+        pawn.sight_radius_brigth_pixels = parseFloat(pawn.sight_radius_bright_light) * cellSize / UNITS_PER_GRID;
+        pawn.sight_radius_dim_pixels = parseFloat(pawn.sight_radius_dim_light || 1) * cellSize / UNITS_PER_GRID;
         var totalRadius = pawn.sight_radius_brigth_pixels + pawn.sight_radius_dim_pixels;
         var margin = pawn.sight_mode == "darkvision" ? 0 : totalRadius;
         var rect = pawn.getBoundingClientRect();
@@ -188,8 +188,8 @@ var fovLighting = function () {
         var sightRadiusBright, sightRadius;
         //Special handling if this is a player that should be always visible
         if (currentPawn.sight_mode == "darkvision" && !activeViewerHasDarkvision) {
-            sightRadiusBright = cellSize / 5;
-            sightRadius = cellSize / 5 * 2;
+            sightRadiusBright = cellSize / UNITS_PER_GRID;
+            sightRadius = cellSize / UNITS_PER_GRID * 2;
         } else {
             sightRadiusBright = currentPawn.sight_radius_brigth_pixels;
             sightRadius = sightRadiusBright + currentPawn.sight_radius_dim_pixels;
@@ -296,8 +296,8 @@ var fovLighting = function () {
             dataAccess.writeTempFile(fileName + ".png", bitmap, function (path) {
                 setMapForeground(path.replaceAll("\\", "/"), parseFloat(data.resolution.map_size.x) * originalCellSize);
 
-                var offsetX = mapContainers[0].data_transform_x;
-                var offsetY = mapContainers[0].data_transform_y;
+                var offsetX = foregroundCanvas.data_transform_x  + mapContainers[0].data_transform_x;
+                var offsetY = foregroundCanvas.data_transform_y   + mapContainers[0].data_transform_y;
                 var wallLines = [];
                 getLines(false, true);
                 if (wallLines.length > maxSegmentCount) {
@@ -360,8 +360,8 @@ var fovLighting = function () {
                 var lights = data.lights;
                 lights.forEach(light => {
                     var newEffect = document.createElement("div");
-                    newEffect.style.width = cellSize / 5 + "px";
-                    newEffect.style.height = cellSize / 5 + "px";
+                    newEffect.style.width = cellSize / UNITS_PER_GRID + "px";
+                    newEffect.style.height = cellSize / UNITS_PER_GRID + "px";
                     newEffect.flying_height = 0;
                     newEffect.classList.add("light_effect", "dungeondraft_imported_light");
                     newEffect.classList.add("light_source_visibility_layer");
@@ -879,5 +879,6 @@ var fovLighting = function () {
         getSegments: getSegments,
         setSegments: setSegments,
         resizeCanvas: resizeCanvas,
+        publishChanged: onSegmentsChanged
     }
 }();

@@ -2,7 +2,7 @@ const sidebarManager = require("../js/sidebarManager");
 const SlimSelect = require("slim-select");
 
 var effectManager = function () {
-    var currentlyDeletingEffects = false;
+    var currentlyDeletingEffects = false, currentlyEditingEffects;
 
     var effectData;
     var SELECTED_EFFECT_TYPE = {
@@ -94,6 +94,7 @@ var effectManager = function () {
     }
 
     function startMovingEffects(e) {
+        currentlyEditingEffects = !currentlyEditingEffects;
         clearPreviewPlacement();
         if (currentlySelectedEffectDropdown != null)
             selectEffectType(null);
@@ -111,7 +112,17 @@ var effectManager = function () {
             };
             showSoundLayer();
             effects.map(eff => {
-                eff.classList.add("elevated")
+                eff.classList.add("elevated");
+                eff.onwheel = function (e) {
+                    console.log(e)
+                    if (e.shiftKey) {
+
+                        rotate(eff, e.deltaY);
+
+                    } else if (e.ctrlKey) {
+                        resize(eff, e.deltaY);
+                    }
+                }
                 Util.makeUIElementDraggable(eff, () => {
                     serverNotifier.notifyServer("object-moved", [{
                         pos: map.objectGridCoords(eff),
@@ -126,9 +137,48 @@ var effectManager = function () {
             effects.map(eff => {
                 eff.classList.remove("elevated")
                 eff.onmousedown = null;
+                eff.onwheel = null;
             })
         }
 
+    }
+
+    function rotate(effect, dir) {
+        console.log(`Rotate ${dir}`);
+        var deg = parseInt(effect.getAttribute("data-deg"));
+        if (isNaN(deg)) deg = 0;
+
+        if (dir > 0) {
+            deg++;
+            if (deg >= 360)
+                deg = 0;
+        } else {
+            deg--;
+            if (deg <= 0) {
+                deg = 360;
+            }
+        }
+        effect.style.transform = "rotate(" + deg + "deg)";
+        effect.setAttribute("data-deg", deg);
+        window.clearTimeout(serverNotifier.timeouts.effect_rotate);
+        serverNotifier.timeouts.effect_rotate = window.setTimeout(() => serverNotifier.notifyServer("effect-rotate", { id: effect.id, rotate: deg }), 600);
+    }
+
+    function resize(effect, dir) {
+        var mapUnitWidth = parseInt(effect.dnd_width);
+        var mapUnitHeight = parseInt(effect.dnd_height);
+        var incrDecrement = dir > 0 ? -1 : 1;
+
+        mapUnitWidth += incrDecrement;
+        mapUnitHeight += incrDecrement;
+
+        effect.dnd_height = mapUnitHeight;
+        effect.dnd_width = mapUnitWidth;
+
+        effect.style.width = mapUnitWidth * cellSize / UNITS_PER_GRID + "px";
+        effect.style.height = mapUnitHeight * cellSize / UNITS_PER_GRID + "px";
+        window.clearTimeout(serverNotifier.timeouts.effect_resize);
+        serverNotifier.timeouts.effect_resize = window.setTimeout(() => serverNotifier.notifyServer("effect-resize", { id: effect.id, width: mapUnitWidth, height: mapUnitHeight }), 600);
     }
 
     function startDeletingEffects(e) {
@@ -215,6 +265,12 @@ var effectManager = function () {
             bn.click();
         }
     }
+    function stopMovingEffects() {
+        if (currentlyEditingEffects) {
+            var bn = document.getElementById("move_effects_button")
+            bn.click();
+        }
+    }
 
     function showSoundLayer() {
         [...document.querySelectorAll(".sound_effect")].forEach(x => x.classList.remove("hidden"))
@@ -230,7 +286,7 @@ var effectManager = function () {
 
 
     async function createEffect(e, isPreviewElement) {
-        console.log(e)
+
         var newEffect;
         if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.sfx) {
             newEffect = await addSfxEffectHandler(e, isPreviewElement);
@@ -317,8 +373,8 @@ var effectManager = function () {
         newEffect.dnd_width = actualWidth;
         newEffect.dnd_height = actualHeight;
 
-        actualWidth *= cellSize / 5;
-        actualHeight *= cellSize / 5
+        actualWidth *= cellSize / UNITS_PER_GRID;
+        actualHeight *= cellSize / UNITS_PER_GRID
         newEffect.style.width = actualWidth + "px";
         newEffect.style.height = actualHeight + "px";
         var angle = effectAngle || effectObj.angle;
@@ -381,6 +437,9 @@ var effectManager = function () {
     function close() {
         selectEffectType(null);
         stopAddingEffects();
+        stopDeletingEffects();
+        stopMovingEffects();
+
         sidebarManager.close();
     }
     function closeOnEscape() {
@@ -431,8 +490,8 @@ var effectManager = function () {
         inputs.h.value = value;
         inputs.w.value = value2;
 
-        var actualWidth = value * cellSize / 5;
-        var actualHeight = value2 * cellSize / 5
+        var actualWidth = value * cellSize / UNITS_PER_GRID;
+        var actualHeight = value2 * cellSize / UNITS_PER_GRID
 
         previewPlacementElement.dnd_width = value;
         previewPlacementElement.dnd_height = value2;
@@ -569,8 +628,8 @@ var effectManager = function () {
             var width, height;
             width = parseFloat(ele.dnd_width);
             height = parseFloat(ele.dnd_height);
-            ele.style.width = width * cellSize / 5 + "px";
-            ele.style.height = height * cellSize / 5 + "px";
+            ele.style.width = width * cellSize / UNITS_PER_GRID + "px";
+            ele.style.height = height * cellSize / UNITS_PER_GRID + "px";
 
         }
     }

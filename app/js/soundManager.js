@@ -184,8 +184,6 @@ class AdminSoundManager extends SoundManager {
         var soundPaths = [this.defaultSoundPath];
 
         if (settings.soundLibraryPath) {
-            console.log(settings.soundLibraryPath);
-
             soundPaths.push(settings.soundLibraryPath);
 
         }

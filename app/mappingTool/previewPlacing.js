@@ -91,7 +91,7 @@ function adjustPreviewPlacement(event) {
 
     var dndHeight = previewPlacementElement.dnd_height ? parseInt(previewPlacementElement.dnd_height) : 1;
     var dndWidth = previewPlacementElement.dnd_width ? parseInt(previewPlacementElement.dnd_width) : 1;
-    var feetSize = cellSize / 5;
+    var feetSize = cellSize / UNITS_PER_GRID;
     previewPlacementElement.style.width = dndWidth * feetSize + "px";
     previewPlacementElement.style.height = dndHeight * feetSize + "px";
     // calculate the new cursor position:

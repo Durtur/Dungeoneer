@@ -1,6 +1,6 @@
 
 var effectManager = function () {
-  
+
     function removeEffect(target) {
         while (target.parentNode != tokenLayer) {
             target = target.parentNode;
@@ -31,17 +31,17 @@ var effectManager = function () {
     function addSfxEffect(effectObj, e) {
 
 
-        var newEffect = createBaseEffect(effectObj,false, e)
+        var newEffect = createBaseEffect(effectObj, false, e)
         newEffect.classList.add("sfx_effect");
         tokenLayer.appendChild(newEffect);
         return newEffect;
     }
 
-    function addLightEffect(effectObj,  e) {
+    function addLightEffect(effectObj, e) {
         var newEffect = createBaseEffect(effectObj, false, e)
 
-        newEffect.sight_radius_dim_light = effectObj.dimLightRadius == "" ?  20 : effectObj.dimLightRadius ;
-        newEffect.sight_radius_bright_light = effectObj.brightLightRadius == "" ?  20 : effectObj.brightLightRadius ;
+        newEffect.sight_radius_dim_light = effectObj.dimLightRadius == "" ? 20 : effectObj.dimLightRadius;
+        newEffect.sight_radius_bright_light = effectObj.brightLightRadius == "" ? 20 : effectObj.brightLightRadius;
         console.log()
 
         newEffect.flying_height = 0;
@@ -60,7 +60,7 @@ var effectManager = function () {
 
     function createBaseEffect(effectObj, isPreviewElement, e) {
         var newEffect = document.createElement("div");
-        var chosenWidth =  effectObj.width;
+        var chosenWidth = effectObj.width;
         var chosenHeight = effectObj.height;
         var actualWidth, actualHeight;
 
@@ -70,16 +70,16 @@ var effectManager = function () {
         newEffect.dnd_width = actualWidth;
         newEffect.dnd_height = actualHeight;
 
-        actualWidth *= cellSize / 5;
-        actualHeight *= cellSize / 5
+        actualWidth *= cellSize / UNITS_PER_GRID;
+        actualHeight *= cellSize / UNITS_PER_GRID
         newEffect.style.width = actualWidth + "px";
         newEffect.style.height = actualHeight + "px";
         var angle = effectObj.angle;
         newEffect.style.transform = "rotate(" + angle + "deg)";
         newEffect.setAttribute("data-deg", angle)
         newEffect.id = effectObj.id || "effect_" + effectId++;
-        var x = e.clientX ;
-        var y = e.clientY ;
+        var x = e.clientX;
+        var y = e.clientY;
         newEffect.style.top = y + "px";
         newEffect.style.left = x + "px";
 
@@ -93,7 +93,7 @@ var effectManager = function () {
             if (isPreviewElement) {
                 selectedSfxBackground = "url('" + sfxPath + "')";
             }
-        }else if (effectObj.bgPhotoBase64){
+        } else if (effectObj.bgPhotoBase64) {
             selectedSfxBackground = effectObj.bgPhotoBase64;
         } else if (effectObj.name != "custom") {
             selectedSfxBackground = null;
@@ -103,7 +103,7 @@ var effectManager = function () {
         //Refresh preview
         if (!isPreviewElement) {
             effects.push(newEffect)
- 
+
         }
         if (effectObj.sound && !isPreviewElement) {
             newEffect.sound = effectObj.sound;
@@ -120,21 +120,41 @@ var effectManager = function () {
     function resizeEffects() {
 
         effects.forEach(effect => resize(effect));
- 
+
         function resize(ele) {
             var width, height;
             width = parseFloat(ele.dnd_width);
             height = parseFloat(ele.dnd_height);
-            ele.style.width = width * cellSize / 5 + "px";
-            ele.style.height = height * cellSize / 5 + "px";
+            ele.style.width = width * cellSize / UNITS_PER_GRID + "px";
+            ele.style.height = height * cellSize / UNITS_PER_GRID + "px";
 
         }
     }
-    return {
-        resizeEffects: resizeEffects,
-        removeEffect:removeEffect,
-        addLightEffect:addLightEffect,
-        addSfxEffect:addSfxEffect
+
+    function rotate(effect, deg) {
+        console.log(`Rotate ${deg} `)
+        effect.style.transform = "rotate(" + deg + "deg)";
+        effect.setAttribute("data-deg", deg);
       
+    }
+
+    function resize(effect, mapUnitHeight, mapUnitWidth) {
+        console.log(`Resize ${mapUnitHeight} `)
+        effect.dnd_height = mapUnitHeight;
+        effect.dnd_width = mapUnitWidth;
+
+        effect.style.width = mapUnitWidth * cellSize / UNITS_PER_GRID + "px";
+        effect.style.height = mapUnitHeight * cellSize / UNITS_PER_GRID + "px";
+
+    }
+
+    return {
+        resize: resize,
+        rotate: rotate,
+        resizeEffects: resizeEffects,
+        removeEffect: removeEffect,
+        addLightEffect: addLightEffect,
+        addSfxEffect: addSfxEffect
+
     }
 }();

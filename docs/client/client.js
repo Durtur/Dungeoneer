@@ -233,6 +233,19 @@ function setState(message) {
             conditionList = message.data;
             conditionList.map(x => x.background_image = toBase64Url(x.base64img));
             break;
+        case "effect-rotate":
+            var ele = effects.find(x => x.id == message.data.id);
+            if (!ele)
+                return;
+            effectManager.rotate(ele, message.data.rotate)
+            break;
+        case "effect-resize":
+            var ele = effects.find(x => x.id == message.data.id);
+            if (!ele)
+                return;
+            effectManager.resize(ele, message.data.height, message.data.width);
+            break;
+
 
     }
 
@@ -246,6 +259,7 @@ function importSegments(segments) {
         }
     });
     fovLighting.setSegments(arr);
+    refreshFogOfWar();
 
 }
 
@@ -336,11 +350,11 @@ function connectedStateChanged() {
     }
 }
 
-function setLoading(loading){
-    if(loading){
+function setLoading(loading) {
+    if (loading) {
         document.getElementById("loading").classList.remove("hidden");
         document.getElementById("map_main").classList.add("hidden");
-    }else{
+    } else {
         document.getElementById("loading").classList.add("hidden");
         document.getElementById("map_main").classList.remove("hidden");
     }

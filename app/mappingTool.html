@@ -50,9 +50,8 @@
                                         map (ctrl+o)</a>
                                 </li>
 
-                                <!-- <li><a class="button_style" id="map_library_button" href="#"
-                                                title="Loads an earlier map in the same state, excluding tokens.">Library folder</a>
-                                        </li> -->
+
+
 
                             </ul>
                         </li>
@@ -171,7 +170,7 @@
                                                     Sway amount:
                                                 </label>
                                                 <input style="text-align: center; width:60px; " type="number"
-                                                oninput="backgroundLoop.updateBobAmount()" class="bob_amount_input"
+                                                    oninput="backgroundLoop.updateBobAmount()" class="bob_amount_input"
                                                     value="1" step="0.1">
                                             </div>
                                         </li>
@@ -203,13 +202,7 @@
                         onclick="showMapSizeSlider(this)">Size</button>
                 </div>
 
-                <select title="Filter" style="width: 60px" id="filter_tool" onchange="setBackgroundFilter">
-                    <option value="none" selected>No filter</option>
-                    <option value="url(#night-mode)">Night</option>
-                    <option value="url(#winter-mode)">Winter</option>
-                    <option value="hue-rotate(90deg)">Hue</option>
-                    <option value="url(#daylight)">Daylight</option>
-                </select>
+
 
                 <div class="dropdown">
                     <ul>
@@ -221,6 +214,15 @@
                                     <input type="color" id="fog_of_war_hue_selector"
                                         style="height:0 !important; margin:0 !important; padding:0 !important; width: 0;"
                                         value="#000000" class="invisible">
+                                </li>
+                                <li> <select title="Filter" id="filter_tool"
+                                        onchange="setBackgroundFilter">
+                                        <option value="none" selected>No filter</option>
+                                        <option value="url(#night-mode)">Night</option>
+                                        <option value="url(#winter-mode)">Winter</option>
+                                        <option value="hue-rotate(90deg)">Hue</option>
+                                        <option value="url(#daylight)">Daylight</option>
+                                    </select>
                                 </li>
                                 <li> <a class="toggle_button button_style" toggled="false"
                                         title="Current viewer has darkvision" id="active_viewer_button"
@@ -424,7 +426,7 @@
             <div class="row">
 
                 <button class="button button_style toggle_button effect_action_button" id="move_effects_button"
-                    toggled="false" onclick="effectManager.startMovingEffects(event)">Move</button>
+                    toggled="false" onclick="effectManager.startMovingEffects(event)">Edit</button>
                 <button class="button button_style toggle_button effect_action_button" id="delete_effects_button"
                     toggled="false" onclick="effectManager.startDeletingEffects()">Delete</button>
             </div>

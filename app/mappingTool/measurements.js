@@ -49,7 +49,7 @@ let measurements = function () {
         } else {
             measurementOriginPosition = {
                 x: clientX, y: clientY,
-                z: cellSize / 5 * parseInt(measurementTargetOrigin.flying_height)
+                z: cellSize / UNITS_PER_GRID * parseInt(measurementTargetOrigin.flying_height)
             }
         }
         if (!visibilityLayerVisible) {
@@ -456,8 +456,8 @@ let measurements = function () {
                     div.style.backgroundImage = "url('" + measurementFillStylePath + "')";
 
                     tokenLayer.appendChild(div);
-                    div.dnd_width = parseInt(lastMeasuredSphere.radius * 2 / (cellSize / 5));
-                    div.dnd_height = parseInt(lastMeasuredSphere.radius * 2 / (cellSize / 5));
+                    div.dnd_width = parseInt(lastMeasuredSphere.radius * 2 / (cellSize / UNITS_PER_GRID));
+                    div.dnd_height = parseInt(lastMeasuredSphere.radius * 2 / (cellSize / UNITS_PER_GRID));
 
 
                     effects.push(div)

@@ -1,8 +1,9 @@
 const dataAccess = require("./js/dataaccess");
-const SoundManager = require("../js/soundManager");
+const SoundManager = require("./js/soundManager");
+
 const soundManager = new SoundManager();
 var allEffects;
-
+var settings;
 var editingEffectName = null;
 var effectFilePath;
 document.addEventListener("DOMContentLoaded", (e) => {
@@ -22,10 +23,15 @@ document.addEventListener("DOMContentLoaded", (e) => {
     });
 
     $("#classlist_select").on("change", previewEffectClasses);
-    addSoundList();
+    dataAccess.getSettings(data => {
+        settings = data.maptool;
+        addSoundList();
+    });
+
 });
 
 async function addSoundList() {
+  
     soundManager.initialize();
     var list = (await soundManager.getAvailableSounds()).map(x => {
         return {

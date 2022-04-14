@@ -283,6 +283,7 @@ async function onSettingsLoaded() {
     onSettingsChanged();
     serverNotifier.notifyServer("effects-set", await serverNotifier.getEffectsForExport());
     serverNotifier.notifyServer("tokens-set", await serverNotifier.getTokensForExport());
+    fovLighting.publishChanged();
     backgroundLoop.notifyChanges();
     overlayLoop.notifyChanges();
     document.querySelector("body").onkeydown = function (event) {
@@ -338,7 +339,7 @@ async function onSettingsLoaded() {
     }
 
     gridLayer.onwheel = function (event) {
-        // event.preventDefault();
+  
         if (event.ctrlKey && previewPlacementElement) {
             return effectManager.onPreviewPlacementResized(event);
         }

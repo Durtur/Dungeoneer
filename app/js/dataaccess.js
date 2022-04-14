@@ -312,12 +312,14 @@ module.exports = function () {
 
     function getSettings(callback) {
         fs.readFile(pathModule.join(settingsPath, "settings.json"), function (err, data) {
+           
             if (err) {
                 data = loadDefaultSettings();
                 initializeData();
                 saveSettings(data, () => { });
             } else {
                 data = JSON.parse(data);
+                console.log(err, data)
             }
             if (!data.firstLoadComplete) {
                 data.firstLoadComplete = true;

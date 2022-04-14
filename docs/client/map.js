@@ -1,5 +1,6 @@
 
 var cellSize = 35, originalCellSize = cellSize;
+const UNITS_PER_GRID = 5;
 var canvasWidth = 400;
 var canvasHeight = 400;
 var zIndexPawnCap = 9;
@@ -391,10 +392,10 @@ function setMapBackground(path, desiredWidth) {
     var img = new Image();
 
     img.onload = function () {
-        var ratio = img.height/img.width;
-        if(!desiredWidth)desiredWidth = img.width;
-        setMapBackgroundHelper('url("' + path + '")', desiredWidth, ratio* desiredWidth);
-      
+        var ratio = img.height / img.width;
+        if (!desiredWidth) desiredWidth = img.width;
+        setMapBackgroundHelper('url("' + path + '")', desiredWidth, ratio * desiredWidth);
+
     }
     img.src = path;
 }
@@ -990,12 +991,12 @@ function refreshMeasurementTooltip() {
         var destinationPoint = {
             x: parseInt(measurementTargetDestination.style.left),
             y: parseInt(measurementTargetDestination.style.top),
-            z: cellSize / 5 * parseInt(measurementTargetDestination.flying_height)
+            z: cellSize / UNITS_PER_GRID * parseInt(measurementTargetDestination.flying_height)
         }
         var originPosition = {
             x: parseInt(measurementTargetOrigin.style.left),
             y: parseInt(measurementTargetOrigin.style.top),
-            z: cellSize / 5 * parseInt(measurementTargetOrigin.flying_height)
+            z: cellSize / UNITS_PER_GRID * parseInt(measurementTargetOrigin.flying_height)
         }
 
         tooltip.innerHTML = Math.round(
@@ -1102,7 +1103,7 @@ function dragPawn(elmnt) {
                     {
                         x: e.clientX,
                         y: e.clientY,
-                        z: cellSize / 5 * parseInt(e.target.flying_height),
+                        z: cellSize / UNITS_PER_GRID * parseInt(e.target.flying_height),
                     }, e
                 );
                 measurementPaused = true;

@@ -86,16 +86,13 @@ h2 {
     height: 40px;
 }
 #saveButton {
-    background-color: #06A70B;
+ 
     height: 40px;
     width: 100%;
 
 }
 
-#saveButton:hover {
-    background-color: rgb(4, 58, 6);
-    font-weight: bold;
-}
+
 
 .save_button_container {
     position: fixed;

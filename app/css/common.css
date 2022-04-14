@@ -1781,6 +1781,10 @@ input[data-before_label]:before {
 
 /* Navbar container */
 
+.dropdown select{
+  width: 100%;
+  border: none;
+}
 .dropdown ul {
   list-style: none;
   padding: 0;
@@ -1799,7 +1803,7 @@ input[data-before_label]:before {
   display: none;
 }
 
-.dropdown ul li a {
+.dropdown ul li a, .dropdown select {
   display: block;
   line-height: 0.8;
   padding: 0.6em;
@@ -1905,6 +1909,23 @@ input[data-before_label]:before {
   border-radius: var(--rounded-corners);
 }
 
+.popup_menu .sp-replacer{
+  background-color:var(--main-color) !important;
+  color:var(--inverse-text-color) !important;
+}
+
+.popup_menu  .sp-dd{
+  color:var(--inverse-text-color) !important;
+}
+
+.popup_menu .sp-container button, .popup_menu .sp-cancel, .popup_menu .sp-choose {
+  color:var(--inverse-text-color) !important;
+}
+
+.popup_menu .sp-replacer::before{
+  color:var(--inverse-text-color) !important;
+  font-size:0.8em;
+}
 .popup_menu {
   position: absolute;
   display: flex;
