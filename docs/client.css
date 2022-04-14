@@ -81,7 +81,7 @@ input{
 
 #connect_container{
     max-width:30em;
-    width:20em;
+ 
     padding:1.25em;
     top: 50%;
   
@@ -110,4 +110,15 @@ input{
     background-image: url(css/img/icon.png) !important;
 
   
+  }
+
+
+  @media (min-width: 800px){
+
+    #connect_container{
+      
+        width:20em;
+    
+    }
+    
   }
