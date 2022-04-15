@@ -194,7 +194,9 @@ var initiative = function () {
             $('.initiativeNode').on("click", initiative.roll);
             publishEvent({ empty: true });
         }
-
+        if (roundTimer) {
+            roundTimer.destroy();
+        }
     }
     function hide() {
         emptyInitiative();

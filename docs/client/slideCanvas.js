@@ -39,8 +39,12 @@ class SlideCanvas {
     }
 
     notifyChanges() {
-        if (this.onSlideChanged)
-            this.onSlideChanged({ bg_slide_type: this.currentAnimation, bobMultiplier: this.bobMultiplier, bobAnimate: this.bobAnimation });
+        if (this.onSlideChanged){
+            var obj ={};
+            this.saveSlideState(obj);
+            this.onSlideChanged(obj);
+        }
+         
     }
     setBackgroundSlide(animation) {
 
@@ -168,7 +172,8 @@ class SlideCanvas {
 
     }
     updateSlideSpeed() {
-        this.background_slide_speed = document.getElementById("slide_speed_input").value;
+        this.background_slide_speed =  this.menu.querySelector(".slide_speed_input").value;
+        this.notifyChanges();
     }
 
     loadSlideState(data) {

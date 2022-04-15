@@ -341,6 +341,7 @@ function setMapOverlay(path, width) {
     if (!path) {
         overlayCanvas.style.backgroundImage = 'none';
         btn.innerHTML = "Image";
+        serverNotifier.notifyServer("overlay", serverNotifier.getOverlayState());
         return;
     }
     if (settings.matchSizeWithFileName) {
@@ -349,7 +350,7 @@ function setMapOverlay(path, width) {
     btn.innerHTML = pathModule.basename(path);
     overlayCanvas.style.backgroundImage = 'url("' + path + '")';
     var img = new Image();
-    settings.gridSettings.mapOverlaySize = width;
+
     img.onload = function () {
         overlayCanvas.heightToWidthRatio = img.height / img.width;
         if (!width) width = img.width;
@@ -383,8 +384,10 @@ function setForegroundHelper(path, width, height) {
 
 function setMapForeground(path, width) {
     var btn = document.getElementById("foreground_button");
+    settings.currentMap = path;
     if (!path) {
         foregroundCanvas.style.backgroundImage = 'none';
+        serverNotifier.notifyServer("foreground", serverNotifier.getForegroundState());
         btn.innerHTML = "Image";
         return;
     }
@@ -402,7 +405,7 @@ function setMapForeground(path, width) {
         setForegroundHelper('url("' + path + '")', mapWidth, height);
     }
     img.src = path;
-    settings.currentMap = path;
+
 
 }
 

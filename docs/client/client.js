@@ -1,6 +1,6 @@
 var hostConnection;
 
-var dataBuffer = {};
+var dataBuffer = {}, initRequestSent = false;
 var connectionObj =
 {
     secure: true,
@@ -59,6 +59,7 @@ function connect() {
 
         hostConnection.on('open', () => {
             connectedStateChanged();
+            initRequestSent = true;
             send({ event: "init", name: name });
         })
         hostConnection.on('data', function (data) {
@@ -345,7 +346,8 @@ function connectedStateChanged() {
     if (hostConnection != null && hostConnection.open) {
         connectionStatusIndicator.classList.add("connected");
         connectPanel.classList.add("hidden");
-        setLoading(true);
+        if (!initRequestSent)
+            setLoading(true);
     } else {
         connectionStatusIndicator.classList.remove("connected");
         connectPanel.classList.remove("hidden");

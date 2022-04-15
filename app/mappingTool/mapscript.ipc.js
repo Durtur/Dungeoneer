@@ -15,6 +15,7 @@ ipcRenderer.on("get-state", (evt, arg) => {
 
 ipcRenderer.on("intiative-updated",
     function (evt, arg) {
+    
         map.updateInitiative(arg);
         serverNotifier.notifyServer("initiative", arg);
     })
