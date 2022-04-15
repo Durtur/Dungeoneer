@@ -237,6 +237,12 @@ li {
     margin: 0.5em;
 }
 
+.slider_cell_count_input{
+    height: 2em;
+    margin: auto;
+    width: 4em;
+}
+
 #label_for_effect_input_value_one {
     left: 5px;
 }

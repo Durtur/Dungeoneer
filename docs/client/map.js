@@ -312,6 +312,54 @@ function setTool(event, source, toolIndex) {
     }
 }
 
+
+
+function setMapOverlayAsBase64(path, width, height) {
+    setOverlayHelper(path, width, height)
+}
+
+function setOverlayHelper(path, width, height) {
+    overlayCanvas.style.backgroundImage = path;
+    overlayCanvas.setAttribute("data-original_height", height);
+    overlayCanvas.setAttribute("data-original_width", width);
+    overlayCanvas.heightToWidthRatio = height / width;
+    overlayCanvas.style.width = width + "px";
+    overlayCanvas.style.height = height + "px";
+    settings.gridSettings.mapOverlaySize = width;
+
+
+    toggleSaveTimer();
+    serverNotifier.notifyServer("overlay", serverNotifier.getOverlayState());
+    onOverlayResized(width);
+}
+
+
+
+function setMapOverlay(path, width) {
+    var btn = document.getElementById("overlay_button");
+    settings.currentOverlay = path;
+    if (!path) {
+        overlayCanvas.style.backgroundImage = 'none';
+        btn.innerHTML = "Image";
+        return;
+    }
+    if (settings.matchSizeWithFileName) {
+        width = getMapWidthFromFileName(path, width);
+    }
+    btn.innerHTML = pathModule.basename(path);
+    overlayCanvas.style.backgroundImage = 'url("' + path + '")';
+    var img = new Image();
+    settings.gridSettings.mapOverlaySize = width;
+    img.onload = function () {
+        overlayCanvas.heightToWidthRatio = img.height / img.width;
+        if (!width) width = img.width;
+        setOverlayHelper('url("' + path + '")', width, overlayCanvas.heightToWidthRatio * width);
+
+    }
+    img.src = path;
+
+}
+
 function setMapForegroundAsBase64(path, width, height) {
     setForegroundHelper(path, width, height)
 }
@@ -330,6 +378,7 @@ function setForegroundHelper(path, width, height) {
 
     toggleSaveTimer();
     serverNotifier.notifyServer("foreground", serverNotifier.getForegroundState());
+    onForegroundResized(width);
 }
 
 function setMapForeground(path, width) {
@@ -350,10 +399,6 @@ function setMapForeground(path, width) {
         var mapWidth = width ? width : img.width;
         var imgWidthToOldWidth = width ? mapWidth / img.width : 1;
         var height = img.height * imgWidthToOldWidth;
-
-
-        var slider = document.getElementById("foreground_size_slider");
-        if (slider) slider.value = mapWidth;
         setForegroundHelper('url("' + path + '")', mapWidth, height);
     }
     img.src = path;
@@ -404,34 +449,65 @@ function setMapBackground(path, desiredWidth) {
 function resizeForeground(newWidth) {
     foregroundCanvas.style.width = newWidth + "px";
     foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
-
-    (document.getElementById("foreground_size_slider") || {}).value = newWidth;
-    settings.gridSettings.mapSize = newWidth;
-
-    fovLighting.drawSegments();
+    onForegroundResized(newWidth);
     window.clearTimeout(serverNotifier.timeouts.foreground);
     serverNotifier.timeouts.foreground = window.setTimeout(() => serverNotifier.notifyServer("foreground-size", { width: newWidth }), 1000);
+
+}
+
+function onForegroundResized(newWidth) {
+    (document.getElementById("foreground_size_slider") || {}).value = newWidth;
+    settings.gridSettings.mapSize = newWidth;
+    fovLighting.drawSegments();
+    var inp = document.getElementById("foreground_cells_input");
+    if (inp) {
+        var cells = newWidth / originalCellSize;
+        inp.value = cells.toFixed(2);
+    }
+    toggleSaveTimer();
 }
 
 function resizeBackground(newWidth) {
     console.log(`Resize background ${newWidth}`)
     backgroundCanvas.style.width = newWidth + "px";
     backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
-    (document.getElementById("background_size_slider") || {}).value = newWidth;
-    toggleSaveTimer();
+
+
     window.clearTimeout(serverNotifier.timeouts.background)
     serverNotifier.timeouts.background = window.setTimeout(() => serverNotifier.notifyServer("background-size", { width: newWidth }), 1000);
+    onBackgroundResized(newWidth);
+
+}
+
+function onBackgroundResized(newWidth) {
+    (document.getElementById("background_size_slider") || {}).value = newWidth;
+    var inp = document.getElementById("background_cells_input");
+    if (inp) {
+        var cells = newWidth / originalCellSize;
+        inp.value = cells.toFixed(2);
+    }
+    toggleSaveTimer();
 }
 
 function resizeOverlay(newWidth) {
     overlayCanvas.style.width = newWidth + "px";
     overlayCanvas.style.height = newWidth * overlayCanvas.heightToWidthRatio + "px";
-    (document.getElementById("overlay_size_slider") || {}).value = newWidth;
-    toggleSaveTimer();
+
     window.clearTimeout(serverNotifier.timeouts.overlay)
     serverNotifier.timeouts.overlay = window.setTimeout(() => serverNotifier.notifyServer("overlay-size", { width: newWidth }), 1000);
+    onOverlayResized(newWidth);
+
 }
 
+function onOverlayResized(newWidth) {
+    (document.getElementById("overlay_size_slider") || {}).value = newWidth;
+    var inp = document.getElementById("overlay_cells_input");
+    if (inp) {
+        var cells = newWidth / originalCellSize;
+        inp.value = cells.toFixed(2);
+    }
+    toggleSaveTimer();
+}
 
 
 var toolbox = [false, false, false, false, false];

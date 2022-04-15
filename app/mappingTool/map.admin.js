@@ -229,6 +229,32 @@ document.addEventListener("DOMContentLoaded", function () {
     resetGridLayer();
     tokenDialog.initialize();
 
+    document.getElementById("foreground_cells_input").oninput = function (e) {
+        if (!e.target.value)
+            return;
+        var value = parseFloat(e.target.value);
+
+        var desiredWidth = originalCellSize * value;
+        resizeForeground(desiredWidth);
+    }
+
+    document.getElementById("background_cells_input").oninput = function (e) {
+        if (!e.target.value)
+            return;
+        var value = parseFloat(e.target.value);
+        var desiredWidth = originalCellSize * value;
+        resizeBackground(desiredWidth);
+    }
+
+    
+    document.getElementById("overlay_cells_input").oninput = function (e) {
+        if (!e.target.value)
+            return;
+        var value = parseFloat(e.target.value);
+        var desiredWidth = originalCellSize * value;
+        resizeOverlay(desiredWidth);
+    }
+
 });
 
 function centerForegroundOnBackground() {
@@ -339,7 +365,7 @@ async function onSettingsLoaded() {
     }
 
     gridLayer.onwheel = function (event) {
-  
+
         if (event.ctrlKey && previewPlacementElement) {
             return effectManager.onPreviewPlacementResized(event);
         }
@@ -402,30 +428,7 @@ function getForegroundFromFile(e) {
 };
 
 
-function setMapOverlay(path, width) {
-    var btn = document.getElementById("overlay_button");
-    settings.currentOverlay = path;
-    if (!path) {
-        console.log("Clear overlays")
-        overlayCanvas.style.backgroundImage = 'none';
-        btn.innerHTML = "Image";
-        return;
-    }
-    if (settings.matchSizeWithFileName) {
-        width = getMapWidthFromFileName(path, width);
-    }
-    btn.innerHTML = pathModule.basename(path);
-    overlayCanvas.style.backgroundImage = 'url("' + path + '")';
-    var img = new Image();
-    settings.gridSettings.mapOverlaySize = width;
-    img.onload = function () {
-        overlayCanvas.heightToWidthRatio = img.height / img.width;
-        resizeOverlay(width ? width : img.width);
-        serverNotifier.notifyServer("overlay", serverNotifier.getOverlayState());
-    }
-    img.src = path;
 
-}
 
 function getMapWidthFromFileName(path, width) {
     var basename = pathModule.basename(path);

@@ -215,8 +215,7 @@
                                         style="height:0 !important; margin:0 !important; padding:0 !important; width: 0;"
                                         value="#000000" class="invisible">
                                 </li>
-                                <li> <select title="Filter" id="filter_tool"
-                                        onchange="setBackgroundFilter">
+                                <li> <select title="Filter" id="filter_tool" onchange="setBackgroundFilter">
                                         <option value="none" selected>No filter</option>
                                         <option value="url(#night-mode)">Night</option>
                                         <option value="url(#winter-mode)">Winter</option>
@@ -306,11 +305,34 @@
                 title="Add monsters from combat table." onclick="startAddingFromQueue()">+</button>
         </div>
         <div class="slidecontainer hidden" id="map_size_slider_container">
-            <h4>Overlay</h4>
+
+            <div class="row space_between">
+                <h4>Overlay</h4>
+                <div class="row">
+                    <input type="number" class="slider_cell_count_input" id="overlay_cells_input">
+                    <h4>squares</h4>
+                </div>
+       
+            </div>
             <input type="range" min="100" max="15000" class="slider" id="overlay_size_slider" title="Map size">
-            <h4>Foreground</h4>
+            <div class="row space_between">
+                <h4>Foreground</h4>
+                <div class="row">
+                    <input type="number" class="slider_cell_count_input" id="foreground_cells_input">
+                    <h4>squares</h4>
+                </div>
+                
+            </div>
             <input type="range" min="100" max="15000" class="slider" id="foreground_size_slider" title="Map size">
-            <h4>Background</h4>
+            <div class="row space_between">
+                <h4>Background</h4>
+                <div class="row">
+                    <input type="number" class="slider_cell_count_input" id="background_cells_input">
+                    <h4>squares</h4>
+                </div>
+            
+            </div>
+
             <input type="range" min="100" max="18000" class="slider" id="background_size_slider" title="Map size">
 
 
@@ -461,7 +483,8 @@
                     </label>
                     <input title="Bright light radius" type="number" class="input_for_effect"
                         id="effect_input_value_three" placeholder=20 title="Bright light radius">
-                    <label title="Dim light radius" class="input_extra_text" for="effect_input_value_four">Dim light:
+                    <label title="Dim light radius" class="input_extra_text" for="effect_input_value_four">Dim
+                        light:
                     </label>
                     <input type="number" class="input_for_effect" id="effect_input_value_four" placeholder=20
                         title="Dim light radius">
@@ -524,8 +547,10 @@
             <button class="button_style" onclick="setLightSource(0, 0)">None</button>
             <button class="button_style" onclick="setLightSource(20, 20, {torch : true})">Light / Torch</button>
             <button class="button_style" onclick="setLightSource(15, 30, {torch : true})">Lamp</button>
-            <button class="button_style" onclick="setLightSource(60, 0, {darkvision : true})">Darkvision 60ft</button>
-            <button class="button_style" onclick="setLightSource(120,0, {darkvision : true})">Darkvision 120ft</button>
+            <button class="button_style" onclick="setLightSource(60, 0, {darkvision : true})">Darkvision
+                60ft</button>
+            <button class="button_style" onclick="setLightSource(120,0, {darkvision : true})">Darkvision
+                120ft</button>
         </div>
 
         <div id="conditions_menu" class="popup_menu hidden">

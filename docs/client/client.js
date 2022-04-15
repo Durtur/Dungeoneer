@@ -139,6 +139,9 @@ function setState(message) {
         case "background":
             setMapBackgroundAsBase64(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
             break;
+        case "overlay":
+            setMapOverlayAsBase64(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
+            break;
         case "tokens-set":
             map.removeAllPawns();
             if (dataBuffer[message.event])
