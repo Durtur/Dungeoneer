@@ -15,40 +15,8 @@ ipcRenderer.on("get-state", (evt, arg) => {
 
 ipcRenderer.on("intiative-updated",
     function (evt, arg) {
-
-        if (arg.order) {
-            arg.order.forEach(x => {
-                if (!x.isPlayer)
-                    x.name = "???";
-            });
-            return initiative.setOrder(arg.order);
-        }
-        if (arg.round_increment) {
-            initiative.setRoundCounter(arg.round_increment);
-            var curr = initiative.currentActor();
-            Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
-            var dropdown = document.getElementById("fov_perspective_dropdown");
-
-            if (dropdown.value.toLowerCase() != "players") {
-                var currentDd = [...dropdown.options].find(x => x.value == curr.current.name);
-                dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
-                onPerspectiveChanged();
-            }
-
-            if (roundTimer) {
-                roundTimer.stop();
-                roundTimer.reset();
-                roundTimer.start();
-            }
-
-
-
-            // if(dropdown && dropdown.options.indexOf(curr.current.name) >= 0){
-            //     dropdown.selectedIndex = dropdown.options.indexOf(curr.current.name)
-            // }
-            return;
-        }
-        if (arg.empty) return initiative.empty();
+        map.updateInitiative(arg);
+        serverNotifier.notifyServer("initiative", arg);
     })
 ipcRenderer.on('notify-party-array-updated', function (evt, arg) {
     loadParty();
@@ -70,7 +38,7 @@ ipcRenderer.on('condition-list-changed', function (evt, arg) {
 
     if (pawn) {
         map.setTokenConditions(pawn, arg.conditions)
-   
+
     }
 });
 
@@ -119,11 +87,11 @@ ipcRenderer.on('monster-list-cleared', function (evt, arg) {
 
 ipcRenderer.on("client-event", function (evt, arg) {
     console.log(arg);
-    if(arg.event == "object-moved"){
+    if (arg.event == "object-moved") {
         var pawnInfo = arg.data;
         var pawn = document.getElementById(pawnInfo.id);
         var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
-    
+
         map.moveObject(pawn, tanslatedPixels, false)
     }
 })

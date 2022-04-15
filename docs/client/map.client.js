@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resetGridLayer();
     var gridEnable = localStorage.getItem('enableGrid');
     console.log(gridEnable)
-    if (gridEnable != settings.enableGrid+"")
+    if (gridEnable != settings.enableGrid + "")
         toggleGrid();
 
 
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-        
+
         ev.x = ev.center.x;
         ev.y = ev.center.y;
         zoomIntoMap(ev, -0.01)
@@ -104,7 +104,7 @@ function createPerspectiveDropdown() {
 
     TOKEN_ACCESS.forEach(pawn => {
         var opt = createOption(pawn.character_name, pawn.character_name);
-        if (selected && selected == pawn.character_name)
+        if (selected && selected == pawn.character_name || TOKEN_ACCESS.length == 1)
             opt.selected = true;
         dd.appendChild(opt);
     });
@@ -125,12 +125,12 @@ function createOption(value, dispay) {
 function toggleGrid() {
 
     settings.enableGrid = !settings.enableGrid;
-  
+
     localStorage.setItem('enableGrid', settings.enableGrid);
     console.log(settings.enableGrid)
     resizeAndDrawGrid();
 
-    var btn  = document.getElementById("toggle_grid_button");
+    var btn = document.getElementById("toggle_grid_button");
     btn.setAttribute("toggled", settings.enableGrid);
 }
 

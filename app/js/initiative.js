@@ -1,7 +1,6 @@
 const Modals = require("./modals");
 
-
-module.exports = function () {
+var initiative = function () {
 
     var order;
     var currentNode;
@@ -14,12 +13,11 @@ module.exports = function () {
     }
 
     function loadEventHandlers() {
-        $(".initiative_explanation_text_node").on("focus", function (e) {
+        [...document.querySelectorAll(".initiative_explanation_text_node")].forEach(ele => ele.onfocus = function (e) {
             e.target.select();
-        })
-        $('.initiativeNode').off("mousedown");
-        //Click event for initiative nodes; removes them on click.
-        $('.initiativeNode').on('mousedown', function (e) {
+        });
+
+        [...document.querySelectorAll(".initiativeNode")].forEach(ele => ele.onmousedown = function (e) {
             var tmp = e.target;
             while (tmp.parentNode) {
                 if (tmp.parentNode.classList.contains("initiativeNode")) {
@@ -41,6 +39,7 @@ module.exports = function () {
                 }
             }
         });
+
     }
 
     function editCurrentNode() {
@@ -295,7 +294,7 @@ module.exports = function () {
     function nextRound(sign) {
         if (!roundCounter)
             return;
-     
+
         if (roundCounter[0] == 1 && roundCounter[1] == 1 && sign < 0)
             return false;
 
@@ -440,3 +439,6 @@ module.exports = function () {
     }
 
 }();
+
+
+module.exports = initiative;
