@@ -379,6 +379,13 @@ li {
     border-radius: 5px;
 }
 
+.sidebar .button_style_transparent{
+    border: 1px solid white;
+
+    color: white;
+    margin: 1em;
+}
+
 .mob_token {
     position: absolute;
     background-size: contain;

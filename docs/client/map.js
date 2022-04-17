@@ -2059,6 +2059,11 @@ var map = function () {
 
             loadedMonsters.splice(indexInLoadedMonsters - 1, 1);
             pawns.monsters.splice(pawns.monsters.indexOf(element), 1);
+        } else {
+
+            var ele = pawns.players.find(x => x[0] == element);
+            if (ele)
+                pawns.players.splice(pawns.players.indexOf(ele), 1);
         }
         element.parentNode.removeChild(element);
         serverNotifier.notifyServer("pawn-removed", element.id)
@@ -2132,7 +2137,7 @@ var map = function () {
             Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
             var dropdown = document.getElementById("fov_perspective_dropdown");
 
-            if (dropdown.value.toLowerCase() != "players") {
+            if (serverNotifier.isServer() && dropdown.value.toLowerCase() != "players") {
                 var currentDd = [...dropdown.options].find(x => x.value == curr.current.name);
                 dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
                 onPerspectiveChanged();

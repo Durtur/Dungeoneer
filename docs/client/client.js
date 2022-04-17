@@ -249,6 +249,9 @@ function setState(message) {
                 return;
             effectManager.resize(ele, message.data.height, message.data.width);
             break;
+        case "initiative":
+            map.updateInitiative(message.data);
+            break;
 
 
     }

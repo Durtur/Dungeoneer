@@ -246,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function () {
         resizeBackground(desiredWidth);
     }
 
-    
+
     document.getElementById("overlay_cells_input").oninput = function (e) {
         if (!e.target.value)
             return;
@@ -313,13 +313,15 @@ async function onSettingsLoaded() {
     backgroundLoop.notifyChanges();
     overlayLoop.notifyChanges();
     document.querySelector("body").onkeydown = function (event) {
+        if (document.activeElement.tagName == "INPUT")
+            return;
         var keyIndex = [37, 38, 39, 40, 65, 87, 68, 83].indexOf(event.keyCode);
 
         var lastKey = LAST_KEY;
         LAST_KEY = event.key;
         window.clearTimeout(lastKeyNull)
         lastKeyNull = window.setTimeout(() => LAST_KEY = "", 1000);
-
+     
         if (event.key === "Escape") {
             return resetEverything;
             //Show global listener position
@@ -616,7 +618,7 @@ function loadParty() {
                             darkVisionRadius: data[i].darkvision
                         }
                     );
-                    partyArray.push([data[i].character_name, "medium"]);
+                    partyArray.push([data[i].character_name, "medium", data[i].id]);
                 }
 
             }
