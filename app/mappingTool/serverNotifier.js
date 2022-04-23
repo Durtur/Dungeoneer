@@ -102,6 +102,11 @@ var serverNotifier = function () {
         return exportList;
 
     }
+
+    async function mobTokensChanged(mobElement) {
+        notifyServer("mob-tokens-set", await saveManager.exportMobTokens(mobElement))
+
+    }
     return {
         notifyServer: notifyServer,
         sendState: sendState,
@@ -111,6 +116,7 @@ var serverNotifier = function () {
         getBackgroundState: getBackgroundState,
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
+        mobTokensChanged: mobTokensChanged,
         isServer: isServer,
         getSegments: getSegments,
         getEffectsForExport: getEffectsForExport,

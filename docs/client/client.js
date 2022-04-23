@@ -252,6 +252,13 @@ function setState(message) {
         case "initiative":
             map.updateInitiative(message.data);
             break;
+        case "mob-tokens-set":
+            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            if (!token || !token[0])
+                return;
+            var pawn = token[0];
+            refreshMobBackgroundImages(pawn, message.data)
+            break;
 
 
     }

@@ -174,7 +174,7 @@ class SaveManager {
             nudgePawns(moveX, moveY);
             fovLighting.nudgeSegments(moveX, moveY);
 
-          
+
             if (data.foregroundTranslate) {
                 var trsl = data.foregroundTranslate;
                 foregroundCanvas.data_transform_x = trsl.x;
@@ -187,7 +187,7 @@ class SaveManager {
             settings.currentMap = data.map;
 
             setMapForeground(data.map + cacheBreaker, data.bg_width);
-   
+
 
             if (data.map_edge || data.mapEdgeBase64) {
                 if (data.mapEdgeBase64)
@@ -255,16 +255,35 @@ class SaveManager {
         return obj;
     }
 
+    async exportMobTokens(pawn) {
+        var allTokens = [...pawn.querySelectorAll(".mob_token")];
+        var tokenPaths = allTokens.map(ele => ele.getAttribute("data-token_path"));
+        console.log(tokenPaths);
+        var distinctTokens = [... new Set(tokenPaths)];
+        var imgMap = {};
+        for (var i = 0; i < distinctTokens.length; i++) {
+            var basename = pathModule.basename(distinctTokens[i]);
+            imgMap[basename] = await Util.toBase64(distinctTokens[i]);
+        }
+        return {
+            map: imgMap,
+            tokens: tokenPaths.map(x => pathModule.basename(x))
+        };
+    }
+
     async exportPawn(pawn) {
         var element = pawn[0];
         var img = element.querySelector(".token_photo");
-        if (img == null)
-            return null;
-        var images = JSON.parse(img.getAttribute("data-token_facets"));
 
-        var currentIndex = parseInt(img.getAttribute("data-token_current_facet")) || 0;
+        var mobSize = element.getAttribute("data-mob_size");
+        var deadCount = element.getAttribute("data-mob_dead_count");
+        var isMob = mobSize != null;
+        if (img == null && !isMob)
+            return null;
+        var images = img ? JSON.parse(img.getAttribute("data-token_facets")) : null;
+        var currentIndex = img ? parseInt(img.getAttribute("data-token_current_facet")) || 0 : null;
         var darkVisionRadius = element.sight_mode == "darkvision" ? element.sight_radius_bright_light : null;
-        var currentPath = images[currentIndex] || DEFAULT_TOKEN_PATH_JS_RELATIVE;
+        var currentPath = img ? images[currentIndex] || DEFAULT_TOKEN_PATH_JS_RELATIVE : null;
         var base64 = currentPath ? await util.toBase64(currentPath) : null;
 
         return {
@@ -272,6 +291,10 @@ class SaveManager {
             id: element.id,
             isPlayer: isPlayerPawn(pawn[0]),
             dead: element.dead,
+            isMob: isMob,
+            mobSize: mobSize,
+            mobCountDead: deadCount,
+            mobTokens: isMob ? await this.exportMobTokens(element) : null,
             deg: element.deg,
             hexes: element.dnd_hexes,
             color: element.style.backgroundColor,

@@ -695,26 +695,6 @@ async function setPawnImageWithDefaultPath(pawnElement, path) {
     imgEle.style.backgroundImage = `url('${tokenPath}')`;
 }
 
-async function setPawnMobBackgroundImages(pawn, path) {
-    var possibleNames = [];
-    var i = 0;
-    while (true) {
-        var pawnPath = await dataAccess.getTokenPath(path + i);
-        if (pawnPath != null) {
-            possibleNames.push(pawnPath);
-            i++;
-        } else {
-            break;
-        }
-    }
-
-    if (possibleNames.length == 0) {
-        possibleNames = ["mappingTool/tokens/default.png"]
-    }
-    pawn.setAttribute("data-token_paths", JSON.stringify(possibleNames));
-    refreshMobBackgroundImages(pawn);
-}
-
 
 
 function removeAllConditionsHandler(event) {

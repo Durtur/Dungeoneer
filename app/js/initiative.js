@@ -1,7 +1,7 @@
 const Modals = require("./modals");
 
 var initiative = function () {
-
+    var roundTimer;
     var order;
     var currentNode;
     var monsterColor = "rgb(197, 0, 0)", playerColor = "rgb(101, 117, 197)", defaultPlayerColor = "#000000";
