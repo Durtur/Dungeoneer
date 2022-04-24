@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
         var diff = mapContainers[0].data_bg_scale - ev.scale;
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        zoomIntoMap(ev, -1 * diff)
+        zoomIntoMap(ev, diff)
     });
     hammertime.get('pinch').set({ enable: true })
 });
