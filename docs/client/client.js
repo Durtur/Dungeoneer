@@ -10,6 +10,12 @@ var connectionObj =
 
 
 document.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener('beforeunload', (event) => {
+        if (hostConnection) {
+            hostConnection.close();
+        }
+
+    });
 
     const hostId = getUrlParam('hostID');
     const name = localStorage.getItem('name');
@@ -210,26 +216,26 @@ function setState(message) {
             refreshFogOfWar();
             break;
         case "token-image":
-            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
 
             if (!token || !token[0])
                 return;
             setPawnBackgroundFromPathArray(token[0], toBase64Url(message.data.base64), false)
             break;
         case "token-size":
-            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
             if (!token || !token[0])
                 return;
             enlargeReducePawn(token[0], message.data.direction);
             break;
         case "token-color":
-            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
             if (!token || !token[0])
                 return;
             token[0].style.backgroundColor = message.data.color;
             break;
         case "token-conditions":
-            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
             if (!token || !token[0])
                 return;
             map.setTokenConditions(token[0], message.data.conditionList);
@@ -255,7 +261,7 @@ function setState(message) {
             map.updateInitiative(message.data);
             break;
         case "mob-tokens-set":
-            var token = pawns.players.find(x => x[0].id == message.data.id) || loadedMonsters.find(x => x[0].id == message.data.id);
+            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
             if (!token || !token[0])
                 return;
             var pawn = token[0];

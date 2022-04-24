@@ -53,7 +53,7 @@ ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
     var list = JSON.parse(arg);
 
     list.forEach(param => {
-        var pawn = loadedMonstersFromMain.find(x => x.index_in_main_window == param.rowIndex);
+        var pawn = pawns.monsters.find(x => x[0].index_in_main_window == param.rowIndex);
         if (!pawn) return;
         pawn.setAttribute("data-mob_size", param.remaining);
 
@@ -76,14 +76,14 @@ ipcRenderer.on('settings-changed', function (evt, arg) {
 
 ipcRenderer.on('monster-list-cleared', function (evt, arg) {
 
-    loadedMonstersFromMain.forEach(function (element) {
+    pawns.monsters.forEach(function (element) {
         if (element.getAttribute("data-mob_size") != null)
             return;
-
+        element = element[0];
         element.index_in_main_window = "";
         element.classList.remove("pawn_numbered");
     });
-    loadedMonstersFromMain = [];
+
 });
 
 ipcRenderer.on("client-event", function (evt, arg) {

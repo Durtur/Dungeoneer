@@ -321,7 +321,7 @@ async function onSettingsLoaded() {
         LAST_KEY = event.key;
         window.clearTimeout(lastKeyNull)
         lastKeyNull = window.setTimeout(() => LAST_KEY = "", 1000);
-     
+
         if (event.key === "Escape") {
             return resetEverything;
             //Show global listener position
@@ -659,7 +659,7 @@ async function setPlayerPawnImage(pawnElement, path) {
     if (path != null) {
         path = path.replace(/\\/g, "/")
         tokenPath = `url('${path}')`;
-      
+
     } else {
         tokenPath = " url('mappingTool/tokens/default.png')";
     }
@@ -736,7 +736,7 @@ function killOrRevivePawn() {
                 return;
             pawnElement.dead = "false";
             if (!isPlayer) {
-                if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
+                if (pawnElement.index_in_main_window) {
                     window.api.messageWindow('mainWindow', 'monster-revived', { name: pawnElement.dnd_name, index: pawnElement.index_in_main_window });
                 }
             }
@@ -746,12 +746,12 @@ function killOrRevivePawn() {
             pawnElement.dead = "true";
             if (!isPlayer) {
 
-                if (loadedMonstersFromMain.indexOf(pawnElement) >= 0) {
+                if (pawnElement.index_in_main_window) {
                     window.api.messageWindow('mainWindow', 'monster-killed', [pawnElement.dnd_name, pawnElement.index_in_main_window]);
                 }
             }
         }
-        console.log(pawnElement.dead)
+
         pawnElement.setAttribute("data-state_changed", 1);
     }
 }
@@ -786,9 +786,9 @@ function startAddingFromQueue() {
         var popped = pawns.addQueue[0];
         pawns.addQueue.splice(0, 1);
         var pawn = await generatePawns([popped], true, { x: e.clientX - offset, y: e.clientY - offset });
-        loadedMonstersFromMain.push(pawn);
+
         requestNotifyUpdateFromMain();
-      
+
         if (pawns.addQueue.length == 0) {
             document.getElementById("add_pawn_from_tool_toolbar").classList.add("hidden");
             var button = document.getElementById("add_from_queue_toggle_button");

@@ -78,8 +78,8 @@ var serverNotifier = function () {
 
     async function getTokensForExport() {
         var tokens = [];
-        for (var i = 0; i < loadedMonsters.length; i++) {
-            tokens.push(await saveManager.exportPawn(loadedMonsters[i]))
+        for (var i = 0; i < pawns.monsters.length; i++) {
+            tokens.push(await saveManager.exportPawn(pawns.monsters[i]))
         }
         for (var i = 0; i < pawns.players.length; i++) {
             tokens.push(await saveManager.exportPawn(pawns.players[i]))

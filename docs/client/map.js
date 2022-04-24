@@ -32,7 +32,7 @@ var mapContainers, foregroundCanvas, backgroundCanvas, overlayCanvas;
 
 
 //Tokens
-var loadedMonsters = [], partyArray, loadedMonstersFromMain = [];
+var partyArray;
 var settings, effectFilePath;;
 
 var fogOfWarEnabled = true, filtered = false, lastBackgroundFilter;
@@ -51,8 +51,8 @@ var pawns = (function () {
     var lastLocationPlayers = { x: 3, y: 3 };
     var lastLocationMonsters = { x: 18, y: 3 };
     var addQueue = [];
-    var monsters = [];
     var lightSources = [];
+    var monsters = [];
     var players = [];
     players.clear = function () {
         while (players.length > 0)
@@ -74,6 +74,7 @@ var pawns = (function () {
         gargantuan: gargantuan,
         colossal: colossal,
         all: all,
+        monsters:monsters,
         lastLocationPlayers: lastLocationPlayers,
         lastLocationMonsters: lastLocationMonsters,
         monsters: monsters,
@@ -1776,8 +1777,7 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
             }
 
-            pawns.monsters.push(newPawn);
-            loadedMonsters.push([newPawn, pawn.name]);
+            pawns.monsters.push([newPawn, pawn.name]);
         }
         if (settings.colorTokenBases) {
             newPawn.style.backgroundColor = pawn.color;
@@ -2099,19 +2099,12 @@ var map = function () {
 
         var isPlayer = isPlayerPawn(element);
         if (!isPlayer) {
-            var indexInLoadedMonsters = -1;
-            for (var i = 0; i < loadedMonsters.length; i++) {
-                if (loadedMonsters[i][0] === element) {
-                    indexInLoadedMonsters = i;
-                }
+            var found = pawns.monsters.find(x=> x[0].id == element.id);
+            if(found){
+                var idx = pawns.monsters.indexOf(found);
+                pawns.monsters.splice(idx, 1);
             }
-
-            if (loadedMonstersFromMain.indexOf(element) >= 0) {
-                loadedMonstersFromMain.splice(loadedMonstersFromMain.indexOf(element), 1);
-            }
-
-            loadedMonsters.splice(indexInLoadedMonsters - 1, 1);
-            pawns.monsters.splice(pawns.monsters.indexOf(element), 1);
+      
         } else {
 
             var ele = pawns.players.find(x => x[0] == element);
@@ -2124,7 +2117,7 @@ var map = function () {
 
     function removeAllPawns() {
         [...document.querySelectorAll(".pawn")].forEach(x => x.parentNode.removeChild(x));
-        loadedMonsters = [];
+        pawns.monsters = [];
         pawns.players.clear();
     }
 
