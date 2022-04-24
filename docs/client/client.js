@@ -1,6 +1,7 @@
+
 var hostConnection;
 
-var dataBuffer = {}, initRequestSent = false;
+var dataBuffer = {}, initRequestSent = false, timeout;
 var connectionObj =
 {
     secure: true,
@@ -38,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshPawns();
     window.onresize = function () {
         window.requestAnimationFrame(resizeAndDrawGrid);
-        // updateHowlerListenerLocation();
+   
     }
 
     setupGridLayer();
@@ -62,14 +63,18 @@ function connect() {
 
         console.log(id);
         hostConnection = peer.connect(hostId);
-
+        timeout = new Timeout(hostConnection);
         hostConnection.on('open', () => {
             connectedStateChanged();
             initRequestSent = true;
             send({ event: "init", name: name });
         })
         hostConnection.on('data', function (data) {
-
+            if(data.event == "ping"){
+               return hostConnection.send({event:"ack"});
+            }else if(data.event == "ack"){
+               return  timeout.ack();
+            }
             handleMessage(data);
 
         });

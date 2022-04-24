@@ -3,7 +3,7 @@ const ElementCreator = require("./js/lib/elementCreator");
 const dataAccess = require("./js/dataaccess");
 const { ipcRenderer } = require('electron');
 const pathModule = require('path');
-const clientPath = "https://www.ogreforge.me/Dungeoneer/client" 
+const clientPath = "https://www.ogreforge.me/Dungeoneer/client"
 const pendingStateRequests = [];
 const partyArray = [];
 const SERVER_EVENTS = {
@@ -259,13 +259,21 @@ function onConnected(conn) {
 
     var peer = peers.find(x => x.connectonId == conn.connectionId);
     if (!peer) {
-        peers.add({ connection: conn, connectionId: conn.connectionId });
+        peers.add({ connection: conn, connectionId: conn.connectionId, timeout: new Timeout(conn) });
     }
 
     conn.on('data', function (data) {
+        if (data.event == "ping") {
+            return conn.send({ event: "ack" });
+        } else if (data.event == "ack") {
+            var peer = peers.find(x => x.connectionId == conn.connectionId);
+            console.log(peers)
+            peer.timeout.ack();
+            return;
+        }
         console.log('Received', data);
         handleDataEvent(data, conn);
-        conn.send("ack");
+
     });
     conn.on('error', function (err) {
         showError(`Error in peer connection ${err}`);

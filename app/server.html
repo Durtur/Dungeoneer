@@ -31,21 +31,22 @@
         </div>
         <div class="column " style="min-width:24em;">
             <div class="column" id="server_info_container">
-                <div class = "center_content row">
+                <div class="center_content row">
                     <label>Host ID:</label>
-                    <div class = "server_inactive_container">
-                        <button class = "refresh_button hidden" id = "regenerate_host_id_button" ></button>
+                    <div class="server_inactive_container">
+                        <button class="refresh_button hidden" id="regenerate_host_id_button"></button>
                     </div>
                 </div>
 
                 <input readonly class="server_id padding" id="server_id" placeholder="Generated on start">
             </div>
-            <div class = "server_active_container hidden" >
-                <button id="invite_link_button" class="button_style green button_wide center" style="width:8em">Copy Invite link</button>
+            <div class="server_active_container hidden">
+                <button id="invite_link_button" class="button_style green button_wide center" style="width:8em">Copy
+                    Invite link</button>
             </div>
         </div>
         <p class="error_text" id="error_message"></p>
-        <div class="row center server_active_container hidden" style="margin-bottom:1em" >
+        <div class="row center server_active_container hidden" style="margin-bottom:1em">
             <button class="set_fog_btn button_style_transparent" data-fog-type="2" onclick="setClientFog(2, true)">Full
                 lighting</button>
             <button class="set_fog_btn button_style_transparent" data-fog-type="1"
@@ -62,5 +63,6 @@
 <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
 <script src="js/constants.js"></script>
 <script src="server/server.js"></script>
+<script src="../docs/client/timeout.js"></script>
 
 </html>
