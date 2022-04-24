@@ -586,6 +586,13 @@ hr {
   background-image: var(--foreground-image) !important;
 }
 
+
+.center_content{
+  justify-content: center;
+ 
+}
+
+
 .statblock_modifier {
   display: flex;
   justify-content: center;
@@ -1156,6 +1163,10 @@ input, textarea, .cell_row {
 #close_app_button, #close_window_button, .close_butto, .close_button_inline {
   /* margin-right: 30px; */
   background-image: url("img/close.png");
+}
+
+.refresh_button{
+  background-image: url(img/refresh.png);
 }
 
 #reload_button {

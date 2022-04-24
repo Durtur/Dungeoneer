@@ -11,6 +11,15 @@ const SERVER_EVENTS = {
     MOVE: 1
 }
 
+
+var connectionObj =
+{
+    secure: true,
+    host: 'dungeoneer-peer-server.herokuapp.com',
+    port: 443
+}
+
+
 var clientFog = 2;
 loadParty();
 ipcRenderer.on("maptool-server-event", function (event, message) {
@@ -58,13 +67,6 @@ function loadParty() {
         party.members.filter(x => x.active).forEach(p => partyArray.push(p));
         peers.onchange();
     })
-}
-
-var connectionObj =
-{
-    secure: true,
-    host: 'dungeoneer-peer-server.herokuapp.com',
-    port: 443
 }
 
 var peers = [];
@@ -145,7 +147,14 @@ function createPeerElement(peer) {
 
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("init_server_button").onclick = () => initServer();
+    document.getElementById("regenerate_host_id_button").onclick = (e) => document.getElementById("server_id").value = "";
+    var id = localStorage.getItem('server_id');
+    if (id) {
+        document.getElementById("server_id").value = id;
+        document.getElementById("regenerate_host_id_button").classList.remove("hidden");
+    }
     document.getElementById("server_id").onclick = (e) => {
+        if (!e.target.value) return;
         navigator.clipboard.writeText(e.target.value).then(function () {
             util.showMessage("Host ID copied to clipboard");
         }, function (err) {
@@ -154,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     document.getElementById("invite_link_button").onclick = (e) => {
+        if (!document.getElementById("server_id").value) return;
         var text = `${clientPath}?hostID=${document.getElementById("server_id").value}`
         navigator.clipboard.writeText(text).then(function () {
             util.showMessage("Invite link copied to clipboard");
@@ -206,15 +216,20 @@ function appendServerLog(text, eventType) {
 
 function initServer() {
     showLoading("Contacting P2P server");
-    var peer = new Peer(connectionObj);
+    var hostId = document.getElementById("server_id").value;
+
+    var peer = hostId ? new Peer(hostId, connectionObj) : new Peer(connectionObj);
     peer.on('open', function (id) {
 
         document.getElementById("server_id").value = id;
-        document.getElementById("server_info_container").classList.remove("hidden");
+        localStorage.setItem('server_id', id);
+        [...document.querySelectorAll(".server_active_container")].forEach(x => x.classList.remove("hidden"));
+        [...document.querySelectorAll(".server_inactive_container")].forEach(x => x.classList.add("hidden"));
+
         document.getElementById("init_server_button").classList.add("hidden");
         appendServerLog("Server started", SERVER_EVENTS.CONNECTED);
         document.getElementById("status_text").classList.add("hidden");
-        document.getElementById("server_activity_log").classList.remove("hidden");
+
         hideLoading();
     });
 
@@ -226,7 +241,9 @@ function initServer() {
     peer.on('error', function (err) {
         hideLoading();
         showError(err);
-        document.getElementById("server_activity_log").classList.add("hidden");
+        [...document.querySelectorAll(".server_active_container")].forEach(x => x.classList.add("hidden"));
+        [...document.querySelectorAll(".server_inactive_container")].forEach(x => x.classList.remove("hidden"));
+
         document.getElementById("init_server_button").innerHTML = "Retry";
     });
 
@@ -343,7 +360,7 @@ function sendMaptoolState(maptoolState) {
             peer.connection.send({ event: "backgroundLoop", data: maptoolState.backgroundLoop })
             peer.connection.send({ event: "overlayLoop", data: maptoolState.overlayLoop })
             peer.connection.send({ event: "segments", data: maptoolState.segments });
-            setClientFog(clientFogUserSet ? clientFog  : maptoolState.fog);
+            setClientFog(clientFogUserSet ? clientFog : maptoolState.fog);
 
         }
     });

@@ -659,11 +659,12 @@ async function setPlayerPawnImage(pawnElement, path) {
     if (path != null) {
         path = path.replace(/\\/g, "/")
         tokenPath = `url('${path}')`;
-        imgEle.setAttribute("data-token_facets", JSON.stringify([path]));
-        imgEle.setAttribute("data-token_current_facet", 0);
+      
     } else {
         tokenPath = " url('mappingTool/tokens/default.png')";
     }
+    imgEle.setAttribute("data-token_facets", JSON.stringify([path]));
+    imgEle.setAttribute("data-token_current_facet", 0);
 
     imgEle.style.backgroundImage = tokenPath;
     onBackgroundChanged(pawnElement);
@@ -782,11 +783,12 @@ function startAddingFromQueue() {
 
         var radiusOfPawn = creaturePossibleSizes.hexes[creaturePossibleSizes.sizes.indexOf(pawns.addQueue[0].size)];
         var offset = (radiusOfPawn * cellSize) / 2;
-
-        var pawn = await generatePawns([pawns.addQueue[0]], true, { x: e.clientX - offset, y: e.clientY - offset });
+        var popped = pawns.addQueue[0];
+        pawns.addQueue.splice(0, 1);
+        var pawn = await generatePawns([popped], true, { x: e.clientX - offset, y: e.clientY - offset });
         loadedMonstersFromMain.push(pawn);
         requestNotifyUpdateFromMain();
-        pawns.addQueue.splice(0, 1);
+      
         if (pawns.addQueue.length == 0) {
             document.getElementById("add_pawn_from_tool_toolbar").classList.add("hidden");
             var button = document.getElementById("add_from_queue_toggle_button");

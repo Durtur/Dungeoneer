@@ -1,21 +1,6 @@
 {
     "effects": [
-        {
-            "name": "Rotate(slow)",
-            "classes": [
-                "rotate_slow"
-            ],
-            "filePaths": [],
-            "isLightEffect": false
-        },
-        {
-            "name": "Rotate(medium)",
-            "classes": [
-                "rotate_medium"
-            ],
-            "filePaths": [],
-            "isLightEffect": false
-        },
+      
         {
             "name": "Fog",
             "classes": [

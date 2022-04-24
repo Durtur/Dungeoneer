@@ -73,7 +73,9 @@ function connect() {
 
 
     });
-
+    peer.on('disconnected', function () {
+        connectedStateChanged();
+    });
 
     peer.on('error', (err) => {
         showError(err)

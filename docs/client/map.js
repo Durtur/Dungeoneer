@@ -247,14 +247,13 @@ function toggleVisibilityLayer() {
 }
 
 function onMonsterHealthChanged(arg) {
-    console.log(arg)
+    pawns.all = document.querySelectorAll(".pawn");
     var index = parseInt(arg.index);
 
-    var pawn = loadedMonsters.find(x => x[0].index_in_main_window == index);
+    var pawn = [... pawns.all].find(x => x.index_in_main_window == index);
 
-    console.log(pawn)
     if (!pawn) return;
-    pawn = pawn[0];
+
     pawn.data_health_percentage = arg.healthPercentage;
     var woundEle = pawn.querySelector(".token_status");
     constants.creatureWounds.forEach(woundType => woundEle.classList.remove(woundType.className));
@@ -527,20 +526,20 @@ function refreshPawns() {
 }
 
 function refreshPawnToolTips() {
-    refreshPawnToolTipsHelper(pawns.players);
-    if (loadedMonsters == null) return;
-    refreshPawnToolTipsHelper(loadedMonsters);
+    pawns.all = document.querySelectorAll(".pawn");
+    refreshPawnToolTipsHelper(pawns.all);
+
 }
 
-function refreshPawnToolTipsHelper(arr, monster) {
+function refreshPawnToolTipsHelper(arr) {
     for (var i = 0; i < arr.length; i++) {
-        var element = arr[i][0];
+        var element = arr[i];
         var changed = element.getAttribute("data-state_changed");
         if (!changed)
             continue;
 
         flyingHeight = parseInt(element.flying_height);
-        element.title = arr[i][1];
+        element.title = element.dnd_name;
         if (flyingHeight != 0) element.title += "\n Flying: " + flyingHeight + " ft"
         if (element.dead == "true") {
             element.title += "\n Dead/Unconscious"
@@ -1119,8 +1118,10 @@ function refreshMeasurementTooltip() {
 
 function removeDuplicatePawnNumbers(index) {
     var pawns = [...document.getElementsByClassName("pawn_numbered")];
+    console.log(`Remove duplicates ${index}`)
     pawns.forEach(function (pawn) {
         if (pawn.index_in_main_window === index) {
+            console.log(pawn)
             pawn.classList.remove("pawn_numbered");
             pawn.index_in_main_window = "";
         }
@@ -1767,6 +1768,7 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         } else {
             if (addingFromMainWindow || pawn.index_in_main_window) {
                 var index = pawn.index_in_main_window ? pawn.index_in_main_window : lastIndexInsertedMonsters++;
+                console.log(newPawn)
                 removeDuplicatePawnNumbers(index);
                 newPawn.setAttribute("index_in_main_window", index);
                 newPawn.index_in_main_window = index;
