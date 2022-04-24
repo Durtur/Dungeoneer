@@ -32,17 +32,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hammertime.on('pinchin', function (ev) {
         console.log(ev);
-
+        var diff = mapContainers[0].data_bg_scale - ev.scale;
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        zoomIntoMap(ev, -0.01)
+        zoomIntoMap(ev, diff)
     });
     hammertime.on('pinchout', function (ev) {
         console.log(ev);
-
+        var diff = mapContainers[0].data_bg_scale - ev.scale;
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        zoomIntoMap(ev, 0.01)
+        zoomIntoMap(ev, -1 * diff)
     });
     hammertime.get('pinch').set({ enable: true })
 });
