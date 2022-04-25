@@ -31,20 +31,18 @@ document.addEventListener("DOMContentLoaded", () => {
     var hammertime = new Hammer(gridLayer, null);
 
     hammertime.on('pinchin', function (ev) {
-        console.log(ev.scale);
-        var diff = mapContainers[0].data_bg_scale - ev.scale;
+
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        console.log(diff)
-        zoomIntoMap(ev, -1 * diff)
+        setMapZoom(ev, ev.scale) 
+
     });
     hammertime.on('pinchout', function (ev) {
-        console.log(ev.scale);
-        var diff = mapContainers[0].data_bg_scale - ev.scale;
+   
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        console.log(diff)
-        zoomIntoMap(ev, diff)
+        setMapZoom(ev, ev.scale) 
+
     });
     hammertime.get('pinch').set({ enable: true })
 });

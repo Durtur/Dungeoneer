@@ -1,6 +1,7 @@
 
 var cellSize = 35, originalCellSize = cellSize;
 const UNITS_PER_GRID = 5;
+var STATIC_TOOLTIP = true;
 var canvasWidth = 400;
 var canvasHeight = 400;
 var zIndexPawnCap = 9;
@@ -669,93 +670,99 @@ function zoomIntoMap(event, resizeAmount, onZoomed) {
         MAP_RESIZE_BUFFER = 0;
         LAST_MAP_RESIZE = ts;
 
-        var oldRect = foregroundCanvas.getBoundingClientRect();
+
 
         var backgroundSizeBeforeResize = mapContainers[0].data_bg_scale;
         var newSize = backgroundSizeBeforeResize + resizeAmount;
+        setMapZoom(event, newSize);
 
-        if (newSize > MAX_BG_ZOOM) newSize = MAX_BG_ZOOM;
-        if (newSize < MIN_BG_ZOOM) newSize = MIN_BG_ZOOM;
-        mapContainers.forEach(container => {
-            container.data_bg_scale = newSize;
-            container.style.setProperty("--bg-scale", newSize);
-        })
-
-        soundManager.setListenerCords(null, null, (MAX_BG_ZOOM - newSize) * soundManager.multiplier());
-
-
-        var newRect = foregroundCanvas.getBoundingClientRect();
-
-        //Origin is top left
-        var sizeRatioX = newRect.width / oldRect.width;
-        var sizeRatioY = newRect.height / oldRect.height;
-
-
-        var relativePositionX = event.x - oldRect.x;
-        var relativePositionY = event.y - oldRect.y;
-
-        var currentRelativePositionX = event.x - newRect.x;
-        var currentRelativePositionY = event.y - newRect.y;
-
-        var newXRelative = relativePositionX * sizeRatioX;
-        var newYRelative = relativePositionY * sizeRatioY;
-
-
-        var moveMapX = newXRelative - currentRelativePositionX;
-        var moveMapY = newYRelative - currentRelativePositionY;
-
-        var container = mapContainers[0]
-        var bgX = container.data_transform_x;
-        var bgY = container.data_transform_y;
-        bgY -= moveMapY;
-        bgX -= moveMapX;
-
-        gridMoveOffsetX -= moveMapX;
-        gridMoveOffsetY -= moveMapY;
-
-        moveMap(bgX, bgY);
-
-        newRect = foregroundCanvas.getBoundingClientRect();
-
-        cellSize = originalCellSize * newSize;
-        //Move pawns
-        var cellsFromLeft, cellsFromTop;
-        var backgroundOriginX = oldRect.left;
-        var backgroundOriginY = oldRect.top;
-
-        var newBackgroundOriginX = newRect.left;
-        var newBackgroundOriginY = newRect.top;
-        [pawns.all, effects].forEach(arr => {
-            for (var i = 0; i < arr.length; i++) {
-                var pawn = arr[i];
-                var left = parseFloat(pawn.style.left);
-                var top = parseFloat(pawn.style.top);
-
-                cellsFromLeft = (left - backgroundOriginX)
-                    / (originalCellSize * backgroundSizeBeforeResize);
-                cellsFromTop = (top - backgroundOriginY)
-                    / (originalCellSize * backgroundSizeBeforeResize);
-
-                var x = (cellsFromLeft * cellSize + newBackgroundOriginX);
-                var y = (cellsFromTop * cellSize + newBackgroundOriginY);
-                pawn.style.top = y + "px";
-                pawn.style.left = x + "px";
-                if (pawn.sound) {
-                    soundManager.adjustPlacement(pawn.id, x, y);
-                }
-            }
-        });
-        updateHowlerListenerLocation();
-        resizeAndDrawGrid(null, event);
-        fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
-        fovLighting.drawFogOfWar();
-        if (onZoomCallback) {
-            onZoomCallback();
-            onZoomCallback = null;
-        }
     });
 }
 
+
+function setMapZoom(event, newSize) {
+    var backgroundSizeBeforeResize = mapContainers[0].data_bg_scale;
+    var oldRect = foregroundCanvas.getBoundingClientRect();
+    if (newSize > MAX_BG_ZOOM) newSize = MAX_BG_ZOOM;
+    if (newSize < MIN_BG_ZOOM) newSize = MIN_BG_ZOOM;
+    mapContainers.forEach(container => {
+        container.data_bg_scale = newSize;
+        container.style.setProperty("--bg-scale", newSize);
+    })
+
+    soundManager.setListenerCords(null, null, (MAX_BG_ZOOM - newSize) * soundManager.multiplier());
+
+
+    var newRect = foregroundCanvas.getBoundingClientRect();
+
+    //Origin is top left
+    var sizeRatioX = newRect.width / oldRect.width;
+    var sizeRatioY = newRect.height / oldRect.height;
+
+
+    var relativePositionX = event.x - oldRect.x;
+    var relativePositionY = event.y - oldRect.y;
+
+    var currentRelativePositionX = event.x - newRect.x;
+    var currentRelativePositionY = event.y - newRect.y;
+
+    var newXRelative = relativePositionX * sizeRatioX;
+    var newYRelative = relativePositionY * sizeRatioY;
+
+
+    var moveMapX = newXRelative - currentRelativePositionX;
+    var moveMapY = newYRelative - currentRelativePositionY;
+
+    var container = mapContainers[0]
+    var bgX = container.data_transform_x;
+    var bgY = container.data_transform_y;
+    bgY -= moveMapY;
+    bgX -= moveMapX;
+
+    gridMoveOffsetX -= moveMapX;
+    gridMoveOffsetY -= moveMapY;
+
+    moveMap(bgX, bgY);
+
+    newRect = foregroundCanvas.getBoundingClientRect();
+
+    cellSize = originalCellSize * newSize;
+    //Move pawns
+    var cellsFromLeft, cellsFromTop;
+    var backgroundOriginX = oldRect.left;
+    var backgroundOriginY = oldRect.top;
+
+    var newBackgroundOriginX = newRect.left;
+    var newBackgroundOriginY = newRect.top;
+    [pawns.all, effects].forEach(arr => {
+        for (var i = 0; i < arr.length; i++) {
+            var pawn = arr[i];
+            var left = parseFloat(pawn.style.left);
+            var top = parseFloat(pawn.style.top);
+
+            cellsFromLeft = (left - backgroundOriginX)
+                / (originalCellSize * backgroundSizeBeforeResize);
+            cellsFromTop = (top - backgroundOriginY)
+                / (originalCellSize * backgroundSizeBeforeResize);
+
+            var x = (cellsFromLeft * cellSize + newBackgroundOriginX);
+            var y = (cellsFromTop * cellSize + newBackgroundOriginY);
+            pawn.style.top = y + "px";
+            pawn.style.left = x + "px";
+            if (pawn.sound) {
+                soundManager.adjustPlacement(pawn.id, x, y);
+            }
+        }
+    });
+    updateHowlerListenerLocation();
+    resizeAndDrawGrid(null, event);
+    fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
+    fovLighting.drawFogOfWar();
+    if (onZoomCallback) {
+        onZoomCallback();
+        onZoomCallback = null;
+    }
+}
 
 var lastMeasuredLineDrawn, totalMeasuredDistance = 0;
 function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
@@ -797,8 +804,11 @@ function showToolTip(event, text, tooltipId) {
     var tooltip = document.getElementById(tooltipId);
     var clientX = event.clientX || event.touches[0].clientX;
     var clientY = event.clientY || event.touches[0].clientY;
-    tooltip.style.top = clientY - 100 + "px";;
-    tooltip.style.left = clientX + "px";;
+    if (!STATIC_TOOLTIP) {
+        tooltip.style.top = clientY - 100 + "px";;
+        tooltip.style.left = clientX + "px";;
+    }
+
     tooltip.innerHTML = "0 ft";
     tooltip.innerHTML = text;
     tooltip.classList.remove("hidden");
@@ -1305,8 +1315,10 @@ function dragPawn(elmnt) {
                             soundManager.adjustPlacement(obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
                     });
                 }
-                tooltip.style.top = (selectedPawns[0].offsetTop - posY - 40) + "px";
-                tooltip.style.left = (selectedPawns[0].offsetLeft - posX) + "px";
+                if (!STATIC_TOOLTIP) {
+                    tooltip.style.top = (selectedPawns[0].offsetTop - posY - 40) + "px";
+                    tooltip.style.left = (selectedPawns[0].offsetLeft - posX) + "px";
+                }
                 distance = Math.round(
                     Math.sqrt(
                         Math.pow(selectedPawns[0].offsetLeft - originPosition.x, 2) +
@@ -1315,9 +1327,11 @@ function dragPawn(elmnt) {
                 tooltip.innerHTML = distance + " ft";
             } else {
 
+                if (!STATIC_TOOLTIP) {
+                    tooltip.style.top = (elmnt.offsetTop - posY - 40) + "px";
+                    tooltip.style.left = (elmnt.offsetLeft - posX) + "px";
+                }
 
-                tooltip.style.top = (elmnt.offsetTop - posY - 40) + "px";
-                tooltip.style.left = (elmnt.offsetLeft - posX) + "px";
                 elmnt.style.top = (elmnt.offsetTop - posY) + "px";
                 elmnt.style.left = (elmnt.offsetLeft - posX) + "px";
                 elmnt.attached_objects.forEach(obj => {
@@ -1422,12 +1436,15 @@ function onPerspectiveChanged() {
     updateHowlerListenerLocation();
 }
 
+function hasPawnAccess(pawn) {
+    return serverNotifier.isServer() || (TOKEN_ACCESS != null && TOKEN_ACCESS.find(x => x.element_id == pawn.id || x.element_id == "all"))
+}
 
 var hideTooltipTimer;
 function addPawnListeners() {
     for (var i = 0; i < pawns.all.length; i++) {
         var pawn = pawns.all[i];
-        if (serverNotifier.isServer() || (TOKEN_ACCESS != null && TOKEN_ACCESS.find(x => x.element_id == pawn.id || x.element_id == "all"))) {
+        if (hasPawnAccess(pawn)) {
             allowAccess(pawn);
 
         } else {
@@ -1502,6 +1519,8 @@ function clearSelectedPawns() {
 
 var pawnSelectNotify_timeout;
 function selectPawn(pawn) {
+    if (!hasPawnAccess(pawn))
+        return;
     var selected = isSelectedPawn(pawn);
     if (selected >= 0)
         return;

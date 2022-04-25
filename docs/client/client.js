@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     refreshPawns();
     window.onresize = function () {
         window.requestAnimationFrame(resizeAndDrawGrid);
-   
+
     }
 
     setupGridLayer();
@@ -49,13 +49,15 @@ document.addEventListener("DOMContentLoaded", () => {
 function connectionParamsChanged(e) {
     var nameInput = document.getElementById("user_name_input");
     var hostIdInput = document.getElementById("host_id_input");
+    var connectButton = document.getElementById("connect_button");
     if (nameInput.value && hostIdInput.value)
         connectButton.classList.remove("hidden");
     else
         connectButton.classList.add("hidden");
 }
 function connect() {
-
+    var connectButton = document.getElementById("connect_button");
+    connectButton.classList.add("hidden");
     var hostId = document.getElementById("host_id_input").value;
     var name = document.getElementById("user_name_input").value;
     var peer = new Peer(connectionObj);
@@ -70,10 +72,10 @@ function connect() {
             send({ event: "init", name: name });
         })
         hostConnection.on('data', function (data) {
-            if(data.event == "ping"){
-               return hostConnection.send({event:"ack"});
-            }else if(data.event == "ack"){
-               return  timeout.ack();
+            if (data.event == "ping") {
+                return hostConnection.send({ event: "ack" });
+            } else if (data.event == "ack") {
+                return timeout.ack();
             }
             handleMessage(data);
 
@@ -374,6 +376,8 @@ function connectedStateChanged() {
     } else {
         connectionStatusIndicator.classList.remove("connected");
         connectPanel.classList.remove("hidden");
+        var connectButton = document.getElementById("connect_button");
+        connectButton.classList.remove("hidden");
         setLoading(false);
     }
 }
