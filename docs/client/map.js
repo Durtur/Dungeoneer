@@ -1,7 +1,7 @@
 
 var cellSize = 35, originalCellSize = cellSize;
 const UNITS_PER_GRID = 5;
-var STATIC_TOOLTIP = true;
+var STATIC_TOOLTIP = false;
 var canvasWidth = 400;
 var canvasHeight = 400;
 var zIndexPawnCap = 9;
