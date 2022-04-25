@@ -31,17 +31,19 @@ document.addEventListener("DOMContentLoaded", () => {
     var hammertime = new Hammer(gridLayer, null);
 
     hammertime.on('pinchin', function (ev) {
-        console.log(ev);
+        console.log(ev.scale);
         var diff = mapContainers[0].data_bg_scale - ev.scale;
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        zoomIntoMap(ev, diff)
+        console.log(diff)
+        zoomIntoMap(ev, -1 * diff)
     });
     hammertime.on('pinchout', function (ev) {
-        console.log(ev);
+        console.log(ev.scale);
         var diff = mapContainers[0].data_bg_scale - ev.scale;
         ev.x = ev.center.x;
         ev.y = ev.center.y;
+        console.log(diff)
         zoomIntoMap(ev, diff)
     });
     hammertime.get('pinch').set({ enable: true })

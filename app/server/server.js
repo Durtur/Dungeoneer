@@ -88,6 +88,7 @@ peers.remove = function (element) {
         this.splice(index, 1);
     }
     this.onchange();
+    element.timeout.destroy();
 }
 
 peers.onchange = function () {

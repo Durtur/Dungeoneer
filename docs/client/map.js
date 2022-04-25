@@ -74,7 +74,7 @@ var pawns = (function () {
         gargantuan: gargantuan,
         colossal: colossal,
         all: all,
-        monsters:monsters,
+        monsters: monsters,
         lastLocationPlayers: lastLocationPlayers,
         lastLocationMonsters: lastLocationMonsters,
         monsters: monsters,
@@ -251,7 +251,7 @@ function onMonsterHealthChanged(arg) {
     pawns.all = document.querySelectorAll(".pawn");
     var index = parseInt(arg.index);
 
-    var pawn = [... pawns.all].find(x => x.index_in_main_window == index);
+    var pawn = [...pawns.all].find(x => x.index_in_main_window == index);
 
     if (!pawn) return;
 
@@ -602,7 +602,8 @@ function startMovingMap(e) {
     document.ontouchmove = dragMoveMap;
     document.onmousemove = dragMoveMap;
     function dragMoveMap(e) {
-
+        if (e.target != gridLayer)
+            return;
         draggingMap = true;
         e = e || window.event;
 
@@ -952,7 +953,7 @@ function refreshMobBackgroundImages(pawn, bgArray) {
             }
             bgArray.tokens.forEach(path => {
                 var base64 = bgArray.map[path];
-             
+
                 container.appendChild(createMobToken(base64));
             })
 
@@ -2099,12 +2100,12 @@ var map = function () {
 
         var isPlayer = isPlayerPawn(element);
         if (!isPlayer) {
-            var found = pawns.monsters.find(x=> x[0].id == element.id);
-            if(found){
+            var found = pawns.monsters.find(x => x[0].id == element.id);
+            if (found) {
                 var idx = pawns.monsters.indexOf(found);
                 pawns.monsters.splice(idx, 1);
             }
-      
+
         } else {
 
             var ele = pawns.players.find(x => x[0] == element);

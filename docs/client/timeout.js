@@ -9,7 +9,7 @@ class Timeout {
         this.connection = connection;
         var cls = this;
         this.requestTimeout = window.setInterval(() => {
-            if(cls.ackRequested){
+            if (cls.ackRequested) {
                 //timed out
                 cls.connection.close();
                 console.error("Connection timed out");
@@ -17,11 +17,15 @@ class Timeout {
                 return;
             }
             console.log("Connection ping");
-            cls.connection.send({event:"ping"});
+            cls.connection.send({ event: "ping" });
             cls.ackRequested = true;
         }, this.POLL_SECONDS * 1000)
 
 
+    }
+
+    destroy() {
+        window.clearInterval(this.requestTimeout);
     }
 
     ack() {
