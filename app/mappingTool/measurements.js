@@ -7,9 +7,10 @@ let measurements = function () {
         console.log("Clear measurements")
         measurementsLayerContext.beginPath();
         measurementsLayerContext.save();
-        measurementsLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+
         measurementsLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
         measurementsLayerContext.restore();
+
         lastMeasuredLineDrawn = null;
         lastMeasuredPoint = null;
 
@@ -32,14 +33,14 @@ let measurements = function () {
         measurementsLayerContext.setLineDash(lastLineDash);
     }
     function startMeasuring(event) {
-        console.log(event.button)
+
         if (event.button != null && event.button != 0) {
             lastMeasuredPoint = null;
             return;
         }
         hideAllTooltips();
-        var clientX = event.clientX || event.touches[0].clientX;
-        var clientY = event.clientY || event.touches[0].clientY;
+        var clientX = eventX(event);
+        var clientY = eventY(event);
         measurementsLayerContext.moveTo(clientX, clientY);
         document.onmousedown = measurementMouseDownHandler;
 
@@ -118,8 +119,8 @@ let measurements = function () {
         var lastMeasuredLine;
         function measureLineSegment(event) {
             if (segmentMeasurementPaused) return;
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = eventX(event);
+            clientY = eventY(event);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredLine != null) {
                     measurements.eraseModeOn();
@@ -146,8 +147,8 @@ let measurements = function () {
         }
 
         function measureSphereSegment(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = eventX(event);
+            clientY = eventY(event);
             if (segmentMeasurementPaused) return;
             window.requestAnimationFrame(function () {
                 if (lastMeasuredSphere) {
@@ -177,8 +178,8 @@ let measurements = function () {
         }
         function measureRectangleSegment(event) {
 
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = eventX(event);
+            clientY = eventY(event);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -208,9 +209,9 @@ let measurements = function () {
         function measureRectangle(event) {
             if (event.target.classList.contains("button_style"))
                 return;
-    
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+
+            clientX = eventX(event);
+            clientY = eventY(event);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -240,8 +241,9 @@ let measurements = function () {
 
         }
         function measureCube(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = eventX(event);
+            clientY = eventY(event);
+
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
@@ -272,8 +274,8 @@ let measurements = function () {
         }
 
         function measureSphere(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = eventX(event);
+            clientY = eventY(event);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredSphere) {
                     measurements.eraseModeOn();
@@ -305,8 +307,8 @@ let measurements = function () {
         }
 
         function measureCone(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = eventX(event);
+            clientY = eventY(event);
             window.requestAnimationFrame(function () {
                 if (lastMeasuredCone) {
                     measurements.eraseModeOn();
@@ -426,8 +428,8 @@ let measurements = function () {
         }
 
         function measureDistance(event) {
-            clientX = event.clientX || event.touches[0].clientX;
-            clientY = event.clientY || event.touches[0].clientY;
+            clientX = eventX(event);
+            clientY = eventY(event);
 
             if (measurementPaused) return;
             window.requestAnimationFrame(function () {

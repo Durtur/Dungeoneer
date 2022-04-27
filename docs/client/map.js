@@ -1,6 +1,7 @@
 
 var cellSize = 35, originalCellSize = cellSize;
 const UNITS_PER_GRID = 5;
+const DEVICE_SCALE = window.devicePixelRatio;
 var STATIC_TOOLTIP = false;
 var canvasWidth = 400;
 var canvasHeight = 400;
@@ -588,8 +589,8 @@ function startMovingMap(e) {
 
     var dragMoveTimestamp;
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-    var clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    var clientX = eventX(e);
+    var clientY = eventY(e);
     pos3 = clientX;
     pos4 = clientY;
     console.log(pos3, pos4);
@@ -603,7 +604,7 @@ function startMovingMap(e) {
     document.ontouchmove = dragMoveMap;
     document.onmousemove = dragMoveMap;
     function dragMoveMap(e) {
-        if (e.target != gridLayer)
+        if (e.target != gridLayer || (e.touches && e.touches.length > 1))
             return;
         draggingMap = true;
         e = e || window.event;
@@ -615,8 +616,8 @@ function startMovingMap(e) {
             } else {
                 dragMoveTimestamp = timestamp;
             }
-            clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            clientX = eventX(e);
+            clientY = eventY(e);
 
             pos1 = pos3 - clientX;
             pos2 = pos4 - clientY;
@@ -1065,9 +1066,6 @@ function stopMeasuring(event, ignoreClick) {
             gridLayer.style.zIndex = 4;
         }
 
-        for (var i = 0; i < toolbox.length; i++) {
-            toolbox[i] = false;
-        }
         tooltip.classList.add("hidden");
         document.onmousemove = null;
         document.onmouseup = null;
@@ -1199,6 +1197,18 @@ function resetGridLayer() {
 }
 
 
+function eventX(e) {
+    // clientX = event.clientX || (event.touches[0].clientX - event.touches[0].radiusX);
+    // clientY = event.clientY || (event.touches[0].clientY - event.touches[0].radiusY);
+    return e.clientX || (e.touches[0].clientX - e.touches[0].radiusX);
+}
+
+function eventY(e) {
+    return e.clientY || (e.touches[0].clientY - e.touches[0].radiusY);
+}
+
+
+
 var selectedPawns = [];
 function dragPawn(elmnt) {
     var posX = 0, posY = 0, pos3 = 0, pos4 = 0, originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }, oldLine;
@@ -1251,15 +1261,17 @@ function dragPawn(elmnt) {
                 if (isSelectedPawn(e.target) < 0)
                     clearSelectedPawns();
                 setupMeasurements();
+                offsetX = ((cellSize / 2) * elmnt.dnd_hexes);
+                offsetY = ((cellSize / 2) * elmnt.dnd_hexes);
                 originPosition = { x: parseFloat(elmnt.style.left), y: parseFloat(elmnt.style.top) };
                 measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
                 showToolTip(e, "0 ft", "tooltip")
-                e = e || window.event;
+
                 e.preventDefault();
 
                 // get the mouse cursor position at startup:
-                pos3 = e.clientX || e.touches[0].clientX;
-                pos4 = e.clientY || e.touches[0].clientY;
+                pos3 = eventX(e)
+                pos4 = eventY(e);
                 document.onmouseup = closeDragElement;
                 document.ontouchend = closeDragElement;
                 // call a function whenever the cursor moves:
@@ -1292,8 +1304,8 @@ function dragPawn(elmnt) {
 
             e.preventDefault();
             // calculate the new cursor position:
-            var clientX = e.clientX || e.touches[0].clientX;
-            var clientY = e.clientY || e.touches[0].clientY;
+            var clientX = eventX(e);
+            var clientY = eventY(e);
             posX = pos3 - clientX;
             posY = pos4 - clientY;
             pos3 = clientX;
@@ -1369,8 +1381,7 @@ function dragPawn(elmnt) {
 
 
             measurementsLayerContext.beginPath();
-            offsetX = ((cellSize / 2) * elmnt.dnd_hexes);
-            offsetY = ((cellSize / 2) * elmnt.dnd_hexes);
+
             measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
             measurementsLayerContext.lineTo(elmnt.offsetLeft + offsetX, elmnt.offsetTop + offsetY);
             measurementsLayerContext.stroke();
@@ -1572,6 +1583,7 @@ function resizeHelper(arr) {
 function setupGridLayer() {
     gridLayerContext.strokeStyle = "rgba('10','10','10','0.2')";
     gridLayerContext.lineWidth = 1;
+    gridLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
 }
 
 function setupSelectionPainting() {
@@ -1896,16 +1908,15 @@ function resizeAndDrawGrid(timestamp, event) {
 
     var fovLayerSegments = document.getElementById("fog_of_war_segments");
 
-    canvasHeight = window.innerHeight;
-    canvasWidth = window.innerWidth;
+    canvasHeight = window.innerHeight * DEVICE_SCALE
+    canvasWidth = window.innerWidth * DEVICE_SCALE
+
+
     fovLighting.addWindowBorderToSegments();
 
     //Resize fovlayer to window height and widht
     fovLighting.resizeCanvas(canvasWidth, canvasHeight);
 
-
-    fovLayerSegments.setAttribute('width', canvasWidth);
-    fovLayerSegments.setAttribute('height', canvasHeight);
     measurementsLayer.setAttribute('width', canvasWidth);
     measurementsLayer.setAttribute('height', canvasHeight);
     gridLayer.setAttribute('width', canvasWidth);
@@ -1995,6 +2006,7 @@ function switchActiveViewer() {
 
 var map = function () {
     function init() {
+        console.log("Init map")
         refreshPawns();
         setupGridLayer();
         resizeAndDrawGrid();
@@ -2047,10 +2059,14 @@ var map = function () {
 
 
     function clearGrid() {
+
+
         gridLayerContext.save();
-        gridLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        // gridLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+
         gridLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
         gridLayerContext.restore();
+
     }
 
     function drawGrid() {
@@ -2074,13 +2090,13 @@ var map = function () {
 
 
         for (var i = startPointY; i < canvasHeight; i += cellSize) {
-            ctx.moveTo(0, i);
-            ctx.lineTo(canvasWidth, i);
+            ctx.moveTo(0, i * DEVICE_SCALE);
+            ctx.lineTo(canvasWidth * DEVICE_SCALE, i * DEVICE_SCALE);
         }
 
         for (var i = startPointX; i < canvasWidth; i += cellSize) {
-            ctx.moveTo(i, 0);
-            ctx.lineTo(i, canvasHeight);
+            ctx.moveTo(i * DEVICE_SCALE, 0);
+            ctx.lineTo(i * DEVICE_SCALE, canvasHeight * DEVICE_SCALE);
         }
         gridLayerContext.stroke();
     }

@@ -116,8 +116,9 @@ input {
 #tooltip {
     left: 50%;
     top: 1em;
-    font-size:2em;
-    padding:0.25em;
+    font-size: 1.7em;
+    transform: translateX(-50%);
+    padding: 0.25em;
     background-color: rgba(0, 0, 0, 0.5);
 }
 

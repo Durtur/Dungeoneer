@@ -40,9 +40,10 @@ var fovLighting = function () {
     const SEGMENT_SELECTION_MARGIN = 3;
     var mapIsBlack = false;
     var fovLayer = document.getElementById("fog_of_war");
-    // var fogOfWarLayerCanvas = document.getElementById("fog_of_war");
+
     var fogOfWarLayerContext = document.getElementById("fog_of_war").getContext("2d");
-    var fovSegmentLayerContext = document.getElementById("fog_of_war_segments").getContext("2d");
+    var fogOfWarSegmentLayerCanvas = document.getElementById("fog_of_war_segments");
+    var fovSegmentLayerContext = fogOfWarSegmentLayerCanvas.getContext("2d");
     const SEGMENT_COUNT_BEFORE_OPTIMIZATION = 1200;
     var activeFogType = MapFogEnum.None;
     var activeViewerHasDarkvision = false;
@@ -69,6 +70,17 @@ var fovLighting = function () {
             return;
         fovLayer.setAttribute('width', canvasWidth);
         fovLayer.setAttribute('height', canvasHeight);
+        fogOfWarLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        fogOfWarLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
+        maskCanvas.setAttribute('width', canvasWidth);
+        maskCanvas.setAttribute('height', canvasHeight);
+        maskCtx.setTransform(1, 0, 0, 1, 0, 0);
+        maskCtx.scale(DEVICE_SCALE, DEVICE_SCALE);
+        fogOfWarSegmentLayerCanvas.setAttribute('width', canvasWidth);
+        fogOfWarSegmentLayerCanvas.setAttribute('height', canvasHeight);
+        fovSegmentLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        fovSegmentLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
+        
         fillMapToBlack();
     }
     function fillMapToBlack() {
@@ -296,8 +308,8 @@ var fovLighting = function () {
             dataAccess.writeTempFile(fileName + ".png", bitmap, function (path) {
                 setMapForeground(path.replaceAll("\\", "/"), parseFloat(data.resolution.map_size.x) * originalCellSize);
 
-                var offsetX = mapContainers[0].data_transform_x;
-                var offsetY = mapContainers[0].data_transform_y;
+                var offsetX = foregroundCanvas.data_transform_x  + mapContainers[0].data_transform_x;
+                var offsetY = foregroundCanvas.data_transform_y   + mapContainers[0].data_transform_y;
                 var wallLines = [];
                 getLines(false, true);
                 if (wallLines.length > maxSegmentCount) {
@@ -688,7 +700,7 @@ var fovLighting = function () {
     function drawSegments() {
         fovSegmentLayerContext.beginPath();
         fovSegmentLayerContext.save();
-        fovSegmentLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+
         fovSegmentLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
         fovSegmentLayerContext.restore();
         if (!showVisibilityLayer && !currentlyDeletingSegments)
@@ -879,5 +891,6 @@ var fovLighting = function () {
         getSegments: getSegments,
         setSegments: setSegments,
         resizeCanvas: resizeCanvas,
+        publishChanged: onSegmentsChanged
     }
 }();

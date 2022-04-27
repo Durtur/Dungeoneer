@@ -15,7 +15,7 @@ function require() {
 
 var creaturePossibleSizes;
 var soundManager;
-
+var touchMoveResetTimeout;
 document.addEventListener("DOMContentLoaded", () => {
     soundManager = new SoundManager();
     soundManager.initialize();
@@ -35,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         ev.x = ev.center.x;
         ev.y = ev.center.y;
+        gridLayer.ontouchstart = null;
+        window.clearTimeout(touchMoveResetTimeout);
+        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 600);
         setMapZoom(ev, ev.scale) 
 
     });
@@ -42,6 +45,9 @@ document.addEventListener("DOMContentLoaded", () => {
    
         ev.x = ev.center.x;
         ev.y = ev.center.y;
+        gridLayer.ontouchstart = null;
+        window.clearTimeout(touchMoveResetTimeout);
+        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 600);
         setMapZoom(ev, ev.scale) 
 
     });
