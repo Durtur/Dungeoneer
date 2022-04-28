@@ -32,23 +32,23 @@ document.addEventListener("DOMContentLoaded", () => {
     var hammertime = new Hammer(gridLayer, null);
 
     hammertime.on('pinchin', function (ev) {
-
+        ev.stopPropagation();
         ev.x = ev.center.x;
         ev.y = ev.center.y;
         gridLayer.ontouchstart = null;
         window.clearTimeout(touchMoveResetTimeout);
-        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 600);
-        setMapZoom(ev, ev.scale) 
+        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 900);
+        setMapZoom(ev, ev.scale)
 
     });
     hammertime.on('pinchout', function (ev) {
-   
+        ev.stopPropagation();
         ev.x = ev.center.x;
         ev.y = ev.center.y;
         gridLayer.ontouchstart = null;
         window.clearTimeout(touchMoveResetTimeout);
-        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 600);
-        setMapZoom(ev, ev.scale) 
+        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 900);
+        setMapZoom(ev, ev.scale)
 
     });
     hammertime.get('pinch').set({ enable: true })

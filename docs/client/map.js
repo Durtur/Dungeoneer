@@ -2085,18 +2085,18 @@ var map = function () {
         ctx.setLineDash([2]);
 
 
-        var startPointX = gridMoveOffsetX % cellSize;
+        var startPointX = ( gridMoveOffsetX % cellSize);
         var startPointY = gridMoveOffsetY % cellSize;
+        var mult=1;
 
-
-        for (var i = startPointY; i < canvasHeight; i += cellSize) {
-            ctx.moveTo(0, i * DEVICE_SCALE);
-            ctx.lineTo(canvasWidth * DEVICE_SCALE, i * DEVICE_SCALE);
+        for (var i = startPointY; i < canvasHeight/DEVICE_SCALE; i += cellSize) {
+            ctx.moveTo(0, i * mult);
+            ctx.lineTo(canvasWidth/DEVICE_SCALE, i * mult);
         }
 
-        for (var i = startPointX; i < canvasWidth; i += cellSize) {
-            ctx.moveTo(i * DEVICE_SCALE, 0);
-            ctx.lineTo(i * DEVICE_SCALE, canvasHeight * DEVICE_SCALE);
+        for (var i = startPointX; i < canvasWidth/DEVICE_SCALE; i += cellSize) {
+            ctx.moveTo(i * mult, 0);
+            ctx.lineTo(i * mult, canvasHeight/DEVICE_SCALE);
         }
         gridLayerContext.stroke();
     }
