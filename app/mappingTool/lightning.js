@@ -63,6 +63,17 @@ var fovLighting = function () {
     function viewerHasDarkvision() {
         return activeViewerHasDarkvision;
     }
+
+    function scaleLayers(scale){
+        fogOfWarLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        fogOfWarLayerContext.scale(scale, scale);
+        maskCtx.setTransform(1, 0, 0, 1, 0, 0);
+        maskCtx.scale(scale, scale);
+        fovSegmentLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        fovSegmentLayerContext.scale(scale, scale);
+    }
+
+
     function resizeCanvas() {
         var width = fovLayer.getAttribute("width");
         var height = fovLayer.getAttribute("height");
@@ -70,16 +81,14 @@ var fovLighting = function () {
             return;
         fovLayer.setAttribute('width', canvasWidth);
         fovLayer.setAttribute('height', canvasHeight);
-        fogOfWarLayerContext.setTransform(1, 0, 0, 1, 0, 0);
-        fogOfWarLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
+
+     
         maskCanvas.setAttribute('width', canvasWidth);
         maskCanvas.setAttribute('height', canvasHeight);
-        maskCtx.setTransform(1, 0, 0, 1, 0, 0);
-        maskCtx.scale(DEVICE_SCALE, DEVICE_SCALE);
+  
         fogOfWarSegmentLayerCanvas.setAttribute('width', canvasWidth);
         fogOfWarSegmentLayerCanvas.setAttribute('height', canvasHeight);
-        fovSegmentLayerContext.setTransform(1, 0, 0, 1, 0, 0);
-        fovSegmentLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
+
         
         fillMapToBlack();
     }
@@ -889,6 +898,7 @@ var fovLighting = function () {
         attemptToDeleteSegment: attemptToDeleteSegment,
         setPerspective: setPerspective,
         getSegments: getSegments,
+        scaleLayers:scaleLayers,
         setSegments: setSegments,
         resizeCanvas: resizeCanvas,
         publishChanged: onSegmentsChanged

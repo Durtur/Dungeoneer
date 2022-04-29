@@ -8,9 +8,9 @@ let measurements = function () {
         measurementsLayerContext.beginPath();
         measurementsLayerContext.save();
 
-        measurementsLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
+        measurementsLayerContext.clearRect(0, 0, gridLayer.width * DEVICE_SCALE, gridLayer.height * DEVICE_SCALE);
         measurementsLayerContext.restore();
- 
+
         lastMeasuredLineDrawn = null;
         lastMeasuredPoint = null;
 
@@ -23,7 +23,7 @@ let measurements = function () {
         measurementsLayerContext.fillStyle = "#fff"
         measurementsLayerContext.globalCompositeOperation = 'destination-out'
         measurementsLayerContext.setLineDash([]);
-        measurementsLayerContext.lineWidth = 20;
+        measurementsLayerContext.lineWidth = 20 * DEVICE_SCALE;
     }
 
     function eraseModeOff() {
@@ -41,7 +41,7 @@ let measurements = function () {
         hideAllTooltips();
         var clientX = eventX(event);
         var clientY = eventY(event);
-        measurementsLayerContext.moveTo(clientX, clientY);
+        measurementsLayerContext.moveTo(clientX * DEVICE_SCALE, clientY * DEVICE_SCALE);
         document.onmousedown = measurementMouseDownHandler;
 
 
@@ -125,15 +125,15 @@ let measurements = function () {
                 if (lastMeasuredLine != null) {
                     measurements.eraseModeOn();
                     measurementsLayerContext.beginPath();
-                    measurementsLayerContext.moveTo(lastMeasuredLine.a.x, lastMeasuredLine.a.y);
-                    measurementsLayerContext.lineTo(lastMeasuredLine.b.x, lastMeasuredLine.b.y);
+                    measurementsLayerContext.moveTo(lastMeasuredLine.a.x * DEVICE_SCALE, lastMeasuredLine.a.y * DEVICE_SCALE);
+                    measurementsLayerContext.lineTo(lastMeasuredLine.b.x * DEVICE_SCALE, lastMeasuredLine.b.y * DEVICE_SCALE);
                     measurementsLayerContext.stroke();
                     measurements.eraseModeOff();
                 } else {
                     lastMeasuredLine = {};
                 }
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
+                measurementsLayerContext.moveTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
                 measurementsLayerContext.lineTo(clientX, clientY);
                 measurementsLayerContext.stroke();
 
@@ -154,7 +154,7 @@ let measurements = function () {
                 if (lastMeasuredSphere) {
                     measurements.eraseModeOn();
                     measurementsLayerContext.beginPath();
-                    measurementsLayerContext.arc(lastMeasuredSphere.x, lastMeasuredSphere.y, lastMeasuredSphere.radius, 0, 2 * Math.PI);
+                    measurementsLayerContext.arc(lastMeasuredSphere.x * DEVICE_SCALE, lastMeasuredSphere.y * DEVICE_SCALE, lastMeasuredSphere.radius * DEVICE_SCALE, 0, 2 * Math.PI * DEVICE_SCALE);
                     measurementsLayerContext.stroke();
                     measurementsLayerContext.fill();
                     measurements.eraseModeOff();
@@ -166,8 +166,8 @@ let measurements = function () {
                     Math.pow(clientY - measurementOriginPosition.y, 2)
                 );
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
-                measurementsLayerContext.arc(measurementOriginPosition.x, measurementOriginPosition.y, radius, 0, 2 * Math.PI);
+                measurementsLayerContext.moveTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
+                measurementsLayerContext.arc(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE, radius * DEVICE_SCALE, 0, 2 * Math.PI * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.fill();
 
@@ -184,7 +184,7 @@ let measurements = function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
                     measurementsLayerContext.beginPath();
-                    measurementsLayerContext.rect(lastMeasuredCube.x, lastMeasuredCube.y, lastMeasuredCube.width, lastMeasuredCube.height);
+                    measurementsLayerContext.rect(lastMeasuredCube.x * DEVICE_SCALE, lastMeasuredCube.y * DEVICE_SCALE, lastMeasuredCube.width * DEVICE_SCALE, lastMeasuredCube.height * DEVICE_SCALE);
                     measurementsLayerContext.stroke();
                     measurementsLayerContext.fill();
                     measurements.eraseModeOff();
@@ -194,8 +194,8 @@ let measurements = function () {
                 var width = clientX - measurementOriginPosition.x;
                 var height = clientY - measurementOriginPosition.y;
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
-                measurementsLayerContext.rect(measurementOriginPosition.x, measurementOriginPosition.y, width, height);
+                measurementsLayerContext.moveTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
+                measurementsLayerContext.rect(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE, width * DEVICE_SCALE, height * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.fill();
                 lastMeasuredCube.x = measurementOriginPosition.x;
@@ -216,7 +216,7 @@ let measurements = function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
                     measurementsLayerContext.beginPath();
-                    measurementsLayerContext.rect(lastMeasuredCube.x, lastMeasuredCube.y, lastMeasuredCube.width, lastMeasuredCube.height);
+                    measurementsLayerContext.rect(lastMeasuredCube.x * DEVICE_SCALE, lastMeasuredCube.y * DEVICE_SCALE, lastMeasuredCube.width * DEVICE_SCALE, lastMeasuredCube.height * DEVICE_SCALE);
                     measurementsLayerContext.stroke();
                     measurementsLayerContext.fill();
                     measurements.eraseModeOff();
@@ -226,8 +226,8 @@ let measurements = function () {
                 var width = clientX - measurementOriginPosition.x;
                 var height = clientY - measurementOriginPosition.y;
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
-                measurementsLayerContext.rect(measurementOriginPosition.x, measurementOriginPosition.y, width, height);
+                measurementsLayerContext.moveTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
+                measurementsLayerContext.rect(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE, width * DEVICE_SCALE, height * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.fill();
                 lastMeasuredCube.x = measurementOriginPosition.x;
@@ -248,7 +248,7 @@ let measurements = function () {
                 if (lastMeasuredCube) {
                     measurements.eraseModeOn();
                     measurementsLayerContext.beginPath();
-                    measurementsLayerContext.rect(lastMeasuredCube.x - lastMeasuredCube.radius, lastMeasuredCube.y - lastMeasuredCube.radius, lastMeasuredCube.radius * 2, lastMeasuredCube.radius * 2);
+                    measurementsLayerContext.rect((lastMeasuredCube.x - lastMeasuredCube.radius) * DEVICE_SCALE, (lastMeasuredCube.y - lastMeasuredCube.radius) * DEVICE_SCALE, lastMeasuredCube.radius * 2 * DEVICE_SCALE, lastMeasuredCube.radius * 2 * DEVICE_SCALE);
                     measurementsLayerContext.stroke();
                     measurementsLayerContext.fill();
                     measurements.eraseModeOff();
@@ -260,8 +260,8 @@ let measurements = function () {
                     Math.pow(clientY - measurementOriginPosition.y, 2)
                 );
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(measurementOriginPosition.x - radius, measurementOriginPosition.y - radius);
-                measurementsLayerContext.rect(measurementOriginPosition.x - radius, measurementOriginPosition.y - radius, radius * 2, radius * 2);
+                measurementsLayerContext.moveTo((measurementOriginPosition.x - radius) * DEVICE_SCALE, (measurementOriginPosition.y - radius) * DEVICE_SCALE);
+                measurementsLayerContext.rect((measurementOriginPosition.x - radius) * DEVICE_SCALE, (measurementOriginPosition.y - radius) * DEVICE_SCALE, radius * 2 * DEVICE_SCALE, radius * 2 * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.fill();
                 showToolTip(event, Math.round(radius / cellSize * 5) * 2 + " ft", "tooltip");
@@ -280,7 +280,7 @@ let measurements = function () {
                 if (lastMeasuredSphere) {
                     measurements.eraseModeOn();
                     measurementsLayerContext.beginPath();
-                    measurementsLayerContext.arc(lastMeasuredSphere.x, lastMeasuredSphere.y, lastMeasuredSphere.radius + 40, 0, 2 * Math.PI);
+                    measurementsLayerContext.arc(lastMeasuredSphere.x * DEVICE_SCALE, lastMeasuredSphere.y * DEVICE_SCALE, (lastMeasuredSphere.radius + 40) * DEVICE_SCALE, 0, 2 * Math.PI * DEVICE_SCALE);
                     measurementsLayerContext.stroke();
                     measurementsLayerContext.fill();
                     measurements.eraseModeOff();
@@ -293,8 +293,8 @@ let measurements = function () {
                     Math.pow(clientY - measurementOriginPosition.y, 2)
                 );
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
-                measurementsLayerContext.arc(measurementOriginPosition.x, measurementOriginPosition.y, radius, 0, 2 * Math.PI);
+                measurementsLayerContext.moveTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
+                measurementsLayerContext.arc(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE, radius * DEVICE_SCALE, 0, 2 * Math.PI * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.fill();
 
@@ -313,7 +313,8 @@ let measurements = function () {
                 if (lastMeasuredCone) {
                     measurements.eraseModeOn();
                     measurementsLayerContext.beginPath();
-                    measurementsLayerContext.rect(lastMeasuredCone.x - lastMeasuredCone.radius, lastMeasuredCone.y - lastMeasuredCone.radius, lastMeasuredCone.radius * 2, lastMeasuredCone.radius * 2);
+                    measurementsLayerContext.rect((lastMeasuredCone.x - lastMeasuredCone.radius) * DEVICE_SCALE, (lastMeasuredCone.y - lastMeasuredCone.radius) * DEVICE_SCALE,
+                        lastMeasuredCone.radius * 2 * DEVICE_SCALE, lastMeasuredCone.radius * 2 * DEVICE_SCALE);
                     measurementsLayerContext.stroke();
                     measurementsLayerContext.fill();
                     measurements.eraseModeOff();
@@ -321,7 +322,7 @@ let measurements = function () {
                     lastMeasuredCone = {};
                 }
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(measurementOriginPosition.x, measurementOriginPosition.y);
+                measurementsLayerContext.moveTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
                 var newPoint = Geometry.rotate(0.46355945, measurementOriginPosition, { x: clientX, y: clientY });
                 var newPoint2 = Geometry.rotate(-0.46355944999997217, measurementOriginPosition, { x: clientX, y: clientY });
 
@@ -331,9 +332,9 @@ let measurements = function () {
                 }
 
 
-                measurementsLayerContext.lineTo(newPoint.x, newPoint.y);
-                measurementsLayerContext.lineTo(newPoint2.x, newPoint2.y);
-                measurementsLayerContext.lineTo(measurementOriginPosition.x, measurementOriginPosition.y);
+                measurementsLayerContext.lineTo(newPoint.x * DEVICE_SCALE, newPoint.y * DEVICE_SCALE);
+                measurementsLayerContext.lineTo(newPoint2.x * DEVICE_SCALE, newPoint2.y * DEVICE_SCALE);
+                measurementsLayerContext.lineTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.fill();
 

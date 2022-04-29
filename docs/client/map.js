@@ -10,7 +10,7 @@ var measurementTargetOrigin = null, measurementTargetDestination = null;
 var measurementOriginPosition;
 var currentlyMeasuring = false;
 var measurementPaused = false;
-
+var disableMapDrag = false;
 var TOKEN_ACCESS;
 
 var pawnId = 1, effectId = 1;
@@ -309,6 +309,7 @@ function setTool(event, source, toolIndex) {
         window.setTimeout(() => {
             source.setAttribute("toggled", "false");
             measurements.clearMeasurements();
+            hideAllTooltips();
         }, 300);
 
     }
@@ -584,7 +585,7 @@ function moveMap(x, y) {
 
 
 function startMovingMap(e) {
-    if (currentlyMeasuring || (e.touches && e.touches.length > 1)) return;
+    if (currentlyMeasuring || disableMapDrag || (e.touches && e.touches.length > 1)) return;
     gridLayer.style.cursor = "-webkit-grabbing";
 
     var dragMoveTimestamp;
@@ -780,8 +781,8 @@ function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
         measurements.eraseModeOn();
 
         measurementsLayerContext.beginPath();
-        measurementsLayerContext.moveTo(lastMeasuredLineDrawn.a.x, lastMeasuredLineDrawn.a.y);
-        measurementsLayerContext.lineTo(lastMeasuredLineDrawn.b.x, lastMeasuredLineDrawn.b.y);
+        measurementsLayerContext.moveTo(lastMeasuredLineDrawn.a.x * DEVICE_SCALE, lastMeasuredLineDrawn.a.y * DEVICE_SCALE);
+        measurementsLayerContext.lineTo(lastMeasuredLineDrawn.b.x * DEVICE_SCALE, lastMeasuredLineDrawn.b.y * DEVICE_SCALE);
         measurementsLayerContext.stroke();
         measurements.eraseModeOff();
     } else {
@@ -790,8 +791,8 @@ function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
 
     }
     measurementsLayerContext.beginPath();
-    measurementsLayerContext.moveTo(originPosition.x, originPosition.y);
-    measurementsLayerContext.lineTo(destinationPoint.x, destinationPoint.y);
+    measurementsLayerContext.moveTo(originPosition.x * DEVICE_SCALE, originPosition.y * DEVICE_SCALE);
+    measurementsLayerContext.lineTo(destinationPoint.x * DEVICE_SCALE, destinationPoint.y * DEVICE_SCALE);
     measurementsLayerContext.stroke();
 
 
@@ -1039,7 +1040,7 @@ function refreshMobBackgroundImages(pawn, bgArray) {
 
 
 function stopMeasuring(event, ignoreClick) {
-
+    hideAllTooltips();
     if (ignoreClick || event.button == 2) {
         if (measurementPaused && ignoreClick != null) {
             tooltip.classList.add("hidden");
@@ -1059,6 +1060,7 @@ function stopMeasuring(event, ignoreClick) {
                 }
             }
             document.onmousedown = null;
+       
             resetGridLayer();
             currentlyMeasuring = false;
             currentlyAddingSegments = false;
@@ -1077,7 +1079,7 @@ function stopMeasuring(event, ignoreClick) {
         measurementPaused = false;
         segmentMeasurementPaused = false;
         lastMeasuredPoint = null;
-        hideAllTooltips();
+
         measurements.clearMeasurements();
     } else if (event.button == 0 && visibilityLayerVisible && lastMeasuredPoint != null) {
         if (fovToolbox[0]) {
@@ -1583,7 +1585,7 @@ function resizeHelper(arr) {
 function setupGridLayer() {
     gridLayerContext.strokeStyle = "rgba('10','10','10','0.2')";
     gridLayerContext.lineWidth = 1;
-    gridLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
+
 }
 
 function setupSelectionPainting() {
@@ -1593,8 +1595,9 @@ function setupSelectionPainting() {
     measurementsLayerContext.strokeStyle = "#eee";
 }
 
+
 function setupMeasurements() {
-    measurementsLayerContext.lineWidth = 3;
+    measurementsLayerContext.lineWidth = 3 * DEVICE_SCALE;
     measurementsLayerContext.setLineDash([15, 15]);
     measurementsLayerContext.fillStyle = "rgba(0, 0, 0, 0.469)";
     measurementsLayerContext.strokeStyle = "#eee";
@@ -1916,7 +1919,6 @@ function resizeAndDrawGrid(timestamp, event) {
 
     //Resize fovlayer to window height and widht
     fovLighting.resizeCanvas(canvasWidth, canvasHeight);
-
     measurementsLayer.setAttribute('width', canvasWidth);
     measurementsLayer.setAttribute('height', canvasHeight);
     gridLayer.setAttribute('width', canvasWidth);
@@ -2006,11 +2008,22 @@ function switchActiveViewer() {
 
 var map = function () {
     function init() {
-        console.log("Init map")
+
+        scaleLayers();
         refreshPawns();
         setupGridLayer();
         resizeAndDrawGrid();
         refreshFogOfWar();
+    }
+
+    function scaleLayers() {
+        gridLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        measurementsLayerContext.setTransform(1, 0, 0, 1, 0, 0);
+        console.log(`Scale  layers: ${DEVICE_SCALE}`);
+        gridLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
+        measurementsLayerContext.scale(DEVICE_SCALE, DEVICE_SCALE);
+        fovLighting.scaleLayers(DEVICE_SCALE);
+
     }
 
     function onzoom(event) {
@@ -2085,18 +2098,22 @@ var map = function () {
         ctx.setLineDash([2]);
 
 
-        var startPointX = ( gridMoveOffsetX % cellSize);
-        var startPointY = gridMoveOffsetY % cellSize;
-        var mult=1;
+        var step = cellSize * DEVICE_SCALE;
 
-        for (var i = startPointY; i < canvasHeight/DEVICE_SCALE; i += cellSize) {
-            ctx.moveTo(0, i * mult);
-            ctx.lineTo(canvasWidth/DEVICE_SCALE, i * mult);
+        var startPointX = (gridMoveOffsetX % cellSize) * DEVICE_SCALE;
+        var startPointY = (gridMoveOffsetY % cellSize) * DEVICE_SCALE;
+        var drawEndY = canvasHeight * DEVICE_SCALE;
+        var drawEndX = canvasWidth * DEVICE_SCALE;
+
+
+        for (var i = startPointY; i < drawEndY; i += step) {
+            ctx.moveTo(0, i);
+            ctx.lineTo(drawEndX, i);
         }
 
-        for (var i = startPointX; i < canvasWidth/DEVICE_SCALE; i += cellSize) {
-            ctx.moveTo(i * mult, 0);
-            ctx.lineTo(i * mult, canvasHeight/DEVICE_SCALE);
+        for (var i = startPointX; i < drawEndX; i += step) {
+            ctx.moveTo(i, 0);
+            ctx.lineTo(i, drawEndY);
         }
         gridLayerContext.stroke();
     }

@@ -32,22 +32,21 @@ document.addEventListener("DOMContentLoaded", () => {
     var hammertime = new Hammer(gridLayer, null);
 
     hammertime.on('pinchin', function (ev) {
-        ev.stopPropagation();
+        disableMapDrag = true;
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        gridLayer.ontouchstart = null;
+
         window.clearTimeout(touchMoveResetTimeout);
-        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 900);
+        touchMoveResetTimeout = window.setTimeout(() => disableMapDrag= false, 200);
         setMapZoom(ev, ev.scale)
 
     });
     hammertime.on('pinchout', function (ev) {
-        ev.stopPropagation();
+        disableMapDrag = true;
         ev.x = ev.center.x;
         ev.y = ev.center.y;
-        gridLayer.ontouchstart = null;
         window.clearTimeout(touchMoveResetTimeout);
-        touchMoveResetTimeout = window.setTimeout(() => gridLayer.ontouchstart = startMovingMap, 900);
+        touchMoveResetTimeout = window.setTimeout(() => disableMapDrag= false, 200);
         setMapZoom(ev, ev.scale)
 
     });
@@ -127,7 +126,10 @@ function createOption(value, dispay) {
     return newOption;
 }
 
+function hideAllTooltips() {
 
+    document.getElementById("tooltip").classList.add("hidden");
+}
 
 function toggleGrid() {
 
