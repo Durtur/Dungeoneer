@@ -14,8 +14,11 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 }
 
 function userGesture() {
-    if (document.fullscreenEnabled)
-        document.body.requestFullscreen();
+    try {
+        if (document.fullscreenEnabled)
+            document.body.requestFullscreen();
+    } catch { }
+
 }
 
 document.addEventListener("DOMContentLoaded", () => {
