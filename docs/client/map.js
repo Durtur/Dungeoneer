@@ -1318,9 +1318,9 @@ function dragPawn(elmnt) {
 
             //Multiple move
             if (selectedPawns.length > 0) {
-                for (var i = 0; i < selectedPawns.length; i++) {
-
-                    var pwn = selectedPawns[i];
+                selectedPawns.forEach(pwn => {
+                    if (!hasPawnAccess(pwn))
+                        return;
                     pwn.style.top = (pwn.offsetTop - posY) + "px";
                     pwn.style.left = (pwn.offsetLeft - posX) + "px";
                     pwn.attached_objects.forEach(obj => {
@@ -1329,7 +1329,8 @@ function dragPawn(elmnt) {
                         if (obj.sound)
                             soundManager.adjustPlacement(obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
                     });
-                }
+                })
+
                 if (!STATIC_TOOLTIP) {
                     tooltip.style.top = (selectedPawns[0].offsetTop - posY - 40) + "px";
                     tooltip.style.left = (selectedPawns[0].offsetLeft - posX) + "px";
@@ -1445,6 +1446,7 @@ function dragPawn(elmnt) {
     }
 }
 
+
 function onPerspectiveChanged() {
     fovLighting.setPerspective();
     updateHowlerListenerLocation();
@@ -1533,8 +1535,7 @@ function clearSelectedPawns() {
 
 var pawnSelectNotify_timeout;
 function selectPawn(pawn) {
-    if (!hasPawnAccess(pawn))
-        return;
+
     var selected = isSelectedPawn(pawn);
     if (selected >= 0)
         return;

@@ -8,7 +8,15 @@ var connectionObj =
     host: 'dungeoneer-peer-server.herokuapp.com',
     port: 443
 }
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.addEventListener("click", () => userGesture());
+    document.addEventListener("touchstart", () => userGesture());
+}
 
+function userGesture() {
+    if (document.fullscreenEnabled)
+        document.body.requestFullscreen();
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('beforeunload', (event) => {
@@ -17,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     });
-    
+
 
 
     const hostId = getUrlParam('hostID');
@@ -58,7 +66,7 @@ function connectionParamsChanged(e) {
         connectButton.classList.add("hidden");
 }
 function connect() {
-    document.body.requestFullscreen()
+
     var connectButton = document.getElementById("connect_button");
     connectButton.classList.add("hidden");
     var hostId = document.getElementById("host_id_input").value;
