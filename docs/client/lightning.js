@@ -64,7 +64,7 @@ var fovLighting = function () {
         return activeViewerHasDarkvision;
     }
 
-    function scaleLayers(scale){
+    function scaleLayers(scale) {
         console.log(`Scale lighting layers: ${scale}`);
         fogOfWarLayerContext.setTransform(1, 0, 0, 1, 0, 0);
         fogOfWarLayerContext.scale(scale, scale);
@@ -83,14 +83,14 @@ var fovLighting = function () {
         fovLayer.setAttribute('width', canvasWidth);
         fovLayer.setAttribute('height', canvasHeight);
 
-     
+
         maskCanvas.setAttribute('width', canvasWidth);
         maskCanvas.setAttribute('height', canvasHeight);
-  
+
         fogOfWarSegmentLayerCanvas.setAttribute('width', canvasWidth);
         fogOfWarSegmentLayerCanvas.setAttribute('height', canvasHeight);
 
-        
+
         fillMapToBlack();
     }
     function fillMapToBlack() {
@@ -106,7 +106,7 @@ var fovLighting = function () {
         fogOfWarLayerContext.globalCompositeOperation = 'source-over';
         fogOfWarLayerContext.beginPath();
         fogOfWarLayerContext.fillStyle = fogColor;
-        fogOfWarLayerContext.fillRect(0, 0, gridLayer.width, gridLayer.height);
+        fogOfWarLayerContext.fillRect(0, 0, gridLayer.width * DEVICE_SCALE, gridLayer.height * DEVICE_SCALE);
         fogOfWarLayerContext.stroke();
 
         mapIsBlack = true;
@@ -150,7 +150,7 @@ var fovLighting = function () {
         maskCanvas.height = fovLayer.height;
 
         maskCtx.fillStyle = settings.fogOfWarHue;
-        maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
+        maskCtx.fillRect(0, 0, maskCanvas.width * DEVICE_SCALE, maskCanvas.height * DEVICE_SCALE);
 
         forcedPerspectiveOrigin.forEach(entry => draw(entry, true));
         maskCtx.globalCompositeOperation = 'destination-out';
@@ -223,7 +223,7 @@ var fovLighting = function () {
             //Radial gradient to limit vision field to segments.
 
             radgrad = fogOfWarLayerContext.createRadialGradient(
-                pawnX, pawnY, 0, pawnX, pawnY, sightRadius);
+                pawnX * DEVICE_SCALE, pawnY * DEVICE_SCALE, 0, pawnX * DEVICE_SCALE, pawnY * DEVICE_SCALE, sightRadius * DEVICE_SCALE);
 
             if (sightRadiusBright > 0 || activeViewerHasDarkvision) {
                 radgrad.addColorStop(0, 'rgba(0,0,0,1)');
@@ -291,11 +291,11 @@ var fovLighting = function () {
 
 
         context.beginPath();
-        context.moveTo(intersects[0].x, intersects[0].y);
+        context.moveTo(intersects[0].x * DEVICE_SCALE, intersects[0].y * DEVICE_SCALE);
 
         for (var i = 1; i < intersects.length; i++) {
             var intersect = intersects[i];
-            context.lineTo(intersect.x, intersect.y);
+            context.lineTo(intersect.x * DEVICE_SCALE, intersect.y * DEVICE_SCALE);
         }
 
     }
@@ -318,8 +318,8 @@ var fovLighting = function () {
             dataAccess.writeTempFile(fileName + ".png", bitmap, function (path) {
                 setMapForeground(path.replaceAll("\\", "/"), parseFloat(data.resolution.map_size.x) * originalCellSize);
 
-                var offsetX = foregroundCanvas.data_transform_x  + mapContainers[0].data_transform_x;
-                var offsetY = foregroundCanvas.data_transform_y   + mapContainers[0].data_transform_y;
+                var offsetX = foregroundCanvas.data_transform_x + mapContainers[0].data_transform_x;
+                var offsetY = foregroundCanvas.data_transform_y + mapContainers[0].data_transform_y;
                 var wallLines = [];
                 getLines(false, true);
                 if (wallLines.length > maxSegmentCount) {
@@ -711,7 +711,7 @@ var fovLighting = function () {
         fovSegmentLayerContext.beginPath();
         fovSegmentLayerContext.save();
 
-        fovSegmentLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
+        fovSegmentLayerContext.clearRect(0, 0, gridLayer.width * DEVICE_SCALE, gridLayer.height * DEVICE_SCALE);
         fovSegmentLayerContext.restore();
         if (!showVisibilityLayer && !currentlyDeletingSegments)
             return;
@@ -722,17 +722,17 @@ var fovLighting = function () {
             var seg = segments[i];
             if (currentlyDeletingSegments && pointIsOnLine(seg.a, seg.b, GLOBAL_MOUSE_POSITION, SEGMENT_SELECTION_MARGIN)) {
                 fovSegmentLayerContext.strokeStyle = "#662222";
-                fovSegmentLayerContext.lineWidth = 6;
+                fovSegmentLayerContext.lineWidth = 6 * DEVICE_SCALE;
                 console.log(seg)
 
             } else {
                 if (!showVisibilityLayer) continue;
                 fovSegmentLayerContext.strokeStyle = "#2222aa";
-                fovSegmentLayerContext.lineWidth = 5;
+                fovSegmentLayerContext.lineWidth = 5 * DEVICE_SCALE;
             }
             fovSegmentLayerContext.beginPath();
-            fovSegmentLayerContext.moveTo(seg.a.x, seg.a.y);
-            fovSegmentLayerContext.lineTo(seg.b.x, seg.b.y);
+            fovSegmentLayerContext.moveTo(seg.a.x * DEVICE_SCALE, seg.a.y * DEVICE_SCALE);
+            fovSegmentLayerContext.lineTo(seg.b.x * DEVICE_SCALE, seg.b.y * DEVICE_SCALE);
             fovSegmentLayerContext.stroke();
         }
     }
@@ -785,7 +785,7 @@ var fovLighting = function () {
     }
     function clearMask() {
         maskCtx.beginPath();
-        maskCtx.clearRect(0, 0, gridLayer.width, gridLayer.height);
+        maskCtx.clearRect(0, 0, gridLayer.width * DEVICE_SCALE, gridLayer.height * DEVICE_SCALE);
 
     }
     function attemptToDeleteSegment(linepoint) {
@@ -899,7 +899,7 @@ var fovLighting = function () {
         attemptToDeleteSegment: attemptToDeleteSegment,
         setPerspective: setPerspective,
         getSegments: getSegments,
-        scaleLayers:scaleLayers,
+        scaleLayers: scaleLayers,
         setSegments: setSegments,
         resizeCanvas: resizeCanvas,
         publishChanged: onSegmentsChanged

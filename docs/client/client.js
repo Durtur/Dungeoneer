@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     });
+    
+
 
     const hostId = getUrlParam('hostID');
     const name = localStorage.getItem('name');
@@ -43,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+
 })
 
 function connectionParamsChanged(e) {
@@ -55,6 +58,7 @@ function connectionParamsChanged(e) {
         connectButton.classList.add("hidden");
 }
 function connect() {
+    document.body.requestFullscreen()
     var connectButton = document.getElementById("connect_button");
     connectButton.classList.add("hidden");
     var hostId = document.getElementById("host_id_input").value;

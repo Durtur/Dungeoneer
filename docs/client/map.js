@@ -277,42 +277,43 @@ function onMonsterHealthChanged(arg) {
 }
 
 function setTool(event, source, toolIndex) {
-    event.stopImmediatePropagation();
-    for (var i = 0; i < toolbox.length; i++) {
-        toolbox[i] = false;
-    }
-    document.onmousemove = null;
-    document.onmouseup = null;
-    measurementTargetOrigin = null;
-    measurementTargetDestination = null;
-    measurementPaused = false;
-    console.log(`Set tool ${toolIndex}`, source.getAttribute("toggled"))
-    measurements.clearMeasurements();
-    if (source.getAttribute("toggled") === "false") {
-        source.setAttribute("toggled", "true");
 
-        gridLayer.onmousedown = measurements.startMeasuring;
-        gridLayer.ontouchstart = measurements.startMeasuring;
-        toolbox[toolIndex] = true;
-        gridLayer.style.cursor = "crosshair";
-        tooltip.classList.add("hidden");
-
-        if (toolIndex != 0) {
-            gridLayer.style.zIndex = 5;
+    window.setTimeout(() => {
+        for (var i = 0; i < toolbox.length; i++) {
+            toolbox[i] = false;
         }
-    } else {
-        source.setAttribute("toggled", "false");
-        gridLayer.style.cursor = "auto";
-        stopMeasuring(null, true);
-        //toggle button handler will then set to false
+        document.onmousemove = null;
+        document.onmouseup = null;
+        measurementTargetOrigin = null;
+        measurementTargetDestination = null;
+        measurementPaused = false;
+        console.log(`Set tool ${toolIndex}`, source.getAttribute("toggled"))
+        measurements.clearMeasurements();
+        if (source.getAttribute("toggled") === "true") {
 
-        window.setTimeout(() => {
-            source.setAttribute("toggled", "false");
+            gridLayer.onmousedown = measurements.startMeasuring;
+            gridLayer.ontouchstart = measurements.startMeasuring;
+            toolbox[toolIndex] = true;
+            gridLayer.style.cursor = "crosshair";
+            tooltip.classList.add("hidden");
+
+            if (toolIndex != 0) {
+                gridLayer.style.zIndex = 5;
+            }
+        } else {
+
+            gridLayer.style.cursor = "auto";
+            stopMeasuring(null, true);
             measurements.clearMeasurements();
             hideAllTooltips();
-        }, 300);
 
-    }
+        }
+
+
+    }, 300);
+
+
+
 }
 
 
@@ -605,7 +606,7 @@ function startMovingMap(e) {
     document.ontouchmove = dragMoveMap;
     document.onmousemove = dragMoveMap;
     function dragMoveMap(e) {
-        if (e.target != gridLayer || (e.touches && e.touches.length > 1))
+        if (disableMapDrag || e.target != gridLayer || (e.touches && e.touches.length > 1))
             return;
         draggingMap = true;
         e = e || window.event;
@@ -1060,7 +1061,7 @@ function stopMeasuring(event, ignoreClick) {
                 }
             }
             document.onmousedown = null;
-       
+
             resetGridLayer();
             currentlyMeasuring = false;
             currentlyAddingSegments = false;
@@ -1266,7 +1267,7 @@ function dragPawn(elmnt) {
                 offsetX = ((cellSize / 2) * elmnt.dnd_hexes);
                 offsetY = ((cellSize / 2) * elmnt.dnd_hexes);
                 originPosition = { x: parseFloat(elmnt.style.left), y: parseFloat(elmnt.style.top) };
-                measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
+                measurementsLayerContext.moveTo((originPosition.x + offsetX) * DEVICE_SCALE, (originPosition.y + offsetY) * DEVICE_SCALE);
                 showToolTip(e, "0 ft", "tooltip")
 
                 e.preventDefault();
@@ -1373,8 +1374,8 @@ function dragPawn(elmnt) {
             if (oldLine != null) {
                 measurements.eraseModeOn();
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(oldLine.a.x, oldLine.a.y);
-                measurementsLayerContext.lineTo(oldLine.b.x, oldLine.b.y);
+                measurementsLayerContext.moveTo(oldLine.a.x * DEVICE_SCALE, oldLine.a.y * DEVICE_SCALE);
+                measurementsLayerContext.lineTo(oldLine.b.x * DEVICE_SCALE, oldLine.b.y * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurements.eraseModeOff();
             } else {
@@ -1384,8 +1385,8 @@ function dragPawn(elmnt) {
 
             measurementsLayerContext.beginPath();
 
-            measurementsLayerContext.moveTo(originPosition.x + offsetX, originPosition.y + offsetY);
-            measurementsLayerContext.lineTo(elmnt.offsetLeft + offsetX, elmnt.offsetTop + offsetY);
+            measurementsLayerContext.moveTo((originPosition.x + offsetX) * DEVICE_SCALE, (originPosition.y + offsetY) * DEVICE_SCALE);
+            measurementsLayerContext.lineTo((elmnt.offsetLeft + offsetX) * DEVICE_SCALE, (elmnt.offsetTop + offsetY) * DEVICE_SCALE);
             measurementsLayerContext.stroke();
             var a = {
                 x: originPosition.x + offsetX,

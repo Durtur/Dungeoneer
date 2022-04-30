@@ -12,6 +12,14 @@ input {
     margin: 1em;
     text-align: center;
 }
+html{
+    position: fixed;
+    height:100vh;
+}
+body{
+    height:100vh;
+}
+
 
 .toolbar {
     position: absolute;
@@ -33,7 +41,7 @@ input {
     height: 83%;
 }
 
-.toolbar .toggle_button:hover, .toolbar .toggle_button[toggled="true"], .toolbar .togglable:hover, .toolbar .togglable[toggled="true"] {
+.toolbar .toggle_button[toggled="true"] {
     filter: contrast(40%) sepia(1) hue-rotate(20deg) saturate(1000%);
     background-color: transparent !important;
 }
@@ -58,10 +66,11 @@ input {
 .toolbar .toggle_button, .toolbar .togglable {
     width: 3.5em;
     height: 3.5em;
-    background-color: transparent;
+
     margin: auto;
     background-size: 71%;
     background-position: center !important;
+    background-color: transparent !important;
 
 }
 
