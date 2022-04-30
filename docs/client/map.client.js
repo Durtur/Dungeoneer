@@ -7,7 +7,7 @@ var settings = {
 };
 var module = {}, previewPlacementElement;
 var addingFromMainWindow = false;
-STATIC_TOOLTIP = true;
+
 const PLAYERS_ALL_OPTION = "Players";
 function require() {
     return null;
