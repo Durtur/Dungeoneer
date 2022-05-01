@@ -17,8 +17,10 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 function userGesture() {
     try {
+        document.body.scrollTo(0,1);
         if (document.fullscreenEnabled)
             document.documentElement.requestFullscreen();
+
     } catch { }
 
 }
@@ -287,12 +289,22 @@ function setState(message) {
             if (!token || !token[0])
                 return;
             var pawn = token[0];
+
+            cssifyMobTokens(message.data.map);
             refreshMobBackgroundImages(pawn, message.data)
             break;
 
 
     }
 
+}
+
+function cssifyMobTokens(tokenArray){
+    console.log(tokenArray)
+    for (const [key, value] of Object.entries(tokenArray)) {
+        tokenArray[key] = toBase64Url(value)
+    }
+    console.log(tokenArray)
 }
 
 function importSegments(segments) {
@@ -352,6 +364,9 @@ function addEffect(effObj) {
 }
 
 function addPawn(pawn) {
+    if(pawn.mobTokens){
+        cssifyMobTokens(pawn.mobTokens.map);
+    }
     pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
     if (!pawn.isPlayer) pawn.name = "???";
     generatePawns([pawn], !pawn.isPlayer, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
@@ -363,6 +378,7 @@ function importTokens(tokenStr) {
     var arr = (typeof tokenStr == "string") ? JSON.parse(tokenStr) : tokenStr;
 
     arr.forEach(pawn => {
+
         addPawn(pawn);
         onMonsterHealthChanged({
             dead: pawn.dead == "true",

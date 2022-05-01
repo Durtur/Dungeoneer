@@ -55,6 +55,7 @@ ipcRenderer.on('notify-map-tool-mob-changed', function (evt, arg) {
     list.forEach(param => {
         var pawn = pawns.monsters.find(x => x[0].index_in_main_window == param.rowIndex);
         if (!pawn) return;
+        pawn = pawn[0]
         pawn.setAttribute("data-mob_size", param.remaining);
 
         pawn.setAttribute("data-mob_dead_count", parseInt(param.dead));

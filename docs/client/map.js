@@ -2166,7 +2166,8 @@ var map = function () {
             if (ele)
                 pawns.players.splice(pawns.players.indexOf(ele), 1);
         }
-        element.parentNode.removeChild(element);
+        if (element.parentNode)
+            element.parentNode.removeChild(element);
         serverNotifier.notifyServer("pawn-removed", element.id)
     }
 
