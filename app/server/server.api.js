@@ -9,7 +9,8 @@ const constants = dataAccess.getConstantsSync();
 
 contextBridge.exposeInMainWorld('api', {
     util,
-    constants
+    constants,
+    messageWindow: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args }) },
 })
 
 

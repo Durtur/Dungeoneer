@@ -435,7 +435,7 @@ function setMapBackground(path, desiredWidth) {
     if (!path) {
         backgroundCanvas.style.backgroundImage = 'none';
         btn.innerHTML = "Image";
-        serverNotifier.notifyServer("background", null);
+        serverNotifier.notifyServer("background", serverNotifier.getBackgroundState());
         return;
     }
     if (settings.matchSizeWithFileName) {
