@@ -1,9 +1,8 @@
-const util = require("./js/util");
-const ElementCreator = require("./js/lib/elementCreator");
-const dataAccess = require("./js/dataaccess");
-const { ipcRenderer } = require('electron');
-const pathModule = require('path');
-const clientPath =  "https://www.ogreforge.me/Dungeoneer/client"
+
+const module = {}
+const util = window.api.util;
+const constants = window.api.constants;
+const clientPath = "https://www.ogreforge.me/Dungeoneer/client"
 const pendingStateRequests = [];
 const partyArray = [];
 const SERVER_EVENTS = {
@@ -22,7 +21,10 @@ var connectionObj =
 
 var clientFog = 2;
 loadParty();
-ipcRenderer.on("maptool-server-event", function (event, message) {
+
+
+
+window.subscribe.on("maptool-server-event", (event, message) => {
     console.log(event);
     console.log(message);
     if (message.event == 'maptool-state') {
@@ -44,6 +46,7 @@ ipcRenderer.on("maptool-server-event", function (event, message) {
     notifyPeers(message);
 
 });
+
 
 function notifyPeers(message) {
     peers.forEach(peer => {
@@ -299,7 +302,8 @@ function handleDataEvent(data, connection) {
         peers.onchange();
         appendServerLog(`${data.name} connected`, SERVER_EVENTS.CONNECTED);
         pendingStateRequests.push(peer);
-        ipcRenderer.send('request-maptool-state');
+        window.subscribe.requestMapToolState();
+    
 
     } else if (data.event == "object-moved") {
 

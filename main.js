@@ -185,7 +185,25 @@ ipcMain.on('open-server-window', function () {
     return;
   }
 
-  serverWindow = createBaseWindow({ title: "Server" }, '/app/server.html')
+  serverWindow = new BrowserWindow(
+    {
+      width: 820,
+      frame: false,
+      height: 850,
+      title: "Server",
+      icon: "./app/css/img/icon.png",
+      show: true,
+      webPreferences: {
+        preload: path.join(__dirname, '/app/server/server.api.js')
+      }
+
+    });
+  serverWindow.loadURL(url.format({
+    pathname: path.join(__dirname, '/app/server.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
+
 
   serverWindow.on('closed', function () {
     serverWindow = null;

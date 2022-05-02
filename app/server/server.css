@@ -1,9 +1,16 @@
 main {
-    -webkit-app-region:drag;
-    padding: 2em;
+    -webkit-app-region: drag;
+    padding: 0 2em;
     display: flex;
-    height: 100vh;
-    width: 90vw;
+    height: 100%;
+    overflow: hidden;
+    width: 80vw;
+
+    margin: auto;
+}
+body{
+    --main-text-color: #ffffff;
+    background-image:url('./bg.jpg') !important
 }
 
 button, input, p, .column  {
