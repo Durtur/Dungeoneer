@@ -65,7 +65,7 @@ let measurements = function () {
                                     Math.pow(lastMeasuredLineDrawn.a.x - lastMeasuredLineDrawn.b.x, 2) +
                                     Math.pow(lastMeasuredLineDrawn.a.y - lastMeasuredLineDrawn.b.y, 2) +
                                     Math.pow(lastMeasuredLineDrawn.a.z - lastMeasuredLineDrawn.b.z, 2)
-                                ) / cellSize * 5);
+                                ) / cellSize * UNITS_PER_GRID);
 
                         }
                         lastMeasuredLineDrawn = null;
@@ -235,7 +235,7 @@ let measurements = function () {
                 lastMeasuredCube.width = width;
                 lastMeasuredCube.height = height;
 
-                showToolTip(event, Math.abs(Math.round(width / cellSize * 5)) + " x " + Math.abs(Math.round(height / cellSize * 5)) + " ft", "tooltip")
+                showToolTip(event, Math.abs(Math.round(width / cellSize * UNITS_PER_GRID)) + " x " + Math.abs(Math.round(height / cellSize * UNITS_PER_GRID)) + ` ${MAP_UNIT}`, "tooltip")
                 attemptToSelectPawnsFromMeasurement();
             })
 
@@ -264,7 +264,7 @@ let measurements = function () {
                 measurementsLayerContext.rect((measurementOriginPosition.x - radius) * DEVICE_SCALE, (measurementOriginPosition.y - radius) * DEVICE_SCALE, radius * 2 * DEVICE_SCALE, radius * 2 * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurementsLayerContext.fill();
-                showToolTip(event, Math.round(radius / cellSize * 5) * 2 + " ft", "tooltip");
+                showToolTip(event, `${Math.round(radius / cellSize * UNITS_PER_GRID) * 2} ${MAP_UNIT}`, "tooltip");
                 lastMeasuredCube.x = measurementOriginPosition.x;
                 lastMeasuredCube.y = measurementOriginPosition.y;
 
@@ -301,7 +301,7 @@ let measurements = function () {
                 lastMeasuredSphere.x = measurementOriginPosition.x;
                 lastMeasuredSphere.y = measurementOriginPosition.y;
                 lastMeasuredSphere.radius = radius;
-                showToolTip(event, Math.round(radius / cellSize * 5) + " ft rad", "tooltip")
+                showToolTip(event, Math.round(radius / cellSize * UNITS_PER_GRID) + " ft rad", "tooltip")
                 attemptToSelectPawnsFromMeasurement();
             })
         }
@@ -342,7 +342,7 @@ let measurements = function () {
                     Math.sqrt(
                         Math.pow(midPoint.x - measurementOriginPosition.x, 2) +
                         Math.pow(midPoint.y - measurementOriginPosition.y, 2)
-                    ) / cellSize * 5) + " ft", "tooltip");
+                    ) / cellSize * UNITS_PER_GRID) + ` ${MAP_UNIT}`, "tooltip");
 
                 lastMeasuredCone.x = measurementOriginPosition.x;
                 lastMeasuredCone.y = measurementOriginPosition.y;

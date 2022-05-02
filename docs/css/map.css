@@ -95,6 +95,7 @@ body {
     background-color: transparent;
 }
 
+
 #line_tool, #line_fov_tool {
     background-image: url('../css/img/line.png');
     background-position: 0 2px;
@@ -237,6 +238,12 @@ li {
     margin: 0.5em;
 }
 
+.slider_cell_count_input{
+    height: 2em;
+    margin: auto;
+    width: 4em;
+}
+
 #label_for_effect_input_value_one {
     left: 5px;
 }
@@ -246,8 +253,7 @@ li {
 }
 
 .canvas_wrapper {
-  height:100vh;
-  width:100vw;
+    min-height: 100%;
 }
 
 .canvas_layer {
@@ -337,7 +343,6 @@ li {
     z-index: var(--z-index-tooltip);
     font-family: "bookSanity";
     font-size:1.25em;
-    pointer-events: none;
 }
 
 .hidden {
@@ -375,6 +380,13 @@ li {
     border-radius: 5px;
 }
 
+.sidebar .button_style_transparent{
+    border: 1px solid white;
+
+    color: white;
+    margin: 1em;
+}
+
 .mob_token {
     position: absolute;
     background-size: contain;
@@ -382,12 +394,26 @@ li {
     background-repeat: no-repeat;
 }
 
-.mob_token_dead>.dead_marker {
-    visibility: visible !important;
-}
 
-.mob_token>.dead_marker {
-    visibility: hidden;
+.mob_token_dead::after{
+    content: "Dead";
+    width: 100%;
+    height: 100%;
+    background-color: rgba(218, 0, 0, 0.632) !important;
+    position: absolute;
+    color: transparent;
+    top: 0;
+    left: 0;
+    background-position: center;
+    border-radius: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: "none";
+    background-image: url(tokens/dead.png);
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+}
 }
 
 .dead_marker {
@@ -532,6 +558,7 @@ li {
     width: 100px;
     height: 75px;
 }
+
 .pawn_accessed:hover, .pawn_selected {
     border: 2px dashed white;
 }

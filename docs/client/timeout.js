@@ -16,7 +16,7 @@ class Timeout {
                 window.clearInterval(cls.requestTimeout);
                 return;
             }
-            console.log("Connection ping");
+
             cls.connection.send({ event: "ping" });
             cls.ackRequested = true;
         }, this.POLL_SECONDS * 1000)
@@ -29,7 +29,7 @@ class Timeout {
     }
 
     ack() {
-        console.log("Connection ack");
+  
         this.ackRequested = false;
     }
 }

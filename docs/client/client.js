@@ -17,7 +17,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
 
 function userGesture() {
     try {
-        document.body.scrollTo(0,1);
+        document.body.scrollTo(0, 1);
         if (document.fullscreenEnabled)
             document.documentElement.requestFullscreen();
 
@@ -258,6 +258,20 @@ function setState(message) {
                 return;
             token[0].style.backgroundColor = message.data.color;
             break;
+        case "token-rotate-set":
+            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
+            if (!token || !token[0])
+                return;
+
+            setPawnRotate(token[0], message.data.deg)
+            break;
+        case "token-flying-height":
+            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
+            if (!token || !token[0])
+                return;
+
+                setFlyingHeight(token[0], message.data.height)
+            break;
         case "token-conditions":
             var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
             if (!token || !token[0])
@@ -285,13 +299,9 @@ function setState(message) {
             map.updateInitiative(message.data);
             break;
         case "mob-tokens-set":
-            var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
-            if (!token || !token[0])
-                return;
-            var pawn = token[0];
 
-            cssifyMobTokens(message.data.map);
-            refreshMobBackgroundImages(pawn, message.data)
+            setMobTokens(message.data);
+
             break;
 
 
@@ -299,7 +309,19 @@ function setState(message) {
 
 }
 
-function cssifyMobTokens(tokenArray){
+function setMobTokens(data) {
+    var token = pawns.players.find(x => x[0].id == data.id) || pawns.monsters.find(x => x[0].id == data.id);
+
+    if (!token || !token[0])
+        return;
+    console.log(token)
+    var pawn = token[0];
+    cssifyMobTokens(data.map);
+    refreshMobBackgroundImages(pawn, data);
+    resizePawns();
+}
+
+function cssifyMobTokens(tokenArray) {
     console.log(tokenArray)
     for (const [key, value] of Object.entries(tokenArray)) {
         tokenArray[key] = toBase64Url(value)
@@ -363,13 +385,23 @@ function addEffect(effObj) {
 
 }
 
-function addPawn(pawn) {
-    if(pawn.mobTokens){
-        cssifyMobTokens(pawn.mobTokens.map);
-    }
+async function addPawn(pawn) {
+
     pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
+    pawn.onAdded = function (newPawn) {
+
+        if (pawn.mobTokens)
+            setMobTokens(pawn.mobTokens);
+    }
     if (!pawn.isPlayer) pawn.name = "???";
-    generatePawns([pawn], !pawn.isPlayer, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+    await generatePawns([pawn], !pawn.isPlayer, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+
+    onMonsterHealthChanged({
+        dead: pawn.dead == "true",
+        healthPercentage: pawn.health_percentage,
+        index: pawn.index_in_main_window
+    });
+
     if (pawn.isPlayer)
         onPerspectiveChanged();
 }
@@ -377,14 +409,9 @@ function addPawn(pawn) {
 function importTokens(tokenStr) {
     var arr = (typeof tokenStr == "string") ? JSON.parse(tokenStr) : tokenStr;
 
-    arr.forEach(pawn => {
+    arr.forEach(async pawn => {
 
-        addPawn(pawn);
-        onMonsterHealthChanged({
-            dead: pawn.dead == "true",
-            healthPercentage: pawn.health_percentage,
-            index: pawn.index_in_main_window
-        });
+        await addPawn(pawn);
 
     });
     onPerspectiveChanged();

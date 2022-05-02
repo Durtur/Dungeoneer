@@ -1,6 +1,7 @@
 
 var cellSize = 35, originalCellSize = cellSize;
 const UNITS_PER_GRID = 5;
+const MAP_UNIT = "ft";
 const DEVICE_SCALE = window.devicePixelRatio;
 var STATIC_TOOLTIP = false;
 var canvasWidth = 400;
@@ -545,7 +546,7 @@ function refreshPawnToolTipsHelper(arr) {
 
         flyingHeight = parseInt(element.flying_height);
         element.title = element.dnd_name;
-        if (flyingHeight != 0) element.title += "\n Flying: " + flyingHeight + " ft"
+        if (flyingHeight != 0) element.title += `\n Flying: ${flyingHeight} ${MAP_UNIT}`
         if (element.dead == "true") {
             element.title += "\n Dead/Unconscious"
             element.classList.add("pawn_dead");
@@ -799,7 +800,7 @@ function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
 
     lastMeasuredLineDrawn.a = originPosition;
     lastMeasuredLineDrawn.b = destinationPoint;
-    showToolTip(event, measuredDistance + " ft", "tooltip");
+    showToolTip(event, measuredDistance + ` ${MAP_UNIT}`, "tooltip");
 }
 
 function showToolTip(event, text, tooltipId) {
@@ -834,8 +835,49 @@ function elevatePawn() {
 
 }
 
+function setPawnRotate(pawn, degrees) {
+    if (pawn.deg == null) {
+        return rotatePawn(pawn, degrees);
+    } else {
+        console.log(pawn.deg - degrees, pawn.deg, degrees)
+        return rotatePawn(pawn, degrees - pawn.deg);
+    }
+
+
+}
+
+function setFlyingHeight(pawn, height, evt) {
+    pawn.flying_height = height;
+
+    if (pawn.flying_height < 40 && pawn.flying_height > -40) {
+        if (pawn.flying_height == 0) {
+            pawn.style.filter = " drop-shadow(20px 20px 10px rgba(0,0,0,0.5));"
+        } else {
+            pawn.style.filter = "drop-shadow(" + pawn.flying_height + "px " + pawn.flying_height + "px 5px rgba(0,0,0,0.7))";
+        }
+
+    }
+
+    refreshMeasurementTooltip();
+
+    pawn.setAttribute("data-state_changed", 1);
+    refreshPawnToolTips();
+    if (serverNotifier.isServer()) {
+        serverNotifier.notifyServer("token-flying-height", { id: pawn.id, height: pawn.flying_height })
+    }
+    if (evt) {
+        showToolTip(evt, "Flying height: " + pawn.flying_height + ` ${MAP_UNIT}`, "tooltip2");
+
+        window.clearTimeout(hideTooltipTimer);
+        hideTooltipTimer = window.setTimeout(function () {
+            document.getElementById("tooltip2").classList.add("hidden");
+        }, 1000)
+    }
+
+}
 
 function rotatePawn(pawn, degrees) {
+    console.log(`Rotate ${degrees}`)
     if (pawn.deg == null) {
         pawn.deg = degrees;
     } else {
@@ -845,7 +887,10 @@ function rotatePawn(pawn, degrees) {
     var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo")
 
     element.style.setProperty("--pawn-rotate", pawn.deg + "deg");
+    if (serverNotifier.isServer()) {
+        serverNotifier.notifyServer("token-rotate-set", { id: pawn.id, deg: pawn.deg });
 
+    }
 }
 
 function enlargeReduceSelectedPawns(direction) {
@@ -923,10 +968,6 @@ function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     raiseConditionsChanged(pawnElement, originMainWindow);
 }
 
-function refreshMobSize(pawnElement) {
-    var sizePerCreature = pawnElement.dnd_hexes * cellSize;
-    pawnElement.style.width = sizePerCreature * parseInt(pawnElement.getAttribute("data-mob_size")) + "px";
-}
 
 function createMobToken(path, cssify) {
 
@@ -936,19 +977,17 @@ function createMobToken(path, cssify) {
     ele.style.backgroundImage = cssify ? Util.cssify(path) : path;
     ele.setAttribute("data-token_path", path);
 
-    var base = document.createElement("div");
-    base.classList = "dead_marker";
-    ele.appendChild(base);
     return ele;
 }
 
 function refreshMobBackgroundImages(pawn, bgArray) {
-    console.log(bgArray)
+
     var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
-    var mobSize = parseInt(pawn.getAttribute("data-mob_size")) + shouldBeDead;
+    var mobCount = parseInt(pawn.getAttribute("data-mob_size"));
+    var mobTotalSize = parseInt(pawn.getAttribute("data-mob_size")) + shouldBeDead;
 
     var tokenPaths = JSON.parse(pawn.getAttribute("data-token_paths"));
-    var mobsToAdd = mobSize - pawn.querySelectorAll(".mob_token").length;
+    var mobsToAdd = mobTotalSize - pawn.querySelectorAll(".mob_token").length;
 
     var container = pawn.querySelector(".mob_token_container");
     if (mobsToAdd < 0) {
@@ -981,13 +1020,12 @@ function refreshMobBackgroundImages(pawn, bgArray) {
     }
 
     var allTokens = [...pawn.querySelectorAll(".mob_token")];
-    if (allTokens.length == 0) return map.removePawn(pawn);
+
 
     if (serverNotifier.isServer()) {
         serverNotifier.mobTokensChanged(pawn);
     }
 
-    //Make them dead  
     var alivePawns = allTokens.filter(x => !x.classList.contains("mob_token_dead"));
 
     for (var i = 0; i < shouldBeDead; i++) {
@@ -997,7 +1035,7 @@ function refreshMobBackgroundImages(pawn, bgArray) {
         next.classList.add("mob_token_dead");
         var currLocation = next.getBoundingClientRect();
         next.parentNode.removeChild(next);
-
+        next.setAttribute("data-effect-classes", JSON.stringify(["mob_token_dead"]))
         next.style.transform = `rotate(${pawn.deg || 0}deg)`;
         next.dnd_width = pawn.dnd_hexes * 5;
         next.dnd_height = pawn.dnd_hexes * 5;
@@ -1009,13 +1047,13 @@ function refreshMobBackgroundImages(pawn, bgArray) {
 
     }
     effectManager.resizeEffects();
-    if ([...pawn.querySelectorAll(".mob_token")].length == 0) {
+    if (mobCount == 0) {
         return map.removePawn(pawn);
     }
 
     var deltaMax = 2;
-    var rowSize = Math.floor(Math.sqrt(mobSize));
-    var colSize = Math.ceil(Math.sqrt(mobSize));
+    var rowSize = Math.floor(Math.sqrt(mobTotalSize));
+    var colSize = Math.ceil(Math.sqrt(mobTotalSize));
     var stepBaseY = 80 / rowSize;
     var stepBaseX = 80 / colSize;
     var rowShift = rowSize * stepBaseX + 10;
@@ -1038,6 +1076,12 @@ function refreshMobBackgroundImages(pawn, bgArray) {
         return Math.floor(Math.random() * deltaMax) + 1 * (Math.random() > 0.5 ? 1 : -1);
     }
 }
+
+function refreshMobSize(pawnElement) {
+    var sizePerCreature = pawnElement.dnd_hexes * cellSize;
+    pawnElement.style.width = sizePerCreature * parseInt(pawnElement.getAttribute("data-mob_size")) + "px";
+}
+
 
 
 function stopMeasuring(event, ignoreClick) {
@@ -1122,19 +1166,19 @@ function refreshMeasurementTooltip() {
                 Math.pow(destinationPoint.x - originPosition.x, 2) +
                 Math.pow(destinationPoint.y - originPosition.y, 2) +
                 Math.pow(destinationPoint.z - originPosition.z, 2)
-            ) / cellSize * 5) + " ft";
+            ) / cellSize * 5) + ` ${MAP_UNIT}`;
 
     }
 
 }
 
 
-function removeDuplicatePawnNumbers(index) {
+function removeDuplicatePawnNumbers(index, newEleId) {
     var pawns = [...document.getElementsByClassName("pawn_numbered")];
-    console.log(`Remove duplicates ${index}`)
+    console.log(`Remove duplicates ${index}`, newEleId)
     pawns.forEach(function (pawn) {
-        if (pawn.index_in_main_window === index) {
-            console.log(pawn)
+        if (pawn.index_in_main_window === index && pawn.id != newEleId) {
+
             pawn.classList.remove("pawn_numbered");
             pawn.index_in_main_window = "";
         }
@@ -1222,7 +1266,7 @@ function dragPawn(elmnt) {
     var offsetX, offsetY;
 
     function dragMouseDown(e) {
-        console.log(e)
+
         if (elmnt.data_overload_click) return elmnt.data_overload_click(e);
         //Line tool
         if (toolbox[0]) {
@@ -1340,7 +1384,7 @@ function dragPawn(elmnt) {
                         Math.pow(selectedPawns[0].offsetLeft - originPosition.x, 2) +
                         Math.pow(selectedPawns[0].offsetTop - originPosition.y, 2)
                     ) / cellSize * 5);
-                tooltip.innerHTML = distance + " ft";
+                tooltip.innerHTML = distance + ` ${MAP_UNIT}`;
             } else {
 
                 if (!STATIC_TOOLTIP) {
@@ -1404,7 +1448,7 @@ function dragPawn(elmnt) {
                     Math.pow(elmnt.offsetLeft - originPosition.x, 2) +
                     Math.pow(elmnt.offsetTop - originPosition.y, 2)
                 ) / cellSize * 5);
-            tooltip.innerHTML = distance + " ft";
+            tooltip.innerHTML = distance + ` ${MAP_UNIT}`;
 
         })
 
@@ -1484,30 +1528,9 @@ function addPawnListeners() {
                 }
 
             } else if (event.ctrlKey) {
-                if (event.deltaY > 0) {
-                    event.target.flying_height += 5;
-                } else {
-                    event.target.flying_height -= 5;
-                }
-                if (event.target.flying_height < 40 && event.target.flying_height > -40) {
-                    if (event.target.flying_height == 0) {
-                        event.target.style.filter = " drop-shadow(20px 20px 10px rgba(0,0,0,0.5));"
-                    } else {
-                        event.target.style.filter = "drop-shadow(" + event.target.flying_height + "px " + event.target.flying_height + "px 5px rgba(0,0,0,0.7))";
-                    }
 
-                }
+                setFlyingHeight(event.target, event.target.flying_height + (event.deltaY > 0 ? 5 : -5), event);
 
-                refreshMeasurementTooltip();
-
-                event.target.setAttribute("data-state_changed", 1);
-                refreshPawnToolTips();
-                showToolTip(event, "Flying height: " + event.target.flying_height + " ft", "tooltip2");
-
-                window.clearTimeout(hideTooltipTimer);
-                hideTooltipTimer = window.setTimeout(function () {
-                    document.getElementById("tooltip2").classList.add("hidden");
-                }, 1000)
             }
         };
     }
@@ -1807,7 +1830,7 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             if (addingFromMainWindow || pawn.index_in_main_window) {
                 var index = pawn.index_in_main_window ? pawn.index_in_main_window : lastIndexInsertedMonsters++;
                 console.log(newPawn)
-                removeDuplicatePawnNumbers(index);
+                removeDuplicatePawnNumbers(index, id);
                 newPawn.setAttribute("index_in_main_window", index);
                 newPawn.index_in_main_window = index;
                 newPawn.classList.add("pawn_numbered");
@@ -1815,6 +1838,7 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
             }
 
             pawns.monsters.push([newPawn, pawn.name]);
+
         }
         if (settings.colorTokenBases) {
             newPawn.style.backgroundColor = pawn.color;
@@ -1825,12 +1849,6 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
         newPawn.dead = "false";
         newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
-
-        if (pawn.size.toLowerCase() == "small") {
-            newPawn.classList.add("pawn_small");
-        } else {
-            newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
-        }
 
         var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
         newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
@@ -1893,6 +1911,8 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
         if (serverNotifier.isServer()) {
             serverNotifier.notifyServer("token-add", await saveManager.exportPawn([newPawn, pawn.name]));
         }
+        if (pawn.onAdded)
+            pawn.onAdded(newPawn);
     };
     refreshPawns();
     resizePawns();
@@ -1910,8 +1930,6 @@ function resizeAndDrawGrid(timestamp, event) {
             return
         gridResize_Timestamp = timestamp;
     }
-
-    var fovLayerSegments = document.getElementById("fog_of_war_segments");
 
     canvasHeight = window.innerHeight * DEVICE_SCALE
     canvasWidth = window.innerWidth * DEVICE_SCALE
@@ -2157,6 +2175,7 @@ var map = function () {
             var found = pawns.monsters.find(x => x[0].id == element.id);
             if (found) {
                 var idx = pawns.monsters.indexOf(found);
+
                 pawns.monsters.splice(idx, 1);
             }
 

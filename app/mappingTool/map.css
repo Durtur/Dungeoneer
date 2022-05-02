@@ -394,12 +394,26 @@ li {
     background-repeat: no-repeat;
 }
 
-.mob_token_dead>.dead_marker {
-    visibility: visible !important;
-}
 
-.mob_token>.dead_marker {
-    visibility: hidden;
+.mob_token_dead::after{
+    content: "Dead";
+    width: 100%;
+    height: 100%;
+    background-color: rgba(218, 0, 0, 0.632) !important;
+    position: absolute;
+    color: transparent;
+    top: 0;
+    left: 0;
+    background-position: center;
+    border-radius: 50%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: "none";
+    background-image: url(tokens/dead.png);
+    opacity: 0.7;
+    width: 100%;
+    height: 100%;
+}
 }
 
 .dead_marker {

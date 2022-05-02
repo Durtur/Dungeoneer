@@ -258,16 +258,22 @@ class SaveManager {
     async exportMobTokens(pawn) {
         var allTokens = [...pawn.querySelectorAll(".mob_token")];
         var tokenPaths = allTokens.map(ele => ele.getAttribute("data-token_path"));
-        console.log(tokenPaths);
+ 
         var distinctTokens = [... new Set(tokenPaths)];
         var imgMap = {};
         for (var i = 0; i < distinctTokens.length; i++) {
             var basename = pathModule.basename(distinctTokens[i]);
             imgMap[basename] = await Util.toBase64(distinctTokens[i]);
         }
+        console.log({
+            map: imgMap,
+            tokens: tokenPaths.map(x => pathModule.basename(x)),
+            id:pawn.id
+        });
         return {
             map: imgMap,
-            tokens: tokenPaths.map(x => pathModule.basename(x))
+            tokens: tokenPaths.map(x => pathModule.basename(x)),
+            id:pawn.id
         };
     }
 
@@ -275,8 +281,9 @@ class SaveManager {
         var element = pawn[0];
         var img = element.querySelector(".token_photo");
 
-        var mobSize = element.getAttribute("data-mob_size");
+        var mobSizeAttr = element.getAttribute("data-mob_size") ;
         var deadCount = element.getAttribute("data-mob_dead_count");
+        var mobSize = mobSizeAttr == null ? null : parseInt(mobSizeAttr) - parseInt(deadCount); 
         var isMob = mobSize != null;
         if (img == null && !isMob)
             return null;
@@ -293,7 +300,7 @@ class SaveManager {
             dead: element.dead,
             isMob: isMob,
             mobSize: mobSize,
-            mobCountDead: deadCount,
+            mobCountDead: 0,
             mobTokens: isMob ? await this.exportMobTokens(element) : null,
             deg: element.deg,
             hexes: element.dnd_hexes,
