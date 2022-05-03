@@ -94,6 +94,10 @@ class SaveManager {
             background: data.backgroundBase64 ? pathModule.basename(settings.currentBackground) + ".webp" : null,
             overlay: data.mapOverlayBase64 ? pathModule.basename(settings.currentOverlay) + ".webp" : null
         }
+        data.backgroundSlide = {};
+        data.overlaySlide = {};
+        backgroundLoop.saveSlideState(data.backgroundSlide);
+        overlayLoop.saveSlideState(data.overlaySlide);
 
         fs.writeFile(path, JSON.stringify(data), (err) => {
             if (err) return console.log(err)
@@ -129,6 +133,7 @@ class SaveManager {
             fovLighting.importDungeondraftVttMap(path);
             return;
         } else if (util.isImage(path)) {
+            setMapOverlay(null);
             setMapBackground(null);
             setMapForeground(path.replaceAll("\\", "/"));
             this.removeExistingEffects();
@@ -206,11 +211,12 @@ class SaveManager {
                 data.overlayMap = await dataAccess.writeTempFile(`${getTempName("overlay", settings.currentOverlay)}${pathModule.extname(data.extensions.overlay)}`, Buffer.from(data.mapOverlayBase64, "base64"));
             settings.currentBackground = data.layer2Map;
             backgroundCanvas.heightToWidthRatio = data.layer2_height_width_ratio || backgroundCanvas.heightToWidthRatio;
-            setMapBackground(data.layer2Map + cacheBreaker, data.layer2_width);
-            setMapOverlay(data.overlayMap + cacheBreaker, data.mapOverlaySize);
+            setMapBackground(data.layer2Map ? data.layer2Map + cacheBreaker : null, data.layer2_width);
+            setMapOverlay(data.overlayMap ? data.overlayMap + cacheBreaker : null, data.mapOverlaySize);
 
             //Map slide
-            backgroundLoop.loadSlideState(data);
+            backgroundLoop.loadSlideState(data.backgroundSlide);
+            overlayLoop.loadSlideState(data.overlaySlide);
 
             saveSettings();
 

@@ -39,12 +39,12 @@ class SlideCanvas {
     }
 
     notifyChanges() {
-        if (this.onSlideChanged){
-            var obj ={};
+        if (this.onSlideChanged) {
+            var obj = {};
             this.saveSlideState(obj);
             this.onSlideChanged(obj);
         }
-         
+
     }
     setBackgroundSlide(animation) {
 
@@ -172,12 +172,14 @@ class SlideCanvas {
 
     }
     updateSlideSpeed() {
-        this.background_slide_speed =  this.menu.querySelector(".slide_speed_input").value;
+        this.background_slide_speed = this.menu.querySelector(".slide_speed_input").value;
         this.notifyChanges();
     }
 
     loadSlideState(data) {
-
+        if(!data){
+            data = {};
+        }
         if (data.bg_slide_type) {
             if (data.bg_slide_speed) {
                 this.background_slide_speed = data.bg_slide_speed;
@@ -185,8 +187,11 @@ class SlideCanvas {
                     this.menu.querySelector(".slide_speed_input").value = data.bg_slide_speed;
             }
             if (this.menu) {
+          
                 var button = [...this.menu.querySelectorAll(".background_slide_button")].find(x => x.getAttribute("data-slide") == data.bg_slide_type);
-                button.click();
+                console.log( [...this.menu.querySelectorAll(".background_slide_button")])
+                if (button)
+                    button.click();
             } else {
                 this.setBackgroundSlide(data.bg_slide_type);
             }
@@ -205,7 +210,6 @@ class SlideCanvas {
             }
             if (!this.bobAnimation) {
                 if (this.menu) {
-                    console.log(this.menu.querySelector(".toggle_bob_animation_button"))
                     this.menu.querySelector(".toggle_bob_animation_button").click();
                 } else {
                     this.toggleBobAnimation()
@@ -214,7 +218,6 @@ class SlideCanvas {
         } else {
             if (this.bobAnimation) {
                 if (this.menu) {
-                    console.log(this.menu.querySelector(".toggle_bob_animation_button"))
                     this.menu.querySelector(".toggle_bob_animation_button").click();
                 } else {
                     this.toggleBobAnimation()
