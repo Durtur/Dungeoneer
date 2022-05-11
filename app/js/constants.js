@@ -156,6 +156,10 @@ function loadDefaultSettings() {
       "diceRoller": true,
       "saveRoller": true,
       "mobController": false,
+    },
+    "coverImagePath": {
+      "name": "default.jpg",
+      "path": "./server/bg.jpg"
     }
   }
 }
