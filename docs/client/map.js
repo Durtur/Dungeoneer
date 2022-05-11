@@ -569,6 +569,7 @@ function onPawnsMoved() {
 function moveForeground(x, y) {
     foregroundCanvas.data_transform_x = x;
     foregroundCanvas.data_transform_y = y;
+
     foregroundCanvas.style.transform = `translate(${x}px, ${y}px)`
     serverNotifier.notifyServer("foreground-translate", { x: foregroundCanvas.data_transform_x, y: foregroundCanvas.data_transform_y });
 }
@@ -626,26 +627,14 @@ function startMovingMap(e) {
             pos2 = pos4 - clientY;
             pos3 = clientX;
             pos4 = clientY;
+            map.shiftView(-1 * pos1, -1 * pos2);
 
-            // Move bg
-            var container = mapContainers[0];
-            var bgX = container.data_transform_x;
-            var bgY = container.data_transform_y;
-            bgY -= pos2;
-            bgX -= pos1;
-            gridMoveOffsetX -= pos1;
-            gridMoveOffsetY -= pos2;
-            moveMap(bgX, bgY);
-            nudgePawns(-pos1, -pos2);
-            fovLighting.nudgeSegments(-pos1, -pos2);
-            fovLighting.drawSegments();
-            map.drawGrid();
-            window.requestAnimationFrame(refreshFogOfWar);
 
         })
 
     }
 }
+
 
 function resetZoom() {
     var currentScale = mapContainers[0].data_bg_scale;
@@ -2091,6 +2080,20 @@ var map = function () {
     }
 
 
+    function centerForegroundOnBackground() {
+
+        var bgRect = backgroundCanvas.getBoundingClientRect();
+        var foregroundRect = foregroundCanvas.getBoundingClientRect();
+        var mapContainer = mapContainers[0];
+        var middleX = (bgRect.width / mapContainer.data_bg_scale) / 2;
+        var middleY = (bgRect.height / mapContainer.data_bg_scale) / 2;
+
+        var newX = middleX - (foregroundRect.width / 2) / mapContainer.data_bg_scale;
+        var newY = middleY - (foregroundRect.height / 2) / mapContainer.data_bg_scale;
+        moveForeground(newX, newY);
+    }
+
+
     function clearGrid() {
 
 
@@ -2275,8 +2278,45 @@ var map = function () {
         if (arg.empty) return initiative.empty();
     }
 
+
+    function shiftView(x, y) {
+        // Move bg
+        var container = mapContainers[0];
+        var bgX = container.data_transform_x;
+        var bgY = container.data_transform_y;
+        bgY += y;
+        bgX += x;
+        gridMoveOffsetX += x;
+        gridMoveOffsetY += y;
+        moveMap(bgX, bgY);
+        nudgePawns(x, y);
+        fovLighting.nudgeSegments(x, y);
+        fovLighting.drawSegments();
+        map.drawGrid();
+        window.requestAnimationFrame(refreshFogOfWar);
+    }
+
+    function centerOn(element) {
+        var container = mapContainers[0];
+        var bgX = container.data_transform_x;
+        var bgY = container.data_transform_y;
+        var eleX = parseFloat(element.style.left);
+        var eleY = parseFloat(element.style.top);
+        var containerRect = foregroundCanvas.getBoundingClientRect();
+        var offsetX = containerRect.width / 2 / container.data_bg_scale;
+        var offsetY = containerRect.width / 2 / container.data_bg_scale;
+
+        var shiftAmountX = 0 - (eleX) + offsetX;
+        var shiftAmounyY = 0 - (eleY) + offsetY;
+
+        shiftView(shiftAmountX, shiftAmounyY);
+    }
+
     return {
         init: init,
+        shiftView: shiftView,
+        centerOn: centerOn,
+        centerForegroundOnBackground:centerForegroundOnBackground,
         updateInitiative: updateInitiative,
         setTokenConditions: setTokenConditions,
         snapToGrid: snapToGrid,

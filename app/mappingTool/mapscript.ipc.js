@@ -1,4 +1,5 @@
 
+
 var initialLoadComplete = false;
 
 ipcRenderer.on("load-map", function (evt, arg) {
@@ -15,7 +16,7 @@ ipcRenderer.on("get-state", (evt, arg) => {
 
 ipcRenderer.on("intiative-updated",
     function (evt, arg) {
-    
+
         map.updateInitiative(arg);
         serverNotifier.notifyServer("initiative", arg);
     })
@@ -30,6 +31,19 @@ ipcRenderer.on('notify-effects-changed', function (evt, arg) {
 ipcRenderer.on("notify-main-reloaded", function () {
     pawns.players.forEach(pawn => raiseConditionsChanged(pawn[0]))
 
+});
+
+ipcRenderer.on("maptool-server-state", function (evt, arg) {
+
+    var btn = document.getElementById("open_server_button");
+    var serverOnly = [...document.querySelectorAll("server_running_action")]
+    if (arg.running) {
+        btn.classList.add("server_running");
+        serverOnly.forEach(x => x.classList.remove("hidden"));
+    } else {
+        btn.classList.remove("server_running");
+        serverOnly.forEach(x => x.classList.add("hidden"));
+    }
 });
 
 ipcRenderer.on('condition-list-changed', function (evt, arg) {

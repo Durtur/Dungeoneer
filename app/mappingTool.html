@@ -77,18 +77,22 @@
                                         <li><a class="button_style toggle_button" toggled="true" toggleGroup=15
                                                 onclick="overlayLoop.toggleBackgroundSlide(this)" data-slide=""
                                                 title="Removes the background slide">No slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button" toggled="false"
-                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideX">Horizontal
                                                 slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button" toggled="false"
-                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideXReverse">Horizontal reverse slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button" toggled="false"
-                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideY">Vertical slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button" toggled="false"
-                                                toggleGroup=15 onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                        <li><a class="button_style toggle_button background_slide_button"
+                                                toggled="false" toggleGroup=15
+                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
                                                 data-slide="slideYReverse">Vertical
                                                 reverse slide</a></li>
 
@@ -114,7 +118,7 @@
                                         <li><a href="#" class="button_style" id="clear_foreground_button">Clear</a></li>
                                         <div class="menu_seperator"></div>
                                         <li><a href="#" class="button_style"
-                                                onclick="centerForegroundOnBackground()">Center on background</a></li>
+                                                onclick="map.centerForegroundOnBackground()">Center on background</a></li>
 
                                     </ul>
                                 </li>
@@ -420,6 +424,8 @@
 
         <div id="popup_menu_pawn" class="popup_menu hidden">
             <button class="button_style hidden" id="vision_button">Vision</button>
+            <button class="button_style server_running_action" id = "hide_in_clients_btn" title="Hide token in all connected player clients"
+                onclick="clientHideSelectedPawn()">Hide in clients</button>
             <button class="button_style" id="conditions_button">Conditions</button>
             <button class="button_style" onclick="enlargeReduceSelectedPawns(1)">Enlarge</button>
             <button class="button_style" onclick="enlargeReduceSelectedPawns(-1)">Reduce</button>

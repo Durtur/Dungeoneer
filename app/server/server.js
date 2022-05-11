@@ -10,6 +10,7 @@ const SERVER_EVENTS = {
     MOVE: 1
 }
 
+var peer;
 
 var connectionObj =
 {
@@ -22,7 +23,10 @@ var connectionObj =
 var clientFog = 2;
 loadParty();
 
-
+window.addEventListener('beforeunload', (event) => {
+    
+    window.subscribe.notifyServerState({ running: false })
+});
 
 window.subscribe.on("maptool-server-event", (event, message) => {
     console.log(event);
@@ -39,6 +43,9 @@ window.subscribe.on("maptool-server-event", (event, message) => {
     if (message.event == "fog-set") {
         if (clientFogUserSet) return;
         return setClientFog(message.data);
+    }
+    if (message.event == "request-state") {
+        window.subscribe.notifyServerState({ running: peer?.open })
     }
 
 
@@ -150,6 +157,7 @@ function createPeerElement(peer) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    window.subscribe.notifyServerState({ running: false })
     document.getElementById("init_server_button").onclick = () => initServer();
     document.getElementById("regenerate_host_id_button").onclick = (e) => document.getElementById("server_id").value = "";
     var id = localStorage.getItem('server_id');
@@ -222,7 +230,7 @@ function initServer() {
     showLoading("Contacting P2P server");
     var hostId = document.getElementById("server_id").value;
 
-    var peer = hostId ? new Peer(hostId, connectionObj) : new Peer(connectionObj);
+    peer = hostId ? new Peer(hostId, connectionObj) : new Peer(connectionObj);
     peer.on('open', function (id) {
 
         document.getElementById("server_id").value = id;
@@ -233,13 +241,14 @@ function initServer() {
         document.getElementById("init_server_button").classList.add("hidden");
         appendServerLog("Server started", SERVER_EVENTS.CONNECTED);
         document.getElementById("status_text").classList.add("hidden");
-
+        window.subscribe.notifyServerState({ running: true });
         hideLoading();
     });
 
     peer.on('disconnected', function () {
         console.log("Peer disconnected")
         peer.reconnect();
+        window.subscribe.notifyServerState({ running: false });
         clearError();
     });
     peer.on('error', function (err) {
@@ -247,7 +256,7 @@ function initServer() {
         showError(err);
         [...document.querySelectorAll(".server_active_container")].forEach(x => x.classList.add("hidden"));
         [...document.querySelectorAll(".server_inactive_container")].forEach(x => x.classList.remove("hidden"));
-
+        window.subscribe.notifyServerState({ running: false });
         document.getElementById("init_server_button").innerHTML = "Retry";
     });
 
@@ -303,7 +312,7 @@ function handleDataEvent(data, connection) {
         appendServerLog(`${data.name} connected`, SERVER_EVENTS.CONNECTED);
         pendingStateRequests.push(peer);
         window.subscribe.requestMapToolState();
-    
+
 
     } else if (data.event == "object-moved") {
 

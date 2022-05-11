@@ -136,7 +136,7 @@
 .modal_image_preview {
     position: absolute;
     display: flex;
-    z-index: 9999;
+    z-index: 9999999999999;
     flex-flow: column nowrap;
     pointer-events: none;
 }

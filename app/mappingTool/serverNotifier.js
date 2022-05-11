@@ -11,7 +11,7 @@ var serverNotifier = function () {
 
         ipcRenderer.send("maptool-server-event", {
             event: "maptool-state", data: {
-                tokens: await getTokensForExport(),
+                tokens: (await getTokensForExport(false)),
                 backgroundLoop: bgState,
                 overlayLoop: overlayState,
                 foreground: getForegroundState(),
@@ -76,13 +76,17 @@ var serverNotifier = function () {
     }
 
 
-    async function getTokensForExport() {
+    async function getTokensForExport(includeHidden) {
         var tokens = [];
         for (var i = 0; i < pawns.monsters.length; i++) {
+            if (!includeHidden && pawns.monsters[i][0].client_hidden)
+                continue;
             tokens.push(await saveManager.exportPawn(pawns.monsters[i]))
         }
         for (var i = 0; i < pawns.players.length; i++) {
-            tokens.push(await saveManager.exportPawn(pawns.players[i]))
+            if (!includeHidden && pawns.players[i][0].client_hidden)
+                continue;
+            tokens.push(await saveManager.exportPawn(pawns.players[i], includeHidden))
         }
 
         return tokens;
@@ -107,8 +111,13 @@ var serverNotifier = function () {
         notifyServer("mob-tokens-set", await saveManager.exportMobTokens(mobElement))
 
     }
+
+    function serverIsRunning(){
+        return document.getElementById("open_server_button").classList.contains("server_running");
+    }
     return {
         notifyServer: notifyServer,
+        serverIsRunning:serverIsRunning,
         sendState: sendState,
         getConditionsForExport: getConditionsForExport,
         getForegroundState: getForegroundState,

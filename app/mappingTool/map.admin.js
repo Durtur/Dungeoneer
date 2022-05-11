@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSettings();
     updateHowlerListenerLocation();
     window.api.messageWindow('mainWindow', 'maptool-initialized')
-
+    serverNotifier.notifyServer("request-state", null);
     var bgSize = parseInt($("#foreground").css("background-size"));
     var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
@@ -257,19 +257,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-function centerForegroundOnBackground() {
 
-    var bgRect = backgroundCanvas.getBoundingClientRect();
-    var foregroundRect = foregroundCanvas.getBoundingClientRect();
-    var mapContainer = mapContainers[0];
-    var middleX = (bgRect.width / mapContainer.data_bg_scale) / 2;
-    var middleY = (bgRect.height / mapContainer.data_bg_scale) / 2;
 
-    var newX = middleX - (foregroundRect.width / 2) / mapContainer.data_bg_scale;
-    var newY = middleY - (foregroundRect.height / 2) / mapContainer.data_bg_scale;
-    moveForeground(newX, newY);
+async function clientHideSelectedPawn() {
+    var hide = selectedPawns[0].client_hidden;
+    hide = !hide;
+    selectedPawns.forEach(async pawn => {
+        if (pawn.client_hidde == hide)
+            return;
+        pawn.client_hidden = hide;
+        if (pawn.client_hidden) {
+            pawn.classList.add("token_client_hidden");
+            serverNotifier.notifyServer("pawn-removed", pawn.id);
+        } else {
+            pawn.classList.remove("token_client_hidden");
+            serverNotifier.notifyServer("token-add", await saveManager.exportPawn([pawn, pawn.dnd_name]));
+        }
+    });
 }
-
 
 function resetEverything() {
     if (currentlyDeletingSegments)
@@ -868,6 +873,12 @@ function showPopupMenuPawn(x, y) {
         killButton.innerHTML = "Revive";
     } else {
         killButton.innerHTML = "Kill";
+    }
+    var showHideBtn = document.getElementById("hide_in_clients_btn");
+    if (selectedPawns[0].client_hidden) {
+        showHideBtn.innerHTML = "Reveal in clients";
+    } else {
+        showHideBtn.innerHTML = "Hide in clients";
     }
     document.getElementById("background_color_button_change_pawn").value = selectedPawns[0].backgroundColor;
 

@@ -265,6 +265,13 @@ ipcMain.on('request-maptool-state', function () {
     maptoolWindow.webContents.send("get-state");
 });
 
+ipcMain.on('maptool-server-state', function (sender, arg) {
+
+  if (maptoolWindow)
+    maptoolWindow.webContents.send("maptool-server-state", arg);
+});
+
+
 ipcMain.on('open-settings-window', function () {
   openSettingsWindow();
 });

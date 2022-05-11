@@ -310,16 +310,18 @@ var fovLighting = function () {
         dataAccess.readFile(path, function (data) {
 
             var wallArray = data.line_of_sight;
-
+  
             var dungeonDraftCellSize = originalCellSize;//parseInt(data.resolution.pixels_per_grid);
+            console.log(dungeonDraftCellSize)
             var imageData = data.image;
             var bitmap = Buffer.from(imageData, "base64");
             var fileName = pathModule.basename(path);
             dataAccess.writeTempFile(fileName + ".png", bitmap, function (path) {
                 setMapForeground(path.replaceAll("\\", "/"), parseFloat(data.resolution.map_size.x) * originalCellSize);
 
-                var offsetX = foregroundCanvas.data_transform_x + mapContainers[0].data_transform_x;
-                var offsetY = foregroundCanvas.data_transform_y + mapContainers[0].data_transform_y;
+                var offsetX = (foregroundCanvas.data_transform_x || 0) + mapContainers[0].data_transform_x;
+                var offsetY = (foregroundCanvas.data_transform_y || 0) + mapContainers[0].data_transform_y;
+          
                 var wallLines = [];
                 getLines(false, true);
                 if (wallLines.length > maxSegmentCount) {
@@ -877,6 +879,10 @@ var fovLighting = function () {
 
     }
 
+    function getPerspective(){
+        return forcedPerspectiveOrigin[0];
+    }
+
     return {
         importDungeondraftWalls: importDungeondraftWalls,
         clearFogOfWar: clearFogOfWar,
@@ -898,6 +904,7 @@ var fovLighting = function () {
         addSphereSegment: addSphereSegment,
         attemptToDeleteSegment: attemptToDeleteSegment,
         setPerspective: setPerspective,
+        getPerspective:getPerspective,
         getSegments: getSegments,
         scaleLayers: scaleLayers,
         setSegments: setSegments,

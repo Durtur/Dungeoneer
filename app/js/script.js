@@ -214,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       combatLoader.clearSelection();
       hideFrame('search');
-      hideAllFloatingInputs();
+
       hideAllPopups();
       combatLoader.closeLog();
     } else if (e.key.toLowerCase() == "e" && e.ctrlKey) {

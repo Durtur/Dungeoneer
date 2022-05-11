@@ -155,7 +155,7 @@ class NpcGenerator {
         } else if (key == "creature") {
             var names = generatedNameTextField.innerHTML.split(" ");
             if (names[1] == null) names[1] = "";
-            var values = generateNPC(data, gender, { male: [names[0]], lastnames: [names[1]], female: [names[0]], lastnames: [names[1]] }, type)
+            var values = this.generateNPC(data, gender, { male: [names[0]], lastnames: [names[1]], female: [names[0]], lastnames: [names[1]] }, type)
             if (values.age)
                 values.profession += ` (${values.age})`;
             replaceDescription(values);

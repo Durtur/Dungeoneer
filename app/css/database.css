@@ -40,7 +40,7 @@ html {
 }
 
 .addRow_creatures .row:first-child input {
-  background-color: #451A17;
+  background-color: var(--main-color);
   color: white;
 }
 

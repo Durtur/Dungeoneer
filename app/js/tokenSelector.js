@@ -123,6 +123,7 @@ class TokenSelector {
 
         var suggestedFiles = [];
         var nameFiltered, typeFiltered;
+        var allFiles = [...files];
         if (this.monsterInfo) {
             var monName = this.monsterInfo?.name?.toLowerCase();
             if (monName) {
@@ -160,14 +161,14 @@ class TokenSelector {
 
         const scrollTakeCount = 60;
 
-        var destroyHandler = scrollOnDemand(restContainer, files);
+        var destroyHandler = scrollOnDemand(restContainer, allFiles);
         
         searchInp.oninput = () => {
             window.clearTimeout(searchInp.timeout);
             searchInp.timeout = window.setTimeout(()=> {
                 var inputSplt = searchInp.value.split(" ");
 
-                var filtered = !searchInp.value ? files:  files.filter(x => {
+                var filtered = !searchInp.value ? allFiles:  allFiles.filter(x => {
                     var fileName = basename(x).deserialize().toLowerCase();
                     return inputSplt.find(x => fileName.includes(x));
     

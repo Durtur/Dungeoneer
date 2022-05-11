@@ -68,6 +68,14 @@ body {
     background-size: 200%;
 }
 
+.server_running{
+    background-color:var(--main-success-color-lighter) !important;
+}
+
+.token_client_hidden{
+    opacity:0.4;
+}
+
 .toggle_mute_button[toggled="false"] {
     background-image: url(../css/img/sound-off.png) !important;
 }

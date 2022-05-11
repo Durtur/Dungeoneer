@@ -9,11 +9,14 @@ var connectionObj =
     port: 443
 }
 
+
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     document.addEventListener("click", () => userGesture());
     document.addEventListener("touchstart", () => userGesture());
     STATIC_TOOLTIP = true;
 }
+
+var centerPawnFlag = false;
 
 function userGesture() {
     try {
@@ -34,7 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    const hostId = getUrlParam('hostID');
+    var hostId = getUrlParam('hostID');
+    if (!hostId) hostId = localStorage.getItem("hostId");
     const name = localStorage.getItem('name');
     var nameInput = document.getElementById("user_name_input");
     nameInput.value = name || "";
@@ -48,7 +52,10 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem('name', nameInput.value);
         connectionParamsChanged(e);
     }
-    hostIdInput.oninput = connectionParamsChanged;
+    hostIdInput.oninput = (e) => {
+        localStorage.setItem('hostId', hostIdInput.value);
+        connectionParamsChanged(e);
+    };
 
     connectButton.onclick = () => connect();
 
@@ -270,7 +277,7 @@ function setState(message) {
             if (!token || !token[0])
                 return;
 
-                setFlyingHeight(token[0], message.data.height)
+            setFlyingHeight(token[0], message.data.height)
             break;
         case "token-conditions":
             var token = pawns.players.find(x => x[0].id == message.data.id) || pawns.monsters.find(x => x[0].id == message.data.id);
@@ -346,6 +353,8 @@ function tokenAccessChanged(access) {
     TOKEN_ACCESS = access;
     addPawnListeners();
     createPerspectiveDropdown();
+    if (centerPawnFlag)
+        centerCurrentViewer();
 }
 
 function moveObjects(arr) {
@@ -402,8 +411,14 @@ async function addPawn(pawn) {
         index: pawn.index_in_main_window
     });
 
-    if (pawn.isPlayer)
+    if (pawn.isPlayer) {
+        if (centerPawnFlag){
+            centerPawnFlag = false;
+            centerCurrentViewer();
+        }
+
         onPerspectiveChanged();
+    }
 }
 
 function importTokens(tokenStr) {
@@ -447,6 +462,8 @@ function setLoading(loading) {
     } else {
         document.getElementById("loading").classList.add("hidden");
         document.getElementById("map_main").classList.remove("hidden");
+        centerPawnFlag = true;
+
     }
 }
 

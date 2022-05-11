@@ -63,7 +63,7 @@ body{
     border: none;
 }
 
-.toolbar .toggle_button, .toolbar .togglable {
+.toolbar .toggle_button, .toolbar .togglable, .toolbar .button_style {
     width: 3.5em;
     height: 3.5em;
 

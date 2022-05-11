@@ -16,7 +16,8 @@ contextBridge.exposeInMainWorld('api', {
 
 contextBridge.exposeInMainWorld('subscribe', {
     on: (event, handler) => ipcRenderer.on(event, handler),
-    requestMapToolState : () => ipcRenderer.send('request-maptool-state')
+    requestMapToolState : () => ipcRenderer.send('request-maptool-state'),
+    notifyServerState : (args) => { console.log(args); ipcRenderer.send('maptool-server-state', args)}
 })
 
 contextBridge.exposeInMainWorld('dataAccess', {

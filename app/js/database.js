@@ -2533,7 +2533,7 @@ function saveHomebrew() {
       }
 
       currentEntry = null;
-      hide(`addframe_${tab}`)
+      hide(`add${tab}`)
       $("#add" + tabElementNameSuffix + ">.edit_header_name").html("New " + (tab.charAt(tab.length - 1) === "s" ? tab.substring(0, tab.length - 1) : tab));
       loadAll();
 

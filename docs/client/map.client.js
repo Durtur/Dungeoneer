@@ -155,6 +155,12 @@ function toggleGrid() {
 }
 
 
+function centerCurrentViewer(){
+    var ele = fovLighting.getPerspective();
+    if(ele)
+        map.centerOn(ele);
+}
+
 
 var Util = function () {
 

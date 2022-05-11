@@ -312,7 +312,7 @@ module.exports = function () {
 
     function getSettings(callback) {
         fs.readFile(pathModule.join(settingsPath, "settings.json"), function (err, data) {
-           
+
             if (err) {
                 data = loadDefaultSettings();
                 initializeData();
@@ -329,7 +329,7 @@ module.exports = function () {
         });
     }
     function getTokenPathSync(creatureId) {
-        var fileEndings = [".png", ".jpg", ".gif"];
+        var fileEndings = [".webp", ".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];
             var path = pathModule.join(defaultTokenPath, creatureId + fileEnding);
@@ -341,7 +341,7 @@ module.exports = function () {
     }
 
     async function getTokenPath(creatureId) {
-        var fileEndings = [".png", ".jpg", ".gif"];
+        var fileEndings = [".webp", ".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];
             var path = pathModule.join(defaultTokenPath, creatureId + fileEnding);
@@ -360,12 +360,13 @@ module.exports = function () {
             fs.createReadStream(currentPath).pipe(fs.createWriteStream(pathModule.resolve(savePath)));
             return;
         }
+        savePath = pathModule.join(defaultTokenPath, tokenName + ".webp");
         let buffer = await sharp(currentPath)
             .resize(
                 {
                     width: baseTokenSize
                 })
-            .png()
+            .toFormat("webp")
             .toBuffer();
         if (trim)
             await sharp(buffer)
