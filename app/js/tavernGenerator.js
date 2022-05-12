@@ -27,7 +27,7 @@ class TavernGenerator {
         document.getElementById("embed_tavern_button").addEventListener("click", (e) => {
             getEmbeddable(cls.resultContainer, (resText) => {
                 clipboard.writeText(resText);
-                util.showSuccessMessage("Copied embeddable tavern");
+                util.showSuccessMessage("Copied HTML embeddable tavern");
             })
         });
         document.getElementById("delete_tavern_button").addEventListener("click", function (e) {

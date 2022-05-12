@@ -33,7 +33,7 @@ class ShopGenerator {
         document.getElementById("embed_shop_button").addEventListener("click", (e) => {
             getEmbeddable(cls.resultContainer, (resText) => {
                 clipboard.writeText(resText);
-                util.showSuccessMessage("Copied embeddable shop");
+                util.showSuccessMessage("Copied HTML embeddable shop");
             })
         });
         document.getElementById("delete_shop_button").addEventListener("click", function (e) {

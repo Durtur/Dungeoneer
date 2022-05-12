@@ -765,7 +765,9 @@ h1 {
 .mobcontroller_row input {
   height: 40px;
 }
-
+.mobcontroller_row label{
+  color:black;
+}
 .mobcontroller_label {
   font-size: 12px;
   padding-top: 3px;
@@ -1408,6 +1410,9 @@ button:disabled {
   margin: 5px;
   font-family: var(--basic-font);
   white-space: normal;
+}
+.secondarty_tooltip label{
+  color:white;
 }
 
 .secondary_tooltipped:hover .secondary_tooltip {

@@ -84,10 +84,12 @@ html {
   #encounter_cr_slider {
     width: 212px;
   }
+
   .encounter_table_tools>.chosen-container {
-    margin: 0!important;
+    margin: 0 !important;
     width: 30% !important;
   }
+
   .encounter_table_tools {
     display: flex;
     flex-flow: row nowrap !important;
@@ -165,8 +167,13 @@ html {
 }
 
 .encounter_limit_values {
-  padding-left: 10px;
-  padding-top: 20px;
+  padding: 0.5em;
+  background-color: white;
+  border-radius: var(--rounded-corners);
+  margin: 0.75em;
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+  margin-top: 1.25em;
+  --main-text-color:black;
 }
 
 .encounter_limit_values>div>label:nth-child(2) {
@@ -505,6 +512,7 @@ html {
   font-family: var(--basic-font);
   text-align: center;
   font-size: 1em;
+  color: var(--main-text-color);
 }
 
 .monster_stat_column {
@@ -666,10 +674,11 @@ html {
   opacity: 0.7;
 }
 
-.listWrap .traybutton{
+.listWrap .traybutton {
   height: 3em;
   width: 3em;
 }
+
 .add_table_header {
   box-sizing: border-box;
   font-size: 14px;
@@ -769,6 +778,7 @@ html {
   border-top-right-radius: var(--rounded-corners);
   border-bottom-right-radius: var(--rounded-corners);
 }
+
 .jsonTableControl:first {
   margin-left: 100px;
 }
@@ -875,11 +885,11 @@ html {
   border: 2px dotted var(--main-emphasis-color);
 }
 
-.attunement_row>.awesomplete{
-  flex:1;
-  margin-left:1em;
+.attunement_row>.awesomplete {
+  flex: 1;
+  margin-left: 1em;
 }
 
 .chosen-search-input {
-  filter:none !important;
+  filter: none !important;
 }

@@ -422,7 +422,6 @@ li {
     width: 100%;
     height: 100%;
 }
-}
 
 .dead_marker {
     background-color: rgba(218, 0, 0, 0.632) !important;
@@ -714,7 +713,7 @@ li {
 #add_pawn_selected_row{
     margin:1em;
     padding:0.25em;
-    background-color: white
+    background-color: white;
     border-radius: var(--rounded-corners);
     display:flex;
     justify-content: space-around;

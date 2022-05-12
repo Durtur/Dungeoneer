@@ -50,7 +50,7 @@
     background-color: white;
   }
   
-  #combatMain .die_d20_normal , .statblock_control_buttons .die_d20_normal {
+  #combatMain .die_d20_normal , .statblock_control_buttons .die_d20_normal, .mobcontroller_row .die_d20_normal {
     background-image: url("./themes/darkmode/d20normal.png") !important;
   }
  
