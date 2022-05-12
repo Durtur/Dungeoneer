@@ -6,7 +6,7 @@ var settings = {
     fogOfWarHue: "#000000"
 };
 var module = {}, previewPlacementElement;
-var addingFromMainWindow = false;
+
 
 const PLAYERS_ALL_OPTION = "Players";
 function require() {
@@ -162,13 +162,19 @@ function centerCurrentViewer(){
 }
 
 
+
 var Util = function () {
 
     function hexToRGBA(hex, opacity) {
         return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
     }
+
+    function cssify(path) {
+        return "url('" + path.replace(/\\/g, "/") + "')";
+    }
     return {
-        hexToRGBA: hexToRGBA
+        hexToRGBA: hexToRGBA,
+        cssify:cssify
     }
 }();
 

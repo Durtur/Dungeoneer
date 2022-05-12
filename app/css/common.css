@@ -942,6 +942,9 @@ input, textarea, .cell_row {
 .notepad_container {
   border-radius: 10px;
 }
+.notepad_container p{
+  color:black;
+}
 
 .text_left {
   text-align: left;
@@ -2016,12 +2019,16 @@ input[data-before_label]:before {
 }
 
 .loading_title {
-  color: var(--inverse-text-color);
+  color: var(--text-on-foreground-color);
   margin: 0;
 }
 
 .loading_text {
-  color: var(--inverse-text-color);
+  color: var(--text-on-foreground-color);
+}
+
+.ss-main p{
+  color:#666;
 }
 
 .loading_ele {

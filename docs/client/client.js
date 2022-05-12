@@ -402,8 +402,9 @@ async function addPawn(pawn) {
         if (pawn.mobTokens)
             setMobTokens(pawn.mobTokens);
     }
+    pawn.spawnPoint =  map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
     if (!pawn.isPlayer) pawn.name = "???";
-    await generatePawns([pawn], !pawn.isPlayer, map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y));
+    await generatePawns([pawn], !pawn.isPlayer);
 
     onMonsterHealthChanged({
         dead: pawn.dead == "true",

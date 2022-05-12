@@ -762,10 +762,10 @@ function killOrRevivePawn() {
 }
 
 
-var addingFromMainWindow = false;
+
 function startAddingFromQueue() {
     var tooltip = document.getElementById("tooltip");
-    addingFromMainWindow = true;
+
     tooltip.classList.remove("hidden");
     tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window;
 
@@ -790,7 +790,9 @@ function startAddingFromQueue() {
         var offset = (radiusOfPawn * cellSize) / 2;
         var popped = pawns.addQueue[0];
         pawns.addQueue.splice(0, 1);
-        var pawn = await generatePawns([popped], true, { x: e.clientX - offset, y: e.clientY - offset });
+        popped.index_in_main_window = lastIndexInsertedMonsters++;
+        popped.spawnPoint = { x: e.clientX - offset, y: e.clientY - offset };
+        await generatePawns([popped], true);
 
         requestNotifyUpdateFromMain();
 
@@ -813,7 +815,7 @@ function startAddingFromQueue() {
         gridLayer.style.cursor = "auto";
         document.onmousemove = null;
         tooltip.classList.add("hidden");
-        addingFromMainWindow = false;
+
     }
 }
 

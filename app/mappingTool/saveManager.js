@@ -98,7 +98,7 @@ class SaveManager {
         data.overlaySlide = {};
         backgroundLoop.saveSlideState(data.backgroundSlide);
         overlayLoop.saveSlideState(data.overlaySlide);
-
+  
         fs.writeFile(path, JSON.stringify(data), (err) => {
             if (err) return console.log(err)
         });
@@ -218,6 +218,10 @@ class SaveManager {
             backgroundLoop.loadSlideState(data.backgroundSlide);
             overlayLoop.loadSlideState(data.overlaySlide);
 
+            if(data.effects){
+                console.log(data.effects)
+                data.effects.forEach(eff => this.restoreEffect(eff));
+            }
             saveSettings();
 
             function getTempName(name, current) {
@@ -234,7 +238,7 @@ class SaveManager {
 
     }
     async exportEffect(effect) {
-        console.log(effect)
+
         var obj = {
             angle: effect.getAttribute("data-deg"),
             classes: [],

@@ -888,7 +888,7 @@ function enlargeReduceSelectedPawns(direction) {
 }
 
 function enlargeReducePawn(element, direction) {
-    console.log(`Enlarge reduce ${direction}`, element)
+ 
     var sizeIndex = creaturePossibleSizes.sizes.indexOf(element.dnd_size);
     var currentSize = creaturePossibleSizes.sizes[sizeIndex];
     if (direction > 0) {
@@ -1779,7 +1779,7 @@ async function setPawnMobBackgroundImages(pawn, path, tokens) {
 
 var lastIndexInsertedMonsters = 1;
 var lastColorIndex = 0;
-async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
+async function generatePawns(pawnArray, monsters) {
     var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;
     console.log("Generating ", pawnArray, monsters)
     if (monsters) {
@@ -1816,8 +1816,8 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
 
         } else {
-            if (addingFromMainWindow || pawn.index_in_main_window) {
-                var index = pawn.index_in_main_window ? pawn.index_in_main_window : lastIndexInsertedMonsters++;
+            if (pawn.index_in_main_window) {
+                var index = pawn.index_in_main_window;
                 console.log(newPawn)
                 removeDuplicatePawnNumbers(index, id);
                 newPawn.setAttribute("index_in_main_window", index);
@@ -1881,9 +1881,9 @@ async function generatePawns(pawnArray, monsters, optionalSpawnPoint) {
 
         newPawn.flying_height = 0;
         newPawn["data-dnd_conditions"] = [];
-        if (optionalSpawnPoint) {
-            newPawn.style.top = optionalSpawnPoint.y + "px";
-            newPawn.style.left = optionalSpawnPoint.x + "px";
+        if (pawn.spawnPoint) {
+            newPawn.style.top = pawn.spawnPoint.y + "px";
+            newPawn.style.left = pawn.spawnPoint.x + "px";
 
         } else {
             newPawn.style.top = lastPoint.y * cellSize + "px";

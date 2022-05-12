@@ -7,7 +7,7 @@
     right: 0;
     text-align: center;
     min-height: 40vh;
-    background-color: var(--main-color);
+    background-color: var(--foreground-color);
     background-image: var(--foreground-image);
     background-size: cover;
     border-radius: var(--rounded-corners);

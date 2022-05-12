@@ -63,9 +63,10 @@ class TokenDialog {
                         size: "medium",
                         color: Util.hexToRGBA(ele.color, 0.4),
                         bgPhoto: null,
-                        darkVisionRadius: ele.darkvision
+                        darkVisionRadius: ele.darkvision,
+                        spawnPoint: e
                     }
-                ], false, e);
+                ], false);
             });
         }
 
@@ -152,10 +153,10 @@ class TokenDialog {
             name: pawnName,
             size: pawnSize,
             color: color,
-            bgPhoto: this.addPawnImagePaths
+            bgPhoto: this.addPawnImagePaths,
+            spawnPoint: { x: e.clientX - (dndSize * cellSize) / 2, y: e.clientY - (dndSize * cellSize) / 2 }
 
-        }], true,
-            { x: e.clientX - (dndSize * cellSize) / 2, y: e.clientY - (dndSize * cellSize) / 2 })
+        }], true )
 
         notifyTokenAdded(lastIndexInsertedMonsters, pawnName)
     }

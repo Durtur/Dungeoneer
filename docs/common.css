@@ -936,6 +936,10 @@ input, textarea, .cell_row {
   border-radius: 10px;
 }
 
+.notepad_container p{
+  color:black;
+}
+
 .text_left {
   text-align: left;
   ;

@@ -22,6 +22,7 @@
     --main-text-color:black;
     --muted-text-color:rgb(85, 85, 85);
     --inverse-text-color:white;
+    --text-on-foreground-color:white;
     --black-bg: rgba(34, 34, 34, 0.8);
     --basic-font: "roboto";
     --header-font: "mrEaves";

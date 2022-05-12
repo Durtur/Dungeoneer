@@ -241,7 +241,7 @@ li {
 }
 
 .input_extra_text {
-    color: var(--inverse-text-color);
+    color: var(--text-on-foreground-color);
     flex: 1;
     margin: 0.5em;
 }
@@ -714,7 +714,7 @@ li {
 #add_pawn_selected_row{
     margin:1em;
     padding:0.25em;
-    background-color: var(--inverse-text-color);
+    background-color: white;
     border-radius: var(--rounded-corners);
     display:flex;
     justify-content: space-around;

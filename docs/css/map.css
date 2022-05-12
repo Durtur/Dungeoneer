@@ -68,6 +68,14 @@ body {
     background-size: 200%;
 }
 
+.server_running{
+    background-color:var(--main-success-color-lighter) !important;
+}
+
+.token_client_hidden{
+    opacity:0.4;
+}
+
 .toggle_mute_button[toggled="false"] {
     background-image: url(../css/img/sound-off.png) !important;
 }
@@ -233,7 +241,7 @@ li {
 }
 
 .input_extra_text {
-    color: var(--inverse-text-color);
+    color: var(--text-on-foreground-color);
     flex: 1;
     margin: 0.5em;
 }
@@ -706,7 +714,7 @@ li {
 #add_pawn_selected_row{
     margin:1em;
     padding:0.25em;
-    background-color: var(--inverse-text-color);
+    background-color: white
     border-radius: var(--rounded-corners);
     display:flex;
     justify-content: space-around;

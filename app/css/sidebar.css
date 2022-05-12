@@ -51,7 +51,7 @@
 }
 
 .sidebar h2, .sidebar h1 {
-    color: var(--inverse-text-color);
+    color: var(--text-on-foreground-color);
     text-align: center;
 }
 
