@@ -52,8 +52,18 @@ ipcRenderer.on('update-all-pawns', function () {
 });
 
 ipcRenderer.on('update_available', function () {
-  console.log("Update available");
+  onUpdateAvailable();
 });
+
+function onUpdateAvailable() {
+  var titleText = document.getElementById("title_bar_text");
+  titleText.classList.add("link_like");
+  titleText.innerHTML = "Update available!";
+  titleText.addEventListener("click", (e) => {
+    console.log("click")
+    window.api.openBrowser("https://github.com/Durtur/Dungeoneer/releases/latest")
+  });
+}
 
 ipcRenderer.on('update_downloaded', function () {
   console.log("Update downloaded");

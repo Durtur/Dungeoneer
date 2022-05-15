@@ -562,9 +562,6 @@ ipcMain.on('notify-party-array-updated', function (evt, arg) {
 });
 
 
-autoUpdater.on('update-available', () => {
-  mainWindow.webContents.send('update_available');
-});
 autoUpdater.on('update-downloaded', () => {
   mainWindow.webContents.send('update_downloaded');
   updatePending = true;
