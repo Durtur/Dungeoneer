@@ -36,12 +36,24 @@ class Recents {
     }
     createRecentNode(path) {
 
-        var ele = util.ele("a", "button_style", pathModule.basename(path));
+        var fileName = pathModule.basename(path);
+        fileName = fileName.replace(pathModule.extname(path), "");
+        var ele = util.ele("a", "button_style menu_recent_map", fileName);
+        var extensionIcon = this.getIcon(pathModule.extname(path));
+        if (extensionIcon) {
+            ele.setAttribute("data-glyph", extensionIcon);
+            ele.style.backgroundImage = `url('${extensionIcon}')`;
+        }
+
         ele.setAttribute("data-path", path);
         ele.onclick = this.recentNodeClicked;
+
         var wrapper = util.wrapper("li", "", ele);
         return wrapper;
 
+    }
+    getIcon(extension) {
+        return util.getFileIcon(extension);
     }
 
     recentNodeClicked(evt) {
