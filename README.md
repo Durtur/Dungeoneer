@@ -35,7 +35,7 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
     * Generate an NPC on the fly
     * Magic item shops
 * A loot generator.
-* (Coming soon) Multiplayer VTT
+* (Coming soon) Multiplayer Virtual Tabletop
 ## What is it not?
  * A place to keep your notes
  * A map making application
