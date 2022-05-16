@@ -51,7 +51,7 @@ class SaveManager {
         }
         var mapContainer = mapContainers[0];
         data.effects = effectsToAdd;
-        data.map = settings.currentMap;
+        data.map = settings.currentMap ? pathModule.basename(settings.currentMap) : null;
         data.mapX = mapContainer.data_transform_x;
         data.mapY = mapContainer.data_transform_y;
         data.bg_scale = mapContainer.data_bg_scale;
@@ -64,7 +64,7 @@ class SaveManager {
 
         data.bg_height_width_ratio = foregroundCanvas.heightToWidthRatio;
         data.bg_width = parseFloat(foregroundCanvas.style.width);
-        data.map_edge = settings.map_edge_style;
+        data.map_edge = settings.map_edge_style ? pathModule.basename(settings.map_edge_style) : null;
         data.layer2Map = settings.currentBackground;
         data.layer2_height_width_ratio = backgroundCanvas.heightToWidthRatio;
         data.layer2_width = parseFloat(backgroundCanvas.style.width);
@@ -98,7 +98,7 @@ class SaveManager {
         data.overlaySlide = {};
         backgroundLoop.saveSlideState(data.backgroundSlide);
         overlayLoop.saveSlideState(data.overlaySlide);
-  
+
         fs.writeFile(path, JSON.stringify(data), (err) => {
             if (err) return console.log(err)
         });
@@ -171,7 +171,7 @@ class SaveManager {
             //  pawns = data.pawns;
             cls.removeExistingEffects();
             var cacheBreaker = `? ${new Date().getTime()}`;
-            data.effects.forEach((effect) => cls.restoreEffect(effect));
+
             fovLighting.setSegments(data.segments);
             foregroundCanvas.heightToWidthRatio = data.bg_height_width_ratio;
             var moveX = mapContainer.data_transform_x - data.mapX;
@@ -218,7 +218,7 @@ class SaveManager {
             backgroundLoop.loadSlideState(data.backgroundSlide);
             overlayLoop.loadSlideState(data.overlaySlide);
 
-            if(data.effects){
+            if (data.effects) {
                 console.log(data.effects)
                 data.effects.forEach(eff => this.restoreEffect(eff));
             }
@@ -268,7 +268,7 @@ class SaveManager {
     async exportMobTokens(pawn) {
         var allTokens = [...pawn.querySelectorAll(".mob_token")];
         var tokenPaths = allTokens.map(ele => ele.getAttribute("data-token_path"));
- 
+
         var distinctTokens = [... new Set(tokenPaths)];
         var imgMap = {};
         for (var i = 0; i < distinctTokens.length; i++) {
@@ -278,12 +278,12 @@ class SaveManager {
         console.log({
             map: imgMap,
             tokens: tokenPaths.map(x => pathModule.basename(x)),
-            id:pawn.id
+            id: pawn.id
         });
         return {
             map: imgMap,
             tokens: tokenPaths.map(x => pathModule.basename(x)),
-            id:pawn.id
+            id: pawn.id
         };
     }
 
@@ -291,9 +291,9 @@ class SaveManager {
         var element = pawn[0];
         var img = element.querySelector(".token_photo");
 
-        var mobSizeAttr = element.getAttribute("data-mob_size") ;
+        var mobSizeAttr = element.getAttribute("data-mob_size");
         var deadCount = element.getAttribute("data-mob_dead_count");
-        var mobSize = mobSizeAttr == null ? null : parseInt(mobSizeAttr) - parseInt(deadCount); 
+        var mobSize = mobSizeAttr == null ? null : parseInt(mobSizeAttr) - parseInt(deadCount);
         var isMob = mobSize != null;
         if (img == null && !isMob)
             return null;

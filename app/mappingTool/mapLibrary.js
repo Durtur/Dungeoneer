@@ -150,10 +150,13 @@ class MapLibrary {
 
         displayData.forEach(path => {
             var thumbnailPath = pathModule.join(thumbnailFolder, pathModule.basename(path) + ".png");
-            var img = elementCreator.createTextOverlayImage(thumbnailPath, pathModule.basename(path));
-      
+            var extension = pathModule.extname(path);
+            var img = elementCreator.createTextOverlayImage(thumbnailPath, pathModule.basename(path).replace(extension, ""));
+
             img.classList.add("map_library_tile");
+
             img.appendChild(cls.createFavIcon(path, library));
+            img.appendChild(cls.createFileIcon(extension));
             cls.mapTileContainer.appendChild(img);
             img.addEventListener("click", (e) => {
                 if (e.target.classList.contains("map_tile_favorite_button"))
@@ -164,9 +167,9 @@ class MapLibrary {
             var imageObj = new Image();
             imageObj.onload = () => {
 
-                img.style.gridColumnEnd = `span ${Math.round(imageObj.width/this.THUMBNAIL_SIZE)}`;
-                img.style.gridRowEnd = `span ${Math.round(imageObj.height/this.THUMBNAIL_SIZE)}`
-           
+                img.style.gridColumnEnd = `span ${Math.round(imageObj.width / this.THUMBNAIL_SIZE)}`;
+                img.style.gridRowEnd = `span ${Math.round(imageObj.height / this.THUMBNAIL_SIZE)}`
+
             }
             imageObj.src = thumbnailPath;
         });
@@ -188,6 +191,15 @@ class MapLibrary {
         parent.appendChild(cont);
         return parent;
 
+    }
+
+    createFileIcon(extension) {
+        var iconPath = util.getFileIcon(extension);
+        var dd = util.ele("div", "file_icon");
+        console.log(iconPath)
+        if (iconPath)
+            dd.style.backgroundImage = util.cssify(iconPath);
+        return dd;
     }
 
     createFavIcon(path, library) {
@@ -213,7 +225,7 @@ class MapLibrary {
         library.data.pinned = library.data.pinned.filter(x => x != path);
         library.data.pinned.push(path);
         this.saveLibraryState(library);
- 
+
     }
     unpin(path, library) {
         library.data.pinned = library.data.pinned.filter(x => x != path);
@@ -244,7 +256,7 @@ class MapLibrary {
             dataaccess.createLibraryFolder(libName, filePath[0], (result) => {
                 console.log("DONE!");
                 cls.loadLibraries();
-            },this.THUMBNAIL_SIZE);
+            }, this.THUMBNAIL_SIZE);
 
         };
         var div = util.wrapper("div", "column", h2);

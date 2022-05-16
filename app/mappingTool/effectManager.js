@@ -65,7 +65,6 @@ var effectManager = function () {
             soundRangeSelect = createMenu("add_sound_spread", ranges, soundRangeSelect, false);
         }
 
-        console.log(soundList);
 
         function createMenu(parentId, dataset, existingMenu, icon = true) {
 
@@ -144,7 +143,7 @@ var effectManager = function () {
     }
 
     function rotate(effect, dir) {
-        console.log(`Rotate ${dir}`);
+
         var deg = parseInt(effect.getAttribute("data-deg"));
         if (isNaN(deg)) deg = 0;
 
@@ -227,8 +226,7 @@ var effectManager = function () {
         }
         if (target.sound)
             soundManager.removeEffect(target);
-        console.log("Remove", target)
-        console.log(pawns.lightSources.indexOf(target) >= 0)
+
         target.parentNode.removeChild(target);
         effects.splice(effects.indexOf(target), 1);
         unattachObjectFromPawns(target);

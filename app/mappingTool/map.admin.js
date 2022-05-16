@@ -80,6 +80,7 @@ function loadSettings() {
             document.querySelector(".maptool_body").style.backgroundImage = null;
         } else if (settings.map_edge_style) {
             document.querySelector(".maptool_body").style.backgroundImage = "url('" + settings.map_edge_style + "')";
+        
         }
         if (!partyArray)
             loadParty();
@@ -134,12 +135,12 @@ document.addEventListener("DOMContentLoaded", function () {
     slider.value = bgSize;
     window.setTimeout(() => {
         backgroundLoop.onSlideChanged = (state) => {
-            console.log("Hi ", state);
+    
             serverNotifier.notifyServer("backgroundLoop", state);
         }
 
         overlayLoop.onSlideChanged = (state) => {
-            console.log("Hi ", state);
+
             serverNotifier.notifyServer("overlayLoop", state);
         }
 

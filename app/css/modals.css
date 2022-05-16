@@ -163,6 +163,21 @@
 }
 
 
+.file_icon {
+    width: 1.75em;
+    height: 1.75em;
+    background-size: 60%;
+    top: 0.5em;
+    position: absolute;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: var(--dark-transparent-bg);
+    border-radius: var(--rounded-corners);
+    border: none;
+
+}
+
+
 .map_library_tile:hover .map_tile_favorite_button {
     display: block;
 }
@@ -193,9 +208,10 @@
 @media (min-width: 1201px) {
     .mosaic_layout {
         max-width: 1301px !important;
-       width: 1301px !important;
+        width: 1301px !important;
     }
 }
+
 @media (max-width: 1200px) {
     .mosaic_layout {
         max-width: 1040px !important;

@@ -216,9 +216,21 @@ module.exports = function () {
 
     function isImage(path) {
         var imgFilters = constants.imgFilters.map(x => "." + x);
+
         return imgFilters.includes(extname(path));
     }
 
+    function getFileIcon(extension) {
+        if (isImage(`x${extension}`))
+            return "./css/img/file-icons/img.png";
+
+        switch (extension) {
+            case ".dungeoneer_map": return "./css/img/file-icons/file icon.png";
+            case ".dd2vtt": return "./css/img/file-icons/dungeondraft.png";
+            default: return null;
+        }
+
+    }
     function ele(tag, classList, innerHTML) {
         var ele = document.createElement(tag);
         ele.classList = classList;
@@ -258,9 +270,9 @@ module.exports = function () {
                     shrp = await shrp.resize(resizeWidth);
                 }
             }
-       
+
             var buffer = await shrp.toFormat("webp").toBuffer();
-         
+
             return buffer.toString('base64');
         } catch (err) {
             console.error(err);
@@ -316,6 +328,7 @@ module.exports = function () {
         showBubblyText: showBubblyText,
         showDisappearingTitleAndSubtitle: showDisappearingTitleAndSubtitle,
         showOrHide: showOrHide,
+        getFileIcon:getFileIcon,
         balanceCheckBoxGroup: balanceCheckBoxGroup,
         makeUIElementDraggable: makeUIElementDraggable,
         hexToHSL: hexToHSL,
