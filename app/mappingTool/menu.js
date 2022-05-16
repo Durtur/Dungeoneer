@@ -52,6 +52,7 @@ class Menu {
         document.querySelector("#clear_map_edge_button").onclick = function (e) {
             settings.map_edge_style = null;
             document.querySelector(".maptool_body").style.backgroundImage = "none";
+            saveSettings();
         };
         document.querySelector("#map_edge_button").onclick = function (e) {
             var imgPath = getMapImageFromDialog();
