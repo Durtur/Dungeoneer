@@ -1,6 +1,6 @@
 # Dungeoneer 
 
-<img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="200" /> <a href="https://www.buymeacoffee.com/durtur" target="_blank" style="width 4em; height:2em;"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" width="217" height="60"></a>
+<img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="100" /> <a href="https://www.buymeacoffee.com/durtur" target="_blank" style="width 4em; height:2em;"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" width="217" height="60"></a>
 
 
 ## Demo video
