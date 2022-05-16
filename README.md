@@ -35,11 +35,11 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
     * Generate an NPC on the fly
     * Magic item shops
 * A loot generator.
+* (Coming soon) Multiplayer VTT
 ## What is it not?
- * A VTT with multiplayer support
  * A place to keep your notes
  * A map making application
- * A multiplayer internet type thing. This is just a desktop client.
+
 
 ## I don't have any monster tokens
 There are some great sources of tokens, such as [Forgotten Adventures](https://www.forgotten-adventures.net/) (you can get all their tokens for free). You can use the token importer to mass import tokens. 
