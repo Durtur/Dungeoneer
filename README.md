@@ -1,6 +1,6 @@
 # Dungeoneer 
 
-<img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="200" /> <a href="https://www.buymeacoffee.com/durtur" target="_blank" style="width 4em; height:2em;"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" width="217" height="60"></a>
+<img src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" data-canonical-src="https://raw.githubusercontent.com/Durtur/Dungeoneer/master/app/css/img/icon.png" width="100" /> <a href="https://www.buymeacoffee.com/durtur" target="_blank" style="width 4em; height:2em;"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-red.png" alt="Buy Me A Coffee" width="217" height="60"></a>
 
 
 ## Demo video
@@ -35,11 +35,11 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
     * Generate an NPC on the fly
     * Magic item shops
 * A loot generator.
+* (Coming soon) Multiplayer Virtual Tabletop
 ## What is it not?
- * A VTT with multiplayer support
  * A place to keep your notes
  * A map making application
- * A multiplayer internet type thing. This is just a desktop client.
+
 
 ## I don't have any monster tokens
 There are some great sources of tokens, such as [Forgotten Adventures](https://www.forgotten-adventures.net/) (you can get all their tokens for free). You can use the token importer to mass import tokens. 
