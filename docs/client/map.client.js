@@ -172,9 +172,24 @@ var Util = function () {
     function cssify(path) {
         return "url('" + path.replace(/\\/g, "/") + "')";
     }
+    function ele(tag, classList, innerHTML) {
+        var ele = document.createElement(tag);
+        ele.classList = classList;
+        if (innerHTML)
+            ele.innerHTML = innerHTML;
+        return ele;
+    }
+    function wrapper(tag, classList, childNode) {
+        var par = ele(tag, classList);
+        par.appendChild(childNode);
+
+        return par;
+    }
     return {
         hexToRGBA: hexToRGBA,
-        cssify:cssify
+        cssify:cssify,
+        wrapper:wrapper,
+        ele:ele
     }
 }();
 

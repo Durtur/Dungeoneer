@@ -1020,17 +1020,19 @@ input, textarea, .cell_row {
   position: absolute;
   margin: auto;
   color: white;
+  font-family: roboto;
+  font-size: 1em;
   padding: 0.5em;
-  font-size: 1.5em;
+  line-height: 1;
   border-radius: var(--rounded-corners);
-  pointer-events: none;
-  top: 1.5em;
+  cursor:pointer;
+  top: 0;
   right: 0;
 
 }
 
 .hourglass {
-  background-image: url('img/hourglass.png');
+  background-image: url('css/img/hourglass.png');
   background-size: contain;
   height: 1em;
   width: 1em;

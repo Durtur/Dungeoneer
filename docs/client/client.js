@@ -163,8 +163,8 @@ function setState(message) {
             map.removeAllPawns();
             map.removeAllEffects();
             break;
-        case "players-changed":
-            ///???
+        case "round-timer":
+            setRoundTimer(message.data);
             break;
         case "access-changed":
             tokenAccessChanged(message.data);
@@ -348,6 +348,18 @@ function importSegments(segments) {
 
 }
 
+function setRoundTimer(timerObj) {
+    console.log("Set round timer", timerObj)
+    if (!timerObj && roundTimer) {
+        roundTimer.destroy();
+        return;
+    }
+    if (!roundTimer)
+        roundTimer = new Timer();
+    roundTimer.setState(timerObj);
+    
+}
+
 function tokenAccessChanged(access) {
 
     TOKEN_ACCESS = access;
@@ -402,7 +414,7 @@ async function addPawn(pawn) {
         if (pawn.mobTokens)
             setMobTokens(pawn.mobTokens);
     }
-    pawn.spawnPoint =  map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
+    pawn.spawnPoint = map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
     if (!pawn.isPlayer) pawn.name = "???";
     await generatePawns([pawn], !pawn.isPlayer);
 
@@ -413,7 +425,7 @@ async function addPawn(pawn) {
     });
 
     if (pawn.isPlayer) {
-        if (centerPawnFlag){
+        if (centerPawnFlag) {
             centerPawnFlag = false;
             centerCurrentViewer();
         }

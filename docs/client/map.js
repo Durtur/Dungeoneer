@@ -597,7 +597,7 @@ function startMovingMap(e) {
     var clientY = eventY(e);
     pos3 = clientX;
     pos4 = clientY;
-    console.log(pos3, pos4);
+  
     document.onmouseup = function (event) {
         document.onmouseup = null;
         document.onmousemove = null;

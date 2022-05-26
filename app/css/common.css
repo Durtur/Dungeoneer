@@ -1029,7 +1029,7 @@ input, textarea, .cell_row {
   padding: 0.5em;
   font-size: 1.5em;
   border-radius: var(--rounded-corners);
-  pointer-events: none;
+  cursor:pointer;
   top: 1.5em;
   right: 0;
 

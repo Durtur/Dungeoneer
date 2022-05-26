@@ -24,7 +24,7 @@ var clientFog = 2;
 loadParty();
 
 window.addEventListener('beforeunload', (event) => {
-    
+
     window.subscribe.notifyServerState({ running: false })
 });
 
@@ -351,6 +351,19 @@ function getPeer(connectionId) {
         throw "peer not found";
     return peer;
 }
+var EXPORT_LAYER_CACHE = {};
+async function getMapLayer(path, cacheKey) {
+    if (path == null) return null;
+
+    if (EXPORT_LAYER_CACHE[cacheKey] && EXPORT_LAYER_CACHE[cacheKey].path == path) {
+        return EXPORT_LAYER_CACHE[cacheKey].data;
+    }
+    appendServerLog(`Packaging ${cacheKey}`);
+    var base64 = await util.toBase64(path);
+    EXPORT_LAYER_CACHE[cacheKey] = { path: path, data: base64 };
+    appendServerLog(`${cacheKey} packaging complete`);
+    return base64;
+}
 
 function sendMaptoolState(maptoolState) {
     dataAccess.getSettings(async (settings) => {
@@ -361,10 +374,10 @@ function sendMaptoolState(maptoolState) {
 
 
             var dataObject = {
-                foreground: maptoolState.foreground.path ? await util.toBase64(maptoolState.foreground.path) : null,
-                background: maptoolState.background.path ? await util.toBase64(maptoolState.background.path) : null,
-                mapEdge: mt.map_edge_style ? await util.toBase64(mt.map_edge_style) : null,
-                overlay: maptoolState.overlay.path ? await util.toBase64(maptoolState.overlay.path) : null,
+                foreground: await getMapLayer(maptoolState.foreground.path, "foreground"),
+                background: await getMapLayer(maptoolState.background.path, "background"),
+                mapEdge: await getMapLayer(mt.map_edge_style, "map_edge_style"),
+                overlay: await getMapLayer(maptoolState.overlay.path, "overlay")
             };
             peer.connection.send({ event: "constants", data: constants })
             peer.connection.send({ event: "condition-list", data: maptoolState.conditions })
@@ -382,6 +395,7 @@ function sendMaptoolState(maptoolState) {
             peer.connection.send({ event: "backgroundLoop", data: maptoolState.backgroundLoop })
             peer.connection.send({ event: "overlayLoop", data: maptoolState.overlayLoop })
             peer.connection.send({ event: "segments", data: maptoolState.segments });
+            peer.connection.send({ event: "round-timer", data: maptoolState.roundTimer });
             setClientFog(clientFogUserSet ? clientFog : maptoolState.fog);
 
         }

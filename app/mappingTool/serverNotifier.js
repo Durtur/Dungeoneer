@@ -20,7 +20,8 @@ var serverNotifier = function () {
                 effects: await getEffectsForExport(),
                 segments: { segments: getSegments() },
                 fog: fovLighting.getFogStyle(),
-                conditions: await getConditionsForExport()
+                conditions: await getConditionsForExport(),
+                roundTimer : roundTimer?.getState()
             }
         });
 

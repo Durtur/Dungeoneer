@@ -93,6 +93,7 @@ const Modals = function () {
         btnRow.appendChild(btn);
         btn.onclick = (e) => {
             callback(modal.querySelector(".modal_input").value)
+            modal.close();
         }
         modal.appendChild(btnRow);
         document.body.appendChild(modalCreate.parent);

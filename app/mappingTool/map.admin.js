@@ -8,7 +8,7 @@ const SlideCanvas = require("./mappingTool/slideCanvas");
 const Menu = require("./mappingTool/menu");
 const TokenDialog = require("./mappingTool/tokenDialog");
 const tokenDialog = new TokenDialog();
-const Timer = require("./js/timer");
+
 const Recents = require("./mappingTool/recents");
 var recentMaps = new Recents();
 const SoundManager = require("./js/soundManager")
@@ -295,8 +295,11 @@ function onSettingsChanged() {
         if (roundTimer) {
             roundTimer.destroy();
         }
-        roundTimer = new Timer(settings.roundTimer);
+        roundTimer = new Timer(settings.roundTimer, ()=> {
+            serverNotifier.notifyServer("round-timer", roundTimer.getState());
+        });
         roundTimer.render();
+        roundTimer.onclicked((e)=> roundTimer.reset())
     }
 }
 
