@@ -597,7 +597,7 @@ function startMovingMap(e) {
     var clientY = eventY(e);
     pos3 = clientX;
     pos4 = clientY;
-  
+
     document.onmouseup = function (event) {
         document.onmouseup = null;
         document.onmousemove = null;
@@ -888,7 +888,7 @@ function enlargeReduceSelectedPawns(direction) {
 }
 
 function enlargeReducePawn(element, direction) {
- 
+
     var sizeIndex = creaturePossibleSizes.sizes.indexOf(element.dnd_size);
     var currentSize = creaturePossibleSizes.sizes[sizeIndex];
     if (direction > 0) {
@@ -2297,18 +2297,12 @@ var map = function () {
     }
 
     function centerOn(element) {
-        var container = mapContainers[0];
-        var bgX = container.data_transform_x;
-        var bgY = container.data_transform_y;
         var eleX = parseFloat(element.style.left);
         var eleY = parseFloat(element.style.top);
-        var containerRect = foregroundCanvas.getBoundingClientRect();
-        var offsetX = containerRect.width / 2 / container.data_bg_scale;
-        var offsetY = containerRect.width / 2 / container.data_bg_scale;
-
+        var offsetX = (window.innerWidth / 2);
+        var offsetY = (window.innerHeight / 2);
         var shiftAmountX = 0 - (eleX) + offsetX;
         var shiftAmounyY = 0 - (eleY) + offsetY;
-
         shiftView(shiftAmountX, shiftAmounyY);
     }
 
@@ -2316,7 +2310,7 @@ var map = function () {
         init: init,
         shiftView: shiftView,
         centerOn: centerOn,
-        centerForegroundOnBackground:centerForegroundOnBackground,
+        centerForegroundOnBackground: centerForegroundOnBackground,
         updateInitiative: updateInitiative,
         setTokenConditions: setTokenConditions,
         snapToGrid: snapToGrid,

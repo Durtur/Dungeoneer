@@ -426,7 +426,6 @@ async function addPawn(pawn) {
 
     if (pawn.isPlayer) {
         if (centerPawnFlag) {
-            centerPawnFlag = false;
             centerCurrentViewer();
         }
 

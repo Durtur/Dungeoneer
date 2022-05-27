@@ -95,6 +95,8 @@ class Timer {
         var signStr = "";
         if (remaining < 10) {
             this.container.classList.add("red");
+        }else{
+            this.container.classList.remove("red");
         }
         if (remaining < 0) {
             signStr = "-";

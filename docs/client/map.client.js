@@ -156,7 +156,9 @@ function toggleGrid() {
 
 
 function centerCurrentViewer(){
+    centerPawnFlag = false;
     var ele = fovLighting.getPerspective();
+    console.log(ele)
     if(ele)
         map.centerOn(ele);
 }
