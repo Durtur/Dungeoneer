@@ -1085,7 +1085,7 @@ function stopMeasuring(event, ignoreClick) {
             lastMeasuredPoint = null;
             return;
         }
-
+    
         if (document.onmousemove === null) {
             var toggleButtons = document.querySelectorAll(".toolbox_button");
             for (var i = 0; i < toggleButtons.length; i++) {
@@ -1094,7 +1094,9 @@ function stopMeasuring(event, ignoreClick) {
                 }
             }
             document.onmousedown = null;
-
+            for (var i = 0; i < toolbox.length; i++) {
+                toolbox[i] = false;
+            }
             resetGridLayer();
             currentlyMeasuring = false;
             currentlyAddingSegments = false;
@@ -2299,8 +2301,9 @@ var map = function () {
     function centerOn(element) {
         var eleX = parseFloat(element.style.left);
         var eleY = parseFloat(element.style.top);
-        var offsetX = (window.innerWidth / 2);
-        var offsetY = (window.innerHeight / 2);
+        var rect = element.getBoundingClientRect();
+        var offsetX = (window.innerWidth / 2) + (rect.width / 2);
+        var offsetY = (window.innerHeight / 2) + (rect.height / 2);
         var shiftAmountX = 0 - (eleX) + offsetX;
         var shiftAmounyY = 0 - (eleY) + offsetY;
         shiftView(shiftAmountX, shiftAmounyY);
