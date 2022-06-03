@@ -15,6 +15,8 @@ const CharacterSyncer = require("./js/characterSyncer");
 const Modals = require("./js/modals")
 const ThemeManager = require("./js/themeManager");
 const fs = require("fs");
+const Onboarding = require("./js/onboarding");
+const onboarding = new Onboarding();
 const StatblockPresenter = require("./js/statblockpresenter");
 const { ipcRenderer } = require('electron');
 
@@ -141,9 +143,15 @@ ipcRenderer.on('monster-killed', function (evt, arg) {
   combatLoader.kill(arg[1], true);
 });
 
+function externalLink(e){
+  console.log(e)
+  e.preventDefault();
+  window.api.openBrowser(e.target.getAttribute("data-href"))
+}
+
 /* #endregion */
 document.addEventListener("DOMContentLoaded", function () {
-
+  onboarding.init();
   loadSettings();
   observeArrayChanges(loadedMonsterQueue, function () {
     loadedMonsterQueue.update();
