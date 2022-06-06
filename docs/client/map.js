@@ -367,6 +367,7 @@ function setMapOverlay(path, width) {
 }
 
 function setMapForegroundAsBase64(path, width, height) {
+    
     setForegroundHelper(path, width, height)
 }
 
@@ -420,7 +421,7 @@ function setMapBackgroundAsBase64(path, width, height) {
 
 
 function setMapBackgroundHelper(path, width, height) {
-    console.log(width, height)
+
     settings.gridSettings.mapBackgroundSize = width;
     backgroundCanvas.heightToWidthRatio = height / width;
 
@@ -2261,6 +2262,7 @@ var map = function () {
             initiative.setRoundCounter(arg.round_increment);
             var curr = initiative.currentActor();
             Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
+            
             var dropdown = document.getElementById("fov_perspective_dropdown");
 
             if (serverNotifier.isServer() && dropdown.value.toLowerCase() != "players") {

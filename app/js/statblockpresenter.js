@@ -134,7 +134,7 @@ class StatblockPresenter {
         return;
       var p = document.createElement("p");
 
-      p.innerHTML = marked(statblockDescriptionText);
+      p.innerHTML = marked.parse(statblockDescriptionText);
       createSeperator();
 
       statblock.appendChild(p);
@@ -145,7 +145,7 @@ class StatblockPresenter {
     function addTable() {
       if (!statblock_table) return;
       var table = ElementCreator.generateHTMLTable(statblock_table);
-      [...table.querySelectorAll("td")].forEach(x => x.innerHTML = marked(x.innerHTML));
+      [...table.querySelectorAll("td")].forEach(x => x.innerHTML = marked.parse(x.innerHTML));
       statblock.append(table);
     }
 
@@ -596,7 +596,7 @@ class StatblockPresenter {
     function createPara(text) {
       text = text + "";
       var p = document.createElement("p");
-      p.innerHTML = marked(text.substring(0, 1).toUpperCase() + text.substring(1));
+      p.innerHTML = marked.parse(text.substring(0, 1).toUpperCase() + text.substring(1));
       return p;
     }
 
@@ -606,7 +606,7 @@ class StatblockPresenter {
       boldText += boldText.substring(boldText.length - 1) == "." ? "" : ".";
       boldText = boldText.deserialize();
 
-      newDiv.innerHTML = marked("**" + boldText + "** " + paraText.substring(0, 1).toUpperCase() + paraText.substring(1));
+      newDiv.innerHTML = marked.parse("**" + boldText + "** " + paraText.substring(0, 1).toUpperCase() + paraText.substring(1));
 
       return newDiv;
     }
@@ -844,7 +844,7 @@ var spellcastingLinkController = function () {
     document.getElementById("spell_popup_casting_time").innerHTML = spell.casting_time;
     document.getElementById("spell_popup_duration").innerHTML = spell.duration;
     document.getElementById("spell_popup_higher_levels").innerHTML = spell.higher_levels;
-    document.getElementById("spell_popup_description").innerHTML = marked(spell.description);
+    document.getElementById("spell_popup_description").innerHTML = marked.parse(spell.description);
     document.getElementById("spell_popup_components").innerHTML = spell.components
     document.getElementById("spell_popup_ritual").innerHTML = !spell.ritual || spell.ritual == "" ? "" : "(Ritual)"
     $("#spell_popup").find("a").attr("onclick", "return spellcastingLinkController.showSpellInPopup($(this).attr('href'))");

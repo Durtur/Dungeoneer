@@ -91,6 +91,9 @@ html, body {
   background-image: url("img/bg.jpg");
 }
 
+.main_page_main >.row{
+  flex-flow: row wrap;
+}
 body {
   height: 100%;
 

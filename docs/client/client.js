@@ -129,19 +129,22 @@ function handleMessage(message) {
     //Store foreground translate so effects and tokens are placed correctly. 
 
     if (message.data?.chunks) {
-        if (!dataBuffer[message.event]) {
-            dataBuffer[message.event] = [];
-            dataBuffer[message.event].length = message.data?.chunks - 1;
 
+        if (!dataBuffer[message.event]) {
+            dataBuffer[message.event] =
+             {  buffer: [], 
+                length: message.data?.chunks 
+            };
 
         }
-        dataBuffer[message.event][message.data.chunk - 1] = message.data.base64;
+
+        dataBuffer[message.event].buffer[message.data.chunk - 1] = message.data.base64;
         //Message end
-        if (!dataBuffer[message.event].find(x => x == null)) {
+        if (nothingEmpty(dataBuffer[message.event])) {
             setState(message);
             window.setTimeout(() => {
                 dataBuffer[message.event] = null;
-            }, 1000)
+            }, 5000)
 
         }
     } else {
@@ -150,9 +153,27 @@ function handleMessage(message) {
 
 }
 
+function nothingEmpty(databuffer) {
+    var arr = databuffer.buffer;
+
+    if (databuffer.buffer.length != databuffer.length )
+        return false;
+    console.log(`check if empty ${arr.length}`)
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == null)
+            return false;
+    }
+    return true;
+}
+
 function toBase64Url(base64data) {
     if (base64data == null) return "none";
     return `url(data:image/webp;base64,${base64data})`
+}
+
+function getDataBuffer(event) {
+    //if (dataBuffer[event] == null) return null;
+    return dataBuffer[event].buffer;
 }
 
 function setState(message) {
@@ -170,22 +191,22 @@ function setState(message) {
             tokenAccessChanged(message.data);
             break;
         case "map_edge":
-            setMapEdge(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)));
+            setMapEdge(toBase64Url(getDataBuffer(message.event).reduce((a, b) => a + b)));
             break;
         case "foreground":
             setLoading(false);
             clientSetForeground(message)
             break;
         case "background":
-            setMapBackgroundAsBase64(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
+            setMapBackgroundAsBase64(toBase64Url(getDataBuffer(message.event).reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
             break;
         case "overlay":
-            setMapOverlayAsBase64(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
+            setMapOverlayAsBase64(toBase64Url(getDataBuffer(message.event).reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
             break;
         case "tokens-set":
             map.removeAllPawns();
-            if (dataBuffer[message.event])
-                importTokens(dataBuffer[message.event].reduce((a, b) => a + b));
+            if (getDataBuffer(message.event))
+                importTokens(getDataBuffer(message.event).reduce((a, b) => a + b));
             else importTokens(message.data)
             break;
         case "constants":
@@ -222,8 +243,8 @@ function setState(message) {
             moveObjects(message.data);
             break;
         case "effects-set":
-            if (dataBuffer[message.event])
-                setEffects(dataBuffer[message.event]?.reduce((a, b) => a + b));
+            if (getDataBuffer(message.event))
+                setEffects(getDataBuffer(message.event)?.reduce((a, b) => a + b));
             else
                 setEffects(message.data)
             break;
@@ -357,7 +378,7 @@ function setRoundTimer(timerObj) {
     if (!roundTimer)
         roundTimer = new Timer();
     roundTimer.setState(timerObj);
-    
+
 }
 
 function tokenAccessChanged(access) {
@@ -382,7 +403,7 @@ function moveObjects(arr) {
 }
 
 function clientSetForeground(message) {
-    setMapForegroundAsBase64(toBase64Url(dataBuffer[message.event].reduce((a, b) => a + b)), message.data.metadata.width, message.data.metadata.height);
+    setMapForegroundAsBase64(toBase64Url(getDataBuffer(message.event).reduce((a, b) => a + b)), message.data.metadata.width, message.data.metadata.height);
     if (message.data.metadata.translate) {
         var trsl = message.data.metadata.translate;
         foregroundCanvas.data_transform_x = trsl.x;

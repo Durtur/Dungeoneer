@@ -9,7 +9,7 @@
     --main-underline-color: transparent;
     --main-success-color: rgb(4, 64, 4);
     --main-success-color-darker: rgb(2, 44, 2);
-    --dark-transparent-bg: rgba(0, 0, 0, 0.1);
+    --dark-transparent-bg: rgba(0, 0, 0, 0.5);
     --main-success-color-lighter: rgb(10, 125, 10);
     --transition-delay: 300ms;
     --base-margin: 10px;

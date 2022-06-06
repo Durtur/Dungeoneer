@@ -28,6 +28,9 @@
 <html>
 
 <body>
+    <p id = "initiative_current_actor" class = "hidden initiative_current_actor" >
+
+    </p>
     <div class = "loading_ele_cont nobackground hidden" id = "loading" >
         <div id="loading_ele" class="loading_ele" alt="loading" class="center">
             <img src="css/img/loading.gif"  alt="loading"
@@ -120,6 +123,12 @@
         <p id="tooltip2" class="tooltip hidden">
             A tooltip
         </p>
+        <div class="initiative hidden" id="initBar">
+            <div class="initiativeNode init_not_started init--PC">
+                <p class="initiative_name_node"></p>
+
+            </div>
+        </div>
     </main>
 
 </body>
@@ -130,7 +139,9 @@
 <script src="client/map.js"></script>
 <script src="client/map.client.js"></script>
 <script src="client/serverNotifier.client.js"></script>
+<script src="client/initiative.client.js"></script>
 <script src="client/timer.js"></script>
+<script src="client/util.client.js"></script>
 <script src="client/lightning.js"></script>
 <script src="client/measurements.js"></script>
 <script src="client/geometry.js"></script>

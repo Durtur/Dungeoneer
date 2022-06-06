@@ -396,6 +396,7 @@ function sendMaptoolState(maptoolState) {
             peer.connection.send({ event: "overlayLoop", data: maptoolState.overlayLoop })
             peer.connection.send({ event: "segments", data: maptoolState.segments });
             peer.connection.send({ event: "round-timer", data: maptoolState.roundTimer });
+            peer.connection.send({ event: "initiative", data: maptoolState.initiative });
             setClientFog(clientFogUserSet ? clientFog : maptoolState.fog);
 
         }

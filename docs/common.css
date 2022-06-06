@@ -765,7 +765,7 @@ input, textarea, .cell_row {
 }
 
 .disappearing_title, .disappearing_ele {
-  color: var(--inverse-text-color);
+  color: white;
   text-align: center;
   text-shadow: 0 0 1px black;
 }

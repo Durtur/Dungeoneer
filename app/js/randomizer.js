@@ -142,7 +142,7 @@ var randomizer = function () {
 
         showEntry({
             title: data[rand].name + (data[rand].rarity ? ` (${data[rand].rarity})`:""),
-            content: cont != "" ? marked(cont) : "No items fit the criteria"
+            content: cont != "" ? marked.parse(cont) : "No items fit the criteria"
         }, rand / 100)
 
     }

@@ -1,4 +1,5 @@
 
+
 var serverNotifier = function () {
     var timeouts = {};
 
@@ -21,7 +22,8 @@ var serverNotifier = function () {
                 segments: { segments: getSegments() },
                 fog: fovLighting.getFogStyle(),
                 conditions: await getConditionsForExport(),
-                roundTimer : roundTimer?.getState()
+                roundTimer : roundTimer?.getState(),
+                initiative: initiative.getState()
             }
         });
 

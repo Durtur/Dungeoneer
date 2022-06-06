@@ -28,7 +28,7 @@ class ElementCreator {
         for (var arr in jsonObj) {
             columnCount++;
             newNode = document.createElement("th");
-            newNode.innerHTML = marked(arr.deserialize().toProperCase());
+            newNode.innerHTML = marked.parse(arr.deserialize().toProperCase());
             currentRow.appendChild(newNode);
         }
         currentHeader = document.createElement("tbody");
@@ -37,7 +37,7 @@ class ElementCreator {
             currentHeader.appendChild(currentRow);
             for (var j = 0; j < columnCount; j++) {
                 newNode = document.createElement("td");
-                newNode.innerHTML = marked("" + jsonObjValues[j][i]);
+                newNode.innerHTML = marked.parse("" + jsonObjValues[j][i]);
                 currentRow.appendChild(newNode);
 
             }

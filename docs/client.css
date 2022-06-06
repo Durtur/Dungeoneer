@@ -12,12 +12,14 @@ input {
     margin: 1em;
     text-align: center;
 }
-html{
+
+html {
     position: fixed;
-    height:100vh;
+    height: 100vh;
 }
-body{
-    height:100vh;
+
+body {
+    height: 100vh;
 }
 
 
@@ -121,10 +123,22 @@ body{
 
 
 }
-#tooltip{
+
+#tooltip {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.initiative_current_actor {
+    position: absolute;
+    top: 0;
+    right: 5em;
+    background-color: var(--dark-transparent-bg);
+    margin: 0;
+    z-index: 500;
+    text-shadow: 1px 1px #ffffff66;
+    padding: 0.25em 0.5em;
+    border-radius: var(--rounded-corners);
+}
 
 @media (max-width: 800px) {
     #tooltip {
@@ -133,7 +147,7 @@ body{
         font-size: 1.7em;
         transform: translateX(-50%);
         padding: 0.25em;
-    
+
     }
 
 }

@@ -94,3 +94,7 @@ button, input, p, .column  {
 .log_entry_connected {
     color: var(--main-success-color);
 }
+
+.server_activity_log_entry, .server_activity_log_timestamp {
+    color:#333;
+}

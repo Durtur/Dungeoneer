@@ -348,7 +348,7 @@ function createConditionBubble(condition, causedByText) {
   var secTooltip = document.createElement("div");
   secTooltip.classList.add("secondary_tooltip");
   var para = document.createElement("div");
-  para.innerHTML = marked("## " + conditionObj.name + (causedByText ? `\nCaused by: ${causedByText}` : "") + (conditionObj.description ? "\n" + conditionObj.description : ""));
+  para.innerHTML = marked.parse("## " + conditionObj.name + (causedByText ? `\nCaused by: ${causedByText}` : "") + (conditionObj.description ? "\n" + conditionObj.description : ""));
   if (para.innerHTML.length > 0) {
     if (conditionObj.condition_background_location) {
       var img = document.createElement("img");
