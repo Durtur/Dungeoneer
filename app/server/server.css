@@ -17,9 +17,14 @@ button, input, p, .column  {
     -webkit-app-region: no-drag;
 }
 
-#server_info_container>* {
-    margin: 1em;
+#server_info_container>input {
+    margin: 0.25em 1em;
 }
+
+#server_info_container label{
+    margin:1em 1em 0.25em 1em;
+}
+
 
 .peer_node {
     padding: 1em 1.75em;
@@ -51,7 +56,11 @@ button, input, p, .column  {
 .peer_connected {
     background-color: var(--main-success-color);
 }
-
+#invite_link_button{
+    margin:auto;
+    text-align: center;
+    margin-top:1em;
+}
 #regenerate_host_id_button{
     background: transparent;
     border: none;
@@ -61,16 +70,19 @@ button, input, p, .column  {
     background-image: url(../css/img/refresh.png);
     background-size: contain;
     margin-left: 0.25em;
-
+    margin-top: 1em;
 }
 
 .server_id {
     cursor: pointer;
 
+
+}
+
+input{
     text-align: center;
     border-radius: var(--rounded-corners);
 }
-
 
 #server_activity_log {
     background-color: white;
@@ -91,8 +103,12 @@ button, input, p, .column  {
     margin: 0;
 }
 
-.log_entry_connected {
+.server_activity_log .log_entry_connected {
     color: var(--main-success-color);
+}
+
+.server_activity_log .log_entry_error {
+    color: var(--color-red);
 }
 
 .server_activity_log_entry, .server_activity_log_timestamp {

@@ -78,6 +78,10 @@ function connectionParamsChanged(e) {
     else
         connectButton.classList.add("hidden");
 }
+
+function getPassword(){
+    return document.getElementById("password_input").value;
+}
 function connect() {
 
     var connectButton = document.getElementById("connect_button");
@@ -88,7 +92,10 @@ function connect() {
     peer.on('open', function (id) {
 
         console.log(id);
-        hostConnection = peer.connect(hostId);
+        hostConnection = peer.connect(hostId, 
+            {
+                metadata:{password:getPassword()}
+            });
         timeout = new Timeout(hostConnection);
         hostConnection.on('open', () => {
             connectedStateChanged();

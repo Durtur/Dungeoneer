@@ -7,7 +7,8 @@ const pendingStateRequests = [];
 const partyArray = [];
 const SERVER_EVENTS = {
     CONNECTED: 0,
-    MOVE: 1
+    MOVE: 1,
+    ERROR: 2
 }
 
 var peer;
@@ -211,6 +212,8 @@ function appendServerLog(text, eventType) {
     var log = document.getElementById("server_activity_log");
     if (eventType == SERVER_EVENTS.CONNECTED) {
         wrapLog(util.ele("p", "server_activity_log_entry log_entry_connected", text))
+    } else if (eventType == SERVER_EVENTS.ERROR) {
+        wrapLog(util.ele("p", "server_activity_log_entry log_entry_error", text))
     } else {
         wrapLog(util.ele("p", "server_activity_log_entry ", text))
     }
@@ -268,6 +271,16 @@ function initServer() {
 
 function onConnected(conn) {
     console.log("Peer connected");
+    var pass = document.getElementById("server_password").value;
+    if (pass) {
+        if (conn.metadata.password != pass) {
+            conn.close();
+            appendServerLog(`Rejected ${conn.connectionId} due to incorrect password`, SERVER_EVENTS.ERROR);
+            return;
+
+        }
+    }
+
     console.log(conn);
 
     var peer = peers.find(x => x.connectonId == conn.connectionId);

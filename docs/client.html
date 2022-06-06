@@ -84,9 +84,20 @@
         </div>
         <div id="connect_container" class="column">
             <p class="error_text" id="error_message"></p>
-            <input id="user_name_input" placeholder="Name" class="padding">
-            <input id="host_id_input" placeholder="Host ID" class="padding">
-            <button class="button_style button_wide green padding center hidden" id="connect_button"
+            <div class = "row relative">
+                <label class = "input_label">Name</label>
+                <input id="user_name_input" placeholder="Name" class="padding input_labeled">
+            </div>
+            <div class = "row relative">
+                <label class = "input_label">Host ID</label>
+                <input id="host_id_input" placeholder="Host ID" class="padding input_labeled">
+            </div>
+            <div class = "row relative">
+                <label class = "input_label">Password</label>
+                <input id="password_input" placeholder="Password" type="password" class="padding input_labeled">
+            </div>
+        
+            <button class="button_style  green  center hidden" id="connect_button"
                 style="margin-top:2em">Connect</button>
 
         </div>

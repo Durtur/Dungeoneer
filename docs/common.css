@@ -237,7 +237,7 @@ hr {
 .button_style {
   color: white;
   font-family: "Impact, fantasy";
-  font-size: 12px;
+
   background-color: var(--main-color);
   background-size: contain;
   background-repeat: no-repeat;
