@@ -158,40 +158,11 @@ function toggleGrid() {
 function centerCurrentViewer(){
     centerPawnFlag = false;
     var ele = fovLighting.getPerspective();
-    console.log(ele)
+
     if(ele)
         map.centerOn(ele);
 }
 
 
 
-var Util = function () {
-
-    function hexToRGBA(hex, opacity) {
-        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
-    }
-
-    function cssify(path) {
-        return "url('" + path.replace(/\\/g, "/") + "')";
-    }
-    function ele(tag, classList, innerHTML) {
-        var ele = document.createElement(tag);
-        ele.classList = classList;
-        if (innerHTML)
-            ele.innerHTML = innerHTML;
-        return ele;
-    }
-    function wrapper(tag, classList, childNode) {
-        var par = ele(tag, classList);
-        par.appendChild(childNode);
-
-        return par;
-    }
-    return {
-        hexToRGBA: hexToRGBA,
-        cssify:cssify,
-        wrapper:wrapper,
-        ele:ele
-    }
-}();
 
