@@ -89,7 +89,7 @@
     backface-visibility: hidden;
     background-color: var(--main-color);
     position: fixed;
-    z-index: 99999;
+    z-index: var(--z-index-sidebar);
 }
 
 .sidebar header {

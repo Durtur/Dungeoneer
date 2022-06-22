@@ -2241,7 +2241,7 @@ var map = function () {
 
     }
     function removeAllEffects() {
-        effects.forEach(eff => effectManager.removeEffect(eff));
+        [...effects].forEach(eff => effectManager.removeEffect(eff));
 
     }
 

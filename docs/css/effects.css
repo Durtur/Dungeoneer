@@ -364,19 +364,20 @@
         background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 69%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
     }
     50% {
-        filter: blur(12px) brightness(95%);
-        transform: skew(2deg, 2deg);
-        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 98%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
-    }
-    75% {
-        filter: blur(15px) brightness(107%);
-        transform: skew(0, -0);
-        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 68%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
-    }
-    100% {
         filter: blur(11px) brightness(107%);
         transform: skew(-2deg, -2deg);
         background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 68%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
+    
+    }
+    75% {
+        filter: blur(14px) brightness(105%);
+        transform: skew(0, 0);
+        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 69%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
+    }
+    100% {
+        filter: blur(10px) brightness(85%);
+        transform: skew(-2deg, -2deg);
+        background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 75%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
     }
 }
 
@@ -433,8 +434,8 @@
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }
     50% {
-        filter: blur(12px) brightness(95%);
-        transform: skew(2deg, 2deg);
+        filter: blur(14px) brightness(105%);
+        transform: skew(0, 0);
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }
     75% {
@@ -443,7 +444,7 @@
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }
     100% {
-        filter: blur(11px) brightness(107%);
+        filter: blur(10px) brightness(85%);
         transform: skew(-2deg, -2deg);
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }

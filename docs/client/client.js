@@ -79,7 +79,7 @@ function connectionParamsChanged(e) {
         connectButton.classList.add("hidden");
 }
 
-function getPassword(){
+function getPassword() {
     return document.getElementById("password_input").value;
 }
 function connect() {
@@ -92,9 +92,9 @@ function connect() {
     peer.on('open', function (id) {
 
         console.log(id);
-        hostConnection = peer.connect(hostId, 
+        hostConnection = peer.connect(hostId,
             {
-                metadata:{password:getPassword()}
+                metadata: { password: getPassword() }
             });
         timeout = new Timeout(hostConnection);
         hostConnection.on('open', () => {
@@ -139,8 +139,9 @@ function handleMessage(message) {
 
         if (!dataBuffer[message.event]) {
             dataBuffer[message.event] =
-             {  buffer: [], 
-                length: message.data?.chunks 
+            {
+                buffer: [],
+                length: message.data?.chunks
             };
 
         }
@@ -163,7 +164,7 @@ function handleMessage(message) {
 function nothingEmpty(databuffer) {
     var arr = databuffer.buffer;
 
-    if (databuffer.buffer.length != databuffer.length )
+    if (databuffer.buffer.length != databuffer.length)
         return false;
     console.log(`check if empty ${arr.length}`)
     for (var i = 0; i < arr.length; i++) {
@@ -179,7 +180,7 @@ function toBase64Url(base64data) {
 }
 
 function getDataBuffer(event) {
-    //if (dataBuffer[event] == null) return null;
+    if (dataBuffer[event] == null) return null;
     return dataBuffer[event].buffer;
 }
 
@@ -422,6 +423,7 @@ function clientSetForeground(message) {
 function setEffects(effectStr) {
     var arr = (typeof effectStr == "string") ? JSON.parse(effectStr) : effectStr;
     map.removeAllEffects();
+    console.log("Set effects", effects)
     arr.forEach(effObj => addEffect(effObj));
 }
 function addEffect(effObj) {

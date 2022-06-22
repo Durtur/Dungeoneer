@@ -1031,7 +1031,7 @@ a[data-href] {
 }
 
 .timer_container {
-  z-index: 999999;
+  z-index: var(--z-index-roundtimer);
   background-color: var(--black-bg);
   position: absolute;
   margin: auto;

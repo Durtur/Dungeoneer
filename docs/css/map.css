@@ -3,6 +3,8 @@
     --z-index-fov: 10;
     --z-index-measurements: 3;
     --z-index-pawn: 5;
+    --z-index-roundtimer:  999999;
+    --z-index-sidebar: 9999999;
     --z-index-overlay: 6;
     --bg-translate-x: 0;
     --bg-translate-y: 0;

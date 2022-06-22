@@ -54,7 +54,7 @@ body {
 
 .toolbar {
     position: absolute;
-    font-size: 12px;
+    font-size: 0.85em;
     z-index: 500000;
     min-width: 4em;
     left: 0.25em;
@@ -164,7 +164,6 @@ body {
     background-color: var(--dark-transparent-bg);
     margin: 0;
     z-index: 500;
-    text-shadow: 1px 1px #ffffff66;
     padding: 0.25em 0.5em;
     border-radius: var(--rounded-corners);
 }
