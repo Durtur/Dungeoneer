@@ -10,6 +10,8 @@ var connectionObj =
 }
 
 
+const UNSUPPORTED_BROWSERS = ["iPhone", "iPad"];
+
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     document.addEventListener("click", () => userGesture());
     document.addEventListener("touchstart", () => userGesture());
@@ -28,6 +30,26 @@ function userGesture() {
 
 }
 
+function showWelcomeModal() {
+    var done = localStorage.getItem("welcome-modal-shown");
+    if (done)
+        return;
+
+    var modal = ClientModals.createModal("Welcome to Dungeoneer", () => { });
+    var cont = Util.ele("div", "column");
+    cont.appendChild(Util.ele("div", "die_d20", ""));
+    cont.appendChild(Util.ele("p", "p_large", "You can use this site to connect to a game hosted by someone with the Dungeoneer client. You will need a host ID and password provided by your game host. Please report any bugs you find by submitting an issue on <a href = 'https://github.com/Durtur/Dungeoneer/issues'>Github</a>."));
+    cont.appendChild(Util.ele("p", "p_large warning_text", "Only Android mobile browsers are suppoted at the moment. If you are on iPhone or iPad switch the page to full screen, otherwise grid selection will be misaligned."));
+
+    var btn = Util.ele("button", "button_style green  center", "Start playing");
+    btn.onclick = (e)=> modal.modal.close();
+    cont.appendChild(btn);
+    modal.modal.appendChild(cont);
+    document.body.appendChild(modal.parent)
+    localStorage.setItem("welcome-modal-shown", "1");
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener('beforeunload', (event) => {
         if (hostConnection) {
@@ -36,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
+    showWelcomeModal();
 
     var hostId = getUrlParam('hostID');
     if (!hostId) hostId = localStorage.getItem("hostId");

@@ -1,5 +1,5 @@
-const Util = require("./Util")
-const Modals = function () {
+
+const ClientModals = function () {
 
     function modalBase(titleText, callback) {
         var title = document.createElement("h1");
@@ -131,4 +131,3 @@ const Modals = function () {
 
 }();
 
-module.exports = Modals;
