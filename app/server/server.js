@@ -65,7 +65,8 @@ function notifyPeers(message) {
 function sendLayerInfo(message) {
     peers.forEach(async peer => {
         var base64layer = await util.toBase64(message.data.path);
-
+        if (!base64layer)
+            peer.connection.send({ event: message.event, data: { metadata: {} } })
         sendBatched(peer.connection, message.event, base64layer, { width: message.data.width, height: message.data.height, translate: message.data.translate });
     })
 
@@ -419,7 +420,6 @@ function sendMaptoolState(maptoolState) {
 
 const CHUNK_SIZE = 1000000;
 function sendBatched(connection, key, msgString, metadata) {
-    console.log(key)
     if (msgString == null) {
         return connection.send({ event: key, data: { base64: null, chunk: 1, chunks: 1 } });
     }

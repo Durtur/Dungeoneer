@@ -32,6 +32,10 @@ html {
     filter: blur(20px) !important;
 }
 
+.modal{
+    width:65vw !important;
+}
+
 .sidebar {
     top: 2.1em !important;
 }

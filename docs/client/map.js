@@ -254,7 +254,8 @@ function onMonsterHealthChanged(arg) {
     pawns.all = document.querySelectorAll(".pawn");
     var index = parseInt(arg.index);
 
-    var pawn = [...pawns.all].find(x => x.index_in_main_window == index);
+    var pawn = arg.elementId ? [...pawns.all].find(x => x.id == arg.elementId ) :
+                          [...pawns.all].find(x => x.index_in_main_window == index);
 
     if (!pawn) return;
 
@@ -320,6 +321,7 @@ function setTool(event, source, toolIndex) {
 
 
 function setMapOverlayAsBase64(path, width, height) {
+    console.log("Set overlay", path)
     setOverlayHelper(path, width, height)
 }
 
@@ -1839,7 +1841,7 @@ async function generatePawns(pawnArray, monsters) {
 
         }
 
-        newPawn.dead = "false";
+        newPawn.dead = pawn.dead || "false";
         newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
 
         var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
@@ -1906,6 +1908,7 @@ async function generatePawns(pawnArray, monsters) {
         if (pawn.onAdded)
             pawn.onAdded(newPawn);
     };
+    refreshPawnToolTips();
     refreshPawns();
     resizePawns();
     addPawnListeners();

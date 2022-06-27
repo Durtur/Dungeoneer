@@ -189,9 +189,9 @@ function nothingEmpty(databuffer) {
 
     if (databuffer.buffer.length != databuffer.length)
         return false;
-    console.log(`check if empty ${arr.length}`)
+    
     for (var i = 0; i < arr.length; i++) {
-        if (arr[i] == null)
+        if (arr[i] === undefined)
             return false;
     }
     return true;
@@ -229,10 +229,10 @@ function setState(message) {
             clientSetForeground(message)
             break;
         case "background":
-            setMapBackgroundAsBase64(toBase64Url(getDataBuffer(message.event).reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
+            setMapBackgroundAsBase64(toBase64Url(getDataBuffer(message.event)?.reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
             break;
         case "overlay":
-            setMapOverlayAsBase64(toBase64Url(getDataBuffer(message.event).reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
+            setMapOverlayAsBase64(toBase64Url(getDataBuffer(message.event)?.reduce((a, b) => a + b)), message.data.metadata?.width || 0, message.data.metadata?.height || 0);
             break;
         case "tokens-set":
             map.removeAllPawns();
@@ -434,8 +434,8 @@ function moveObjects(arr) {
 }
 
 function clientSetForeground(message) {
-    setMapForegroundAsBase64(toBase64Url(getDataBuffer(message.event).reduce((a, b) => a + b)), message.data.metadata.width, message.data.metadata.height);
-    if (message.data.metadata.translate) {
+    setMapForegroundAsBase64(toBase64Url(getDataBuffer(message.event)?.reduce((a, b) => a + b)), message.data?.metadata?.width, message.data?.metadata?.height);
+    if (message.data?.metadata?.translate) {
         var trsl = message.data.metadata.translate;
         foregroundCanvas.data_transform_x = trsl.x;
         foregroundCanvas.data_transform_y = trsl.y;

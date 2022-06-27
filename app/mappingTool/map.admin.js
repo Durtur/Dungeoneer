@@ -80,7 +80,7 @@ function loadSettings() {
             document.querySelector(".maptool_body").style.backgroundImage = null;
         } else if (settings.map_edge_style) {
             document.querySelector(".maptool_body").style.backgroundImage = "url('" + settings.map_edge_style + "')";
-        
+
         }
         if (!partyArray)
             loadParty();
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
     slider.value = bgSize;
     window.setTimeout(() => {
         backgroundLoop.onSlideChanged = (state) => {
-    
+
             serverNotifier.notifyServer("backgroundLoop", state);
         }
 
@@ -295,11 +295,11 @@ function onSettingsChanged() {
         if (roundTimer) {
             roundTimer.destroy();
         }
-        roundTimer = new Timer(settings.roundTimer, ()=> {
+        roundTimer = new Timer(settings.roundTimer, () => {
             serverNotifier.notifyServer("round-timer", roundTimer.getState());
         });
         roundTimer.render();
-        roundTimer.onclicked((e)=> roundTimer.reset())
+        roundTimer.onclicked((e) => roundTimer.reset())
     }
 }
 
@@ -760,7 +760,8 @@ function killOrRevivePawn() {
                 }
             }
         }
-
+        var arg = { dead: !revivePawn, elementId: pawnElement.id }
+        serverNotifier.notifyServer("monster-health-changed", arg);
         pawnElement.setAttribute("data-state_changed", 1);
     }
 }
@@ -835,8 +836,8 @@ function setTokenNextFacetHandler(e) {
         if (currentIndex >= images.length) currentIndex = 0;
         if (oldIndex == currentIndex) return;
         setPawnToken(pawn, `url('${images[currentIndex]}')`);
-        onBackgroundChanged(pawn);
         pawnPhoto.setAttribute("data-token_current_facet", currentIndex)
+        onBackgroundChanged(pawn);
 
     })
 }
@@ -847,7 +848,7 @@ async function onBackgroundChanged(pawn) {
     var current = parseInt(imgEle.getAttribute("data-token_current_facet") || 0);
     var path = facets[current];
     var base64img = await Util.toBase64(path);
-    console.log("Background changed")
+   
     //Notify clients
     serverNotifier.notifyServer("token-image", { id: pawn.id, base64: base64img });
 
