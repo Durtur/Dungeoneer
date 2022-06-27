@@ -213,11 +213,14 @@ document.addEventListener("DOMContentLoaded", function () {
         parentNode.appendChild(newButton);
         var input = parentNode.querySelector(".conditions_menu_input");
         var list = conditionList.map(x => x.name).sort();
-        new Awesomplete(input, { list: list, autoFirst: true, minChars: 0, maxItems: 25 })
+
+        new Awesomplete(input, { list: ["<Clear all>", ...list], autoFirst: true, minChars: 0, maxItems: 25 })
         input.addEventListener('awesomplete-selectcomplete', function (e) {
             var condition = e.text.value;
             input.value = "";
-
+            if (condition == "<Clear all>") {
+                return removeAllConditionsHandler(e);
+            }
             var condition = conditionList.find(c => c.name == condition);
             createConditionButton(condition.name)
             selectedPawns.forEach(function (pawn) {
@@ -263,8 +266,10 @@ document.addEventListener("DOMContentLoaded", function () {
 async function clientHideSelectedPawn() {
     var hide = selectedPawns[0].client_hidden;
     hide = !hide;
+    if (hide && !SERVER_RUNNING)
+        return;
     selectedPawns.forEach(async pawn => {
-        if (pawn.client_hidde == hide)
+        if (pawn.client_hidden == hide)
             return;
         pawn.client_hidden = hide;
         if (pawn.client_hidden) {
@@ -343,9 +348,19 @@ async function onSettingsLoaded() {
             return saveManager.saveCurrentMap();
         } else if (event.ctrlKey && event.key.toLowerCase() == "o") {
             return saveManager.loadMapDialog();
+        } else if (event.key.toLowerCase() == "n") {
+            setTokenNextFacetHandler();
+        } else if (event.key.toLowerCase() == "e" || event.key.toLowerCase() == "r") {
+            enlargeReduceSelectedPawns(event.key.toLowerCase() == "e" ? 1 : -1);
+        } else if (event.key.toLowerCase() == "c" && selectedPawns.length > 0) {
+            showConditionsMenu({ clientX: window.innerWidth / 2, clientY: window.innerHeight / 2 });
+        } else if (event.key.toLowerCase() == "h" && selectedPawns.length > 0) {
+            clientHideSelectedPawn();
         } else if (keyIndex < 0 || (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)) {
             return;
         }
+
+
         window.clearInterval(resetMoveIncrementTimer);
         resetMoveIncrementTimer = window.setTimeout(function () {
             canvasMoveRate = 2;
@@ -848,7 +863,7 @@ async function onBackgroundChanged(pawn) {
     var current = parseInt(imgEle.getAttribute("data-token_current_facet") || 0);
     var path = facets[current];
     var base64img = await Util.toBase64(path);
-   
+
     //Notify clients
     serverNotifier.notifyServer("token-image", { id: pawn.id, base64: base64img });
 
@@ -976,7 +991,7 @@ function showConditionsMenu(event) {
             conditionsAdded.push(condition);
         });
     });
-    menuWindow.querySelector("input").focus();
+    window.setTimeout(() => menuWindow.querySelector("input").focus(), 100)
     window.setTimeout(function () {
         gridLayer.onclick = function (event) {
             hideAllTooltips();

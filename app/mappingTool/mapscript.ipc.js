@@ -1,6 +1,6 @@
 
 
-var initialLoadComplete = false;
+var initialLoadComplete = false, SERVER_RUNNING = false;
 
 ipcRenderer.on("load-map", function (evt, arg) {
     if (!initialLoadComplete) {
@@ -37,7 +37,7 @@ ipcRenderer.on("maptool-server-state", function (evt, arg) {
 
     var btn = document.getElementById("open_server_button");
     var serverOnly = [...document.querySelectorAll(".server_running_action")]
-    console.log(serverOnly)
+    SERVER_RUNNING = arg.running;
     if (arg.running) {
         btn.classList.add("server_running");
         serverOnly.forEach(x => x.classList.remove("hidden"));

@@ -1605,6 +1605,13 @@ header {
 
 /** TOOLTIPS **/
 
+button[data-hotkey]::after{
+  content: attr(data-hotkey);
+  opacity: 0.7;
+  position:absolute;
+  right:0.5em;
+}
+
 input[data-before_label]:before {
   content: attr(data-before_label);
   left: -25px;
