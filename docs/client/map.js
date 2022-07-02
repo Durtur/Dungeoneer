@@ -254,8 +254,8 @@ function onMonsterHealthChanged(arg) {
     pawns.all = document.querySelectorAll(".pawn");
     var index = parseInt(arg.index);
 
-    var pawn = arg.elementId ? [...pawns.all].find(x => x.id == arg.elementId ) :
-                          [...pawns.all].find(x => x.index_in_main_window == index);
+    var pawn = arg.elementId ? [...pawns.all].find(x => x.id == arg.elementId) :
+        [...pawns.all].find(x => x.index_in_main_window == index);
 
     if (!pawn) return;
 
@@ -369,7 +369,7 @@ function setMapOverlay(path, width) {
 }
 
 function setMapForegroundAsBase64(path, width, height) {
-    
+
     setForegroundHelper(path, width, height)
 }
 
@@ -1088,7 +1088,7 @@ function stopMeasuring(event, ignoreClick) {
             lastMeasuredPoint = null;
             return;
         }
-    
+
         if (document.onmousemove === null) {
             var toggleButtons = document.querySelectorAll(".toolbox_button");
             for (var i = 0; i < toggleButtons.length; i++) {
@@ -1466,6 +1466,7 @@ function dragPawn(elmnt) {
         measurements.clearMeasurements();
         originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }
         tooltip.classList.add("hidden");
+
         serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
             return {
                 pos: map.objectGridCoords(pawn),
@@ -2225,11 +2226,14 @@ var map = function () {
                 moveObject(obj, { x: currX, y: currY }, userAction);
 
             });
-        if (userAction)
+        if (userAction) {
+            console.log("User action")
             serverNotifier.notifyServer("object-moved", [{
                 pos: map.objectGridCoords(elmnt),
                 id: elmnt.id
             }]);
+        }
+
     }
 
 
@@ -2265,13 +2269,15 @@ var map = function () {
             initiative.setRoundCounter(arg.round_increment);
             var curr = initiative.currentActor();
             Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
-            
+
             var dropdown = document.getElementById("fov_perspective_dropdown");
 
-            if (serverNotifier.isServer() && dropdown.value.toLowerCase() != "players") {
+            if (dropdown.value.toLowerCase() != "players") {
                 var currentDd = [...dropdown.options].find(x => x.value == curr.current.name);
-                dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
-                onPerspectiveChanged();
+                if (currentDd) {
+                    dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
+                    onPerspectiveChanged();
+                }
             }
 
             if (roundTimer) {

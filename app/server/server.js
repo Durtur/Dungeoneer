@@ -35,7 +35,7 @@ window.subscribe.on("maptool-server-event", (event, message) => {
     if (message.event == 'maptool-state') {
         return sendMaptoolState(message.data);
     }
-    if (["foreground", "background", "overlay"].find(x => x == message.event)) {
+    if (["foreground", "background", "overlay", "map_edge"].find(x => x == message.event)) {
         return sendLayerInfo(message);
     }
     if (message.event == "party-changed") {
@@ -62,12 +62,13 @@ function notifyPeers(message) {
     })
 }
 
-function sendLayerInfo(message) {
+async function sendLayerInfo(message) {
+    var base64Layer = await getMapLayer(message.data.path, message.event);
     peers.forEach(async peer => {
-        var base64layer = await util.toBase64(message.data.path);
-        if (!base64layer)
+       
+        if (!base64Layer)
             peer.connection.send({ event: message.event, data: { metadata: {} } })
-        sendBatched(peer.connection, message.event, base64layer, { width: message.data.width, height: message.data.height, translate: message.data.translate });
+        sendBatched(peer.connection, message.event, base64Layer, { width: message.data.width, height: message.data.height, translate: message.data.translate });
     })
 
 }
@@ -390,7 +391,7 @@ function sendMaptoolState(maptoolState) {
             var dataObject = {
                 foreground: await getMapLayer(maptoolState.foreground.path, "foreground"),
                 background: await getMapLayer(maptoolState.background.path, "background"),
-                mapEdge: await getMapLayer(mt.map_edge_style, "map_edge_style"),
+                mapEdge: await getMapLayer(mt.map_edge_style, "map_edge"),
                 overlay: await getMapLayer(maptoolState.overlay.path, "overlay")
             };
             peer.connection.send({ event: "constants", data: constants })

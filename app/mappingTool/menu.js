@@ -53,6 +53,7 @@ class Menu {
             settings.map_edge_style = null;
             document.querySelector(".maptool_body").style.backgroundImage = "none";
             saveSettings();
+            serverNotifier.notifyServer("map_edge", serverNotifier.getMapEdgeState());
         };
         document.querySelector("#map_edge_button").onclick = function (e) {
             var imgPath = getMapImageFromDialog();
@@ -60,6 +61,7 @@ class Menu {
             document.querySelector(".maptool_body").style.backgroundImage = "url('" + imgPath + "')";
             settings.map_edge_style = imgPath;
             saveSettings();
+            serverNotifier.notifyServer("map_edge", serverNotifier.getMapEdgeState());
         }
 
         document.getElementById("open_server_button").onclick = (e) => {

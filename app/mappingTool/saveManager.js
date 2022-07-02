@@ -135,6 +135,7 @@ class SaveManager {
         } else if (util.isImage(path)) {
             setMapOverlay(null);
             setMapBackground(null);
+            fovLighting.setSegments([]);
             setMapForeground(path.replaceAll("\\", "/"));
             this.removeExistingEffects();
             return;

@@ -22,7 +22,7 @@ var serverNotifier = function () {
                 segments: { segments: getSegments() },
                 fog: fovLighting.getFogStyle(),
                 conditions: await getConditionsForExport(),
-                roundTimer : roundTimer?.getState(),
+                roundTimer: roundTimer?.getState(),
                 initiative: initiative.getState()
             }
         });
@@ -47,6 +47,10 @@ var serverNotifier = function () {
     function getBackgroundState() {
         var hw = getCanvasState(backgroundCanvas);
         return { path: settings.currentBackground, width: hw.width, height: hw.height }
+    }
+
+    function getMapEdgeState() {
+        return { path: settings.map_edge_style, width: null, height: null };
     }
 
     function getForegroundState() {
@@ -115,17 +119,18 @@ var serverNotifier = function () {
 
     }
 
-    function serverIsRunning(){
+    function serverIsRunning() {
         return document.getElementById("open_server_button").classList.contains("server_running");
     }
     return {
         notifyServer: notifyServer,
-        serverIsRunning:serverIsRunning,
+        serverIsRunning: serverIsRunning,
         sendState: sendState,
         getConditionsForExport: getConditionsForExport,
         getForegroundState: getForegroundState,
         getTokensForExport: getTokensForExport,
         getBackgroundState: getBackgroundState,
+        getMapEdgeState,getMapEdgeState,
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
         mobTokensChanged: mobTokensChanged,
