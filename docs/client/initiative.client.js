@@ -18,6 +18,10 @@ var initiative = function () {
         if (roundTimer) {
             roundTimer.destroy();
         }
+        var currentActorEle = document.getElementById("initiative_current_actor");
+        if (currentActorEle) {
+            currentActorEle.classList.add("hidden");
+        }
     }
     function hide() {
         emptyInitiative();
@@ -70,7 +74,7 @@ var initiative = function () {
     }
 
     function getNextRoundCounterValue() {
-   
+
         var max = order.length;
 
         if (roundCounter[1] >= max) {
@@ -98,7 +102,7 @@ var initiative = function () {
 
         var initNodes = [...document.querySelectorAll(".initiativeNode")];
         var max = initNodes.length;
-        console.log(roundCounter)
+
         if (roundCounter[1] >= max && sign > 0 || roundCounter[1] <= 1 && sign < 0) {
             if (roundCounter[1] >= max) {
                 roundCounter[1] = 1;
@@ -133,9 +137,7 @@ var initiative = function () {
             currentNode.classList.remove("initiative_node_inactive")
 
             var current = order[roundCounter[1] - 1];
-            if (current && !current.isPlayer && frameHistoryButtons) //is player
-                frameHistoryButtons.clickButtonNamed(current.name);
-
+  
             if (currentNode.classList.contains("initiative_node_action_readied")) {
                 currentNode.classList.remove("initiative_node_action_readied");
             }

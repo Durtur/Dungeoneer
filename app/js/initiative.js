@@ -347,7 +347,7 @@ var initiative = function () {
 
         }
         if (isMainWindow) {
-            publishEvent({ round_increment: roundCounter });
+            publishEvent({ round_increment: roundCounter, order:order });
             notifyMapToolNextPlayer();
         }
         return current;

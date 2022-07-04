@@ -373,7 +373,7 @@ function setMobTokens(data) {
 
     if (!token || !token[0])
         return;
-    console.log(token)
+
     var pawn = token[0];
     cssifyMobTokens(data.map);
     refreshMobBackgroundImages(pawn, data);
@@ -389,6 +389,7 @@ function cssifyMobTokens(tokenArray) {
 }
 
 function importSegments(segments) {
+    if(!segments)segments = [];
     var arr = segments.map(seg => {
         return {
             a: map.pixelsFromGridCoords(seg.a.x, seg.a.y),

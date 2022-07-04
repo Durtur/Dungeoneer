@@ -1874,9 +1874,15 @@ async function generatePawns(pawnArray, monsters) {
             if (optionalPaths != null) {
                 setPawnBackgroundFromPathArray(newPawn, optionalPaths, pawn.bgPhotoBase64 == null);
             } else {
-                monsters ?
-                    await setPawnImageWithDefaultPath(newPawn, pawn.monsterId)
-                    : await setPlayerPawnImage(newPawn, pawn.id)
+                if (monsters) {
+                    var imageExists = await setPawnImageWithDefaultPath(newPawn, pawn.monsterId);
+                     
+                    if (!imageExists)
+                        rotate = 0;
+                } else {
+                    await setPlayerPawnImage(newPawn, pawn.id)
+                }
+
             }
         }
 

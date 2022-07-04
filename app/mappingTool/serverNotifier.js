@@ -3,7 +3,15 @@
 var serverNotifier = function () {
     var timeouts = {};
 
+    async function mapToolInit() {
+        notifyServer("backgroundLoop", {});
+        notifyServer("overlayLoop", {});
+        notifyServer("segments", []);
+        notifyServer("initiative", initiative.getState());
+    }
+    
     async function sendState() {
+
         var bgState = {};
         backgroundLoop.saveSlideState(bgState)
         var overlayState = {};
@@ -126,11 +134,12 @@ var serverNotifier = function () {
         notifyServer: notifyServer,
         serverIsRunning: serverIsRunning,
         sendState: sendState,
+        mapToolInit: mapToolInit,
         getConditionsForExport: getConditionsForExport,
         getForegroundState: getForegroundState,
         getTokensForExport: getTokensForExport,
         getBackgroundState: getBackgroundState,
-        getMapEdgeState,getMapEdgeState,
+        getMapEdgeState, getMapEdgeState,
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
         mobTokensChanged: mobTokensChanged,

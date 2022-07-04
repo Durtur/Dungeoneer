@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
     updateHowlerListenerLocation();
     window.api.messageWindow('mainWindow', 'maptool-initialized')
     serverNotifier.notifyServer("request-state", null);
+    serverNotifier.mapToolInit()
     var bgSize = parseInt($("#foreground").css("background-size"));
     var slider = document.getElementById("foreground_size_slider");
     slider.value = bgSize;
@@ -694,6 +695,7 @@ async function setPlayerPawnImage(pawnElement, path) {
     onBackgroundChanged(pawnElement);
 }
 
+///Sets pawn image from library. Returns true if any image existed. 
 async function setPawnImageWithDefaultPath(pawnElement, path) {
     var tokenPath;
     var possibleNames = [];
@@ -718,6 +720,7 @@ async function setPawnImageWithDefaultPath(pawnElement, path) {
     imgEle.setAttribute("data-token_facets", JSON.stringify(possibleNames));
     imgEle.setAttribute("data-token_current_facet", possibleNames.indexOf(tokenPath));
     imgEle.style.backgroundImage = `url('${tokenPath}')`;
+    return tokenPath != DEFAULT_TOKEN_PATH;
 }
 
 
