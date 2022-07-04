@@ -422,30 +422,36 @@ async function onSettingsLoaded() {
 
 }
 
-function getMapImageFromDialog() {
-    return window.dialog.showOpenDialogSync({
+function getMapImageFromDialog(pathKey) {
+    var localStoragePath = `default_path_${pathKey}`;
+    var defaultPath = localStorage.getItem(localStoragePath);
+    var path = window.dialog.showOpenDialogSync({
         properties: ['openFile'],
         message: "Choose map",
+        defaultPath: defaultPath || "",
         filters: [{ name: 'Images', extensions: constants.imgFilters }]
-    })[0].replace(/\\/g, "/");
+    })[0];
+    localStorage.setItem(localStoragePath, path);
+    return path.replace(/\\/g, "/");
+
 }
 
 function getBackgroundFromFile(e) {
-    var path = getMapImageFromDialog();
+    var path = getMapImageFromDialog("background");
     if (path) {
         setMapBackground(path, settings.defaultMapSize);
     }
 };
 
 function getOverlayFromFile(e) {
-    var path = getMapImageFromDialog();
+    var path = getMapImageFromDialog("overlay");
     if (path) {
         setMapOverlay(path, settings.defaultMapSize);
     }
 }
 
 function getForegroundFromFile(e) {
-    var path = getMapImageFromDialog();
+    var path = getMapImageFromDialog("foreground");
     if (path) {
         setMapForeground(path, settings.defaultMapSize);
         settings.currentMap = path;
