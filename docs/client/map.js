@@ -2269,7 +2269,7 @@ var map = function () {
                 if (!x.isPlayer)
                     x.name = "???";
             });
-            return initiative.setOrder(arg.order);
+             initiative.setOrder(arg.order);
         }
         if (arg.round_increment) {
             initiative.setRoundCounter(arg.round_increment);

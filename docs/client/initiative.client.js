@@ -10,9 +10,8 @@ var initiative = function () {
 
     function emptyInitiative() {
         var bar = document.getElementById("initBar");
-        var nodes = [...document.querySelectorAll("#initBar .initiativeNode")];
-        while (nodes.length > 0) {
-            bar.removeChild(nodes.pop());
+        while (bar.firstChild) {
+            bar.removeChild(bar.firstChild);
         }
 
         if (roundTimer) {
@@ -38,34 +37,30 @@ var initiative = function () {
 
         emptyInitiative();
         var initNodes = [...document.querySelectorAll(".initiativeNode")];
-        initNodes.forEach(x => {
-            x.classList.remove("init_not_started");
-            x.onclick = null;
-
-        });
 
         //Create buttons in initiative elements.
         var bar = document.getElementById("initBar");
         for (var j = 0; j < order.length; j++) {
-            var newNode = j > 0 ? initNodes[0].cloneNode(true) : initNodes[0];
-            newNode.querySelector(".init_value_node").innerHTML = (order[j].roll);
-            newNode.querySelector(".initiative_name_node").innerHTML = (order[j].name);
-            newNode.querySelector(".initiative_explanation_text_node").value = "Write note";
-            bar.appendChild(newNode);
-
-
-            if (order[j].isPlayer) {
-                newNode.classList.add("player_node");
-                newNode.classList.remove("monster_node");
-            } else {
-                newNode.classList.add("monster_node");
-                newNode.classList.remove("player_node");
-            }
-            newNode.style.backgroundColor = getColor(order[j]);
+            bar.appendChild(createNode(order[j]));
         }
 
     }
 
+    function createNode(entry) {
+        var newNode = Util.ele("div", "initiativeNode  init--PC");
+        var p = Util.ele("p", "initiative_name_node", entry.name)
+        newNode.appendChild(p);
+        if (entry.isPlayer) {
+            newNode.classList.add("player_node");
+            newNode.classList.remove("monster_node");
+        } else {
+            newNode.classList.add("monster_node");
+            newNode.classList.remove("player_node");
+        }
+        newNode.style.backgroundColor = getColor(entry);
+        return newNode;
+    }
+    
     function getColor(entry) {
 
         if (entry.color) return Util.hexToHSL(entry.color, 40);
@@ -137,7 +132,7 @@ var initiative = function () {
             currentNode.classList.remove("initiative_node_inactive")
 
             var current = order[roundCounter[1] - 1];
-  
+
             if (currentNode.classList.contains("initiative_node_action_readied")) {
                 currentNode.classList.remove("initiative_node_action_readied");
             }
@@ -190,6 +185,7 @@ var initiative = function () {
     }
 
     function currentActor() {
+        console.log(roundCounter)
         var current = order[roundCounter[1] - 1].name;
 
         if (current == null) {
