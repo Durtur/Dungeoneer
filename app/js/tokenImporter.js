@@ -20,7 +20,7 @@ async function startImporting(e) {
     loading.classList.remove("hidden");
     var files = await getFiles(filePath);
     files = files.filter(x => util.isImage(x));
-    console.log(files);
+
     var foundPaths = [];
     loadingDetail.innerHTML = "";
     document.getElementById("loading_title").innerHTML = "Playing monster match...";
