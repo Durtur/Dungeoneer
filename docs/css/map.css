@@ -1,6 +1,7 @@
 :root {
     --z-index-initiative: 11;
     --z-index-fov: 10;
+    --z-index-above-fog:500;
     --z-index-measurements: 3;
     --z-index-pawn: 5;
     --z-index-roundtimer:  999999;
@@ -74,6 +75,9 @@ body {
     background-color:var(--main-success-color-lighter) !important;
 }
 
+.above_fog{
+    z-index: var(--z-index-above-fog) !important;
+}
 .token_client_hidden{
     opacity:0.4;
 }

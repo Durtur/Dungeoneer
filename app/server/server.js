@@ -337,7 +337,7 @@ function handleDataEvent(data, connection) {
         data.data.forEach(ele => {
 
             var access = peer.partyAccess.find(x => x.element_id == ele.id || x.element_id == "all");
-
+            
             if (access) {
                 notifyMaptool({ event: data.event, data: ele });
                 var player = peer.partyAccess.find(x => x.id == ele.id);

@@ -1396,19 +1396,10 @@ function dragPawn(elmnt) {
                     obj.style.left = (obj.offsetLeft - posX) + "px";
                     if (obj.sound)
                         soundManager.adjustPlacement(obj.id, (obj.offsetLeft - posX), (obj.offsetTop - posY));
+
                 });
             }
 
-            // serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
-            //     return {
-            //         pos: map.objectGridCoords(pawn),
-            //         id: pawn.id
-            //     }
-            // }).concat({
-            //     pos: map.objectGridCoords(elmnt),
-            //     id: elmnt.id
-
-            // }));
             //Clear old
             if (oldLine != null) {
                 measurements.eraseModeOn();
@@ -1467,20 +1458,24 @@ function dragPawn(elmnt) {
         originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop }
         tooltip.classList.add("hidden");
 
-        serverNotifier.notifyServer("object-moved", selectedPawns.map(pawn => {
-            return {
+        var movedThings = [elmnt, ...selectedPawns];
+        console.log(movedThings)
+        serverNotifier.notifyServer("object-moved", movedThings.map(pawn => {
+            return [{
                 pos: map.objectGridCoords(pawn),
                 id: pawn.id,
                 distance: tooltip.innerHTML,
-                idx: elmnt.index_in_main_window
-            }
-        }).concat({
-            pos: map.objectGridCoords(elmnt),
-            id: elmnt.id,
-            distance: tooltip.innerHTML,
-            idx: elmnt.index_in_main_window
-
-        }));
+                idx: pawn.index_in_main_window
+            }].concat(
+                (pawn.attached_objects || []).map(obj => {
+                    return {
+                        pos: map.objectGridCoords(obj),
+                        id: obj.id
+                    }
+                }
+                ))
+        }).flat()
+        );
 
     }
 }
@@ -1876,7 +1871,7 @@ async function generatePawns(pawnArray, monsters) {
             } else {
                 if (monsters) {
                     var imageExists = await setPawnImageWithDefaultPath(newPawn, pawn.monsterId);
-                     
+
                     if (!imageExists)
                         rotate = 0;
                 } else {
@@ -2213,6 +2208,7 @@ var map = function () {
     }
 
     function moveObject(elmnt, point, userAction = true) {
+        console.log("Move ", elmnt)
         var oldX = parseFloat(elmnt.style.left);
         var oldY = parseFloat(elmnt.style.top);
         var diffX = oldX - point.x;
@@ -2229,7 +2225,7 @@ var map = function () {
                 var currY = parseFloat(obj.style.top);
                 currX -= diffX;
                 currY -= diffY;
-                moveObject(obj, { x: currX, y: currY }, userAction);
+                moveObject(obj, { x: currX, y: currY }, true);
 
             });
         if (userAction) {
@@ -2269,7 +2265,7 @@ var map = function () {
                 if (!x.isPlayer)
                     x.name = "???";
             });
-             initiative.setOrder(arg.order);
+            initiative.setOrder(arg.order);
         }
         if (arg.round_increment) {
             initiative.setRoundCounter(arg.round_increment);

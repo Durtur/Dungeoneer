@@ -108,7 +108,7 @@ ipcRenderer.on("client-event", function (evt, arg) {
         var pawnInfo = arg.data;
         var pawn = document.getElementById(pawnInfo.id);
         var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
-
+        
         map.moveObject(pawn, tanslatedPixels, false)
     }
 })

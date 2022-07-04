@@ -755,7 +755,8 @@ var fovLighting = function () {
     function setPerspective() {
         var selectedIndex = document.getElementById("fov_perspective_dropdown").selectedIndex;
         var name = document.getElementById("fov_perspective_dropdown").options[selectedIndex].value;
-
+        if (forcedPerspectiveOrigin)
+            forcedPerspectiveOrigin.forEach(x => x.classList.remove("above_fog"));
         if (name == "All") {
             forcedPerspectiveOrigin = null;
             setDarkvision(false);
@@ -763,7 +764,8 @@ var fovLighting = function () {
             return;
         } else if (name == "Players") {
             forcedPerspectiveOrigin = pawns.players.map(x => x[0]);
-            console.log(forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"))
+            forcedPerspectiveOrigin.classList.add("above_fog");
+
             setDarkvision(!forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"));
         } else {
             var player = pawns.players.find(x => x[1] == name);
@@ -772,6 +774,8 @@ var fovLighting = function () {
                 setDarkvision(forcedPerspectiveOrigin[0].sight_mode == "darkvision");
             }
         }
+        if (forcedPerspectiveOrigin)
+            forcedPerspectiveOrigin.forEach(x => x.classList.add("above_fog"));
 
 
         drawFogOfWar();
