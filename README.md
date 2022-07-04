@@ -11,7 +11,7 @@
 ## What is it?
 This tool is meant to make the DM's job easier and help you run your games effectively. It handles database managment and lookup for
 homebrew and freely licensed SRD monsters and spells, and has a few standard tools.
-* (Coming soon) Multiplayer Virtual Tabletop
+* Multiplayer Virtual Tabletop
     * Join games on any desktop or android mobile browser
     * Powerful access control
 * Encounter creator
