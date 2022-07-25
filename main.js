@@ -606,7 +606,11 @@ function createMapToolWindow(callback) {
       console.log(err);
       data = { maptool: { transparentWindow: false } };
     } else {
-      data = JSON.parse(data);
+      try {
+        data = JSON.parse(data);
+      } catch {
+        data = { maptool: { transparentWindow: false } };
+      }
       if (data == null || data.maptool == null) {
         data = { maptool: { transparentWindow: false } };
       }
