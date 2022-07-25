@@ -157,8 +157,7 @@ class TokenDialog {
             spawnPoint: { x: e.clientX - (dndSize * cellSize) / 2, y: e.clientY - (dndSize * cellSize) / 2 }
 
         }], true )
-
-        notifyTokenAdded(lastIndexInsertedMonsters, pawnName)
+    
     }
 
     populateSizeDropdown() {

@@ -53,7 +53,7 @@
     left: 0px;
     background: rgba(0, 0, 0, 0.75);
     z-index: 3;
-    overflow: scroll;
+    overflow: auto;
 }
 
 .modal .token_search_input {

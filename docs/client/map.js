@@ -1169,10 +1169,9 @@ function refreshMeasurementTooltip() {
 
 function removeDuplicatePawnNumbers(index, newEleId) {
     var pawns = [...document.getElementsByClassName("pawn_numbered")];
-    console.log(`Remove duplicates ${index}`, newEleId)
+    index = `${index}`;
     pawns.forEach(function (pawn) {
-        if (pawn.index_in_main_window === index && pawn.id != newEleId) {
-
+        if (`${pawn.index_in_main_window}` === index && pawn.id != newEleId) {
             pawn.classList.remove("pawn_numbered");
             pawn.index_in_main_window = "";
         }
@@ -1777,8 +1776,6 @@ async function setPawnMobBackgroundImages(pawn, path, tokens) {
 }
 
 
-
-var lastIndexInsertedMonsters = 1;
 var lastColorIndex = 0;
 async function generatePawns(pawnArray, monsters) {
     var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;

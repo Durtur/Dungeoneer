@@ -110,9 +110,9 @@ function notifySelectedPawnsChanged() {
 }
 
 
-function notifyTokenAdded(tokenIndex, name) {
-    window.api.messageWindow('mainWindow', 'notify-token-added-in-maptool', [tokenIndex, name]);
-}
+// function notifyTokenAdded(tokenIndex, name) {
+//     window.api.messageWindow('mainWindow', 'notify-token-added-in-maptool', [tokenIndex, name]);
+// }
 
 function requestNotifyUpdateFromMain() {
     window.api.messageWindow('mainWindow', 'update-all-pawns');
@@ -819,7 +819,7 @@ function startAddingFromQueue() {
         var offset = (radiusOfPawn * cellSize) / 2;
         var popped = pawns.addQueue[0];
         pawns.addQueue.splice(0, 1);
-        popped.index_in_main_window = lastIndexInsertedMonsters++;
+
         popped.spawnPoint = { x: e.clientX - offset, y: e.clientY - offset };
         await generatePawns([popped], true);
 

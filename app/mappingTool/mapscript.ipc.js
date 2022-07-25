@@ -93,9 +93,9 @@ ipcRenderer.on('settings-changed', function (evt, arg) {
 ipcRenderer.on('monster-list-cleared', function (evt, arg) {
 
     pawns.monsters.forEach(function (element) {
+        element = element[0];
         if (element.getAttribute("data-mob_size") != null)
             return;
-        element = element[0];
         element.index_in_main_window = "";
         element.classList.remove("pawn_numbered");
     });
