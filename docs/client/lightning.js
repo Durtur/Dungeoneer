@@ -764,9 +764,11 @@ var fovLighting = function () {
             return;
         } else if (name == "Players") {
             forcedPerspectiveOrigin = pawns.players.map(x => x[0]);
-            forcedPerspectiveOrigin.classList.add("above_fog");
-
-            setDarkvision(!forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"));
+            console.log()
+            if (forcedPerspectiveOrigin) {
+                forcedPerspectiveOrigin.forEach(x => x.classList.add("above_fog"));
+                setDarkvision(!forcedPerspectiveOrigin.find(x => x.sight_mode != "darkvision"));
+            }
         } else {
             var player = pawns.players.find(x => x[1] == name);
             if (player) {
