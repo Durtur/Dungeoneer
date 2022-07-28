@@ -47,7 +47,12 @@ class TokenSelector {
 
         var cls = this;
 
-        var files = await getFiles(this.tokenFolder);
+        var files = [];
+        try {
+            files = await getFiles(this.tokenFolder);
+        } catch {
+           return cls._createNoTokenFolder(modal);
+        }
         files = files.filter(x => util.isImage(x));
         var suggestedTokenContainer = document.createElement("div");
         suggestedTokenContainer.classList = "row_wrap token_selector_suggested"
@@ -83,35 +88,35 @@ class TokenSelector {
             cls.done(paths);
         }
 
-        
+
         var searchInp = util.ele("input", "list_search_style token_search_input");
-      
+
         buttonContainerParent.appendChild(searchInp);
         var fileBtn = util.ele("button", "file_button");
-     
+
         var tokenSelectionText = document.createElement("p");
         tokenSelectionText.style.margin = "1em";
-        var buttonWrapper = util.wrapper("div","row", tokenSelectionText);
+        var buttonWrapper = util.wrapper("div", "row", tokenSelectionText);
 
-        
-        fileBtn.onclick = ()=> {
- 
+
+        fileBtn.onclick = () => {
+
             var tokenPath = window.dialog.showOpenDialogSync({
                 properties: ['openFile'],
                 message: "Choose token location",
-                filters: [{ name: 'Images', extensions:constants.imgFilters}]
-              });
-              if (tokenPath == null)
+                filters: [{ name: 'Images', extensions: constants.imgFilters }]
+            });
+            if (tokenPath == null)
                 return;
-              tokenPath = tokenPath[0];
-              cls.done(tokenPath);
+            tokenPath = tokenPath[0];
+            cls.done(tokenPath);
         };
         buttonContainerParent.appendChild(buttonContainer);
 
         buttonWrapper.appendChild(fileBtn);
-      
+
         buttonWrapper.appendChild(btn);
-        
+
         buttonContainer.appendChild(buttonWrapper);
         var info = document.createElement("div");
         info.innerHTML = "CTRL hover to enlarge";
@@ -162,21 +167,21 @@ class TokenSelector {
         const scrollTakeCount = 60;
 
         var destroyHandler = scrollOnDemand(restContainer, allFiles);
-        
+
         searchInp.oninput = () => {
             window.clearTimeout(searchInp.timeout);
-            searchInp.timeout = window.setTimeout(()=> {
+            searchInp.timeout = window.setTimeout(() => {
                 var inputSplt = searchInp.value.split(" ");
 
-                var filtered = !searchInp.value ? allFiles:  allFiles.filter(x => {
+                var filtered = !searchInp.value ? allFiles : allFiles.filter(x => {
                     var fileName = basename(x).deserialize().toLowerCase();
                     return inputSplt.find(x => fileName.includes(x));
-    
+
                 });
                 destroyHandler();
                 destroyHandler = scrollOnDemand(restContainer, filtered);
-            },200)
-   
+            }, 200)
+
         }
         modal.appendChild(restContainer);
         modal.appendChild(buttonContainerParent);
@@ -191,7 +196,7 @@ class TokenSelector {
             var res = container.removeEventListener("wheel", expandOnScroll);
             console.log(res);
             container.addEventListener("wheel", expandOnScroll);
-            return ()=> container.removeEventListener("wheel", expandOnScroll);;
+            return () => container.removeEventListener("wheel", expandOnScroll);;
             function expandOnScroll(e) {
                 if (container.scrollTop + container.offsetHeight >= container.scrollHeight) {
 
@@ -251,7 +256,7 @@ class TokenSelector {
                         [...modal.querySelectorAll(`.${clsName}`)].forEach(m => m.classList.remove(clsName));
                     }
                     img.classList.add(clsName);
-                    
+
                 }
                 updateSelection();
             });
