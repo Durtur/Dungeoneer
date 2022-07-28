@@ -1621,7 +1621,7 @@ function setupFOVMeasurements() {
     measurementsLayerContext.lineWidth = 5;
     measurementsLayerContext.setLineDash([]);
     measurementsLayerContext.fillStyle = "rgba(200, 200, 0, 0.469)";
-    measurementsLayerContext.strokeStyle = "#2222aa";
+    measurementsLayerContext.strokeStyle = fovLighting.SEGMENT_COLOR;
 }
 
 

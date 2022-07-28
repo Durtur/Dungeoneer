@@ -37,6 +37,7 @@ var fovLighting = function () {
         LowLight: 0,
         None: 2
     };
+    const SEGMENT_COLOR = "#660666";
     const SEGMENT_SELECTION_MARGIN = 3;
     var mapIsBlack = false;
     var fovLayer = document.getElementById("fog_of_war");
@@ -729,7 +730,7 @@ var fovLighting = function () {
 
             } else {
                 if (!showVisibilityLayer) continue;
-                fovSegmentLayerContext.strokeStyle = "#2222aa";
+                fovSegmentLayerContext.strokeStyle = SEGMENT_COLOR;
                 fovSegmentLayerContext.lineWidth = 5 * DEVICE_SCALE;
             }
             fovSegmentLayerContext.beginPath();
@@ -897,6 +898,7 @@ var fovLighting = function () {
         setFogStyle: setFogStyle,
         getFogStyle: getFogStyle,
         MapFogType: MapFogEnum,
+        SEGMENT_COLOR:SEGMENT_COLOR,
         toggleDarkvision: toggleDarkvision,
         viewerHasDarkvision: viewerHasDarkvision,
         nudgeSegments: nudgeSegments,

@@ -695,6 +695,15 @@ li {
     visibility: hidden;
 }
 
+.visibility_toolbox {
+    background-color: #660666 !important;
+}
+
+.visibility_toolbox:hover, .visibility_toolbox[toggled=true] {
+    background-color: #8f088f !important;
+}
+
+
 .initiative_node_inactive p::first-letter {
     visibility: visible;
 }
