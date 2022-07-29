@@ -721,12 +721,12 @@ function saveEncounterSet() {
             if (encounterSetAwesomplete._list.indexOf(encounterSetName) < 0)
                 encounterSetAwesomplete._list.push(encounterSetName)
             if (err) {
-                $('#save_failed').fadeIn("fast").delay(2500).fadeOut("slow");
+                Util.showFailedMessage("Save failed");
                 return;
             }
             document.getElementById("delete_encounter_set_button").classList.remove("hidden");
 
-            $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
+            Util.showSuccessMessage("Saved");
             document.getElementById("encounter_set_name_input").value = "";
             clearRandomTableContainer();
 
@@ -957,7 +957,7 @@ function saveRandomTable() {
 
         dataAccess.setRandomTables(obj, function (data, err) {
             if (err) {
-                $('#save_failed').fadeIn("fast").delay(2500).fadeOut("slow");
+                Util.showFailedMessage("Save failed");
                 return;
             }
             if (randomTableNames.indexOf(input.value) < 0) {
@@ -965,7 +965,7 @@ function saveRandomTable() {
             }
             document.getElementById("delete_table_button").classList.remove("hidden");
             console.log("saved")
-            $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
+            Util.showSuccessMessage("Saved");
 
         });
 

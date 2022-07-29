@@ -1,7 +1,7 @@
 
 var tab = "monsters", tabElementNameSuffix = "monsters";
 const { ipcRenderer } = require('electron');
-const Modals = require("./js/modals")
+const Modals =  require("./js/modals")
 
 const uniqueID = require('uniqid');
 

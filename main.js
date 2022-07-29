@@ -166,7 +166,7 @@ ipcMain.on('open-database-window', function () {
     return;
   }
 
-  databaseWindow = createBaseWindow({ title: "Database" }, '/app/database.html')
+  databaseWindow = createBaseWindow({ title: "Database" }, '/app/database.html', () => { })
 
   databaseWindow.on('closed', function () {
     databaseWindow = null;
@@ -211,7 +211,7 @@ ipcMain.on('open-server-window', function () {
 });
 
 
-function createBaseWindow(options, fileToLoad, whenOpenedFn, show = true) {
+function createBaseWindow(options, fileToLoad, whenOpenedFn, show = true, preload = false) {
 
   var window = new BrowserWindow(
     {
@@ -221,7 +221,11 @@ function createBaseWindow(options, fileToLoad, whenOpenedFn, show = true) {
       title: options?.title || "Dungeoneer",
       icon: "./app/css/img/icon.png",
       show: show,
-      webPreferences: {
+      webPreferences: preload ? {
+        nodeIntegration: false,
+        contextIsolation: true,
+        preload: path.join(__dirname, '/app/js/preload.api.js')
+      } : {
         nodeIntegration: true,
         contextIsolation: false
       }
