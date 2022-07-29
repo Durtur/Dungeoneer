@@ -124,6 +124,10 @@ h1 {
   justify-content: space-around;
 }
 
+#maptool_notify_button[disabled]{
+  display:none !important;
+}
+
 .control_button {
   width: 6em;
   font-size: 12px !important;
