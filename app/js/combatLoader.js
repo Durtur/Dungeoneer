@@ -246,7 +246,7 @@ var combatLoader = function () {
 
             var isDead = currentHp <= 0;
             var hasTempHp = currentHp > originalHp;
-          
+
             var ratio = currentHp / originalHp;
             var healthBar = row.querySelector(".health_bar");
 
@@ -640,7 +640,9 @@ var combatLoader = function () {
             }
 
         });
-
+        var order = localStorage.getItem("combatpanel-sort-order");
+        if (order)
+            orderBy(order);
 
     }
     var hpFieldDelay, lastHpFieldValue;
@@ -729,7 +731,7 @@ var combatLoader = function () {
         var log = row.getAttribute("data-combat_log");
         log = log == null || log == "" ? [] : JSON.parse(log);
 
-       
+
         log.push({ date: Util.currentTimeStamp(), text: thingyToAdd, entryType: entryType });
         row.setAttribute("data-combat_log", JSON.stringify(log));
 
@@ -1108,13 +1110,21 @@ var combatLoader = function () {
         sort();
     }
     function orderBy(order) {
-
+        window.setTimeout(() => {
+            var btns = [...document.querySelectorAll("#combat_tracker_sort_buttons .sort_button")];
+            btns.forEach(button => {
+                button.setAttribute("toggled", "false");
+                if (button.getAttribute("data-sort") == order)
+                    button.setAttribute("toggled", "true");
+            })
+        }, 500)
         currentSortMarkFunction = currentSortResetFunction;
+        localStorage.setItem("combatpanel-sort-order", order);
         if (order == "name") {
             currentSortFunction = function (a, b) {
                 var nameA = a.getElementsByClassName("name_field")[0].value;
                 var nameB = b.getElementsByClassName("name_field")[0].value;
-                console.log(nameA, nameB)
+
                 return nameA.localeCompare(nameB);
             };
         } else if (order == "hp") {

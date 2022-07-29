@@ -143,7 +143,7 @@ ipcRenderer.on('monster-killed', function (evt, arg) {
   combatLoader.kill(arg[1], true);
 });
 
-function externalLink(e){
+function externalLink(e) {
   console.log(e)
   e.preventDefault();
   window.api.openBrowser(e.target.getAttribute("data-href"))
@@ -152,7 +152,9 @@ function externalLink(e){
 /* #endregion */
 document.addEventListener("DOMContentLoaded", function () {
   onboarding.init();
-  loadSettings();
+  loadSettings(() => {
+    combatLoader.initialize();
+  });
   observeArrayChanges(loadedMonsterQueue, function () {
     loadedMonsterQueue.update();
   });
@@ -172,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function () {
     window.api.messageWindow("maptoolWindow", 'notify-main-reloaded');
   }, 1000)
 
-  combatLoader.initialize();
+
   $('.initiativeNode').on("click", initiative.roll);
   initiative.setAsMain();
   initiative.addEventListener(evt => {
@@ -546,12 +548,13 @@ function loadScratchPad() {
  * Settings variables
  */
 var settings;
-function loadSettings() {
+function loadSettings(callback) {
 
   dataAccess.getSettings(function (data) {
 
     settings = data;
     settings.maptool.currentMap = {};
+    if (callback) callback();
     applySettings();
     loadParty();
     loadScratchPad();

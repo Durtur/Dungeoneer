@@ -157,15 +157,16 @@ initiative</p>
               <div style="user-select: none" class="combat_loader_current_xp tooltipped" id="combat_loader_current_xp">
 
               </div>
-
+             
+       
               <div class="row hidden" id="combat_tracker_sort_buttons">
-                <button class="small toggle_button button_style sort_by_number " title="Sort by number" toggled="true"
+                <button class="small toggle_button button_style sort_button sort_by_number" data-sort title="Sort by number" data-sort="id" toggled="true"
                   toggleGroup="56">#</button>
-                <button class="small toggle_button button_style sort_by_name" title="Sort by name" toggled="false"
+                <button class="small toggle_button button_style sort_button sort_by_name" title="Sort by name" data-sort="name" toggled="false"
                   toggleGroup="56">A</button>
-                <button class="small toggle_button button_style sort_by_initiative"
+                <button class="small toggle_button button_style sort_button sort_by_initiative" data-sort="init"
                   title="Current initiative actors first" toggled="false" toggleGroup="56"></button>
-                <button class="small toggle_button button_style sort_by_hit_points " title="Sort by hit points"
+                <button class="small toggle_button button_style sort_button sort_by_hit_points " data-sort="hp" title="Sort by hit points"
                   toggled="false" toggleGroup="56"></button>
               </div>
               <div class="row" style="justify-content: flex-end;">
