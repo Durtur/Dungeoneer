@@ -1,4 +1,4 @@
-const dataAccess = require("../js/dataaccess");
+
 
 var videoContainer, buttonContainer;
 document.addEventListener("DOMContentLoaded", function (e) {

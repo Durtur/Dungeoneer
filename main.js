@@ -333,8 +333,9 @@ ipcMain.on("open-maptool-backdrop-window", function () {
     frame: false,
     icon: "./app/css/img/icon.png",
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, '/app/js/preload.api.js')
     }
   });
 
