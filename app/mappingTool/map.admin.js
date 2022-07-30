@@ -859,7 +859,7 @@ function setTokenNextFacetHandler(e) {
         currentIndex++;
         if (currentIndex >= images.length) currentIndex = 0;
         if (oldIndex == currentIndex) return;
-        setPawnToken(pawn, `url('${images[currentIndex]}')`);
+        setPawnToken(pawn, Util.cssify(images[currentIndex]));
         pawnPhoto.setAttribute("data-token_current_facet", currentIndex)
         onBackgroundChanged(pawn);
 

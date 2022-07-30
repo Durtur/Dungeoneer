@@ -1191,18 +1191,19 @@ function addToPawnBackgrounds(element, paths) {
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths))
 }
 function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
+    console.log("Set bg ", paths)
     var pathString;
     var tokenPaths = [];
     if (typeof paths == "string") {
         pathString = cssify ? Util.cssify(paths) : paths;
-        tokenPaths.push(pathString)
+        tokenPaths.push(paths)
     } else {
         var rand = Math.round(Math.random() * (paths.length - 1));
-        paths.forEach(path => {
 
+        paths.forEach(path => {
             tokenPaths.push(path);
         })
-        pathString = Util.cssify(paths[rand]);
+        pathString = pathString = cssify ? Util.cssify(paths[rand]) : paths[rand];
     }
     var imgEle = element.getElementsByClassName("token_photo")[0]
     imgEle.style.backgroundImage = pathString;
