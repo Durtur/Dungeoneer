@@ -55,7 +55,7 @@ class EncounterModule {
                 tiers[i] = tiers[i] + tableArray[i];
             }
         })
-        if (tiers.filter(x => x != 0).length == 0) return "Level outside table"
+        if (tiers.filter(x => x != 0).length == 0) return "Unable to calculate challenge"
         var i = 3;
         while (xpValue < tiers[i]) {
             if (i == -1) {

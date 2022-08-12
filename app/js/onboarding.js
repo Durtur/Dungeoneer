@@ -18,6 +18,15 @@ class Onboarding {
     init() {
         var version = window.api.getAppVersion();
         var thisVersion = this.versions[version];
+        if (!thisVersion) {
+            var cls = this;
+            var arr = Object.keys(this.versions);
+            if (arr.find(x => !cls.versionHigherThan(x, version))) {
+                var filtered = arr.filter(x => !cls.versionHigherThan(x, version));
+                var key = filtered[filtered.length - 1];
+                thisVersion = this.versions[key];
+            }
+        }
 
         dataAccess.getSettings(settings => {
             if (settings.onboardingLast && this.versionHigherThan(settings.onboardingLast, version))
