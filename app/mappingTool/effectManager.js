@@ -593,8 +593,8 @@ var effectManager = function () {
     async function addLightEffect(effectObj, isPreviewElement, e) {
         var newEffect = await createBaseEffect(effectObj, isPreviewElement, e)
 
-        effectObj.brightLightRadius == "" ? newEffect.sight_radius_bright_light = 20 : newEffect.sight_radius_bright_light = chosenBrightLightRadius;
-        effectObj.dimLightRadius == "" ? newEffect.sight_radius_dim_light = 20 : newEffect.sight_radius_dim_light = chosenDimLightRadius;
+        newEffect.sight_radius_bright_light = effectObj.brightLightRadius == "" ? 20 : effectObj.brightLightRadius;
+        newEffect.sight_radius_dim_light = effectObj.dimLightRadius == "" ? 20 : effectObj.dimLightRadius;
 
         newEffect.flying_height = 0;
         newEffect.classList.add("light_effect");
