@@ -55,4 +55,4 @@ Pull requests are welcome!
 
 To get started you need to install npm and yarn. Clone the project and run yarn install && yarn start. 
 
-See [contributing.md](https://github.com/Durtur/Dungeoneer/blob/master/docs/contributing.md) for more information.
+See [contributing.md](https://github.com/Durtur/Dungeoneer/blob/master/CONTRIBUTING.md) for more information.
