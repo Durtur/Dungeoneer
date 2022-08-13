@@ -2,6 +2,29 @@
 
 class SoundManager {
 
+    SOUND_LIBRARY = [{
+        path: "beach ocean.mp3",
+        name: "beach ocean"
+    },
+    {
+        path: "blizzard.mp3",
+        name: "blizzard"
+    },
+    { name: 'bubbling cauldron', path: 'bubbling cauldron.mp3' },
+    { name: 'bubbling mud', path: 'bubbling mud.mp3' },
+    { name: 'dark cave drone', path: 'dark cave drone.mp3' },
+    { name: 'fire ambience', path: 'fire ambience.mp3' },
+    { name: 'gibbering whispers', path: 'gibbering whispers.mp3' },
+    { name: 'mystical cavern ambience', path: 'mystical cavern ambience.mp3' },
+    { name: 'ship at sea', path: 'ship at sea.mp3' },
+    { name: 'slime', path: 'slime.wav' },
+    { name: 'spirits', path: 'spirits.mp3' },
+    { name: 'waterfall', path: 'waterfall.mp3' },
+    { name: 'wildlife ambience day', path: 'wildlife ambience day.mp3' },
+    { name: 'wind from inside', path: 'wind from inside.mp3' },
+    { name: 'wind', path: 'wind.mp3' }
+    ];
+
     soundProfiles = {
 
         "normal": 150,
@@ -13,6 +36,8 @@ class SoundManager {
         return this.soundProfiles;
     }
     initialize() {
+        var basePath = "./client/sounds/";
+        this.SOUND_LIBRARY.map(x => x.path = basePath + x.path);
         this.sounds = [];
         this.globalListener = { x: 0, y: 0, z: 1 }
         this.muted = false;
@@ -168,29 +193,8 @@ class SoundManager {
     }
 
     async getAvailableSounds() {
-        var basePath = "./client/sounds/";
-        return [{
-            path: basePath + "beach ocean.mp3",
-            name: "beach ocean"
-        },
-        {
-            path: basePath + "blizzard.mp3",
-            name: "blizzard"
-        },
-        { name: 'bubbling cauldron', path: 'bubbling cauldron.mp3' },
-        { name: 'bubbling mud', path: 'bubbling mud.mp3' },
-        { name: 'dark cave drone', path: 'dark cave drone.mp3' },
-        { name: 'fire ambience', path: 'fire ambience.mp3' },
-        { name: 'gibbering whispers', path: 'gibbering whispers.mp3' },
-        { name: 'mystical cavern ambience', path: 'mystical cavern ambience.mp3' },
-        { name: 'ship at sea', path: 'ship at sea.mp3' },
-        { name: 'slime', path: 'slime.wav' },
-        { name: 'spirits', path: 'spirits.mp3' },
-        { name: 'waterfall', path: 'waterfall.mp3' },
-        { name: 'wildlife ambience day', path: 'wildlife ambience day.mp3' },
-        { name: 'wind from inside', path: 'wind from inside.mp3' },
-        { name: 'wind', path: 'wind.mp3' }
-        ]
+
+        return this.SOUND_LIBRARY;
 
     }
 
