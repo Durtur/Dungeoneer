@@ -3,10 +3,11 @@ const TokenSelector = require("./tokenSelector");
 const tokenSelector = new TokenSelector();
 const partyModal = function () {
 
+    const rowTemplate = $(".pcRow:nth-child(1)").clone();
 
     function addRow() {
 
-        var row = $(".pcRow:nth-child(1)").clone();
+        var row = rowTemplate.clone();
         row.attr("data-char_id", null);
         row.attr("data-token_to_save", null);
         var linkButton = row[0].querySelector(".link_button");
