@@ -29,7 +29,7 @@ window.dialog = {
 
 
 
-const sharp = process.platform != "linux" ? require("sharp") : {};
+const sharp = require("sharp");
 
 const settingsPath = pathModule.join(window.api.getPath("userData"), "data", "settings");
 const resourcePath = pathModule.join(window.api.getPath("userData"), 'data');
@@ -356,10 +356,6 @@ module.exports = function () {
         console.log("Saving token", tokenName, "trim:" + trim)
         var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));
         var savePath = pathModule.join(defaultTokenPath, tokenName + fileEnding);
-        if (process.platform == "linux") {
-            fs.createReadStream(currentPath).pipe(fs.createWriteStream(pathModule.resolve(savePath)));
-            return;
-        }
         savePath = pathModule.join(defaultTokenPath, tokenName + ".webp");
         let buffer = await sharp(currentPath)
             .resize(
