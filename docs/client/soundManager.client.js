@@ -124,32 +124,33 @@ class SoundManager {
             console.log(`Sound ${effect.src} not found in library`);
             return;
         }
+        console.log("add effect", info)
         var cls = this;
         var soundEffect = new Howl({
             src: [info.path],
-            //html5: true,
+            html5: true,
             loop: true,
-            volume: 0.75, 
-            onload: ()=> {
+            volume: 0.75,
+            onload: () => {
                 var soundId = soundEffect.play();
-                soundEffect.once('play', function () {
-                    // Set the position of the speaker in 3D space.
-                    soundEffect.pos(effect.x, effect.y, cls.effectZValue(), soundId);
-                    soundEffect.volume(effect.volume || 1, soundId);
-                    var refDist = cls.soundProfiles[effect.distance];
-                    console.log(effect.x, effect.y)
-                    soundEffect.pannerAttr({
-                        panningModel: 'equalpower',
-                        refDistance: refDist,
-                        rolloffFactor: 3,
-                        distanceModel: 'exponential'
-                    }, soundId);
-                    cls.updatePlayingStatus();
-                });
-                cls.sounds.push(
-                    { howl: soundEffect, soundId: soundId, elementId: elementId }
-                );
-            }
+                // Set the position of the speaker in 3D space.
+                soundEffect.pos(effect.x, effect.y, cls.effectZValue(), soundId);
+                soundEffect.volume(effect.volume || 1, soundId);
+                var refDist = cls.soundProfiles[effect.distance];
+                soundEffect.pannerAttr({
+                    panningModel: 'equalpower',
+                    refDistance: refDist,
+                    rolloffFactor: 3,
+                    distanceModel: 'exponential'
+                }, soundId);
+                cls.updatePlayingStatus();
+
+                if (!cls.sounds.find(x => x.soundId == soundId))
+                    cls.sounds.push(
+                        { howl: soundEffect, soundId: soundId, elementId: elementId }
+                    );
+            },
+            onerror: (err) => { console.error(err) }
         });
 
 

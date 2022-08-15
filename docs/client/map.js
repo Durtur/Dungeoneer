@@ -1191,7 +1191,7 @@ function addToPawnBackgrounds(element, paths) {
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths))
 }
 function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
-    console.log("Set bg ", paths)
+
     var pathString;
     var tokenPaths = [];
     if (typeof paths == "string") {
