@@ -101,31 +101,35 @@ class SoundManager {
             console.log(`Sound ${effect.src} not found in library`);
             return;
         }
+        var cls = this;
         var soundEffect = new Howl({
             src: [info.path],
             // html5: true,
             loop: true,
-            volume: 0.75
+            volume: 0.75,
+            onload: ()=> {
+                var soundId = soundEffect.play();
+      
+                soundEffect.once('play', function () {
+                    // Set the position of the speaker in 3D space.
+                    soundEffect.pos(effect.x, effect.y, cls.effectZValue(), soundId);
+                    soundEffect.volume(effect.volume || 1, soundId);
+                    var refDist = cls.soundProfiles[effect.distance];
+                    soundEffect.pannerAttr({
+                        panningModel: 'equalpower',
+                        refDistance: refDist,
+                        rolloffFactor: 3,
+                        distanceModel: 'exponential'
+                    }, soundId);
+                    cls.updatePlayingStatus();
+                });
+                cls.sounds.push(
+                    { howl: soundEffect, soundId: soundId, elementId: elementId }
+                );
+            }
         });
 
-        var soundId = soundEffect.play();
-        var cls = this;
-        soundEffect.once('play', function () {
-            // Set the position of the speaker in 3D space.
-            soundEffect.pos(effect.x, effect.y, cls.effectZValue(), soundId);
-            soundEffect.volume(effect.volume || 1, soundId);
-            var refDist = cls.soundProfiles[effect.distance];
-            soundEffect.pannerAttr({
-                panningModel: 'equalpower',
-                refDistance: refDist,
-                rolloffFactor: 3,
-                distanceModel: 'exponential'
-            }, soundId);
-            cls.updatePlayingStatus();
-        });
-        this.sounds.push(
-            { howl: soundEffect, soundId: soundId, elementId: elementId }
-        );
+       
     }
     multiplier() {
         return 15;
