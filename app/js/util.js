@@ -1,5 +1,5 @@
 const { extname } = require("path");
-const sharp = process.platform != "linux" ? require("sharp") : null;
+const sharp =  require("sharp");
 module.exports = function () {
     function IsVowel(letter) {
         return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());
