@@ -17,6 +17,7 @@ class Onboarding {
 
     init() {
         var version = window.api.getAppVersion();
+        var compareVersion = version;
         var thisVersion = this.versions[version];
         if (!thisVersion) {
             var cls = this;
@@ -24,12 +25,13 @@ class Onboarding {
             if (arr.find(x => !cls.versionHigherThan(x, version))) {
                 var filtered = arr.filter(x => !cls.versionHigherThan(x, version));
                 var key = filtered[filtered.length - 1];
+                compareVersion = key;
                 thisVersion = this.versions[key];
             }
         }
 
         dataAccess.getSettings(settings => {
-            if (settings.onboardingLast && this.versionHigherThan(settings.onboardingLast, version))
+            if (settings.onboardingLast && this.versionHigherThan(settings.onboardingLast, compareVersion ))
                 return;
             if (thisVersion) {
                 this.display(thisVersion());
