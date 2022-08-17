@@ -1,6 +1,7 @@
 
 const module = {}
 const util = window.api.util;
+
 const constants = window.api.constants;
 const clientPath = "https://www.ogreforge.me/Dungeoneer/client"
 const pendingStateRequests = [];
@@ -29,7 +30,7 @@ window.addEventListener('beforeunload', (event) => {
     window.subscribe.notifyServerState({ running: false })
 });
 
-window.subscribe.on("maptool-server-event", (event, message) => {
+window.subscribe.on("maptool-server-event", async (event, message) => {
     console.log(event);
     console.log(message);
     if (message.event == 'maptool-state') {
@@ -49,8 +50,9 @@ window.subscribe.on("maptool-server-event", (event, message) => {
         window.subscribe.notifyServerState({ running: peer?.open })
     }
 
-
-
+    if (message.event == "effect-add") {
+        //await addSoundBase64(effect.data);
+    }
     notifyPeers(message);
 
 });
@@ -65,7 +67,7 @@ function notifyPeers(message) {
 async function sendLayerInfo(message) {
     var base64Layer = await getMapLayer(message.data.path, message.event);
     peers.forEach(async peer => {
-       
+
         if (!base64Layer)
             peer.connection.send({ event: message.event, data: { metadata: {} } })
         sendBatched(peer.connection, message.event, base64Layer, { width: message.data.width, height: message.data.height, translate: message.data.translate });
@@ -337,7 +339,7 @@ function handleDataEvent(data, connection) {
         data.data.forEach(ele => {
 
             var access = peer.partyAccess.find(x => x.element_id == ele.id || x.element_id == "all");
-            
+
             if (access) {
                 notifyMaptool({ event: data.event, data: ele });
                 var player = peer.partyAccess.find(x => x.id == ele.id);
@@ -405,8 +407,8 @@ function sendMaptoolState(maptoolState) {
             var tokenJSON = JSON.stringify(maptoolState.tokens);
 
             sendBatched(peer.connection, "tokens-set", tokenJSON);
-            var effectJSON = JSON.stringify(maptoolState.effects)
-            sendBatched(peer.connection, "effects-set", effectJSON);
+            sendEffects(maptoolState.effects, peer.connection)
+
             peer.connection.send({ event: "backgroundLoop", data: maptoolState.backgroundLoop })
             peer.connection.send({ event: "overlayLoop", data: maptoolState.overlayLoop })
             peer.connection.send({ event: "segments", data: maptoolState.segments });
@@ -418,15 +420,42 @@ function sendMaptoolState(maptoolState) {
     });
 }
 
+async function addSoundBase64(effect) {
+    if (!effect.sound)
+        return;
+    var soundLib = await soundManager.getAvailableSounds();
+    var libSound = soundLib.find(x => x.name == effect.sound.src);
+    console.log(libSound)
+    if (libSound.isDefault)
+        return;
 
+    var base64 = await dataAccess.base64(libSound.path);
+    effect.sound.base64Source = base64;
+    effect.sound.encoding = window.api.extname(libSound. path).substring(1);
+    
+}
+
+async function sendEffects(effectArr, connection) {
+    if (effectArr.find(x => x.sound)) {
+        for (var i = 0; i < effectArr.length; i++) {
+            var effect = effectArr[i];
+            await addSoundBase64(effect);
+        }
+    }
+    console.log("Send ", effectArr)
+    var effectJSON = JSON.stringify(effectArr);
+    sendBatched(connection, "effects-set", effectJSON);
+
+}
 const CHUNK_SIZE = 1000000;
 function sendBatched(connection, key, msgString, metadata) {
     if (msgString == null) {
         return connection.send({ event: key, data: { base64: null, chunk: 1, chunks: 1 } });
     }
+    
     var totalLength = msgString.length;
     var chunks = Math.ceil(totalLength / CHUNK_SIZE);
-    console.log(chunks)
+   
     for (var i = 0; i < chunks; i++) {
         var start = i * CHUNK_SIZE;
         console.log(connection)

@@ -12,6 +12,8 @@ var connectionObj =
 
 const UNSUPPORTED_BROWSERS = ["iPhone", "iPad"];
 
+
+
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     document.addEventListener("click", () => userGesture());
     document.addEventListener("touchstart", () => userGesture());

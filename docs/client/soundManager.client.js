@@ -122,16 +122,19 @@ class SoundManager {
 
         if (!info) {
             console.log(`Sound ${effect.src} not found in library`);
-            return;
+            console.log(effect)
+            if (effect.base64Source == null)
+                return;
         }
-        console.log("add effect", info)
+        console.log("add effect", info?.path || (`data:audio/${effect.encoding};base64,${effect.base64Source}`))
         var cls = this;
         var soundEffect = new Howl({
-            src: [info.path],
-            html5: true,
+            src: [info?.path || (`data:audio/${effect.encoding};base64,${effect.base64Source}`)],
+            html5: false,
             loop: true,
             volume: 0.75,
             onload: () => {
+
                 var soundId = soundEffect.play();
                 // Set the position of the speaker in 3D space.
                 soundEffect.pos(effect.x, effect.y, cls.effectZValue(), soundId);
@@ -149,6 +152,16 @@ class SoundManager {
                     cls.sounds.push(
                         { howl: soundEffect, soundId: soundId, elementId: elementId }
                     );
+                
+
+                ///Browsers will not play spontaneous sounds without user interaction first
+                var playOnUserInteraction = function(e){
+                    soundEffect.play();
+                    document.body.removeEventListener("mousedown", playOnUserInteraction);
+                    document.body.removeEventListener("touchstart", playOnUserInteraction);
+                };
+                document.body.addEventListener("mousedown", playOnUserInteraction)
+                document.body.addEventListener("touchstart", playOnUserInteraction)
             },
             onerror: (err) => { console.error(err) }
         });
@@ -186,12 +199,10 @@ class SoundManager {
     }
     async getSoundInfo(soundName) {
         var sounds = await this.getAvailableSounds();
-        console.log(sounds)
+
         return sounds.find(x => {
-            console.log(x)
 
             var basename = x.path.substring(x.path.lastIndexOf("/") + 1, x.path.lastIndexOf("."));
-            console.log(basename)
             return soundName.toLowerCase() == basename.toLowerCase();
         });
     }

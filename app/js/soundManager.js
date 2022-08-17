@@ -11,12 +11,20 @@ class SoundManager {
         "far": 250,
         "everywhere": 5000,
     }
+    constructor(path) {
+        this.pathsModule = path;
+        this.globalListener = { x: 0, y: 0, z: 1 }
+
+    }
+    setSoundLibraryPath(soundPath) {
+        this.soundLibraryPath = soundPath;
+    }
     getSoundProfiles() {
         return this.soundProfiles;
     }
     initialize() {
         this.sounds = [];
-        this.globalListener = { x: 0, y: 0, z: 1 }
+
         this.muted = false;
         var cls = this;
         var musicButton = document.getElementById("music_button");
@@ -107,9 +115,9 @@ class SoundManager {
             // html5: true,
             loop: true,
             volume: 0.75,
-            onload: ()=> {
+            onload: () => {
                 var soundId = soundEffect.play();
-      
+
                 soundEffect.once('play', function () {
                     // Set the position of the speaker in 3D space.
                     soundEffect.pos(effect.x, effect.y, cls.effectZValue(), soundId);
@@ -129,7 +137,7 @@ class SoundManager {
             }
         });
 
-       
+
     }
     multiplier() {
         return 15;
@@ -164,7 +172,7 @@ class SoundManager {
         var sounds = await this.getAvailableSounds();
         return sounds.find(x => {
             console.log(x)
-            var basename = pathModule.basename(x.path);
+            var basename = this.pathsModule.basename(x.path);
             basename = basename.substring(0, basename.lastIndexOf("."));
             return soundName.toLowerCase() == basename.toLowerCase();
         });
@@ -178,7 +186,7 @@ class SoundManager {
 }
 
 class AdminSoundManager extends SoundManager {
-    defaultSoundPath = pathModule.join(window.api.getAppPath(),  'docs', 'client', 'sounds');
+    defaultSoundPath = this.pathsModule.join(window.api.getAppPath(), 'docs', 'client', 'sounds');
     async getAvailableSounds() {
 
         if (this.availableSoundList)
@@ -187,21 +195,22 @@ class AdminSoundManager extends SoundManager {
 
         var soundPaths = [this.defaultSoundPath];
 
-        if (settings.soundLibraryPath) {
-            soundPaths.push(settings.soundLibraryPath);
+        if (this.soundLibraryPath) {
+            soundPaths.push(this.soundLibraryPath);
 
         }
         var allSounds = [];
         for (var i = 0; i < soundPaths.length; i++) {
             try {
                 var path = soundPaths[i];
+                var isDefault = this.defaultSoundPath.includes(path);
                 var files = await dataaccess.getFiles(path);
                 var list = files.map(x => {
-                    var basename = pathModule.basename(x);
-                    var soundPath = pathModule.join(path, basename);
+                    var basename = this.pathsModule.basename(x);
+                    var soundPath = this.pathsModule.join(path, basename);
                     basename = basename.substring(0, basename.lastIndexOf("."));
 
-                    return { name: basename, path: soundPath }
+                    return { name: basename, path: soundPath, isDefault: isDefault }
 
                 });
                 allSounds = allSounds.concat(list);
@@ -211,8 +220,6 @@ class AdminSoundManager extends SoundManager {
 
         }
 
-
-        console.log(allSounds);
         this.availableSoundList = allSounds;
         return allSounds;
     }

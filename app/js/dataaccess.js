@@ -1,10 +1,9 @@
 
 var fs = require('fs');
 const { ipcRenderer } = require('electron');
-const { readdir, writeFile } = require('fs').promises;
+const { readdir, writeFile, readFile } = require('fs').promises;
 const uniqueID = require('uniqid');
 var pathModule = require('path');
-
 
 //Refactor to preload script
 window.api = {
@@ -476,7 +475,7 @@ module.exports = function () {
         });
     }
 
-    function readFile(path, callback, asJson = true, nullIfDoesNotExist) {
+    function openFile(path, callback, asJson = true, nullIfDoesNotExist) {
         fs.readFile(path, "utf8", function (err, data) {
             if (err) {
                 if (nullIfDoesNotExist) {
@@ -594,7 +593,7 @@ module.exports = function () {
 
             dungeoneerMaps.forEach(path => {
                 console.log(path);
-                readFile(path, async (data) => {
+                openFile(path, async (data) => {
                     var buffer = pathModule.extname(path) == ".dungeoneer_map" ? Buffer.from(data.foregroundBase64, "base64") : Buffer.from(data.image, "base64");
                     var dimensions = await getMosaicDimensions(buffer, thumbnailSize)
                     await sharp(buffer)
@@ -695,11 +694,11 @@ module.exports = function () {
     function getScratchPad(callback) {
         var party = settings?.current_party ? settings.current_party : "";
 
-        readFile(pathModule.join(resourcePath, party + "_scratchpad.json"), data => {
+        openFile(pathModule.join(resourcePath, party + "_scratchpad.json"), data => {
             if (data) {
                 return callback(data);
             }
-            readFile(pathModule.join(resourcePath, "_scratchpad.json"), globalData => {
+            openFile(pathModule.join(resourcePath, "_scratchpad.json"), globalData => {
                 callback(globalData);
             }, true, true);
         }, true, true);
@@ -710,9 +709,16 @@ module.exports = function () {
         var party = settings?.current_party ? settings.current_party : "";
         baseSet(party + "_scratchpad.json", data, (err) => { if (err) console.log(err) });
     }
+
+    async function base64(path) {
+        var b64 = await readFile(path, { encoding: 'base64' });
+        return b64;
+
+    }
+
     return {
         getFiles: getFiles,
-        readFile: readFile,
+        readFile: openFile,
         getTokenPathSync: getTokenPathSync,
         getTokenPath: getTokenPath,
         saveToken: saveToken,
@@ -765,6 +771,7 @@ module.exports = function () {
         saveLibraryState: saveLibraryState,
         getMapLibraryThumbNailPath: getMapLibraryThumbNailPath,
         supportedMapTypes: supportedMapTypes,
+        base64: base64,
         tokenFilePath: defaultTokenPath,
         baseTokenSize: baseTokenSize
 

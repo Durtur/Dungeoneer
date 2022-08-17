@@ -12,7 +12,7 @@ const tokenDialog = new TokenDialog();
 const Recents = require("./mappingTool/recents");
 var recentMaps = new Recents();
 const SoundManager = require("./js/soundManager")
-const soundManager = new SoundManager();
+
 const dataAccess = require("./js/dataaccess");
 const sidebarManager = require("./js/sidebarManager");
 const InfoTooltip = require("./mappingTool/infotooltip");
@@ -24,12 +24,13 @@ const tokenSelector = new TokenSelector();
 const saveManager = require("./mappingTool/saveManager");
 const effectManager = require('./mappingTool/effectManager');
 
-soundManager.initialize();
+
 
 const DEFAULT_TOKEN_PATH = "./mappingTool/tokens/default.png";
 const DEFAULT_TOKEN_PATH_JS_RELATIVE = pathModule.join(__dirname, "mappingTool", "tokens", "default.png");
 var conditionList;
 
+var soundManager = new SoundManager(pathModule);
 
 var frameHistoryButtons = null;
 var pendingMapLoad;
@@ -310,9 +311,8 @@ function onSettingsChanged() {
 }
 
 async function onSettingsLoaded() {
-
-
-
+    soundManager.initialize();
+    soundManager.setSoundLibraryPath(settings.soundLibraryPath);
     resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
     map.init();
 
