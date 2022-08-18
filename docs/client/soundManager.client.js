@@ -152,11 +152,12 @@ class SoundManager {
                     cls.sounds.push(
                         { howl: soundEffect, soundId: soundId, elementId: elementId }
                     );
-                
+
 
                 ///Browsers will not play spontaneous sounds without user interaction first
-                var playOnUserInteraction = function(e){
-                    soundEffect.play();
+                var playOnUserInteraction = function (e) {
+                    if (!soundEffect.playing())
+                        soundEffect.play();
                     document.body.removeEventListener("mousedown", playOnUserInteraction);
                     document.body.removeEventListener("touchstart", playOnUserInteraction);
                 };
