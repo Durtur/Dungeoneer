@@ -93,7 +93,7 @@ var effectManager = function () {
             if (isPreviewElement) {
                 selectedSfxBackground = "url('" + sfxPath + "')";
             }
-        } else if (effectObj.bgPhotoBase64) {
+        } else if (effectObj.bgPhotoBase64 && !effectObj.bgPhotoBase64 == "none")  {
             selectedSfxBackground = effectObj.bgPhotoBase64;
         } else if (effectObj.name != "custom") {
             selectedSfxBackground = null;
