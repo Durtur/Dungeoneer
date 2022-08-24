@@ -144,12 +144,12 @@ class DnDBeyondImporter {
             baseAc += dexModifier;
             var unarmoredDef = allModifiers.find(x => x.subType == "unarmored-armor-class");
             if (unarmoredDef) {
-                baseAc += Math.max(getRelevantModifer(), 0);
+                baseAc += Math.max(getRelevantModifer(unarmoredDef), 0);
                 function getRelevantModifer(unarmoredDef) {
                     switch (unarmoredDef.statId) {
                         case null: return null;
                         case 3: return conModifer;
-                        case 5: return wisModifier;
+                        case 5: return returnObj.wisdom;
 
                     }
                 }
