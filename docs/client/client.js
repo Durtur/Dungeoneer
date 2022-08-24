@@ -360,9 +360,17 @@ function setState(message) {
             map.updateInitiative(message.data);
             break;
         case "mob-tokens-set":
-
             setMobTokens(message.data);
-
+            break;
+        case "custom-sound-entry":
+            var src = message.data.metadata.src;
+            var encoding = message.data.metadata.encoding;
+            soundManager.importSound({
+                base64Source: getDataBuffer(message.event)?.reduce((a, b) => a + b),
+                encoding:encoding,
+                name:src
+            
+            });
             break;
 
 

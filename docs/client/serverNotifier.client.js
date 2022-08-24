@@ -1,7 +1,7 @@
 
 var serverNotifier = function () {
     var timeouts = {};
-    const CLIENT_EVENTS = ["object-moved"]
+    const CLIENT_EVENTS = ["object-moved", "request-sound"]
     function sendState() {
 
 

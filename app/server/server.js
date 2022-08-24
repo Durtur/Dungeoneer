@@ -50,9 +50,6 @@ window.subscribe.on("maptool-server-event", async (event, message) => {
         window.subscribe.notifyServerState({ running: peer?.open })
     }
 
-    if (message.event == "effect-add") {
-        //await addSoundBase64(effect.data);
-    }
     notifyPeers(message);
 
 });
@@ -332,7 +329,6 @@ function handleDataEvent(data, connection) {
 
 
     } else if (data.event == "object-moved") {
-
         if (peer.partyAccess == null)
             return;
 
@@ -355,6 +351,9 @@ function handleDataEvent(data, connection) {
                 });
             }
         })
+    } else if (data.event == "request-sound") {
+        var effectSrc = data.data;
+        sendSoundBase64(effectSrc, connection);
     }
 }
 
@@ -420,29 +419,31 @@ function sendMaptoolState(maptoolState) {
     });
 }
 
-async function addSoundBase64(effect) {
-    if (!effect.sound)
-        return;
+const CUSTOM_SOUND_CACHE = {};
+async function sendSoundBase64(effectSrc, connection) {
+
     var soundLib = await soundManager.getAvailableSounds();
-    var libSound = soundLib.find(x => x.name == effect.sound.src);
-    console.log(libSound)
+    var libSound = soundLib.find(x => x.name.toLowerCase() == effectSrc);
+    
     if (libSound.isDefault)
         return;
+    appendServerLog(`Packaging custom sound ${effectSrc}`)
+    if (!CUSTOM_SOUND_CACHE[libSound.path]) {
+        CUSTOM_SOUND_CACHE[libSound.path] = await dataAccess.base64(libSound.path);;
+    }
+    var base64 = CUSTOM_SOUND_CACHE[libSound.path];
+    console.log(base64)
+    appendServerLog(`Packaging  ${effectSrc} complete`)
+    sendBatched(connection, "custom-sound-entry", base64, {
+        encoding: window.api.extname(libSound.path).substring(1),
+        src: libSound.name
+    });
 
-    var base64 = await dataAccess.base64(libSound.path);
-    effect.sound.base64Source = base64;
-    effect.sound.encoding = window.api.extname(libSound. path).substring(1);
-    
+
+
 }
 
 async function sendEffects(effectArr, connection) {
-    if (effectArr.find(x => x.sound)) {
-        for (var i = 0; i < effectArr.length; i++) {
-            var effect = effectArr[i];
-            await addSoundBase64(effect);
-        }
-    }
-    console.log("Send ", effectArr)
     var effectJSON = JSON.stringify(effectArr);
     sendBatched(connection, "effects-set", effectJSON);
 
@@ -452,10 +453,10 @@ function sendBatched(connection, key, msgString, metadata) {
     if (msgString == null) {
         return connection.send({ event: key, data: { base64: null, chunk: 1, chunks: 1 } });
     }
-    
+
     var totalLength = msgString.length;
     var chunks = Math.ceil(totalLength / CHUNK_SIZE);
-   
+
     for (var i = 0; i < chunks; i++) {
         var start = i * CHUNK_SIZE;
         console.log(connection)

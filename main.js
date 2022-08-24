@@ -7,7 +7,7 @@ const { autoUpdater } = require('electron-updater');
 
 app.allowRendererProcessReuse = true;
 var instanceLock = app.requestSingleInstanceLock();
-console.log(`intance lock ${instanceLock}`)
+
 autoUpdater.logger = require("electron-log")
 autoUpdater.logger.transports.file.level = "info"
 // Module to control application life.

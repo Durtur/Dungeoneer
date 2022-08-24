@@ -123,6 +123,8 @@ var effectManager = function () {
                     }
                 }
                 Util.makeUIElementDraggable(eff, () => {
+                    if (eff.sound)
+                        soundManager.adjustPlacement(eff.id, eff.offsetLeft, eff.offsetLeft);
                     serverNotifier.notifyServer("object-moved", [{
                         pos: map.objectGridCoords(eff),
                         id: eff.id

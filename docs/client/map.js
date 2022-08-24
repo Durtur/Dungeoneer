@@ -2213,7 +2213,9 @@ var map = function () {
         var diffY = oldY - point.y;
         elmnt.style.left = point.x + "px";
         elmnt.style.top = point.y + "px";
-
+        if(elmnt.sound){
+            soundManager.adjustPlacement(elmnt.id, elmnt.offsetLeft, elmnt.offsetLeft);
+        }
         if (elmnt.attached_objects)
             elmnt.attached_objects.forEach(obj => {
                 console.log(obj);

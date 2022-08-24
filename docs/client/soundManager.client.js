@@ -25,6 +25,8 @@ class SoundManager {
     { name: 'wind', path: 'wind.mp3' }
     ];
 
+    IMPORTED_LIBRARY = [];
+    createCustomSoundQueue = [];
     soundProfiles = {
 
         "normal": 150,
@@ -92,6 +94,22 @@ class SoundManager {
         this.updatePlayingStatus();
     }
 
+    importSound(libraryEntry) {
+
+        if (this.IMPORTED_LIBRARY.find(x => x.name.toLowerCase() == libraryEntry.name.toLowerCase()))
+            return;
+        this.IMPORTED_LIBRARY.push(libraryEntry);
+        this.checkQueue();
+    }
+
+    checkQueue() {
+        var cls = this;
+        this.createCustomSoundQueue.forEach(async queuedSound => {
+            if (await cls.getSoundInfo(queuedSound.effect.src))
+                await cls.addEffect(queuedSound.effect, queuedSound.elementId)
+        });
+    }
+
     globalVolume(volume) {
         Howler.volume(volume);
 
@@ -122,14 +140,14 @@ class SoundManager {
 
         if (!info) {
             console.log(`Sound ${effect.src} not found in library`);
-            console.log(effect)
-            if (effect.base64Source == null)
-                return;
+            serverNotifier.notifyServer("request-sound", effect.src);
+            this.createCustomSoundQueue.push({ effect: effect, elementId: elementId });
+            return;
+
         }
-        console.log("add effect", info?.path || (`data:audio/${effect.encoding};base64,${effect.base64Source}`))
         var cls = this;
         var soundEffect = new Howl({
-            src: [info?.path || (`data:audio/${effect.encoding};base64,${effect.base64Source}`)],
+            src: [info?.path || (`data:audio/${info.encoding};base64,${info.base64Source}`)],
             html5: false,
             loop: true,
             volume: 0.75,
@@ -156,8 +174,8 @@ class SoundManager {
 
                 ///Browsers will not play spontaneous sounds without user interaction first
                 var playOnUserInteraction = function (e) {
-                    if (!soundEffect.playing())
-                        soundEffect.play();
+                    //Triggering this will play the sound on user input, so the browser won't block it
+                    soundEffect.volume(0.75);
                     document.body.removeEventListener("mousedown", playOnUserInteraction);
                     document.body.removeEventListener("touchstart", playOnUserInteraction);
                 };
@@ -200,17 +218,15 @@ class SoundManager {
     }
     async getSoundInfo(soundName) {
         var sounds = await this.getAvailableSounds();
-
         return sounds.find(x => {
 
-            var basename = x.path.substring(x.path.lastIndexOf("/") + 1, x.path.lastIndexOf("."));
-            return soundName.toLowerCase() == basename.toLowerCase();
+            return soundName.toLowerCase() == x.name.toLowerCase();
         });
     }
 
-    async getAvailableSounds() {
 
-        return this.SOUND_LIBRARY;
+    async getAvailableSounds() {
+        return this.SOUND_LIBRARY.concat(this.IMPORTED_LIBRARY);
 
     }
 
