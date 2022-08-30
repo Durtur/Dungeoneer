@@ -20,6 +20,32 @@ article{
     flex-flow:column wrap;
 }
 
+.link_buttons_container{
+    position: absolute;
+    right: 1em;
+    top: 5em;
+    display:flex;
+    flex-flow:row nowrap;
+}
+
+.link_base {
+    width: 3.5em;
+    height: 3.5em;
+    background-repeat: no-repeat;
+    display: block;
+    background-size: 95%;
+    margin: 0.25em;
+    margin-top:0.5em;
+}
+
+.reddit_link {
+    color: transparent;
+    background-image: url("./img/links/reddit.webp");
+}
+
+.github_link{
+    background-image: url("./img/links/github.png");
+}
 .donate_button{
     background-color: #c14d40;
     border-bottom: 1px solid #2b2b2b;
@@ -27,9 +53,7 @@ article{
     margin: auto;
     text-align: center;
     font-size: 1em;
-    position: absolute;
-    right: 1em;
-    top: 5em;
+   
     font-weight: 500;
     padding: 1em;
     text-decoration: none;
