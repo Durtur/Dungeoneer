@@ -797,7 +797,9 @@ function startAddingFromQueue() {
 
     tooltip.classList.remove("hidden");
     tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window;
-
+    var button = document.getElementById("add_from_queue_toggle_button");
+    button.innerText = "Placing creatures";
+    button.setAttribute("toggled", "true");
     document.onmousemove = function (e) {
         tooltip.style.top = e.clientY - 75 + "px";
         tooltip.style.left = e.clientX + 75 + "px";
@@ -828,9 +830,8 @@ function startAddingFromQueue() {
         if (pawns.addQueue.length == 0) {
             document.getElementById("add_pawn_from_tool_toolbar").classList.add("hidden");
             var button = document.getElementById("add_from_queue_toggle_button");
-            button.setAttribute("toggled", "false");
-            button.classList.remove("toggle_button_toggled");
-            button.classList.add("button_style");
+          
+            
 
             return stopAddingFromQueue()
         }
@@ -841,9 +842,11 @@ function startAddingFromQueue() {
 
     function stopAddingFromQueue() {
         resetGridLayer();
+        button.setAttribute("toggled", "false");
         gridLayer.style.cursor = "auto";
         document.onmousemove = null;
         tooltip.classList.add("hidden");
+        button.innerText = "Start adding creatures";
 
     }
 }

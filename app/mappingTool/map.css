@@ -576,11 +576,13 @@ li {
 .pawn_small>.token_photo {
     background-size: 70%;
 }
-
 #add_from_queue_toggle_button {
-    width: 100px;
-    height: 75px;
+    width: 10em;
+
+    margin-top: 1em;
 }
+
+
 
 .pawn_accessed:hover, .pawn_selected {
     border: 2px dashed white;
@@ -697,6 +699,10 @@ li {
 
 .visibility_toolbox {
     background-color: #660666 !important;
+}
+
+.green[toggled=true] {
+    background-color: var(--main-success-color-lighter);
 }
 
 .visibility_toolbox:hover, .visibility_toolbox[toggled=true] {

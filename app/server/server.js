@@ -432,7 +432,7 @@ async function sendSoundBase64(effectSrc, connection) {
         CUSTOM_SOUND_CACHE[libSound.path] = await dataAccess.base64(libSound.path);;
     }
     var base64 = CUSTOM_SOUND_CACHE[libSound.path];
-    console.log(base64)
+
     appendServerLog(`Packaging  ${effectSrc} complete`)
     sendBatched(connection, "custom-sound-entry", base64, {
         encoding: window.api.extname(libSound.path).substring(1),
