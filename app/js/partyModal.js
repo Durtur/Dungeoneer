@@ -61,7 +61,7 @@ const partyModal = function () {
 
     }
 
-    function showCharacterLinkModal(linkbutton) {
+    function showCharacterLinkModal(linkButton) {
         var modalCreate = Modals.createModal("Add character source", (result) => {
 
         });
@@ -83,45 +83,36 @@ const partyModal = function () {
                             Util.showFailedMessage(`${errorCode || ""}: Character retrieval failed`);
                             return;
                         }
+                        console.log(linkButton)
+                        linkButton.setAttribute("data-linked", "true");
+                        linkButton.setAttribute("data-link-url", value);
+                        linkButton.setAttribute("data-link-url-type", "dnd_beyond");
+                        var row = linkButton.closest(".pcRow");
 
-                        var charId = linkbutton.closest(".pcRow").getAttribute("data-char_id");
-
-                        setCharacterSource(charId, value, "dndbeyond");
-                        linkbutton.setAttribute("data-linked", "true");
+                        ["character_name", "dexterity",
+                        "perception", "level", "ac", "darkvision"].forEach(field => {
+                            row.querySelector(`.pc_input_${field}`).value = character[field] == null ? "" : character[field];
+                        
+                        })
                     });
 
 
                 });
 
         }
-        if (linkbutton.getAttribute("data-linked") == "true") {
+        if (linkButton.getAttribute("data-linked") == "true") {
             var removeButton = Util.ele("button", " button_style  padding red", "Remove");
             modal.appendChild(removeButton);
             removeButton.onclick = (e) => {
                 modal.close();
-                var charId = linkbutton.closest(".pcRow").getAttribute("data-char_id");
-                setCharacterSource(charId, null, null);
-                linkbutton.setAttribute("data-linked", "false");
+
+                linkButton.setAttribute("data-linked", "false");
+                linkButton.setAttribute("data-link-url", null);
+                linkButton.setAttribute("data-link-url-type", null);
             }
         }
         document.body.appendChild(modalCreate.parent);
 
-    }
-
-    function setCharacterSource(charId, url, source) {
-        dataAccess.getParty(party => {
-            var members = party.members;
-
-            var member = members.find(x => x.id == charId);
-            if (!member) throw "member not found";
-
-            member.external_source = source == null ? null :
-                {
-                    url: url,
-                    source: source
-                };
-            dataAccess.setParty(party, () => { });
-        });
     }
 
     function show() {
@@ -150,7 +141,14 @@ const partyModal = function () {
                     var pMember = members[index];
                     var token = dataAccess.getTokenPathSync(pMember.id);
                     var linkButton = row.querySelector(".link_button");
-                    linkButton.setAttribute("data-linked", pMember.external_source ? "true" : "false");
+
+                    if (pMember.external_source) {
+                        linkButton.setAttribute("data-linked", "true");
+                        linkButton.setAttribute("data-link-url-type", pMember.external_source.type);
+                        linkButton.setAttribute("data-link-url", pMember.external_source.url);
+                    } else {
+                        linkButton.setAttribute("data-linked", "false");
+                    }
                     linkButton.onclick = (e) => {
                         showCharacterLinkModal(e.target)
                     }
@@ -295,6 +293,9 @@ const partyModal = function () {
                 pcObject.active = row.getElementsByClassName("checkbox_party_menu")[0].checked;
                 pcObject.color = row.querySelector(".pc_input_background_color").value;
                 pcObject.party = row.getAttribute("data-pc_party");
+                var linkBtn = row.querySelector(".link_button");
+                var linkUrl = linkBtn.getAttribute("data-link-url")
+                pcObject.external_source = linkUrl ? { url: linkUrl, type: linkBtn.getAttribute("data-link-url-type") } : null;
                 if (parseInt(pcObject.level) <= 0) pcObject.level = "1";
                 tempArr.push(pcObject);
 

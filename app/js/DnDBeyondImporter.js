@@ -9,7 +9,7 @@ class DnDBeyondImporter {
             //cut charId off
             url = url.substring(url.lastIndexOf("/"));
             url = "https://character-service.dndbeyond.com/character/v5/character" + url;
-
+    
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.status == 404 || this.status == 403) {
@@ -29,7 +29,8 @@ class DnDBeyondImporter {
                 returnObj.readOnlyUrl = response.readonlyUrl;
                 var allModifiers = response.modifiers.race;
                 var level = response.classes.map(x => x.level).reduce((a, b) => a + b);
-                returnObj.name = response.name;
+                returnObj.level = level;
+                returnObj.character_name = response.name;
                 allModifiers = allModifiers.concat(response.modifiers.class)
                     .concat(response.modifiers.feat)
                     .concat(response.modifiers.item)
@@ -63,6 +64,7 @@ class DnDBeyondImporter {
                 var conModifer = Util.getAbilityScoreModifier(con);
                 var dexModifier = Util.getAbilityScoreModifier(dexterity);
                 var wisModifier = Util.getAbilityScoreModifier(wisdom);
+
                 hpPerLevel += conModifer;
                 var insightProf = allModifiers.find(x => x.type == "proficiency" && x.subType == "insight");
                 var perceptionProf = allModifiers.find(x => x.type == "proficiency" && x.subType == "perception");
@@ -73,10 +75,10 @@ class DnDBeyondImporter {
                 var hitPoints = baseHp + level * hpPerLevel;
                 returnObj.wisdom = wisModifier;
                 returnObj.dexterity = dexModifier;
+                returnObj.constitution = conModifer;
                 returnObj.maxHp = hitPoints;
                 returnObj.currentHp = hitPoints - response.removedHitPoints;
-
-                cls.setArmorClass(response, returnObj, dexModifier, allModifiers);
+                cls.setArmorClass(response, returnObj,allModifiers);
 
 
                 if (callback) callback(returnObj);
@@ -91,7 +93,7 @@ class DnDBeyondImporter {
 
     }
 
-    setArmorClass(response, returnObj, dexModifier, allModifiers) {
+    setArmorClass(response, returnObj, allModifiers) {
         var equippedStuff = response.inventory.filter(x => x.equipped);
         var acMods = equippedStuff.filter(x => x.definition.armorTypeId);
         var armor = acMods.filter(x => x.definition.armorTypeId < 4);
@@ -117,13 +119,13 @@ class DnDBeyondImporter {
             var armorDef = constants.armorTypes.find(x => x.ddb_name == eq.definition.baseArmorName.toLowerCase());
 
             returnObj.ac = getItemTrueAc(eq) + getDex(armorDef);
-            console.log(getDex(armorDef))
+
             function getDex(ar) {
                 var res = parseInt(ar.maxDex);
                 if (res == 0) return 0;
-                if (!ar.maxDex) return dexModifier;
+                if (!ar.maxDex) return returnObj.dexModifier;
 
-                return Math.min(res, dexModifier);
+                return Math.min(res, returnObj.dexModifier);
             }
         } else {
             setAcFromDex(10);
@@ -141,14 +143,14 @@ class DnDBeyondImporter {
         }
 
         function setAcFromDex(baseAc) {
-            baseAc += dexModifier;
+            baseAc += returnObj.dexterity;
             var unarmoredDef = allModifiers.find(x => x.subType == "unarmored-armor-class");
             if (unarmoredDef) {
                 baseAc += Math.max(getRelevantModifer(unarmoredDef), 0);
                 function getRelevantModifer(unarmoredDef) {
                     switch (unarmoredDef.statId) {
                         case null: return null;
-                        case 3: return conModifer;
+                        case 3: return returnObj.constitution;
                         case 5: return returnObj.wisdom;
 
                     }
@@ -161,7 +163,6 @@ class DnDBeyondImporter {
             var acBonusFromArmor = eq.definition.grantedModifiers?.find(x => x.type == "bonus" && x.subType == "armor-class");
             if (acBonusFromArmor != null)
                 eq.definition.armorClass += acBonusFromArmor.value
-            console.log(eq.definition.armorClass);
             return eq.definition.armorClass;
         }
     }

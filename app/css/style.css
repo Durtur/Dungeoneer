@@ -303,6 +303,22 @@ h1 {
   font-weight: bold;
 }
 
+.pc_node_notes_sync_container p{
+  margin:0.25em;
+  flex:1;
+  margin-right:1em;
+}
+
+.pc_node_notes_sync_container p:first-child{
+  flex:2 ;
+}
+
+
+.pc_node_notes_sync_container{
+  border-left:1em solid var(--main-color);
+  padding-left:1em;
+}
+
 .pcnode>div>p {
   margin-top: 5px;
   text-align: center;
@@ -1241,6 +1257,7 @@ button:disabled {
 }
 
 .pcnode__darkvision {
+  min-height:1em;
   background-size: contain;
   background-repeat: no-repeat;
 }

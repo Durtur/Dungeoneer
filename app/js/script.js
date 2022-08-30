@@ -758,12 +758,12 @@ function addPlayerPlaques() {
 
     node.find(".pcnode_color_bar")[0].style.backgroundColor = Util.hexToRGBA(partyArray[i].color, 0.4);
     node.find(".acnode").val(partyArray[i].ac);
-    node.find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception) + 10);
+    node.find(".pcnode__passiveperception>p").html(parseInt(partyArray[i].perception || 0) + 10);
     if (player.darkvision) {
-      node.find(".pcnode__darkvision").removeClass("hidden");
+      node.find(".pcnode__darkvision").removeClass("hidden_takes_space");
       node.find(".pcnode__darkvision>p").html(partyArray[i].darkvision + " ft");
     } else {
-      node.find(".pcnode__darkvision").addClass("hidden");
+      node.find(".pcnode__darkvision").addClass("hidden_takes_space");
     }
 
     if (partyArray[i].alternative_ac == "") {

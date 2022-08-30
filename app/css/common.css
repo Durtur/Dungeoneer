@@ -31,6 +31,10 @@ body {
   background-size: cover;
   background-repeat: repeat;
 }
+a{
+  color: var(--highlight-color);
+}
+
 
 @keyframes fadein {
   from {
@@ -85,6 +89,10 @@ button {
   font-family: "bookSanity";
 }
 
+
+.label{
+  font-weight:500;
+}
 p, label {
   font-family: "var(--basic-font)";
   color: var(--main-text-color);
@@ -1326,12 +1334,13 @@ header {
   cursor: pointer;
   padding: 0;
   font-size: 1em;
+  font-family: var(--basic-font);
   pointer-events: all !important;
   -webkit-app-region: no-drag;
 }
 
 .hyperlink_like:hover {
-  border: 2px white dashed;
+  border: 1px white dashed;
 }
 
 .expanded_text_area {

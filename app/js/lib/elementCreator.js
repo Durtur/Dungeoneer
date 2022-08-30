@@ -143,6 +143,20 @@ class ElementCreator {
 
     }
 
+    static browserLink(linkUrl, text) {
+        var link = document.createElement("button");
+        link.setAttribute("href", linkUrl);
+        link.classList = "hyperlink_like";
+        link.onclick = (e) => {
+            e.preventDefault();
+
+            window.api.openBrowser(link.getAttribute("href"))
+        }
+        link.innerHTML = text;
+        return link;
+
+    }
+
 }
 
 module.exports = ElementCreator;
