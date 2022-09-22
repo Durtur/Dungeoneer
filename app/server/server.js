@@ -14,13 +14,7 @@ const SERVER_EVENTS = {
 
 var peer;
 
-var connectionObj =
-{
-    secure: true,
-    host: 'dungeoneer-peer-server.herokuapp.com',
-    port: 443
-}
-
+var CONNECTION_PARAMS;
 
 var clientFog = 2;
 loadParty();
@@ -230,11 +224,30 @@ function appendServerLog(text, eventType) {
     }
 }
 
-function initServer() {
+async function getConnectionParams() {
+    if (CONNECTION_PARAMS)
+        return CONNECTION_PARAMS;
+    try {
+        const response = await fetch("https://raw.githubusercontent.com/Durtur/Dungeoneer/master/docs/client/connectionConfig.js", { cache: 'no-cache' });
+        if (response.ok) {
+            var rawText = await response.text();
+            rawText = rawText.replace("var PEER_CONNECTION_CONFIG =", "");
+            CONNECTION_PARAMS = JSON.parse(rawText);
+            return;
+        }
+    } catch (ex) {
+        console.error(ex);
+    }
+    showError("Error fetching peer server information");
+
+}
+
+async function initServer() {
     showLoading("Contacting P2P server");
+    await getConnectionParams();
     var hostId = document.getElementById("server_id").value;
 
-    peer = hostId ? new Peer(hostId, connectionObj) : new Peer(connectionObj);
+    peer = hostId ? new Peer(hostId, CONNECTION_PARAMS) : new Peer(CONNECTION_PARAMS);
     peer.on('open', function (id) {
 
         document.getElementById("server_id").value = id;
@@ -424,7 +437,7 @@ async function sendSoundBase64(effectSrc, connection) {
 
     var soundLib = await soundManager.getAvailableSounds();
     var libSound = soundLib.find(x => x.name.toLowerCase() == effectSrc);
-    
+
     if (libSound.isDefault)
         return;
     appendServerLog(`Packaging custom sound ${effectSrc}`)
