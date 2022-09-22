@@ -2,12 +2,6 @@
 var hostConnection;
 
 var dataBuffer = {}, initRequestSent = false, timeout;
-var connectionObj =
-{
-    secure: true,
-    host: 'dungeoneer-peer-server.herokuapp.com',
-    port: 443
-}
 
 
 const UNSUPPORTED_BROWSERS = ["iPhone", "iPad"];
@@ -113,7 +107,7 @@ function connect() {
     connectButton.classList.add("hidden");
     var hostId = document.getElementById("host_id_input").value;
     var name = document.getElementById("user_name_input").value;
-    var peer = new Peer(connectionObj);
+    var peer = new Peer(PEER_CONNECTION_CONFIG);
     peer.on('open', function (id) {
 
         console.log(id);

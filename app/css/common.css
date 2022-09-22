@@ -1401,6 +1401,7 @@ header {
 }
 
 .spell_link {
+  color:var(--main-text-color);
   text-decoration: underline;
   text-decoration-style: dotted;
   cursor: help;
@@ -1498,6 +1499,7 @@ header {
 
 .d20_roll_link, .dice_roller_link {
   cursor: pointer;
+  color:var(--main-text-color);
   text-decoration: underline;
   transition: all var(--transition-delay);
   text-decoration-color: var(--main-color);
