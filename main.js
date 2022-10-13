@@ -4,6 +4,7 @@ const { ipcMain } = require('electron')
 var fs = require('fs');
 const pathModule = require('path');
 const { autoUpdater } = require('electron-updater');
+const Util = require("./main/util");
 
 app.allowRendererProcessReuse = true;
 var instanceLock = app.requestSingleInstanceLock();
