@@ -29,7 +29,7 @@ const effectManager = require('./mappingTool/effectManager');
 const DEFAULT_TOKEN_PATH = "./mappingTool/tokens/default.png";
 const DEFAULT_TOKEN_PATH_JS_RELATIVE = pathModule.join(__dirname, "mappingTool", "tokens", "default.png");
 var conditionList;
-
+var RUN_ARGS_MAP = null;
 var soundManager = new SoundManager(pathModule);
 
 var frameHistoryButtons = null;
@@ -66,7 +66,7 @@ function loadSettings() {
         var filterDd = document.getElementById("filter_tool");
         filterDd.selectedIndex = parseInt(filterValue);
         setBackgroundFilter();
-        if (settings.currentMap) {
+        if (settings.currentMap && !RUN_ARGS_MAP) {
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 

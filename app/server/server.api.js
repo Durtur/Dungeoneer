@@ -9,7 +9,7 @@ dataAccess.getSettings(settings => {
     soundManager.setSoundLibraryPath(settings.maptool.soundLibraryPath)
 })
 
-const util = require("../js/util");
+const util = require("./server.util");
 const ElementCreator = require("../js/lib/elementCreator");
 
 const constants = dataAccess.getConstantsSync();
@@ -32,7 +32,7 @@ contextBridge.exposeInMainWorld('subscribe', {
 contextBridge.exposeInMainWorld('dataAccess', {
     getSettings: (callback) => { dataAccess.getSettings(callback) },
     getParty: (callback) => { dataAccess.getParty(callback) },
-    base64: async (path) => dataAccess.base64(path)
+    base64: async (path) => await dataAccess.base64(path)
 })
 
 contextBridge.exposeInMainWorld('soundManager', {

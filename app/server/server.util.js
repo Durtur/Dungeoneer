@@ -1,5 +1,6 @@
 const { extname } = require("path");
 const sharp = require("sharp");
+const dataAccess = require("../js/dataaccess");
 module.exports = function () {
     function IsVowel(letter) {
         return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());

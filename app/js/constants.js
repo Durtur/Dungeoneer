@@ -1,6 +1,6 @@
 
 const constants = require("./js/dataaccess").getConstantsSync();
-constants.imgFilters = ["png", "gif", "jpg", "jpeg", "webp", "avif"];
+constants.imgFilters = ["png", "gif", "jpg", "jpeg", "webp", "avif", "svg"];
 
 
 function checkIfImageExists(imageSrc, exists, doesNotExist) {

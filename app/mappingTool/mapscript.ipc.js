@@ -3,6 +3,7 @@
 var initialLoadComplete = false, SERVER_RUNNING = false;
 
 ipcRenderer.on("load-map", function (evt, arg) {
+    RUN_ARGS_MAP = arg;
     if (!initialLoadComplete) {
         pendingMapLoad = arg;
     } else {

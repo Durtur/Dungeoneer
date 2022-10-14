@@ -80,13 +80,13 @@ class SaveManager {
 
         if (settings.map_edge_style) {
             progressFunction("Creating save", `Packaging ${pathModule.basename(settings.map_edge_style)}`);
-            data.mapEdgeBase64 = await Util.toBase64(settings.map_edge_style, true);
+            data.mapEdgeBase64 = await Util.toBase64(settings.map_edge_style);
         }
 
         if (settings.currentOverlay) {
             data.mapOverlaySize = settings.gridSettings.mapOverlaySize;
             progressFunction("Creating save", `Packaging ${pathModule.basename(settings.currentOverlay)}`);
-            data.mapOverlayBase64 = await Util.toBase64(settings.currentOverlay, true);
+            data.mapOverlayBase64 = await Util.toBase64(settings.currentOverlay);
         }
         data.extensions = {
             mapEdge: data.mapEdgeBase64 ? pathModule.basename(settings.map_edge_style) + ".webp" : null,
@@ -276,11 +276,7 @@ class SaveManager {
             var basename = pathModule.basename(distinctTokens[i]);
             imgMap[basename] = await Util.toBase64(distinctTokens[i]);
         }
-        console.log({
-            map: imgMap,
-            tokens: tokenPaths.map(x => pathModule.basename(x)),
-            id: pawn.id
-        });
+  
         return {
             map: imgMap,
             tokens: tokenPaths.map(x => pathModule.basename(x)),
