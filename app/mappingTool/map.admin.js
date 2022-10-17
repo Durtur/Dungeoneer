@@ -901,9 +901,23 @@ function setTokenNextFacetHandler(e) {
 }
 
 function setScaleIfSaved(pawn, path) {
-    var scale = localStorage.getItem(`token_scale${path}`) || 1;
-    if (scale) map.setTokenScale(pawn, scale);
-    return scale;
+    var scale = localStorage.getItem(`token_scale${path}`);
+    if (scale) {
+        map.setTokenScale(pawn, scale);
+    } else {
+        //Check if file name contains _ScaleXX_,
+        var found = path.toLowerCase().match(/_scale.+_/g);
+        if (found && found.length > 0) {
+            var number = found[0].replace(/\D/g, "");
+            number = parseInt(number);
+            var fileScale = number/100;
+            if(fileScale > 0 && fileScale < 10){
+                map.setTokenScale(pawn, fileScale);
+            }
+        }else{
+            map.setTokenScale(pawn, 1);
+        }
+    }
 }
 
 async function onBackgroundChanged(pawn) {
