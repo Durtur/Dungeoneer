@@ -14,6 +14,7 @@
     --bg-scale: 1;
     --pawn-scale: 1;
     --pawn-rotate: 0;
+    --pawn-image-scale:1;
     --cell-size: 35;
 }
 
@@ -466,7 +467,7 @@ li {
     background-repeat: no-repeat;
     border: none;
     position: absolute;
-    transform: rotate(calc(var(--pawn-rotate)));
+    transform: rotate(calc(var(--pawn-rotate))) scale(var(--pawn-image-scale));
 }
 
 .pawn>.mob_token_container {
