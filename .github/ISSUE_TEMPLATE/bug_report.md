@@ -6,6 +6,8 @@ labels: bug
 assignees: ''
 
 ---
+**System information**
+Operating system and Dungeoneer version (shown in the title bar). 
 
 **Describe the bug**
 A clear and concise description of what the bug is.
