@@ -1,659 +1,740 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta charset="utf-8">
-    <title>Dungeoneer: Map tool</title>
-    <meta name="author" content="">
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/theme.css" rel="stylesheet">
-    <link href="css/common.css" rel="stylesheet">
-    <link href="chosen/chosen.css" rel="stylesheet">
-    <link href="mappingTool/map.css" rel="stylesheet">
-    <link href="mappingTool/effects.css" rel="stylesheet">
-    <link href="css/modals.css" rel="stylesheet">
-    <link href="css/sidebar.css" rel="stylesheet">
-    <link href="css/slimselect.css" rel="stylesheet">
-    <link rel="stylesheet" href="awesomplete/awesomplete.css" />
-    <link rel='stylesheet' href='mappingTool/spectrum.css' />
-</head>
-
-<body>
-    <div class="title_bar">
-        <div class="title_bar_left">
-            <button id="settings_window_button"></button>
-            <button id="music_button" title="Mute all audio" class="toggle_mute_button" toggled="true"></button>
-            <button id="add_things_button" title="Add new effects">+</button>
-            <button id="reload_button" title="Reload the window" onclick="reloadMap()"></button>
-        </div>
-
-        <div class="toolbar_container">
-
-
-            <div class="toolbar ">
-                <button class="button_style help_button" onclick="Util.showOrHide('help_tool_tip', 1)">Help</button>
-                <button class="button_style help_button" id="open_server_button">Server</button>
-                <div class="dropdown">
-                    <ul>
-                        <li class="dropdown_root"><a class="button_style " href="#">Map</a>
-                            <ul class="dropdown_content">
-                                <li id="recent_maps_button"><a href="#" class="button_style">Recent maps</a>
-                                    <ul>
-                                    </ul>
-                                </li>
-                                <li><a class="button_style" id="save_map_button" href="#"
-                                        title="Saves the map in the current state, excluding tokens.">Save
-                                        map (ctrl+s)</a></li>
-                                <li><a class="button_style" id="load_map_button" href="#"
-                                        title="Loads an earlier map in the same state, excluding tokens.">Load
-                                        map (ctrl+o)</a>
-                                </li>
-
-
-
-
-                            </ul>
-                        </li>
-                        <li class="dropdown_root"><a class="button_style " href="#">Layers</a>
-                            <ul class="dropdown_content">
-                                <li><a href="#" class="button_style" id="overlay_menu_button">Overlay</a>
-                                    <ul id="overlay_loop_menu">
-                                        <li><a href="#" id="overlay_button" class="button_style">Image</a></li>
-                                        <li><a href="#" id="clear_overlay_button" href="#" class="button_style"
-                                                title="Clears the overlay to default">Clear</a></li>
-                                        <div class="menu_seperator"></div>
-                                        <li>
-                                            <div class="row">
-                                                <label class="button_style_label" style="width: 100%;">
-                                                    Slide speed:
-                                                </label>
-                                                <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="overlayLoop.updateSlideSpeed()" class="slide_speed_input"
-                                                    value="1" step="0.1">
-                                            </div>
-                                        </li>
-
-                                        <li><a class="button_style toggle_button" toggled="true" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)" data-slide=""
-                                                title="Removes the background slide">No slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideX">Horizontal
-                                                slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideXReverse">Horizontal reverse slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideY">Vertical slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="overlayLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideYReverse">Vertical
-                                                reverse slide</a></li>
-
-                                        <div class="menu_seperator"></div>
-                                        <li><a class="button_style toggle_button background_slide_button toggle_bob_animation_button"
-                                                toggled="false" onclick="overlayLoop.toggleBobAnimation()">Sway
-                                                overlay</a></li>
-                                        <li>
-                                            <div class="row">
-                                                <label class="button_style_label" style="width: 100%;">
-                                                    Sway amount:
-                                                </label>
-                                                <input style="text-align: center; width:60px; " type="number"
-                                                    oninput="overlayLoop.updateBobAmount()" class="bob_amount_input"
-                                                    value="1" step="0.1">
-                                            </div>
-                                        </li>
-                                    </ul>
-                                <li><a href="#" class="button_style" id="foreground_menu_button">Foreground</a>
-                                    <ul>
-                                        <li><a href="#" class="button_style" id="foreground_button"
-                                                class="button_style">Image</a></li>
-                                        <li><a href="#" class="button_style" id="clear_foreground_button">Clear</a></li>
-                                        <div class="menu_seperator"></div>
-                                        <li><a href="#" class="button_style"
-                                                onclick="map.centerForegroundOnBackground()">Center on background</a></li>
-
-                                    </ul>
-                                </li>
-
-
-
-                                <li><a href="#" class="button_style" id="background_menu_button">Background</a>
-                                    <ul id="background_loop_menu">
-                                        <li><a href="#" id="background_button" class="button_style">Image</a></li>
-                                        <li><a href="#" id="clear_background_button" href="#" class="button_style"
-                                                title="Clears the background to default">Clear</a></li>
-                                        <div class="menu_seperator"></div>
-                                        <li>
-                                            <div class="row">
-                                                <label class="button_style_label" style="width: 100%;">
-                                                    Slide speed:
-                                                </label>
-                                                <input style="text-align: center; width:60px; " type="number"
-                                                    onchange="backgroundLoop.updateSlideSpeed()"
-                                                    class="slide_speed_input" value="1" step="0.1">
-                                            </div>
-                                        </li>
-
-                                        <li><a class="button_style toggle_button" toggled="true" toggleGroup=15
-                                                onclick="backgroundLoop.toggleBackgroundSlide(this)" data-slide=""
-                                                title="Removes the background slide">No slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideX">Horizontal
-                                                slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideXReverse">Horizontal reverse slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideY">Vertical slide</a></li>
-                                        <li><a class="button_style toggle_button background_slide_button"
-                                                toggled="false" toggleGroup=15
-                                                onclick="backgroundLoop.toggleBackgroundSlide(this)"
-                                                data-slide="slideYReverse">Vertical
-                                                reverse slide</a></li>
-
-                                        <div class="menu_seperator"></div>
-                                        <li><a class="button_style toggle_button background_slide_button toggle_bob_animation_button"
-                                                toggled="false" onclick="backgroundLoop.toggleBobAnimation()">Sway
-                                                background</a></li>
-                                        <li>
-                                            <div class="row">
-                                                <label class="button_style_label" style="width: 100%;">
-                                                    Sway amount:
-                                                </label>
-                                                <input style="text-align: center; width:60px; " type="number"
-                                                    oninput="backgroundLoop.updateBobAmount()" class="bob_amount_input"
-                                                    value="1" step="0.1">
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-
-
-                                <li><a class="button_style" id="backdrop_window_button" href="#"
-                                        title="Launches a backdrop window, useful if running in transparent mode.">Plain image
-                                        window</a></li>
-                                <li><a class="button_style" href="#">Map edge</a>
-                                    <ul>
-                                        <button class="button_style" id="map_edge_button"
-                                            title="Sets the art for the map edge.">Image</button>
-                                        <div class="menu_seperator"></div>
-                                        <button class="button_style" id="clear_map_edge_button"
-                                            title="Clears the map edge to default">Clear</button>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-
-
-                <div class="show_overflow">
-                    <button title="Change map size" class="toggle_button button_style " toggleGroup="3" toggled="false"
-                        onclick="showMapSizeSlider(this)">Size</button>
-                </div>
-
-
-
-                <div class="dropdown">
-                    <ul>
-                        <li class="dropdown_root"><a class="button_style " href="#">Sight</a>
-                            <ul class="dropdown_content">
-                                <li>
-                                    <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Fog
-                                        color</label>
-                                    <input type="color" id="fog_of_war_hue_selector"
-                                        style="height:0 !important; margin:0 !important; padding:0 !important; width: 0;"
-                                        value="#000000" class="invisible">
-                                </li>
-                                <li> <select title="Filter" id="filter_tool" onchange="setBackgroundFilter">
-                                        <option value="none" selected>No filter</option>
-                                        <option value="url(#night-mode)">Night</option>
-                                        <option value="url(#winter-mode)">Winter</option>
-                                        <option value="hue-rotate(90deg)">Hue</option>
-                                        <option value="url(#daylight)">Daylight</option>
-                                    </select>
-                                </li>
-                                <li> <a class="toggle_button button_style" toggled="false"
-                                        title="Current viewer has darkvision" id="active_viewer_button"
-                                        onclick="switchActiveViewer()">Darkvision</a></li>
-                                <li> <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
-                                        title="Map is in darkness" id="map_darkness_button"
-                                        onclick="switchMapLighting()">Map in
-                                        darkness</a>
-                                </li>
-
-                                <li> <a class="toggle_button button_style" toggled="false" toggleGroup="fog_type_toggle"
-                                        title="Map is in low light" id="map_lowlight_button"
-                                        onclick="switchMapLighting()">Map in
-                                        low light</a></li>
-                                <div class="menu_seperator"></div>
-                                <li>
-                                    <a class="toggle_button button_style" id="visiblity_tool" toggled="false"
-                                        title="Show visibility layer. Lights placed here are not visible normally. "
-                                        onclick="toggleVisibilityLayer()">Show visibility layer</a>
-                                </li>
-                                <li>
-                                    <a class=" button_style " title="Import walls from dungeondraft map"
-                                        onclick="fovLighting.importDungeondraftWalls()">Import walls</a>
-                                </li>
-                                <div class="menu_seperator"></div>
-
-                                <li>
-                                    <a class=" toggle_button button_style " id="delete_segments_button" toggled="false"
-                                        title="Delete visibility blocking segments"
-                                        onclick="toggleDeleteSegments()">Delete walls</a>
-                                </li>
-
-
-                            </ul>
-                        </li>
-
-                    </ul>
-                </div>
-
-
-                <button title="Line measurement tool" class="toggle_button button_style toolbox_button" id="line_tool"
-                    toggleGroup="1" toggled="false" onclick="setTool(event, this,0)"></button>
-                <button title="Cone measurement tool" class="toggle_button button_style toolbox_button" id="cone_tool"
-                    toggleGroup="1" toggled="false" onclick="setTool(event,this,1)"></button>
-                <button title="Sphere measurement tool" class="toggle_button button_style toolbox_button"
-                    id="sphere_tool" toggleGroup="1" toggled="false" onclick="setTool(event,this,2)"></button>
-                <button title="Cube measurement tool" class="toggle_button button_style toolbox_button" id="cube_tool"
-                    toggleGroup="1" toggled="false" onclick="setTool(event,this,3)"></button>
-                <button title="Rectangle measurement tool" class="toggle_button button_style toolbox_button"
-                    id="rect_tool" toggleGroup="1" toggled="false" onclick="setTool(event,this,4)"></button>
-
-                <button title="Effect fill paint" class=" button_style hidden" id="fill_style_button" toggleGroup="1"
-                    toggled="false" onclick="setFillStyle()">Fill</button>
-
-                <button title="Line segment" class="hidden visibility_toolbox toggle_button button_style toolbox_button"
-                    id="line_fov_tool" toggleGroup="2" toggled="false" onclick="setFovVisibilityTool(this,0)"></button>
-
-                <button title="Rectangle segment"
-                    class="hidden toggle_button button_style toolbox_button visibility_toolbox" id="rect_fov_tool"
-                    toggleGroup="2" toggled="false" onclick="setFovVisibilityTool(this,1)"></button>
-                <button title="Rectangle segment"
-                    class="hidden toggle_button button_style toolbox_button visibility_toolbox" id="sphere_fov_tool"
-                    toggleGroup="2" toggled="false" onclick="setFovVisibilityTool(this,2)"></button>
-
-            </div>
-        </div>
-        <div class="toolbar toolbar_right ">
-            <select title="Forced perspective" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()">
-
-            </select>
-        </div>
-        <button id="minimize_app_button"></button>
-        <button id="min_max_button"></button>
-        <button id="close_window_button"> </button>
-    </div>
+    <head>
+        <meta charset="utf-8" />
+        <title>Dungeoneer: Map tool</title>
+        <meta name="author" content="" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="css/theme.css" rel="stylesheet" />
+        <link href="css/common.css" rel="stylesheet" />
+        <link href="chosen/chosen.css" rel="stylesheet" />
+        <link href="mappingTool/map.css" rel="stylesheet" />
+        <link href="mappingTool/effects.css" rel="stylesheet" />
+        <link href="css/modals.css" rel="stylesheet" />
+        <link href="css/sidebar.css" rel="stylesheet" />
+        <link href="css/slimselect.css" rel="stylesheet" />
+        <link rel="stylesheet" href="awesomplete/awesomplete.css" />
+        <link rel="stylesheet" href="mappingTool/spectrum.css" />
+    </head>
 
     <body>
-        <div class="sidebar side_toolbar" toggled="false" id="side_toolbar"></div>
-        <div class="toolbar toolbar_center hidden" id="add_pawn_from_tool_toolbar">
-            <button class=" button_style green" toggled="false" id="add_from_queue_toggle_button"
-                title="Add monsters from combat table." onclick="startAddingFromQueue()">Start adding creaturess</button>
-        </div>
-        <div class="slidecontainer hidden" id="map_size_slider_container">
+        <div class="title_bar">
+            <div class="title_bar_left">
+                <button id="settings_window_button"></button>
+                <button id="music_button" title="Mute all audio" class="toggle_mute_button" toggled="true"></button>
+                <button id="add_things_button" title="Add new effects">+</button>
+                <button id="reload_button" title="Reload the window" onclick="reloadMap()"></button>
+            </div>
 
-            <div class="row space_between">
-                <h4>Overlay</h4>
+            <div class="toolbar_container">
+                <div class="toolbar">
+                    <button class="button_style help_button" onclick="Util.showOrHide('help_tool_tip', 1)">Help</button>
+                    <button class="button_style help_button" id="open_server_button">Server</button>
+                    <div class="dropdown">
+                        <ul>
+                            <li class="dropdown_root">
+                                <a class="button_style" href="#">Map</a>
+                                <ul class="dropdown_content">
+                                    <li id="recent_maps_button">
+                                        <a href="#" class="button_style">Recent maps</a>
+                                        <ul></ul>
+                                    </li>
+                                    <li>
+                                        <a class="button_style" id="save_map_button" href="#" title="Saves the map in the current state, excluding tokens.">Save map (ctrl+s)</a>
+                                    </li>
+                                    <li>
+                                        <a class="button_style" id="load_map_button" href="#" title="Loads an earlier map in the same state, excluding tokens.">Load map (ctrl+o)</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown_root">
+                                <a class="button_style" href="#">Layers</a>
+                                <ul class="dropdown_content">
+                                    <li>
+                                        <a href="#" class="button_style" id="overlay_menu_button">Overlay</a>
+                                        <ul id="overlay_loop_menu">
+                                            <li>
+                                                <a href="#" id="overlay_button" class="button_style">Image</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" id="clear_overlay_button" href="#" class="button_style" title="Clears the overlay to default">Clear</a>
+                                            </li>
+                                            <div class="menu_seperator"></div>
+                                            <li>
+                                                <div class="row">
+                                                    <label class="button_style_label" style="width: 100%"> Slide speed: </label>
+                                                    <input
+                                                        style="text-align: center; width: 60px"
+                                                        type="number"
+                                                        onchange="overlayLoop.updateSlideSpeed()"
+                                                        class="slide_speed_input"
+                                                        value="1"
+                                                        step="0.1"
+                                                    />
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button"
+                                                    toggled="true"
+                                                    toggleGroup="15"
+                                                    onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                    data-slide=""
+                                                    title="Removes the background slide"
+                                                    >No slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideX"
+                                                    >Horizontal slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideXReverse"
+                                                    >Horizontal reverse slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideY"
+                                                    >Vertical slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="overlayLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideYReverse"
+                                                    >Vertical reverse slide</a
+                                                >
+                                            </li>
+
+                                            <div class="menu_seperator"></div>
+                                            <li>
+                                                <a class="button_style toggle_button background_slide_button toggle_bob_animation_button" toggled="false" onclick="overlayLoop.toggleBobAnimation()"
+                                                    >Sway overlay</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <div class="row">
+                                                    <label class="button_style_label" style="width: 100%"> Sway amount: </label>
+                                                    <input
+                                                        style="text-align: center; width: 60px"
+                                                        type="number"
+                                                        oninput="overlayLoop.updateBobAmount()"
+                                                        class="bob_amount_input"
+                                                        value="1"
+                                                        step="0.1"
+                                                    />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="button_style" id="foreground_menu_button">Foreground</a>
+                                        <ul>
+                                            <li>
+                                                <a href="#" class="button_style" id="foreground_button" class="button_style">Image</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" class="button_style" id="clear_foreground_button">Clear</a>
+                                            </li>
+                                            <div class="menu_seperator"></div>
+                                            <li>
+                                                <a href="#" class="button_style" onclick="map.centerForegroundOnBackground()">Center on background</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="#" class="button_style" id="background_menu_button">Background</a>
+                                        <ul id="background_loop_menu">
+                                            <li>
+                                                <a href="#" id="background_button" class="button_style">Image</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" id="clear_background_button" href="#" class="button_style" title="Clears the background to default">Clear</a>
+                                            </li>
+                                            <div class="menu_seperator"></div>
+                                            <li>
+                                                <div class="row">
+                                                    <label class="button_style_label" style="width: 100%"> Slide speed: </label>
+                                                    <input
+                                                        style="text-align: center; width: 60px"
+                                                        type="number"
+                                                        onchange="backgroundLoop.updateSlideSpeed()"
+                                                        class="slide_speed_input"
+                                                        value="1"
+                                                        step="0.1"
+                                                    />
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button"
+                                                    toggled="true"
+                                                    toggleGroup="15"
+                                                    onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                    data-slide=""
+                                                    title="Removes the background slide"
+                                                    >No slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideX"
+                                                    >Horizontal slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideXReverse"
+                                                    >Horizontal reverse slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideY"
+                                                    >Vertical slide</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <a
+                                                    class="button_style toggle_button background_slide_button"
+                                                    toggled="false"
+                                                    toggleGroup="15"
+                                                    onclick="backgroundLoop.toggleBackgroundSlide(this)"
+                                                    data-slide="slideYReverse"
+                                                    >Vertical reverse slide</a
+                                                >
+                                            </li>
+
+                                            <div class="menu_seperator"></div>
+                                            <li>
+                                                <a class="button_style toggle_button background_slide_button toggle_bob_animation_button" toggled="false" onclick="backgroundLoop.toggleBobAnimation()"
+                                                    >Sway background</a
+                                                >
+                                            </li>
+                                            <li>
+                                                <div class="row">
+                                                    <label class="button_style_label" style="width: 100%"> Sway amount: </label>
+                                                    <input
+                                                        style="text-align: center; width: 60px"
+                                                        type="number"
+                                                        oninput="backgroundLoop.updateBobAmount()"
+                                                        class="bob_amount_input"
+                                                        value="1"
+                                                        step="0.1"
+                                                    />
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a class="button_style" id="backdrop_window_button" href="#" title="Launches a backdrop window, useful if running in transparent mode.">Plain image window</a>
+                                    </li>
+                                    <li>
+                                        <a class="button_style" href="#">Map edge</a>
+                                        <ul>
+                                            <button class="button_style" id="map_edge_button" title="Sets the art for the map edge.">Image</button>
+                                            <div class="menu_seperator"></div>
+                                            <button class="button_style" id="clear_map_edge_button" title="Clears the map edge to default">Clear</button>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="show_overflow">
+                        <button title="Change map size" class="toggle_button button_style" toggleGroup="3" toggled="false" onclick="showMapSizeSlider(this)">Size</button>
+                    </div>
+
+                    <div class="dropdown">
+                        <ul>
+                            <li class="dropdown_root">
+                                <a class="button_style" href="#">Sight</a>
+                                <ul class="dropdown_content">
+                                    <li>
+                                        <label for="fog_of_war_hue_selector" class="button_style" title="Fog color">Fog color</label>
+                                        <input
+                                            type="color"
+                                            id="fog_of_war_hue_selector"
+                                            style="height: 0 !important; margin: 0 !important; padding: 0 !important; width: 0"
+                                            value="#000000"
+                                            class="invisible"
+                                        />
+                                    </li>
+                                    <li>
+                                        <select title="Filter" id="filter_tool" onchange="setBackgroundFilter">
+                                            <option value="none" selected>No filter</option>
+                                            <option value="url(#night-mode)">Night</option>
+                                            <option value="url(#winter-mode)">Winter</option>
+                                            <option value="hue-rotate(90deg)">Hue</option>
+                                            <option value="url(#daylight)">Daylight</option>
+                                        </select>
+                                    </li>
+                                    <li>
+                                        <a class="toggle_button button_style" toggled="false" title="Current viewer has darkvision" id="active_viewer_button" onclick="switchActiveViewer()"
+                                            >Darkvision</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a
+                                            class="toggle_button button_style"
+                                            toggled="false"
+                                            toggleGroup="fog_type_toggle"
+                                            title="Map is in darkness"
+                                            id="map_darkness_button"
+                                            onclick="switchMapLighting()"
+                                            >Map in darkness</a
+                                        >
+                                    </li>
+
+                                    <li>
+                                        <a
+                                            class="toggle_button button_style"
+                                            toggled="false"
+                                            toggleGroup="fog_type_toggle"
+                                            title="Map is in low light"
+                                            id="map_lowlight_button"
+                                            onclick="switchMapLighting()"
+                                            >Map in low light</a
+                                        >
+                                    </li>
+                                    <div class="menu_seperator"></div>
+                                    <li>
+                                        <a
+                                            class="toggle_button button_style"
+                                            id="visiblity_tool"
+                                            toggled="false"
+                                            title="Show visibility layer. Lights placed here are not visible normally. "
+                                            onclick="toggleVisibilityLayer()"
+                                            >Show visibility layer</a
+                                        >
+                                    </li>
+                                    <li>
+                                        <a class="button_style" title="Import walls from dungeondraft map" onclick="fovLighting.importDungeondraftWalls()">Import walls</a>
+                                    </li>
+                                    <div class="menu_seperator"></div>
+
+                                    <li>
+                                        <a class="toggle_button button_style" id="delete_segments_button" toggled="false" title="Delete visibility blocking segments" onclick="toggleDeleteSegments()"
+                                            >Delete walls</a
+                                        >
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button title="Line measurement tool" class="toggle_button button_style toolbox_button" id="line_tool" toggleGroup="1" toggled="false" onclick="setTool(event, this,0)"></button>
+                    <button title="Cone measurement tool" class="toggle_button button_style toolbox_button" id="cone_tool" toggleGroup="1" toggled="false" onclick="setTool(event,this,1)"></button>
+                    <button title="Sphere measurement tool" class="toggle_button button_style toolbox_button" id="sphere_tool" toggleGroup="1" toggled="false" onclick="setTool(event,this,2)"></button>
+                    <button title="Cube measurement tool" class="toggle_button button_style toolbox_button" id="cube_tool" toggleGroup="1" toggled="false" onclick="setTool(event,this,3)"></button>
+                    <button
+                        title="Rectangle measurement tool"
+                        class="toggle_button button_style toolbox_button"
+                        id="rect_tool"
+                        toggleGroup="1"
+                        toggled="false"
+                        onclick="setTool(event,this,4)"
+                    ></button>
+
+                    <button title="Effect fill paint" class="button_style hidden" id="fill_style_button" toggleGroup="1" toggled="false" onclick="setFillStyle()">Fill</button>
+
+                    <button
+                        title="Line segment"
+                        class="hidden visibility_toolbox toggle_button button_style toolbox_button"
+                        id="line_fov_tool"
+                        toggleGroup="2"
+                        toggled="false"
+                        onclick="setFovVisibilityTool(this,0)"
+                    ></button>
+
+                    <button
+                        title="Rectangle segment"
+                        class="hidden toggle_button button_style toolbox_button visibility_toolbox"
+                        id="rect_fov_tool"
+                        toggleGroup="2"
+                        toggled="false"
+                        onclick="setFovVisibilityTool(this,1)"
+                    ></button>
+                    <button
+                        title="Rectangle segment"
+                        class="hidden toggle_button button_style toolbox_button visibility_toolbox"
+                        id="sphere_fov_tool"
+                        toggleGroup="2"
+                        toggled="false"
+                        onclick="setFovVisibilityTool(this,2)"
+                    ></button>
+                </div>
+            </div>
+            <div class="toolbar toolbar_right">
+                <select title="Forced perspective" id="fov_perspective_dropdown" onchange="onPerspectiveChanged()"></select>
+            </div>
+            <button id="minimize_app_button"></button>
+            <button id="min_max_button"></button>
+            <button id="close_window_button"></button>
+        </div>
+
+        <body>
+            <div class="sidebar side_toolbar" toggled="false" id="side_toolbar"></div>
+            <div class="toolbar toolbar_center hidden" id="add_pawn_from_tool_toolbar">
+                <button class="button_style green" toggled="false" id="add_from_queue_toggle_button" title="Add monsters from combat table." onclick="startAddingFromQueue()">
+                    Start adding creaturess
+                </button>
+            </div>
+            <div class="slidecontainer hidden" id="map_size_slider_container">
+                <div class="row space_between">
+                    <h4>Overlay</h4>
+                    <div class="row">
+                        <input type="number" class="slider_cell_count_input" id="overlay_cells_input" />
+                        <h4>squares</h4>
+                    </div>
+                </div>
+                <input type="range" min="100" max="15000" class="slider" id="overlay_size_slider" title="Map size" />
+                <div class="row space_between">
+                    <h4>Foreground</h4>
+                    <div class="row">
+                        <input type="number" class="slider_cell_count_input" id="foreground_cells_input" />
+                        <h4>squares</h4>
+                    </div>
+                </div>
+                <input type="range" min="100" max="15000" class="slider" id="foreground_size_slider" title="Map size" />
+                <div class="row space_between">
+                    <h4>Background</h4>
+                    <div class="row">
+                        <input type="number" class="slider_cell_count_input" id="background_cells_input" />
+                        <h4>squares</h4>
+                    </div>
+                </div>
+
+                <input type="range" min="100" max="18000" class="slider" id="background_size_slider" title="Map size" />
+            </div>
+
+            <!-- #region popups-->
+            <p id="tooltip" class="tooltip hidden">A tooltip</p>
+
+            <p id="tooltip2" class="tooltip hidden">A tooltip</p>
+            <div class="help_tool_tip hidden" id="help_tool_tip">
+                <div class="column">
+                    <strong>Map</strong>
+                    <ul>
+                        <li>
+                            <div>Force reload:</div>
+                            <div class="list_value">CTRL + Shift + R</div>
+                        </li>
+                        <li>
+                            <div>Zoom:</div>
+                            <div class="list_value">Mousewheel</div>
+                        </li>
+
+                        <li>
+                            <div>Shift foreground:</div>
+                            <div class="list_value">Shift + Arrow keys</div>
+                        </li>
+                        <li>
+                            <div>View global listener position:</div>
+                            <div class="list_value">L + P</div>
+                        </li>
+                        <li>
+                            <div>Start deleting walls:</div>
+                            <div class="list_value">D + E</div>
+                        </li>
+                    </ul>
+                    <strong>Tokens</strong>
+                    <ul>
+                        <li>
+                            <div>Rotate:</div>
+                            <div class="list_value">Shift + Mousewheel</div>
+                        </li>
+                        <li>
+                            <div>Adjust flying height:</div>
+                            <div class="list_value">CTRL + Mousewheel</div>
+                        </li>
+
+                        <li>
+                            <div>Multi select:</div>
+                            <div class="list_value">CTRL + Mouse left</div>
+                        </li>
+                    </ul>
+                    <strong>Measure</strong>
+                    <ul>
+                        <li>
+                            <div>Multi point line:</div>
+                            <div class="list_value">CTRL + Mouse left</div>
+                        </li>
+                        <li>
+                            <div>Measure with pawn height:</div>
+                            <div class="list_value">CTRL + Mouse left</div>
+                        </li>
+                    </ul>
+                    <strong>Placing effects</strong>
+                    <ul>
+                        <li>
+                            <div>Rotate:</div>
+                            <div class="list_value">Shift + Mousewheel</div>
+                        </li>
+                        <li>
+                            <div>Increase/decrease size:</div>
+                            <div class="list_value">CTRL + Mousewheel</div>
+                        </li>
+                    </ul>
+                </div>
+                <button class="button_style" onclick="Util.showOrHide('help_tool_tip', -1)">Close</button>
+            </div>
+
+            <div id="popup_menu_pawn" class="popup_menu hidden">
+                <button class="button_style hidden" id="vision_button">Vision</button>
+                <button
+                    data-hotkey-pawn=" (H)"
+                    style="min-width: 12em"
+                    class="button_style server_running_action hidden"
+                    id="hide_in_clients_btn"
+                    title="Hide token in all connected player clients"
+                    onclick="clientHideSelectedPawn()"
+                >
+                    Hide in clients
+                </button>
+                <button data-hotkey-pawn=" (C)" class="button_style" id="conditions_button">Conditions</button>
+                <button data-hotkey-pawn=" (E)" class="button_style" onclick="enlargeReduceSelectedPawns(1)">Enlarge</button>
+                <button data-hotkey-pawn=" (R)" class="button_style" onclick="enlargeReduceSelectedPawns(-1)">Reduce</button>
+                <button class="button_style" id="kill_or_revive_button" onclick="killOrRevivePawn()">Kill</button>
+                <button class="button_style context_menu_button" id="pawn_token_menu_button" data-menu_item="context_menu_token">Token</button>
+
+                <button class="button_style" onclick="elevatePawn()">Push higher</button>
+                <button class="button_style" onclick="removeSelectedPawn()">Remove</button>
+            </div>
+            <div id="context_menu_token" class="popup_menu context_menu hidden">
+                <button class="button_style icon_load_button" id="add_token_facet_button">Add facet</button>
+                <button data-hotkey-pawn=" (N)" class="button_style" id="next_facet_button">Next facet</button>
+                <button class="button_style icon_load_button" id="icon_load_button">Choose token</button>
+                <button data-hotkey-pawn=" (S)" class="button_style" id="token_scale_button">Scale</button>
+                <input type="text" class="hidden" id="background_color_button_change_pawn" />
+            </div>
+            <div id="popup_menu_general" class="popup_menu hidden">
+                <button data-hotkey=" (T)" class="button_style" onclick="showPopupDialogAddPawn()">Token</button>
+                <button data-hotkey=" (E)" class="button_style" onclick="effectManager.showPopupMenuAddEffect(event)">Effect</button>
+            </div>
+            <div id="popup_menu_add_effect" class="hidden column">
                 <div class="row">
-                    <input type="number" class="slider_cell_count_input" id="overlay_cells_input">
-                    <h4>squares</h4>
+                    <button class="button button_style toggle_button effect_action_button" id="move_effects_button" toggled="false" onclick="effectManager.startMovingEffects(event)">Edit</button>
+                    <button class="button button_style toggle_button effect_action_button" id="delete_effects_button" toggled="false" onclick="effectManager.startDeletingEffects()">Delete</button>
                 </div>
-
-            </div>
-            <input type="range" min="100" max="15000" class="slider" id="overlay_size_slider" title="Map size">
-            <div class="row space_between">
-                <h4>Foreground</h4>
-                <div class="row">
-                    <input type="number" class="slider_cell_count_input" id="foreground_cells_input">
-                    <h4>squares</h4>
+                <div class="column sidebar_section" id="sidebar_sfx">
+                    <h2 class="interactive_header">Effect</h2>
+                    <select id="add_sfx_dropdown" class="effect_dropdown_select"></select>
+                    <div class="row">
+                        <label title="Effect width" id="label_for_effect_input_value_one" class="input_extra_text" for="effect_input_width">Width: </label>
+                        <input type="number" class="input_for_effect" id="effect_input_width" placeholder="20" title="Effect width" value="20" />
+                        <label title="Effect height" class="input_extra_text" for="effect_input_height">Height: </label>
+                        <input type="number" class="input_for_effect" id="effect_input_height" placeholder="20" title="Effect height" value="20" />
+                    </div>
                 </div>
-
-            </div>
-            <input type="range" min="100" max="15000" class="slider" id="foreground_size_slider" title="Map size">
-            <div class="row space_between">
-                <h4>Background</h4>
-                <div class="row">
-                    <input type="number" class="slider_cell_count_input" id="background_cells_input">
-                    <h4>squares</h4>
-                </div>
-
-            </div>
-
-            <input type="range" min="100" max="18000" class="slider" id="background_size_slider" title="Map size">
-
-
-        </div>
-
-        <!-- #region popups-->
-        <p id="tooltip" class="tooltip hidden">
-            A tooltip
-        </p>
-
-        <p id="tooltip2" class="tooltip hidden">
-            A tooltip
-        </p>
-        <div class="help_tool_tip hidden" id="help_tool_tip">
-            <div class="column">
-                <strong>Map</strong>
-                <ul>
-                    <li>
-                        <div>Force reload:</div>
-                        <div class="list_value">CTRL + Shift + R </div>
-                    </li>
-                    <li>
-                        <div>Zoom:</div>
-                        <div class="list_value">Mousewheel </div>
-                    </li>
-
-                    <li>
-                        <div>Shift foreground:</div>
-                        <div class="list_value">Shift + Arrow keys </div>
-                    </li>
-                    <li>
-                        <div>View global listener position:</div>
-                        <div class="list_value">L + P </div>
-                    </li>
-                    <li>
-                        <div>Start deleting walls:</div>
-                        <div class="list_value">D + E </div>
-                    </li>
-                </ul>
-                <strong>Tokens</strong>
-                <ul>
-                    <li>
-                        <div>Rotate:</div>
-                        <div class="list_value">Shift + Mousewheel </div>
-                    </li>
-                    <li>
-                        <div>Adjust flying height:</div>
-                        <div class="list_value">CTRL + Mousewheel</div>
-                    </li>
-
-                    <li>
-                        <div>Multi select:</div>
-                        <div class="list_value">CTRL + Mouse left</div>
-                    </li>
-                </ul>
-                <strong>Measure</strong>
-                <ul>
-                    <li>
-                        <div>Multi point line:</div>
-                        <div class="list_value">CTRL + Mouse left </div>
-                    </li>
-                    <li>
-                        <div>Measure with pawn height:</div>
-                        <div class="list_value">CTRL + Mouse left </div>
-                    </li>
-
-                </ul>
-                <strong>Placing effects</strong>
-                <ul>
-                    <li>
-                        <div>Rotate:</div>
-                        <div class="list_value">Shift + Mousewheel </div>
-
-                    </li>
-                    <li>
-
-                        <div>Increase/decrease size:</div>
-                        <div class="list_value">CTRL + Mousewheel </div>
-                    </li>
-                </ul>
-
-            </div>
-            <button class="button_style" onclick="Util.showOrHide('help_tool_tip', -1)">Close</button>
-        </div>
-
-        <div id="popup_menu_pawn" class="popup_menu hidden">
-            <button class="button_style hidden" id="vision_button">Vision</button>
-            <button data-hotkey=" (H)" style ="min-width:12em" class="button_style server_running_action hidden" id = "hide_in_clients_btn" title="Hide token in all connected player clients"
-                onclick="clientHideSelectedPawn()">Hide in clients  </button>
-            <button data-hotkey=" (C)"  class="button_style" id="conditions_button">Conditions</button>
-            <button data-hotkey=" (E)" class="button_style" onclick="enlargeReduceSelectedPawns(1)">Enlarge</button>
-            <button data-hotkey=" (R)" class="button_style" onclick="enlargeReduceSelectedPawns(-1)">Reduce</button>
-            <button class="button_style" id="kill_or_revive_button" onclick="killOrRevivePawn()">Kill</button>
-            <button class="button_style context_menu_button" id="pawn_token_menu_button"
-                data-menu_item="context_menu_token">Token</button>
-
-
-
-            <button class="button_style" onclick="elevatePawn()">Push higher</button>
-            <button class="button_style" onclick="removeSelectedPawn()">Remove</button>
-        </div>
-        <div id="context_menu_token" class="popup_menu context_menu hidden">
-
-            <button class="button_style icon_load_button " id="add_token_facet_button">Add facet</button>
-            <button  data-hotkey=" (N)" class="button_style " id="next_facet_button">Next facet</button>
-            <button class="button_style icon_load_button " id="icon_load_button">Choose token</button>
-            <button  data-hotkey=" (S)"  class="button_style " id="token_scale_button">Scale</button>
-            <input type="text" class="hidden" id="background_color_button_change_pawn">
-
-        </div>
-        <div id="popup_menu_general" class="popup_menu hidden">
-            <button class="button_style" onclick="showPopupDialogAddPawn()">Token</button>
-            <button class="button_style" onclick="effectManager.showPopupMenuAddEffect(event)">Effect</button>
-        </div>
-        <div id="popup_menu_add_effect" class=" hidden column">
-            <div class="row">
-
-                <button class="button button_style toggle_button effect_action_button" id="move_effects_button"
-                    toggled="false" onclick="effectManager.startMovingEffects(event)">Edit</button>
-                <button class="button button_style toggle_button effect_action_button" id="delete_effects_button"
-                    toggled="false" onclick="effectManager.startDeletingEffects()">Delete</button>
-            </div>
-            <div class="column sidebar_section" id="sidebar_sfx">
-                <h2 class="interactive_header">Effect</h2>
-                <select id="add_sfx_dropdown" class="effect_dropdown_select">
-                </select>
-                <div class="row">
-                    <label title="Effect width" id="label_for_effect_input_value_one" class="input_extra_text"
-                        for="effect_input_width">Width:
-                    </label>
-                    <input type="number" class="input_for_effect" id="effect_input_width" placeholder=20
-                        title="Effect width" value="20">
-                    <label title="Effect height" class="input_extra_text" for="effect_input_height">Height:
-                    </label>
-                    <input type="number" class="input_for_effect" id="effect_input_height" placeholder=20
-                        title="Effect height" value="20">
-                </div>
-            </div>
-            <div class="column sidebar_section" id="sidebar_light">
-                <h2 class="interactive_header">Light</h2>
-                <select id="add_light_source_dropdown" class=" toggle_button_toggled">
-                    <option value="torch" selected>Torchlight</option>
-                    <option value="azure">Azure Light </option>
-                    <option value="emerald">Emerald Light </option>
-                    <option value="maroon">Maroon Light </option>
-                    <option value="chromatic">Chromatic Light </option>
-                </select>
-                <div class="row  light_effect_input_cont">
-                    <label id="label_for_effect_input_value_one" class="input_extra_text"
-                        for="effect_input_value_three">Bright light:
-                    </label>
-                    <input title="Bright light radius" type="number" class="input_for_effect"
-                        id="effect_input_value_three" placeholder=20 title="Bright light radius">
-                    <label title="Dim light radius" class="input_extra_text" for="effect_input_value_four">Dim
-                        light:
-                    </label>
-                    <input type="number" class="input_for_effect" id="effect_input_value_four" placeholder=20
-                        title="Dim light radius">
-                </div>
-                <div class="row">
-                    <label title="Effect width" class="input_extra_text" for="light_effect_input_width">Width:
-                    </label>
-                    <input type="number" class="input_for_effect" id="light_effect_input_width" placeholder=20
-                        title="Effect width" value="2">
-                    <label title="Effect height" class="input_extra_text" for="light_effect_input_height">Height:
-                    </label>
-                    <input type="number" class="input_for_effect" id="light_effect_input_height" placeholder=20
-                        title="Effect height" value="2">
-                </div>
-            </div>
-            <div class="column sidebar_section" id="sidebar_sound">
-                <h2 class="interactive_header">Sound</h2>
-                <select id="add_sound_dropdown" class="effect_dropdown_select">
-                </select>
-                <select id="add_sound_spread" class="effect_dropdown_select">
-                </select>
-                <div class="row">
-                    <label title="Sound volume" class="input_extra_text" for="add_sound_volume">Volume:
-                    </label>
-                    <input type="number" class="input_for_effect" id="add_sound_volume" placeholder=1 max=1 min=0.01
-                        step=0.1>
-                </div>
-
-            </div>
-            <button class="button_style sidebar_close_button" onclick="effectManager.close()">Close</button>
-
-
-        </div>
-        <div id="popup_dialogue_add_pawn" class="space_between hidden column ">
-            <div class="column">
-                <div class="row quick_add_pc_buttons"></div>
-                <div class="column spread_children padding1" style="height:12em">
-
-                    <input type="text" id="add_pawn_name" class="input_base" placeholder="Pawn name">
-                    <select id="add_pawn_size" class="margin1">
-
+                <div class="column sidebar_section" id="sidebar_light">
+                    <h2 class="interactive_header">Light</h2>
+                    <select id="add_light_source_dropdown" class="toggle_button_toggled">
+                        <option value="torch" selected>Torchlight</option>
+                        <option value="azure">Azure Light</option>
+                        <option value="emerald">Emerald Light</option>
+                        <option value="maroon">Maroon Light</option>
+                        <option value="chromatic">Chromatic Light</option>
                     </select>
-
-                    <input type="text" value='rgba(255,255,255,0.5)' title="Base color"
-                        id="background_color_button_add_pawn">
-                    <button class="button_style green padding1"
-                        title="Choose icon. If nothing is chosen, a default for the creature name is shown. If multiple files are chosen, one will be chosen randomly for each pawn."
-                        id="icon_load_button_add_pawn" class="button_style">Choose Token</button>
-
-
-
+                    <div class="row light_effect_input_cont">
+                        <label id="label_for_effect_input_value_one" class="input_extra_text" for="effect_input_value_three">Bright light: </label>
+                        <input title="Bright light radius" type="number" class="input_for_effect" id="effect_input_value_three" placeholder="20" title="Bright light radius" />
+                        <label title="Dim light radius" class="input_extra_text" for="effect_input_value_four">Dim light: </label>
+                        <input type="number" class="input_for_effect" id="effect_input_value_four" placeholder="20" title="Dim light radius" />
+                    </div>
+                    <div class="row">
+                        <label title="Effect width" class="input_extra_text" for="light_effect_input_width">Width: </label>
+                        <input type="number" class="input_for_effect" id="light_effect_input_width" placeholder="20" title="Effect width" value="2" />
+                        <label title="Effect height" class="input_extra_text" for="light_effect_input_height">Height: </label>
+                        <input type="number" class="input_for_effect" id="light_effect_input_height" placeholder="20" title="Effect height" value="2" />
+                    </div>
                 </div>
-                <div class="hidden row padding1" id="add_pawn_selected_row"></div>
+                <div class="column sidebar_section" id="sidebar_sound">
+                    <h2 class="interactive_header">Sound</h2>
+                    <select id="add_sound_dropdown" class="effect_dropdown_select"></select>
+                    <select id="add_sound_spread" class="effect_dropdown_select"></select>
+                    <div class="row">
+                        <label title="Sound volume" class="input_extra_text" for="add_sound_volume">Volume: </label>
+                        <input type="number" class="input_for_effect" id="add_sound_volume" placeholder="1" max="1" min="0.01" step="0.1" />
+                    </div>
+                </div>
+                <button class="button_style sidebar_close_button red" onclick="effectManager.close()">Close</button>
+            </div>
+            <div id="popup_dialogue_add_pawn" class="space_between hidden column">
+                <div class="column">
+                    <div class="row quick_add_pc_buttons"></div>
+                    <div class="column spread_children padding1" style="height: 12em">
+                        <input type="text" id="add_pawn_name" class="input_base" placeholder="Pawn name" />
+                        <select id="add_pawn_size" class="margin1"></select>
+
+                        <input type="text" value="rgba(255,255,255,0.5)" title="Base color" id="background_color_button_add_pawn" />
+                        <button
+                            class="button_style green padding1"
+                            title="Choose icon. If nothing is chosen, a default for the creature name is shown. If multiple files are chosen, one will be chosen randomly for each pawn."
+                            id="icon_load_button_add_pawn"
+                            class="button_style"
+                        >
+                            Choose Token
+                        </button>
+                    </div>
+
+                    <div class="hidden row padding1" id="add_pawn_selected_row"></div>
+                    <div class="column spread_children padding1" style="overflow-y: scroll; max-height: 44.7em">
+                        <button
+                            class="button_style green padding1 hidden"
+                            title="Choose icon. If nothing is chosen, a default for the creature name is shown. If multiple files are chosen, one will be chosen randomly for each pawn."
+                            id="add_pawn_quick_select"
+                            class="button_style"
+                        >
+                            Add to quick select
+                        </button>
+                        <div class="hidden row_wrap" id="pawn_quick_select"></div>
+                    </div>
+                </div>
+
+                <button class="button_style sidebar_close_button red" onclick="tokenDialog.close()">Close</button>
+            </div>
+            <div id="vision_tooltip_category" class="popup_menu hidden">
+                <button class="button_style" onclick="setLightSource(0, 0)">None</button>
+                <button class="button_style" onclick="setLightSource(20, 20, {torch : true})">Light / Torch</button>
+                <button class="button_style" onclick="setLightSource(15, 30, {torch : true})">Lamp</button>
+                <button class="button_style" onclick="setLightSource(60, 0, {darkvision : true})">Darkvision 60ft</button>
+                <button class="button_style" onclick="setLightSource(120,0, {darkvision : true})">Darkvision 120ft</button>
             </div>
 
-
-            <button class="button_style sidebar_close_button" onclick="tokenDialog.close()">Close</button>
-        </div>
-        <div id="vision_tooltip_category" class="popup_menu hidden">
-            <button class="button_style" onclick="setLightSource(0, 0)">None</button>
-            <button class="button_style" onclick="setLightSource(20, 20, {torch : true})">Light / Torch</button>
-            <button class="button_style" onclick="setLightSource(15, 30, {torch : true})">Lamp</button>
-            <button class="button_style" onclick="setLightSource(60, 0, {darkvision : true})">Darkvision
-                60ft</button>
-            <button class="button_style" onclick="setLightSource(120,0, {darkvision : true})">Darkvision
-                120ft</button>
-        </div>
-
-        <div id="conditions_menu" class="popup_menu hidden">
-            <input class="conditions_menu_input">
-        </div>
-        <!-- #endregion popups-->
-        <div class="initiative" id="initBar">
-            <div class="initiativeNode init_not_started init--PC">
-                <p class="initiative_name_node"></p>
-
+            <div id="conditions_menu" class="popup_menu hidden">
+                <input class="conditions_menu_input" />
             </div>
-        </div>
-        <div class="canvas_wrapper">
-            <div class="maptool_body"></div>
-            <div id="map_layer_container">
-                <canvas id="background" class="canvas_layer"></canvas>
-                <canvas id="foreground" class="canvas_layer"></canvas>
+            <!-- #endregion popups-->
+            <div class="initiative" id="initBar">
+                <div class="initiativeNode init_not_started init--PC">
+                    <p class="initiative_name_node"></p>
+                </div>
+            </div>
+            <div class="canvas_wrapper">
+                <div class="maptool_body"></div>
+                <div id="map_layer_container">
+                    <canvas id="background" class="canvas_layer"></canvas>
+                    <canvas id="foreground" class="canvas_layer"></canvas>
+                </div>
 
+                <canvas id="effects" class="canvas_layer"></canvas>
+                <div id="tokens" class="canvas_layer"></div>
+                <div id="overlay_layer_container">
+                    <canvas id="overlay" class="canvas_layer"></canvas>
+                </div>
+                <canvas id="fog_of_war" class="canvas_layer" width="100%" height="100%"></canvas>
+                <canvas id="fog_of_war_segments" class="canvas_layer" width="100%" height="100%"></canvas>
+                <canvas id="grid" class="canvas_layer" width="100%" height="100%"></canvas>
+
+                <canvas id="measurements" class="canvas_layer" width="100%" height="100%"></canvas>
             </div>
 
-            <canvas id="effects" class="canvas_layer"></canvas>
-            <div id="tokens" class="canvas_layer"></div>
-            <div id="overlay_layer_container">
-                <canvas id="overlay" class="canvas_layer"></canvas>
-            </div>
-            <canvas id="fog_of_war" class="canvas_layer" width="100%" height="100%"></canvas>
-            <canvas id="fog_of_war_segments" class="canvas_layer" width="100%" height="100%"></canvas>
-            <canvas id="grid" class="canvas_layer" width="100%" height="100%"></canvas>
+            <script>
+                window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
+            </script>
+            <script src="js/dataaccess.js"></script>
+            <script src="js/controls.js"></script>
+            <script src="js/constants.js"></script>
 
-            <canvas id="measurements" class="canvas_layer" width="100%" height="100%"></canvas>
+            <script src="chosen/chosen.jquery.js"></script>
+            <script src="mappingTool/serverNotifier.js"></script>
+            <script src="mappingTool/previewPlacing.js"></script>
+            <!-- <script src="mappingTool/map.js"></script> -->
+            <script src="../docs/client/map.js"></script>
+            <script src="mappingTool/map.admin.js"></script>
+            <script src="mappingTool/mapscript.ipc.js"></script>
+            <script src="../docs/client/measurements.js"></script>
 
-        </div>
+            <script src="../docs/client/timer.js"></script>
+            <script src="../docs/client/lightning.js"></script>
+            <script src="mappingTool/spectrum.js"></script>
+            <script src="mappingTool/howler/howler.core.min.js"></script>
+            <script src="mappingTool/howler/howler.spatial.min.js"></script>
+        </body>
 
-        <script>
-            window.$ = window.jQuery = require("./js/jquery/3.2.1/jquery.min.js");
-        </script>
-        <script src="js/dataaccess.js"></script>
-        <script src="js/controls.js"></script>
-        <script src="js/constants.js"></script>
-     
-        <script src="chosen/chosen.jquery.js"></script>
-        <script src='mappingTool/serverNotifier.js'></script>
-        <script src='mappingTool/previewPlacing.js'></script>
-        <!-- <script src="mappingTool/map.js"></script> -->
-        <script src="../docs/client/map.js"></script>
-        <script src="mappingTool/map.admin.js"></script>
-        <script src="mappingTool/mapscript.ipc.js"></script>
-        <script src="../docs/client/measurements.js"></script>
-        
-        <script src="../docs/client/timer.js"></script>
-        <script src="../docs/client/lightning.js"></script>
-        <script src='mappingTool/spectrum.js'></script>
-        <script src='mappingTool/howler/howler.core.min.js'></script>
-        <script src='mappingTool/howler/howler.spatial.min.js'></script>
-
-
-    </body>
-
-    <svg>
-
-        <filter id="effect_fill_filter" x="0%" y="0%" width="100%" height="100%">
-            <feImage id="effect_fill_filter_img" />
-        </filter>
-        <filter id="night-mode">
-            <feColorMatrix type="matrix" values="
+        <svg>
+            <filter id="effect_fill_filter" x="0%" y="0%" width="100%" height="100%">
+                <feImage id="effect_fill_filter_img" />
+            </filter>
+            <filter id="night-mode">
+                <feColorMatrix
+                    type="matrix"
+                    values="
         0.2  0   0    0  0 
         0   0.2 0    0  0 
         0   0   0.3  0  0.01 
-        0    0   0    0  1" />
-        </filter>
-        <filter id="winter-mode">
-            <feColorMatrix type="matrix" values="
+        0    0   0    0  1"
+                />
+            </filter>
+            <filter id="winter-mode">
+                <feColorMatrix
+                    type="matrix"
+                    values="
         0.6 0 0 0 0
               0 0.6 0 0 0
               0.3 0.2 2.5 0 0
-              0 0 0 1.8 0" />
-        </filter>
-        <filter id="red_hue_filter">
-            <feColorMatrix type="matrix" values="0.78     0     0     0     0
+              0 0 0 1.8 0"
+                />
+            </filter>
+            <filter id="red_hue_filter">
+                <feColorMatrix
+                    type="matrix"
+                    values="0.78     0     0     0     0
             0     0.04     0     0     0
             0     0     0.04     0     0
-            0     0     0     1     0 " />
-        </filter>
-        <filter id="daylight">
-            <!--Blur effect-->
+            0     0     0     1     0 "
+                />
+            </filter>
+            <filter id="daylight">
+                <!--Blur effect-->
 
-            <!--Lighting effect-->
-            <feSpecularLighting result="spec2" specularConstant="1.4" specularExponent="13"
-                lighting-color="rgba(255,255,0,0.01)">
-                <!--Light source effect-->
-                <feDistantLight azimuth="25" elevation="5" />
-            </feSpecularLighting>
-            <!--Composition of inputs-->
-            <feComposite in="SourceGraphic" in2="spec2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
-        </filter>
-    </svg>
-</body>
-
+                <!--Lighting effect-->
+                <feSpecularLighting result="spec2" specularConstant="1.4" specularExponent="13" lighting-color="rgba(255,255,0,0.01)">
+                    <!--Light source effect-->
+                    <feDistantLight azimuth="25" elevation="5" />
+                </feSpecularLighting>
+                <!--Composition of inputs-->
+                <feComposite in="SourceGraphic" in2="spec2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+            </filter>
+        </svg>
+    </body>
 </html>

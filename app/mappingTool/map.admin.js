@@ -1,9 +1,4 @@
-const Awesomplete = require(pathModule.join(
-    window.api.getAppPath(),
-    "app",
-    "awesomplete",
-    "awesomplete.js"
-));
+const Awesomplete = require(pathModule.join(window.api.getAppPath(), "app", "awesomplete", "awesomplete.js"));
 const Geometry = require("./mappingTool/geometry");
 const MapLibrary = require("./mappingTool/mapLibrary");
 var mapLibrary = new MapLibrary();
@@ -28,12 +23,7 @@ const saveManager = require("./mappingTool/saveManager");
 const effectManager = require("./mappingTool/effectManager");
 
 const DEFAULT_TOKEN_PATH = "./mappingTool/tokens/default.png";
-const DEFAULT_TOKEN_PATH_JS_RELATIVE = pathModule.join(
-    __dirname,
-    "mappingTool",
-    "tokens",
-    "default.png"
-);
+const DEFAULT_TOKEN_PATH_JS_RELATIVE = pathModule.join(__dirname, "mappingTool", "tokens", "default.png");
 var conditionList;
 var RUN_ARGS_MAP = null;
 var soundManager = new SoundManager(pathModule);
@@ -46,8 +36,7 @@ function loadSettings() {
         settings = data.maptool;
 
         if (!settings.colorTokenBases) {
-            document.getElementById("background_color_button_add_pawn").value =
-                "rgba(255, 255, 255, 0)";
+            document.getElementById("background_color_button_add_pawn").value = "rgba(255, 255, 255, 0)";
         }
 
         var hueSelector = document.getElementById("fog_of_war_hue_selector");
@@ -56,8 +45,7 @@ function loadSettings() {
         } else {
             settings.fogOfWarHue = hueSelector.value;
         }
-        if (!settings.transparentWindow)
-            document.body.style.backgroundColor = hueSelector.value;
+        if (!settings.transparentWindow) document.body.style.backgroundColor = hueSelector.value;
         effectFilePath = defaultEffectPath;
 
         if (!settings.enableGrid) settings.snapToGrid = false;
@@ -73,31 +61,20 @@ function loadSettings() {
         filterDd.selectedIndex = parseInt(filterValue);
         setBackgroundFilter();
         if (settings.currentMap && !RUN_ARGS_MAP) {
-            setMapForeground(
-                settings.currentMap,
-                settings.gridSettings.mapSize
-            );
+            setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
 
         if (settings.currentOverlay) {
-            setMapOverlay(
-                settings.currentOverlay,
-                settings.gridSettings.mapOverlaySize
-            );
+            setMapOverlay(settings.currentOverlay, settings.gridSettings.mapOverlaySize);
         }
 
         if (settings.currentBackground) {
-            setMapBackground(
-                settings.currentBackground,
-                settings.gridSettings.mapBackgroundSize
-            );
+            setMapBackground(settings.currentBackground, settings.gridSettings.mapBackgroundSize);
         }
         if (settings.transparentWindow) {
-            document.querySelector(".maptool_body").style.backgroundImage =
-                null;
+            document.querySelector(".maptool_body").style.backgroundImage = null;
         } else if (settings.map_edge_style) {
-            document.querySelector(".maptool_body").style.backgroundImage =
-                "url('" + settings.map_edge_style + "')";
+            document.querySelector(".maptool_body").style.backgroundImage = "url('" + settings.map_edge_style + "')";
         }
         if (!partyArray) loadParty();
         onSettingsLoaded();
@@ -116,9 +93,7 @@ function saveSettings() {
 // #region commands
 function notifySelectedPawnsChanged() {
     window.api.messageWindow("mainWindow", "notify-maptool-selection-changed", {
-        selected: selectedPawns
-            .filter((x) => x.index_in_main_window)
-            .map((x) => x.index_in_main_window),
+        selected: selectedPawns.filter((x) => x.index_in_main_window).map((x) => x.index_in_main_window),
     });
 
     updateHowlerListenerLocation();
@@ -133,11 +108,7 @@ function requestNotifyUpdateFromMain() {
 }
 
 function reloadMap() {
-    if (
-        pawns.all.length > pawns.players.length &&
-        !window.confirm("Do you wish to reload the window?")
-    )
-        return;
+    if (pawns.all.length > pawns.players.length && !window.confirm("Do you wish to reload the window?")) return;
     location.reload();
 }
 document.addEventListener("DOMContentLoaded", function () {
@@ -169,8 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
             var path = f.path;
             var extension = pathModule.extname(path).replaceAll(".", "");
 
-            if (saveManager.supportedMapTypes().includes(extension))
-                saveManager.loadMapFromPath(path);
+            if (saveManager.supportedMapTypes().includes(extension)) saveManager.loadMapFromPath(path);
         }
     });
     document.addEventListener("dragover", (e) => {
@@ -211,10 +181,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return 0;
         });
         conditionList = data;
-        serverNotifier.notifyServer(
-            "condition-list",
-            await serverNotifier.getConditionsForExport()
-        );
+        serverNotifier.notifyServer("condition-list", await serverNotifier.getConditionsForExport());
 
         var parentNode = document.getElementById("conditions_menu");
         var newButton = document.createElement("button");
@@ -282,26 +249,17 @@ async function clientHideSelectedPawn() {
             serverNotifier.notifyServer("pawn-removed", pawn.id);
         } else {
             pawn.classList.remove("token_client_hidden");
-            serverNotifier.notifyServer(
-                "token-add",
-                await saveManager.exportPawn([pawn, pawn.dnd_name])
-            );
+            serverNotifier.notifyServer("token-add", await saveManager.exportPawn([pawn, pawn.dnd_name]));
         }
     });
 }
 
 function resetEverything() {
-    if (currentlyDeletingSegments)
-        document.getElementById("delete_segments_button").click();
+    if (currentlyDeletingSegments) document.getElementById("delete_segments_button").click();
     clearSelectedPawns();
     hideAllTooltips();
     effectManager.close();
-    if (
-        document
-            .getElementById("move_effects_button")
-            .getAttribute("toggled") != "false"
-    )
-        document.getElementById("move_effects_button").click();
+    if (document.getElementById("move_effects_button").getAttribute("toggled") != "false") document.getElementById("move_effects_button").click();
     resetGridLayer();
     gridLayer.style.cursor = "auto";
     return turnAllToolboxButtonsOff();
@@ -321,16 +279,20 @@ function onSettingsChanged() {
 }
 
 var PAWN_HOT_KEYS;
+var GLOBAL_HOT_KEYS;
 function mapHotKeys() {
     PAWN_HOT_KEYS = {};
-    var buttons = document.querySelectorAll("button[data-hotkey]");
+    GLOBAL_HOT_KEYS = {};
+    var buttons = document.querySelectorAll("button[data-hotkey-pawn]");
     buttons.forEach((button) => {
-        var hotKey = button
-            .getAttribute("data-hotkey")
-            .replace("(", "")
-            .replace(")", "")
-            .trim();
+        var hotKey = button.getAttribute("data-hotkey-pawn").replace("(", "").replace(")", "").trim();
         PAWN_HOT_KEYS[hotKey.toLowerCase()] = () => button.click();
+    });
+
+    var globalButtons = document.querySelectorAll("button[data-hotkey]");
+    globalButtons.forEach((button) => {
+        var hotKey = button.getAttribute("data-hotkey").replace("(", "").replace(")", "").trim();
+        GLOBAL_HOT_KEYS[hotKey.toLowerCase()] = () => button.click();
     });
 }
 
@@ -338,13 +300,7 @@ async function onSettingsLoaded() {
     soundManager.initialize();
     mapHotKeys();
     soundManager.setSoundLibraryPath(settings.soundLibraryPath);
-    resizeForeground(
-        settings.defaultMapSize
-            ? settings.defaultMapSize
-            : settings.gridSettings.mapSize
-            ? settings.gridSettings.mapSize
-            : window.innerWidth
-    );
+    resizeForeground(settings.defaultMapSize ? settings.defaultMapSize : settings.gridSettings.mapSize ? settings.gridSettings.mapSize : window.innerWidth);
     map.init();
 
     recentMaps.initialize(document.querySelector("#recent_maps_button>ul"));
@@ -353,14 +309,8 @@ async function onSettingsLoaded() {
 
     effectManager.initialize();
     onSettingsChanged();
-    serverNotifier.notifyServer(
-        "effects-set",
-        await serverNotifier.getEffectsForExport()
-    );
-    serverNotifier.notifyServer(
-        "tokens-set",
-        await serverNotifier.getTokensForExport()
-    );
+    serverNotifier.notifyServer("effects-set", await serverNotifier.getEffectsForExport());
+    serverNotifier.notifyServer("tokens-set", await serverNotifier.getTokensForExport());
     fovLighting.publishChanged();
     backgroundLoop.notifyChanges();
     overlayLoop.notifyChanges();
@@ -376,28 +326,22 @@ async function onSettingsLoaded() {
             var pawnHandler = PAWN_HOT_KEYS[event.key.toLowerCase()];
             if (pawnHandler) return pawnHandler();
         }
+        var globalHandler = GLOBAL_HOT_KEYS[event.key.toLowerCase()];
+        if (globalHandler) return globalHandler();
+
         if (event.key === "Escape") {
             return resetEverything;
             //Show global listener position
-        } else if (
-            event.key.toLowerCase() == "p" &&
-            lastKey.toLowerCase() == "l"
-        ) {
+        } else if (event.key.toLowerCase() == "p" && lastKey.toLowerCase() == "l") {
             return soundManager.displayGlobalListenerPosition();
-        } else if (
-            event.key.toLowerCase() == "e" &&
-            lastKey.toLowerCase() == "d"
-        ) {
+        } else if (event.key.toLowerCase() == "e" && lastKey.toLowerCase() == "d") {
             if (currentlyDeletingSegments) return;
             document.getElementById("delete_segments_button").click();
         } else if (event.ctrlKey && event.key.toLowerCase() == "s") {
             return saveManager.saveCurrentMap();
         } else if (event.ctrlKey && event.key.toLowerCase() == "o") {
             return saveManager.loadMapDialog();
-        } else if (
-            keyIndex < 0 ||
-            (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)
-        ) {
+        } else if (keyIndex < 0 || (keyIndex > 3 && pauseAlternativeKeyboardMoveMap)) {
             return;
         }
 
@@ -448,8 +392,7 @@ async function onSettingsLoaded() {
     iconLoadButtons.forEach((button) => {
         button.onclick = setTokenImageHandler;
     });
-    document.getElementById("next_facet_button").onclick =
-        setTokenNextFacetHandler;
+    document.getElementById("next_facet_button").onclick = setTokenNextFacetHandler;
 
     initialLoadComplete = true;
     if (pendingMapLoad) {
@@ -513,15 +456,9 @@ function toggleSaveTimer() {
     saveTimer = window.setTimeout(function () {
         settings.gridSettings = {};
         settings.gridSettings.cellSize = cellSize;
-        settings.gridSettings.mapSize = parseFloat(
-            $("#foreground").css("width")
-        );
-        settings.gridSettings.mapBackgroundSize = parseFloat(
-            $("#background").css("width")
-        );
-        settings.gridSettings.mapOverlaySize = parseFloat(
-            $("#overlay").css("width")
-        );
+        settings.gridSettings.mapSize = parseFloat($("#foreground").css("width"));
+        settings.gridSettings.mapBackgroundSize = parseFloat($("#background").css("width"));
+        settings.gridSettings.mapOverlaySize = parseFloat($("#overlay").css("width"));
         saveSettings();
     }, 7000);
 }
@@ -597,11 +534,7 @@ function toggleDeleteSegments() {
         resetGridLayer();
         gridLayer.style.cursor = "auto";
         document.removeEventListener("mousemove", recordMouse, false);
-        document.removeEventListener(
-            "mousemove",
-            fovLighting.drawSegments,
-            false
-        );
+        document.removeEventListener("mousemove", fovLighting.drawSegments, false);
     }
 }
 
@@ -620,9 +553,7 @@ function turnAllToolboxButtonsOff() {
 
 function showMapSizeSlider(element) {
     var cont = document.getElementById("map_size_slider_container");
-    cont.classList.contains("hidden")
-        ? cont.classList.remove("hidden")
-        : cont.classList.add("hidden");
+    cont.classList.contains("hidden") ? cont.classList.remove("hidden") : cont.classList.add("hidden");
 }
 
 function setLightSource(brightLight, dimLight, params) {
@@ -642,11 +573,7 @@ function setLightSource(brightLight, dimLight, params) {
 
         if (pawns.lightSources.indexOf(pawn) >= 0) {
             if (brightLight == 0 && dimLight == 0) {
-                if (!isPlayerPawn(pawn))
-                    pawns.lightSources.splice(
-                        pawns.lightSources.indexOf(pawn),
-                        1
-                    );
+                if (!isPlayerPawn(pawn)) pawns.lightSources.splice(pawns.lightSources.indexOf(pawn), 1);
             }
         } else {
             if (brightLight > 0 || dimLight > 0) {
@@ -683,11 +610,7 @@ function loadParty() {
                         bgPhoto: null,
                         darkVisionRadius: data[i].darkvision,
                     });
-                    partyArray.push([
-                        data[i].character_name,
-                        "medium",
-                        data[i].id,
-                    ]);
+                    partyArray.push([data[i].character_name, "medium", data[i].id]);
                 }
             }
         }
@@ -755,10 +678,7 @@ async function setPawnImageWithDefaultPath(pawnElement, path) {
     }
     var imgEle = pawnElement.getElementsByClassName("token_photo")[0];
     imgEle.setAttribute("data-token_facets", JSON.stringify(possibleNames));
-    imgEle.setAttribute(
-        "data-token_current_facet",
-        possibleNames.indexOf(tokenPath)
-    );
+    imgEle.setAttribute("data-token_current_facet", possibleNames.indexOf(tokenPath));
     imgEle.style.backgroundImage = `url('${tokenPath}')`;
     return tokenPath != DEFAULT_TOKEN_PATH;
 }
@@ -809,10 +729,7 @@ function killOrRevivePawn() {
             pawnElement.dead = "true";
             if (!isPlayer) {
                 if (pawnElement.index_in_main_window) {
-                    window.api.messageWindow("mainWindow", "monster-killed", [
-                        pawnElement.dnd_name,
-                        pawnElement.index_in_main_window,
-                    ]);
+                    window.api.messageWindow("mainWindow", "monster-killed", [pawnElement.dnd_name, pawnElement.index_in_main_window]);
                 }
             }
         }
@@ -823,20 +740,13 @@ function killOrRevivePawn() {
 }
 
 function startAddingFromQueue() {
-    var tooltip = document.getElementById("tooltip");
-
-    tooltip.classList.remove("hidden");
-    tooltip.innerHTML = "Creature #" + pawns.addQueue[0].index_in_main_window;
+    stopTooltip = util.mouseActionTooltip("Creature #" + pawns.addQueue[0].index_in_main_window);
     var button = document.getElementById("add_from_queue_toggle_button");
     button.innerText = "Placing creatures";
     button.setAttribute("toggled", "true");
-    document.onmousemove = function (e) {
-        tooltip.style.top = e.clientY - 75 + "px";
-        tooltip.style.left = e.clientX + 75 + "px";
-    };
+
     gridLayer.style.cursor = "copy";
     gridLayer.onmousedown = function (e) {
-        console.log(e);
         if (e.button == 0) {
             popQueue(e);
         } else {
@@ -845,10 +755,7 @@ function startAddingFromQueue() {
     };
 
     async function popQueue(e) {
-        var radiusOfPawn =
-            creaturePossibleSizes.hexes[
-                creaturePossibleSizes.sizes.indexOf(pawns.addQueue[0].size)
-            ];
+        var radiusOfPawn = creaturePossibleSizes.hexes[creaturePossibleSizes.sizes.indexOf(pawns.addQueue[0].size)];
         var offset = (radiusOfPawn * cellSize) / 2;
         var popped = pawns.addQueue[0];
         pawns.addQueue.splice(0, 1);
@@ -859,25 +766,18 @@ function startAddingFromQueue() {
         requestNotifyUpdateFromMain();
 
         if (pawns.addQueue.length == 0) {
-            document
-                .getElementById("add_pawn_from_tool_toolbar")
-                .classList.add("hidden");
-            var button = document.getElementById(
-                "add_from_queue_toggle_button"
-            );
+            document.getElementById("add_pawn_from_tool_toolbar").classList.add("hidden");
 
             return stopAddingFromQueue();
         }
-        tooltip.innerHTML =
-            "Creature #" + pawns.addQueue[0].index_in_main_window;
+        mouseActionTooltip("Creature #" + pawns.addQueue[0].index_in_main_window);
     }
 
     function stopAddingFromQueue() {
         resetGridLayer();
         button.setAttribute("toggled", "false");
         gridLayer.style.cursor = "auto";
-        document.onmousemove = null;
-        tooltip.classList.add("hidden");
+        stopTooltip();
         button.innerText = "Start adding creatures";
     }
 }
@@ -887,8 +787,7 @@ function setTokenNextFacetHandler(e) {
         var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
         var images = JSON.parse(pawnPhoto.getAttribute("data-token_facets"));
         if (images == null || images.length == 0) return;
-        var currentIndex =
-            parseInt(pawnPhoto.getAttribute("data-token_current_facet")) || 0;
+        var currentIndex = parseInt(pawnPhoto.getAttribute("data-token_current_facet")) || 0;
 
         var oldIndex = currentIndex;
         currentIndex++;
@@ -910,11 +809,11 @@ function setScaleIfSaved(pawn, path) {
         if (found && found.length > 0) {
             var number = found[0].replace(/\D/g, "");
             number = parseInt(number);
-            var fileScale = number/100;
-            if(fileScale > 0 && fileScale < 10){
+            var fileScale = number / 100;
+            if (fileScale > 0 && fileScale < 10) {
                 map.setTokenScale(pawn, fileScale);
             }
-        }else{
+        } else {
             map.setTokenScale(pawn, 1);
         }
     }
@@ -923,9 +822,7 @@ function setScaleIfSaved(pawn, path) {
 async function onBackgroundChanged(pawn) {
     var imgEle = pawn.getElementsByClassName("token_photo")[0];
     var facets = JSON.parse(imgEle.getAttribute("data-token_facets"));
-    var current = parseInt(
-        imgEle.getAttribute("data-token_current_facet") || 0
-    );
+    var current = parseInt(imgEle.getAttribute("data-token_current_facet") || 0);
     var path = facets[current];
 
     var base64img = await Util.toBase64(path);
@@ -946,13 +843,9 @@ async function setTokenImageHandler(e) {
         if (imagePaths == null) return;
 
         if (e.target == input) {
-            selectedPawns.forEach((element) =>
-                setPawnBackgroundFromPathArray(element, imagePaths)
-            );
+            selectedPawns.forEach((element) => setPawnBackgroundFromPathArray(element, imagePaths));
         } else if (e.target == facetButton) {
-            selectedPawns.forEach((element) =>
-                addToPawnBackgrounds(element, imagePaths)
-            );
+            selectedPawns.forEach((element) => addToPawnBackgrounds(element, imagePaths));
         }
     });
 }
@@ -973,18 +866,12 @@ function showPopupMenuPawn(x, y) {
     } else {
         showHideBtn.innerHTML = "Hide in clients";
     }
-    document.getElementById("background_color_button_change_pawn").value =
-        selectedPawns[0].backgroundColor;
+    document.getElementById("background_color_button_change_pawn").value = selectedPawns[0].backgroundColor;
 
     var hasFacets = 1,
         isMob = -1;
     selectedPawns.forEach((pawn) => {
-        if (
-            !pawn
-                .querySelector(".token_photo")
-                ?.getAttribute("data-token_facets")
-        )
-            hasFacets = 0;
+        if (!pawn.querySelector(".token_photo")?.getAttribute("data-token_facets")) hasFacets = 0;
         if (pawn.classList.contains("pawn_mob")) isMob = 1;
     });
     Util.showOrHide("pawn_token_menu_button", -1 * isMob);

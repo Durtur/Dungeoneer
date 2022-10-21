@@ -114,14 +114,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     resetGridLayer();
-    backgroundLoop = new SlideCanvas(
-        document.getElementById("background"),
-        "background_loop_menu"
-    );
-    overlayLoop = new SlideCanvas(
-        document.getElementById("overlay"),
-        "overlay_loop_menu"
-    );
+    backgroundLoop = new SlideCanvas(document.getElementById("background"), "background_loop_menu");
+    overlayLoop = new SlideCanvas(document.getElementById("overlay"), "overlay_loop_menu");
     document.addEventListener(
         "visibilitychange",
         function () {
@@ -170,30 +164,20 @@ function onBackgroundChanged() {}
 
 function suspendAllAnimations() {
     [".pawn", ".sfx_effect", ".light_effect"].forEach((cls) => {
-        [...document.querySelectorAll(cls)].forEach((ele) =>
-            ele.classList.add("animation_paused")
-        );
+        [...document.querySelectorAll(cls)].forEach((ele) => ele.classList.add("animation_paused"));
     });
 }
 
 function resumeAllAnimations() {
     [".pawn", ".sfx_effect", ".light_effect"].forEach((cls) => {
-        [...document.querySelectorAll(cls)].forEach((ele) =>
-            ele.classList.remove("animation_paused")
-        );
+        [...document.querySelectorAll(cls)].forEach((ele) => ele.classList.remove("animation_paused"));
     });
 }
 
 function switchMapLighting(index) {
     window.setTimeout(function () {
-        var isLowLight =
-            document
-                .getElementById("map_lowlight_button")
-                .getAttribute("toggled") === "true";
-        var isDarkness =
-            document
-                .getElementById("map_darkness_button")
-                .getAttribute("toggled") === "true";
+        var isLowLight = document.getElementById("map_lowlight_button").getAttribute("toggled") === "true";
+        var isDarkness = document.getElementById("map_darkness_button").getAttribute("toggled") === "true";
 
         if (isLowLight) {
             fovLighting.setFogStyle(fovLighting.MapFogType.LowLight);
@@ -202,19 +186,14 @@ function switchMapLighting(index) {
         } else {
             fovLighting.setFogStyle(fovLighting.MapFogType.None);
         }
-        var visibilityLayerEnabled =
-            document.getElementById("visiblity_tool").getAttribute("toggled") ==
-            "true";
-        if (visibilityLayerEnabled)
-            document.getElementById("visiblity_tool").click();
+        var visibilityLayerEnabled = document.getElementById("visiblity_tool").getAttribute("toggled") == "true";
+        if (visibilityLayerEnabled) document.getElementById("visiblity_tool").click();
         refreshFogOfWar();
     }, 200);
 }
 
 function toggleVisibilityLayer() {
-    var visibilityLayerEnabled = document
-        .getElementById("visiblity_tool")
-        .getAttribute("toggled");
+    var visibilityLayerEnabled = document.getElementById("visiblity_tool").getAttribute("toggled");
 
     turnAllToolboxButtonsOff();
     if (visibilityLayerEnabled == "false") {
@@ -227,20 +206,14 @@ function toggleVisibilityLayer() {
         document.getElementById("rect_tool").classList.add("hidden");
         document.getElementById("sphere_fov_tool").classList.add("hidden");
 
-        var visToolbox = [
-            ...document.getElementsByClassName("visibility_toolbox"),
-        ];
+        var visToolbox = [...document.getElementsByClassName("visibility_toolbox")];
         visToolbox.forEach((ele) => ele.classList.remove("hidden"));
 
         //Hide light effects that are in the normal layer
-        var effectsToHide = [
-            ...document.getElementsByClassName("light_source_normal_layer"),
-        ];
+        var effectsToHide = [...document.getElementsByClassName("light_source_normal_layer")];
         effectsToHide.forEach((effect) => effect.classList.add("hidden"));
 
-        var effectsToShow = [
-            ...document.getElementsByClassName("light_source_visibility_layer"),
-        ];
+        var effectsToShow = [...document.getElementsByClassName("light_source_visibility_layer")];
         effectsToShow.forEach((effect) => effect.classList.remove("hidden"));
 
         if (fogOfWarEnabled) fogOfWarEnabled = false;
@@ -248,9 +221,7 @@ function toggleVisibilityLayer() {
         fovLighting.setVisibilityLayerVisible(false);
         visibilityLayerVisible = false;
         $("#map_layer_container").css("filter", lastBackgroundFilter);
-        var visToolbox = [
-            ...document.getElementsByClassName("visibility_toolbox"),
-        ];
+        var visToolbox = [...document.getElementsByClassName("visibility_toolbox")];
         visToolbox.forEach((ele) => ele.classList.remove("hidden"));
         document.getElementById("line_tool").classList.remove("hidden");
         document.getElementById("cone_tool").classList.remove("hidden");
@@ -259,20 +230,14 @@ function toggleVisibilityLayer() {
         document.getElementById("rect_tool").classList.remove("hidden");
         document.getElementById("sphere_fov_tool").classList.remove("hidden");
 
-        var visToolbox = [
-            ...document.getElementsByClassName("visibility_toolbox"),
-        ];
+        var visToolbox = [...document.getElementsByClassName("visibility_toolbox")];
         visToolbox.forEach((ele) => ele.classList.add("hidden"));
 
         //Hide light effects that are in the visibility layer
-        var effectsToHide = [
-            ...document.getElementsByClassName("light_source_visibility_layer"),
-        ];
+        var effectsToHide = [...document.getElementsByClassName("light_source_visibility_layer")];
         effectsToHide.forEach((effect) => effect.classList.add("hidden"));
 
-        var effectsToShow = [
-            ...document.getElementsByClassName("light_source_normal_layer"),
-        ];
+        var effectsToShow = [...document.getElementsByClassName("light_source_normal_layer")];
         effectsToShow.forEach((effect) => effect.classList.remove("hidden"));
         fogOfWarEnabled = true;
     }
@@ -284,20 +249,14 @@ function onMonsterHealthChanged(arg) {
     pawns.all = document.querySelectorAll(".pawn");
     var index = parseInt(arg.index);
 
-    var pawn = arg.elementId
-        ? [...pawns.all].find((x) => x.id == arg.elementId)
-        : [...pawns.all].find((x) => x.index_in_main_window == index);
+    var pawn = arg.elementId ? [...pawns.all].find((x) => x.id == arg.elementId) : [...pawns.all].find((x) => x.index_in_main_window == index);
 
     if (!pawn) return;
 
     pawn.data_health_percentage = arg.healthPercentage;
     var woundEle = pawn.querySelector(".token_status");
-    constants.creatureWounds.forEach((woundType) =>
-        woundEle.classList.remove(woundType.className)
-    );
-    var woundType = constants.creatureWounds.find(
-        (x) => arg.healthPercentage < x.percentage
-    );
+    constants.creatureWounds.forEach((woundType) => woundEle.classList.remove(woundType.className));
+    var woundType = constants.creatureWounds.find((x) => arg.healthPercentage < x.percentage);
 
     if (woundType) {
         woundEle.classList.add(woundType.className);
@@ -369,10 +328,7 @@ function setMapOverlay(path, width) {
     if (!path) {
         overlayCanvas.style.backgroundImage = "none";
         btn.innerHTML = "Image";
-        serverNotifier.notifyServer(
-            "overlay",
-            serverNotifier.getOverlayState()
-        );
+        serverNotifier.notifyServer("overlay", serverNotifier.getOverlayState());
         return;
     }
     if (settings.matchSizeWithFileName) {
@@ -385,11 +341,7 @@ function setMapOverlay(path, width) {
     img.onload = function () {
         overlayCanvas.heightToWidthRatio = img.height / img.width;
         if (!width) width = img.width;
-        setOverlayHelper(
-            'url("' + path + '")',
-            width,
-            overlayCanvas.heightToWidthRatio * width
-        );
+        setOverlayHelper('url("' + path + '")', width, overlayCanvas.heightToWidthRatio * width);
     };
     img.src = path;
 }
@@ -410,10 +362,7 @@ function setForegroundHelper(path, width, height) {
     settings.gridSettings.foregroundHeight = height;
 
     toggleSaveTimer();
-    serverNotifier.notifyServer(
-        "foreground",
-        serverNotifier.getForegroundState()
-    );
+    serverNotifier.notifyServer("foreground", serverNotifier.getForegroundState());
     onForegroundResized(width);
 }
 
@@ -422,10 +371,7 @@ function setMapForeground(path, width) {
     settings.currentMap = path;
     if (!path) {
         foregroundCanvas.style.backgroundImage = "none";
-        serverNotifier.notifyServer(
-            "foreground",
-            serverNotifier.getForegroundState()
-        );
+        serverNotifier.notifyServer("foreground", serverNotifier.getForegroundState());
         btn.innerHTML = "Image";
         return;
     }
@@ -453,10 +399,7 @@ function setMapBackgroundHelper(path, width, height) {
 
     backgroundCanvas.style.backgroundImage = path;
     resizeBackground(width);
-    serverNotifier.notifyServer(
-        "background",
-        serverNotifier.getBackgroundState()
-    );
+    serverNotifier.notifyServer("background", serverNotifier.getBackgroundState());
 }
 
 function setMapBackground(path, desiredWidth) {
@@ -465,10 +408,7 @@ function setMapBackground(path, desiredWidth) {
     if (!path) {
         backgroundCanvas.style.backgroundImage = "none";
         btn.innerHTML = "Image";
-        serverNotifier.notifyServer(
-            "background",
-            serverNotifier.getBackgroundState()
-        );
+        serverNotifier.notifyServer("background", serverNotifier.getBackgroundState());
         return;
     }
     if (settings.matchSizeWithFileName) {
@@ -480,26 +420,17 @@ function setMapBackground(path, desiredWidth) {
     img.onload = function () {
         var ratio = img.height / img.width;
         if (!desiredWidth) desiredWidth = img.width;
-        setMapBackgroundHelper(
-            'url("' + path + '")',
-            desiredWidth,
-            ratio * desiredWidth
-        );
+        setMapBackgroundHelper('url("' + path + '")', desiredWidth, ratio * desiredWidth);
     };
     img.src = path;
 }
 
 function resizeForeground(newWidth) {
     foregroundCanvas.style.width = newWidth + "px";
-    foregroundCanvas.style.height =
-        newWidth * foregroundCanvas.heightToWidthRatio + "px";
+    foregroundCanvas.style.height = newWidth * foregroundCanvas.heightToWidthRatio + "px";
     onForegroundResized(newWidth);
     window.clearTimeout(serverNotifier.timeouts.foreground);
-    serverNotifier.timeouts.foreground = window.setTimeout(
-        () =>
-            serverNotifier.notifyServer("foreground-size", { width: newWidth }),
-        1000
-    );
+    serverNotifier.timeouts.foreground = window.setTimeout(() => serverNotifier.notifyServer("foreground-size", { width: newWidth }), 1000);
 }
 
 function onForegroundResized(newWidth) {
@@ -517,15 +448,10 @@ function onForegroundResized(newWidth) {
 function resizeBackground(newWidth) {
     console.log(`Resize background ${newWidth}`);
     backgroundCanvas.style.width = newWidth + "px";
-    backgroundCanvas.style.height =
-        newWidth * backgroundCanvas.heightToWidthRatio + "px";
+    backgroundCanvas.style.height = newWidth * backgroundCanvas.heightToWidthRatio + "px";
 
     window.clearTimeout(serverNotifier.timeouts.background);
-    serverNotifier.timeouts.background = window.setTimeout(
-        () =>
-            serverNotifier.notifyServer("background-size", { width: newWidth }),
-        1000
-    );
+    serverNotifier.timeouts.background = window.setTimeout(() => serverNotifier.notifyServer("background-size", { width: newWidth }), 1000);
     onBackgroundResized(newWidth);
 }
 
@@ -541,14 +467,10 @@ function onBackgroundResized(newWidth) {
 
 function resizeOverlay(newWidth) {
     overlayCanvas.style.width = newWidth + "px";
-    overlayCanvas.style.height =
-        newWidth * overlayCanvas.heightToWidthRatio + "px";
+    overlayCanvas.style.height = newWidth * overlayCanvas.heightToWidthRatio + "px";
 
     window.clearTimeout(serverNotifier.timeouts.overlay);
-    serverNotifier.timeouts.overlay = window.setTimeout(
-        () => serverNotifier.notifyServer("overlay-size", { width: newWidth }),
-        1000
-    );
+    serverNotifier.timeouts.overlay = window.setTimeout(() => serverNotifier.notifyServer("overlay-size", { width: newWidth }), 1000);
     onOverlayResized(newWidth);
 }
 
@@ -587,8 +509,7 @@ function refreshPawnToolTipsHelper(arr) {
 
         flyingHeight = parseInt(element.flying_height);
         element.title = element.dnd_name;
-        if (flyingHeight != 0)
-            element.title += `\n Flying: ${flyingHeight} ${MAP_UNIT}`;
+        if (flyingHeight != 0) element.title += `\n Flying: ${flyingHeight} ${MAP_UNIT}`;
         if (element.dead == "true") {
             element.title += "\n Dead/Unconscious";
             element.classList.add("pawn_dead");
@@ -624,12 +545,7 @@ function moveMap(x, y) {
 }
 
 function startMovingMap(e) {
-    if (
-        currentlyMeasuring ||
-        disableMapDrag ||
-        (e.touches && e.touches.length > 1)
-    )
-        return;
+    if (currentlyMeasuring || disableMapDrag || (e.touches && e.touches.length > 1)) return;
     gridLayer.style.cursor = "-webkit-grabbing";
 
     var dragMoveTimestamp;
@@ -652,12 +568,7 @@ function startMovingMap(e) {
     document.ontouchmove = dragMoveMap;
     document.onmousemove = dragMoveMap;
     function dragMoveMap(e) {
-        if (
-            disableMapDrag ||
-            e.target != gridLayer ||
-            (e.touches && e.touches.length > 1)
-        )
-            return;
+        if (disableMapDrag || e.target != gridLayer || (e.touches && e.touches.length > 1)) return;
         draggingMap = true;
         e = e || window.event;
 
@@ -720,11 +631,7 @@ function setMapZoom(event, newSize) {
         container.style.setProperty("--bg-scale", newSize);
     });
 
-    soundManager.setListenerCords(
-        null,
-        null,
-        (MAX_BG_ZOOM - newSize) * soundManager.multiplier()
-    );
+    soundManager.setListenerCords(null, null, (MAX_BG_ZOOM - newSize) * soundManager.multiplier());
 
     var newRect = foregroundCanvas.getBoundingClientRect();
 
@@ -771,12 +678,8 @@ function setMapZoom(event, newSize) {
             var left = parseFloat(pawn.style.left);
             var top = parseFloat(pawn.style.top);
 
-            cellsFromLeft =
-                (left - backgroundOriginX) /
-                (originalCellSize * backgroundSizeBeforeResize);
-            cellsFromTop =
-                (top - backgroundOriginY) /
-                (originalCellSize * backgroundSizeBeforeResize);
+            cellsFromLeft = (left - backgroundOriginX) / (originalCellSize * backgroundSizeBeforeResize);
+            cellsFromTop = (top - backgroundOriginY) / (originalCellSize * backgroundSizeBeforeResize);
 
             var x = cellsFromLeft * cellSize + newBackgroundOriginX;
             var y = cellsFromTop * cellSize + newBackgroundOriginY;
@@ -789,11 +692,7 @@ function setMapZoom(event, newSize) {
     });
     updateHowlerListenerLocation();
     resizeAndDrawGrid(null, event);
-    fovLighting.resizeSegments(
-        { x: backgroundOriginX, y: backgroundOriginY },
-        { x: newBackgroundOriginX, y: newBackgroundOriginY },
-        backgroundSizeBeforeResize
-    );
+    fovLighting.resizeSegments({ x: backgroundOriginX, y: backgroundOriginY }, { x: newBackgroundOriginX, y: newBackgroundOriginY }, backgroundSizeBeforeResize);
     fovLighting.drawFogOfWar();
     if (onZoomCallback) {
         onZoomCallback();
@@ -806,41 +705,23 @@ var lastMeasuredLineDrawn,
 function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
     var measuredDistance =
         Math.round(
-            (Math.sqrt(
-                Math.pow(destinationPoint.x - originPosition.x, 2) +
-                    Math.pow(destinationPoint.y - originPosition.y, 2) +
-                    Math.pow(destinationPoint.z - originPosition.z, 2)
-            ) /
-                cellSize) *
-                5
+            (Math.sqrt(Math.pow(destinationPoint.x - originPosition.x, 2) + Math.pow(destinationPoint.y - originPosition.y, 2) + Math.pow(destinationPoint.z - originPosition.z, 2)) / cellSize) * 5
         ) + totalMeasuredDistance;
 
     if (lastMeasuredLineDrawn) {
         measurements.eraseModeOn();
 
         measurementsLayerContext.beginPath();
-        measurementsLayerContext.moveTo(
-            lastMeasuredLineDrawn.a.x * DEVICE_SCALE,
-            lastMeasuredLineDrawn.a.y * DEVICE_SCALE
-        );
-        measurementsLayerContext.lineTo(
-            lastMeasuredLineDrawn.b.x * DEVICE_SCALE,
-            lastMeasuredLineDrawn.b.y * DEVICE_SCALE
-        );
+        measurementsLayerContext.moveTo(lastMeasuredLineDrawn.a.x * DEVICE_SCALE, lastMeasuredLineDrawn.a.y * DEVICE_SCALE);
+        measurementsLayerContext.lineTo(lastMeasuredLineDrawn.b.x * DEVICE_SCALE, lastMeasuredLineDrawn.b.y * DEVICE_SCALE);
         measurementsLayerContext.stroke();
         measurements.eraseModeOff();
     } else {
         lastMeasuredLineDrawn = {};
     }
     measurementsLayerContext.beginPath();
-    measurementsLayerContext.moveTo(
-        originPosition.x * DEVICE_SCALE,
-        originPosition.y * DEVICE_SCALE
-    );
-    measurementsLayerContext.lineTo(
-        destinationPoint.x * DEVICE_SCALE,
-        destinationPoint.y * DEVICE_SCALE
-    );
+    measurementsLayerContext.moveTo(originPosition.x * DEVICE_SCALE, originPosition.y * DEVICE_SCALE);
+    measurementsLayerContext.lineTo(destinationPoint.x * DEVICE_SCALE, destinationPoint.y * DEVICE_SCALE);
     measurementsLayerContext.stroke();
 
     lastMeasuredLineDrawn.a = originPosition;
@@ -890,12 +771,7 @@ function setFlyingHeight(pawn, height, evt) {
         if (pawn.flying_height == 0) {
             pawn.style.filter = " drop-shadow(20px 20px 10px rgba(0,0,0,0.5));";
         } else {
-            pawn.style.filter =
-                "drop-shadow(" +
-                pawn.flying_height +
-                "px " +
-                pawn.flying_height +
-                "px 5px rgba(0,0,0,0.7))";
+            pawn.style.filter = "drop-shadow(" + pawn.flying_height + "px " + pawn.flying_height + "px 5px rgba(0,0,0,0.7))";
         }
     }
 
@@ -910,11 +786,7 @@ function setFlyingHeight(pawn, height, evt) {
         });
     }
     if (evt) {
-        showToolTip(
-            evt,
-            "Flying height: " + pawn.flying_height + ` ${MAP_UNIT}`,
-            "tooltip2"
-        );
+        showToolTip(evt, "Flying height: " + pawn.flying_height + ` ${MAP_UNIT}`, "tooltip2");
 
         window.clearTimeout(hideTooltipTimer);
         hideTooltipTimer = window.setTimeout(function () {
@@ -930,9 +802,7 @@ function rotatePawn(pawn, degrees) {
         pawn.deg += degrees;
     }
     var isMob = pawn.getAttribute("data-mob_size") != null;
-    var element = isMob
-        ? pawn.querySelector(".mob_token_container")
-        : pawn.querySelector(".token_photo");
+    var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo");
 
     element.style.setProperty("--pawn-rotate", pawn.deg + "deg");
     if (serverNotifier.isServer()) {
@@ -974,11 +844,7 @@ function enlargeReducePawn(element, direction) {
 }
 function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     var conditionString = condition.name;
-    if (
-        !conditionString ||
-        pawnElement["data-dnd_conditions"].indexOf(conditionString) > -1
-    )
-        return;
+    if (!conditionString || pawnElement["data-dnd_conditions"].indexOf(conditionString) > -1) return;
     pawnElement["data-dnd_conditions"].push(conditionString);
 
     var newDiv = document.createElement("div");
@@ -989,17 +855,12 @@ function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     if (condition.condition_color_value) {
         newDiv.style.webkitTextFillColor = condition.condition_color_value;
         if (!condition.condition_background_location) {
-            newDiv.style.backgroundColor = lightenColor(
-                condition.condition_color_value
-            );
+            newDiv.style.backgroundColor = lightenColor(condition.condition_color_value);
         }
     }
     if (condition.condition_background_location) {
         newDiv.style.backgroundColor = "rgba(0,0,0,0)";
-        newDiv.style.backgroundImage =
-            "url('" +
-            condition.condition_background_location.replace(/\\/g, "/") +
-            "')";
+        newDiv.style.backgroundImage = "url('" + condition.condition_background_location.replace(/\\/g, "/") + "')";
     }
     if (condition.background_image) {
         newDiv.style.backgroundColor = "rgba(0,0,0,0)";
@@ -1040,8 +901,7 @@ function createMobToken(path, cssify) {
 function refreshMobBackgroundImages(pawn, bgArray) {
     var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
     var mobCount = parseInt(pawn.getAttribute("data-mob_size"));
-    var mobTotalSize =
-        parseInt(pawn.getAttribute("data-mob_size")) + shouldBeDead;
+    var mobTotalSize = parseInt(pawn.getAttribute("data-mob_size")) + shouldBeDead;
 
     var tokenPaths = JSON.parse(pawn.getAttribute("data-token_paths"));
     var mobsToAdd = mobTotalSize - pawn.querySelectorAll(".mob_token").length;
@@ -1079,9 +939,7 @@ function refreshMobBackgroundImages(pawn, bgArray) {
         serverNotifier.mobTokensChanged(pawn);
     }
 
-    var alivePawns = allTokens.filter(
-        (x) => !x.classList.contains("mob_token_dead")
-    );
+    var alivePawns = allTokens.filter((x) => !x.classList.contains("mob_token_dead"));
 
     for (var i = 0; i < shouldBeDead; i++) {
         var next = alivePawns.pop();
@@ -1090,10 +948,7 @@ function refreshMobBackgroundImages(pawn, bgArray) {
         next.classList.add("mob_token_dead");
         var currLocation = next.getBoundingClientRect();
         next.parentNode.removeChild(next);
-        next.setAttribute(
-            "data-effect-classes",
-            JSON.stringify(["mob_token_dead"])
-        );
+        next.setAttribute("data-effect-classes", JSON.stringify(["mob_token_dead"]));
         next.style.transform = `rotate(${pawn.deg || 0}deg)`;
         next.dnd_width = pawn.dnd_hexes * 5;
         next.dnd_height = pawn.dnd_hexes * 5;
@@ -1130,18 +985,13 @@ function refreshMobBackgroundImages(pawn, bgArray) {
     refreshMobSize(pawn);
 
     function randToDelta() {
-        return (
-            Math.floor(Math.random() * deltaMax) +
-            1 * (Math.random() > 0.5 ? 1 : -1)
-        );
+        return Math.floor(Math.random() * deltaMax) + 1 * (Math.random() > 0.5 ? 1 : -1);
     }
 }
 
 function refreshMobSize(pawnElement) {
     var sizePerCreature = pawnElement.dnd_hexes * cellSize;
-    pawnElement.style.width =
-        sizePerCreature * parseInt(pawnElement.getAttribute("data-mob_size")) +
-        "px";
+    pawnElement.style.width = sizePerCreature * parseInt(pawnElement.getAttribute("data-mob_size")) + "px";
 }
 
 function stopMeasuring(event, ignoreClick) {
@@ -1188,11 +1038,7 @@ function stopMeasuring(event, ignoreClick) {
         lastMeasuredPoint = null;
 
         measurements.clearMeasurements();
-    } else if (
-        event.button == 0 &&
-        visibilityLayerVisible &&
-        lastMeasuredPoint != null
-    ) {
+    } else if (event.button == 0 && visibilityLayerVisible && lastMeasuredPoint != null) {
         if (fovToolbox[0]) {
             fovLighting.addLineSegment(lastMeasuredPoint, {
                 x: event.clientX,
@@ -1211,8 +1057,7 @@ function stopMeasuring(event, ignoreClick) {
         }
         lastMeasuredPoint = { x: event.clientX, y: event.clientY };
     } else {
-        if (event != null)
-            lastMeasuredPoint = { x: event.clientX, y: event.clientY };
+        if (event != null) lastMeasuredPoint = { x: event.clientX, y: event.clientY };
     }
 }
 
@@ -1222,34 +1067,21 @@ function refreshMeasurementTooltip() {
         return;
     }
 
-    if (
-        measurementTargetDestination != null &&
-        measurementTargetOrigin != null
-    ) {
+    if (measurementTargetDestination != null && measurementTargetOrigin != null) {
         var destinationPoint = {
             x: parseInt(measurementTargetDestination.style.left),
             y: parseInt(measurementTargetDestination.style.top),
-            z:
-                (cellSize / UNITS_PER_GRID) *
-                parseInt(measurementTargetDestination.flying_height),
+            z: (cellSize / UNITS_PER_GRID) * parseInt(measurementTargetDestination.flying_height),
         };
         var originPosition = {
             x: parseInt(measurementTargetOrigin.style.left),
             y: parseInt(measurementTargetOrigin.style.top),
-            z:
-                (cellSize / UNITS_PER_GRID) *
-                parseInt(measurementTargetOrigin.flying_height),
+            z: (cellSize / UNITS_PER_GRID) * parseInt(measurementTargetOrigin.flying_height),
         };
 
         tooltip.innerHTML =
             Math.round(
-                (Math.sqrt(
-                    Math.pow(destinationPoint.x - originPosition.x, 2) +
-                        Math.pow(destinationPoint.y - originPosition.y, 2) +
-                        Math.pow(destinationPoint.z - originPosition.z, 2)
-                ) /
-                    cellSize) *
-                    5
+                (Math.sqrt(Math.pow(destinationPoint.x - originPosition.x, 2) + Math.pow(destinationPoint.y - originPosition.y, 2) + Math.pow(destinationPoint.z - originPosition.z, 2)) / cellSize) * 5
             ) + ` ${MAP_UNIT}`;
     }
 }
@@ -1266,18 +1098,14 @@ function removeDuplicatePawnNumbers(index, newEleId) {
 }
 
 function addToPawnBackgrounds(element, paths) {
-    var currentPaths = element
-        .getElementsByClassName("token_photo")[0]
-        .getAttribute("data-token_facets");
+    var currentPaths = element.getElementsByClassName("token_photo")[0].getAttribute("data-token_facets");
     currentPaths = JSON.parse(currentPaths);
     paths.forEach((path) => {
         path = path.replace(/\\/g, "/");
         if (!currentPaths.find((x) => x == path)) currentPaths.push(path);
     });
 
-    element
-        .getElementsByClassName("token_photo")[0]
-        .setAttribute("data-token_facets", JSON.stringify(currentPaths));
+    element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths));
 }
 function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
     var pathString;
@@ -1291,9 +1119,7 @@ function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
         paths.forEach((path) => {
             tokenPaths.push(path);
         });
-        pathString = pathString = cssify
-            ? Util.cssify(paths[rand])
-            : paths[rand];
+        pathString = pathString = cssify ? Util.cssify(paths[rand]) : paths[rand];
     }
     var imgEle = element.getElementsByClassName("token_photo")[0];
     imgEle.style.backgroundImage = pathString;
@@ -1363,9 +1189,7 @@ function dragPawn(elmnt) {
                     {
                         x: e.clientX,
                         y: e.clientY,
-                        z:
-                            (cellSize / UNITS_PER_GRID) *
-                            parseInt(e.target.flying_height),
+                        z: (cellSize / UNITS_PER_GRID) * parseInt(e.target.flying_height),
                     },
                     e
                 );
@@ -1397,10 +1221,7 @@ function dragPawn(elmnt) {
                     x: parseFloat(elmnt.style.left),
                     y: parseFloat(elmnt.style.top),
                 };
-                measurementsLayerContext.moveTo(
-                    (originPosition.x + offsetX) * DEVICE_SCALE,
-                    (originPosition.y + offsetY) * DEVICE_SCALE
-                );
+                measurementsLayerContext.moveTo((originPosition.x + offsetX) * DEVICE_SCALE, (originPosition.y + offsetY) * DEVICE_SCALE);
                 showToolTip(e, "0 ft", "tooltip");
 
                 e.preventDefault();
@@ -1442,10 +1263,7 @@ function dragPawn(elmnt) {
             pos3 = clientX;
             pos4 = clientY;
             window.clearTimeout(eleMovedEventDelay);
-            eleMovedEventDelay = window.setTimeout(
-                onPawnsMoved,
-                eleMovedEventDelay
-            );
+            eleMovedEventDelay = window.setTimeout(onPawnsMoved, eleMovedEventDelay);
 
             //Multiple move
             if (selectedPawns.length > 0) {
@@ -1456,35 +1274,15 @@ function dragPawn(elmnt) {
                     pwn.attached_objects.forEach((obj) => {
                         obj.style.top = obj.offsetTop - posY + "px";
                         obj.style.left = obj.offsetLeft - posX + "px";
-                        if (obj.sound)
-                            soundManager.adjustPlacement(
-                                obj.id,
-                                obj.offsetLeft - posX,
-                                obj.offsetTop - posY
-                            );
+                        if (obj.sound) soundManager.adjustPlacement(obj.id, obj.offsetLeft - posX, obj.offsetTop - posY);
                     });
                 });
 
                 if (!STATIC_TOOLTIP) {
-                    tooltip.style.top =
-                        selectedPawns[0].offsetTop - posY - 40 + "px";
-                    tooltip.style.left =
-                        selectedPawns[0].offsetLeft - posX + "px";
+                    tooltip.style.top = selectedPawns[0].offsetTop - posY - 40 + "px";
+                    tooltip.style.left = selectedPawns[0].offsetLeft - posX + "px";
                 }
-                distance = Math.round(
-                    (Math.sqrt(
-                        Math.pow(
-                            selectedPawns[0].offsetLeft - originPosition.x,
-                            2
-                        ) +
-                            Math.pow(
-                                selectedPawns[0].offsetTop - originPosition.y,
-                                2
-                            )
-                    ) /
-                        cellSize) *
-                        5
-                );
+                distance = Math.round((Math.sqrt(Math.pow(selectedPawns[0].offsetLeft - originPosition.x, 2) + Math.pow(selectedPawns[0].offsetTop - originPosition.y, 2)) / cellSize) * 5);
                 tooltip.innerHTML = distance + ` ${MAP_UNIT}`;
             } else {
                 if (!STATIC_TOOLTIP) {
@@ -1498,12 +1296,7 @@ function dragPawn(elmnt) {
                     if (!obj) return;
                     obj.style.top = obj.offsetTop - posY + "px";
                     obj.style.left = obj.offsetLeft - posX + "px";
-                    if (obj.sound)
-                        soundManager.adjustPlacement(
-                            obj.id,
-                            obj.offsetLeft - posX,
-                            obj.offsetTop - posY
-                        );
+                    if (obj.sound) soundManager.adjustPlacement(obj.id, obj.offsetLeft - posX, obj.offsetTop - posY);
                 });
             }
 
@@ -1511,14 +1304,8 @@ function dragPawn(elmnt) {
             if (oldLine != null) {
                 measurements.eraseModeOn();
                 measurementsLayerContext.beginPath();
-                measurementsLayerContext.moveTo(
-                    oldLine.a.x * DEVICE_SCALE,
-                    oldLine.a.y * DEVICE_SCALE
-                );
-                measurementsLayerContext.lineTo(
-                    oldLine.b.x * DEVICE_SCALE,
-                    oldLine.b.y * DEVICE_SCALE
-                );
+                measurementsLayerContext.moveTo(oldLine.a.x * DEVICE_SCALE, oldLine.a.y * DEVICE_SCALE);
+                measurementsLayerContext.lineTo(oldLine.b.x * DEVICE_SCALE, oldLine.b.y * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
                 measurements.eraseModeOff();
             } else {
@@ -1527,14 +1314,8 @@ function dragPawn(elmnt) {
 
             measurementsLayerContext.beginPath();
 
-            measurementsLayerContext.moveTo(
-                (originPosition.x + offsetX) * DEVICE_SCALE,
-                (originPosition.y + offsetY) * DEVICE_SCALE
-            );
-            measurementsLayerContext.lineTo(
-                (elmnt.offsetLeft + offsetX) * DEVICE_SCALE,
-                (elmnt.offsetTop + offsetY) * DEVICE_SCALE
-            );
+            measurementsLayerContext.moveTo((originPosition.x + offsetX) * DEVICE_SCALE, (originPosition.y + offsetY) * DEVICE_SCALE);
+            measurementsLayerContext.lineTo((elmnt.offsetLeft + offsetX) * DEVICE_SCALE, (elmnt.offsetTop + offsetY) * DEVICE_SCALE);
             measurementsLayerContext.stroke();
             var a = {
                 x: originPosition.x + offsetX,
@@ -1546,14 +1327,7 @@ function dragPawn(elmnt) {
             };
             oldLine.a = a;
             oldLine.b = b;
-            distance = Math.round(
-                (Math.sqrt(
-                    Math.pow(elmnt.offsetLeft - originPosition.x, 2) +
-                        Math.pow(elmnt.offsetTop - originPosition.y, 2)
-                ) /
-                    cellSize) *
-                    5
-            );
+            distance = Math.round((Math.sqrt(Math.pow(elmnt.offsetLeft - originPosition.x, 2) + Math.pow(elmnt.offsetTop - originPosition.y, 2)) / cellSize) * 5);
             tooltip.innerHTML = distance + ` ${MAP_UNIT}`;
         });
     }
@@ -1609,13 +1383,7 @@ function onPerspectiveChanged() {
 }
 
 function hasPawnAccess(pawn) {
-    return (
-        serverNotifier.isServer() ||
-        (TOKEN_ACCESS != null &&
-            TOKEN_ACCESS.find(
-                (x) => x.element_id == pawn.id || x.element_id == "all"
-            ))
-    );
+    return serverNotifier.isServer() || (TOKEN_ACCESS != null && TOKEN_ACCESS.find((x) => x.element_id == pawn.id || x.element_id == "all"));
 }
 
 var hideTooltipTimer;
@@ -1644,11 +1412,7 @@ function addPawnListeners() {
                     rotatePawn(event.target, -3);
                 }
             } else if (event.ctrlKey) {
-                setFlyingHeight(
-                    event.target,
-                    event.target.flying_height + (event.deltaY > 0 ? 5 : -5),
-                    event
-                );
+                setFlyingHeight(event.target, event.target.flying_height + (event.deltaY > 0 ? 5 : -5), event);
             }
         };
     }
@@ -1754,42 +1518,23 @@ function nudgePawns(x, y) {
 
 var currentListenerPawn;
 function updateHowlerListenerLocation() {
-    var forcedPerpspectiveDD = document.getElementById(
-        "fov_perspective_dropdown"
-    );
+    var forcedPerpspectiveDD = document.getElementById("fov_perspective_dropdown");
     if (forcedPerpspectiveDD.selectedIndex < 0) {
         currentListenerPawn = null;
-        soundManager.setListenerCords(
-            window.innerWidth / 2,
-            window.innerHeight / 2,
-            null
-        );
+        soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
         return;
     }
-    var currentPerspective =
-        forcedPerpspectiveDD.options[forcedPerpspectiveDD.selectedIndex].value;
+    var currentPerspective = forcedPerpspectiveDD.options[forcedPerpspectiveDD.selectedIndex].value;
     var player = pawns.players.find((x) => x[1] == currentPerspective);
     if (player) {
         currentListenerPawn = player[0];
-        soundManager.setListenerCords(
-            parseFloat(currentListenerPawn.style.left),
-            parseFloat(currentListenerPawn.style.top),
-            null
-        );
+        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
     } else if (selectedPawns.length > 0) {
         currentListenerPawn = selectedPawns[0];
-        soundManager.setListenerCords(
-            parseFloat(currentListenerPawn.style.left),
-            parseFloat(currentListenerPawn.style.top),
-            null
-        );
+        soundManager.setListenerCords(parseFloat(currentListenerPawn.style.left), parseFloat(currentListenerPawn.style.top), null);
     } else {
         currentListenerPawn = null;
-        soundManager.setListenerCords(
-            window.innerWidth / 2,
-            window.innerHeight / 2,
-            null
-        );
+        soundManager.setListenerCords(window.innerWidth / 2, window.innerHeight / 2, null);
     }
 }
 
@@ -1827,15 +1572,9 @@ function startSelectingPawns(e) {
                 measurementsLayerContext.beginPath();
                 measurements.eraseModeOn();
                 measurementsLayerContext.setLineDash([2, 2]);
-                measurementsLayerContext.rect(
-                    oldSelectionRectangle.originX,
-                    oldSelectionRectangle.originY,
-                    oldSelectionRectangle.width,
-                    oldSelectionRectangle.height
-                );
+                measurementsLayerContext.rect(oldSelectionRectangle.originX, oldSelectionRectangle.originY, oldSelectionRectangle.width, oldSelectionRectangle.height);
                 measurementsLayerContext.stroke();
-                measurementsLayerContext.globalCompositeOperation =
-                    "source-over";
+                measurementsLayerContext.globalCompositeOperation = "source-over";
                 measurementsLayerContext.lineWidth = 2;
             } else {
                 oldSelectionRectangle = {};
@@ -1862,16 +1601,7 @@ function startSelectingPawns(e) {
             pawnX = parseFloat(pawn.style.left) + offset;
             pawnY = parseFloat(pawn.style.top) + offset;
 
-            if (
-                Geometry.insideRect(
-                    aX,
-                    aY,
-                    aX + distX,
-                    aY + distY,
-                    pawnX,
-                    pawnY
-                )
-            ) {
+            if (Geometry.insideRect(aX, aY, aX + distX, aY + distY, pawnX, pawnY)) {
                 selectPawn(pawn);
             } else {
                 deselectPawn(pawn);
@@ -1909,12 +1639,7 @@ async function setPawnMobBackgroundImages(pawn, path, tokens) {
 
 var lastColorIndex = 0;
 async function generatePawns(pawnArray, monsters) {
-    var newPawn,
-        lastPoint,
-        rotate,
-        sightRadiusBright,
-        sightRadiusDim,
-        sightMode;
+    var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;
     console.log("Generating ", pawnArray, monsters);
     if (monsters) {
         lastPoint = pawns.lastLocationMonsters;
@@ -1932,10 +1657,8 @@ async function generatePawns(pawnArray, monsters) {
         newPawn.id = id;
         newPawn.get = () => document.getElementById(id);
 
-        newPawn.title =
-            pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
-        newPawn.dnd_name =
-            pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
+        newPawn.title = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
+        newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
         if (!monsters) {
             if (pawn.darkVisionRadius != "") {
                 sightMode = "darkvision";
@@ -1969,9 +1692,7 @@ async function generatePawns(pawnArray, monsters) {
         newPawn.dead = pawn.dead || "false";
         newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
 
-        var sizeIndex = creaturePossibleSizes.sizes.indexOf(
-            pawn.size.toLowerCase()
-        );
+        var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
         newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
         newPawn.attached_objects = [];
         newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
@@ -1996,17 +1717,10 @@ async function generatePawns(pawnArray, monsters) {
 
             optionalPaths = pawn.bgPhoto || pawn.bgPhotoBase64;
             if (optionalPaths != null) {
-                setPawnBackgroundFromPathArray(
-                    newPawn,
-                    optionalPaths,
-                    pawn.bgPhotoBase64 == null
-                );
+                setPawnBackgroundFromPathArray(newPawn, optionalPaths, pawn.bgPhotoBase64 == null);
             } else {
                 if (monsters) {
-                    var imageExists = await setPawnImageWithDefaultPath(
-                        newPawn,
-                        pawn.monsterId
-                    );
+                    var imageExists = await setPawnImageWithDefaultPath(newPawn, pawn.monsterId);
 
                     if (!imageExists) rotate = 0;
                 } else {
@@ -2035,15 +1749,12 @@ async function generatePawns(pawnArray, monsters) {
             lastPoint.x++;
             lastPoint.y -= 8;
         }
-        if(pawn.scale){
+        if (pawn.scale) {
             map.setTokenScale(newPawn, pawn.scale);
         }
         tokenLayer.appendChild(newPawn);
         if (serverNotifier.isServer()) {
-            serverNotifier.notifyServer(
-                "token-add",
-                await saveManager.exportPawn([newPawn, pawn.name])
-            );
+            serverNotifier.notifyServer("token-add", await saveManager.exportPawn([newPawn, pawn.name]));
         }
         if (pawn.onAdded) pawn.onAdded(newPawn);
     }
@@ -2090,12 +1801,7 @@ function removeAllPawnConditions(pawnElement, originMainWindow = false) {
 function removePawnCondition(pawnElement, conditionString) {
     removePawnConditionHelper(pawnElement, conditionString, false);
 }
-function removePawnConditionHelper(
-    pawnElement,
-    conditionObj,
-    deleteAll,
-    originMainWindow = false
-) {
+function removePawnConditionHelper(pawnElement, conditionObj, deleteAll, originMainWindow = false) {
     if (deleteAll) {
         pawnElement["data-dnd_conditions"] = [];
     } else {
@@ -2105,16 +1811,10 @@ function removePawnConditionHelper(
         });
     }
 
-    var allConditions = [
-        ...pawnElement.getElementsByClassName("condition_effect"),
-    ];
+    var allConditions = [...pawnElement.getElementsByClassName("condition_effect")];
 
     allConditions.forEach(function (condition) {
-        if (
-            deleteAll ||
-            condition.getAttribute("data-dnd_condition_full_name") ==
-                conditionObj.name
-        ) {
+        if (deleteAll || condition.getAttribute("data-dnd_condition_full_name") == conditionObj.name) {
             condition.parentNode.removeChild(condition);
         }
     });
@@ -2228,10 +1928,8 @@ var map = (function () {
         var middleX = bgRect.width / mapContainer.data_bg_scale / 2;
         var middleY = bgRect.height / mapContainer.data_bg_scale / 2;
 
-        var newX =
-            middleX - foregroundRect.width / 2 / mapContainer.data_bg_scale;
-        var newY =
-            middleY - foregroundRect.height / 2 / mapContainer.data_bg_scale;
+        var newX = middleX - foregroundRect.width / 2 / mapContainer.data_bg_scale;
+        var newY = middleY - foregroundRect.height / 2 / mapContainer.data_bg_scale;
         moveForeground(newX, newY);
     }
 
@@ -2321,9 +2019,7 @@ var map = (function () {
     }
 
     function removeAllPawns() {
-        [...document.querySelectorAll(".pawn")].forEach((x) =>
-            x.parentNode.removeChild(x)
-        );
+        [...document.querySelectorAll(".pawn")].forEach((x) => x.parentNode.removeChild(x));
         pawns.monsters = [];
         pawns.players.clear();
     }
@@ -2337,11 +2033,7 @@ var map = (function () {
         elmnt.style.left = point.x + "px";
         elmnt.style.top = point.y + "px";
         if (elmnt.sound) {
-            soundManager.adjustPlacement(
-                elmnt.id,
-                elmnt.offsetLeft,
-                elmnt.offsetLeft
-            );
+            soundManager.adjustPlacement(elmnt.id, elmnt.offsetLeft, elmnt.offsetLeft);
         }
         if (elmnt.attached_objects)
             elmnt.attached_objects.forEach((obj) => {
@@ -2366,12 +2058,8 @@ var map = (function () {
 
     function snapToGrid(elmnt) {
         var positionOnTranslatedGrid = {
-            x:
-                Math.round((elmnt.offsetLeft - gridMoveOffsetX) / cellSize) *
-                cellSize,
-            y:
-                Math.round((elmnt.offsetTop - gridMoveOffsetY) / cellSize) *
-                cellSize,
+            x: Math.round((elmnt.offsetLeft - gridMoveOffsetX) / cellSize) * cellSize,
+            y: Math.round((elmnt.offsetTop - gridMoveOffsetY) / cellSize) * cellSize,
         };
 
         moveObject(elmnt, {
@@ -2385,15 +2073,7 @@ var map = (function () {
 
     function setTokenConditions(pawn, conditions) {
         removeAllPawnConditions(pawn, true);
-        conditions.forEach((cond) =>
-            setPawnCondition(
-                pawn,
-                conditionList.filter(
-                    (x) => x.name.toLowerCase() == cond.toLowerCase()
-                )[0],
-                true
-            )
-        );
+        conditions.forEach((cond) => setPawnCondition(pawn, conditionList.filter((x) => x.name.toLowerCase() == cond.toLowerCase())[0], true));
     }
 
     function updateInitiative(arg) {
@@ -2406,22 +2086,14 @@ var map = (function () {
         if (arg.round_increment) {
             initiative.setRoundCounter(arg.round_increment);
             var curr = initiative.currentActor();
-            Util.showDisappearingTitleAndSubtitle(
-                curr.current.name,
-                `Next up: ${curr.next}`,
-                curr.current.color
-            );
+            Util.showDisappearingTitleAndSubtitle(curr.current.name, `Next up: ${curr.next}`, curr.current.color);
 
             var dropdown = document.getElementById("fov_perspective_dropdown");
 
             if (dropdown.value.toLowerCase() != "players") {
-                var currentDd = [...dropdown.options].find(
-                    (x) => x.value == curr.current.name
-                );
+                var currentDd = [...dropdown.options].find((x) => x.value == curr.current.name);
                 if (currentDd) {
-                    dropdown.value = currentDd
-                        ? currentDd.value
-                        : dropdown.options[0].value;
+                    dropdown.value = currentDd ? currentDd.value : dropdown.options[0].value;
                     onPerspectiveChanged();
                 }
             }
@@ -2477,11 +2149,13 @@ var map = (function () {
         var facetArray = image.getAttribute("data-token_facets");
         if (!facetArray) return;
         var facets = JSON.parse(facetArray);
-        var current = parseInt(
-            image.getAttribute("data-token_current_facet") || 0
-        );
+        var current = parseInt(image.getAttribute("data-token_current_facet") || 0);
         var path = facets[current];
-        localStorage.setItem(`token_scale${path}`, scale);
+        if (scale != 1) {
+            localStorage.setItem(`token_scale${path}`, scale);
+        } else {
+            localStorage.removeItem(`token_scale${path}`);
+        }
     }
     function getTokenScale(pawn) {
         var image = pawn.querySelector(".token_photo");

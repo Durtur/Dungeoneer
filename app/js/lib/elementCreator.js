@@ -1,12 +1,9 @@
-
 class ElementCreator {
     static generateHTMLTable(jsonObj) {
-
         var jsonKeys = Object.keys(jsonObj);
-        jsonKeys.forEach(key => {
-            var isEmpty = jsonObj[key].filter(x => x != undefined && x != "").length == 0;
-            if (isEmpty)
-                delete jsonObj[key];
+        jsonKeys.forEach((key) => {
+            var isEmpty = jsonObj[key].filter((x) => x != undefined && x != "").length == 0;
+            if (isEmpty) delete jsonObj[key];
         });
 
         var jsonObjValues = Object.values(jsonObj);
@@ -39,7 +36,6 @@ class ElementCreator {
                 newNode = document.createElement("td");
                 newNode.innerHTML = marked.parse("" + jsonObjValues[j][i]);
                 currentRow.appendChild(newNode);
-
             }
         }
         newTable.appendChild(currentHeader);
@@ -57,8 +53,11 @@ class ElementCreator {
 
     static makeDraggable(elmnt, targetElement) {
         var dragElement = targetElement ? targetElement : elmnt;
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        console.log(targetElement)
+        var pos1 = 0,
+            pos2 = 0,
+            pos3 = 0,
+            pos4 = 0;
+        console.log(targetElement);
 
         dragElement.onmousedown = dragMouseDown;
         function dragMouseDown(e) {
@@ -81,8 +80,8 @@ class ElementCreator {
             pos3 = e.clientX;
             pos4 = e.clientY;
             // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            elmnt.style.top = elmnt.offsetTop - pos2 + "px";
+            elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
         }
 
         function closeDragElement() {
@@ -105,17 +104,23 @@ class ElementCreator {
     static ele(tag, classList, innerHTML) {
         var ele = document.createElement(tag);
         ele.classList = classList;
-        if (innerHTML)
-            ele.innerHTML = innerHTML;
+        if (innerHTML) ele.innerHTML = innerHTML;
         return ele;
     }
 
-    static createTokenElement(path) {
+    static createTokenElement(path, color) {
         if (!path) path = "./mappingTool/tokens/default.png";
         var tokenEle = document.createElement("img");
         tokenEle.classList = "statblock_token";
         tokenEle.src = path;
-        return tokenEle;
+        if (color) {
+            var cont = document.createElement("div");
+            cont.style.backgroundColor = color;
+            cont.classList = "token_container";
+            cont.appendChild(tokenEle);
+            return { base: cont, token: tokenEle };
+        }
+        return { token: tokenEle };
     }
 
     static checkBox(labelText, checked, onchange) {
@@ -140,7 +145,6 @@ class ElementCreator {
             inp.onchange = onchange;
         }
         return parent;
-
     }
 
     static browserLink(linkUrl, text) {
@@ -150,13 +154,11 @@ class ElementCreator {
         link.onclick = (e) => {
             e.preventDefault();
 
-            window.api.openBrowser(link.getAttribute("href"))
-        }
+            window.api.openBrowser(link.getAttribute("href"));
+        };
         link.innerHTML = text;
         return link;
-
     }
-
 }
 
 module.exports = ElementCreator;

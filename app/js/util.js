@@ -1,12 +1,11 @@
 const { extname } = require("path");
 const sharp = require("sharp");
-module.exports = function () {
+module.exports = (function () {
     function IsVowel(letter) {
         return ["a", "e", "i", "o", "u", "y"].includes(letter.toLowerCase());
     }
 
     function showInfo(title, text) {
-
         var para = document.createElement("p");
         para.innerHTML = text;
         var heading = document.createElement("h2");
@@ -24,7 +23,7 @@ module.exports = function () {
         newEle.style.left = (pos ? pos.x : window.innerWidth / 2 - newEle.clientWidth / 2) + "px";
         document.body.appendChild(newEle);
         newEle.appendChild(innerElement);
-        console.log(pos)
+        console.log(pos);
         window.setTimeout(function (evt) {
             newEle.classList.add("fade_out");
             if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
@@ -38,11 +37,9 @@ module.exports = function () {
 
         newEle.innerHTML = text;
         newEle.classList.add("roll_result_effect");
-        if (!multiple)
-            [...document.getElementsByClassName("roll_result_effect")].forEach(ele => ele.parentNode.removeChild(ele));
+        if (!multiple) [...document.getElementsByClassName("roll_result_effect")].forEach((ele) => ele.parentNode.removeChild(ele));
         document.body.appendChild(newEle);
-        if (smallfont)
-            newEle.style.fontSize = "18px";
+        if (smallfont) newEle.style.fontSize = "18px";
         newEle.style.top = point.y - newEle.clientHeight / 2 + "px";
         newEle.style.left = point.x - newEle.clientWidth / 2 + "px";
 
@@ -53,27 +50,23 @@ module.exports = function () {
     }
 
     function showDisappearingTitleAndSubtitle(title, subtitle, titleColor) {
-        [...document.querySelectorAll(".disappearing_title_container")].forEach(x => {
-            if (x.parentNode)
-                x.parentNode.removeChild(x);
+        [...document.querySelectorAll(".disappearing_title_container")].forEach((x) => {
+            if (x.parentNode) x.parentNode.removeChild(x);
         });
         var newEle = ele("div", "center_absolute disappearing_title_container");
         var title = ele("h1", "disappearing_title", title);
-        if (titleColor)
-            title.style.color = titleColor;
+        if (titleColor) title.style.color = titleColor;
         var p = ele("h2", "disappearing_ele", subtitle);
         newEle.appendChild(title);
         newEle.appendChild(p);
 
         document.body.appendChild(newEle);
 
-
         window.setTimeout(function (evt) {
             newEle.classList.add("fade_out");
             window.setTimeout(() => {
                 if (newEle.parentNode) newEle.parentNode.removeChild(newEle);
-            }, 2000)
-
+            }, 2000);
         }, 3000);
     }
 
@@ -128,7 +121,10 @@ module.exports = function () {
     }
 
     function makeUIElementDraggable(elmnt, callback) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        var pos1 = 0,
+            pos2 = 0,
+            pos3 = 0,
+            pos4 = 0;
         elmnt.onmousedown = dragMouseDown;
 
         function dragMouseDown(e) {
@@ -151,8 +147,8 @@ module.exports = function () {
             pos3 = e.clientX;
             pos4 = e.clientY;
             // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            elmnt.style.top = elmnt.offsetTop - pos2 + "px";
+            elmnt.style.left = elmnt.offsetLeft - pos1 + "px";
         }
 
         function closeDragElement() {
@@ -161,12 +157,13 @@ module.exports = function () {
             document.onmousemove = null;
             if (callback) callback();
         }
-
     }
 
     function hexToHSL(H, minL) {
         // Convert hex to RGB first
-        let r = 0, g = 0, b = 0;
+        let r = 0,
+            g = 0,
+            b = 0;
         if (H.length == 4) {
             r = "0x" + H[1] + H[1];
             g = "0x" + H[2] + H[2];
@@ -187,55 +184,59 @@ module.exports = function () {
             s = 0,
             l = 0;
 
-        if (delta == 0)
-            h = 0;
-        else if (cmax == r)
-            h = ((g - b) / delta) % 6;
-        else if (cmax == g)
-            h = (b - r) / delta + 2;
-        else
-            h = (r - g) / delta + 4;
+        if (delta == 0) h = 0;
+        else if (cmax == r) h = ((g - b) / delta) % 6;
+        else if (cmax == g) h = (b - r) / delta + 2;
+        else h = (r - g) / delta + 4;
 
         h = Math.round(h * 60);
 
-        if (h < 0)
-            h += 360;
+        if (h < 0) h += 360;
 
         l = (cmax + cmin) / 2;
         s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
         s = +(s * 100).toFixed(1);
         l = +(l * 100).toFixed(1);
-        if (minL && l < minL)
-            l = minL;
+        if (minL && l < minL) l = minL;
 
         return "hsl(" + h + "," + s + "%," + l + "%)";
     }
     function hexToRGBA(hex, opacity) {
-        return 'rgba(' + (hex = hex.replace('#', '')).match(new RegExp('(.{' + hex.length / 3 + '})', 'g')).map(function (l) { return parseInt(hex.length % 2 ? l + l : l, 16) }).concat(opacity || 1).join(',') + ')';
+        return (
+            "rgba(" +
+            (hex = hex.replace("#", ""))
+                .match(new RegExp("(.{" + hex.length / 3 + "})", "g"))
+                .map(function (l) {
+                    return parseInt(hex.length % 2 ? l + l : l, 16);
+                })
+                .concat(opacity || 1)
+                .join(",") +
+            ")"
+        );
     }
 
     function isImage(path) {
-        var imgFilters = constants.imgFilters.map(x => "." + x);
+        var imgFilters = constants.imgFilters.map((x) => "." + x);
 
         return imgFilters.includes(extname(path));
     }
 
     function getFileIcon(extension) {
-        if (isImage(`x${extension}`))
-            return "./css/img/file-icons/img.png";
+        if (isImage(`x${extension}`)) return "./css/img/file-icons/img.png";
 
         switch (extension) {
-            case ".dungeoneer_map": return "./css/img/file-icons/file icon.png";
-            case ".dd2vtt": return "./css/img/file-icons/dungeondraft.png";
-            default: return null;
+            case ".dungeoneer_map":
+                return "./css/img/file-icons/file icon.png";
+            case ".dd2vtt":
+                return "./css/img/file-icons/dungeondraft.png";
+            default:
+                return null;
         }
-
     }
     function ele(tag, classList, innerHTML) {
         var ele = document.createElement(tag);
         ele.classList = classList;
-        if (innerHTML)
-            ele.innerHTML = innerHTML;
+        if (innerHTML) ele.innerHTML = innerHTML;
         return ele;
     }
     function wrapper(tag, classList, childNode) {
@@ -244,20 +245,16 @@ module.exports = function () {
 
         return par;
     }
-    //MAX webp width 16383 x 16383 
+    //MAX webp width 16383 x 16383
     const MAX_SHARP_WEBP_SIZE = 16383;
     async function toBase64(path, svg = false) {
         var resizeWidth = 1200;
-        if (!sharp || !path)
-            return null;
+        if (!sharp || !path) return null;
 
-        if (path.includes("?"))
-            path = path.substring(0, path.lastIndexOf("?"));
-        path = path.replaceAll("\"", "");
+        if (path.includes("?")) path = path.substring(0, path.lastIndexOf("?"));
+        path = path.replaceAll('"', "");
         try {
-    
             if (svg) {
-      
                 return await dataAccess.base64(path);
             }
             var shrp = sharp(path);
@@ -276,12 +273,11 @@ module.exports = function () {
 
             var buffer = await shrp.toFormat("webp").toBuffer();
 
-            return buffer.toString('base64');
+            return buffer.toString("base64");
         } catch (err) {
             console.error(err);
             return null;
         }
-
     }
 
     function cssify(path) {
@@ -289,7 +285,7 @@ module.exports = function () {
     }
     function decssify(path) {
         if (!path) return path;
-        console.log(path.substring(4, path.length - 1))
+        console.log(path.substring(4, path.length - 1));
         return path.substring(4, path.length - 1);
     }
 
@@ -297,7 +293,7 @@ module.exports = function () {
         var imgDiv = ele("div", "center loading_ele");
         var cont = ele("div", "loading_ele_cont ");
         var img = ele("img", "");
-        img.src = "css/img/loading.gif"
+        img.src = "css/img/loading.gif";
 
         imgDiv.appendChild(img);
         var title = ele("h2", "loading_title", title);
@@ -308,23 +304,44 @@ module.exports = function () {
         column.appendChild(text);
         cont.appendChild(column);
         cont.updateText = function (newTitle, newText) {
-            if (newTitle)
-                title.innerHTML = newTitle;
+            if (newTitle) title.innerHTML = newTitle;
 
-            if (newText)
-                text.innerHTML = newText;
-        }
+            if (newText) text.innerHTML = newText;
+        };
         return cont;
-
     }
 
     function currentTimeStamp() {
         var date = new Date();
         var hours = date.getHours().toString().padStart(2, "0");
         var minutes = date.getMinutes().toString().padStart(2, "0");
-        return `${hours}:${minutes}`
+        return `${hours}:${minutes}`;
     }
+
+    function mouseActionTooltip(text) {
+        var tooltip = document.getElementById("tooltip");
+        tooltip.classList.remove("hidden");
+        tooltip.innerHTML = text;
+        document.onmousemove = function (e) {
+            tooltip.style.top = e.clientY - 75 + "px";
+            tooltip.style.left = e.clientX + 75 + "px";
+        };
+        return () => {
+            document.onmousemove = null;
+            tooltip.classList.add("hidden");
+        };
+    }
+
+    function masonryLayout(container, elementList, lowestSize, highestMultiplier) {
+        elementList.sort((a, b) => a.size - b.size);
+        elementList.forEach((ele) => {
+            container.appendChild(ele.element);
+        });
+    }
+
     return {
+        masonryLayout: masonryLayout,
+        mouseActionTooltip: mouseActionTooltip,
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
         showMessage: showMessage,
@@ -347,8 +364,6 @@ module.exports = function () {
         decssify: decssify,
         showInfo: showInfo,
         currentTimeStamp: currentTimeStamp,
-        fadeOutInfoBox: fadeOutInfoBox
-    }
-}();
-
-
+        fadeOutInfoBox: fadeOutInfoBox,
+    };
+})();
