@@ -1,6 +1,5 @@
-var PEER_CONNECTION_CONFIG =
-{
-    "secure": true,
-    "host": "dungeoneer-peer-server.herokuapp.com",
-    "port": 443
-}
+var PEER_CONNECTION_CONFIG = {
+    secure: true,
+    host: "dungeoneer-peer-js-server.onrender.com",
+    path: "/myapp",
+};
