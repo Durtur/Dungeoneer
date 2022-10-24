@@ -322,14 +322,17 @@ module.exports = (function () {
         var tooltip = document.getElementById("tooltip");
         tooltip.classList.remove("hidden");
         tooltip.innerHTML = text;
-        document.onmousemove = function (e) {
-            tooltip.style.top = e.clientY - 75 + "px";
-            tooltip.style.left = e.clientX + 75 + "px";
-        };
+        document.addEventListener("mousemove", updatePlacement);
+
         return () => {
-            document.onmousemove = null;
+            document.removeEventListener("mousemove", updatePlacement);
             tooltip.classList.add("hidden");
         };
+
+        function updatePlacement(e) {
+            tooltip.style.top = e.clientY - 75 + "px";
+            tooltip.style.left = e.clientX + 75 + "px";
+        }
     }
 
     function masonryLayout(container, elementList, lowestSize, highestMultiplier) {

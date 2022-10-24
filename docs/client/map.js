@@ -38,7 +38,7 @@ var resetMoveIncrementTimer;
 var mapContainers, foregroundCanvas, backgroundCanvas, overlayCanvas;
 
 //Tokens
-var partyArray;
+
 var settings, effectFilePath;
 
 var fogOfWarEnabled = true,
@@ -55,7 +55,7 @@ var MAX_BG_ZOOM = 10,
 
 var effects = [];
 var pawns = (function () {
-    var medium, large, huge, gargantuan, colossal, all;
+    var all;
     var lastLocationPlayers = { x: 3, y: 3 };
     var lastLocationMonsters = { x: 18, y: 3 };
     var addQueue = [];
@@ -78,11 +78,6 @@ var pawns = (function () {
     };
 
     return {
-        medium: medium,
-        large: large,
-        huge: huge,
-        gargantuan: gargantuan,
-        colossal: colossal,
         all: all,
         monsters: monsters,
         lastLocationPlayers: lastLocationPlayers,
@@ -161,6 +156,7 @@ async function setPlayerPawnImage() {}
 async function setPawnImageWithDefaultPath(pawnElement, path) {}
 function hideAllTooltips() {}
 function onBackgroundChanged() {}
+function onMapResized() {}
 
 function suspendAllAnimations() {
     [".pawn", ".sfx_effect", ".light_effect"].forEach((cls) => {
@@ -487,12 +483,6 @@ function onOverlayResized(newWidth) {
 var toolbox = [false, false, false, false, false];
 
 function refreshPawns() {
-    pawns.small = document.querySelectorAll(".pawn_small");
-    pawns.medium = document.querySelectorAll(".pawn_medium");
-    pawns.large = document.querySelectorAll(".pawn_large");
-    pawns.huge = document.querySelectorAll(".pawn_huge");
-    pawns.gargantuan = document.querySelectorAll(".pawn_gargantuan");
-    pawns.colossal = document.querySelectorAll(".pawn_colossal");
     pawns.all = document.querySelectorAll(".pawn");
 }
 
@@ -832,6 +822,9 @@ function enlargeReducePawn(element, direction) {
     element.classList.remove("pawn_" + currentSize);
     element.classList.add("pawn_" + newSize);
     element.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
+    element.dnd_height = element.dnd_hexes * UNITS_PER_GRID;
+    element.dnd_width = element.dnd_hexes * UNITS_PER_GRID;
+
     element.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
     if (serverNotifier.isServer())
         serverNotifier.notifyServer("token-size", {
@@ -1107,39 +1100,23 @@ function addToPawnBackgrounds(element, paths) {
 
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths));
 }
-function setPawnBackgroundFromPathArray(element, paths, cssify = true) {
-    var pathString;
-    var tokenPaths = [];
-    if (typeof paths == "string") {
-        pathString = cssify ? Util.cssify(paths) : paths;
-        tokenPaths.push(paths);
-    } else {
-        var rand = Math.round(Math.random() * (paths.length - 1));
-
-        paths.forEach((path) => {
-            tokenPaths.push(path);
-        });
-        pathString = pathString = cssify ? Util.cssify(paths[rand]) : paths[rand];
-    }
-    var imgEle = element.getElementsByClassName("token_photo")[0];
-    imgEle.style.backgroundImage = pathString;
-    imgEle.setAttribute("data-token_facets", JSON.stringify(tokenPaths));
-    imgEle.setAttribute("data-token_current_facet", rand);
-    onBackgroundChanged(element);
+function setPawnBackgroundFromPathArray(newPawn, pawn) {
+    console.log(pawn);
+    var selected = pawn.tokenImages[pawn.tokenIndex];
+    var imgEle = newPawn.getElementsByClassName("token_photo")[0];
+    imgEle.setAttribute("data-token_facets", JSON.stringify(pawn.tokenImages));
+    imgEle.setAttribute("data-token_current_facet", pawn.tokenIndex);
+    setPawnToken(newPawn, Util.cssify(selected));
 }
 
 function setPawnToken(pawn, url) {
     var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
     pawnPhoto.style.backgroundImage = url;
+    onBackgroundChanged(pawn);
 }
 
 function isPlayerPawn(pawnElement) {
-    for (var i = 0; i < pawns.players.length; i++) {
-        if (pawns.players[i][0] == pawnElement) {
-            return true;
-        }
-    }
-    return false;
+    return pawns.players.find(x=> x[0] == pawnElement) != null;
 }
 
 function resetGridLayer() {
@@ -1153,8 +1130,6 @@ function resetGridLayer() {
 }
 
 function eventX(e) {
-    // clientX = event.clientX || (event.touches[0].clientX - event.touches[0].radiusX);
-    // clientY = event.clientY || (event.touches[0].clientY - event.touches[0].radiusY);
     return e.clientX || e.touches[0].clientX - e.touches[0].radiusX;
 }
 
@@ -1474,6 +1449,7 @@ function resizeHelper(arr) {
         }
     }
 }
+
 function setupGridLayer() {
     gridLayerContext.strokeStyle = "rgba('10','10','10','0.2')";
     gridLayerContext.lineWidth = 1;
@@ -1637,29 +1613,106 @@ async function setPawnMobBackgroundImages(pawn, path, tokens) {
     refreshMobBackgroundImages(pawn);
 }
 
-var lastColorIndex = 0;
-async function generatePawns(pawnArray, monsters) {
-    var newPawn, lastPoint, rotate, sightRadiusBright, sightRadiusDim, sightMode;
-    console.log("Generating ", pawnArray, monsters);
-    if (monsters) {
-        lastPoint = pawns.lastLocationMonsters;
-        rotate = parseInt(settings.defaultMonsterTokenRotate);
-    } else {
-        lastPoint = pawns.lastLocationPlayers;
-        rotate = parseInt(settings.defaultPlayerTokenRotate);
+async function setPawnTokenFromParams(newPawn, pawn) {
+    if (pawn.tokenImages) {
+        return setPawnBackgroundFromPathArray(newPawn, pawn);
     }
 
+    if (pawn.bgPhotoBase64) {
+        return setPawnToken(newPawn, pawn.bgPhotoBase64);
+    }
+
+    if (pawn.bgPhoto) {
+        return setPawnToken(newPawn, Util.cssify(pawn.bgPhoto));
+    }
+
+    //Defaults
+    if (pawn.monsterId) {
+        var imageExists = await setPawnImageWithDefaultPath(newPawn, pawn.monsterId);
+
+        if (!imageExists) rotate = 0;
+    } else {
+        await setPlayerPawnImage(newPawn, pawn.id);
+    }
+}
+
+async function createPawnElement(pawn, rotate) {
+    var newPawn = document.createElement("div");
+    newPawn.classList.add("pawn");
+    newPawn.id = pawn.id || newPawnId();
+    newPawn.title = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
+    newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
+    newPawn.flying_height = 0;
+    newPawn["data-dnd_conditions"] = [];
+
+    newPawn.style.backgroundColor = settings.colorTokenBases ? pawn.color : "transparent";
+    newPawn.dead = pawn.dead || "false";
+    newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
+
+    var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
+    newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
+    if (newPawn.dnd_hexes <= 0) newPawn.dnd_hexes = 1;
+    newPawn.dnd_height = newPawn.dnd_hexes * UNITS_PER_GRID;
+    newPawn.dnd_width = newPawn.dnd_hexes * UNITS_PER_GRID;
+    newPawn.attached_objects = [];
+    newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
+
+    if (pawn.isMob) {
+        newPawn.setAttribute("data-mob_size", pawn.mobSize);
+        newPawn.setAttribute("data-mob_dead_count", pawn.mobCountDead);
+        newPawn.classList.add("pawn_mob");
+        var newPawnImg = document.createElement("div");
+        newPawnImg.className = "mob_token_container";
+        newPawn.appendChild(newPawnImg);
+        setPawnMobBackgroundImages(newPawn, pawn.monsterId, pawn.mobTokens);
+    } else {
+        var newPawnImg = document.createElement("div");
+        newPawnImg.className = "token_photo";
+        newPawn.appendChild(newPawnImg);
+
+        var newPawnStatus = document.createElement("div");
+        newPawnStatus.className = "token_status";
+        newPawn.appendChild(newPawnStatus);
+    }
+    await setPawnTokenFromParams(newPawn, pawn);
+
+    rotatePawn(newPawn, rotate);
+
+    if (pawn.scale) {
+        map.setTokenScale(newPawn, pawn.scale);
+    }
+    return newPawn;
+}
+
+function getPawnStartingRotation(pawn, isMonster) {
+    console.log(pawn);
+    if (pawn.deg) return pawn.deg;
+    if (isMonster) {
+        return parseInt(settings.defaultMonsterTokenRotate);
+    } else {
+        return parseInt(settings.defaultPlayerTokenRotate);
+    }
+}
+
+var lastColorIndex = 0;
+async function generatePawns(pawnArray, isMonster) {
+    var sightRadiusBright, sightRadiusDim, sightMode;
+    console.log("Generating ", pawnArray, isMonster);
+    var lastPoint = isMonster ? pawns.lastLocationMonsters : pawns.lastLocationPlayers;
     for (var i = 0; i < pawnArray.length; i++) {
         var pawn = pawnArray[i];
-        newPawn = document.createElement("div");
-        newPawn.classList.add("pawn");
-        var id = pawn.id || newPawnId();
-        newPawn.id = id;
-        newPawn.get = () => document.getElementById(id);
 
-        newPawn.title = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
-        newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
-        if (!monsters) {
+        var newPawn = await createPawnElement(pawn, getPawnStartingRotation(pawn, isMonster));
+
+        if (pawn.index_in_main_window) {
+            var index = pawn.index_in_main_window;
+            removeDuplicatePawnNumbers(pawn.index_in_main_window, newPawn.id);
+            newPawn.setAttribute("index_in_main_window", index);
+            newPawn.index_in_main_window = index;
+            newPawn.classList.add("pawn_numbered");
+        }
+
+        if (!isMonster) {
             if (pawn.darkVisionRadius != "") {
                 sightMode = "darkvision";
                 sightRadiusBright = pawn.darkVisionRadius;
@@ -1672,70 +1725,13 @@ async function generatePawns(pawnArray, monsters) {
             pawns.lightSources.push(newPawn);
             pawns.players.add([newPawn, pawn.name]);
         } else {
-            if (pawn.index_in_main_window) {
-                var index = pawn.index_in_main_window;
-                console.log(newPawn);
-                removeDuplicatePawnNumbers(index, id);
-                newPawn.setAttribute("index_in_main_window", index);
-                newPawn.index_in_main_window = index;
-                newPawn.classList.add("pawn_numbered");
-            }
-
             pawns.monsters.push([newPawn, pawn.name]);
         }
-        if (settings.colorTokenBases) {
-            newPawn.style.backgroundColor = pawn.color;
-        } else {
-            newPawn.style.backgroundColor = "transparent";
-        }
 
-        newPawn.dead = pawn.dead || "false";
-        newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
-
-        var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
-        newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
-        newPawn.attached_objects = [];
-        newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
-        if (newPawn.dnd_hexes <= 0) newPawn.dnd_hexes = 1;
-
-        if (pawn.isMob) {
-            newPawn.setAttribute("data-mob_size", pawn.mobSize);
-            newPawn.setAttribute("data-mob_dead_count", pawn.mobCountDead);
-            newPawn.classList.add("pawn_mob");
-            var newPawnImg = document.createElement("div");
-            newPawnImg.className = "mob_token_container";
-            newPawn.appendChild(newPawnImg);
-            setPawnMobBackgroundImages(newPawn, pawn.monsterId, pawn.mobTokens);
-        } else {
-            var newPawnImg = document.createElement("div");
-            newPawnImg.className = "token_photo";
-            newPawn.appendChild(newPawnImg);
-
-            var newPawnStatus = document.createElement("div");
-            newPawnStatus.className = "token_status";
-            newPawn.appendChild(newPawnStatus);
-
-            optionalPaths = pawn.bgPhoto || pawn.bgPhotoBase64;
-            if (optionalPaths != null) {
-                setPawnBackgroundFromPathArray(newPawn, optionalPaths, pawn.bgPhotoBase64 == null);
-            } else {
-                if (monsters) {
-                    var imageExists = await setPawnImageWithDefaultPath(newPawn, pawn.monsterId);
-
-                    if (!imageExists) rotate = 0;
-                } else {
-                    await setPlayerPawnImage(newPawn, pawn.id);
-                }
-            }
-        }
-
-        rotatePawn(newPawn, pawn.deg || rotate);
         newPawn.sight_radius_bright_light = sightRadiusBright;
         newPawn.sight_radius_dim_light = sightRadiusDim;
         newPawn.sight_mode = sightMode;
 
-        newPawn.flying_height = 0;
-        newPawn["data-dnd_conditions"] = [];
         if (pawn.spawnPoint) {
             newPawn.style.top = pawn.spawnPoint.y + "px";
             newPawn.style.left = pawn.spawnPoint.x + "px";
@@ -1749,11 +1745,11 @@ async function generatePawns(pawnArray, monsters) {
             lastPoint.x++;
             lastPoint.y -= 8;
         }
-        if (pawn.scale) {
-            map.setTokenScale(newPawn, pawn.scale);
-        }
+
         tokenLayer.appendChild(newPawn);
         if (serverNotifier.isServer()) {
+            var ex = await saveManager.exportPawn([newPawn, pawn.name]);;
+            console.log(ex)
             serverNotifier.notifyServer("token-add", await saveManager.exportPawn([newPawn, pawn.name]));
         }
         if (pawn.onAdded) pawn.onAdded(newPawn);
@@ -1762,8 +1758,6 @@ async function generatePawns(pawnArray, monsters) {
     refreshPawns();
     resizePawns();
     addPawnListeners();
-
-    return newPawn;
 }
 
 /* #region draw functions */
@@ -1789,9 +1783,10 @@ function resizeAndDrawGrid(timestamp, event) {
     toggleSaveTimer();
     resizePawns();
     effectManager.resizeEffects();
+
     refreshFogOfWar(timestamp);
     map.drawGrid();
-    if (previewPlacementElement) adjustPreviewPlacement(event);
+    onMapResized(event);
 }
 
 function removeAllPawnConditions(pawnElement, originMainWindow = false) {
@@ -1860,7 +1855,7 @@ function switchActiveViewer() {
 
 /* #endregion */
 
-var map = (function () {
+const map = (function () {
     function init() {
         scaleLayers();
         refreshPawns();
@@ -2003,6 +1998,7 @@ var map = (function () {
 
     function removePawn(element) {
         var isPlayer = isPlayerPawn(element);
+        console.log("Remove ", element)
         if (!isPlayer) {
             var found = pawns.monsters.find((x) => x[0].id == element.id);
             if (found) {
@@ -2162,17 +2158,46 @@ var map = (function () {
         return image.style.getPropertyValue("--pawn-image-scale");
     }
 
+    function updateObjectSize(ele) {
+        var width, height;
+
+        width = parseFloat(ele.dnd_width || 1);
+        height = parseFloat(ele.dnd_height || 1);
+        ele.style.width = normalizeSize(width) + "px";
+        ele.style.height = normalizeSize(height) + "px";
+    }
+
+    function normalizeSize(baseSize) {
+        return (baseSize * cellSize) / UNITS_PER_GRID;
+    }
+
+    function centerObjectOn(obj, pointX, pointY) {
+        // calculate the new cursor position:
+        width = normalizeSize(parseFloat(obj.dnd_width || 1));
+        height = normalizeSize(parseFloat(obj.dnd_height || 1));
+        var x = pointX - width / 2;
+        var y = pointY - height / 2;
+        obj.style.top = y + "px";
+        obj.style.left = x + "px";
+    }
+
+    function getPawnById(id){
+       return [...pawns.all].find(x=> x.id == id);
+    }
     return {
         init: init,
         shiftView: shiftView,
         centerOn: centerOn,
         setTokenScale: setTokenScale,
         getTokenScale: getTokenScale,
+        getPawnById: getPawnById,
         centerForegroundOnBackground: centerForegroundOnBackground,
         updateInitiative: updateInitiative,
         setTokenConditions: setTokenConditions,
         snapToGrid: snapToGrid,
         removePawn: removePawn,
+        updateObjectSize: updateObjectSize,
+        centerObjectOn: centerObjectOn,
         moveObject: moveObject,
         removeAllPawns: removeAllPawns,
         removeAllEffects: removeAllEffects,

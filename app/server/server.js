@@ -250,6 +250,7 @@ async function getConnectionParams() {
     );
     if (response.ok) {
       var rawText = await response.text();
+      console.log(rawText)
       rawText = rawText.replace("var PEER_CONNECTION_CONFIG =", "");
       CONNECTION_PARAMS = JSON.parse(rawText);
       return;

@@ -22,12 +22,12 @@ const tokenSelector = new TokenSelector();
 const saveManager = require("./mappingTool/saveManager");
 const effectManager = require("./mappingTool/effectManager");
 
-const DEFAULT_TOKEN_PATH = "./mappingTool/tokens/default.png";
+
 const DEFAULT_TOKEN_PATH_JS_RELATIVE = pathModule.join(__dirname, "mappingTool", "tokens", "default.png");
 var conditionList;
 var RUN_ARGS_MAP = null;
 var soundManager = new SoundManager(pathModule);
-
+var partyArray;
 var frameHistoryButtons = null;
 var pendingMapLoad;
 
@@ -148,12 +148,6 @@ document.addEventListener("DOMContentLoaded", function () {
         e.stopPropagation();
     });
 
-    $("#background_color_button_add_pawn").spectrum({
-        preferredFormat: "rgb",
-        allowEmpty: false,
-        showAlpha: true,
-        showInput: true,
-    });
     $("#background_color_button_change_pawn").spectrum({
         preferredFormat: "rgb",
         allowEmpty: false,
@@ -374,7 +368,7 @@ async function onSettingsLoaded() {
     };
 
     gridLayer.onwheel = function (event) {
-        if (event.ctrlKey && previewPlacementElement) {
+        if (event.ctrlKey && previewPlacementManager.allowResize()) {
             return effectManager.onPreviewPlacementResized(event);
         }
 
@@ -509,6 +503,12 @@ function drawSegmentsOnMouseMove() {
     document.addEventListener("mousemove", fovLighting.drawSegments);
 }
 
+function onMapResized(e) {
+    if (previewPlacementManager.currentPreview()) {
+        previewPlacementManager.adjust(e);
+    }
+}
+
 function toggleDeleteSegments() {
     turnAllToolboxButtonsOff();
 
@@ -587,48 +587,38 @@ function setLightSource(brightLight, dimLight, params) {
 
 function loadParty() {
     if (partyArray == null) partyArray = [];
-    if (!settings.addPlayersAutomatically) return;
+
     dataAccess.getParty(async function (data) {
         var newPartyArray = [];
-        var alreadyInParty;
         data = data.members;
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].active) {
-                alreadyInParty = false;
-                for (var j = 0; j < partyArray.length; j++) {
-                    if (data[i].character_name == partyArray[j][0]) {
-                        alreadyInParty = true;
-                        break;
-                    }
-                }
-                if (!alreadyInParty) {
-                    newPartyArray.push({
-                        name: data[i].character_name,
-                        id: data[i].id,
-                        size: "medium",
-                        color: Util.hexToRGBA(data[i].color, 0.4),
-                        bgPhoto: null,
-                        darkVisionRadius: data[i].darkvision,
-                    });
-                    partyArray.push([data[i].character_name, "medium", data[i].id]);
-                }
-            }
-        }
+        partyArray = data.filter((x) => x.active);
+        if (!settings.addPlayersAutomatically) return;
+        partyArray.forEach((member) => {
+            newPartyArray.push({
+                name: member.character_name,
+                id: member.id,
+                size: "medium",
+                color: Util.hexToRGBA(member.color, 0.4),
+                bgPhoto: null,
+                darkVisionRadius: member.darkvision,
+            });
+        });
 
+        for (var i = 0; i < newPartyArray.length; i++) await assignTokenImagePath(newPartyArray[i]);
         await generatePawns(newPartyArray, false);
+      
         fillForcedPerspectiveDropDown();
     });
 }
 
 function fillForcedPerspectiveDropDown() {
     var dropDown = document.getElementById("fov_perspective_dropdown");
-    console.log(dropDown);
     while (dropDown.firstChild) dropDown.removeChild(dropDown.firstChild);
 
     createOption("All");
     createOption("Players");
-    partyArray.forEach(function (array) {
-        createOption(array[0]);
+    partyArray.forEach(function (member) {
+        createOption(member.character_name);
     });
     function createOption(value) {
         var option = document.createElement("option");
@@ -636,51 +626,6 @@ function fillForcedPerspectiveDropDown() {
         option.innerHTML = value;
         dropDown.appendChild(option);
     }
-}
-
-async function setPlayerPawnImage(pawnElement, path) {
-    var tokenPath;
-    var path = await dataAccess.getTokenPath(path);
-    var imgEle = pawnElement.getElementsByClassName("token_photo")[0];
-    if (path != null) {
-        path = path.replace(/\\/g, "/");
-        tokenPath = `url('${path}')`;
-    } else {
-        tokenPath = " url('mappingTool/tokens/default.png')";
-    }
-    imgEle.setAttribute("data-token_facets", JSON.stringify([path]));
-    imgEle.setAttribute("data-token_current_facet", 0);
-
-    imgEle.style.backgroundImage = tokenPath;
-    onBackgroundChanged(pawnElement);
-}
-
-///Sets pawn image from library. Returns true if any image existed.
-async function setPawnImageWithDefaultPath(pawnElement, path) {
-    var tokenPath;
-    var possibleNames = [];
-    var i = 0;
-    while (true) {
-        var pawnPath = await dataAccess.getTokenPath(path + i);
-
-        if (pawnPath != null) {
-            possibleNames.push(pawnPath);
-            i++;
-        } else {
-            break;
-        }
-    }
-    possibleNames = possibleNames.map((x) => x.replace(/\\/g, "/"));
-    if (possibleNames.length > 0) {
-        tokenPath = possibleNames.pickOne();
-    } else {
-        tokenPath = DEFAULT_TOKEN_PATH;
-    }
-    var imgEle = pawnElement.getElementsByClassName("token_photo")[0];
-    imgEle.setAttribute("data-token_facets", JSON.stringify(possibleNames));
-    imgEle.setAttribute("data-token_current_facet", possibleNames.indexOf(tokenPath));
-    imgEle.style.backgroundImage = `url('${tokenPath}')`;
-    return tokenPath != DEFAULT_TOKEN_PATH;
 }
 
 function removeAllConditionsHandler(event) {
@@ -700,6 +645,40 @@ function removeSelectedPawn() {
     while (selectedPawns.length > 0) {
         map.removePawn(selectedPawns.pop());
     }
+}
+
+async function assignTokenImagePath(pawn) {
+    if (!pawn.tokenImages) {
+        pawn.tokenImages = await getDefaultLibraryTokenPaths(pawn);
+    }
+
+    pawn.tokenIndex = pawn.tokenIndex ? pawn.tokenIndex : Math.round(Math.random() * (pawn.tokenImages.length - 1));
+}
+
+async function getDefaultLibraryTokenPaths(pawn) {
+    var possiblePaths = [];
+    if (!pawn.monsterId) {
+        //Player pawn
+        var pawnPath = await dataAccess.getTokenPath(pawn.id);
+        if (pawnPath) return [pawnPath];
+        return [DEFAULT_TOKEN_PATH_JS_RELATIVE];
+    }
+    var i = 0;
+    while (true) {
+        var pawnPath = await dataAccess.getTokenPath(pawn.monsterId + i);
+
+        if (pawnPath != null) {
+            possiblePaths.push(pawnPath);
+            i++;
+        } else {
+            break;
+        }
+    }
+    possiblePaths = possiblePaths.map((x) => x.replace(/\\/g, "/"));
+    if (possiblePaths.length == 0) {
+        return [DEFAULT_TOKEN_PATH_JS_RELATIVE];
+    }
+    return possiblePaths;
 }
 
 function killOrRevivePawn() {
@@ -740,7 +719,7 @@ function killOrRevivePawn() {
 }
 
 function startAddingFromQueue() {
-    stopTooltip = util.mouseActionTooltip("Creature #" + pawns.addQueue[0].index_in_main_window);
+    var stopTooltip = Util.mouseActionTooltip("Creature #" + pawns.addQueue[0].index_in_main_window);
     var button = document.getElementById("add_from_queue_toggle_button");
     button.innerText = "Placing creatures";
     button.setAttribute("toggled", "true");
@@ -753,14 +732,16 @@ function startAddingFromQueue() {
             stopAddingFromQueue();
         }
     };
+    previewPawn();
 
     async function popQueue(e) {
         var radiusOfPawn = creaturePossibleSizes.hexes[creaturePossibleSizes.sizes.indexOf(pawns.addQueue[0].size)];
         var offset = (radiusOfPawn * cellSize) / 2;
         var popped = pawns.addQueue[0];
         pawns.addQueue.splice(0, 1);
-
+        popped.id = null;
         popped.spawnPoint = { x: e.clientX - offset, y: e.clientY - offset };
+        popped.deg = previewPlacementManager.getAngle();
         await generatePawns([popped], true);
 
         requestNotifyUpdateFromMain();
@@ -770,13 +751,29 @@ function startAddingFromQueue() {
 
             return stopAddingFromQueue();
         }
-        mouseActionTooltip("Creature #" + pawns.addQueue[0].index_in_main_window);
+        previewPawn();
+    }
+
+    async function previewPawn() {
+        var pawn = pawns.addQueue[0];
+        if (!pawn) stopAddingFromQueue();
+
+        previewPlacementManager.clear();
+        stopTooltip = Util.mouseActionTooltip("Creature #" + pawn.index_in_main_window);
+
+        pawn.id = "preview_token";
+        await assignTokenImagePath(pawn);
+        var preview = await createPawnElement(pawn);
+        document.body.appendChild(preview);
+        previewPlacementManager.preview(preview, false);
+        previewPlacementManager.setAngle(getPawnStartingRotation(pawn, true));
     }
 
     function stopAddingFromQueue() {
         resetGridLayer();
         button.setAttribute("toggled", "false");
         gridLayer.style.cursor = "auto";
+        previewPlacementManager.clear();
         stopTooltip();
         button.innerText = "Start adding creatures";
     }
@@ -800,6 +797,7 @@ function setTokenNextFacetHandler(e) {
 }
 
 function setScaleIfSaved(pawn, path) {
+    if (!path) return;
     var scale = localStorage.getItem(`token_scale${path}`);
     if (scale) {
         map.setTokenScale(pawn, scale);

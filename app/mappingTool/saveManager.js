@@ -294,6 +294,7 @@ class SaveManager {
         var isMob = mobSize != null;
         if (img == null && !isMob)
             return null;
+        
         var images = img ? JSON.parse(img.getAttribute("data-token_facets")) : null;
         var currentIndex = img ? parseInt(img.getAttribute("data-token_current_facet")) || 0 : null;
         var darkVisionRadius = element.sight_mode == "darkvision" ? element.sight_radius_bright_light : null;

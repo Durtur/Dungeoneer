@@ -5,7 +5,7 @@ var settings = {
     colorTokenBases: true,
     fogOfWarHue: "#000000"
 };
-var module = {}, previewPlacementElement;
+var module = {};
 
 
 const PLAYERS_ALL_OPTION = "Players";
@@ -147,7 +147,7 @@ function toggleGrid() {
     settings.enableGrid = !settings.enableGrid;
 
     localStorage.setItem('enableGrid', settings.enableGrid);
-    console.log(settings.enableGrid)
+    
     resizeAndDrawGrid();
 
     var btn = document.getElementById("toggle_grid_button");

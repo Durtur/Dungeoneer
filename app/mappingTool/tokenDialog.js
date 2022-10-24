@@ -1,11 +1,12 @@
 const SlimSelect = require("slim-select");
 const dataaccess = require("../js/dataaccess");
-const util = require("../js/util");
+const Util = require("../js/util");
 const ElementCreator = require("../js/lib/elementCreator");
 class TokenDialog {
     initialize() {
         this.populateSizeDropdown();
         var cls = this;
+        this.selectedTokenImageIndex = 0;
         this.token_size = 50;
         this.defaultName = "Unnamed token";
         this.dialog = document.getElementById("popup_dialogue_add_pawn");
@@ -24,14 +25,15 @@ class TokenDialog {
         };
 
         document.getElementById("add_pawn_name").oninput = async function (e) {
-            cls.stopTooltip = util.mouseActionTooltip(cls.getName());
-            var isPlayer = partyArray.find((x) => x[0] == e.target.value);
-            if (!isPlayer) {
+            var player = partyArray.find((x) => x.character_name == e.target.value);
+            if (!player) {
                 if (cls.playerTokenLoaded) cls.deselectPlayerToken();
+                cls.onPlacementInfoChanged();
                 return;
             }
 
-            cls.selectPlayerToken(isPlayer);
+            cls.selectPlayerToken(player);
+            cls.onPlacementInfoChanged();
         };
         document.querySelector("#add_pawn_quick_select").onclick = (e) => {
             cls.addToQuickSelect(cls.addPawnImagePaths);
@@ -98,7 +100,7 @@ class TokenDialog {
                 tokenCreateResult.base.style.maxHeight = diameter + "px";
             }
         });
-        util.masonryLayout(container, elementList, this.token_size, 5);
+        Util.masonryLayout(container, elementList, this.token_size, 5);
     }
     getName() {
         return document.getElementById("add_pawn_name").value || this.defaultName;
@@ -109,41 +111,21 @@ class TokenDialog {
     }
     deselectPlayerToken() {
         this.pawnsSelected(null);
-        this.pawnQueued = null;
+        this.existingPawnInfo = null;
         this.playerTokenLoaded = false;
     }
-
+    setExistingPawnInfo(info) {
+        console.log("Set existing ", info);
+        this.existingPawnInfo = info;
+    }
     async selectPlayerToken(player) {
-        var cls = this;
-        var path = await dataAccess.getTokenPath(player[2]);
-        this.setName(player[0]);
+        var path = await dataAccess.getTokenPath(player.id);
+        this.playerTokenLoaded = true;
+        this.setExistingPawnInfo({ id: player.id, darkVisionRadius: player.darkvision });
+        this.setColor(Util.hexToRGBA(player.color, 0.4));
+        this.setSize("medium");
+        this.setName(player.character_name);
         this.pawnsSelected([path], true);
-        this.pawnQueued = function (e) {
-            cls.pawnQueued = null;
-
-            var existing = pawns.players.find((x) => x[1] == player[0]);
-
-            if (existing) map.removePawn(existing[0]);
-
-            dataaccess.getParty(async (party) => {
-                var ele = party.members.find((x) => x.id == player[2]);
-                if (!ele) return;
-                await generatePawns(
-                    [
-                        {
-                            name: ele.character_name,
-                            id: ele.id,
-                            size: "medium",
-                            color: Util.hexToRGBA(ele.color, 0.4),
-                            bgPhoto: null,
-                            darkVisionRadius: ele.darkvision,
-                            spawnPoint: e,
-                        },
-                    ],
-                    false
-                );
-            });
-        };
     }
     pawnsSelected(paths, quickSelected) {
         this.addPawnImagePaths = paths;
@@ -151,6 +133,7 @@ class TokenDialog {
         while (row.firstChild) row.removeChild(row.firstChild);
         if (!paths || paths.length == 0) {
             document.querySelector("#add_pawn_selected_row").classList.add("hidden");
+            return;
         } else {
             document.querySelector("#add_pawn_selected_row").classList.remove("hidden");
             document.querySelector("#add_pawn_quick_select").classList.remove("hidden");
@@ -159,12 +142,28 @@ class TokenDialog {
         paths.forEach((path) => {
             row.appendChild(ElementCreator.createTokenElement(path).token);
         });
-        this.stopTooltip = util.mouseActionTooltip(this.getName());
+        this.onPlacementInfoChanged();
+    }
+
+    async onPlacementInfoChanged() {
+        previewPlacementManager.clear();
+        this.stopTooltip = Util.mouseActionTooltip(this.getName());
+        var pawn = this.getPawnParams();
+        pawn.id = this.existingPawnInfo?.id || "preview_token";
+        pawn.tokenIndex = null;
+        console.log("assign token")
+        await assignTokenImagePath(pawn);
+        this.selectedTokenImageIndex = pawn.tokenIndex;
+        var preview = await createPawnElement(pawn);
+
+        document.body.appendChild(preview);
+        previewPlacementManager.preview(preview, false);
+        previewPlacementManager.setAngle(getPawnStartingRotation(pawn, true));
     }
 
     show() {
         var cls = this;
-        this.stopTooltip = util.mouseActionTooltip(this.getName());
+        this.onPlacementInfoChanged();
         sidebarManager.showInSideBar(this.dialog, () => {
             document.body.appendChild(cls.dialog);
         });
@@ -183,11 +182,11 @@ class TokenDialog {
         var missingPawnContainer = this.dialog.querySelector(".quick_add_pc_buttons");
         while (missingPawnContainer.firstChild) missingPawnContainer.removeChild(missingPawnContainer.firstChild);
 
-        var missingPlayerPawns = partyArray.filter((x) => !pawns.players.find((y) => y[1] == x[0]));
+        var missingPlayerPawns = partyArray.filter((x) => !pawns.players.find((y) => y[0].id == x.id));
         if (missingPlayerPawns.length > 0) {
             missingPlayerPawns.forEach((ele) => {
-                var charName = ele[0];
-                var btn = util.ele("button", " button_style_transparent ", charName);
+                var charName = ele.character_name;
+                var btn = Util.ele("button", " button_style_transparent ", charName);
                 btn.onclick = (e) => {
                     btn.parentNode.removeChild(btn);
                     var inp = document.getElementById("add_pawn_name");
@@ -200,7 +199,7 @@ class TokenDialog {
     }
 
     setColor(color) {
-        document.getElementById("background_color_button_add_pawn").value = color;
+        $("#background_color_button_add_pawn").spectrum("set", color);
     }
 
     getColor() {
@@ -214,34 +213,63 @@ class TokenDialog {
         resetGridLayer();
         gridLayer.style.cursor = "auto";
         this.stopTooltip();
+        previewPlacementManager.clear();
     }
 
     async addPawnHandler(e) {
-        if (this.pawnQueued) return this.pawnQueued(e);
+        if (this.existingPawnInfo) {
+            map.removePawn(map.getPawnById(this.existingPawnInfo.id));
+        }
+        var params = this.getPawnParams(e);
+        if(params.tokenImages == null){
+            await assignTokenImagePath(params);
+        }
+        await generatePawns([params], !partyArray.find((x) => x.id == this.existingPawnInfo?.id));
+        this.existingPawnInfo = null;
+        this.pawnsSelected(null);
+        this.setName("");
+        this.onPlacementInfoChanged();
+    }
 
+    setSize(size) {
+        var idx = creaturePossibleSizes.sizes.indexOf(size.toLowerCase());
+        this.sizeMenu.set(idx);
+    }
+
+    getSize() {
+        return this.sizeMenu.selected();
+    }
+
+    getPawnParams(e) {
         var pawnName = document.getElementById("add_pawn_name").value;
 
-        var sizeIndex = parseInt(this.sizeMenu.selected());
+        var sizeIndex = parseInt(this.getSize());
         var pawnSize = creaturePossibleSizes.sizes[sizeIndex];
         var dndSize = creaturePossibleSizes.hexes[sizeIndex];
-
+        var id, darkVisionRadius;
+        if (this.existingPawnInfo) {
+            id = this.existingPawnInfo.id;
+            darkVisionRadius = this.existingPawnInfo.darkvisionRadius;
+        }
         var color = this.getColor();
 
-        await generatePawns(
-            [
-                {
-                    name: pawnName,
-                    size: pawnSize,
-                    color: color,
-                    bgPhoto: this.addPawnImagePaths,
-                    spawnPoint: {
-                        x: e.clientX - (dndSize * cellSize) / 2,
-                        y: e.clientY - (dndSize * cellSize) / 2,
-                    },
-                },
-            ],
-            true
-        );
+        return {
+            name: pawnName,
+            id: id,
+            darkvisionRadius: darkVisionRadius,
+            size: pawnSize,
+            color: color,
+            bgPhoto: this.addPawnImagePaths,
+            tokenImages: this.addPawnImagePaths,
+            tokenIndex: this.selectedTokenImageIndex,
+            deg: previewPlacementManager.getAngle(),
+            spawnPoint: e
+                ? {
+                      x: e.clientX - (dndSize * cellSize) / 2,
+                      y: e.clientY - (dndSize * cellSize) / 2,
+                  }
+                : null,
+        };
     }
 
     populateSizeDropdown() {
@@ -254,12 +282,23 @@ class TokenDialog {
                 selected: size == "medium",
             };
         });
-
+        var cls = this;
         this.sizeMenu = new SlimSelect({
             select: parent,
             hideSelectedOption: true,
+            onChange: (info) => {
+                cls.onPlacementInfoChanged();
+            },
         });
         this.sizeMenu.setData(list);
+
+        $("#background_color_button_add_pawn").spectrum({
+            preferredFormat: "rgb",
+            allowEmpty: false,
+            showAlpha: true,
+            showInput: true,
+        });
+        document.querySelector("#background_color_button_add_pawn").onchange = () => cls.onPlacementInfoChanged();
     }
 }
 
