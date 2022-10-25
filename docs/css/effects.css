@@ -2,7 +2,7 @@
     animation-play-state: paused !important;
 }
 
-.sound_effect{
+.sound_effect {
     background-image: url("../css/img/note.png");
     position: absolute;
     background-size: contain;
@@ -27,6 +27,7 @@
     50% {
         filter: hue-rotate(10deg);
     }
+
     100% {
         filter: hue-rotate(-10deg);
     }
@@ -40,7 +41,7 @@
 .light_effect_torch {
     animation-name: lightEffectTorch;
     animation-iteration-count: infinite;
-    background-image: radial-gradient(circle, rgb(255, 76, 5) 5%, rgba(255, 255, 0, 4), rgba(255, 0, 0, 0)) !important;
+    background-image: radial-gradient(circle, rgb(255, 76, 5) 5%, rgba(255, 255, 0, 4), rgba(255, 0, 0, 0));
     animation-duration: 0.5s;
 }
 
@@ -86,14 +87,15 @@
     animation-duration: 15s;
     animation-direction: normal !important;
 }
-.light_effect_preview{
+
+.light_effect_preview {
     border-radius: 50%;
     animation-direction: alternate;
     background-size: contain;
 }
 
-.effect_dropdown_select{
-    margin:0.5em;
+.effect_dropdown_select {
+    margin: 0.5em;
 }
 
 .light_effect {
@@ -120,18 +122,22 @@
         filter: drop-shadow(0 0 15px yellow) brightness(85%);
         box-shadow: 0 0 5px 41px rgba(249, 253, 6, 0.238);
     }
+
     25% {
         filter: drop-shadow(0 0 17px yellow) brightness(95%);
         box-shadow: 0 0 7px 41px rgba(249, 253, 6, 0.238);
     }
+
     50% {
         filter: drop-shadow(0 0 22px yellow) brightness(105%);
         box-shadow: 0 0 12px 41px rgba(249, 253, 6, 0.238);
     }
+
     75% {
         filter: drop-shadow(0 0 17px yellow) brightness(95%);
         box-shadow: 0 0 7px 41px rgba(249, 253, 6, 0.238);
     }
+
     100% {
         filter: drop-shadow(0 0 15px yellow) brightness(85%);
         box-shadow: 0 0 5px 41px rgba(249, 253, 6, 0.238);
@@ -144,21 +150,25 @@
         box-shadow: 0 0 15px 41px rgba(255, 255, 0, 0.1);
         transform: scale(0.85);
     }
+
     25% {
         filter: drop-shadow(0 0 17px yellow) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(255, 255, 0, 0.1);
         transform: scale(0.92);
     }
+
     50% {
         filter: drop-shadow(0 0 22px yellow) brightness(105%);
         box-shadow: 0 0 17px 43px rgba(255, 255, 0, 0.1);
         transform: scale(1);
     }
+
     75% {
         filter: drop-shadow(0 0 17px yellow) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(255, 255, 0, 0.1);
         transform: scale(0.92);
     }
+
     100% {
         filter: drop-shadow(0 0 15px yellow) brightness(85%);
         box-shadow: 0 0 15px 41px rgba(255, 255, 0, 0.1);
@@ -171,18 +181,22 @@
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 15px 40px rgba(0, 0, 255, 0.1);
     }
+
     25% {
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(0, 0, 255, 0.1);
     }
+
     50% {
         filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
         box-shadow: 0 0 17px 45px rgba(0, 0, 255, 0.1);
     }
+
     75% {
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(0, 0, 255, 0.1);
     }
+
     100% {
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 17px 40px rgba(0, 0, 255, 0.1);
@@ -194,18 +208,22 @@
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 15px 40px rgba(0, 250, 0, 0.1);
     }
+
     25% {
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(0, 250, 0, 0.1);
     }
+
     50% {
         filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
         box-shadow: 0 0 17px 45px rgba(0, 250, 0, 0.1);
     }
+
     75% {
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(0, 250, 0, 0.1);
     }
+
     100% {
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 17px 40px rgba(0, 250, 0, 0.1);
@@ -217,18 +235,22 @@
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 15px 40px rgba(255, 0, 0, 0.1);
     }
+
     25% {
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(255, 0, 0, 0.1);
     }
+
     50% {
         filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
         box-shadow: 0 0 17px 45px rgba(255, 0, 0, 0.1);
     }
+
     75% {
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(255, 0, 0, 0.1);
     }
+
     100% {
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 17px 40px rgba(255, 0, 0, 0.1);
@@ -241,21 +263,25 @@
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 15px 40px rgba(51, 0, 255, 0.1);
     }
+
     25% {
         background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(55, 2, 79), rgba(255, 0, 0, 0));
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(0, 200, 255, 0.1);
     }
+
     50% {
         background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(70, 2, 79), rgba(255, 0, 0, 0));
         filter: drop-shadow(0 0 22px rgb(255, 255, 255)) brightness(105%);
         box-shadow: 0 0 17px 45px rgba(71, 4, 83, 0.1);
     }
+
     75% {
         background-image: radial-gradient(circle, rgb(255, 255, 255) 1%, rgb(55, 2, 79), rgba(255, 0, 0, 0));
         filter: drop-shadow(0 0 17px rgb(255, 255, 255)) brightness(95%);
         box-shadow: 0 0 17px 42px rgba(0, 200, 255, 0.1);
     }
+
     100% {
         filter: drop-shadow(0 0 15px rgb(255, 255, 255)) brightness(85%);
         box-shadow: 0 0 17px 40px rgba(51, 0, 255, 0.1);
@@ -279,21 +305,25 @@
         transform: skew(-2deg, -2deg);
         background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 75%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
     }
+
     25% {
         filter: blur(14px) brightness(105%);
         transform: skew(0, 0);
         background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 69%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
     }
+
     50% {
         filter: blur(12px) brightness(95%);
         transform: skew(2deg, 2deg);
         background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 98%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
     }
+
     75% {
         filter: blur(15px) brightness(107%);
         transform: skew(0, -0);
         background-image: radial-gradient(circle, rgba(0, 0, 0, 0.8) 68%, rgb(32, 33, 35), rgba(255, 0, 0, 0));
     }
+
     100% {
         filter: blur(11px) brightness(107%);
         transform: skew(-2deg, -2deg);
@@ -321,9 +351,11 @@
     0% {
         transform: scale(0.95);
     }
+
     50% {
         transform: scale(1.05);
     }
+
     100% {
         transform: scale(0.95);
     }
@@ -331,14 +363,21 @@
 
 .rotate_slow {
     animation-iteration-count: infinite;
-    animation-duration: 7s;
+    animation-duration: 20s;
     animation-name: rotate;
     animation-timing-function: linear;
 }
 
 .rotate_medium {
     animation-iteration-count: infinite;
-    animation-duration: 4s;
+    animation-duration: 14s;
+    animation-name: rotate;
+    animation-timing-function: linear;
+}
+
+.rotate_fast {
+    animation-iteration-count: infinite;
+    animation-duration: 5s;
     animation-name: rotate;
     animation-timing-function: linear;
 }
@@ -347,6 +386,7 @@
     0% {
         transform: rotate(0);
     }
+
     100% {
         transform: rotate(359deg)
     }
@@ -358,22 +398,26 @@
         transform: skew(-2deg, -2deg);
         background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 75%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
     }
+
     25% {
         filter: blur(14px) brightness(105%);
         transform: skew(0, 0);
         background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 69%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
     }
+
     50% {
         filter: blur(11px) brightness(107%);
         transform: skew(-2deg, -2deg);
         background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 68%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
-    
+
     }
+
     75% {
         filter: blur(14px) brightness(105%);
         transform: skew(0, 0);
         background-image: radial-gradient(circle, rgba(1, 88, 18, 0.8) 69%, rgb(32, 33, 35), rgba(2, 174, 37, 0.8));
     }
+
     100% {
         filter: blur(10px) brightness(85%);
         transform: skew(-2deg, -2deg);
@@ -428,21 +472,25 @@
         transform: skew(-2deg, -2deg);
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }
+
     25% {
         filter: blur(14px) brightness(105%);
         transform: skew(0, 0);
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }
+
     50% {
         filter: blur(14px) brightness(105%);
         transform: skew(0, 0);
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }
+
     75% {
         filter: blur(15px) brightness(107%);
         transform: skew(0, -0);
         background-image: radial-gradient(circle, rgba(255, 251, 251, 0.8) 75%, rgb(121, 121, 121), rgba(193, 185, 185, 0.353));
     }
+
     100% {
         filter: blur(10px) brightness(85%);
         transform: skew(-2deg, -2deg);

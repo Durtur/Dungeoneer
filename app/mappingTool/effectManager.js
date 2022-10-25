@@ -11,6 +11,7 @@ var effectManager = (function () {
         light: 1,
         sound: 2,
     };
+
     var currentlySelectedEffectDropdown = SELECTED_EFFECT_TYPE.sfx;
     function initialize() {
         document.getElementById("sidebar_sfx").onclick = () => selectEffectType(SELECTED_EFFECT_TYPE.sfx);
@@ -33,6 +34,12 @@ var effectManager = (function () {
         createEffectMenus();
     }
     var sfxSelect, lightSourceSelect, soundSelect, soundRangeSelect;
+    var menus = [
+        { key: "add_sfx_dropdown", menu: () => sfxSelect },
+        { key: "add_light_source_dropdown", menu: () => lightSourceSelect },
+        { key: "add_sound_dropdown", menu: () => soundSelect },
+        { key: "add_sound_spread", menu: () => soundRangeSelect },
+    ];
     async function createEffectMenus() {
         dataAccess.getMapToolData((data) => {
             effectData = data.effects;
@@ -72,9 +79,11 @@ var effectManager = (function () {
         }
 
         function createMenu(parentId, dataset, existingMenu, icon = true) {
+            var lastSelected = localStorage.getItem(`effect_sidebar_last_selected_${parentId}`);
             var list = dataset.map((eff) => {
                 return {
                     text: eff.name,
+                    selected: eff.name == lastSelected,
                     value: eff.name,
                     innerHTML: icon ? createIcon(eff) : null,
                 };
@@ -401,10 +410,6 @@ var effectManager = (function () {
     }
 
     function showPopupMenuAddEffect(event) {
-        for (var i = 0; i < pawns.all.length; i++) {
-            pawns.all[i].data_overload_click = popupMenuAddEffectClickHandler;
-            pawns.all[i].classList.add("attach_lightsource_pawn");
-        }
         var popup = document.getElementById("popup_menu_add_effect");
         sidebarManager.showInSideBar(popup, () => {
             popup.classList.add("hidden");
@@ -434,6 +439,7 @@ var effectManager = (function () {
 
     function stopAddingEffects() {
         hideSoundLayer();
+
         previewPlacementManager.clear();
         gridLayer.style.cursor = "auto";
         if (pawns.all)
@@ -493,8 +499,7 @@ var effectManager = (function () {
             showSoundLayer();
             document.getElementById("sidebar_sound").classList.add("selected_section");
         }
-        gridLayer.onmousedown = popupMenuAddEffectClickHandler;
-        previewPlacementManager.preview(await createEffect(event, true));
+        startAddingEffects();
     }
 
     async function popupMenuAddEffectClickHandler(e) {
@@ -583,9 +588,22 @@ var effectManager = (function () {
         return newEffect;
     }
 
+    async function startAddingEffects() {
+        previewPlacementManager.preview(await createEffect(event, true));
+        gridLayer.onmousedown = popupMenuAddEffectClickHandler;
+        for (var i = 0; i < pawns.all.length; i++) {
+            pawns.all[i].data_overload_click = popupMenuAddEffectClickHandler;
+            pawns.all[i].classList.add("attach_lightsource_pawn");
+        }
+    }
+
     async function effectDropdownChange(event) {
         stopDeletingEffects();
-        previewPlacementManager.preview(await createEffect(event, true));
+        startAddingEffects();
+        menus.forEach((item) => {
+            var menu = item.menu();
+            localStorage.setItem(`effect_sidebar_last_selected_${item.key}`, menu.selected());
+        });
     }
     function resizeEffects() {
         effects.forEach((effect) => map.updateObjectSize(effect));

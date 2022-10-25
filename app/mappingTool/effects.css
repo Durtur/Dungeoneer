@@ -331,14 +331,20 @@
 
 .rotate_slow {
     animation-iteration-count: infinite;
-    animation-duration: 7s;
+    animation-duration: 20s;
+    animation-name: rotate;
+    animation-timing-function: linear;
+}
+.rotate_medium {
+    animation-iteration-count: infinite;
+    animation-duration: 14s;
     animation-name: rotate;
     animation-timing-function: linear;
 }
 
-.rotate_medium {
+.rotate_fast {
     animation-iteration-count: infinite;
-    animation-duration: 4s;
+    animation-duration: 5s;
     animation-name: rotate;
     animation-timing-function: linear;
 }
