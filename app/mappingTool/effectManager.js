@@ -282,7 +282,7 @@ var effectManager = (function () {
         } else if (currentlySelectedEffectDropdown == SELECTED_EFFECT_TYPE.sound) {
             newEffect = await addSoundEffectHandler(e, isPreviewElement);
         }
-
+        if (!isPreviewElement) previewPlacementManager.preview(await createEffect(e, true));
         return newEffect;
     }
 
@@ -298,6 +298,7 @@ var effectManager = (function () {
             effectObj = { name: "custom" };
         }
         var newEffect = createBaseEffect(effectObj, isPreviewElement, e);
+
         newEffect.classList.add("sfx_effect");
         tokenLayer.appendChild(newEffect);
         if (!isPreviewElement && serverNotifier.isServer()) {
@@ -588,7 +589,6 @@ var effectManager = (function () {
     }
     function resizeEffects() {
         effects.forEach((effect) => map.updateObjectSize(effect));
-       
     }
     return {
         resizeEffects: resizeEffects,

@@ -483,7 +483,7 @@ function clientSetForeground(message) {
 function setEffects(effectStr) {
     var arr = typeof effectStr == "string" ? JSON.parse(effectStr) : effectStr;
     map.removeAllEffects();
-    console.log("Set effects", effects);
+  
     arr.forEach((effObj) => addEffect(effObj));
 }
 function addEffect(effObj) {
@@ -494,7 +494,7 @@ function addEffect(effObj) {
             clientX: point.x,
             clientY: point.y,
         });
-
+    
     effectManager.addSfxEffect(effObj, { clientX: point.x, clientY: point.y });
 }
 

@@ -151,7 +151,6 @@ class TokenDialog {
         var pawn = this.getPawnParams();
         pawn.id = this.existingPawnInfo?.id || "preview_token";
         pawn.tokenIndex = null;
-        console.log("assign token")
         await assignTokenImagePath(pawn);
         this.selectedTokenImageIndex = pawn.tokenIndex;
         var preview = await createPawnElement(pawn);
@@ -221,13 +220,16 @@ class TokenDialog {
             map.removePawn(map.getPawnById(this.existingPawnInfo.id));
         }
         var params = this.getPawnParams(e);
-        if(params.tokenImages == null){
+        if (params.tokenImages == null) {
             await assignTokenImagePath(params);
         }
         await generatePawns([params], !partyArray.find((x) => x.id == this.existingPawnInfo?.id));
-        this.existingPawnInfo = null;
-        this.pawnsSelected(null);
-        this.setName("");
+        if (this.existingPawnInfo) {
+            this.existingPawnInfo = null;
+            this.pawnsSelected(null);
+            this.setName("");
+        }
+
         this.onPlacementInfoChanged();
     }
 

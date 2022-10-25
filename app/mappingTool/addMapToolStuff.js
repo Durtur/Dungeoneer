@@ -1,7 +1,7 @@
 const dataAccess = require("./js/dataaccess");
 const SoundManager = require("./js/soundManager");
 
-const soundManager = new SoundManager();
+const soundManager = new SoundManager(pathModule);
 var allEffects;
 var settings;
 var editingEffectName = null;
