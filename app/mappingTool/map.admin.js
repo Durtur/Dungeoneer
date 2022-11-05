@@ -22,7 +22,6 @@ const tokenSelector = new TokenSelector();
 const saveManager = require("./mappingTool/saveManager");
 const effectManager = require("./mappingTool/effectManager");
 
-
 const DEFAULT_TOKEN_PATH_JS_RELATIVE = pathModule.join(__dirname, "mappingTool", "tokens", "default.png");
 var conditionList;
 var RUN_ARGS_MAP = null;
@@ -606,7 +605,7 @@ function loadParty() {
 
         for (var i = 0; i < newPartyArray.length; i++) await assignTokenImagePath(newPartyArray[i]);
         await generatePawns(newPartyArray, false);
-      
+
         fillForcedPerspectiveDropDown();
     });
 }
@@ -893,8 +892,8 @@ function hideAllTooltips() {
     Util.showOrHide("vision_tooltip_category", -1);
     Util.showOrHide("tooltip", -1);
     Util.showOrHide("tooltip2", -1);
-    Util.showOrHide("popup_menu_add_effect", -1);
-    Util.showOrHide("popup_dialogue_add_pawn", -1);
+    //tokenDialog.close();
+    //effectManager.close();
     Util.showOrHide("conditions_menu", -1);
     gridLayer.style.cursor = "auto";
 

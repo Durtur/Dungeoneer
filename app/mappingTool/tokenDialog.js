@@ -211,7 +211,7 @@ class TokenDialog {
         pauseAlternativeKeyboardMoveMap = false;
         resetGridLayer();
         gridLayer.style.cursor = "auto";
-        this.stopTooltip();
+        if (this.stopTooltip) this.stopTooltip();
         previewPlacementManager.clear();
     }
 

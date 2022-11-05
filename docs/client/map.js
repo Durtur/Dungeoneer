@@ -1120,6 +1120,7 @@ function isPlayerPawn(pawnElement) {
 }
 
 function resetGridLayer() {
+    console.log("Grid layer reset")
     gridLayer.oncontextmenu = function (e) {
         e.preventDefault();
         e.stopPropagation();
