@@ -1,12 +1,10 @@
-
 const elementCreator = require("./js/lib/elementCreator");
 
-var combatLoader = function () {
+var combatLoader = (function () {
     var lastIndex = 0;
     var playerMouseUpIndexMax;
     var playerUpMouseIndex = -1;
     function loadCombat() {
-
         if (!encounterIsLoaded) {
             if (loadedMonster.name == null) {
                 return false;
@@ -17,12 +15,12 @@ var combatLoader = function () {
                 return false;
             }
             var count = 0;
-            dataAccess.getHomebrewAndMonsters(data => {
+            dataAccess.getHomebrewAndMonsters((data) => {
                 var numberOfCreatures = 0;
                 for (var i = 0; i < loadedEncounter.length; i++) {
                     numberOfCreatures = parseInt(loadedEncounter[i][1]);
                     var name = loadedEncounter[i][0];
-                    var creature = data.find(x => x.name.toLowerCase() === name.toLowerCase());
+                    var creature = data.find((x) => x.name.toLowerCase() === name.toLowerCase());
                     if (creature == null) {
                         console.error(`monster ${name} not found`);
                         continue;
@@ -59,13 +57,13 @@ var combatLoader = function () {
     }
 
     function notifyPartyArrayUpdated() {
-        playerMouseUpIndexMax = partyArray.length
+        playerMouseUpIndexMax = partyArray.length;
         createAttackPcButtons();
     }
 
     function loadMonsterQueue() {
         if (loadedMonsterQueue.length == 0) return;
-        window.api.openWindowWithArgs('maptoolWindow', "notify-map-tool-monsters-loaded", JSON.stringify(popQueue(loadedMonsterQueue)));
+        window.api.openWindowWithArgs("maptoolWindow", "notify-map-tool-monsters-loaded", JSON.stringify(popQueue(loadedMonsterQueue)));
     }
 
     function roll() {
@@ -86,10 +84,10 @@ var combatLoader = function () {
             disadvantage = row.getElementsByClassName("combat_loader_disadvantage")[0].checked;
             if (advantage) {
                 rand = Math.max(d(20), d(20));
-                logStr += " with advantage"
+                logStr += " with advantage";
             } else if (disadvantage) {
                 rand = Math.min(d(20), d(20));
-                logStr += " with disadvantage"
+                logStr += " with disadvantage";
             } else {
                 rand = d(20);
             }
@@ -97,18 +95,17 @@ var combatLoader = function () {
             var dmgField = row.getElementsByClassName("damage_field")[0];
             var formerText = dmgField.innerHTML;
             if (formerText.indexOf("=") >= 0) {
-                dmgField.innerHTML =
-                    formerText.substring(0, formerText.lastIndexOf("=")).trim();
+                dmgField.innerHTML = formerText.substring(0, formerText.lastIndexOf("=")).trim();
             }
             var entry = LogEntryType.Good;
             if (rand == 20) {
                 buttons[i].classList.remove("die_d20_normal");
                 buttons[i].classList.remove("die_d20_hit");
                 buttons[i].classList.add("die_d20_crit");
-                var dmg = diceRoller.rollCritFromString(dmgField.innerHTML)
-                result = " = " + dmg
+                var dmg = diceRoller.rollCritFromString(dmgField.innerHTML);
+                result = " = " + dmg;
                 logStr += " and critically hit for " + dmg + " damage";
-            } else if ((rand + mod) >= ac) {
+            } else if (rand + mod >= ac) {
                 buttons[i].classList.remove("die_d20_normal");
                 buttons[i].classList.remove("die_d20_crit");
                 buttons[i].classList.add("die_d20_hit");
@@ -120,14 +117,12 @@ var combatLoader = function () {
                 buttons[i].classList.add("die_d20_normal");
                 buttons[i].classList.remove("die_d20_crit");
                 buttons[i].classList.remove("die_d20_hit");
-                logStr += " and missed;"
+                logStr += " and missed;";
                 entry = LogEntryType.Bad;
             }
-            addToCombatLog(row, logStr, entry)
+            addToCombatLog(row, logStr, entry);
             dmgField.innerHTML = dmgField.innerHTML + result;
             buttons[i].firstChild.data = rand;
-
-
         }
 
         return false;
@@ -137,18 +132,15 @@ var combatLoader = function () {
         var formerText = dmgField.innerHTML;
 
         if (formerText.indexOf("=") >= 0) {
-            dmgField.innerHTML =
-                formerText.substring(0, formerText.indexOf("=")).trim();
+            dmgField.innerHTML = formerText.substring(0, formerText.indexOf("=")).trim();
         }
 
         dmgField.innerHTML = dmgField.innerHTML + " = " + diceRoller.rollFromString(dmgField.innerHTML);
     }
 
-
     function applyDamgage() {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         var hp, dmg, hpField, dmgField, name;
-
 
         for (var i = 0; i < allRows.length; i++) {
             var row = allRows[i];
@@ -166,35 +158,30 @@ var combatLoader = function () {
             hpField.value = hp;
 
             if (dmg != 0) {
-
                 var round = document.getElementById("round_counter_container").classList.contains("hidden") ? null : document.getElementsByClassName("roundcounter__value")[0].innerHTML;
                 var logText = "";
-                if (round != null)
-                    logText = "Round " + round + ": ";
+                if (round != null) logText = "Round " + round + ": ";
 
                 logText += (dmg > 0 ? "Damaged for " : "Healed for ") + Math.abs(dmg);
                 addToCombatLog(allRows[i], logText, dmg > 0 ? LogEntryType.Bad : LogEntryType.Good);
             }
-            healthChanged(allRows[i].querySelector(".combat_row_monster_id").innerHTML)
+            healthChanged(allRows[i].querySelector(".combat_row_monster_id").innerHTML);
             dmgField.value = "";
-
         }
     }
 
     function revive(arr) {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         for (var i = 0; i < allRows.length; i++) {
-
-            if (allRows[i].querySelector(".combat_row_monster_id").innerHTML != arr.index)
-                continue;
+            if (allRows[i].querySelector(".combat_row_monster_id").innerHTML != arr.index) continue;
             var row = allRows[i];
             if (!row.classList.contains("dead_row")) return;
             row.classList.remove("dead_row");
             var id = row.getAttribute("data-dnd_monster_id");
-            return dataAccess.getHomebrewAndMonsters(data => {
+            return dataAccess.getHomebrewAndMonsters((data) => {
                 var currHp = parseInt(row.getElementsByClassName("hp_field")[0].value);
                 row.getElementsByClassName("hp_field")[0].value = isNaN(currHp) || currHp <= 0 ? 1 : currHp;
-                frameHistoryButtons.createButtonIfNotExists(data.find(x => x.id == id));
+                frameHistoryButtons.createButtonIfNotExists(data.find((x) => x.id == id));
                 row.classList.remove("hidden");
                 addToCombatLog(row, "Revived", LogEntryType.Goo);
             });
@@ -205,8 +192,7 @@ var combatLoader = function () {
         for (var i = 0; i < allRows.length; i++) {
             var row = allRows[i];
             var monsterIndex = parseInt(row.querySelector(".combat_row_monster_id").innerHTML);
-            if (monsterIndex != parseInt(monsterIndexInRow))
-                continue;
+            if (monsterIndex != parseInt(monsterIndexInRow)) continue;
 
             if (!deadRowsVisible) {
                 hideRow(row);
@@ -216,15 +202,14 @@ var combatLoader = function () {
 
             rowCountChanged();
             frameHistoryButtons.deleteButtonIfExists(row.getAttribute("data-dnd_monster_name"));
-            if (loadedMonsterQueue.find(x => x.index == monsterIndex)) {
-                var temp = loadedMonsterQueue.filter(x => x.index != monsterIndex);
+            if (loadedMonsterQueue.find((x) => x.index == monsterIndex)) {
+                var temp = loadedMonsterQueue.filter((x) => x.index != monsterIndex);
                 loadedMonsterQueue.length = 0;
-                temp.forEach(dd => loadedMonsterQueue.push(dd));
+                temp.forEach((dd) => loadedMonsterQueue.push(dd));
                 loadedMonsterQueue.propertyChanged();
             }
             return;
         }
-
     }
 
     function healthChanged(monsterIndexInRow) {
@@ -232,11 +217,10 @@ var combatLoader = function () {
         for (var i = 0; i < allRows.length; i++) {
             var row = allRows[i];
             var monsterIndex = parseInt(row.querySelector(".combat_row_monster_id").innerHTML);
-            if (monsterIndex != monsterIndexInRow)
-                continue;
+            if (monsterIndex != monsterIndexInRow) continue;
 
             var originalHp = parseInt(row.getAttribute("data-dnd_original_hp"));
-            var hpField = row.querySelector(".hp_field")
+            var hpField = row.querySelector(".hp_field");
             var currentHp = parseInt(hpField.value);
             if (currentHp < 0) {
                 currentHp = 0;
@@ -254,38 +238,31 @@ var combatLoader = function () {
                 healthBar.style.backgroundColor = "#ca9e00";
                 ratio = 1;
             } else {
-                healthBar.style.backgroundColor = `rgb(${(1 - ratio) * 255} ${(ratio) * 255} 0)`
+                healthBar.style.backgroundColor = `rgb(${(1 - ratio) * 255} ${ratio * 255} 0)`;
             }
-            healthBar.style.transform = `scaleX(${ratio})`
-            if (hasTempHp)
-                hpField.classList.add("hp_over_max");
-            else
-                hpField.classList.remove("hp_over_max");
+            healthBar.style.transform = `scaleX(${ratio})`;
+            if (hasTempHp) hpField.classList.add("hp_over_max");
+            else hpField.classList.remove("hp_over_max");
 
-            if (isDead)
-                kill(monsterIndexInRow, false)
-            else
-                revive({ index: monsterIndexInRow })
-            window.api.messageWindow("maptoolWindow", 'monster-health-changed', { index: monsterIndex, healthPercentage: hpPercentage, dead: isDead });
+            if (isDead) kill(monsterIndexInRow, false);
+            else revive({ index: monsterIndexInRow });
+            window.api.messageWindow("maptoolWindow", "monster-health-changed", { index: monsterIndex, healthPercentage: hpPercentage, dead: isDead });
 
             sort();
-            return
-
+            return;
         }
     }
     function loadDamageFieldHandlers() {
         var allFields = document.getElementsByClassName("damage_field");
         for (var i = 0; i < allFields.length; i++) {
-            allFields[i].onclick = setDamageFieldNextAction
+            allFields[i].onclick = setDamageFieldNextAction;
         }
-
-
     }
     function setDamageFieldNextAction(e) {
         var row = e.target.parentNode;
         var actions = JSON.parse(row.getAttribute("data-dnd_actions"));
         if (actions == null || actions.length == 0) return;
-        var index = parseInt(row.getAttribute("data-dnd_current_action"))
+        var index = parseInt(row.getAttribute("data-dnd_current_action"));
         var tooltip = e.target.getAttribute("data-tooltip");
         var tooltipLines = tooltip.split("\n");
         var tooltipIndex = 0;
@@ -303,10 +280,10 @@ var combatLoader = function () {
         var nextAction = actions[index];
 
         if (actions.length > 1 && nextAction.name != null) {
-            Util.showBubblyText("Switched to " + nextAction.name, { x: e.clientX, y: e.clientY }, true)
+            Util.showBubblyText("Switched to " + nextAction.name, { x: e.clientX, y: e.clientY }, true);
             row.getElementsByClassName("text_upper_damage_label")[0].innerHTML = nextAction.name;
         }
-        var actionCompare = createActionString(nextAction)
+        var actionCompare = createActionString(nextAction);
 
         while (tooltipLines[tooltipIndex] != actionCompare) {
             tooltipIndex++;
@@ -316,11 +293,10 @@ var combatLoader = function () {
             tooltipLines[tooltipIndex] = ">" + tooltipLines[tooltipIndex];
             row.getElementsByClassName("attack_field")[0].value = nextAction.attack_bonus;
             row.getElementsByClassName("damage_field")[0].innerHTML = nextAction.damage_string;
-            row.setAttribute("data-dnd_current_action", index)
+            row.setAttribute("data-dnd_current_action", index);
 
-            e.target.setAttribute("data-tooltip", tooltipLines.join("\n"))
+            e.target.setAttribute("data-tooltip", tooltipLines.join("\n"));
         }
-
     }
     function clearSelection() {
         while (selectedMultiselectFields.length > 0) {
@@ -335,35 +311,30 @@ var combatLoader = function () {
         loadDamageFieldHandlers();
     }
 
-
-
-
     function loadAttackFieldOnEnterHandlers() {
-        var fields = [...document.querySelectorAll(".code_ac")]
-        fields.forEach(field => {
+        var fields = [...document.querySelectorAll(".code_ac")];
+        fields.forEach((field) => {
             field.removeEventListener("keyup", attackOnEnter);
             field.addEventListener("keyup", attackOnEnter);
-        })
+        });
         function attackOnEnter(event) {
-            if (event.keyCode == 13)
-                event.target.parentNode.getElementsByClassName("die_combatRoller ")[0].onclick();
+            if (event.keyCode == 13) event.target.parentNode.getElementsByClassName("die_combatRoller ")[0].onclick();
         }
     }
     function addApplyDamageOnEnterHandlers() {
-        var damageFields = [...document.querySelectorAll(".dmg_field")]
-        damageFields.forEach(field => {
+        var damageFields = [...document.querySelectorAll(".dmg_field")];
+        damageFields.forEach((field) => {
             field.removeEventListener("keyup", applyDamageOnEnter);
             field.addEventListener("keyup", applyDamageOnEnter);
-        })
+        });
         function applyDamageOnEnter(event) {
-            if (event.keyCode == 13)
-                event.target.parentNode.getElementsByClassName("dmg_button")[0].onclick();
+            if (event.keyCode == 13) event.target.parentNode.getElementsByClassName("dmg_button")[0].onclick();
         }
     }
     var selectedMultiselectFields = [];
     function loadACFieldHandlers() {
         var fields = [...document.querySelectorAll(".code_ac")];
-        fields.forEach(field => {
+        fields.forEach((field) => {
             field.onwheel = function (event) {
                 if (event.deltaY > 0) {
                     playerUpMouseIndex++;
@@ -380,7 +351,6 @@ var combatLoader = function () {
             };
 
             field.onkeydown = function (event) {
-
                 if (event.which === 38) {
                     playerUpMouseIndex++;
                     if (playerUpMouseIndex >= playerMouseUpIndexMax) {
@@ -396,41 +366,40 @@ var combatLoader = function () {
                     event.target.value = partyArray[playerUpMouseIndex].ac;
                     return false;
                 }
-
             };
-
         });
 
         var multiSelectableFields = [...document.querySelectorAll(".multi_selectable_field_num")];
-        multiSelectableFields.forEach(field => {
+        multiSelectableFields.forEach((field) => {
             field.onkeyup = function (event) {
-
                 if (isNaN(parseInt(event.key))) return;
                 var val = event.target.value;
-                if (selectedMultiselectFields.length > 1) selectedMultiselectFields.forEach(field => { if (field != event.target) field.value = val });
-            }
+                if (selectedMultiselectFields.length > 1)
+                    selectedMultiselectFields.forEach((field) => {
+                        if (field != event.target) field.value = val;
+                    });
+            };
 
             field.onmousedown = function (event) {
                 var alreadySelected;
-                selectedMultiselectFields.forEach(field => { if (field == event.target) alreadySelected = true })
+                selectedMultiselectFields.forEach((field) => {
+                    if (field == event.target) alreadySelected = true;
+                });
                 if (alreadySelected && event.ctrlKey) {
-                    selectedMultiselectFields = selectedMultiselectFields.filter(ele => ele != event.target);
-                    event.target.classList.remove("selected_field")
+                    selectedMultiselectFields = selectedMultiselectFields.filter((ele) => ele != event.target);
+                    event.target.classList.remove("selected_field");
                 } else {
                     if (event.ctrlKey) {
-                        selectedMultiselectFields.push(event.target)
-                        event.target.classList.add("selected_field")
+                        selectedMultiselectFields.push(event.target);
+                        event.target.classList.add("selected_field");
                     } else {
                         clearSelection();
-                        selectedMultiselectFields.push(event.target)
-                        event.target.classList.add("selected_field")
+                        selectedMultiselectFields.push(event.target);
+                        event.target.classList.add("selected_field");
                     }
                 }
-
             };
         });
-
-
     }
 
     function addRow() {
@@ -443,14 +412,13 @@ var combatLoader = function () {
         newRow.appendTo("#combatMain");
         newRow.removeClass("hidden");
         loadFieldHandlers();
-        [...document.querySelectorAll(".selected_row_checkbox")].forEach(x => x.onchange = selectedRowsChanged);
-        [...document.querySelectorAll("#combatMain .round_checkbox_container")].forEach(x => x.onmouseenter = selectedCheckboxMouseOver);
+        [...document.querySelectorAll(".selected_row_checkbox")].forEach((x) => (x.onchange = selectedRowsChanged));
+        [...document.querySelectorAll("#combatMain .round_checkbox_container")].forEach((x) => (x.onmouseenter = selectedCheckboxMouseOver));
         rowCountChanged();
         return newRow[0];
     }
 
     function load(monster) {
-
         var row = addRow();
         var nameField, hpField, acField, attackField, damageField, damageLabel;
         nameField = row.getElementsByClassName("name_field")[0];
@@ -459,9 +427,7 @@ var combatLoader = function () {
         attackField = row.getElementsByClassName("attack_field")[0];
         damageField = row.getElementsByClassName("damage_field")[0];
         row.classList.remove("dead_row");
-        nameField.setAttribute("data-combat_log", JSON.stringify([
-            { date: "", text: `Starting hit points are ${monster.hit_points}`, entryType: LogEntryType.Good }
-        ]));
+        nameField.setAttribute("data-combat_log", JSON.stringify([{ date: "", text: `Starting hit points are ${monster.hit_points}`, entryType: LogEntryType.Good }]));
 
         row.setAttribute("monster_original_name", monster.original_name || "");
         damageLabel = row.getElementsByClassName("text_upper_damage_label")[0];
@@ -490,22 +456,26 @@ var combatLoader = function () {
                 if (a.damage_dice == null && b.damage_dice == null) return 0;
                 if (a.damage_dice == null) return 1;
                 if (b.damage_dice == null) return -1;
-                return getNumValueForDiceString(b.damage_dice + (b.damage_bonus == null ? "" : "+ " + b.damage_bonus))
-                    - getNumValueForDiceString(a.damage_dice + (a.damage_bonus == null ? "" : "+ " + a.damage_bonus));
+                return (
+                    getNumValueForDiceString(b.damage_dice + (b.damage_bonus == null ? "" : "+ " + b.damage_bonus)) -
+                    getNumValueForDiceString(a.damage_dice + (a.damage_bonus == null ? "" : "+ " + a.damage_bonus))
+                );
             });
             var attackActions = [];
             var actionPicked = false;
             for (var i = 0; i < monster.actions.length; i++) {
                 if (i > 0) actionsString += "\n";
-                var action = createActionString(monster.actions[i])
+                var action = createActionString(monster.actions[i]);
 
                 var ele = JSON.parse(JSON.stringify(monster.actions[i]));
                 if ((ele.damage_dice != null || ele.damage_bonus != null) && ele.attack_bonus != null) {
-                    ele.damage_string = (ele.damage_dice == null ?
-                        ele.damage_bonus == null ?
-                            "" : ele.damage_bonus :
-                        (monster.actions[i].damage_dice) + (monster.actions[i].damage_bonus == null ? "" : (monster.actions[i].damage_dice != null ? "+" : "") + monster.actions[i].damage_bonus));
-                    attackActions.push(ele)
+                    ele.damage_string =
+                        ele.damage_dice == null
+                            ? ele.damage_bonus == null
+                                ? ""
+                                : ele.damage_bonus
+                            : monster.actions[i].damage_dice + (monster.actions[i].damage_bonus == null ? "" : (monster.actions[i].damage_dice != null ? "+" : "") + monster.actions[i].damage_bonus);
+                    attackActions.push(ele);
                     if (!actionPicked) {
                         action = ">" + action;
                         actionPicked = true;
@@ -514,15 +484,13 @@ var combatLoader = function () {
                 actionsString += action;
             }
 
-
             if (attackActions.length > 0) {
                 attackField.value = attackActions[0].attack_bonus;
                 damageField.innerHTML = attackActions[0].damage_string;
                 damageLabel.innerHTML = attackActions[0].name;
                 if (attackActions.length > 1) {
                     damageField.setAttribute("data-tooltip", actionsString);
-                    damageField.classList.add("tooltipped")
-
+                    damageField.classList.add("tooltipped");
                 } else {
                     damageField.classList.remove("tooltipped");
                 }
@@ -535,7 +503,7 @@ var combatLoader = function () {
             row.setAttribute("data-dnd_actions", JSON.stringify(attackActions));
             row.setAttribute("data-dnd_current_action", "0");
 
-            damageField.classList.remove("label_inactive")
+            damageField.classList.remove("label_inactive");
         }
 
         row.setAttribute("data-challenge_rating", monster.challenge_rating);
@@ -547,9 +515,12 @@ var combatLoader = function () {
         rowCountChanged();
     }
     function createActionString(action) {
-        return action.name + (action.attack_bonus == null ? " " : ": +" + action.attack_bonus + ", ")
-            + (action.damage_dice == null ? "" : action.damage_dice) +
+        return (
+            action.name +
+            (action.attack_bonus == null ? " " : ": +" + action.attack_bonus + ", ") +
+            (action.damage_dice == null ? "" : action.damage_dice) +
             (action.damage_bonus == null ? "" : (action.damage_dice != null ? "+" : "") + action.damage_bonus)
+        );
     }
     function clear() {
         $("#combatMain .combatRow").remove();
@@ -558,7 +529,7 @@ var combatLoader = function () {
         frameHistoryButtons.clearAll();
         loadedMonsterQueue.length = 0;
         loadedMonsterQueue.update();
-        window.api.messageWindow("maptoolWindow", 'monster-list-cleared');
+        window.api.messageWindow("maptoolWindow", "monster-list-cleared");
         rowCountChanged();
     }
 
@@ -567,7 +538,7 @@ var combatLoader = function () {
         elementCreator.makeDraggable(menu, menu.querySelector("label:first-of-type"));
         var select = menu.querySelector("#save_or_damage_save_select");
         var i = 0;
-        constants.ability_scores.forEach(ability => {
+        constants.ability_scores.forEach((ability) => {
             i++;
             var opt = document.createElement("option");
             opt.value = ability.toLowerCase();
@@ -575,21 +546,18 @@ var combatLoader = function () {
             opt.selected = i == 2;
             select.appendChild(opt);
         });
-
     }
 
     function initSaveVsSpell() {
         var menu = document.getElementById("popup_menu_saveorspell");
         elementCreator.makeDraggable(menu, menu.querySelector("label:first-of-type"));
-        dataAccess.getSpells(spells => {
+        dataAccess.getSpells((spells) => {
             var list = [];
 
-            spells.forEach(spell => {
-                if (!spell.metadata?.savingThrow)
-                    return;
+            spells.forEach((spell) => {
+                if (!spell.metadata?.savingThrow) return;
 
                 list.push([spell.name, spell.id]);
-
             });
 
             if (list.length == 0) return;
@@ -614,65 +582,61 @@ var combatLoader = function () {
             }
             button.disabled = false;
             var str = button.title;
-            loadedMonsterQueue.forEach(x => str += `\n ${x.name} (${x.index})`);
+            loadedMonsterQueue.forEach((x) => (str += `\n ${x.name} (${x.index})`));
             button.title = str;
-        }
+        };
         addLogPopupHandler(document.querySelector(".combatRow"));
         dataAccess.getConditions(function (data) {
             var selectEle = document.getElementById("condition_list_dd");
-            data.forEach(d => {
+            data.forEach((d) => {
                 var option = document.createElement("option");
                 option.innerHTML = d.name;
                 option.setAttribute("value", d.name.toLowerCase());
-                selectEle.appendChild(option)
+                selectEle.appendChild(option);
             });
             $("#condition_list_dd").chosen({
                 width: "100%",
-                placeholder_text_multiple: "Active conditions"
+                placeholder_text_multiple: "Active conditions",
             });
         });
         $("#condition_list_dd").on("input", function (e) {
             if (selectedRow) {
-                var conditionList = $("#condition_list_dd").val().map(x => { return { condition: x } });
+                var conditionList = $("#condition_list_dd")
+                    .val()
+                    .map((x) => {
+                        return { condition: x };
+                    });
 
                 setConditionList(selectedRow.closest(".combatRow"), conditionList);
-
             }
-
         });
-        var order = localStorage.getItem("combatpanel-sort-order");
-        if (order)
-            orderBy(order);
-
+        var order = localStorage.getItem("combatpanel-sort-order") ?? "id";
+        orderBy(order);
     }
-    var hpFieldDelay, lastHpFieldValue;
+    var hpFieldDelay;
     function addLogPopupHandler(row) {
         document.querySelector("#combat_log_notes").addEventListener("keyup", function (e) {
-
             selectedRow.setAttribute("data-combat_log_notes", e.target.value);
         });
         row.querySelector(".name_field").onmousedown = function (e) {
             if (e.button != 0) return;
 
             if (selectedRow != e.target || document.querySelector("#combat_log_popup").classList.contains("hidden")) {
-
                 selectedRow = e.target;
-                showLog()
+                showLog();
             } else {
                 closeLog();
             }
 
             if (e.target.value == "") return;
-
-        }
+        };
 
         row.querySelector(".hp_field").onfocus = function (e) {
             if (e.target.value == "") return;
             e.target.setAttribute("data-old_value", e.target.value);
-        }
+        };
         row.querySelector(".hp_field").oninput = function (e) {
             window.clearTimeout(hpFieldDelay);
-
 
             var oldValue = e.target.getAttribute("data-old_value");
             if (oldValue == "") oldValue = 0;
@@ -686,15 +650,14 @@ var combatLoader = function () {
 
             var round = document.getElementById("round_counter_container").classList.contains("hidden") ? null : document.getElementsByClassName("roundcounter__value")[0].innerHTML;
             var logText = "";
-            if (round != null)
-                logText = "Round " + round + ": ";
+            if (round != null) logText = "Round " + round + ": ";
             logText += (diff < 0 ? "Damaged for " : "Healed for ") + Math.abs(diff);
 
             healthChanged(getRowIndex(row));
             hpFieldDelay = window.setTimeout(() => {
-                addToCombatLog(row, logText, diff < 0 ? LogEntryType.Bad : LogEntryType.Good)
-            }, 1000)
-        }
+                addToCombatLog(row, logText, diff < 0 ? LogEntryType.Bad : LogEntryType.Good);
+            }, 1000);
+        };
     }
 
     function getRowIndex(row) {
@@ -704,7 +667,7 @@ var combatLoader = function () {
         if (!selectedRow || selectedRow.value == "") return;
         var conditions = JSON.parse(selectedRow.parentNode.getAttribute("data-dnd_conditions") || "[]");
 
-        $("#condition_list_dd").val(conditions ? conditions.map(x => x.condition) : "");
+        $("#condition_list_dd").val(conditions ? conditions.map((x) => x.condition) : "");
         var combatLog = selectedRow.getAttribute("data-combat_log");
         var notes = selectedRow.getAttribute("data-combat_log_notes") || "";
         document.querySelector("#combat_log_notes").value = notes;
@@ -712,17 +675,14 @@ var combatLoader = function () {
         combatLog = combatLog == null ? [] : JSON.parse(combatLog);
         populateLogPopup(combatLog);
 
-        $('#condition_list_dd').trigger('chosen:updated');
+        $("#condition_list_dd").trigger("chosen:updated");
         var closest = selectedRow.closest(".combatRow");
-        closest.parentNode.insertBefore(document.querySelector('#combat_log_popup'), closest.nextSibling);
+        closest.parentNode.insertBefore(document.querySelector("#combat_log_popup"), closest.nextSibling);
         document.querySelector("#combat_log_popup").classList.remove("hidden");
-
-
     }
-    const LogEntryType =
-    {
+    const LogEntryType = {
         Good: 0,
-        Bad: 1
+        Bad: 1,
     };
 
     function addToCombatLog(row, thingyToAdd, entryType = LogEntryType.Bad) {
@@ -731,32 +691,29 @@ var combatLoader = function () {
         var log = row.getAttribute("data-combat_log");
         log = log == null || log == "" ? [] : JSON.parse(log);
 
-
         log.push({ date: Util.currentTimeStamp(), text: thingyToAdd, entryType: entryType });
         row.setAttribute("data-combat_log", JSON.stringify(log));
 
         if (row == selectedRow) {
             populateLogPopup(log);
         }
-
     }
     function populateLogPopup(logArray) {
-
         var content = document.querySelector(".combat_log_content");
         while (content.firstChild) {
-            content.removeChild(content.firstChild)
+            content.removeChild(content.firstChild);
         }
         var paragraphArray = [];
         while (logArray.length > 0) {
             var entry = logArray.pop();
             var newP = document.createElement("p");
             if (entry.entryType == LogEntryType.Good) {
-                newP.classList.add("beneficial_log_item")
+                newP.classList.add("beneficial_log_item");
             } else {
-                newP.classList.add("harmful_log_item")
+                newP.classList.add("harmful_log_item");
             }
             newP.innerText = `${entry.date} ${entry.text}`;
-            content.appendChild(newP)
+            content.appendChild(newP);
             paragraphArray.push(newP);
         }
     }
@@ -764,31 +721,32 @@ var combatLoader = function () {
     function toggleShowDead() {
         deadRowsVisible = !deadRowsVisible;
         var allRows = [...document.querySelectorAll("#combatMain .dead_row")];
-        if (!deadRowsVisible)
-            allRows.forEach(x => hideRow(x));
-        else
-            allRows.forEach(x => x.classList.remove("hidden"));
+        if (!deadRowsVisible) allRows.forEach((x) => hideRow(x));
+        else allRows.forEach((x) => x.classList.remove("hidden"));
         rowCountChanged();
     }
 
     function updateCurrentLoadedDifficulty() {
         var crList = [];
         var xpEle = document.getElementById("combat_loader_current_xp");
-        var allRows = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => !x.classList.contains("hidden"));
+        var allRows = [...document.querySelectorAll("#combatMain .combatRow")].filter((x) => !x.classList.contains("hidden"));
         if (allRows.length == 0) {
             xpEle.innerHTML = "";
             xpEle.setAttribute("data-tooltip", "");
             return;
         }
 
-        allRows.forEach(row => {
+        allRows.forEach((row) => {
             var cr = row.getAttribute("data-challenge_rating");
             crList.push(cr);
         });
 
         var totalCr = encounterModule.getXpSumForEncounter(crList, partyArray.length);
-        console.log(crList)
-        var difficulty = encounterModule.getEncounterDifficultyString(totalCr.adjusted, partyArray.map(x => x.level))
+        console.log(crList);
+        var difficulty = encounterModule.getEncounterDifficultyString(
+            totalCr.adjusted,
+            partyArray.map((x) => x.level)
+        );
 
         xpEle.innerHTML = difficulty;
         xpEle.setAttribute("data-tooltip", `Total XP: ${totalCr.unadjusted}${totalCr.unadjusted != totalCr.adjusted ? `, adjusted XP: ${totalCr.adjusted}` : ""}`);
@@ -797,8 +755,7 @@ var combatLoader = function () {
     function hideRow(row) {
         row.classList.add("hidden");
         var nameField = row.querySelector(".name_field");
-        if (nameField == selectedRow)
-            closeLog();
+        if (nameField == selectedRow) closeLog();
     }
 
     function closeLog() {
@@ -807,10 +764,7 @@ var combatLoader = function () {
 
     function createAttackPcButtons() {
         var cont = document.getElementById("attack_player_button_container");
-        while (cont.firstChild)
-            cont.removeChild(cont.firstChild);
-
-
+        while (cont.firstChild) cont.removeChild(cont.firstChild);
 
         for (var i = 0; i < partyArray.length; i++) {
             if (!partyArray[i].active) continue;
@@ -825,59 +779,59 @@ var combatLoader = function () {
                 var ac = partyAlternativeACArray[index] ? partyArray[index].alternative_ac : partyArray[index].ac;
                 parent.getElementsByClassName("code_ac")[0].value = ac;
                 if (selectedMultiselectFields.length > 0) {
-                    selectedMultiselectFields.forEach(field => field.value = ac);
+                    selectedMultiselectFields.forEach((field) => (field.value = ac));
                 }
                 parent.getElementsByClassName("die_d20")[0].click();
-            }
+            };
             cont.appendChild(button);
-
         }
     }
 
     function setConditionList(row, conditionList) {
-        conditionList = [... new Set(conditionList)]
+        conditionList = [...new Set(conditionList)];
         var conditionContainer = row.querySelector(".condition_container");
         var monsterIndex = parseInt(row.querySelector(".combat_row_monster_id").innerHTML);
-        while (conditionContainer.firstChild)
-            conditionContainer.removeChild(conditionContainer.firstChild);
+        while (conditionContainer.firstChild) conditionContainer.removeChild(conditionContainer.firstChild);
 
-        conditionList.forEach(condition => {
+        conditionList.forEach((condition) => {
             var newDiv = createConditionBubble(condition.condition, condition.caused_by);
             conditionContainer.appendChild(newDiv);
             newDiv.onclick = function (e) {
-
                 var conditionList = JSON.parse(row.getAttribute("data-dnd_conditions") || "[]");
                 var removed = newDiv.getAttribute("data-condition");
-                conditionList = conditionList.filter(x => x.condition != removed);
+                conditionList = conditionList.filter((x) => x.condition != removed);
                 row.setAttribute("data-dnd_conditions", JSON.stringify(conditionList));
 
-                notifyMapToolConditionsChanged(monsterIndex, conditionList.map(x => x.condition), false);
+                notifyMapToolConditionsChanged(
+                    monsterIndex,
+                    conditionList.map((x) => x.condition),
+                    false
+                );
                 newDiv.parentNode.removeChild(newDiv);
                 if (selectedRow && row == selectedRow.closest(".combatRow")) {
                     $("#condition_list_dd").val(conditionList);
-                    $('#condition_list_dd').trigger('chosen:updated');
+                    $("#condition_list_dd").trigger("chosen:updated");
                 }
-            }
+            };
         });
-        notifyMapToolConditionsChanged(monsterIndex, conditionList.map(x => x.condition), false);
+        notifyMapToolConditionsChanged(
+            monsterIndex,
+            conditionList.map((x) => x.condition),
+            false
+        );
         row.setAttribute("data-dnd_conditions", JSON.stringify(conditionList));
         if (selectedRow && row == selectedRow.closest(".combatRow")) {
-            $("#condition_list_dd").val(conditionList.map(x => x.condition));
-            $('#condition_list_dd').trigger('chosen:updated');
-
+            $("#condition_list_dd").val(conditionList.map((x) => x.condition));
+            $("#condition_list_dd").trigger("chosen:updated");
         }
-
     }
 
     function setSelectedRows(rowArr) {
-
         var allRows = document.querySelectorAll("#combatMain .combatRow");
-        allRows.forEach(row => deSelectRow(row));
-        rowArr = rowArr.map(x => parseInt(x));
-        var selected = [...allRows].filter(x =>
-            rowArr.includes(parseInt(x.querySelector(".combat_row_monster_id").innerHTML))
-        );
-        selected.forEach(row => selectRow(row));
+        allRows.forEach((row) => deSelectRow(row));
+        rowArr = rowArr.map((x) => parseInt(x));
+        var selected = [...allRows].filter((x) => rowArr.includes(parseInt(x.querySelector(".combat_row_monster_id").innerHTML)));
+        selected.forEach((row) => selectRow(row));
     }
 
     function selectRow(row) {
@@ -889,19 +843,17 @@ var combatLoader = function () {
     }
 
     function selectDeselectRowHelper(row, checked) {
-
         var checkbox = row.querySelector(".selected_row_checkbox");
         var oldValue = checkbox.checked;
         checkbox.checked = checked;
-        if (oldValue != checked)
-            selectedRowsChanged();
+        if (oldValue != checked) selectedRowsChanged();
     }
 
     function selectedRowsChanged() {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
-        var enabled = [...allRows].find(x => isSelected(x));
+        var enabled = [...allRows].find((x) => isSelected(x));
 
-        [...document.querySelectorAll(".selected_row_action_button")].forEach(button => button.disabled = !enabled);
+        [...document.querySelectorAll(".selected_row_action_button")].forEach((button) => (button.disabled = !enabled));
     }
 
     var firstRowSelectedWasChecked, FIRST_ROW_CHECKED_TIMEOUT;
@@ -915,14 +867,14 @@ var combatLoader = function () {
                 firstRowSelectedWasChecked = row.checked;
             }
             window.clearTimeout(FIRST_ROW_CHECKED_TIMEOUT);
-            FIRST_ROW_CHECKED_TIMEOUT = window.setTimeout(() => firstRowSelectedWasChecked = null, 400)
+            FIRST_ROW_CHECKED_TIMEOUT = window.setTimeout(() => (firstRowSelectedWasChecked = null), 400);
             selectedRowsChanged();
         }
     }
 
     function getSelectedRows() {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
-        return [...allRows].filter(x => isSelected(x));
+        return [...allRows].filter((x) => isSelected(x));
     }
 
     function isSelected(row) {
@@ -938,10 +890,8 @@ var combatLoader = function () {
     }
 
     function saveOrDamage(evt) {
-        if (hideAllPopups)
-            hideAllPopups();
+        if (hideAllPopups) hideAllPopups();
         showSaveMenuHelper(evt, "popup_menu_saveordamage");
-
     }
 
     function saveOrDamageSubmit() {
@@ -955,12 +905,12 @@ var combatLoader = function () {
     }
 
     function rollSavesHelper(saveAbility, saveDc, damage, halfOnSuccess, conditionToApply, effectName) {
-        console.log(saveAbility, saveDc, damage, halfOnSuccess, conditionToApply, effectName)
-        dataAccess.getHomebrewAndMonsters(monsters => {
+        console.log(saveAbility, saveDc, damage, halfOnSuccess, conditionToApply, effectName);
+        dataAccess.getHomebrewAndMonsters((monsters) => {
             var selectedRows = getSelectedRows();
-            selectedRows.forEach(row => {
+            selectedRows.forEach((row) => {
                 var monsterId = row.getAttribute("data-dnd_monster_id");
-                var monster = monsters.find(x => x.id == monsterId);
+                var monster = monsters.find((x) => x.id == monsterId);
                 var modifier = parseInt(monster[`${saveAbility}_save`] ?? Util.getAbilityScoreModifier(monster[saveAbility]));
                 var roll = d(20);
                 var result = roll + modifier;
@@ -970,35 +920,28 @@ var combatLoader = function () {
 
                 //failed
                 if ((result < saveDc && roll != 20) || roll == 1) {
-
                     if (conditionToApply) {
                         var conditions = JSON.parse(row.getAttribute("data-dnd_conditions") || "[]");
 
-                        if (!conditions.find(x => x.condition == conditionToApply)) {
+                        if (!conditions.find((x) => x.condition == conditionToApply)) {
                             conditions.push({ condition: conditionToApply, caused_by: ` ${effectName ?? "save roll"} (DC ${saveDc})` });
                             setConditionList(row, conditions);
                         }
                     }
-                    addToCombatLog(row, `(${roll}) Failed ${saveAbility} save${(effectName ? ` against ${effectName}` : "")}  (DC ${saveDc})`, LogEntryType.Bad);
+                    addToCombatLog(row, `(${roll}) Failed ${saveAbility} save${effectName ? ` against ${effectName}` : ""}  (DC ${saveDc})`, LogEntryType.Bad);
                     row.querySelector(".dmg_field").value = damage;
                 } else {
-                    if (halfOnSuccess)
-                        row.querySelector(".dmg_field").value = Math.floor(parseInt(damage) / 2);
-                    addToCombatLog(row, `(${roll}) Succeeded ${saveAbility} save ${(effectName ? `against ${effectName}` : "")}  (DC ${saveDc})`, LogEntryType.Good);
+                    if (halfOnSuccess) row.querySelector(".dmg_field").value = Math.floor(parseInt(damage) / 2);
+                    addToCombatLog(row, `(${roll}) Succeeded ${saveAbility} save ${effectName ? `against ${effectName}` : ""}  (DC ${saveDc})`, LogEntryType.Good);
                 }
-
             });
-
         });
     }
 
-    function saveOrCondition() {
-
-    }
+    function saveOrCondition() {}
 
     function saveVsSpell(evt) {
-        if (hideAllPopups)
-            hideAllPopups();
+        if (hideAllPopups) hideAllPopups();
 
         showSaveMenuHelper(evt, "popup_menu_saveorspell");
 
@@ -1010,23 +953,19 @@ var combatLoader = function () {
         document.getElementById("save_vs_spell_dc_input").value = "";
         document.getElementById("save_vs_spell_condition_select").parentNode.classList.add("hidden");
         selectedSpell = null;
-
-
     }
     var selectedSpell;
     function saveVsSpellSpellSelected(evt) {
         var spellId = evt.text.value;
         evt.target.value = evt.text.label;
         document.getElementById("save_vs_spell_submit_btn").disabled = false;
-        dataAccess.getSpells(spells => {
-            selectedSpell = spells.find(x => x.id == spellId);
+        dataAccess.getSpells((spells) => {
+            selectedSpell = spells.find((x) => x.id == spellId);
             var select = document.getElementById("save_vs_spell_condition_select");
             if (selectedSpell.metadata.conditionInflict?.length > 1) {
-
                 select.parentNode.classList.remove("hidden");
-                while (select.firstChild)
-                    select.removeChild(select.firstChild);
-                selectedSpell.metadata.conditionInflict.forEach(cond => {
+                while (select.firstChild) select.removeChild(select.firstChild);
+                selectedSpell.metadata.conditionInflict.forEach((cond) => {
                     var opt = document.createElement("option");
                     opt.label = cond;
                     opt.value = cond;
@@ -1039,23 +978,21 @@ var combatLoader = function () {
     }
 
     function saveVsSpellSubmit() {
-
         var halfDamageOnSuccess = document.querySelector("#save_vs_spell_half_on_success").checked;
         var dc = document.querySelector("#save_vs_spell_dc_input").value;
         var damage = document.querySelector("#save_vs_spell_damage_input").value;
-        if (!dc || !selectedSpell)
-            return;
+        if (!dc || !selectedSpell) return;
         var select = document.getElementById("save_vs_spell_condition_select");
         var idx = select.parentNode.classList.contains("hidden") ? 0 : select.selectedIndex;
         var cond = selectedSpell.metadata.conditionInflict?.length > 0 ? selectedSpell.metadata.conditionInflict[idx] : null;
         rollSavesHelper(
-            saveAbility = selectedSpell.metadata.savingThrow,
-            saveDc = dc,
-            damage = damage,
-            halfOnSuccess = halfDamageOnSuccess,
-            conditionToApply = cond,
-            effectName = selectedSpell.name);
-
+            (saveAbility = selectedSpell.metadata.savingThrow),
+            (saveDc = dc),
+            (damage = damage),
+            (halfOnSuccess = halfDamageOnSuccess),
+            (conditionToApply = cond),
+            (effectName = selectedSpell.name)
+        );
     }
 
     function getRowConditions(row) {
@@ -1063,9 +1000,9 @@ var combatLoader = function () {
     }
     function sendMapToolUpdates() {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
-        [...allRows].forEach(row => {
+        [...allRows].forEach((row) => {
             var index = getRowIndex(row);
-            var conditions = getRowConditions(row).map(x => x.condition);
+            var conditions = getRowConditions(row).map((x) => x.condition);
             notifyMapToolConditionsChanged(index, conditions, false);
             healthChanged(index);
         });
@@ -1074,36 +1011,37 @@ var combatLoader = function () {
     function getLoadedMonsters(callback) {
         var allRows = document.querySelectorAll("#combatMain .combatRow");
         var ids = [];
-        console.log(settings);//initiativeNoGroup
-        [...allRows].forEach(row => {
+        console.log(settings); //initiativeNoGroup
+        [...allRows].forEach((row) => {
             if (row.classList.contains("dead_row")) return;
             var monsterId = row.getAttribute("data-dnd_monster_id");
             var index = getRowIndex(row);
-            if (monsterId)
-                ids.push({ id: monsterId, index: index });
+            if (monsterId) ids.push({ id: monsterId, index: index });
         });
         if (!settings.initiativeNoGroup)
-            ids = [... new Set(ids.map(x => x.id))].map(x => { return { id: x } });
-        dataAccess.getHomebrewAndMonsters(data => {
+            ids = [...new Set(ids.map((x) => x.id))].map((x) => {
+                return { id: x };
+            });
+        dataAccess.getHomebrewAndMonsters((data) => {
             var returnList = [];
-            ids.forEach(id => {
-                var found = data.find(x => x.id == id.id);
+            ids.forEach((id) => {
+                var found = data.find((x) => x.id == id.id);
                 if (found) {
                     returnList.push({
                         name: id.index ? `${found.name} (${id.index})` : found.name,
                         dexterity: found.dexterity,
-                        initiative: found.initiative
+                        initiative: found.initiative,
                     });
                 }
-
             });
             callback(returnList);
         });
     }
-    var currentSortFunction, currentSortMarkFunction = currentSortResetFunction;
+    var currentSortFunction,
+        currentSortMarkFunction = currentSortResetFunction;
     var currentSortResetFunction = () => {
-        [...document.querySelectorAll("#combatMain .combatRow")].forEach(x => x.classList.remove("inactive_row"));
-    }
+        [...document.querySelectorAll("#combatMain .combatRow")].forEach((x) => x.classList.remove("inactive_row"));
+    };
     var currentInitiativeActorName;
     function setCurrentActor(currActor) {
         currentInitiativeActorName = currActor;
@@ -1112,12 +1050,11 @@ var combatLoader = function () {
     function orderBy(order) {
         window.setTimeout(() => {
             var btns = [...document.querySelectorAll("#combat_tracker_sort_buttons .sort_button")];
-            btns.forEach(button => {
+            btns.forEach((button) => {
                 button.setAttribute("toggled", "false");
-                if (button.getAttribute("data-sort") == order)
-                    button.setAttribute("toggled", "true");
-            })
-        }, 500)
+                if (button.getAttribute("data-sort") == order) button.setAttribute("toggled", "true");
+            });
+        }, 500);
         currentSortMarkFunction = currentSortResetFunction;
         localStorage.setItem("combatpanel-sort-order", order);
         if (order == "name") {
@@ -1141,43 +1078,38 @@ var combatLoader = function () {
             };
         } else if (order == "init") {
             if (settings.initiativeNoGroup) {
-
                 currentSortFunction = function (a, b) {
                     if (parseInt(getRowIndex(a)) == parseInt(getRowIndex(b))) return 0;
                     var currIndex = parseInt(currentInitiativeActorName.substring(currentInitiativeActorName.lastIndexOf("(") + 1, currentInitiativeActorName.lastIndexOf(")")));
                     console.log(currIndex);
-                    if (parseInt(getRowIndex(a)) == currIndex)
-                        return -1;
-                    if (parseInt(getRowIndex(b)) == currIndex)
-                        return 1;
+                    if (parseInt(getRowIndex(a)) == currIndex) return -1;
+                    if (parseInt(getRowIndex(b)) == currIndex) return 1;
                     return 0;
                 };
             } else {
                 currentSortMarkFunction = function () {
                     var rows = [...document.querySelectorAll("#combatMain .combatRow")];
-                    rows.forEach(x => {
+                    rows.forEach((x) => {
                         var name = x.getAttribute("monster_original_name") || x.getElementsByClassName("name_field")[0].value;
                         if (currentInitiativeActorName != name) {
-                            x.classList.add("inactive_row")
+                            x.classList.add("inactive_row");
                         } else {
-                            x.classList.remove("inactive_row")
+                            x.classList.remove("inactive_row");
                         }
+                    });
+                    if (!rows.find((x) => !x.classList.contains("hidden") && !x.classList.contains("inactive_row"))) {
+                        rows.forEach((x) => {
+                            x.classList.remove("inactive_row");
+                        });
                     }
-                    );
-                    if (!rows.find(x => !x.classList.contains("hidden") && !x.classList.contains("inactive_row"))) {
-                        rows.forEach(x => { x.classList.remove("inactive_row") });
-                    }
-                }
+                };
                 currentSortFunction = function (a, b) {
                     var nameA = a.getAttribute("monster_original_name") || a.getElementsByClassName("name_field")[0].value;
                     var nameB = b.getAttribute("monster_original_name") || b.getElementsByClassName("name_field")[0].value;
-                    if (nameA == nameB)
-                        return 0;
-                    if (currentInitiativeActorName == nameA)
-                        return -1;
+                    if (nameA == nameB) return 0;
+                    if (currentInitiativeActorName == nameA) return -1;
 
-                    if (currentInitiativeActorName == nameB)
-                        return 1;
+                    if (currentInitiativeActorName == nameB) return 1;
                     return 0;
                 };
             }
@@ -1188,26 +1120,23 @@ var combatLoader = function () {
     function rowCountChanged() {
         updateCurrentLoadedDifficulty();
 
-        var visibleRows = [...document.querySelectorAll("#combatMain .combatRow")].filter(x => !x.classList.contains("hidden"));
+        var visibleRows = [...document.querySelectorAll("#combatMain .combatRow")].filter((x) => !x.classList.contains("hidden"));
         if (visibleRows.length === 0) {
             document.getElementById("combat_tracker_sort_buttons").classList.add("hidden");
         } else {
             document.getElementById("combat_tracker_sort_buttons").classList.remove("hidden");
         }
-
     }
 
     function sort() {
         var allRows = [...document.querySelectorAll("#combatMain .combatRow")];
-        if (currentSortMarkFunction)
-            currentSortMarkFunction();
-        if (allRows.length == 0)
-            return;
+        if (currentSortMarkFunction) currentSortMarkFunction();
+        if (allRows.length == 0) return;
 
         var parent = allRows[0].parentNode;
-        allRows.forEach(x => x.parentNode.removeChild(x));
-        allRows.sort(currentSortFunction)
-        allRows.forEach(x => parent.appendChild(x));
+        allRows.forEach((x) => x.parentNode.removeChild(x));
+        allRows.sort(currentSortFunction);
+        allRows.forEach((x) => parent.appendChild(x));
         var logOpen = !document.querySelector("#combat_log_popup").classList.contains("hidden");
         if (logOpen) {
             showLog();
@@ -1244,7 +1173,6 @@ var combatLoader = function () {
         saveOrCondition: saveOrCondition,
         saveVsSpell: saveVsSpell,
         saveVsSpellSubmit: saveVsSpellSubmit,
-        sendMapToolUpdates: sendMapToolUpdates
-    }
-
-}();
+        sendMapToolUpdates: sendMapToolUpdates,
+    };
+})();
