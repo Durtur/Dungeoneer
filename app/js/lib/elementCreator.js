@@ -1,5 +1,11 @@
 class ElementCreator {
-    static generateHTMLTable(jsonObj) {
+    /**
+     * Creates a table with sorting options
+     * @param {table json data} jsonObj
+     * @param {sorting options, object with sorting functions matching the relevant key in the json object} sortingOptions
+     * @returns
+     */
+    static generateHTMLTable(jsonObj, sortingOptions) {
         var jsonKeys = Object.keys(jsonObj);
         jsonKeys.forEach((key) => {
             var isEmpty = jsonObj[key].filter((x) => x != undefined && x != "").length == 0;
@@ -11,7 +17,7 @@ class ElementCreator {
         var expectedLength = jsonObjValues[0].length;
         for (var i = 1; i < jsonObjValues.length; i++) {
             if (jsonObjValues[i].length != expectedLength) {
-                console.log("Cannot create table from arrays of unequal length.");
+                console.error("Cannot create table from arrays of unequal length.");
                 return;
             }
         }
@@ -22,10 +28,14 @@ class ElementCreator {
         var columnCount = 0;
         currentHeader.appendChild(currentRow);
         newTable.appendChild(currentHeader);
-        for (var arr in jsonObj) {
+        var headerArr = [];
+        for (var key in jsonObj) {
+            if(key == "tooltips") continue;
             columnCount++;
             newNode = document.createElement("th");
-            newNode.innerHTML = marked.parse(arr.deserialize().toProperCase());
+            newNode.innerHTML = marked.parse(key.deserialize().toProperCase());
+            newNode.setAttribute("data-key", key);
+            headerArr.push(newNode);
             currentRow.appendChild(newNode);
         }
         currentHeader = document.createElement("tbody");
@@ -35,12 +45,66 @@ class ElementCreator {
             for (var j = 0; j < columnCount; j++) {
                 newNode = document.createElement("td");
                 newNode.innerHTML = marked.parse("" + jsonObjValues[j][i]);
+                if (j == 0 && jsonObj.tooltips) {
+                    newNode.classList.add("tooltipped", "tooltipped_large");
+                    newNode.setAttribute("data-tooltip", jsonObj.tooltips[i]);
+                }
                 currentRow.appendChild(newNode);
             }
         }
         newTable.appendChild(currentHeader);
+
+        var cls = this;
+        if (sortingOptions) {
+            newTable.setAttribute("data-json-data", JSON.stringify(jsonObj));
+            if (!sortingOptions.sortingState) {
+                sortingOptions.sortingState = Object.keys(jsonObj).map((x) => {
+                    return { descending: true, key: x };
+                });
+            }
+
+            headerArr.forEach((headerNode) => {
+                headerNode.onclick = (e) => {
+                    var state = sortingOptions.sortingState;
+                    var data = JSON.parse(newTable.getAttribute("data-json-data"));
+                    var key = headerNode.getAttribute("data-key");
+                    var thisHeaderstate = state.find((x) => x.key == key);
+                    thisHeaderstate.descending = !thisHeaderstate.descending;
+                    cls.performTableSort(data, key, thisHeaderstate.descending, sortingOptions[key] ? sortingOptions[key] : cls.defaultTableComparer);
+                    var parent = newTable.parentNode;
+                    parent.removeChild(newTable);
+                    var regenerated = cls.generateHTMLTable(data, sortingOptions);
+                    parent.appendChild(regenerated);
+                };
+            });
+        }
         return newTable;
     }
+
+    static performTableSort(tableJson, key, descending, compareFunction) {
+        var joinedArr = [];
+        var keys = Object.keys(tableJson);
+
+        for (var i = 0; i < tableJson[key].length; i++) {
+            var obj = {};
+            keys.forEach((k) => (obj[k] = tableJson[k][i]));
+            joinedArr.push(obj);
+        }
+
+        joinedArr.sort(function (a, b) {
+            var valueA = a[key];
+            var valueB = b[key];
+            return compareFunction(valueA, valueB, descending);
+        });
+        keys.forEach((k) => (tableJson[k] = joinedArr.map((x) => x[k])));
+    }
+
+    static defaultTableComparer(a, b, descending) {
+        if (a < b) return descending ? -1 : 1;
+        if (b < a) return descending ? 1 : -1;
+        return 0;
+    }
+
     static createDeletableParagraph(text) {
         var para = document.createElement("para");
         para.innerHTML = text;

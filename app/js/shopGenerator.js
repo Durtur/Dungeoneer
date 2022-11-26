@@ -7,25 +7,17 @@ class ShopGenerator {
         this.generatorData = generatorData;
         this.container = container;
         this.resultContainer = resultContainer;
+        this.rarities = [...new Set(constants.scrollLevels[0].map((x) => x.toLowerCase()))];
         var cls = this;
         document.getElementById("reroll_shop_button").addEventListener("click", function (devt) {
-
             dataAccess.getItems(function (data) {
-                cls.generateShopInventory(data)
+                cls.generateShopInventory(data);
             });
-
-
         });
-
 
         document.querySelector("#generate_shop_button").addEventListener("click", function () {
             cls.generateShop();
-
         });
-
-        this.sortDirections = [false, false, false]
-        this.keys = ["Name", "Rarity", "Price"]
-        this.switchFunctions = [,]
 
         document.getElementById("save_shop_button").addEventListener("click", function (e) {
             cls.saveShop();
@@ -34,7 +26,7 @@ class ShopGenerator {
             getEmbeddable(cls.resultContainer, (resText) => {
                 clipboard.writeText(resText);
                 util.showSuccessMessage("Copied HTML embeddable shop");
-            })
+            });
         });
         document.getElementById("delete_shop_button").addEventListener("click", function (e) {
             cls.deleteShop();
@@ -44,8 +36,7 @@ class ShopGenerator {
 
     saveShop() {
         this.showShopMetadataModal((result) => {
-            if (!result)
-                return;
+            if (!result) return;
 
             this.currentShop.metadata = result;
             dataAccess.persistGeneratorData(this.currentShop, "shop", (data, err) => {
@@ -53,15 +44,12 @@ class ShopGenerator {
                     util.showFailedMessage("Couldn't save shop");
                 } else {
                     util.showSuccessMessage("Shop saved");
-                    this.currentShop = data.shop.find(x => x.name == this.currentShop.name);
+                    this.currentShop = data.shop.find((x) => x.name == this.currentShop.name);
                     this.createSavedShopsSearch();
                     this.displayShop();
                 }
-
             });
         });
-
-
     }
 
     createSavedShopsSearch() {
@@ -70,7 +58,6 @@ class ShopGenerator {
             if (!data || data.length == 0) {
                 if (this.searchInput) this.searchInput.classList.add("hidden");
                 return;
-
             }
             var templ = cls.container.querySelector(".saved_shops_search");
 
@@ -83,38 +70,38 @@ class ShopGenerator {
                 cls.container.appendChild(cls.searchInput);
             }
 
-
-            var searchData = data.map(x => { return { label: x.name, value: x.id } });
-            if (this.searchAwesomplete)
-                this.searchAwesomplete.destroy();
+            var searchData = data.map((x) => {
+                return { label: x.name, value: x.id };
+            });
+            if (this.searchAwesomplete) this.searchAwesomplete.destroy();
             this.searchAwesomplete = new Awesomplete(cls.searchInput, { list: searchData, autoFirst: true, minChars: 0 });
             cls.searchInput.addEventListener("awesomplete-selectcomplete", (e) => {
                 cls.searchInput.value = e.text.label;
                 cls.fetchShop(e.text.value);
-
-
-            })
+            });
         });
     }
 
     fetchShop(id) {
         var cls = this;
         dataAccess.getPersistedGeneratorData("shop", (data) => {
-            var shop = data.find(x => x.id == id);
+            var shop = data.find((x) => x.id == id);
             console.log(shop);
-            if (!shop)
-                return;
+            if (!shop) return;
             cls.currentShop = shop;
             cls.displayShop();
         });
     }
     deleteShop() {
-        if (window.dialog.showMessageBoxSync({
-            type: "question",
-            buttons: ["Ok", "Cancel"],
-            title: "Delete shop?",
-            message: `Do you wish to delete ${this.currentShop.name}?`
-        }) == 1) return;
+        if (
+            window.dialog.showMessageBoxSync({
+                type: "question",
+                buttons: ["Ok", "Cancel"],
+                title: "Delete shop?",
+                message: `Do you wish to delete ${this.currentShop.name}?`,
+            }) == 1
+        )
+            return;
 
         dataAccess.deleteGeneratorPersisted("shop", this.currentShop.id, (data, err) => {
             if (err) {
@@ -124,27 +111,27 @@ class ShopGenerator {
             this.currentShop = null;
             this.displayShop();
             this.createSavedShopsSearch();
-
         });
     }
 
     createMetaData(readonly = true) {
         var cont = this.resultContainer.querySelector("#shop_metadata");
         var cls = this;
-        if (!cont)
-            return;
-        while (cont.firstChild)
-            cont.removeChild(cont.firstChild);
-        if (!this.currentShop?.metadata?.description)
-            return;
+        if (!cont) return;
+        while (cont.firstChild) cont.removeChild(cont.firstChild);
+        if (!this.currentShop?.metadata?.description) return;
         var parent = util.ele("div", "column");
-        var note = new NotePad(this.currentShop?.metadata.description, readonly, (e) => {
-            cls.saveShop();
-        }, true);
+        var note = new NotePad(
+            this.currentShop?.metadata.description,
+            readonly,
+            (e) => {
+                cls.saveShop();
+            },
+            true
+        );
         parent.appendChild(note.container());
         cont.appendChild(parent);
         note.render();
-
     }
 
     fetchShopParams() {
@@ -157,24 +144,20 @@ class ShopGenerator {
         this.currentShop.size++;
         var shopPricingDropdown = document.querySelector("#shop_pricing");
         this.currentShop.price = parseFloat(shopPricingDropdown.options[shopPricingDropdown.selectedIndex].value);
-
     }
 
     generateShop() {
-        dataAccess.getItems(data => {
+        dataAccess.getItems((data) => {
             this.currentShop = {};
             this.generateShopInventory(data, () => this.generateShopDescription());
-
         });
-
-
     }
     generateShopInventory(itemData, callback) {
         this.fetchShopParams();
         var shopWealth = this.currentShop.wealth;
         var shopType = this.currentShop.type;
-        var shopSize = this.currentShop.size
-        var shopPricing = this.currentShop.price
+        var shopSize = this.currentShop.size;
+        var shopPricing = this.currentShop.price;
         var currentRarity;
 
         var shopInventoryArray = [];
@@ -189,9 +172,8 @@ class ShopGenerator {
                 if (shopType === "scroll") {
                     itemData = scrollData;
                 } else {
-                    itemData = typeFilter(itemData, shopType)
+                    itemData = typeFilter(itemData, shopType);
                 }
-
             } else {
                 var currentScrollRarity;
 
@@ -199,35 +181,33 @@ class ShopGenerator {
                     currentScrollRarity = [];
                     for (var j = 0; j < scrollData.length; j++) {
                         if (cls.evaluateRarity(scrollData[j].rarity) == i) {
-                            currentScrollRarity.push([scrollData[j].name, scrollData[j].rarity, scrollData[j].type, { description: scrollData[j].description }])
-
+                            currentScrollRarity.push([scrollData[j].name, scrollData[j].rarity, scrollData[j].type, { description: scrollData[j].description }]);
                         }
                     }
                     var chosen = currentScrollRarity.pickX(shopSize * (d(2) - 1));
                     shopInventoryArray = shopInventoryArray.concat(chosen);
                 }
-
-
-
             }
             for (var i = 0; i <= shopWealth; i++) {
                 currentRarity = [];
                 for (var j = 0; j < itemData.length; j++) {
                     if (cls.evaluateRarity(itemData[j].rarity) == i) {
-                        currentRarity.push([itemData[j].name, itemData[j].rarity, itemData[j].type,
-                        {
-                            description: itemData[j].description,
-                            attunement: (itemData[j].requires_attunement ? `(requires attunement${itemData[j].requires_attunement_by ? " " + itemData[j].requires_attunement_by : ""})` : "")
-                        }])
+                        currentRarity.push([
+                            itemData[j].name,
+                            itemData[j].rarity,
+                            itemData[j].type,
+                            {
+                                description: itemData[j].description,
+                                attunement: itemData[j].requires_attunement ? `(requires attunement${itemData[j].requires_attunement_by ? " " + itemData[j].requires_attunement_by : ""})` : "",
+                            },
+                        ]);
                     }
-
                 }
                 chosen = currentRarity.pickX(shopSize * d(4));
                 shopInventoryArray = shopInventoryArray.concat(chosen);
             }
 
             shopInventoryArray.sort(function (a, b) {
-
                 if (a[0] < b[0]) return -1;
                 if (a[0] > b[0]) return 1;
                 return 0;
@@ -235,7 +215,6 @@ class ShopGenerator {
             var str;
 
             for (var i = 0; i < shopInventoryArray.length; i++) {
-
                 str = shopInventoryArray[i][3];
                 if (str.length > 1200) {
                     str = str.substring(0, 1200);
@@ -248,7 +227,7 @@ class ShopGenerator {
             }
 
             shopInventoryArray.forEach(function (subArray) {
-                shopInventory.name.push(subArray[0])
+                shopInventory.name.push(subArray[0]);
                 shopInventory.rarity.push(subArray[1]);
                 var price = cls.randomizeItemPrice(subArray[1]);
                 if (subArray[2].toLowerCase() === "potion" || subArray[2].toLowerCase() === "scroll") {
@@ -257,17 +236,15 @@ class ShopGenerator {
                 price *= shopPricing;
                 shopInventory.price.push(cls.makePrettyPriceString(price));
             });
-
+            shopInventory.tooltips = tooltipsForTable;
             cls.currentShop.inventory = shopInventory;
-            cls.currentShop.inventoryTooltips = tooltipsForTable;
+
 
             cls.displayShop();
             if (callback) callback();
         });
 
-
         function typeFilter(jsonObj, type) {
-
             var results = [];
             for (var i = 0; i < jsonObj.length; i++) {
                 if (typeof jsonObj[i].type != "string") continue;
@@ -277,9 +254,7 @@ class ShopGenerator {
             }
             return results;
         }
-
     }
-
 
     makePrettyPriceString(str) {
         return str.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " gp";
@@ -294,18 +269,16 @@ class ShopGenerator {
     resetUi() {
         this.toggleShopButtons(false);
     }
-    toggleShopButtons(visible){
-        ["delete_shop_button", "save_shop_button", "embed_shop_button", "reroll_shop_button"].forEach(id => {
+    toggleShopButtons(visible) {
+        ["delete_shop_button", "save_shop_button", "embed_shop_button", "reroll_shop_button"].forEach((id) => {
             var btn = document.getElementById(id);
-            if (!btn)return;
-            if(visible){
+            if (!btn) return;
+            if (visible) {
                 btn.classList.remove("hidden");
-            }
-            else{
-
+            } else {
                 btn.classList.add("hidden");
             }
-        })
+        });
     }
     displayShop() {
         this.resetUi();
@@ -317,54 +290,47 @@ class ShopGenerator {
         headerBox.classList.remove("hidden");
         descriptionBox.innerHTML = this.currentShop?.description || "";
         this.createMetaData();
-        if (!this.currentShop?.name)
-            return;
+        if (!this.currentShop?.name) return;
         document.getElementById("reroll_shop_button").classList.remove("hidden");
         var embedBtn = document.getElementById("embed_shop_button");
-        if (embedBtn)
-            embedBtn.classList.remove("hidden");
+        if (embedBtn) embedBtn.classList.remove("hidden");
 
         var saveBtn = document.getElementById("save_shop_button");
-        if (saveBtn)
-            saveBtn.classList.remove("hidden");
+        if (saveBtn) saveBtn.classList.remove("hidden");
 
         if (this.currentShop?.id) {
             var deleteBtn = document.getElementById("delete_shop_button");
-            if (deleteBtn)
-                deleteBtn.classList.remove("hidden");
-
+            if (deleteBtn) deleteBtn.classList.remove("hidden");
         }
     }
 
+
+    comparePrice(a, b, descending) {
+        var idxA = parseInt(a.replace(",", ""));
+        var idxB = parseInt(b.replace(",", ""));
+        return descending ? idxA - idxB : idxB - idxA;
+    }
+
     emptyAndCreateTable() {
+        var cls = this;
         var tableContainer = document.querySelector("#shop_generator_table");
         while (tableContainer.firstChild) {
             tableContainer.removeChild(tableContainer.firstChild);
         }
         var shopInventory = this.currentShop?.inventory;
-        if (!shopInventory)
-            return;
-        var table = ElementCreator.generateHTMLTable(shopInventory);
-        var nameFields = table.querySelectorAll("td:first-of-type");
-        for (var i = 0; i < nameFields.length; i++) {
-            nameFields[i].classList.add("tooltipped", "tooltipped_large");
-            nameFields[i].setAttribute("data-tooltip", this.currentShop?.inventoryTooltips[i])
-        }
+        if (!shopInventory) return;
+        console.log(shopInventory)
+        var table = ElementCreator.generateHTMLTable(shopInventory, { enabled: true, rarity: compareRarity, price: this.comparePrice });
 
         tableContainer.setAttribute("data-shop_inventory", JSON.stringify(shopInventory));
-        tableContainer.appendChild(table)
+        tableContainer.appendChild(table);
 
-
-
-        var headers = document.querySelectorAll("th");
-        var cls = this;
-        for (var i = 0; i < headers.length; i++) {
-            headers[i].addEventListener("click", (e) => {
-                cls.sortByHeaderValue(e, this)
-            });
+        function compareRarity(a, b, descending) {
+            var idxA = cls.rarities.indexOf(a.toLowerCase());
+            var idxB = cls.rarities.indexOf(b.toLowerCase());
+            return descending ? idxA - idxB : idxB - idxA;
         }
     }
-
 
     randomizeItemPrice(rarity) {
         if (rarity == null) return 0;
@@ -383,7 +349,6 @@ class ShopGenerator {
                 return 2 * d(6) * 25000;
             case "artifact":
                 return "Priceless";
-
         }
         return 0;
     }
@@ -395,7 +360,7 @@ class ShopGenerator {
             case "common":
                 return 0;
             case "uncommon":
-                return 1
+                return 1;
             case "rare":
                 return 2;
             case "very rare":
@@ -404,66 +369,12 @@ class ShopGenerator {
                 return 4;
             case "artifact":
                 return 5;
-
         }
         return -1;
     }
 
-
-
-    sortByHeaderValue(e, cls) {
-
-        var rows, switching, i, x, y, shouldSwitch, switchcount = 0;
-        var n = cls.keys.indexOf(e.target.innerText)
-
-        if (n < 2) {
-            cls.switchFunction = function (x, y) { return x.innerText.toLowerCase() > y.innerText.toLowerCase() }
-        } else {
-            cls.switchFunction = function (x, y) { return parseInt(cls.undoPrettyPriceString(x.innerText)) > parseInt(cls.undoPrettyPriceString(y.innerText)) }
-        }
-        switching = true;
-        cls.sortDirections[n] = true;
-        while (switching) {
-            switching = false;
-            rows = document.querySelectorAll("#shop_generator_table>table>tbody>tr");
-
-            for (i = 0; i < rows.length - 1; i++) {
-                shouldSwitch = false;
-                x = rows[i].getElementsByTagName("TD")[n];
-
-                y = rows[i + 1].getElementsByTagName("TD")[n];
-
-                if (cls.sortDirections[n]) {
-                    if (cls.switchFunction(x, y)) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                } else if (!cls.sortDirections[n]) {
-                    if (cls.switchFunction(y, x)) {
-                        shouldSwitch = true;
-                        break;
-                    }
-                }
-            }
-            if (shouldSwitch) {
-                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-                switching = true;
-                // Each time a switch is done, increase this count by 1:
-                switchcount++;
-            } else {
-                /* If no switching has been done AND the direction is "asc",
-                set the direction to "desc" and run the while loop again. */
-                if (switchcount == 0 && cls.sortDirections[n]) {
-                    cls.sortDirections[n] = false;
-                    switching = true;
-                }
-            }
-        }
-
-    }
-
     async showShopMetadataModal(callback) {
-        var modalCreate = Modals.createModal("Shop", () => { });
+        var modalCreate = Modals.createModal("Shop", () => {});
         var modal = modalCreate.modal;
         var notePad = new NotePad(this.currentShop?.metadata?.description, false);
         var desc = notePad.container();
@@ -478,11 +389,10 @@ class ShopGenerator {
         btn.onclick = (e) => {
             modal.close(true);
             callback({ description: notePad.getContents() });
-        }
+        };
         modal.appendChild(util.wrapper("div", "row flex_end", btn));
         document.body.appendChild(modalCreate.parent);
         notePad.render(true);
-
     }
     generateShopDescription() {
         var shopWealth = this.currentShop.wealth;
@@ -506,14 +416,13 @@ class ShopGenerator {
             clutterSet = data.shops.interior.clutter;
         }
 
-
         rand = Math.random();
         var creatureType = "humanoid";
         var ownerGender = ["male", "female"].pickOne();
         if (rand < fantasyProbability) {
             locationSet = data.shops.location_fantastic;
             var nameset;
-            creatureType = ["celestial", "fey", "aberration", "fiend", "humanoid"].pickOne()
+            creatureType = ["celestial", "fey", "aberration", "fiend", "humanoid"].pickOne();
             if (creatureType === "humanoid") {
                 nameset = "anglo";
             } else {
@@ -521,7 +430,6 @@ class ShopGenerator {
             }
 
             shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names[nameset], creatureType, "shop");
-
         } else {
             locationSet = data.shops.location;
             shopOwner = npcGenerator.generateNPC(data, ownerGender, data.names.anglo, "humanoid", "shop");
@@ -533,7 +441,6 @@ class ShopGenerator {
         } else {
             ownerLastName = shopOwner.firstname;
         }
-
 
         var ownerName = randomIndex >= 1 ? shopOwner.firstname : ownerLastName;
 
@@ -558,8 +465,7 @@ class ShopGenerator {
         if (description.includes("!nointerior")) {
             description = description.replace(/!nointerior/g, "");
         } else {
-            description += "The interior of the shop is " + descriptionSet.pickOne() + ". "
-                + clutterSet.pickOne() + "."
+            description += "The interior of the shop is " + descriptionSet.pickOne() + ". " + clutterSet.pickOne() + ".";
             description = description.replace(/_material/g, data.material[shopWealth].pickOne());
             description = description.replace(/_metal/g, data.metals.pickOne());
             description = description.replace(/_element/g, ["earth", "fire", "water", "air"].pickOne());
@@ -569,21 +475,19 @@ class ShopGenerator {
             if (shopWealth < 2 && inventorySize < 10) {
                 var waresString;
                 if (shopType === "potion") {
-                    waresString = "medicinal and magical herbs, useful for crafting potions, "
+                    waresString = "medicinal and magical herbs, useful for crafting potions, ";
                 } else if (shopType === "weapon") {
-                    waresString = "nonmagical but finely crafted weapons"
+                    waresString = "nonmagical but finely crafted weapons";
                 } else if (shopType === "scroll") {
-                    waresString = "rare tomes and books containing various lore"
+                    waresString = "rare tomes and books containing various lore";
                 } else if (shopType === "item") {
-                    waresString = "rare jewels and wondrous item ingreidents"
+                    waresString = "rare jewels and wondrous item ingreidents";
                 } else {
-                    waresString = "various adventuring gear"
+                    waresString = "various adventuring gear";
                 }
-                description += "<br><br> In addition to the items displayed in the magic item table, the shop has " + waresString + " for sale. "
+                description += "<br><br> In addition to the items displayed in the magic item table, the shop has " + waresString + " for sale. ";
             }
         }
-
-
 
         var creatureString, commaString;
         if (creatureType === "humanoid") {
@@ -597,7 +501,6 @@ class ShopGenerator {
                 creatureString = " is a " + creatureType + ". She ";
                 commaString = "";
             }
-
         }
         var ownerName = shopOwner.lastname;
         if (ownerName) ownerName = " " + ownerName;
@@ -605,10 +508,7 @@ class ShopGenerator {
         this.currentShop.description = description;
         this.currentShop.name = shopName;
         this.displayShop();
-
     }
-
 }
 
 module.exports = ShopGenerator;
-

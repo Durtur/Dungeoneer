@@ -1,29 +1,27 @@
 const dataaccess = require("./dataaccess");
 const dataAccess = require("./dataaccess");
-const Modals = require("./modals")
-const { resolve, basename } = require('path');
-const { readdir } = require('fs').promises;
+const Modals = require("./modals");
+const { resolve, basename } = require("path");
+const { readdir } = require("fs").promises;
 const util = require("./util");
 
 class TokenSelector {
-
     async getNewTokenPaths(multiSelect = true, callback, monsterInfo) {
         var cls = this;
         this.callback = callback;
         this.monsterInfo = monsterInfo;
         this.multiSelect = multiSelect;
         this.removeQueue = [];
-        var title = `Select token${(this.multiSelect ? "s" : "")}${(this.monsterInfo?.name ? ` for ${this.monsterInfo.name}` : "")}`;
+        var title = `Select token${this.multiSelect ? "s" : ""}${this.monsterInfo?.name ? ` for ${this.monsterInfo.name}` : ""}`;
         this.done = (result) => {
-
-            this.removeQueue.forEach(ele => {
-                document.removeEventListener(ele.list, ele.func)
+            this.removeQueue.forEach((ele) => {
+                document.removeEventListener(ele.list, ele.func);
             });
             this.modal?.close(true);
             this.hidePreview();
-            callback(result)
-        }
-        dataAccess.getSettings(settings => {
+            callback(result);
+        };
+        dataAccess.getSettings((settings) => {
             var modalCreate = Modals.createModal(title, cls.done);
             var modal = modalCreate.modal;
             cls.modal = modal;
@@ -34,16 +32,12 @@ class TokenSelector {
                 cls._showTokenModal(modal);
             }
 
-
             document.body.appendChild(modalCreate.parent);
         });
-
-
     }
 
     async _showTokenModal(modal) {
-        if (modal.container)
-            modal.removeChild(modal.container);
+        if (modal.container) modal.removeChild(modal.container);
 
         var cls = this;
 
@@ -51,11 +45,11 @@ class TokenSelector {
         try {
             files = await getFiles(this.tokenFolder);
         } catch {
-           return cls._createNoTokenFolder(modal);
+            return cls._createNoTokenFolder(modal);
         }
-        files = files.filter(x => util.isImage(x));
+        files = files.filter((x) => util.isImage(x));
         var suggestedTokenContainer = document.createElement("div");
-        suggestedTokenContainer.classList = "row_wrap token_selector_suggested"
+        suggestedTokenContainer.classList = "row_wrap token_selector_suggested";
 
         var suggestedTokenContainerParent = document.createElement("div");
         suggestedTokenContainerParent.appendChild(createLabel(`Matching '${this.monsterInfo?.name}'`));
@@ -70,7 +64,7 @@ class TokenSelector {
         suggestedTokenTypeContainerParent.appendChild(suggestedTokenTypeContainer);
 
         var restContainer = document.createElement("div");
-        restContainer.classList = "row_wrap token_selector_rest"
+        restContainer.classList = "row_wrap token_selector_rest";
         document.addEventListener("keydown", showPrevewOnKeyDown);
         this.removeQueue.push({ list: "keydown", func: showPrevewOnKeyDown });
 
@@ -84,10 +78,9 @@ class TokenSelector {
         btn.onclick = () => {
             var selectedImg = [...modal.querySelectorAll(".modal_token_node_selected")];
             if (selectedImg.length == 0) cls.done(null);
-            var paths = selectedImg.map(x => x.getAttribute("data-path"));
+            var paths = selectedImg.map((x) => x.getAttribute("data-path"));
             cls.done(paths);
-        }
-
+        };
 
         var searchInp = util.ele("input", "list_search_style token_search_input");
 
@@ -98,16 +91,13 @@ class TokenSelector {
         tokenSelectionText.style.margin = "1em";
         var buttonWrapper = util.wrapper("div", "row", tokenSelectionText);
 
-
         fileBtn.onclick = () => {
-
             var tokenPath = window.dialog.showOpenDialogSync({
-                properties: ['openFile'],
+                properties: ["openFile"],
                 message: "Choose token location",
-                filters: [{ name: 'Images', extensions: constants.imgFilters }]
+                filters: [{ name: "Images", extensions: constants.imgFilters }],
             });
-            if (tokenPath == null)
-                return;
+            if (tokenPath == null) return;
             tokenPath = tokenPath[0];
             cls.done(tokenPath);
         };
@@ -121,8 +111,7 @@ class TokenSelector {
         var info = document.createElement("div");
         info.innerHTML = "CTRL hover to enlarge";
         info.style.position = "absolute";
-        info.style.left = "0px",
-            info.style.top = "0px"
+        (info.style.left = "0px"), (info.style.top = "0px");
         info.classList = "button_base button_style_transparent";
         modal.appendChild(info);
 
@@ -132,35 +121,31 @@ class TokenSelector {
         if (this.monsterInfo) {
             var monName = this.monsterInfo?.name?.toLowerCase();
             if (monName) {
-
                 var monsplt = monName.split(" ");
-                suggestedFiles = files.filter(x => {
+                suggestedFiles = files.filter((x) => {
                     var fileName = basename(x).deserialize().toLowerCase();
-                    return monsplt.find(x => fileName.includes(x));
-
+                    return monsplt.find((x) => fileName.includes(x));
                 });
                 nameFiltered = suggestedFiles.length > 0;
                 suggestedFiles.forEach(async (path) => {
                     suggestedTokenContainer.appendChild(await createTokenNode(path));
-                })
+                });
 
-                files = files.filter(x => !suggestedFiles.includes(x));
+                files = files.filter((x) => !suggestedFiles.includes(x));
             }
             var monType = this.monsterInfo?.type?.toLowerCase();
             if (monType) {
                 suggestedFiles = await filterType(files);
                 suggestedFiles.forEach(async (path) => {
                     suggestedTokenTypeContainer.appendChild(await createTokenNode(path));
-                })
-                files = files.filter(x => !suggestedFiles.includes(x));
+                });
+                files = files.filter((x) => !suggestedFiles.includes(x));
                 typeFiltered = suggestedFiles.length > 0;
             }
         }
 
-        if (nameFiltered)
-            modal.appendChild(suggestedTokenContainerParent);
-        if (typeFiltered)
-            modal.appendChild(suggestedTokenTypeContainerParent);
+        if (nameFiltered) modal.appendChild(suggestedTokenContainerParent);
+        if (typeFiltered) modal.appendChild(suggestedTokenTypeContainerParent);
 
         //Rest
 
@@ -171,35 +156,33 @@ class TokenSelector {
         searchInp.oninput = () => {
             window.clearTimeout(searchInp.timeout);
             searchInp.timeout = window.setTimeout(() => {
-                var inputSplt = searchInp.value.split(" ");
-
-                var filtered = !searchInp.value ? allFiles : allFiles.filter(x => {
-                    var fileName = basename(x).deserialize().toLowerCase();
-                    return inputSplt.find(x => fileName.includes(x));
-
-                });
+                var value = searchInp.value.toLowerCase();
+                var inputSplt = value.split(" ");
+                var filtered = !value
+                    ? allFiles
+                    : allFiles.filter((x) => {
+                          var fileName = basename(x).deserialize().toLowerCase();
+                          return inputSplt.find((x) => fileName.includes(x));
+                      });
                 destroyHandler();
                 destroyHandler = scrollOnDemand(restContainer, filtered);
-            }, 200)
-
-        }
+            }, 200);
+        };
         modal.appendChild(restContainer);
         modal.appendChild(buttonContainerParent);
         function scrollOnDemand(container, masterList) {
-            while (container.firstChild)
-                container.removeChild(container.firstChild);
+            while (container.firstChild) container.removeChild(container.firstChild);
             var end = scrollTakeCount;
             var scrollEndTimeOut;
             masterList.slice(0, scrollTakeCount).forEach(async (path) => {
                 container.appendChild(await createTokenNode(path));
-            })
+            });
             var res = container.removeEventListener("wheel", expandOnScroll);
             console.log(res);
             container.addEventListener("wheel", expandOnScroll);
-            return () => container.removeEventListener("wheel", expandOnScroll);;
+            return () => container.removeEventListener("wheel", expandOnScroll);
             function expandOnScroll(e) {
                 if (container.scrollTop + container.offsetHeight >= container.scrollHeight) {
-
                     window.clearTimeout(scrollEndTimeOut);
                     scrollEndTimeOut = window.setTimeout(() => {
                         var oldEnd = end;
@@ -207,13 +190,10 @@ class TokenSelector {
 
                         masterList.slice(oldEnd, oldEnd + end).forEach(async (path) => {
                             container.appendChild(await createTokenNode(path));
-                        })
+                        });
                     });
-
                 }
             }
-
-
         }
 
         function createLabel(text) {
@@ -225,10 +205,9 @@ class TokenSelector {
 
         function updateSelection() {
             var selectedImg = [...modal.querySelectorAll(".modal_token_node_selected")];
-            var paths = selectedImg.map(x => x.getAttribute("data-path"));
-            tokenSelectionText.innerHTML = paths.map(x => basename(x).deserialize()).join(", ");
+            var paths = selectedImg.map((x) => x.getAttribute("data-path"));
+            tokenSelectionText.innerHTML = paths.map((x) => basename(x).deserialize()).join(", ");
         }
-
 
         async function filterType(files) {
             return files.filter((x) => {
@@ -237,7 +216,6 @@ class TokenSelector {
                 return lower.includes(monType);
             });
         }
-
 
         async function createTokenNode(path) {
             var img = document.createElement("img");
@@ -250,13 +228,12 @@ class TokenSelector {
             img.addEventListener("click", () => {
                 var clsName = "modal_token_node_selected";
                 if (img.classList.contains(clsName)) {
-                    img.classList.remove(clsName)
+                    img.classList.remove(clsName);
                 } else {
                     if (!cls.multiSelect) {
-                        [...modal.querySelectorAll(`.${clsName}`)].forEach(m => m.classList.remove(clsName));
+                        [...modal.querySelectorAll(`.${clsName}`)].forEach((m) => m.classList.remove(clsName));
                     }
                     img.classList.add(clsName);
-
                 }
                 updateSelection();
             });
@@ -273,12 +250,10 @@ class TokenSelector {
         }
 
         function showPrevewOnKeyDown(e) {
-
             if (e.ctrlKey && cls.currentMouseOver) {
-
                 var y = window.innerHeight / 2;
                 var x = window.innerWidth / 2;
-                showPreview(cls.currentMouseOver.src, { clientX: x, clientY: y })
+                showPreview(cls.currentMouseOver.src, { clientX: x, clientY: y });
             }
         }
 
@@ -297,20 +272,18 @@ class TokenSelector {
             document.body.appendChild(preview);
             preview.style.top = e.clientY + "px";
             preview.style.left = e.clientX + "px";
-
         }
 
         async function getFiles(dir) {
-
             const dirents = await readdir(dir, { withFileTypes: true });
-            const files = await Promise.all(dirents.map((dirent) => {
-                const res = resolve(dir, dirent.name);
-                return dirent.isDirectory() ? getFiles(res) : res;
-            }));
+            const files = await Promise.all(
+                dirents.map((dirent) => {
+                    const res = resolve(dir, dirent.name);
+                    return dirent.isDirectory() ? getFiles(res) : res;
+                })
+            );
             return Array.prototype.concat(...files);
         }
-
-
     }
 
     _createNoTokenFolder(modal) {
@@ -321,20 +294,19 @@ class TokenSelector {
         btn.innerHTML = "Select token folder";
         btn.onclick = () => {
             var folderPath = window.dialog.showOpenDialogSync({
-                properties: ['openDirectory'],
-                message: "Choose token folder location"
+                properties: ["openDirectory"],
+                message: "Choose token folder location",
             });
             if (folderPath == null) return;
             folderPath = folderPath[0];
-            dataaccess.getSettings(settings => {
+            dataaccess.getSettings((settings) => {
                 settings.tokenFolder = folderPath;
                 dataAccess.saveSettings(settings, () => {
                     cls.tokenFolder = folderPath;
                     cls._showTokenModal(modal);
                 });
-            })
-
-        }
+            });
+        };
         var title = document.createElement("h2");
         title.innerHTML = "Select your token folder";
         var p = document.createElement("p");
@@ -351,11 +323,9 @@ class TokenSelector {
         if (this.imgPreview) {
             try {
                 this.imgPreview.parentNode.removeChild(this.imgPreview);
-            } catch { }
+            } catch {}
         }
     }
-
-
 }
 
 module.exports = TokenSelector;

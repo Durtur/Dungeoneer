@@ -1,5 +1,5 @@
 const dataAccess = require("./js/dataaccess");
-const mathyUtil = require("./js/mathyUtil")
+const mathyUtil = require("./js/mathyUtil");
 
 const TavernGenerator = require("./js/tavernGenerator");
 const tavernGenerator = new TavernGenerator();
@@ -9,7 +9,7 @@ const NpcGenerator = require("./js/npcGenerator");
 const npcGenerator = new NpcGenerator();
 const ThemeManager = require("./js/themeManager");
 var settings;
-var marked = require('marked');
+var marked = require("marked");
 marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
@@ -18,18 +18,17 @@ marked.setOptions({
     pedantic: false,
     sanitize: false,
     smartLists: true,
-    smartypants: false
+    smartypants: false,
 });
 var listOfAllMonsters = [];
 var awesompleteSelectionSetMonsters = [];
 var encounterSetAwesompletes = [];
 
-const { clipboard } = require('electron')
+const { clipboard } = require("electron");
 
-const { ipcRenderer } = require('electron');
+const { ipcRenderer } = require("electron");
 
-
-var fs = require('fs');
+var fs = require("fs");
 
 //UI stuff
 //Tree view
@@ -45,16 +44,14 @@ function activeTreeviews() {
     }
 }
 
-
 function switchNpcGeneratorDetails(index) {
     var buttons = document.getElementsByClassName("creature_generation_buttons")[0].querySelectorAll("button");
     var selectedButton = buttons[index];
     var lastState = selectedButton.getAttribute("toggled");
     if (lastState == "true") {
         //Off
-        var otherButton = [...buttons].filter(x => x != selectedButton)[0];
+        var otherButton = [...buttons].filter((x) => x != selectedButton)[0];
         otherButton.setAttribute("toggled", true);
-
     }
     var creatureDetails = document.getElementById("generator_creature_details");
     var creatureNames = document.getElementById("generator_creature_name_details");
@@ -73,29 +70,24 @@ document.addEventListener("DOMContentLoaded", function () {
     updateScrollList();
     updateRandomTableNames();
     updateEncounterSetNames();
-    dataAccess.getSettings(data => settings = data);
+    dataAccess.getSettings((data) => (settings = data));
     // concatDescriptionArrays();
-
-
-
 
     document.querySelector("#copyButton").addEventListener("click", function () {
         var npcString = document.querySelector("#generated_npc_name").innerHTML;
         npcString += "\n";
-        npcString += document.querySelector("#generated_npc_profession").innerHTML
+        npcString += document.querySelector("#generated_npc_profession").innerHTML;
         npcString += "\n";
-        npcString += document.querySelector("#generated_npc_description").innerHTML
-        clipboard.writeText(npcString)
+        npcString += document.querySelector("#generated_npc_description").innerHTML;
+        clipboard.writeText(npcString);
     });
 
-
-
-    dataAccess.getMonsters(mData => {
-        dataAccess.getHomebrewMonsters(hData => {
-            mData.forEach(mon => listOfAllMonsters.push(mon.name));
-            hData.forEach(mon => listOfAllMonsters.push(mon.name));
+    dataAccess.getMonsters((mData) => {
+        dataAccess.getHomebrewMonsters((hData) => {
+            mData.forEach((mon) => listOfAllMonsters.push(mon.name));
+            hData.forEach((mon) => listOfAllMonsters.push(mon.name));
             listOfAllMonsters.sort();
-        })
+        });
     });
     dataAccess.getGeneratorData(function (data) {
         replacementValues = data.replacement_values;
@@ -105,9 +97,8 @@ document.addEventListener("DOMContentLoaded", function () {
         npcGenerator.initialize(data, document.querySelector("#npc_section .genchooser_smaller"), document.querySelector("#npc_section .genchooser_larger"));
         shopGenerator.initialize(data, document.querySelector("#shops_section .genchooser_smaller"), document.querySelector("#shops_section .genchooser_larger"));
         updateCreatureTypeList(creatureTypes);
-        updateCreatureNamesetsList(data.names)
+        updateCreatureNamesetsList(data.names);
         populateCreatureTypeSelect(creatureTypes);
-
     });
 
     document.getElementById("save_creature_set_button").onclick = function (e) {
@@ -127,16 +118,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         });
-    }
+    };
 
     document.getElementById("delete_creature_set_button").onclick = function (e) {
         var set = document.getElementById("creature_type_name_input").value;
-        if (window.dialog.showMessageBoxSync({
-            type: "question",
-            buttons: ["Ok", "Cancel"],
-            title: "Delete nameset?",
-            message: "Do you wish to delete the " + set + " creature set?"
-        }) == 1) return;
+        if (
+            window.dialog.showMessageBoxSync({
+                type: "question",
+                buttons: ["Ok", "Cancel"],
+                title: "Delete nameset?",
+                message: "Do you wish to delete the " + set + " creature set?",
+            }) == 1
+        )
+            return;
         dataAccess.getGeneratorData(function (data) {
             delete data.generated_creatures[set.serialize()];
             dataAccess.setGeneratorData(data, function (data, err) {
@@ -154,12 +148,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("delete_nameset_button").onclick = function (e) {
         var nameSet = document.getElementById("creature_namesets_name_input").value;
-        if (window.dialog.showMessageBoxSync({
-            type: "question",
-            buttons: ["Ok", "Cancel"],
-            title: "Delete nameset?",
-            message: "Do you wish to delete the " + nameSet + " nameset?"
-        }) == 1) return;
+        if (
+            window.dialog.showMessageBoxSync({
+                type: "question",
+                buttons: ["Ok", "Cancel"],
+                title: "Delete nameset?",
+                message: "Do you wish to delete the " + nameSet + " nameset?",
+            }) == 1
+        )
+            return;
         dataAccess.getGeneratorData(function (data) {
             delete data.names[nameSet.serialize()];
             dataAccess.setGeneratorData(data, function (data, err) {
@@ -176,14 +173,12 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     document.getElementById("save_nameset_button").onclick = function (e) {
-
         dataObj = getJsonObjectFromTreeList();
         if (dataObj == null) throw "Dataobject null";
 
         var nameSet = document.getElementById("creature_namesets_name_input").value.serialize();
 
         dataAccess.getGeneratorData(function (data) {
-
             data.names[nameSet] = dataObj;
             dataAccess.setGeneratorData(data, function (data, err) {
                 if (err) {
@@ -195,19 +190,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("delete_nameset_button").disabled = true;
                 }
             });
-
         });
 
-
         document.getElementById("save_nameset_button").disabled = true;
-    }
+    };
 
     function clearTreeView() {
         var domTree = document.getElementById("creature_navigator");
-        while (domTree.firstChild)
-            domTree.removeChild(domTree.firstChild);
+        while (domTree.firstChild) domTree.removeChild(domTree.firstChild);
         document.getElementById("currently_editing_navigator").innerHTML = "";
-
     }
 
     function getJsonObjectFromTreeList() {
@@ -216,44 +207,45 @@ document.addEventListener("DOMContentLoaded", function () {
         nextLevel(dataObj, domTree, "");
         return dataObj;
         function nextLevel(obj, dom, lastAttribute) {
-
             if (dom.childNodes == null) return;
-            if (![...dom.childNodes].find(x => x.classList.contains("treeview_attribute"))) {
-                var attributeElement = [...dom.childNodes].find(x => x.classList && x.classList.contains("treeview_caret"));
+            if (![...dom.childNodes].find((x) => x.classList.contains("treeview_attribute"))) {
+                var attributeElement = [...dom.childNodes].find((x) => x.classList && x.classList.contains("treeview_caret"));
                 if (!attributeElement) {
-                    for (var i = 0; i < dom.childNodes.length; i++)nextLevel(obj, dom.childNodes[i], lastAttribute);
+                    for (var i = 0; i < dom.childNodes.length; i++) nextLevel(obj, dom.childNodes[i], lastAttribute);
                     return;
                 }
                 var attr = attributeElement.innerHTML;
                 if (!obj[lastAttribute] && lastAttribute) obj[lastAttribute] = {};
-                nextLevel(lastAttribute ? obj[lastAttribute] : obj, [...dom.childNodes].find(x => x.classList.contains("treeview_nested")), attr);
+                nextLevel(
+                    lastAttribute ? obj[lastAttribute] : obj,
+                    [...dom.childNodes].find((x) => x.classList.contains("treeview_nested")),
+                    attr
+                );
             } else {
-                var attrList = [...dom.childNodes].filter(x => x.classList.contains("treeview_attribute")).map(x => x.firstChild.innerHTML);
+                var attrList = [...dom.childNodes].filter((x) => x.classList.contains("treeview_attribute")).map((x) => x.firstChild.innerHTML);
                 obj[lastAttribute] = attrList ? attrList : [];
             }
         }
     }
 
     function populateCreatureTypeSelect(creatureTypes) {
-
         var creatureNameSelect = document.getElementById("choose_type_generated_creature");
-        creatureTypes.forEach(cretType => {
-
+        creatureTypes.forEach((cretType) => {
             var newOption = document.createElement("option");
             newOption.setAttribute("value", cretType);
             var unSerialized = unSerialize(cretType);
             console.log(unSerialized);
             newOption.innerHTML = unSerialized.substring(0, 1).toUpperCase() + unSerialized.substring(1).toLowerCase();
             creatureNameSelect.appendChild(newOption);
-        })
+        });
     }
 
     function updateCreatureNamesetsList(names) {
-        console.log(Object.keys(names))
+        console.log(Object.keys(names));
         var input = document.getElementById("creature_namesets_name_input");
         new Awesomplete(input, { list: Object.keys(names), autoFirst: true, minChars: 0, maxItems: 120 });
-        input.addEventListener('awesomplete-selectcomplete', function (e) {
-            dataAccess.getGeneratorData(data => {
+        input.addEventListener("awesomplete-selectcomplete", function (e) {
+            dataAccess.getGeneratorData((data) => {
                 var creature = data.names[e.target.value];
                 document.getElementById("currently_editing_navigator").innerText = e.target.value + " names" + (creature == null ? " (new)" : "");
                 if (!creature) {
@@ -264,62 +256,53 @@ document.addEventListener("DOMContentLoaded", function () {
                 createCreatureTreeList(creature);
                 document.getElementById("save_nameset_button").disabled = false;
             });
-
         });
     }
 
     function updateCreatureTypeList(creatureTypes) {
         var input = document.getElementById("creature_type_name_input");
         new Awesomplete(input, { list: creatureTypes, autoFirst: true, minChars: 0, maxItems: 120 });
-        input.addEventListener('keydown', function (e) {
-            if (e.keyCode == 13)
-                populateCreatureTreeView(e);
+        input.addEventListener("keydown", function (e) {
+            if (e.keyCode == 13) populateCreatureTreeView(e);
         });
-        input.addEventListener('awesomplete-selectcomplete', populateCreatureTreeView);
+        input.addEventListener("awesomplete-selectcomplete", populateCreatureTreeView);
         function populateCreatureTreeView(e) {
-            dataAccess.getGeneratorData(data => {
-
+            dataAccess.getGeneratorData((data) => {
                 var creature = data.generated_creatures[e.target.value];
                 document.getElementById("currently_editing_navigator").innerText = e.target.value + (creature == null ? " (new)" : "");
                 if (creature == null) {
                     creature = {
                         professions: {
-
                             common: [""],
                             uncommon: [""],
-                            rare: [""]
+                            rare: [""],
                         },
                         traits: [""],
                         hooks: [""],
                         appearance: {
                             face_aesthetics: [""],
                             face_shape: [""],
-                            build: [""]
-                        }
-                    }
+                            build: [""],
+                        },
+                    };
                 } else {
                     document.getElementById("delete_creature_set_button").disabled = false;
                 }
                 document.getElementById("save_creature_set_button").disabled = false;
                 createCreatureTreeList(creature);
-
-
             });
         }
     }
-
 });
 
 var editingListAttribute = false;
 function createCreatureTreeList(object) {
     var cont = document.getElementById("creature_navigator");
-    while (cont.firstChild)
-        cont.removeChild(cont.firstChild);
+    while (cont.firstChild) cont.removeChild(cont.firstChild);
 
-
-    var list = document.createElement("ul")
+    var list = document.createElement("ul");
     list.classList = "treeview_list";
-    iterate(object, list, 10)
+    iterate(object, list, 10);
 
     cont.appendChild(list);
     cont.classList.remove("hidden");
@@ -341,43 +324,36 @@ function createCreatureTreeList(object) {
                 ul.classList = "treeview_nested";
 
                 li.appendChild(ul);
-                parentElement.appendChild(li)
-                return iterate(arr[key], ul, infiniteLoopGuard - 1)
+                parentElement.appendChild(li);
+                return iterate(arr[key], ul, infiniteLoopGuard - 1);
             }
             //attribute
             parentElement.appendChild(li);
             parentElement.classList.add("attribute_list");
             parentElement.addEventListener("dblclick", addRowToAttListHandler);
-            li.classList.add("treeview_attribute")
-            createParagraph(arr[key], li)
-
-
-
-
+            li.classList.add("treeview_attribute");
+            createParagraph(arr[key], li);
         });
-
     }
     function addRowToAttListHandler(evt) {
-        console.log("Editing: " + editingListAttribute)
+        console.log("Editing: " + editingListAttribute);
         if (editingListAttribute) return;
-        if (evt.target.tagName == "P")
-            return;
+        if (evt.target.tagName == "P") return;
         var parentList = evt.target.closest(".treeview_nested ");
         addRowToAttList(parentList);
     }
 
     function addRowToAttList(parentList) {
-        console.log("Create new row on enter")
+        console.log("Create new row on enter");
         var li = document.createElement("li");
         li.classList = "treeview_attribute";
-        parentList.appendChild(li)
+        parentList.appendChild(li);
         createEditParagraph("", li);
         li.scrollIntoView();
     }
     function createParagraph(text, li) {
         if (text == null || text == "") {
-            if (li && li.parentNode)
-                li.parentNode.removeChild(li);
+            if (li && li.parentNode) li.parentNode.removeChild(li);
             return;
         }
         var p = document.createElement("p");
@@ -398,9 +374,9 @@ function createCreatureTreeList(object) {
         input.addEventListener("blur", stopEditing);
         function leaveOnEnterOrEsc(evt) {
             if (evt.keyCode == 13 || evt.keyCode == 27) {
-                //esc 
+                //esc
                 if (evt.keyCode == 27) {
-                    evt.target.value = evt.target.getAttribute("data-old_value")
+                    evt.target.value = evt.target.getAttribute("data-old_value");
                     //create new line straight away if enter
                 } else if (evt.keyCode == 13) {
                     if (evt.target.value != "") {
@@ -410,11 +386,8 @@ function createCreatureTreeList(object) {
                             editingListAttribute = false;
 
                             addRowToAttList(parentList);
-
                         }, 100);
-
                     }
-
                 }
                 document.activeElement.blur();
             }
@@ -422,8 +395,7 @@ function createCreatureTreeList(object) {
 
         function stopEditing(evt) {
             window.setTimeout(() => {
-                if (evt.target != document.activeElement)
-                    doStopEditing(evt);
+                if (evt.target != document.activeElement) doStopEditing(evt);
             }, 50);
 
             function doStopEditing(evt) {
@@ -439,8 +411,7 @@ function createCreatureTreeList(object) {
                 var container = parent.parentNode;
                 if (!container) return;
                 var nodeList = [...container.childNodes];
-                while (nodeList.firstChild)
-                    nodeList.removeChild(nodeList.firstChild);
+                while (nodeList.firstChild) nodeList.removeChild(nodeList.firstChild);
                 nodeList.sort(function (a, b) {
                     var first = a.querySelector("p").innerHTML.toUpperCase();
                     var second = b.querySelector("p").innerHTML.toUpperCase();
@@ -448,27 +419,18 @@ function createCreatureTreeList(object) {
                     if (second < first) return -1;
                     return 0;
                 });
-                while (nodeList.length > 0)
-                    container.appendChild(nodeList.pop());
-
+                while (nodeList.length > 0) container.appendChild(nodeList.pop());
             }
-
-
         }
     }
 
     function editListAttribute(event) {
-
         editingListAttribute = true;
         var para = event.target.parentNode.getElementsByTagName("p")[0];
-        createEditParagraph(para.innerHTML, para.parentNode)
+        createEditParagraph(para.innerHTML, para.parentNode);
         para.parentNode.removeChild(para);
     }
-
-
 }
-
-
 
 var randomTableNames;
 function updateRandomTableNames() {
@@ -479,26 +441,22 @@ function updateRandomTableNames() {
         }
     });
 
-
     var encDumpInput = document.getElementById("encounter_set_dump");
     encDumpInput.addEventListener("paste", dumpCreateEncounterSet);
     var tableDumpInput = document.getElementById("random_table_dump");
     tableDumpInput.addEventListener("paste", dumpCreateTable);
     dataAccess.getRandomTables(function (data) {
-
         var data = data.tables;
         randomTableNames = [...Object.keys(data)];
         for (var i = 0; i < randomTableNames.length; i++) {
-            randomTableNames[i] = unSerialize(randomTableNames[i])
+            randomTableNames[i] = unSerialize(randomTableNames[i]);
         }
         var aws = new Awesomplete(input, { list: randomTableNames, autoFirst: true, minChars: 0, maxItems: 120 });
-        input.addEventListener('awesomplete-selectcomplete', function (e) {
+        input.addEventListener("awesomplete-selectcomplete", function (e) {
             populateRandomTable();
         });
     });
 }
-
-
 
 var encounterSetAwesomplete;
 function updateEncounterSetNames() {
@@ -507,7 +465,7 @@ function updateEncounterSetNames() {
         if (evt.keyCode == 13) {
             loadEncounterSet();
         }
-    })
+    });
     var tableDumpInput = document.getElementById("encounter_set_dump");
     tableDumpInput.addEventListener("paste", dumpCreateEncounterSet);
 
@@ -517,10 +475,10 @@ function updateEncounterSetNames() {
         var encounterSetNames = [...Object.keys(data)];
 
         for (var i = 0; i < encounterSetNames.length; i++) {
-            encounterSetNames[i] = unSerialize(encounterSetNames[i])
+            encounterSetNames[i] = unSerialize(encounterSetNames[i]);
         }
         encounterSetAwesomplete = new Awesomplete(input, { list: encounterSetNames, autoFirst: true, minChars: 0 });
-        input.addEventListener('awesomplete-selectcomplete', function (e) {
+        input.addEventListener("awesomplete-selectcomplete", function (e) {
             loadEncounterSet();
         });
     });
@@ -532,14 +490,11 @@ function loadEncounterSet() {
     var input = document.getElementById("encounter_set_name_input");
     if (input.value == "") return;
     dataAccess.getRandomTables(function (data) {
-        var data = (data.encounter_sets ? data.encounter_sets : []);
-        var selectedSet = data[serialize(input.value)]
-        createEncourSetTableFromDataSet(selectedSet)
+        var data = data.encounter_sets ? data.encounter_sets : [];
+        var selectedSet = data[serialize(input.value)];
+        createEncourSetTableFromDataSet(selectedSet);
     });
-
-
 }
-
 
 function createEncourSetTableFromDataSet(dataset) {
     var tableContainer = document.getElementById("customize_table");
@@ -560,7 +515,7 @@ function createEncourSetTableFromDataSet(dataset) {
     }
     randomizeTable = generateEncounterTable({
         creatures: creatureArray,
-    })
+    });
     tableContainer.appendChild(randomizeTable);
 
     document.getElementById("save_encounter_set_button").classList.remove("hidden");
@@ -575,8 +530,7 @@ function createEncourSetTableFromDataSet(dataset) {
 }
 
 function generateEncounterTable(obj) {
-    if (!obj || !obj.creatures)
-        obj = { creatures: [] };
+    if (!obj || !obj.creatures) obj = { creatures: [] };
     var newTable = document.createElement("table");
 
     var currentHeader = document.createElement("thead");
@@ -586,7 +540,6 @@ function generateEncounterTable(obj) {
     newNode = document.createElement("th");
     newNode.innerText = "Creatures";
     currentRow.appendChild(newNode);
-
 
     currentHeader = document.createElement("tbody");
     for (var i = 0; i < obj.creatures.length; i++) {
@@ -605,35 +558,32 @@ function createEnconterSetTableRow(value) {
     newInput.classList = "encounter_set_add_creature";
     newNode = document.createElement("td");
     newNode.appendChild(newInput);
-    currentRow.appendChild(newNode)
+    currentRow.appendChild(newNode);
 
     encounterSetAwesompletes.push(new Awesomplete(newInput, { list: awesompleteSelectionSetMonsters, autoFirst: true, minChars: 1, maxItems: 50 }));
     newInput.addEventListener("awesomplete-selectcomplete", (e) => {
         var inputs = [...document.getElementsByClassName("encounter_set_add_creature")];
         var emptyInput;
-        inputs.forEach(inp => {
-            if (inp.value == "")
-                emptyInput = inp;
-        })
+        inputs.forEach((inp) => {
+            if (inp.value == "") emptyInput = inp;
+        });
         if (!emptyInput) emptyInput = addEncounterSetRow("").getElementsByClassName("encounter_set_add_creature")[0];
         refreshMonsterListInputs();
         emptyInput.focus();
-
     });
     return currentRow;
 }
 
 function refreshMonsterListInputs() {
     var allInputValues = [];
-    encounterSetAwesompletes.forEach(awes => {
-        if (allInputValues.indexOf(awes.input.value) < 0)
-            allInputValues.push(awes.input.value)
+    encounterSetAwesompletes.forEach((awes) => {
+        if (allInputValues.indexOf(awes.input.value) < 0) allInputValues.push(awes.input.value);
     });
 
-    encounterSetAwesompletes.forEach(awes => {
-        allInputValues.forEach(value => {
+    encounterSetAwesompletes.forEach((awes) => {
+        allInputValues.forEach((value) => {
             if (awes._list.indexOf(value) >= 0) {
-                awes._list.splice(awes._list.indexOf(value), 1)
+                awes._list.splice(awes._list.indexOf(value), 1);
             }
         });
     });
@@ -650,10 +600,9 @@ function dumpCreateEncounterSet(evt) {
     var tableDumpInput = document.getElementById("encounter_set_dump");
     window.setTimeout(function () {
         var lines = tableDumpInput.value.split("\n");
-        createEncourSetTableFromDataSet(lines)
-    }, 1)
+        createEncourSetTableFromDataSet(lines);
+    }, 1);
 }
-
 
 function deleteEncounterSet() {
     var input = document.getElementById("encounter_set_name_input");
@@ -664,29 +613,23 @@ function deleteEncounterSet() {
         data = obj.encounter_sets;
 
         if (data[encounterSetName] == null) return;
-        var response = window.dialog.showMessageBoxSync(
-            {
-                type: "question",
-                buttons: ["Ok", "Cancel"],
-                title: "Delete table?",
-                message: "Do you wish to delete encounter set " + input.value + " ?"
-            }
-        );
-        if (response != 0)
-            return;
+        var response = window.dialog.showMessageBoxSync({
+            type: "question",
+            buttons: ["Ok", "Cancel"],
+            title: "Delete table?",
+            message: "Do you wish to delete encounter set " + input.value + " ?",
+        });
+        if (response != 0) return;
         delete data[encounterSetName];
         encounterSetName = unSerialize(encounterSetName);
         obj.encounter_sets = data;
         dataAccess.setRandomTables(obj, function (data) {
-
-            if (encounterSetAwesomplete._list.indexOf(encounterSetName) > 0)
-                encounterSetAwesomplete._list.splice(encounterSetAwesomplete._list.indexOf(encounterSetName), 1)
+            if (encounterSetAwesomplete._list.indexOf(encounterSetName) > 0) encounterSetAwesomplete._list.splice(encounterSetAwesomplete._list.indexOf(encounterSetName), 1);
             clearRandomTableContainer();
             document.getElementById("save_encounter_set_button").classList.add("hidden");
             document.getElementById("delete_encounter_set_button").classList.add("hidden");
             document.getElementById("add_encounter_set_row").classList.add("hidden");
             input.value = "";
-
         });
     });
 }
@@ -694,22 +637,19 @@ function deleteEncounterSet() {
 function saveEncounterSet() {
     var encounterSetName = document.getElementById("encounter_set_name_input").value;
     if (encounterSetName == "") {
-        window.dialog.showMessageBoxSync(
-            {
-                type: "info",
-                buttons: ["Ok"],
-                title: "Unable to save table",
-                message: "Table name required"
-            }
-        );
+        window.dialog.showMessageBoxSync({
+            type: "info",
+            buttons: ["Ok"],
+            title: "Unable to save table",
+            message: "Table name required",
+        });
         return;
     }
 
     var creatureList = [];
-    encounterSetAwesompletes.forEach(awes => {
+    encounterSetAwesompletes.forEach((awes) => {
         var cret = awes.input.value;
-        if (cret == "")
-            return;
+        if (cret == "") return;
         var doesExist = listOfAllMonsters.indexOf(cret) >= 0;
         if (doesExist) {
             creatureList.push(cret);
@@ -718,8 +658,7 @@ function saveEncounterSet() {
     dataAccess.getRandomTables((data) => {
         data.encounter_sets[serialize(encounterSetName)] = creatureList;
         dataAccess.setRandomTables(data, (resultData, err) => {
-            if (encounterSetAwesomplete._list.indexOf(encounterSetName) < 0)
-                encounterSetAwesomplete._list.push(encounterSetName)
+            if (encounterSetAwesomplete._list.indexOf(encounterSetName) < 0) encounterSetAwesomplete._list.push(encounterSetName);
             if (err) {
                 Util.showFailedMessage("Save failed");
                 return;
@@ -729,9 +668,7 @@ function saveEncounterSet() {
             Util.showSuccessMessage("Saved");
             document.getElementById("encounter_set_name_input").value = "";
             clearRandomTableContainer();
-
         });
-
     });
 }
 /* #endregion encounter sets */
@@ -741,7 +678,7 @@ function dumpCreateTable(evt) {
     var tableDumpInput = document.getElementById("random_table_dump");
     window.setTimeout(function () {
         processDump();
-    }, 1)
+    }, 1);
 
     function processDump() {
         var input = tableDumpInput.value;
@@ -754,28 +691,22 @@ function dumpCreateTable(evt) {
         for (var i = 0; i < allLines.length; i++) {
             currentLine = allLines[i].split("\t");
             if (currentLine.length > 1) {
-
-                obj.push(
-                    {
-                        title: currentLine[0],
-                        probability: currentLine[2] ? createProbabilityFromTableString(currentLine[2], baseProbability) : baseProbability,
-                        content: currentLine[1],
-                        active: currentLine[3] ? currentLine[3] : "y"
-                    }
-                )
+                obj.push({
+                    title: currentLine[0],
+                    probability: currentLine[2] ? createProbabilityFromTableString(currentLine[2], baseProbability) : baseProbability,
+                    content: currentLine[1],
+                    active: currentLine[3] ? currentLine[3] : "y",
+                });
             } else {
-                obj.push(
-                    {
-                        title: "",
-                        probability: baseProbability,
-                        content: allLines[i],
-                        active: "y"
-                    }
-                )
+                obj.push({
+                    title: "",
+                    probability: baseProbability,
+                    content: allLines[i],
+                    active: "y",
+                });
             }
-
         }
-        createRandomizeTableFromSet(obj)
+        createRandomizeTableFromSet(obj);
 
         function createProbabilityFromTableString(probString, fallback) {
             var values = probString.split(/[+|-]+/);
@@ -786,20 +717,17 @@ function dumpCreateTable(evt) {
                 var lowerNumber = Math.min(parseInt(values[0]), parseInt(values[1]));
 
                 finalValue = higherNumber - lowerNumber;
-                if (isNaN(finalValue))
-                    return fallback;
+                if (isNaN(finalValue)) return fallback;
                 return finalValue;
             }
-            finalValue = parseInt(probString)
-            if (isNaN(finalValue))
-                return fallback;
-            return finalValue
+            finalValue = parseInt(probString);
+            if (isNaN(finalValue)) return fallback;
+            return finalValue;
         }
     }
 }
 var randomizeTable;
 function populateRandomTable() {
-
     var input = document.getElementById("random_table_name_input");
     if (input.value == "") {
         document.getElementById("delete_table_button").classList.add("hidden");
@@ -809,12 +737,11 @@ function populateRandomTable() {
     dataAccess.getRandomTables(function (data) {
         var data = data.tables;
         var selectedSet = data != null ? data[serialize(input.value)] : null;
-        createRandomizeTableFromSet(selectedSet)
+        createRandomizeTableFromSet(selectedSet);
     });
 }
 
 function generateRandomTable(jsonObj) {
-
     var expectedLength = Object.values(jsonObj)[0].length;
     for (var i = 1; i < Object.values(jsonObj).length; i++) {
         if (Object.values(jsonObj)[i].length != expectedLength) {
@@ -847,7 +774,6 @@ function generateRandomTable(jsonObj) {
                 newInput.classList = "random_table_followup_input";
                 newNode.appendChild(newInput);
                 createTableNameAwesomeplete(newInput);
-
             } else {
                 newNode.innerText = Object.values(jsonObj)[j][i];
                 newNode.setAttribute("contenteditable", true);
@@ -855,7 +781,7 @@ function generateRandomTable(jsonObj) {
 
             currentRow.appendChild(newNode);
         }
-        currentRow.appendChild(createDeleteButton())
+        currentRow.appendChild(createDeleteButton());
     }
     newTable.appendChild(currentHeader);
     return newTable;
@@ -866,7 +792,7 @@ function generateRandomTable(jsonObj) {
         btn.onclick = function (evt) {
             var parent = evt.target.closest("tr");
             parent.parentNode.removeChild(parent);
-        }
+        };
         return btn;
     }
 }
@@ -875,7 +801,7 @@ function createTableNameAwesomeplete(newInput) {
 }
 
 function deleteRandomTable() {
-    console.log("to")
+    console.log("to");
     var input = document.getElementById("random_table_name_input");
     var tblName = serialize(input.value);
     dataAccess.getRandomTables(function (data) {
@@ -883,24 +809,19 @@ function deleteRandomTable() {
         data = obj.tables;
 
         if (!data || data[tblName] == null) return;
-        var response = window.dialog.showMessageBoxSync(
+        var response = window.dialog.showMessageBoxSync({
+            type: "question",
+            buttons: ["Ok", "Cancel"],
+            title: "Delete table?",
+            message: "Do you wish to delete table " + input.value + " ?",
+        });
 
-            {
-                type: "question",
-                buttons: ["Ok", "Cancel"],
-                title: "Delete table?",
-                message: "Do you wish to delete table " + input.value + " ?"
-            }
-        );
-
-        if (response != 0)
-            return;
+        if (response != 0) return;
 
         delete data[tblName];
 
         obj.tables = data;
         dataAccess.setRandomTables(obj, function (data) {
-
             if (randomTableNames.indexOf(input.value) < 0) {
                 randomTableNames.splice(randomTableNames.indexOf(input.value), 1);
             }
@@ -908,36 +829,28 @@ function deleteRandomTable() {
             document.getElementById("save_table_button").classList.add("hidden");
             document.getElementById("delete_table_button").classList.add("hidden");
             document.getElementById("addTableRowButton").classList.add("hidden");
-
         });
     });
 }
 
-
 function saveRandomTable() {
     var input = document.getElementById("random_table_name_input");
     if (input.value == "") {
-        window.dialog.showMessageBoxSync(
-            {
-                type: "info",
-                buttons: ["Ok"],
-                title: "Unable to save table",
-                message: "Table name required"
-            }
-        );
+        window.dialog.showMessageBoxSync({
+            type: "info",
+            buttons: ["Ok"],
+            title: "Unable to save table",
+            message: "Table name required",
+        });
         return;
     }
     var tblBody = randomizeTable.getElementsByTagName("tbody")[0];
     var rows = tblBody.querySelectorAll("tr");
     var arr = [];
     for (var i = 0; i < rows.length; i++) {
-
         var obj = {};
         var children = rows[i].getElementsByTagName("td");
-        if (children[0].innerHTML == "" &&
-            children[1].innerHTML == "" &&
-            children[3].getElementsByTagName("input")[0].value == ""
-        ) {
+        if (children[0].innerHTML == "" && children[1].innerHTML == "" && children[3].getElementsByTagName("input")[0].value == "") {
             continue;
         }
         obj.title = children[0].innerHTML;
@@ -964,11 +877,9 @@ function saveRandomTable() {
                 randomTableNames.push(input.value);
             }
             document.getElementById("delete_table_button").classList.remove("hidden");
-            console.log("saved")
+            console.log("saved");
             Util.showSuccessMessage("Saved");
-
         });
-
     });
 }
 
@@ -1014,14 +925,13 @@ function createRandomizeTableFromSet(dataset) {
         Title: titleArray,
         Content: contentArray,
         Percentage: probabilityArray,
-        Roll_again_on: rollAgainArray
-    })
+        Roll_again_on: rollAgainArray,
+    });
     tableContainer.appendChild(randomizeTable);
 
     document.getElementById("save_table_button").classList.remove("hidden");
     document.getElementById("addTableRowButton").classList.remove("hidden");
 }
-
 
 function addRandomTableRow() {
     if (randomizeTable == null) return;
@@ -1031,7 +941,6 @@ function addRandomTableRow() {
         td.setAttribute("contenteditable", "true");
 
         row.appendChild(td);
-
     }
     var td = document.createElement("td");
     td.setAttribute("contenteditable", "true");
@@ -1040,13 +949,9 @@ function addRandomTableRow() {
     td.appendChild(tdInput);
     createTableNameAwesomeplete(tdInput);
 
-    row.appendChild(td)
+    row.appendChild(td);
     randomizeTable.getElementsByTagName("tbody")[0].appendChild(row);
 }
-
-
-
-
 
 function d(sides) {
     return Math.floor(Math.random() * sides) + 1;
@@ -1061,7 +966,7 @@ function serialize(string) {
 }
 
 function openCustomizationTab(containerName, button) {
-    [...document.querySelectorAll(".generator_customization_section, .explanation_text_customize_generator")].forEach(ele => ele.classList.add("hidden"));
+    [...document.querySelectorAll(".generator_customization_section, .explanation_text_customize_generator")].forEach((ele) => ele.classList.add("hidden"));
     document.getElementById(button.getAttribute("data-explanation_text")).classList.remove("hidden");
     document.getElementById(containerName).classList.remove("hidden");
     normalizeGeneratorPageStates();
@@ -1077,11 +982,11 @@ function setTab(x) {
     var tabs = document.getElementsByClassName("tab");
     for (var i = 0; i < tabs.length; i++) {
         tabs[i].classList.remove("toggle_button_toggled");
-        var currentSection = document.querySelector("#" + tabs[i].getAttribute("data-section_id") + "_section")
+        var currentSection = document.querySelector("#" + tabs[i].getAttribute("data-section_id") + "_section");
         currentSection.classList.add("hidden");
     }
 
-    document.getElementById(x).classList.add("toggle_button_toggled")
+    document.getElementById(x).classList.add("toggle_button_toggled");
     document.querySelector("#" + x + "_section").classList.remove("hidden");
 }
 
@@ -1099,48 +1004,71 @@ function populateGenerationSetMenu() {
     });
 }
 
-
-
 function getEmbeddable(element, callback) {
-    dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "generators.css"), (styleCont) => {
-        console.log(styleCont);
-        dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "theme.css"), rootCont => {
-            dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "common.css"), commonCss => {
-                dataAccess.readFile(window.api.path.join(ThemeManager.BASE_CSS_PATH, "quill", "snow.css"), snowCss => {
-
-                    styleCont = rootCont + commonCss + styleCont + snowCss;
-                    callback(`<link rel = 'stylesheet' url <div>${element.outerHTML} <style>${styleCont}</style> </div>`);
-                }, false)
-
-            }, false)
-
-        }, false)
-    }, false);
+    dataAccess.readFile(
+        window.api.path.join(ThemeManager.BASE_CSS_PATH, "generators.css"),
+        (styleCont) => {
+            console.log(styleCont);
+            dataAccess.readFile(
+                window.api.path.join(ThemeManager.BASE_CSS_PATH, "theme.css"),
+                (rootCont) => {
+                    dataAccess.readFile(
+                        window.api.path.join(ThemeManager.BASE_CSS_PATH, "common.css"),
+                        (commonCss) => {
+                            dataAccess.readFile(
+                                window.api.path.join(ThemeManager.BASE_CSS_PATH, "quill", "snow.css"),
+                                (snowCss) => {
+                                    styleCont = rootCont + commonCss + styleCont + snowCss;
+                                    callback(`<link rel = 'stylesheet' url <div>${element.outerHTML} <style>${styleCont}</style> </div>`);
+                                },
+                                false
+                            );
+                        },
+                        false
+                    );
+                },
+                false
+            );
+        },
+        false
+    );
 }
 
+const SPELL_DESCRIPTION_MAX = 700;
 function updateScrollList() {
     dataAccess.getSpells(function (data) {
         var scrollItems = [];
         var newItem, rarity, saveDc, attackBonus;
         data.forEach(function (element) {
             newItem = {};
-            rarity = scrollLevels[0][parseInt(element.level)]
-            saveDc = scrollLevels[1][parseInt(element.level)]
-            attackBonus = scrollLevels[2][parseInt(element.level)]
+            rarity = constants.scrollLevels[0][parseInt(element.level)];
+            saveDc = constants.scrollLevels[1][parseInt(element.level)];
+            attackBonus = constants.scrollLevels[2][parseInt(element.level)];
             newItem.type = "Scroll";
             newItem.rarity = rarity;
             newItem.name = "Scroll of " + element.name;
-            newItem.description = "**" + (element.classes != null ? joinAndCapitalize(element.classes) : "") + " scroll, " + rarity + "**" + "\n" +
-                "Save DC " + saveDc + ". Attack bonus " + attackBonus + "."
-                + "\n" + "This *spell scroll* bears the words of the " + element.name + " spell, written in a mystical cipher. If the spell is on your class’s spell list, you can use an action to read the scroll and cast the spell without having to provide any of the spell’s components. Otherwise, the scroll is unintelligible.",
-                "If the spell is on your class’s spell list but of a higher level than you can normally cast, you must make an ability check using your spellcasting ability to determine whether you cast it successfully. The DC is" + (parseInt(element.level) + 10) + ". On a failed check, the spell disappears from the scroll with no other effect. Once the spell is cast, the words on the scroll fade, and the scroll itself crumbles to dust.";
-
+            if (element.description.length > SPELL_DESCRIPTION_MAX) {
+                element.description = element.description.slice(0, SPELL_DESCRIPTION_MAX) + "...";
+            }
+            newItem.description =
+                "**" +
+                (element.classes != null ? joinAndCapitalize(element.classes) : "") +
+                " scroll, " +
+                rarity +
+                "**" +
+                "\n" +
+                "Save DC " +
+                saveDc +
+                ". Attack bonus " +
+                attackBonus +
+                "." +
+                "\n" +
+                element.description;
             newItem.source = "SRD";
             scrollItems.push(newItem);
         });
         dataAccess.setScrolls(scrollItems);
-    }
-    );
+    });
 }
 function joinAndCapitalize(array, separator) {
     for (var i = 0; i < array.length; i++) {
@@ -1149,48 +1077,3 @@ function joinAndCapitalize(array, separator) {
     if (!separator) separator = ", ";
     return array.join(separator);
 }
-
-
-var scrollLevels = [
-    [
-        "Common",
-        "Common",
-        "Uncommon",
-        "Uncommon",
-        "Rare",
-        "Rare",
-        "Very rare",
-        "Very rare",
-        "Very rare",
-        "Legendary"
-    ],
-    [
-        "13",
-        "13",
-        "13",
-        "15",
-        "15",
-        "17",
-        "17",
-        "18",
-        "18",
-        "19"
-    ],
-    [
-        "+5",
-        "+5",
-        "+5",
-        "+7",
-        "+7",
-        "+9",
-        "+9",
-        "+10",
-        "+10",
-        "+11"
-    ]
-
-]
-
-
-
-
