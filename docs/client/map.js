@@ -140,7 +140,7 @@ function setBackgroundFilter() {
         filterDd.classList.add("toggle_button_toggled");
     }
 
-    if (fovLighting.viewerHasDarkvision() && settings.applyDarkvisionFilter) {
+    if (fovLighting.viewerHasDarkvision() && settings.applyDarkvisionFilter && fovLighting.isDark()) {
         filterValue = "grayscale(80%)";
     }
     document.querySelector("#map_layer_container").style.filter = filterValue;

@@ -53,6 +53,10 @@ var fovLighting = function () {
         serverNotifier.notifyServer("fog-set", fogStyle);
     }
 
+    function isDark(){
+        return activeFogType != MapFogEnum.None;
+    }
+
     function getFogStyle() {
         return activeFogType;
     }
@@ -440,8 +444,8 @@ var fovLighting = function () {
             var widthDiff = width / ddWidth;
             var heightDiff = height / ddHeigth;
 
-            var offsetX = mapContainer.data_transform_x;
-            var offsetY = mapContainer.data_transform_y;
+            var offsetX = foregroundCanvas.data_transform_x || 0;
+            var offsetY = foregroundCanvas.data_transform_y || 0;
 
             wallArray.forEach(wall => {
                 var lastPoint;
@@ -897,6 +901,7 @@ var fovLighting = function () {
         drawFogOfWar: drawFogOfWar,
         setFogStyle: setFogStyle,
         getFogStyle: getFogStyle,
+        isDark:isDark, 
         MapFogType: MapFogEnum,
         SEGMENT_COLOR:SEGMENT_COLOR,
         toggleDarkvision: toggleDarkvision,
