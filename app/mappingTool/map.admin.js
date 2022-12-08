@@ -586,7 +586,7 @@ function setLightSource(brightLight, dimLight, params) {
 
 function loadParty() {
     if (partyArray == null) partyArray = [];
-
+    var oldParty = partyArray;
     dataAccess.getParty(async function (data) {
         var newPartyArray = [];
         data = data.members;
@@ -604,7 +604,16 @@ function loadParty() {
         });
 
         for (var i = 0; i < newPartyArray.length; i++) await assignTokenImagePath(newPartyArray[i]);
-        await generatePawns(newPartyArray, false);
+        var toRemove = oldParty.filter((x => !newPartyArray.find((y) => y.id == x.id)));
+        if (toRemove.length > 0) {
+            toRemove.forEach((removedPlayer) => {
+                var pwn = document.getElementById(removedPlayer.id);
+                if(pwn)map.removePawn(pwn);
+            });
+        }
+        var toGenerate = newPartyArray.filter((x) => !oldParty.find((y) => y.id == x.id));
+        await generatePawns(toGenerate, false);
+      
 
         fillForcedPerspectiveDropDown();
     });
