@@ -9,6 +9,7 @@ var module = {};
 
 
 const PLAYERS_ALL_OPTION = "Players";
+const DEFAULT_TOKEN_PATH_JS_RELATIVE = "client/default.png";
 function require() {
     return null;
 }

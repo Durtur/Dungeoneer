@@ -1101,7 +1101,7 @@ function addToPawnBackgrounds(element, paths) {
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths));
 }
 function setPawnBackgroundFromPathArray(newPawn, pawn) {
-    console.log(pawn);
+
     var selected = pawn.tokenImages[pawn.tokenIndex];
     var imgEle = newPawn.getElementsByClassName("token_photo")[0];
     imgEle.setAttribute("data-token_facets", JSON.stringify(pawn.tokenImages));
@@ -1110,17 +1110,18 @@ function setPawnBackgroundFromPathArray(newPawn, pawn) {
 }
 
 function setPawnToken(pawn, url) {
+ 
     var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
     pawnPhoto.style.backgroundImage = url;
     onBackgroundChanged(pawn);
 }
 
 function isPlayerPawn(pawnElement) {
-    return pawns.players.find(x=> x[0] == pawnElement) != null;
+    return pawns.players.find((x) => x[0] == pawnElement) != null;
 }
 
 function resetGridLayer() {
-    console.log("Grid layer reset")
+    console.log("Grid layer reset");
     gridLayer.oncontextmenu = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1591,7 +1592,9 @@ function resizePawns() {
     resizeHelper(pawns.all);
 }
 
-async function setPawnMobBackgroundImages(pawn, path, tokens) {
+async function setPawnMobBackgroundImages(pawn, pawnParams) {
+    var tokens = pawnParams.mobTokens;
+    var path = pawnParams.monsterId;
     if (tokens) {
         return refreshMobBackgroundImages(pawn, tokens);
     }
@@ -1608,13 +1611,17 @@ async function setPawnMobBackgroundImages(pawn, path, tokens) {
     }
 
     if (possibleNames.length == 0) {
-        possibleNames = ["mappingTool/tokens/default.png"];
+        possibleNames = [DEFAULT_TOKEN_PATH_JS_RELATIVE];
     }
     pawn.setAttribute("data-token_paths", JSON.stringify(possibleNames));
     refreshMobBackgroundImages(pawn);
 }
 
 async function setPawnTokenFromParams(newPawn, pawn) {
+    if (pawn.isMob) {
+        return setPawnMobBackgroundImages(newPawn, pawn);
+    }
+
     if (pawn.tokenImages) {
         return setPawnBackgroundFromPathArray(newPawn, pawn);
     }
@@ -1665,7 +1672,6 @@ async function createPawnElement(pawn, rotate) {
         var newPawnImg = document.createElement("div");
         newPawnImg.className = "mob_token_container";
         newPawn.appendChild(newPawnImg);
-        setPawnMobBackgroundImages(newPawn, pawn.monsterId, pawn.mobTokens);
     } else {
         var newPawnImg = document.createElement("div");
         newPawnImg.className = "token_photo";
@@ -1698,7 +1704,6 @@ function getPawnStartingRotation(pawn, isMonster) {
 var lastColorIndex = 0;
 async function generatePawns(pawnArray, isMonster) {
     var sightRadiusBright, sightRadiusDim, sightMode;
-    console.log("Generating ", pawnArray, isMonster);
     var lastPoint = isMonster ? pawns.lastLocationMonsters : pawns.lastLocationPlayers;
     for (var i = 0; i < pawnArray.length; i++) {
         var pawn = pawnArray[i];
@@ -1749,8 +1754,7 @@ async function generatePawns(pawnArray, isMonster) {
 
         tokenLayer.appendChild(newPawn);
         if (serverNotifier.isServer()) {
-            var ex = await saveManager.exportPawn([newPawn, pawn.name]);;
-            console.log(ex)
+            await saveManager.exportPawn([newPawn, pawn.name]);
             serverNotifier.notifyServer("token-add", await saveManager.exportPawn([newPawn, pawn.name]));
         }
         if (pawn.onAdded) pawn.onAdded(newPawn);
@@ -1999,7 +2003,7 @@ const map = (function () {
 
     function removePawn(element) {
         var isPlayer = isPlayerPawn(element);
-        console.log("Remove ", element)
+        console.log("Remove ", element);
         if (!isPlayer) {
             var found = pawns.monsters.find((x) => x[0].id == element.id);
             if (found) {
@@ -2137,7 +2141,7 @@ const map = (function () {
     function setTokenScale(pawn, scale) {
         if (!scale) return;
         var image = pawn.querySelector(".token_photo");
-
+        if(!image)return;
         image.style.setProperty("--pawn-image-scale", scale);
         serverNotifier.notifyServer("token-scale", {
             id: pawn.id,
@@ -2156,6 +2160,7 @@ const map = (function () {
     }
     function getTokenScale(pawn) {
         var image = pawn.querySelector(".token_photo");
+        if (!image) return 1;
         return image.style.getPropertyValue("--pawn-image-scale");
     }
 
@@ -2182,8 +2187,8 @@ const map = (function () {
         obj.style.left = x + "px";
     }
 
-    function getPawnById(id){
-       return [...pawns.all].find(x=> x.id == id);
+    function getPawnById(id) {
+        return [...pawns.all].find((x) => x.id == id);
     }
     return {
         init: init,

@@ -604,16 +604,15 @@ function loadParty() {
         });
 
         for (var i = 0; i < newPartyArray.length; i++) await assignTokenImagePath(newPartyArray[i]);
-        var toRemove = oldParty.filter((x => !newPartyArray.find((y) => y.id == x.id)));
+        var toRemove = oldParty.filter((x) => !newPartyArray.find((y) => y.id == x.id));
         if (toRemove.length > 0) {
             toRemove.forEach((removedPlayer) => {
                 var pwn = document.getElementById(removedPlayer.id);
-                if(pwn)map.removePawn(pwn);
+                if (pwn) map.removePawn(pwn);
             });
         }
         var toGenerate = newPartyArray.filter((x) => !oldParty.find((y) => y.id == x.id));
         await generatePawns(toGenerate, false);
-      
 
         fillForcedPerspectiveDropDown();
     });
@@ -671,17 +670,7 @@ async function getDefaultLibraryTokenPaths(pawn) {
         if (pawnPath) return [pawnPath];
         return [DEFAULT_TOKEN_PATH_JS_RELATIVE];
     }
-    var i = 0;
-    while (true) {
-        var pawnPath = await dataAccess.getTokenPath(pawn.monsterId + i);
-
-        if (pawnPath != null) {
-            possiblePaths.push(pawnPath);
-            i++;
-        } else {
-            break;
-        }
-    }
+    var possiblePaths = await dataAccess.getTokenPaths(pawn.monsterId);
     possiblePaths = possiblePaths.map((x) => x.replace(/\\/g, "/"));
     if (possiblePaths.length == 0) {
         return [DEFAULT_TOKEN_PATH_JS_RELATIVE];
@@ -743,6 +732,7 @@ function startAddingFromQueue() {
     previewPawn();
 
     async function popQueue(e) {
+        console.log(pawns.addQueue);
         var radiusOfPawn = creaturePossibleSizes.hexes[creaturePossibleSizes.sizes.indexOf(pawns.addQueue[0].size)];
         var offset = (radiusOfPawn * cellSize) / 2;
         var popped = pawns.addQueue[0];
@@ -771,6 +761,7 @@ function startAddingFromQueue() {
 
         pawn.id = "preview_token";
         await assignTokenImagePath(pawn);
+        console.log(pawn);
         var preview = await createPawnElement(pawn);
         document.body.appendChild(preview);
         previewPlacementManager.preview(preview, false);
