@@ -4,7 +4,7 @@ const Modals = require("./modals");
 const { resolve, basename } = require("path");
 const { readdir } = require("fs").promises;
 const util = require("./util");
-
+const pathModule = require("path");
 class TokenSelector {
     async getNewTokenPaths(multiSelect = true, callback, monsterInfo) {
         var cls = this;
@@ -316,6 +316,13 @@ class TokenSelector {
         div.appendChild(btn);
         modal.appendChild(div);
         modal.container = div;
+    }
+
+    defaultHeroTokenUrl(id, cssPath){
+        var num = [...id].reduce((x, y) => x + y.charCodeAt(0), 0) % 6;
+        var path = pathModule.join(window.api.getAppPath(),"app", "mappingTool", "tokens", `hero${num}.svg`);
+        if(!cssPath)return path;
+        return path.replaceAll("\\", "/");
     }
 
     hidePreview() {

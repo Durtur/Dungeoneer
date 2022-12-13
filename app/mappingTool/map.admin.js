@@ -668,7 +668,7 @@ async function getDefaultLibraryTokenPaths(pawn) {
         //Player pawn
         var pawnPath = await dataAccess.getTokenPath(pawn.id);
         if (pawnPath) return [pawnPath];
-        return [DEFAULT_TOKEN_PATH_JS_RELATIVE];
+        return [tokenSelector.defaultHeroTokenUrl(pawn.id, true)];
     }
     var possiblePaths = await dataAccess.getTokenPaths(pawn.monsterId);
     possiblePaths = possiblePaths.map((x) => x.replace(/\\/g, "/"));

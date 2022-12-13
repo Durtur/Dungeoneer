@@ -152,7 +152,6 @@ function setBackgroundFilter() {
 //Overriden in map.admin
 function saveSettings() {}
 function toggleSaveTimer() {}
-async function setPlayerPawnImage() {}
 async function setPawnImageWithDefaultPath(pawnElement, path) {}
 function hideAllTooltips() {}
 function onBackgroundChanged() {}
@@ -1623,8 +1622,6 @@ async function setPawnTokenFromParams(newPawn, pawn) {
         var imageExists = await setPawnImageWithDefaultPath(newPawn, pawn.monsterId);
 
         if (!imageExists) rotate = 0;
-    } else {
-        await setPlayerPawnImage(newPawn, pawn.id);
     }
 }
 
@@ -1680,7 +1677,6 @@ async function createPawnElement(pawn, rotate) {
 }
 
 function getPawnStartingRotation(pawn, isMonster) {
-    console.log(pawn);
     if (pawn.deg) return pawn.deg;
     if (isMonster) {
         return parseInt(settings.defaultMonsterTokenRotate);
@@ -1734,7 +1730,7 @@ async function generatePawns(pawnArray, isMonster) {
             newPawn.style.left = lastPoint.x * cellSize + "px";
         }
 
-        lastPoint.y++;
+        lastPoint.x++;
         if (i % 7 == 0 && i > 0) {
             lastPoint.x++;
             lastPoint.y -= 8;

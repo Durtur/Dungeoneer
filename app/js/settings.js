@@ -47,8 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
         roundCounter.checked = data.countRounds;
         initiativeNoGroup.checked = data.initiativeNoGroup;
         roundTimer.value = data.maptool.roundTimer;
-        defaultMonsterTokenRotate.value = data.maptool.defaultMonsterTokenRotate || 90;
-        defaultPlayerTokenRotate.value = data.maptool.defaultPlayerTokenRotate || -90;
+        defaultMonsterTokenRotate.value = data.maptool.defaultMonsterTokenRotate || 0;
+        defaultPlayerTokenRotate.value = data.maptool.defaultPlayerTokenRotate || 0;
         addPlayersAutomatically.checked = data.maptool.addPlayersAutomatically;
         applyDarkvisionFilter.checked = data.maptool.applyDarkvisionFilter;
         snapToGrid.checked = data.maptool.snapToGrid
@@ -208,8 +208,8 @@ function saveSettings(closeImmediately) {
         data.autoInitiative = autoRoll.checked;
         data.countRounds = roundCounter.checked;
         data.initiativeNoGroup = initiativeNoGroup.checked;
-        data.maptool.defaultMonsterTokenRotate = defaultMonsterTokenRotate.value || 90;
-        data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || -90;
+        data.maptool.defaultMonsterTokenRotate = defaultMonsterTokenRotate.value || 0;
+        data.maptool.defaultPlayerTokenRotate = defaultPlayerTokenRotate.value || 0;
         data.maptool.roundTimer = roundTimer.value;
         data.maptool.soundLibraryPath = soundLibraryPath;
         data.tokenFolder = tokenFolderPath;

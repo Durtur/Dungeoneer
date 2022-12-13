@@ -364,16 +364,6 @@ module.exports = (function () {
                 await fs.renameSync(pth, getNewTokenSavePath(pth, tokenId + i));
             }
         }
-
-        // var i = 0;
-        // while (fs.existsSync(pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png"))) i++;
-        // tokens.forEach((tok) => {
-        //     var oldPath = pathModule.resolve(tok.getAttribute("data-file_path"));
-        //     var newPath = pathModule.resolve(tokenFilePath + "/" + newId.toLowerCase() + i + ".png");
-        //     if (newPath == oldPath) return;
-        //     dataAccess.saveToken(newId.toLowerCase() + i, oldPath);
-        //     i++;
-        // });
     }
 
     async function getTokenPaths(creatureId) {

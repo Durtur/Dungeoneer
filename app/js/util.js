@@ -201,6 +201,10 @@ module.exports = (function () {
 
         return "hsl(" + h + "," + s + "%," + l + "%)";
     }
+
+    function randomHexColor(){
+        return "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0");
+    }
     function hexToRGBA(hex, opacity) {
         return (
             "rgba(" +
@@ -357,6 +361,7 @@ module.exports = (function () {
         hexToHSL: hexToHSL,
         toBase64: toBase64,
         hexToRGBA: hexToRGBA,
+        randomHexColor:randomHexColor,
         createLoadingEle: createLoadingEle,
         IsVowel: IsVowel,
         ele: ele,

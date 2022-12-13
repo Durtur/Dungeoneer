@@ -130,8 +130,8 @@ function loadDefaultSettings() {
     "maxAutoLoads": "80",
     "party_settings": {},
     "maptool": {
-      "defaultMonsterTokenRotate": "90",
-      "defaultPlayerTokenRotate": "-90",
+      "defaultMonsterTokenRotate": "0",
+      "defaultPlayerTokenRotate": "0",
       "matchSizeWithFileName": false,
       "transparentWindow": false,
       "snapToGrid": true,
