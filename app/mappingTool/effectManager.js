@@ -568,6 +568,27 @@ var effectManager = (function () {
         return newEffect;
     }
 
+    function ensureBasePropertiesExist(element) {
+        if (!element.dnd_hexes) throw "Size not defined";
+    }
+
+    async function makeElementIntoAnEffect(element, effectParams) {
+        ensureBasePropertiesExist(element);
+        var currLocation = element.getBoundingClientRect();
+        element.parentNode.removeChild(element);
+        element.setAttribute("data-effect-classes", effectParams.classes);
+        element.style.transform = `rotate(${effectParams.deg || 0}deg)`;
+        effects.push(element);
+        element.classList.add("sfx_effect");
+        element.style.top = currLocation.top + "px";
+        element.style.left = currLocation.left + "px";
+        tokenLayer.appendChild(element);
+        if (serverNotifier.isServer()) {
+            var obj = await saveManager.exportEffect(element);
+            serverNotifier.notifyServer("effect-add", obj);
+        }
+    }
+
     async function addLightEffect(effectObj, isPreviewElement, e) {
         var newEffect = await createBaseEffect(effectObj, isPreviewElement, e);
 
@@ -613,6 +634,7 @@ var effectManager = (function () {
         effectDropdownChange: effectDropdownChange,
         startDeletingEffects: startDeletingEffects,
         startMovingEffects: startMovingEffects,
+        makeElementIntoAnEffect: makeElementIntoAnEffect,
         showPopupMenuAddEffect: showPopupMenuAddEffect,
         createEffectMenus: createEffectMenus,
         onPreviewPlacementResized: onPreviewPlacementResized,

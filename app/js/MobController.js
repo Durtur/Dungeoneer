@@ -350,7 +350,6 @@ class MobController {
             var deadCount = row.querySelector(".mobcontroller_creatures_dead").value;
             var index = row.getAttribute("data-dnd_monster_index");
             var mobSize = parseInt(row.querySelector(".mobcontroller_creatures_remaining").value);
-            console.log(mobSize);
             if (isNaN(mobSize)) mobSize = this.DEFAULT_MOB_SIZE;
 
             this.loadedMobs.push({ name: monsterData.name, size: monsterData.size ? monsterData.size.toLowerCase() : "medium", index: index, isMob: true, mobSize: mobSize, mobCountDead: deadCount, monsterId: monsterData.id })

@@ -6,11 +6,7 @@ var dataBuffer = {},
 
 const UNSUPPORTED_BROWSERS = ["iPhone", "iPad"];
 
-if (
-    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-    )
-) {
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
     document.addEventListener("click", () => userGesture());
     document.addEventListener("touchstart", () => userGesture());
     STATIC_TOOLTIP = true;
@@ -21,8 +17,7 @@ var centerPawnFlag = false;
 function userGesture() {
     try {
         document.body.scrollTo(0, 1);
-        if (document.fullscreenEnabled)
-            document.documentElement.requestFullscreen();
+        if (document.fullscreenEnabled) document.documentElement.requestFullscreen();
     } catch {}
 }
 
@@ -73,8 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var connectButton = document.getElementById("connect_button");
     var hostIdInput = document.getElementById("host_id_input");
     hostIdInput.value = hostId || "";
-    if (nameInput.value && hostIdInput.value)
-        connectButton.classList.remove("hidden");
+    if (nameInput.value && hostIdInput.value) connectButton.classList.remove("hidden");
 
     nameInput.oninput = (e) => {
         localStorage.setItem("name", nameInput.value);
@@ -97,8 +91,7 @@ function connectionParamsChanged(e) {
     var nameInput = document.getElementById("user_name_input");
     var hostIdInput = document.getElementById("host_id_input");
     var connectButton = document.getElementById("connect_button");
-    if (nameInput.value && hostIdInput.value)
-        connectButton.classList.remove("hidden");
+    if (nameInput.value && hostIdInput.value) connectButton.classList.remove("hidden");
     else connectButton.classList.add("hidden");
 }
 
@@ -159,8 +152,7 @@ function handleMessage(message) {
             };
         }
 
-        dataBuffer[message.event].buffer[message.data.chunk - 1] =
-            message.data.base64;
+        dataBuffer[message.event].buffer[message.data.chunk - 1] = message.data.base64;
         //Message end
         if (nothingEmpty(dataBuffer[message.event])) {
             setState(message);
@@ -241,10 +233,7 @@ function setState(message) {
             break;
         case "tokens-set":
             map.removeAllPawns();
-            if (getDataBuffer(message.event))
-                importTokens(
-                    getDataBuffer(message.event).reduce((a, b) => a + b)
-                );
+            if (getDataBuffer(message.event)) importTokens(getDataBuffer(message.event).reduce((a, b) => a + b));
             else importTokens(message.data);
             break;
         case "constants":
@@ -280,10 +269,7 @@ function setState(message) {
             moveObjects(message.data);
             break;
         case "effects-set":
-            if (getDataBuffer(message.event))
-                setEffects(
-                    getDataBuffer(message.event)?.reduce((a, b) => a + b)
-                );
+            if (getDataBuffer(message.event)) setEffects(getDataBuffer(message.event)?.reduce((a, b) => a + b));
             else setEffects(message.data);
             break;
         case "effect-add":
@@ -305,68 +291,48 @@ function setState(message) {
             refreshFogOfWar();
             break;
         case "token-image":
-            var token =
-                pawns.players.find((x) => x[0].id == message.data.id) ||
-                pawns.monsters.find((x) => x[0].id == message.data.id);
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
 
             if (!token || !token[0]) return;
-            setPawnBackgroundFromPathArray(
-                token[0],
-                toBase64Url(message.data.base64),
-                false
-            );
+            setPawnBackgroundFromPathArray(token[0], toBase64Url(message.data.base64), false);
             break;
         case "token-scale":
-            var token =
-                pawns.players.find((x) => x[0].id == message.data.id) ||
-                pawns.monsters.find((x) => x[0].id == message.data.id);
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
 
             if (!token || !token[0]) return;
             map.setTokenScale(token[0], message.data.scale);
             break;
         case "token-size":
-            var token =
-                pawns.players.find((x) => x[0].id == message.data.id) ||
-                pawns.monsters.find((x) => x[0].id == message.data.id);
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
             enlargeReducePawn(token[0], message.data.direction);
             break;
         case "token-color":
-            var token =
-                pawns.players.find((x) => x[0].id == message.data.id) ||
-                pawns.monsters.find((x) => x[0].id == message.data.id);
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
             token[0].style.backgroundColor = message.data.color;
             break;
         case "token-rotate-set":
-            var token =
-                pawns.players.find((x) => x[0].id == message.data.id) ||
-                pawns.monsters.find((x) => x[0].id == message.data.id);
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
 
             setPawnRotate(token[0], message.data.deg);
             break;
         case "token-flying-height":
-            var token =
-                pawns.players.find((x) => x[0].id == message.data.id) ||
-                pawns.monsters.find((x) => x[0].id == message.data.id);
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
 
             setFlyingHeight(token[0], message.data.height);
             break;
         case "token-conditions":
-            var token =
-                pawns.players.find((x) => x[0].id == message.data.id) ||
-                pawns.monsters.find((x) => x[0].id == message.data.id);
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
             map.setTokenConditions(token[0], message.data.conditionList);
 
             break;
         case "condition-list":
             conditionList = message.data;
-            conditionList.map(
-                (x) => (x.background_image = toBase64Url(x.base64img))
-            );
+            conditionList.map((x) => (x.background_image = toBase64Url(x.base64img)));
             break;
         case "effect-rotate":
             var ele = effects.find((x) => x.id == message.data.id);
@@ -388,9 +354,7 @@ function setState(message) {
             var src = message.data.metadata.src;
             var encoding = message.data.metadata.encoding;
             soundManager.importSound({
-                base64Source: getDataBuffer(message.event)?.reduce(
-                    (a, b) => a + b
-                ),
+                base64Source: getDataBuffer(message.event)?.reduce((a, b) => a + b),
                 encoding: encoding,
                 name: src,
             });
@@ -399,13 +363,12 @@ function setState(message) {
 }
 
 function setMobTokens(data) {
-    var token =
-        pawns.players.find((x) => x[0].id == data.id) ||
-        pawns.monsters.find((x) => x[0].id == data.id);
+    var token = pawns.players.find((x) => x[0].id == data.id) || pawns.monsters.find((x) => x[0].id == data.id);
 
     if (!token || !token[0]) return;
 
     var pawn = token[0];
+    if (data.mobSize) pawn.setAttribute("data-mob_size", data.mobSize);
     cssifyMobTokens(data.map);
     refreshMobBackgroundImages(pawn, data);
     resizePawns();
@@ -453,10 +416,7 @@ function moveObjects(arr) {
     console.log(arr);
     arr.forEach((pawnInfo) => {
         var pawn = document.getElementById(pawnInfo.id);
-        var tanslatedPixels = map.pixelsFromGridCoords(
-            pawnInfo.pos.x,
-            pawnInfo.pos.y
-        );
+        var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
         console.log(pawn);
         map.moveObject(pawn, tanslatedPixels, false);
     });
@@ -483,7 +443,7 @@ function clientSetForeground(message) {
 function setEffects(effectStr) {
     var arr = typeof effectStr == "string" ? JSON.parse(effectStr) : effectStr;
     map.removeAllEffects();
-  
+
     arr.forEach((effObj) => addEffect(effObj));
 }
 function addEffect(effObj) {
@@ -494,7 +454,7 @@ function addEffect(effObj) {
             clientX: point.x,
             clientY: point.y,
         });
-    
+
     effectManager.addSfxEffect(effObj, { clientX: point.x, clientY: point.y });
 }
 
@@ -537,8 +497,7 @@ function setMapEdge(url) {
 }
 
 function connectedStateChanged() {
-    var connectionStatusIndicator =
-        document.getElementById("connection_status");
+    var connectionStatusIndicator = document.getElementById("connection_status");
     var connectPanel = document.getElementById("connect_container");
     if (hostConnection != null && hostConnection.open) {
         connectionStatusIndicator.classList.add("connected");

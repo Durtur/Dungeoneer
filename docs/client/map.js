@@ -881,16 +881,6 @@ function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     raiseConditionsChanged(pawnElement, originMainWindow);
 }
 
-function createMobToken(path, cssify) {
-    var ele = document.createElement("div");
-    ele.className = "mob_token";
-
-    ele.style.backgroundImage = cssify ? Util.cssify(path) : path;
-    ele.setAttribute("data-token_path", path);
-
-    return ele;
-}
-
 function refreshMobBackgroundImages(pawn, bgArray) {
     var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
     var mobCount = parseInt(pawn.getAttribute("data-mob_size"));
@@ -915,47 +905,19 @@ function refreshMobBackgroundImages(pawn, bgArray) {
             }
             bgArray.tokens.forEach((path) => {
                 var base64 = bgArray.map[path];
-
-                container.appendChild(createMobToken(base64));
+                container.appendChild(createMobToken(base64, false, pawn));
             });
         } else {
             for (var i = 0; i < mobsToAdd; i++) {
                 var path = tokenPaths.pickOne();
-                container.appendChild(createMobToken(path, true));
+                container.appendChild(createMobToken(path, true, pawn));
             }
         }
     }
 
     var allTokens = [...pawn.querySelectorAll(".mob_token")];
 
-    if (serverNotifier.isServer()) {
-        serverNotifier.mobTokensChanged(pawn);
-    }
-
     var alivePawns = allTokens.filter((x) => !x.classList.contains("mob_token_dead"));
-
-    for (var i = 0; i < shouldBeDead; i++) {
-        var next = alivePawns.pop();
-
-        if (!next) break;
-        next.classList.add("mob_token_dead");
-        var currLocation = next.getBoundingClientRect();
-        next.parentNode.removeChild(next);
-        next.setAttribute("data-effect-classes", JSON.stringify(["mob_token_dead"]));
-        next.style.transform = `rotate(${pawn.deg || 0}deg)`;
-        next.dnd_width = pawn.dnd_hexes * 5;
-        next.dnd_height = pawn.dnd_hexes * 5;
-        effects.push(next);
-        next.classList.add("sfx_effect");
-        next.style.top = currLocation.top + "px";
-        next.style.left = currLocation.left + "px";
-        tokenLayer.appendChild(next);
-    }
-    effectManager.resizeEffects();
-    if (mobCount == 0) {
-        return map.removePawn(pawn);
-    }
-
     var deltaMax = 2;
     var rowSize = Math.floor(Math.sqrt(mobTotalSize));
     var colSize = Math.ceil(Math.sqrt(mobTotalSize));
@@ -975,11 +937,47 @@ function refreshMobBackgroundImages(pawn, bgArray) {
         }
     });
 
+    if (!serverNotifier.isServer()) {
+        for (var i = 0; i < shouldBeDead; i++) {
+            var next = alivePawns.pop();
+            next.parentNode.removeChild(next);
+        }
+        refreshMobSize(pawn);
+        return;
+    }
+
+
+    for (var i = 0; i < shouldBeDead; i++) {
+        var next = alivePawns.pop();
+
+        if (!next) break;
+        next.classList.add("mob_token_dead");
+        var params = {
+            classes: JSON.stringify(["mob_token_dead"]),
+        };
+        effectManager.makeElementIntoAnEffect(next, params);
+    }
+
+    if (mobCount == 0) {
+        return map.removePawn(pawn);
+    }
+
     refreshMobSize(pawn);
+     serverNotifier.mobTokensChanged(pawn);
 
     function randToDelta() {
         return Math.floor(Math.random() * deltaMax) + 1 * (Math.random() > 0.5 ? 1 : -1);
     }
+}
+
+function createMobToken(path, cssify, mobElement) {
+    var ele = document.createElement("div");
+    ele.className = "mob_token";
+    ele.style.backgroundImage = cssify ? Util.cssify(path) : path;
+    ele.setAttribute("data-token_path", path);
+    ele.dnd_hexes = mobElement.dnd_hexes;
+    setBasePawnProperties(ele, mobElement);
+    return ele;
 }
 
 function refreshMobSize(pawnElement) {
@@ -1101,7 +1099,6 @@ function addToPawnBackgrounds(element, paths) {
     element.getElementsByClassName("token_photo")[0].setAttribute("data-token_facets", JSON.stringify(currentPaths));
 }
 function setPawnBackgroundFromPathArray(newPawn, pawn) {
-
     var selected = pawn.tokenImages[pawn.tokenIndex];
     var imgEle = newPawn.getElementsByClassName("token_photo")[0];
     imgEle.setAttribute("data-token_facets", JSON.stringify(pawn.tokenImages));
@@ -1110,7 +1107,6 @@ function setPawnBackgroundFromPathArray(newPawn, pawn) {
 }
 
 function setPawnToken(pawn, url) {
- 
     var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
     pawnPhoto.style.backgroundImage = url;
     onBackgroundChanged(pawn);
@@ -1594,22 +1590,10 @@ function resizePawns() {
 
 async function setPawnMobBackgroundImages(pawn, pawnParams) {
     var tokens = pawnParams.mobTokens;
-    var path = pawnParams.monsterId;
     if (tokens) {
         return refreshMobBackgroundImages(pawn, tokens);
     }
-    var possibleNames = [];
-    var i = 0;
-    while (true) {
-        var pawnPath = await dataAccess.getTokenPath(path + i);
-        if (pawnPath != null) {
-            possibleNames.push(pawnPath);
-            i++;
-        } else {
-            break;
-        }
-    }
-
+    var possibleNames = await dataAccess.getTokenPaths(pawnParams.monsterId);
     if (possibleNames.length == 0) {
         possibleNames = [DEFAULT_TOKEN_PATH_JS_RELATIVE];
     }
@@ -1644,26 +1628,30 @@ async function setPawnTokenFromParams(newPawn, pawn) {
     }
 }
 
+function setBasePawnProperties(newPawn, pawn) {
+    newPawn.flying_height = 0;
+    newPawn["data-dnd_conditions"] = [];
+    if (!newPawn.dnd_hexes) {
+        var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
+        newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
+    }
+    if (newPawn.dnd_hexes <= 0) newPawn.dnd_hexes = 1;
+    newPawn.dnd_height = newPawn.dnd_hexes * UNITS_PER_GRID;
+    newPawn.dnd_width = newPawn.dnd_hexes * UNITS_PER_GRID;
+    newPawn.attached_objects = [];
+    newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
+}
+
 async function createPawnElement(pawn, rotate) {
     var newPawn = document.createElement("div");
     newPawn.classList.add("pawn");
     newPawn.id = pawn.id || newPawnId();
     newPawn.title = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
     newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
-    newPawn.flying_height = 0;
-    newPawn["data-dnd_conditions"] = [];
-
+    setBasePawnProperties(newPawn, pawn);
     newPawn.style.backgroundColor = settings.colorTokenBases ? pawn.color : "transparent";
     newPawn.dead = pawn.dead || "false";
     newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
-
-    var sizeIndex = creaturePossibleSizes.sizes.indexOf(pawn.size.toLowerCase());
-    newPawn.dnd_hexes = creaturePossibleSizes.hexes[sizeIndex];
-    if (newPawn.dnd_hexes <= 0) newPawn.dnd_hexes = 1;
-    newPawn.dnd_height = newPawn.dnd_hexes * UNITS_PER_GRID;
-    newPawn.dnd_width = newPawn.dnd_hexes * UNITS_PER_GRID;
-    newPawn.attached_objects = [];
-    newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
 
     if (pawn.isMob) {
         newPawn.setAttribute("data-mob_size", pawn.mobSize);
@@ -2141,7 +2129,7 @@ const map = (function () {
     function setTokenScale(pawn, scale) {
         if (!scale) return;
         var image = pawn.querySelector(".token_photo");
-        if(!image)return;
+        if (!image) return;
         image.style.setProperty("--pawn-image-scale", scale);
         serverNotifier.notifyServer("token-scale", {
             id: pawn.id,
