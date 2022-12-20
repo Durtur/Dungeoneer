@@ -789,9 +789,8 @@ function setTokenNextFacetHandler(e) {
         currentIndex++;
         if (currentIndex >= images.length) currentIndex = 0;
         if (oldIndex == currentIndex) return;
-        setPawnToken(pawn, Util.cssify(images[currentIndex]));
         pawnPhoto.setAttribute("data-token_current_facet", currentIndex);
-        onBackgroundChanged(pawn);
+        setPawnToken(pawn, Util.cssify(images[currentIndex]));
     });
 }
 
@@ -821,7 +820,6 @@ async function onBackgroundChanged(pawn) {
     var facets = JSON.parse(imgEle.getAttribute("data-token_facets"));
     var current = parseInt(imgEle.getAttribute("data-token_current_facet") || 0);
     var path = facets[current];
-
     var base64img = await Util.toBase64(path);
     setScaleIfSaved(pawn, path);
 

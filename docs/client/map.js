@@ -745,14 +745,6 @@ function elevatePawn() {
     }
 }
 
-function setPawnRotate(pawn, degrees) {
-    if (pawn.deg == null) {
-        return rotatePawn(pawn, degrees);
-    } else {
-        return rotatePawn(pawn, degrees - pawn.deg);
-    }
-}
-
 function setFlyingHeight(pawn, height, evt) {
     pawn.flying_height = height;
 
@@ -781,24 +773,6 @@ function setFlyingHeight(pawn, height, evt) {
         hideTooltipTimer = window.setTimeout(function () {
             document.getElementById("tooltip2").classList.add("hidden");
         }, 1000);
-    }
-}
-
-function rotatePawn(pawn, degrees) {
-    if (pawn.deg == null) {
-        pawn.deg = degrees;
-    } else {
-        pawn.deg += degrees;
-    }
-    var isMob = pawn.getAttribute("data-mob_size") != null;
-    var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo");
-
-    element.style.setProperty("--pawn-rotate", pawn.deg + "deg");
-    if (serverNotifier.isServer()) {
-        serverNotifier.notifyServer("token-rotate-set", {
-            id: pawn.id,
-            deg: pawn.deg,
-        });
     }
 }
 
@@ -945,7 +919,6 @@ function refreshMobBackgroundImages(pawn, bgArray) {
         return;
     }
 
-
     for (var i = 0; i < shouldBeDead; i++) {
         var next = alivePawns.pop();
 
@@ -962,7 +935,7 @@ function refreshMobBackgroundImages(pawn, bgArray) {
     }
 
     refreshMobSize(pawn);
-     serverNotifier.mobTokensChanged(pawn);
+    serverNotifier.mobTokensChanged(pawn);
 
     function randToDelta() {
         return Math.floor(Math.random() * deltaMax) + 1 * (Math.random() > 0.5 ? 1 : -1);
@@ -1379,9 +1352,9 @@ function addPawnListeners() {
         pawn.onwheel = function (event) {
             if (event.shiftKey) {
                 if (event.deltaY > 0) {
-                    rotatePawn(event.target, 3);
+                    map.rotatePawn(event.target, 3);
                 } else {
-                    rotatePawn(event.target, -3);
+                    map.rotatePawn(event.target, -3);
                 }
             } else if (event.ctrlKey) {
                 setFlyingHeight(event.target, event.target.flying_height + (event.deltaY > 0 ? 5 : -5), event);
@@ -1668,7 +1641,7 @@ async function createPawnElement(pawn, rotate) {
     }
     await setPawnTokenFromParams(newPawn, pawn);
 
-    rotatePawn(newPawn, rotate);
+    map.rotatePawn(newPawn, rotate);
 
     if (pawn.scale) {
         map.setTokenScale(newPawn, pawn.scale);
@@ -2127,6 +2100,7 @@ const map = (function () {
         var image = pawn.querySelector(".token_photo");
         if (!image) return;
         image.style.setProperty("--pawn-image-scale", scale);
+        console.log(`Set scale  ${scale}`);
         serverNotifier.notifyServer("token-scale", {
             id: pawn.id,
             scale: scale,
@@ -2174,12 +2148,36 @@ const map = (function () {
     function getPawnById(id) {
         return [...pawns.all].find((x) => x.id == id);
     }
+
+    function setPawnRotation(pawn, degrees) {
+        var isMob = pawn.getAttribute("data-mob_size") != null;
+        var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo");
+
+        element.style.setProperty("--pawn-rotate", degrees + "deg");
+        if (serverNotifier.isServer()) {
+            serverNotifier.notifyServer("token-rotate-set", {
+                id: pawn.id,
+                deg: pawn.deg,
+            });
+        }
+    }
+    function rotatePawn(pawn, degrees) {
+        if (pawn.deg == null) {
+            pawn.deg = degrees;
+        } else {
+            pawn.deg += degrees;
+        }
+        setPawnRotation(pawn, pawn.deg);
+    }
+
     return {
         init: init,
         shiftView: shiftView,
         centerOn: centerOn,
         setTokenScale: setTokenScale,
         getTokenScale: getTokenScale,
+        rotatePawn: rotatePawn,
+        setPawnRotation: setPawnRotation,
         getPawnById: getPawnById,
         centerForegroundOnBackground: centerForegroundOnBackground,
         updateInitiative: updateInitiative,

@@ -294,11 +294,11 @@ function setState(message) {
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
 
             if (!token || !token[0]) return;
-            setPawnBackgroundFromPathArray(token[0], toBase64Url(message.data.base64), false);
+
+            setPawnToken(token[0], toBase64Url(message.data.base64));
             break;
         case "token-scale":
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
-
             if (!token || !token[0]) return;
             map.setTokenScale(token[0], message.data.scale);
             break;
@@ -313,10 +313,13 @@ function setState(message) {
             token[0].style.backgroundColor = message.data.color;
             break;
         case "token-rotate-set":
+            var deg = parseInt(message.data.deg);
+            if (isNaN(deg)) return;
+
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
 
-            setPawnRotate(token[0], message.data.deg);
+            map.setPawnRotation(token[0], deg);
             break;
         case "token-flying-height":
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
