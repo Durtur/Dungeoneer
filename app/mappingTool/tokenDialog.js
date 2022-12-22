@@ -262,7 +262,7 @@ class TokenDialog {
             size: pawnSize,
             color: color,
             bgPhoto: this.addPawnImagePaths,
-            tokenImages: this.addPawnImagePaths,
+            tokenImages: this.addPawnImagePaths?.length > 0 ? this.addPawnImagePaths : [DEFAULT_TOKEN_PATH_JS_RELATIVE],
             tokenIndex: this.selectedTokenImageIndex,
             deg: previewPlacementManager.getAngle(),
             spawnPoint: e
