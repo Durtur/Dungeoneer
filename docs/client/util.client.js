@@ -91,8 +91,33 @@ var Util = function () {
 
         return par;
     }
+
+    function checkBox(labelText, checked, onchange) {
+        var label = document.createElement("label");
+        label.innerHTML = labelText;
+
+        var cont = document.createElement("label");
+        cont.classList = "container_for_checkbox";
+        var inp = document.createElement("input");
+        inp.setAttribute("type", "checkbox");
+        inp.title = labelText;
+        inp.checked = checked;
+        var span = document.createElement("span");
+        span.classList = "checkmark";
+        cont.appendChild(inp);
+        cont.appendChild(span);
+        var parent = document.createElement("div");
+        parent.classList = "row space_between";
+        parent.appendChild(label);
+        parent.appendChild(cont);
+        if (onchange) {
+            inp.onchange = onchange;
+        }
+        return parent;
+    }
     return {
         hexToRGBA: hexToRGBA,
+        checkBox:checkBox,
         hexToHSL:hexToHSL,
         showDisappearingTitleAndSubtitle:showDisappearingTitleAndSubtitle,
         cssify:cssify,

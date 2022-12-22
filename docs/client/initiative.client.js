@@ -97,7 +97,6 @@ var initiative = function () {
 
         var initNodes = [...document.querySelectorAll(".initiativeNode")];
         var max = initNodes.length;
-
         if (roundCounter[1] >= max && sign > 0 || roundCounter[1] <= 1 && sign < 0) {
             if (roundCounter[1] >= max) {
                 roundCounter[1] = 1;

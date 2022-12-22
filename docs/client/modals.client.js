@@ -1,13 +1,10 @@
-
-const ClientModals = function () {
-
+const ClientModals = (function () {
     function modalBase(titleText, callback) {
         var title = document.createElement("h1");
         title.innerHTML = titleText;
 
         var modal = document.createElement("div");
-        if (titleText)
-            modal.appendChild(title);
+        if (titleText) modal.appendChild(title);
         modal.classList = "modal";
         var closeBtn = document.createElement("button");
         closeBtn.classList = "close_x_button";
@@ -25,9 +22,8 @@ const ClientModals = function () {
         modal.close = (callbackHandled) => {
             parent?.parentNode?.removeChild(parent);
             document.removeEventListener("keydown", closeOnKeyDown, false);
-            if (!callbackHandled)
-                callback(null);
-        }
+            if (!callbackHandled) callback(null);
+        };
 
         parent.appendChild(modal);
         return { modal: modal, parent: parent };
@@ -47,9 +43,9 @@ const ClientModals = function () {
                 }
             }
             return true;
-        }
+        };
         var col = Util.ele("div", "column");
-        inputs.forEach(inputType => {
+        inputs.forEach((inputType) => {
             var inputRow = createPromptInput(inputType.label, modal, confirm, "row", inputType.required, inputType.id);
             col.appendChild(inputRow);
         });
@@ -60,62 +56,60 @@ const ClientModals = function () {
         btn.onclick = (e) => {
             if (!modal.canConfirm()) return;
             confirm();
-        }
+        };
         modal.appendChild(btnRow);
         document.body.appendChild(modalCreate.parent);
         modal.querySelector("input").focus();
 
-
         function confirm() {
             var inputDom = [...modal.querySelectorAll(".modal_input")];
-            var returnValue = inputDom.map(x => {
+            var returnValue = inputDom.map((x) => {
                 return {
                     label: x.getAttribute("data-property"),
                     id: x.getAttribute("data-id"),
-                    value: x.value
-                }
+                    value: x.value,
+                };
             });
             modal.close(true);
             callback(returnValue);
         }
     }
 
-    function prompt(title, label, callback) {
+    function prompt(title, label, callback, options) {
         var modalCreate = modalBase(title, () => {
             callback(null);
         });
         var modal = modalCreate.modal;
-        var row = createPromptInput(label, modal, callback);
+        var row = createPromptInput(label, modal, callback, options);
         modal.classList.add("modal_prompt");
         modal.appendChild(row);
         var btn = Util.ele("button", "button_wide button_style", "Ok");
-        var btnRow = Util.ele("div", "row flex_end base_margin");
+        var btnRow = Util.ele("div", "row flex_end base_margin modal_ok_row");
         btnRow.appendChild(btn);
         btn.onclick = (e) => {
-            callback(modal.querySelector(".modal_input").value)
+            callback(modal.querySelector(".modal_input").value);
             modal.close();
-        }
+        };
         modal.appendChild(btnRow);
         document.body.appendChild(modalCreate.parent);
         modal.querySelector("input").focus();
+        return modal;
     }
 
-    function createPromptInput(label, modal, callback, rowClass = "column", required = false, id = null) {
+    function createPromptInput(label, modal, callback, options) {
         var input = Util.ele("input", "modal_input");
-        if (required)
-            input.setAttribute("data-required", true);
+        if (options && options.required) input.setAttribute("data-required", true);
+        if (options && options.placeholder) input.setAttribute("placeholder", options.placeholder);
         input.setAttribute("data-property", label);
-        if (id) {
-            input.setAttribute("data-id", id);
+        if (options && options.id) {
+            input.setAttribute("data-id", options.id);
         }
-        var row = Util.ele("div", rowClass);
-        if (label)
-            row.appendChild(Util.ele("label", "", label));
+        var row = Util.ele("div", options?.rowClass || "column");
+        if (label) row.appendChild(Util.ele("label", "", label));
         row.appendChild(input);
         input.addEventListener("keydown", (e) => {
             if (e.key.toLowerCase() == "enter") {
-                if (modal.canConfirm && !modal.canConfirm())
-                    return;
+                if (modal.canConfirm && !modal.canConfirm()) return;
                 callback(e.target.value);
                 modal.close(true);
             }
@@ -126,8 +120,6 @@ const ClientModals = function () {
     return {
         createModal: modalBase,
         prompt: prompt,
-        multiInputPrompt: multiInputPrompt
-    }
-
-}();
-
+        multiInputPrompt: multiInputPrompt,
+    };
+})();

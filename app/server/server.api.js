@@ -11,6 +11,7 @@ dataAccess.getSettings(settings => {
 
 const util = require("./server.util");
 const ElementCreator = require("../js/lib/elementCreator");
+const diceRoller = require("../js/diceroller")
 
 const constants = dataAccess.getConstantsSync();
 
@@ -18,6 +19,7 @@ const constants = dataAccess.getConstantsSync();
 contextBridge.exposeInMainWorld('api', {
     util,
     constants,
+    diceRoller,
     extname: (path) => pathModule.extname(path),
     messageWindow: (windowName, eventName, args) => { return ipcRenderer.send('notify-window', { name: windowName, event: eventName, args: args }) },
 })

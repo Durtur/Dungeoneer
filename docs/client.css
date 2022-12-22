@@ -55,7 +55,7 @@ body {
 .toolbar {
     position: absolute;
     font-size: 0.85em;
-    z-index: 500000;
+    z-index: 5000;
     min-width: 4em;
     left: 0.25em;
     width: 5vw;
@@ -73,7 +73,7 @@ body {
 }
 
 .toolbar .toggle_button[toggled="true"] {
-    filter: contrast(40%) sepia(1) hue-rotate(20deg) saturate(1000%);
+    filter: contrast(47%) sepia(1) hue-rotate(197deg) saturate(1000%);
     background-color: transparent !important;
 }
 
@@ -137,6 +137,26 @@ body {
 .hamburger {
     background-image: url("./img/hamburger-menu.svg");
 }
+.dice-bar-button{
+    background-image: url("./img/rolling-dice.svg");
+    background-size: 2.75em !important;
+}
+
+.dice_formula_container{
+    position: absolute;
+    right:0em;
+    top:50%;
+    transform:translateY(-50%);
+    z-index: 5000;
+}
+
+.dice_formula_container .button_style{
+    padding:0.5em;
+}
+
+.dice_formula_button{
+    
+}
 
 .toolbar_collapsed>*:not(:first-child) {
     display: none;
@@ -171,7 +191,7 @@ body {
     right: 5em;
     background-color: var(--dark-transparent-bg);
     margin: 0;
-    z-index: 500;
+    z-index: 5500;
     padding: 0.25em 0.5em;
     border-radius: var(--rounded-corners);
 }

@@ -14,6 +14,7 @@ class Menu {
       if (!settings.transparentWindow)
         document.body.style.backgroundColor = event.target.value;
     };
+ 
     document.querySelector("#vision_button").onclick = showLightSourceTooltip;
     document.querySelector("#conditions_button").onclick = showConditionsMenu;
     document.getElementById("filter_tool").onchange = setBackgroundFilter;

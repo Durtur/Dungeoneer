@@ -21,6 +21,10 @@ function userGesture() {
     } catch {}
 }
 
+function toggleFeatures(featureList) {
+    if (featureList.find((x) => x == "dice-roller")) diceRollerBar.render(document.getElementById("dice-roller"));
+}
+
 function showWelcomeModal() {
     var done = localStorage.getItem("welcome-modal-shown");
     if (done) return;
@@ -52,6 +56,7 @@ function showWelcomeModal() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    menu.initialize();
     window.addEventListener("beforeunload", (event) => {
         if (hostConnection) {
             hostConnection.close();
@@ -189,6 +194,9 @@ function getDataBuffer(event) {
 
 function setState(message) {
     switch (message.event) {
+        case "enabled-features":
+            toggleFeatures(message.data);
+            break;
         case "initialized":
             map.removeAllPawns();
             map.removeAllEffects();
@@ -362,6 +370,8 @@ function setState(message) {
                 name: src,
             });
             break;
+        case "dice-result":
+            diceRollerBar.result(message.data);
     }
 }
 
@@ -505,6 +515,7 @@ function connectedStateChanged() {
     if (hostConnection != null && hostConnection.open) {
         connectionStatusIndicator.classList.add("connected");
         connectPanel.classList.add("hidden");
+         map.updateInitiative({empty:true});
         if (!initRequestSent) setLoading(true);
     } else {
         connectionStatusIndicator.classList.remove("connected");
@@ -535,13 +546,4 @@ function getUrlParam(paramName) {
 function send(data) {
     console.log(`Sending ${data}`);
     hostConnection.send(data);
-}
-
-function toggleToolbar() {
-    var bar = document.querySelector(".toolbar");
-    if (bar.classList.contains("toolbar_collapsed")) {
-        bar.classList.remove("toolbar_collapsed");
-    } else {
-        bar.classList.add("toolbar_collapsed");
-    }
 }

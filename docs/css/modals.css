@@ -21,11 +21,8 @@
 }
 
 .modal_prompt .row>label {
-    margin: 0.25em;
-    padding: 0.25em;
-    line-height: 2;
     flex: 1;
-    text-align: left;
+
 }
 
 .modal_prompt h1 {
@@ -36,12 +33,19 @@
 
 .modal_prompt {
     width: 24em;
+    max-height: 11.5em;
+    min-height: 2.5em;
+    overflow: hidden;
+    font-size: 1.25em;
 }
 
 .modal_prompt input {
     border-radius: var(--rounded-corners);
     padding: 0.25em;
     margin: 0.25em;
+    height: 2.5em;
+    text-align: center;
+    font-size:1.25em;
 }
 
 .modal_container {

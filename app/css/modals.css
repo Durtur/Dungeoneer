@@ -19,7 +19,8 @@
     flex-flow: column nowrap;
     max-height: 85vh;
 }
-.modal_minified{
+
+.modal_minified {
     position: absolute;
     z-index: 9999999999999999;
     background: var(--dark-transparent-bg);
@@ -27,11 +28,11 @@
     padding: 0.5em;
     display: flex;
     flex-flow: column nowrap;
-    width:6em;
+    width: 6em;
     text-align: center;
 }
 
-.modal_minified h1{
+.modal_minified h1 {
     font-size: 1.5em;
     color: white;
     font-family: var(--basic-font);
@@ -41,13 +42,13 @@
 }
 
 
-.modal_minified input{
-    height:1em;
-    font-size:1.25em;
+.modal_minified input {
+    height: 1em;
+    font-size: 1.25em;
     text-align: center;
-    padding:0.25em;
-    border-radius:var(--rounded-corners);
-    color:black;
+    padding: 0.25em;
+    border-radius: var(--rounded-corners);
+    color: black;
     -webkit-app-region: no-drag;
 }
 

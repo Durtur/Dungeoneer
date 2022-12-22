@@ -1044,9 +1044,8 @@ textarea,
 }
 
 .button_wide {
-  width: 80px;
-  height: 40px;
-  /** border-radius:5px;**/
+  width: 6em;
+  height: 3em;
 }
 
 .tab {
