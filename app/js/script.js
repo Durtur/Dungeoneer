@@ -161,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function () {
         window.api.messageWindow("maptoolWindow", "notify-main-reloaded");
     }, 1000);
 
-    $(".initiativeNode").on("click", initiative.roll);
     initiative.setAsMain();
     initiative.addEventListener((evt) => {
         window.api.messageWindow("maptoolWindow", "intiative-updated", evt);

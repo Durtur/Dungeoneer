@@ -45,9 +45,9 @@ var initiative = function () {
         }
 
     }
-
+   
     function createNode(entry) {
-        var newNode = Util.ele("div", "initiativeNode  init--PC");
+        var newNode = Util.ele("div", "initiativeNode initiative_node_inactive init--PC");
         var p = Util.ele("p", "initiative_name_node", entry.name)
         newNode.appendChild(p);
         if (entry.isPlayer) {

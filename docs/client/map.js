@@ -1296,7 +1296,7 @@ function dragPawn(elmnt) {
         tooltip.classList.add("hidden");
 
         var movedThings = [elmnt, ...selectedPawns];
-        console.log(movedThings);
+
         serverNotifier.notifyServer(
             "object-moved",
             movedThings
@@ -2152,8 +2152,8 @@ const map = (function () {
     function setPawnRotation(pawn, degrees) {
         var isMob = pawn.getAttribute("data-mob_size") != null;
         var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo");
-
-        element.style.setProperty("--pawn-rotate", degrees + "deg");
+        if(isNaN(degrees))degrees = 0;
+        element.style.setProperty("--pawn-rotate", (degrees || 0) + "deg");
         if (serverNotifier.isServer()) {
             serverNotifier.notifyServer("token-rotate-set", {
                 id: pawn.id,
