@@ -664,7 +664,7 @@ var monsterNames;
 var awesomePletes = [];
 function updateAutoFill() {
     var fields;
-    while (awesomePletes.length > 0) {
+    while (awesomePletes?.length > 0) {
         awesomePletes.pop().destroy();
     }
     if (monsterNames == null) {
