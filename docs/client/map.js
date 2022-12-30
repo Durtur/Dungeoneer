@@ -2152,7 +2152,7 @@ const map = (function () {
     function setPawnRotation(pawn, degrees) {
         var isMob = pawn.getAttribute("data-mob_size") != null;
         var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo");
-        if(isNaN(degrees))degrees = 0;
+        if (isNaN(degrees)) degrees = 0;
         element.style.setProperty("--pawn-rotate", (degrees || 0) + "deg");
         if (serverNotifier.isServer()) {
             serverNotifier.notifyServer("token-rotate-set", {
@@ -2170,11 +2170,30 @@ const map = (function () {
         setPawnRotation(pawn, pawn.deg);
     }
 
+    /**
+     *
+     * @param {object} options elementId and text properties required
+     * @returns void
+     */
+    function talkBubble(options) {
+        var pawn = getPawnById(options.elementId);
+        if (!pawn) return;
+        var bubble = pawn.querySelector(".token_talkbubble");
+        if (!bubble) {
+            bubble = Util.ele("div", "token_talkbubble", options.text);
+            bubble.onclick = (e) => Util.fadeOut(bubble, 600);
+            pawn.appendChild(bubble);
+        } else {
+            bubble.innerHTML = options.text;
+        }
+    }
+
     return {
         init: init,
         shiftView: shiftView,
         centerOn: centerOn,
         setTokenScale: setTokenScale,
+        talkBubble: talkBubble,
         getTokenScale: getTokenScale,
         rotatePawn: rotatePawn,
         setPawnRotation: setPawnRotation,

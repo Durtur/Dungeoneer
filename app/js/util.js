@@ -202,7 +202,7 @@ module.exports = (function () {
         return "hsl(" + h + "," + s + "%," + l + "%)";
     }
 
-    function randomHexColor(){
+    function randomHexColor() {
         return "#" + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0");
     }
     function hexToRGBA(hex, opacity) {
@@ -346,12 +346,21 @@ module.exports = (function () {
         });
     }
 
+    function fadeOut(ele, ms = 2000) {
+        ele.classList.add("fade_out");
+        ele.style.animationDuration = `${ms/1000}s`;
+        window.setTimeout(function (evt) {
+            if (ele.parentNode) ele.parentNode.removeChild(ele);
+        }, ms);
+    }
+
     return {
         masonryLayout: masonryLayout,
         mouseActionTooltip: mouseActionTooltip,
         showSuccessMessage: showSuccessMessage,
         showFailedMessage: showFailedMessage,
         showMessage: showMessage,
+        fadeOut: fadeOut,
         showBubblyText: showBubblyText,
         showDisappearingTitleAndSubtitle: showDisappearingTitleAndSubtitle,
         showOrHide: showOrHide,
@@ -361,7 +370,7 @@ module.exports = (function () {
         hexToHSL: hexToHSL,
         toBase64: toBase64,
         hexToRGBA: hexToRGBA,
-        randomHexColor:randomHexColor,
+        randomHexColor: randomHexColor,
         createLoadingEle: createLoadingEle,
         IsVowel: IsVowel,
         ele: ele,

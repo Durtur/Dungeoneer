@@ -41,14 +41,13 @@ const monsterTags = {};
 var partyArray;
 var currentEntry;
 
-setTab(localStorage.getItem("database-selected-tab") || "homebrew"); //Default to NPC
-
 ipcRenderer.on("update-autofill-complete", function () {
     console.log("Notified that autocomplete list is updated.");
     updateAutoFill();
 });
 
 $(document).ready(function () {
+    setTab(localStorage.getItem("database-selected-tab") || "homebrew"); //Default to NPC
     dataAccess.getSettings((sett) => {
         settings = sett;
     });

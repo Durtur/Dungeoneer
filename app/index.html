@@ -173,7 +173,7 @@ initiative</p>
                 <button class="small button_style" title="Clear combat panel" onclick="combatLoader.clear()">C</button>
                 <button class="small toggle_button button_style" toggled="false" title="Show dead"
                   onclick="combatLoader.toggleShowDead()">D</button>
-                  <button class="green button_style " style="    margin: 0 0.25em;" id="maptool_notify_button"
+                <button class="green button_style " style="    margin: 0 0.25em;" id="maptool_notify_button"
                   title="Opens the map tool with loaded creatures.
                 No creatures are loaded." disabled onclick="combatLoader.loadMonsterQueue()">Add to map</button>
 
@@ -189,8 +189,11 @@ initiative</p>
             </section>
             <div class="row float_up combat_toolbar" style="justify-content: flex-end;">
               <button class="small button_style" title="Clear mob panel" onclick="mobController.clear()">C</button>
-              <button class="small  button_style" id="maptool_mob_add_button" title="Opens the map tool with loaded mobs.
-              No mobs are loaded." disabled onclick="mobController.notifyMapTool()">M</button>
+
+              <button class="green button_style " style="    margin: 0 0.25em;" id="maptool_mob_add_button"
+                  title="Opens the map tool with loaded mobs.
+                No mobs are loaded." disabled onclick="mobController.notifyMapTool()">Add to map</button>
+
             </div>
           </div>
 

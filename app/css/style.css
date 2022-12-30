@@ -766,6 +766,9 @@ h1 {
   opacity: 0;
 }
 
+#maptool_mob_add_button[disabled]{
+  display:none;
+}
 .combatRow>button, .mobcontroller_row button {
   max-height: 42px;
   min-width: 40px;

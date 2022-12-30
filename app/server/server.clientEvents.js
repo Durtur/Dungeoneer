@@ -36,6 +36,10 @@ const CLIENT_EVENT_HANLDERS = {
     "roll-dice": function (data, connection, peer) {
         var result = diceRoller.rollFromString(data.diceString);
         appendServerLog(`${peer.name} rolled ${data.diceString}: ${result}`, SERVER_EVENTS.MOVE);
+        if (peer.partyAccess.length == 1) {
+            notifyMaptool({ event: "talk-bubble", elementId: peer.partyAccess[0].element_id, text:`${data.diceString}: ${result}`});
+        }
+        console.log(peer);
         return connection.send({
             event: "dice-result",
             data: {

@@ -1538,11 +1538,11 @@ header {
 }
 
 .fade_out {
-  animation: fadeout 2s ease-out;
+  animation: fadeout 2s ease-out !important;
 }
 
 @keyframes fadeout {
-  40% {
+  20% {
     opacity: 1;
   }
 
