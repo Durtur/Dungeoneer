@@ -38,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         ev.x = ev.center.x;
         ev.y = ev.center.y;
 
-    
         window.ontouchend   = ()=>{
             disableMapDrag= false;
             
