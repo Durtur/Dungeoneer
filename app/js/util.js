@@ -347,8 +347,9 @@ module.exports = (function () {
     }
 
     function fadeOut(ele, ms = 2000) {
+        if (!ele.parentNode) return;
         ele.classList.add("fade_out");
-        ele.style.animationDuration = `${ms/1000}s`;
+        ele.style.animationDuration = `${ms / 1000}s`;
         window.setTimeout(function (evt) {
             if (ele.parentNode) ele.parentNode.removeChild(ele);
         }, ms);

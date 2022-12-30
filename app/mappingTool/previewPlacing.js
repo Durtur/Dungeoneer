@@ -37,7 +37,7 @@ const previewPlacementManager = (function () {
             if (ts == dragPreviewTimestamp) {
                 return;
             }
-
+            if (!previewPlacementElement) return;
             dragPreviewTimestamp = ts;
             e.preventDefault();
             var elementHeight = parseFloat(previewPlacementElement.style.height);

@@ -81,7 +81,7 @@ class Menu {
     document.getElementById("token_scale_button").onclick = (e) => {
       var firstPawn = selectedPawns[0];
       var initValue =
-        selectedPawns.length == 1 ? map.getTokenScale(firstPawn) : 1;
+        selectedPawns.length == 1 ? pawnManager.getScale(firstPawn) : 1;
 
       Modals.minifiedPrompt(
         { clientX: firstPawn.offsetLeft, clientY: firstPawn.offsetTop },
@@ -95,7 +95,7 @@ class Menu {
         (scale) => {
           if (!scale) return;
           selectedPawns.forEach((pawn) => {
-            map.setTokenScale(pawn, scale);
+            pawnManager.setScale(pawn, scale);
           });
         }
       );

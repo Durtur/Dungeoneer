@@ -112,7 +112,7 @@ ipcRenderer.on("client-event", function (evt, arg) {
         
         map.moveObject(pawn, tanslatedPixels, false)
     }else if (arg.event == "talk-bubble"){
-        map.talkBubble(arg);
+        pawnManager.talkBubble(arg);
     }
 })
 ipcRenderer.on("notify-map-tool-monsters-loaded", function (evt, arg) {

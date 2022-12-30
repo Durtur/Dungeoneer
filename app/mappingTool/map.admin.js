@@ -681,18 +681,16 @@ async function getDefaultLibraryTokenPaths(pawn) {
 function killOrRevivePawn() {
     var btn = document.getElementById("kill_or_revive_button");
     var revivePawn = btn.innerHTML == "Revive";
+
     for (var i = 0; i < selectedPawns.length; i++) {
         killOrReviveHelper(selectedPawns[i]);
     }
-    refreshPawnToolTips();
 
     function killOrReviveHelper(pawnElement) {
-        var isPlayer = isPlayerPawn(pawnElement);
-
         if (revivePawn) {
-            if (pawnElement.dead == "false") return;
-            pawnElement.dead = "false";
-            if (!isPlayer) {
+            if (!pawnManager.isDead(pawnElement)) return;
+            pawnManager.revive(pawnElement);
+            if (!isPlayerPawn(pawnElement)) {
                 if (pawnElement.index_in_main_window) {
                     window.api.messageWindow("mainWindow", "monster-revived", {
                         name: pawnElement.dnd_name,
@@ -701,9 +699,9 @@ function killOrRevivePawn() {
                 }
             }
         } else {
-            if (pawnElement.dead == "true") return;
-            pawnElement.dead = "true";
-            if (!isPlayer) {
+            if (pawnManager.isDead(pawnElement)) return;
+            pawnManager.kill(pawnElement);
+            if (!isPlayerPawn(pawnElement)) {
                 if (pawnElement.index_in_main_window) {
                     window.api.messageWindow("mainWindow", "monster-killed", [pawnElement.dnd_name, pawnElement.index_in_main_window]);
                 }
@@ -711,7 +709,6 @@ function killOrRevivePawn() {
         }
         var arg = { dead: !revivePawn, elementId: pawnElement.id };
         serverNotifier.notifyServer("monster-health-changed", arg);
-        pawnElement.setAttribute("data-state_changed", 1);
     }
 }
 
@@ -798,7 +795,7 @@ function setScaleIfSaved(pawn, path) {
     if (!path) return;
     var scale = localStorage.getItem(`token_scale${path}`);
     if (scale) {
-        map.setTokenScale(pawn, scale);
+        pawnManager.setScale(pawn, scale);
     } else {
         //Check if file name contains _ScaleXX_,
         var found = path.toLowerCase().match(/_scale.+_/g);
@@ -807,10 +804,10 @@ function setScaleIfSaved(pawn, path) {
             number = parseInt(number);
             var fileScale = number / 100;
             if (fileScale > 0 && fileScale < 10) {
-                map.setTokenScale(pawn, fileScale);
+                pawnManager.setScale(pawn, fileScale);
             }
         } else {
-            map.setTokenScale(pawn, 1);
+            pawnManager.setScale(pawn, 1);
         }
     }
 }
@@ -846,11 +843,11 @@ async function setTokenImageHandler(e) {
 }
 
 function showPopupMenuPawn(x, y) {
+    if (!selectedPawns[0]) return;
     document.getElementById("popup_menu_general").classList.add("hidden");
-
     var popup = document.getElementById("popup_menu_pawn");
     var killButton = document.getElementById("kill_or_revive_button");
-    if (selectedPawns[0].dead == "true") {
+    if (pawnManager.isDead(selectedPawns[0])) {
         killButton.innerHTML = "Revive";
     } else {
         killButton.innerHTML = "Kill";

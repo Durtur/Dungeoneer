@@ -394,6 +394,8 @@ li {
     border: none !important;
 }
 
+
+
 .pawn {
     position: absolute;
     z-index: var(--z-index-pawn);
@@ -465,7 +467,7 @@ li {
     height: 100%;
 }
 
-.pawn_dead {
+.pawn[data-token-dead=true] {
     background-color: rgba(218, 0, 0, 0.632) !important;
     background-image: url("tokens/dead.png");
 }

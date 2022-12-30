@@ -164,6 +164,12 @@ class TokenDialog {
         var cls = this;
         this.onPlacementInfoChanged();
         sidebarManager.showInSideBar(this.dialog, () => {
+            this.dialog.classList.add("hidden");
+            pauseAlternativeKeyboardMoveMap = false;
+            resetGridLayer();
+            gridLayer.style.cursor = "auto";
+            if (this.stopTooltip) this.stopTooltip();
+            previewPlacementManager.clear();
             document.body.appendChild(cls.dialog);
         });
 
@@ -206,13 +212,7 @@ class TokenDialog {
     }
 
     close() {
-        this.dialog.classList.add("hidden");
         sidebarManager.close();
-        pauseAlternativeKeyboardMoveMap = false;
-        resetGridLayer();
-        gridLayer.style.cursor = "auto";
-        if (this.stopTooltip) this.stopTooltip();
-        previewPlacementManager.clear();
     }
 
     async addPawnHandler(e) {

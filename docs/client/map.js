@@ -258,9 +258,9 @@ function onMonsterHealthChanged(arg) {
     }
 
     if (arg.dead) {
-        pawn.dead = "true";
+        pawnManager.kill(pawn);
     } else {
-        pawn.dead = "false";
+        pawnManager.revive(pawn);
     }
     pawn.setAttribute("data-state_changed", 1);
     refreshPawnToolTips();
@@ -1352,9 +1352,9 @@ function addPawnListeners() {
         pawn.onwheel = function (event) {
             if (event.shiftKey) {
                 if (event.deltaY > 0) {
-                    map.rotatePawn(event.target, 3);
+                    pawnManager.rotatePawn(event.target, 3);
                 } else {
-                    map.rotatePawn(event.target, -3);
+                    pawnManager.rotatePawn(event.target, -3);
                 }
             } else if (event.ctrlKey) {
                 setFlyingHeight(event.target, event.target.flying_height + (event.deltaY > 0 ? 5 : -5), event);
@@ -1620,7 +1620,7 @@ async function createPawnElement(pawn, rotate) {
     newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
     setBasePawnProperties(newPawn, pawn);
     newPawn.style.backgroundColor = settings.colorTokenBases ? pawn.color : "transparent";
-    newPawn.dead = pawn.dead || "false";
+    if (pawn.dead == "true") pawnManager.kill(newPawn);
     newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
 
     if (pawn.isMob) {
@@ -1641,10 +1641,10 @@ async function createPawnElement(pawn, rotate) {
     }
     await setPawnTokenFromParams(newPawn, pawn);
 
-    map.rotatePawn(newPawn, rotate);
+    pawnManager.rotatePawn(newPawn, rotate);
 
     if (pawn.scale) {
-        map.setTokenScale(newPawn, pawn.scale);
+        pawnManager.setScale(newPawn, pawn.scale);
     }
     return newPawn;
 }
@@ -1983,7 +1983,7 @@ const map = (function () {
     }
 
     function moveObject(elmnt, point, userAction = true) {
-        console.log("Move ", elmnt);
+        if (!elmnt) return;
         var oldX = parseFloat(elmnt.style.left);
         var oldY = parseFloat(elmnt.style.top);
         var diffX = oldX - point.x;
@@ -2095,33 +2095,6 @@ const map = (function () {
         shiftView(shiftAmountX, shiftAmounyY);
     }
 
-    function setTokenScale(pawn, scale) {
-        if (!scale) return;
-        var image = pawn.querySelector(".token_photo");
-        if (!image) return;
-        image.style.setProperty("--pawn-image-scale", scale);
-        console.log(`Set scale  ${scale}`);
-        serverNotifier.notifyServer("token-scale", {
-            id: pawn.id,
-            scale: scale,
-        });
-        var facetArray = image.getAttribute("data-token_facets");
-        if (!facetArray) return;
-        var facets = JSON.parse(facetArray);
-        var current = parseInt(image.getAttribute("data-token_current_facet") || 0);
-        var path = facets[current];
-        if (scale != 1) {
-            localStorage.setItem(`token_scale${path}`, scale);
-        } else {
-            localStorage.removeItem(`token_scale${path}`);
-        }
-    }
-    function getTokenScale(pawn) {
-        var image = pawn.querySelector(".token_photo");
-        if (!image) return 1;
-        return image.style.getPropertyValue("--pawn-image-scale");
-    }
-
     function updateObjectSize(ele) {
         var width, height;
 
@@ -2149,54 +2122,10 @@ const map = (function () {
         return [...pawns.all].find((x) => x.id == id);
     }
 
-    function setPawnRotation(pawn, degrees) {
-        var isMob = pawn.getAttribute("data-mob_size") != null;
-        var element = isMob ? pawn.querySelector(".mob_token_container") : pawn.querySelector(".token_photo");
-        if (isNaN(degrees)) degrees = 0;
-        element.style.setProperty("--pawn-rotate", (degrees || 0) + "deg");
-        if (serverNotifier.isServer()) {
-            serverNotifier.notifyServer("token-rotate-set", {
-                id: pawn.id,
-                deg: pawn.deg,
-            });
-        }
-    }
-    function rotatePawn(pawn, degrees) {
-        if (pawn.deg == null) {
-            pawn.deg = degrees;
-        } else {
-            pawn.deg += degrees;
-        }
-        setPawnRotation(pawn, pawn.deg);
-    }
-
-    /**
-     *
-     * @param {object} options elementId and text properties required
-     * @returns void
-     */
-    function talkBubble(options) {
-        var pawn = getPawnById(options.elementId);
-        if (!pawn) return;
-        var bubble = pawn.querySelector(".token_talkbubble");
-        if (!bubble) {
-            bubble = Util.ele("div", "token_talkbubble", options.text);
-            bubble.onclick = (e) => Util.fadeOut(bubble, 600);
-            pawn.appendChild(bubble);
-        } else {
-            bubble.innerHTML = options.text;
-        }
-    }
-
     return {
         init: init,
         shiftView: shiftView,
         centerOn: centerOn,
-        setTokenScale: setTokenScale,
-        talkBubble: talkBubble,
-        getTokenScale: getTokenScale,
-        rotatePawn: rotatePawn,
-        setPawnRotation: setPawnRotation,
         getPawnById: getPawnById,
         centerForegroundOnBackground: centerForegroundOnBackground,
         updateInitiative: updateInitiative,

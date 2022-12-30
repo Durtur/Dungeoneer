@@ -261,7 +261,7 @@ class SaveManager {
     }
 
     async exportMobTokens(pawn) {
-        var allTokens = [...pawn.querySelectorAll(".mob_token")].filter(x=> !x.classList.contains("mob_token_dead"));
+        var allTokens = [...pawn.querySelectorAll(".mob_token")].filter((x) => !x.classList.contains("mob_token_dead"));
         var tokenPaths = allTokens.map((ele) => ele.getAttribute("data-token_path"));
 
         var distinctTokens = [...new Set(tokenPaths)];
@@ -294,12 +294,13 @@ class SaveManager {
         var darkVisionRadius = element.sight_mode == "darkvision" ? element.sight_radius_bright_light : null;
         var currentPath = img ? images[currentIndex] || DEFAULT_TOKEN_PATH_JS_RELATIVE : null;
         var base64 = currentPath ? await util.toBase64(currentPath) : null;
-        var scale = map.getTokenScale(pawn[0]);
+        var scale = pawnManager.getScale(pawn[0]);
+        console.log(pawnManager.isDead(pawn[0]));
         return {
             name: pawn[1],
             id: element.id,
             isPlayer: isPlayerPawn(pawn[0]),
-            dead: element.dead,
+            dead: pawnManager.isDead(element) + "",
             isMob: isMob,
             mobSize: mobSize,
             mobCountDead: 0,
@@ -308,7 +309,6 @@ class SaveManager {
             hexes: element.dnd_hexes,
             color: element.style.backgroundColor,
             health_percentage: element.data_health_percentage || "100",
-            dead: element.dead,
             scale: scale,
             size: element.dnd_size,
             flying_height: element.flying_height,
@@ -319,7 +319,6 @@ class SaveManager {
             bgPhotoBase64: base64,
             pos: map.objectGridCoords(element),
             darkVisionRadius: darkVisionRadius,
-            //attached_objects : element.attached_objects
         };
     }
 

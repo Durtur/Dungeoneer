@@ -308,7 +308,7 @@ function setState(message) {
         case "token-scale":
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
-            map.setTokenScale(token[0], message.data.scale);
+            pawnManager.setScale(token[0], message.data.scale);
             break;
         case "token-size":
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
@@ -327,7 +327,7 @@ function setState(message) {
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
 
-            map.setPawnRotation(token[0], deg);
+            pawnManager.setPawnRotation(token[0], deg);
             break;
         case "token-flying-height":
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
@@ -477,9 +477,10 @@ async function addPawn(pawn) {
         if (pawn.mobTokens) setMobTokens(pawn.mobTokens);
     };
     pawn.spawnPoint = map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
+    console.log(pawn.dead)
     if (!pawn.isPlayer) pawn.name = "???";
     await generatePawns([pawn], !pawn.isPlayer);
-
+    
     onMonsterHealthChanged({
         dead: pawn.dead == "true",
         healthPercentage: pawn.health_percentage,

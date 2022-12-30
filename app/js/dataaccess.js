@@ -388,7 +388,6 @@ module.exports = (function () {
         for (var i = 0; i < fileEndings.length; i++) {
             fileEnding = fileEndings[i];
             var path = pathModule.join(defaultTokenPath, creatureId + fileEnding);
-            console.log(path);
             if (fs.existsSync(path)) return path;
         }
         return null;

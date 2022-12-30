@@ -382,7 +382,7 @@ function sendMaptoolState(maptoolState) {
             sendBatched(peer.connection, "map_edge", dataObject.mapEdge?.data, {
                 format: dataObject.mapEdge?.format,
             });
-            console.log(dataObject.background);
+         
             sendBatched(peer.connection, "background", dataObject.background?.data, {
                 width: maptoolState.background?.width,
                 height: maptoolState.background?.height,

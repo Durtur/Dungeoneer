@@ -1206,13 +1206,11 @@ function loadAll() {
 }
 
 function listAll() {
-    console.log("List all");
     if (listedData == null) {
         listedData = loadedData;
     }
 
     var data = listedData;
-    console.log(data);
     var tabElementName = tab == "homebrew" ? "monsters" : tab;
     if (sortFunction != null) {
         data.sort(sortFunction);

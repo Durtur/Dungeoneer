@@ -1,6 +1,4 @@
-
-
-var serverNotifier = function () {
+var serverNotifier = (function () {
     var timeouts = {};
 
     async function mapToolInit() {
@@ -9,18 +7,17 @@ var serverNotifier = function () {
         notifyServer("segments", []);
         notifyServer("initiative", initiative.getState());
     }
-    
-    async function sendState() {
 
+    async function sendState() {
         var bgState = {};
-        backgroundLoop.saveSlideState(bgState)
+        backgroundLoop.saveSlideState(bgState);
         var overlayState = {};
         overlayLoop.saveSlideState(overlayState);
 
-
         ipcRenderer.send("maptool-server-event", {
-            event: "maptool-state", data: {
-                tokens: (await getTokensForExport(false)),
+            event: "maptool-state",
+            data: {
+                tokens: await getTokensForExport(false),
                 backgroundLoop: bgState,
                 overlayLoop: overlayState,
                 foreground: getForegroundState(),
@@ -31,21 +28,19 @@ var serverNotifier = function () {
                 fog: fovLighting.getFogStyle(),
                 conditions: await getConditionsForExport(),
                 roundTimer: roundTimer?.getState(),
-                initiative: initiative.getState()
-            }
+                initiative: initiative.getState(),
+            },
         });
-
     }
-
 
     function getSegments() {
         var segments = fovLighting.getSegments();
-        return segments.map(seg => {
+        return segments.map((seg) => {
             return {
                 a: map.toGridCoords(seg.a.x, seg.a.y),
-                b: map.toGridCoords(seg.b.x, seg.b.y)
-            }
-        })
+                b: map.toGridCoords(seg.b.x, seg.b.y),
+            };
+        });
     }
 
     function isServer() {
@@ -54,7 +49,7 @@ var serverNotifier = function () {
 
     function getBackgroundState() {
         var hw = getCanvasState(backgroundCanvas);
-        return { path: settings.currentBackground, width: hw.width, height: hw.height }
+        return { path: settings.currentBackground, width: hw.width, height: hw.height };
     }
 
     function getMapEdgeState() {
@@ -63,19 +58,17 @@ var serverNotifier = function () {
 
     function getForegroundState() {
         var hw = getCanvasState(foregroundCanvas);
-        return { path: settings.currentMap, width: hw.width, height: hw.height, translate: { x: foregroundCanvas.data_transform_x || 0, y: foregroundCanvas.data_transform_y || 0 } }
+        return { path: settings.currentMap, width: hw.width, height: hw.height, translate: { x: foregroundCanvas.data_transform_x || 0, y: foregroundCanvas.data_transform_y || 0 } };
     }
-
 
     function getOverlayState() {
         var hw = getCanvasState(overlayCanvas);
-        return { path: settings.currentOverlay, width: hw.width, height: hw.height }
+        return { path: settings.currentOverlay, width: hw.width, height: hw.height };
     }
 
     function getCanvasState(canvas) {
         return { height: parseFloat(canvas.style.height), width: parseFloat(canvas.style.width) };
     }
-
 
     async function serverTokensChanged() {
         var tokens = await getTokensForExport();
@@ -90,23 +83,20 @@ var serverNotifier = function () {
         return effectArr;
     }
 
-
     async function getTokensForExport(includeHidden) {
         var tokens = [];
         for (var i = 0; i < pawns.monsters.length; i++) {
-            if (!includeHidden && pawns.monsters[i][0].client_hidden)
-                continue;
-            tokens.push(await saveManager.exportPawn(pawns.monsters[i]))
+            if (!includeHidden && pawns.monsters[i][0].client_hidden) continue;
+            tokens.push(await saveManager.exportPawn(pawns.monsters[i]));
         }
         for (var i = 0; i < pawns.players.length; i++) {
-            if (!includeHidden && pawns.players[i][0].client_hidden)
-                continue;
-            tokens.push(await saveManager.exportPawn(pawns.players[i], includeHidden))
+            if (!includeHidden && pawns.players[i][0].client_hidden) continue;
+            tokens.push(await saveManager.exportPawn(pawns.players[i], includeHidden));
         }
+        console.log(tokens);
 
         return tokens;
     }
-
 
     function notifyServer(eventName, data) {
         ipcRenderer.send("maptool-server-event", { event: eventName, data: data });
@@ -119,12 +109,10 @@ var serverNotifier = function () {
             delete exportList[i].condition_background_location;
         }
         return exportList;
-
     }
 
     async function mobTokensChanged(mobElement) {
-        notifyServer("mob-tokens-set", await saveManager.exportMobTokens(mobElement))
-
+        notifyServer("mob-tokens-set", await saveManager.exportMobTokens(mobElement));
     }
 
     function serverIsRunning() {
@@ -139,13 +127,14 @@ var serverNotifier = function () {
         getForegroundState: getForegroundState,
         getTokensForExport: getTokensForExport,
         getBackgroundState: getBackgroundState,
-        getMapEdgeState, getMapEdgeState,
+        getMapEdgeState,
+        getMapEdgeState,
         getOverlayState: getOverlayState,
         serverTokensChanged: serverTokensChanged,
         mobTokensChanged: mobTokensChanged,
         isServer: isServer,
         getSegments: getSegments,
         getEffectsForExport: getEffectsForExport,
-        timeouts: timeouts
-    }
-}();
+        timeouts: timeouts,
+    };
+})();
