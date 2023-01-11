@@ -1089,7 +1089,6 @@ function isPlayerPawn(pawnElement) {
 }
 
 function resetGridLayer() {
-    console.log("Grid layer reset");
     gridLayer.oncontextmenu = function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -1574,6 +1573,7 @@ async function setPawnMobBackgroundImages(pawn, pawnParams) {
 }
 
 async function setPawnTokenFromParams(newPawn, pawn) {
+    console.log(pawn)
     if (pawn.isMob) {
         return setPawnMobBackgroundImages(newPawn, pawn);
     }
@@ -1711,8 +1711,12 @@ async function generatePawns(pawnArray, isMonster) {
 
         tokenLayer.appendChild(newPawn);
         if (serverNotifier.isServer()) {
-            await saveManager.exportPawn([newPawn, pawn.name]);
-            serverNotifier.notifyServer("token-add", await saveManager.exportPawn([newPawn, pawn.name]));
+            try {
+                await saveManager.exportPawn([newPawn, pawn.name]);
+                serverNotifier.notifyServer("token-add", await saveManager.exportPawn([newPawn, pawn.name]));
+            } catch (e) {
+                console.error(e);
+            }
         }
         if (pawn.onAdded) pawn.onAdded(newPawn);
     }

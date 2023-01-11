@@ -386,7 +386,7 @@ async function onSettingsLoaded() {
         button.onclick = setTokenImageHandler;
     });
     document.getElementById("next_facet_button").onclick = setTokenNextFacetHandler;
-
+    document.getElementById("last_facet_button").onclick = setTokenLastFacetHandler;
     initialLoadComplete = true;
     if (pendingMapLoad) {
         saveManager.loadMapFromPath(pendingMapLoad);
@@ -775,19 +775,13 @@ function startAddingFromQueue() {
     }
 }
 
-function setTokenNextFacetHandler(e) {
-    selectedPawns.forEach((pawn) => {
-        var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
-        var images = JSON.parse(pawnPhoto.getAttribute("data-token_facets"));
-        if (images == null || images.length == 0) return;
-        var currentIndex = parseInt(pawnPhoto.getAttribute("data-token_current_facet")) || 0;
+function setTokenLastFacetHandler() {
+    selectedPawns.forEach((x) => pawnManager.setNextFacet(x, -1));
+}
 
-        var oldIndex = currentIndex;
-        currentIndex++;
-        if (currentIndex >= images.length) currentIndex = 0;
-        if (oldIndex == currentIndex) return;
-        pawnPhoto.setAttribute("data-token_current_facet", currentIndex);
-        setPawnToken(pawn, Util.cssify(images[currentIndex]));
+function setTokenNextFacetHandler(e) {
+    selectedPawns.forEach((x) => {
+        pawnManager.setNextFacet(x, 1);
     });
 }
 
@@ -868,7 +862,7 @@ function showPopupMenuPawn(x, y) {
     });
     Util.showOrHide("pawn_token_menu_button", -1 * isMob);
     Util.showOrHide("next_facet_button", hasFacets);
-
+    Util.showOrHide("last_facet_button", hasFacets);
     popup.classList.remove("hidden");
     popup.style.left = x + "px";
     popup.style.top = y + "px";

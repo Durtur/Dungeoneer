@@ -50,7 +50,9 @@
             <div class="server_active_container hidden">
                 <button id="invite_link_button" class="button_style green button_wide " style="width:8em">Copy
                     Invite link</button>
+                 <button id="button_show_qr_code" class="button_style green button_wide " style="width:8em">Invite QR code</button>
             </div>
+            <div id = "qrcode"></div>
         </div>
         <p class="error_text" id="error_message"></p>
         <div class="row center server_active_container hidden" style="margin-bottom:1em">
@@ -72,5 +74,6 @@
 <script src="server/server.js"></script>
 <script src="./js/lib/elementCreator.js"></script>
 <script src="../docs/client/timeout.js"></script>
+<script src="server/QRCode.js"></script>
 
 </html>

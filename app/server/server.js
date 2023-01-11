@@ -158,6 +158,38 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         );
     };
+    document.querySelector("#qrCode").onclick = (e) => {
+        
+        var canvas = document.querySelector("#qrCode canvas");
+        if (!canvas) return;
+        canvas.toBlob((blob) => {
+            let data = [new ClipboardItem({ [blob.type]: blob })];
+
+            navigator.clipboard.write(data).then(
+                () => {
+                    util.showMessage("QR code image copied to clipboard");
+                    document.getElementById("qrcode").replaceChildren();
+
+                },
+                (err) => {
+                    console.error("Could not copy qr code image: ", err);
+                }
+            );
+        });
+    };
+
+    document.getElementById("button_show_qr_code").onclick = (e) => {
+        if (!document.getElementById("server_id").value) return;
+        var text = `${clientPath}?hostID=${document.getElementById("server_id").value}`;
+        new QRCode(document.getElementById("qrcode"), {
+            text: text,
+            width: 128,
+            height: 128,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+        });
+    };
 
     document.getElementById("invite_link_button").onclick = (e) => {
         if (!document.getElementById("server_id").value) return;
@@ -320,7 +352,6 @@ function handleDataEvent(data, connection) {
     var peer = getPeer(connection.connectionId);
     var handleFunction = CLIENT_EVENT_HANLDERS[data.event];
     if (handleFunction) handleFunction(data, connection, peer);
-
 }
 
 function notifyMaptool(data) {
@@ -382,7 +413,7 @@ function sendMaptoolState(maptoolState) {
             sendBatched(peer.connection, "map_edge", dataObject.mapEdge?.data, {
                 format: dataObject.mapEdge?.format,
             });
-         
+
             sendBatched(peer.connection, "background", dataObject.background?.data, {
                 width: maptoolState.background?.width,
                 height: maptoolState.background?.height,

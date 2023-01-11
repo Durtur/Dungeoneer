@@ -79,7 +79,22 @@ const pawnManager = (function () {
         } else {
             bubble.innerHTML = options.text;
         }
-        window.setTimeout(()=> Util.fadeOut(bubble, 600), 14000)
+        window.setTimeout(() => Util.fadeOut(bubble, 600), 14000);
+    }
+
+    function setNextFacet(pawn, direction = 1) {
+        var pawnPhoto = pawn.getElementsByClassName("token_photo")[0];
+        var images = JSON.parse(pawnPhoto.getAttribute("data-token_facets"));
+        if (images == null || images.length == 0) return;
+        var currentIndex = parseInt(pawnPhoto.getAttribute("data-token_current_facet")) || 0;
+
+        var oldIndex = currentIndex;
+        currentIndex += direction;
+        if (currentIndex >= images.length) currentIndex = 0;
+        if (currentIndex < 0) currentIndex = images.length - 1;
+        if (oldIndex == currentIndex) return;
+        pawnPhoto.setAttribute("data-token_current_facet", currentIndex);
+        setPawnToken(pawn, Util.cssify(images[currentIndex]));
     }
 
     return {
@@ -91,5 +106,6 @@ const pawnManager = (function () {
         setScale,
         getScale,
         talkBubble,
+        setNextFacet,
     };
 })();

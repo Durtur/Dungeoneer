@@ -34,7 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     hammertime.on('pinchin', function (ev) {
         disableMapDrag = true;
-        console.log("disableMapDrag")
         ev.x = ev.center.x;
         ev.y = ev.center.y;
 
@@ -50,12 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     hammertime.on('pinchout', function (ev) {
         disableMapDrag = true;
-        console.log("disableMapDrag")
         ev.x = ev.center.x;
         ev.y = ev.center.y;
         window.ontouchend   = ()=>{
             disableMapDrag= false;
-            console.log("!disableMapDrag")
             window.ontouchend = null;
         }
         setMapZoom(ev, ev.scale)

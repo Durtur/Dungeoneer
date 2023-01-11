@@ -8,12 +8,16 @@ main {
 
     margin: auto;
 }
-body{
+
+body {
     --main-text-color: #ffffff;
-    background-image:url('./bg.jpg') !important
+    background-image: url('./bg.jpg') !important
 }
 
-button, input, p, .column  {
+button,
+input,
+p,
+.column {
     -webkit-app-region: no-drag;
 }
 
@@ -21,10 +25,21 @@ button, input, p, .column  {
     margin: 0.25em 1em;
 }
 
-#server_info_container label{
-    margin:1em 1em 0.25em 1em;
+#server_info_container label {
+    margin: 1em 1em 0.25em 1em;
 }
 
+#qrcode img {
+    margin-top: 0.25em;
+    cursor: pointer;
+}
+
+#qrcode {
+    display: flex;
+    justify-content: center;
+    
+
+}
 
 .peer_node {
     padding: 1em 1.75em;
@@ -49,19 +64,22 @@ button, input, p, .column  {
     background-color: var(--main-success-color-lighter);
 }
 
-.peer_node label, .peer_node p {
+.peer_node label,
+.peer_node p {
     color: white;
 }
 
 .peer_connected {
     background-color: var(--main-success-color);
 }
-#invite_link_button{
-    margin:auto;
+
+#invite_link_button {
+    margin: auto;
     text-align: center;
-    margin-top:1em;
+    margin-top: 1em;
 }
-#regenerate_host_id_button{
+
+#regenerate_host_id_button {
     background: transparent;
     border: none;
     height: 1.75em;
@@ -79,7 +97,7 @@ button, input, p, .column  {
 
 }
 
-input{
+input {
     text-align: center;
     border-radius: var(--rounded-corners);
 }
@@ -111,6 +129,7 @@ input{
     color: var(--color-red);
 }
 
-.server_activity_log_entry, .server_activity_log_timestamp {
-    color:#333;
+.server_activity_log_entry,
+.server_activity_log_timestamp {
+    color: #333;
 }
