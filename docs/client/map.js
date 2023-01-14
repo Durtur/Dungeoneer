@@ -524,15 +524,6 @@ function moveForeground(x, y) {
     });
 }
 
-function moveMap(x, y) {
-    mapContainers.forEach((container) => {
-        container.data_transform_x = x;
-        container.data_transform_y = y;
-        container.style.setProperty("--bg-translate-x", x);
-        container.style.setProperty("--bg-translate-y", y);
-    });
-}
-
 function startMovingMap(e) {
     if (currentlyMeasuring || disableMapDrag || (e.touches && e.touches.length > 1)) return;
     gridLayer.style.cursor = "-webkit-grabbing";
@@ -649,7 +640,7 @@ function setMapZoom(event, newSize) {
     gridMoveOffsetX -= moveMapX;
     gridMoveOffsetY -= moveMapY;
 
-    moveMap(bgX, bgY);
+    map.moveMap(bgX, bgY);
 
     newRect = foregroundCanvas.getBoundingClientRect();
 
@@ -1573,7 +1564,7 @@ async function setPawnMobBackgroundImages(pawn, pawnParams) {
 }
 
 async function setPawnTokenFromParams(newPawn, pawn) {
-    console.log(pawn)
+    console.log(pawn);
     if (pawn.isMob) {
         return setPawnMobBackgroundImages(newPawn, pawn);
     }
@@ -1873,7 +1864,7 @@ const map = (function () {
         gridMoveOffsetY += movementY;
         gridMoveOffsetX += movementX;
 
-        moveMap(bgX, bgY);
+        map.moveMap(bgX, bgY);
         map.drawGrid();
         nudgePawns(movementX, movementY);
 
@@ -2039,6 +2030,7 @@ const map = (function () {
     }
 
     function updateInitiative(arg) {
+        console.log(arg);
         if (arg.order) {
             arg.order.forEach((x) => {
                 if (!x.isPlayer) x.name = "???";
@@ -2068,7 +2060,12 @@ const map = (function () {
 
             return;
         }
-        if (arg.empty) return initiative.empty();
+        if (arg.empty) {
+            if (roundTimer) {
+                roundTimer.destroy();
+            }
+            return initiative.empty();
+        }
     }
 
     function shiftView(x, y) {
@@ -2080,7 +2077,7 @@ const map = (function () {
         bgX += x;
         gridMoveOffsetX += x;
         gridMoveOffsetY += y;
-        moveMap(bgX, bgY);
+        map.moveMap(bgX, bgY);
         nudgePawns(x, y);
         fovLighting.nudgeSegments(x, y);
         fovLighting.drawSegments();
@@ -2126,8 +2123,18 @@ const map = (function () {
         return [...pawns.all].find((x) => x.id == id);
     }
 
+    function moveMap(x, y) {
+        mapContainers.forEach((container) => {
+            container.data_transform_x = x;
+            container.data_transform_y = y;
+            container.style.setProperty("--bg-translate-x", x);
+            container.style.setProperty("--bg-translate-y", y);
+        });
+    }
+
     return {
         init: init,
+        moveMap,
         shiftView: shiftView,
         centerOn: centerOn,
         getPawnById: getPawnById,

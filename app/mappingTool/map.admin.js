@@ -114,6 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSettings();
     updateHowlerListenerLocation();
     window.api.messageWindow("mainWindow", "maptool-initialized");
+    serverNotifier.notifyServer("initialized", {})
     serverNotifier.notifyServer("request-state", null);
     serverNotifier.mapToolInit();
     var bgSize = parseInt($("#foreground").css("background-size"));
@@ -259,15 +260,18 @@ function resetEverything() {
 }
 
 function onSettingsChanged() {
+    if (roundTimer) {
+        roundTimer.destroy();
+    }
+
     if (settings.roundTimer) {
-        if (roundTimer) {
-            roundTimer.destroy();
-        }
         roundTimer = new Timer(settings.roundTimer, () => {
             serverNotifier.notifyServer("round-timer", roundTimer.getState());
         });
         roundTimer.render();
         roundTimer.onclicked((e) => roundTimer.reset());
+    } else {
+        roundTimer = null;
     }
 }
 

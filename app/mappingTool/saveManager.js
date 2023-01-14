@@ -148,7 +148,7 @@ class SaveManager {
         var mapContainer = mapContainers[0];
         nudgePawns(-1 * mapContainer.data_transform_x, -1 * mapContainer.data_transform_y);
         fovLighting.nudgeSegments(-1 * mapContainer.data_transform_x, -1 * mapContainer.data_transform_y);
-        moveMap(0, 0);
+        map.moveMap(0, 0);
     }
 
     removeExistingEffects() {

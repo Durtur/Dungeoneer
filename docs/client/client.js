@@ -200,6 +200,8 @@ function setState(message) {
         case "initialized":
             map.removeAllPawns();
             map.removeAllEffects();
+            if (roundTimer) roundTimer.destroy();
+            map.updateInitiative({ empty: true });
             break;
         case "round-timer":
             setRoundTimer(message.data);
@@ -477,10 +479,10 @@ async function addPawn(pawn) {
         if (pawn.mobTokens) setMobTokens(pawn.mobTokens);
     };
     pawn.spawnPoint = map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
-    console.log(pawn.dead)
+    console.log(pawn.dead);
     if (!pawn.isPlayer) pawn.name = "???";
     await generatePawns([pawn], !pawn.isPlayer);
-    
+
     onMonsterHealthChanged({
         dead: pawn.dead == "true",
         healthPercentage: pawn.health_percentage,
@@ -516,7 +518,7 @@ function connectedStateChanged() {
     if (hostConnection != null && hostConnection.open) {
         connectionStatusIndicator.classList.add("connected");
         connectPanel.classList.add("hidden");
-         map.updateInitiative({empty:true});
+        map.updateInitiative({ empty: true });
         if (!initRequestSent) setLoading(true);
     } else {
         connectionStatusIndicator.classList.remove("connected");

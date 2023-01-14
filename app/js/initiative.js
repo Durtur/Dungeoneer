@@ -65,7 +65,7 @@ var initiative = (function () {
         var nodes = [...document.querySelectorAll("#initBar .initiativeNode")];
         if (nodes.length > 1) {
             var nameToRemove = currentNode.getElementsByClassName("initiative_name_node")[0].innerHTML;
-     
+
             order = order.filter((x) => x.name != nameToRemove);
             sortAndDisplay();
             nextRound(-1);
@@ -184,8 +184,10 @@ var initiative = (function () {
         firstNodeAsStart(node);
         if (bar) bar.classList.remove("initiative_cover_image");
 
-        if (roundTimer) {
-            roundTimer.destroy();
+        if (isMainWindow) {
+            publishEvent({ empty: true });
+        }else{
+             bar.classList.add("hidden");
         }
     }
     function hide() {
@@ -216,6 +218,7 @@ var initiative = (function () {
         });
         //Create buttons in initiative elements.
         var bar = document.getElementById("initBar");
+        bar.classList.remove("hidden");
         for (var j = 0; j < order.length; j++) {
             var newNode = j > 0 ? initNodes[0].cloneNode(true) : initNodes[0];
             (newNode.querySelector(".init_value_node") || {}).innerHTML = order[j].roll;
