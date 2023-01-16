@@ -1,7 +1,7 @@
 {
   "name": "dungeoneer",
   "productName": "Dungeoneer",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "A tool for Dungeon Masters running 5th edition D&D games.",
   "main": "main.js",
   "scripts": {
