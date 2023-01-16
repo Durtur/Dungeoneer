@@ -3,7 +3,7 @@ var hostConnection;
 var dataBuffer = {},
     initRequestSent = false,
     timeout;
-
+var chat = new Chat();
 const UNSUPPORTED_BROWSERS = ["iPhone", "iPad"];
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
@@ -21,8 +21,13 @@ function userGesture() {
     } catch {}
 }
 
+function sendChatHandler(messageText) {
+    //chat.messageReceived({sender:"You", text:messageText})
+    send({ event: "chat-message", data: { text: messageText } });
+}
 function toggleFeatures(featureList) {
     if (featureList.find((x) => x == "dice-roller")) diceRollerBar.render(document.getElementById("dice-roller"));
+    if (featureList.find((x) => x == "chat")) chat.render(document.getElementById("chat-button-container"), sendChatHandler);
 }
 
 function showWelcomeModal() {
@@ -374,6 +379,11 @@ function setState(message) {
             break;
         case "dice-result":
             diceRollerBar.result(message.data);
+            break;
+        case "chat-message":
+            chat.messageReceived(message.data);
+            pawnManager.talkBubble({ text: message.data.text, elementId: message.data.elementId });
+            break;
     }
 }
 

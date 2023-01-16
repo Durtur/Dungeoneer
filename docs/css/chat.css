@@ -1,0 +1,32 @@
+.chat-container {
+    position: absolute;
+    bottom: 0;
+    height: 16em;
+    justify-content: flex-end;
+    display: flex;
+    flex-flow: column nowrap;
+    width: 26em;
+    z-index: 500;
+    padding: 0.25em;
+    background-color: var(--dark-transparent-bg);
+}
+
+.chat-message-node {
+    padding: 0.5em;
+}
+
+.chat-container-messages{
+    overflow-x:scroll;
+}
+
+.chat-message,
+.chat-message-sender {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    margin-right: 0.5em;
+}
+
+.chat-message-input {
+    padding: 0.5em;
+}

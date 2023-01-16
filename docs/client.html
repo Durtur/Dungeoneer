@@ -19,6 +19,7 @@
     <link href="client.css" rel="stylesheet" />
     <link href="common.css" rel="stylesheet" />
     <link href="css/theme.css" rel="stylesheet" />
+    <link href="css/chat.css" rel="stylesheet" />
     <link href="css/modals.css" rel="stylesheet" />
     <link href="css/map.css" rel="stylesheet" />
     <link href="css/effects.css" rel="stylesheet" />
@@ -44,6 +45,7 @@
                     <option value="players">Players</option>
                 </select>
                 <div class="column" id="dice-roller"></div>
+                <div class="column" id="chat-button-container"></div>
                 <div class="tool_container column space_between">
                     <div class="column" id="toolbar">
                         <button
@@ -161,6 +163,8 @@
                 </div>
             </div>
         </main>
+
+        <div id="chat-container" class="hidden"></div>
     </body>
     <script src="client/connectionConfig.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
@@ -173,7 +177,7 @@
     <script src="client/serverNotifier.client.js"></script>
     <script src="client/initiative.client.js"></script>
     <script src="client/timer.js"></script>
-
+    <script src="client/client.chat.js"></script>
     <script src="client/util.client.js"></script>
     <script src="client/modals.client.js"></script>
     <script src="client/lightning.js"></script>

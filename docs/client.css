@@ -94,7 +94,9 @@ body {
     border: none;
 }
 
-.toolbar .toggle_button, .toolbar .togglable, .toolbar .button_style {
+.toolbar .toggle_button,
+.toolbar .togglable,
+.toolbar .button_style {
     width: 3.5em;
     height: 3.5em;
 
@@ -137,26 +139,31 @@ body {
 .hamburger {
     background-image: url("./img/hamburger-menu.svg");
 }
-.dice-bar-button{
+
+.dice-bar-button {
     background-image: url("./img/rolling-dice.svg");
     background-size: 2.75em !important;
 }
 
-.dice_formula_container{
+.chat-button {
+    background-image: url("./img/talk.svg");
+    background-size: 2.75em !important;
+}
+
+
+.dice_formula_container {
     position: absolute;
-    right:0em;
-    top:50%;
-    transform:translateY(-50%);
+    right: 0em;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 5000;
 }
 
-.dice_formula_container .button_style{
-    padding:0.5em;
+.dice_formula_container .button_style {
+    padding: 0.5em;
 }
 
-.dice_formula_button{
-    
-}
+.dice_formula_button {}
 
 .toolbar_collapsed>*:not(:first-child) {
     display: none;
@@ -173,11 +180,11 @@ body {
 
 }
 
-.warning_text{
+.warning_text {
     color: #ff3131;
 }
 
-.p_large{
+.p_large {
     font-size: 1.25em;
 }
 

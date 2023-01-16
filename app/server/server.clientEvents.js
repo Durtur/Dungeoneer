@@ -5,7 +5,7 @@ const CLIENT_EVENT_HANLDERS = {
         appendServerLog(`${data.name} connected`, SERVER_EVENTS.CONNECTED);
         pendingStateRequests.push(peer);
         window.subscribe.requestMapToolState();
-        connection.send({ event: "enabled-features", data: ["dice-roller"] });
+        connection.send({ event: "enabled-features", data: ["dice-roller", "chat"] });
     },
     "object-moved": function (data, connection, peer) {
         if (peer.partyAccess == null) return;
@@ -21,11 +21,7 @@ const CLIENT_EVENT_HANLDERS = {
                     var pwnName = player?.character_name || `token ${ele.idx}`;
                     appendServerLog(`${peer.name} moved ${pwnName} ${ele.distance}`, SERVER_EVENTS.MOVE);
                 }
-
-                var otherPeers = peers.filter((x) => x.connection.connectionId != peer.connection.connectionId);
-                otherPeers.forEach((otherPeer) => {
-                    otherPeer.connection.send({ event: data.event, data: [ele] });
-                });
+                echoToPeers({ event: data.event, data: [ele] }, peer);
             }
         });
     },
@@ -33,13 +29,22 @@ const CLIENT_EVENT_HANLDERS = {
         var effectSrc = data.data;
         sendSoundBase64(effectSrc, connection);
     },
+    "chat-message": function (data, connection, peer) {
+        if (peer.partyAccess.length == 1) {
+            data = data.data;
+            console.log(data)
+            notifyMaptool({ event: "talk-bubble", elementId: peer.partyAccess[0].element_id, text: data.text });
+            echoToPeers({ event: "chat-message", data: { name: peer.partyAccess[0].character_name, elementId: peer.partyAccess[0].element_id, text: data.text } });
+        }
+    },
     "roll-dice": function (data, connection, peer) {
         var result = diceRoller.rollFromString(data.diceString);
         appendServerLog(`${peer.name} rolled ${data.diceString}: ${result}`, SERVER_EVENTS.MOVE);
         if (peer.partyAccess.length == 1) {
-            notifyMaptool({ event: "talk-bubble", elementId: peer.partyAccess[0].element_id, text:`${data.diceString}: ${result}`});
+            notifyMaptool({ event: "talk-bubble", elementId: peer.partyAccess[0].element_id, text: `${data.diceString}: ${result}` });
+            echoToPeers({ event: "chat-message", data: { name: peer.partyAccess[0].character_name, elementId: peer.partyAccess[0].element_id, text: `${data.diceString}: ${result}` } });
         }
-        console.log(peer);
+
         return connection.send({
             event: "dice-result",
             data: {

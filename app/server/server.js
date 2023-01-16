@@ -107,6 +107,9 @@ function getDefaultAccess(peer) {
     if (players.length > 0) {
         access = players;
     }
+    if (access.length == 0) {
+        access = partyArray.filter((x) => x.character_name?.toLowerCase() == peer.name.toLowerCase());
+    }
     return access;
 }
 
@@ -159,7 +162,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
     };
     document.querySelector("#qrCode").onclick = (e) => {
-        
         var canvas = document.querySelector("#qrCode canvas");
         if (!canvas) return;
         canvas.toBlob((blob) => {
@@ -169,7 +171,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 () => {
                     util.showMessage("QR code image copied to clipboard");
                     document.getElementById("qrcode").replaceChildren();
-
                 },
                 (err) => {
                     console.error("Could not copy qr code image: ", err);
@@ -343,6 +344,13 @@ function onConnected(conn) {
         console.log("Connection closed");
         var disonnected = peers.filter((x) => !x.connection.open);
         disonnected.forEach((peer) => peers.remove(peer));
+    });
+}
+
+function echoToPeers(data, senderPeer) {
+    var receivers = senderPeer ? peers.filter((x) => x.connection.connectionId != senderPeer.connection.connectionId) : peers;
+    receivers.forEach((receiver) => {
+        receiver.connection.send(data);
     });
 }
 
