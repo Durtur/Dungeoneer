@@ -12,8 +12,6 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
     STATIC_TOOLTIP = true;
 }
 
-var centerPawnFlag = false;
-
 function userGesture() {
     try {
         document.body.scrollTo(0, 1);
@@ -430,10 +428,12 @@ function setRoundTimer(timerObj) {
 }
 
 function tokenAccessChanged(access) {
+    var earlierAccess = TOKEN_ACCESS;
     TOKEN_ACCESS = access;
     addPawnListeners();
     createPerspectiveDropdown();
-    if (centerPawnFlag) centerCurrentViewer();
+
+    if (!earlierAccess || (earlierAccess.length == 0 && TOKEN_ACCESS.length > 0)) centerCurrentViewer();
 }
 
 function moveObjects(arr) {
@@ -498,9 +498,8 @@ async function addPawn(pawn) {
         healthPercentage: pawn.health_percentage,
         index: pawn.index_in_main_window,
     });
-
     if (pawn.isPlayer) {
-        if (centerPawnFlag) {
+        if (TOKEN_ACCESS.length > 0 && TOKEN_ACCESS[0].id == pawn.id) {
             centerCurrentViewer();
         }
 
@@ -546,7 +545,6 @@ function setLoading(loading) {
     } else {
         document.getElementById("loading").classList.add("hidden");
         document.getElementById("map_main").classList.remove("hidden");
-        centerPawnFlag = true;
     }
 }
 

@@ -58,6 +58,7 @@ class Timer {
     }
 
     setState(state) {
+        if (!state) return this.destroy();
         if (state.interval) this.interval = state.interval;
         if (!this.rendered && state.rendered) this.render();
         if (state.destroyed) return this.destroy();
@@ -77,6 +78,7 @@ class Timer {
 
     destroy() {
         console.log("Roundtimer destroy");
+        if (!this.container) return;
         this.stop();
         this.onUpdated();
         if (this.container.parentNode) this.container.parentNode.removeChild(this.container);
