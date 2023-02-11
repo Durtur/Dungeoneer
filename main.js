@@ -5,15 +5,11 @@ var fs = require('fs');
 const pathModule = require('path');
 const { autoUpdater } = require('electron-updater');
 const Util = require("./main/util");
+const ModuleLoader = require("./main/moduleLoader");
+const moduleLoader = new ModuleLoader();
+
 
 app.allowRendererProcessReuse = true;
-var instanceLock = app.requestSingleInstanceLock();
-
-autoUpdater.logger = require("electron-log")
-autoUpdater.logger.transports.file.level = "info"
-// Module to control application life.
-//const app = electron.app
-// Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
@@ -34,6 +30,11 @@ massStatblockImporterWindow = null;
 serverWindow = null;
 var updatePending = false;
 
+var instanceLock = app.requestSingleInstanceLock();
+
+autoUpdater.logger = require("electron-log");
+autoUpdater.logger.transports.file.level = "info";
+
 
 function getWindow(windowName) {
   switch (windowName) {
@@ -49,10 +50,7 @@ const template = [
   {
     label: 'Edit',
     submenu: [
-      {
-        label: 'Settings',
-        click() { openSettingsWindow(); }
-      },
+      
       { type: 'separator' },
       { role: 'undo' },
       { role: 'redo' },
@@ -128,7 +126,6 @@ if (process.platform === 'darwin') {
 if (!instanceLock) {
   app.quit()
 } else {
-
   app.on('second-instance', (event, commandLine, workingDirectory) => {
     // Someone tried to run a second instance, we should focus our window.
     if (mainWindow) {
@@ -290,6 +287,11 @@ ipcMain.on('get-path', function (event, folderType) {
 
 ipcMain.on('app-path', function (event, folderType) {
   event.returnValue = app.getAppPath();
+});
+
+
+ipcMain.on("app-path", function (event, systemName) {
+    event.returnValue = app.getAppPath();
 });
 
 ipcMain.on('app-version', function (event, folderType) {
@@ -522,6 +524,7 @@ function createWindow() {
   });
 
   loading.once('show', () => {
+    moduleLoader.loadDefaults();
     mainWindow = createBaseWindow(null, 'app/index.html', null, false);
 
     mainWindow.webContents.once('dom-ready', () => {

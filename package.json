@@ -26,6 +26,7 @@
     "electron-log": "^4.3.4",
     "electron-updater": "^4.1.2",
     "file-system": "^2.2.2",
+    "fs-extra": "^11.1.0",
     "howler": "^2.2.3",
     "marked": "^4.0.16",
     "nouislider": "^14.0.2",

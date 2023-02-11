@@ -1,0 +1,601 @@
+{
+    "tables":{
+    "Adventuring_gear": [
+        {
+            "title": "",
+            "content": "Abacus",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Acid (vial)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Alchemist’s fire (flask)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Arrows (20)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Blowgun needles (5)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Crossbow bolts (20)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Sling bullets (20)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Antitoxin (vial)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Crystal",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Orb",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Rod",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Staff",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Wand",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Backpack",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Ball bearings (bag of 1,000)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Barrel",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Basket",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Bedroll",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Bell",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Blanket",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Block and tackle",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Book",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Bottle, glass",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Bucket",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Caltrops (bag of 20)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Candle",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Case, crossbow bolt",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Case, map or scroll",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Chain (10 feet)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Chalk (1 piece)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Chest",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Climber’s kit",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Clothes, common",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Clothes, costume",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Clothes, fine",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Clothes, traveler’s",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Component pouch",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Crowbar",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Sprig of mistletoe",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Totem",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Wooden staff",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Yew wand",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Fishing tackle",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Flask or tankard",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Grappling hook",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Hammer",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Hammer, sledge",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Healer’s kit",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Amulet",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Emblem",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Reliquary",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Holy water (flask)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Hourglass",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Hunting trap",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Ink (1 ounce bottle)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Ink pen",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Jug or pitcher",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Ladder (10-foot)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Lamp",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Lantern, bullseye",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Lantern, hooded",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Lock",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Magnifying glass",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Manacles",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Mess kit",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Mirror, steel",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Oil (flask)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Paper (one sheet)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Parchment (one sheet)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Perfume (vial)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Pick, miner’s",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Piton",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Poison, basic (vial)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Pole (10-foot)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Pot, iron",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Potion of healing",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Pouch",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Quiver",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Ram, portable",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Rations (1 day)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Robes",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Rope, hempen (50 feet)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Rope, silk (50 feet)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Sack",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Scale, merchant’s",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Sealing wax",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Shovel",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Signal whistle",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Signet ring",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Soap",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Spellbook",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Spikes, iron (10)",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Spyglass",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Tent, two-person",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Tinderbox",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Torch",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Vial",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Waterskin",
+            "probability": 0.01,
+            "followup_table": ""
+        },
+        {
+            "title": "",
+            "content": "Whetstone",
+            "probability": 0.01,
+            "followup_table": ""
+        }
+        ]
+    },
+    "encounter_sets": {}
+}

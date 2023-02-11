@@ -1,0 +1,280 @@
+[
+    {
+        "name": "Club",
+        "light": true,
+        "damageDice": "1d4",
+        "damageType": "bludgeoning"
+    },
+    {
+        "name": "Dagger",
+        "light": true,
+        "damageDice": "1d4",
+        "damageType": "piercing",
+        "finesse": true,
+        "thrown": "20/60"
+    },
+    {
+        "name": "Greatclub",
+        "damageDice": "1d8",
+        "damageType": "bludgeoning",
+        "twoHanded": true
+    },
+    {
+        "name": "Handaxe",
+        "light": true,
+        "damageDice": "1d6",
+        "damageType": "slashing",
+        "thrown": "20/60"
+    },
+    {
+        "name": "Javelin",
+        "damageDice": "1d6",
+        "damageType": "piercing",
+        "thrown": "30/120"
+    },
+    {
+        "name": "Light Hammer",
+        "light": true,
+        "damageDice": "1d4",
+        "damageType": "bludgeoning",
+        "thrown": "20/60"
+    },
+    {
+        "name": "Mace",
+        "damageDice": "1d6",
+        "damageType": "bludgeoning"
+    },
+    {
+        "name": "Quarterstaff",
+        "damageDice": "1d6",
+        "damageType": "bludgeoning",
+        "versatile": "1d10"
+    },
+    {
+        "name": "Sickle",
+        "light": true,
+        "damageDice": "1d4",
+        "damageType": "slashing"
+    },
+    {
+        "name": "Spear",
+        "damageDice": "1d6",
+        "damageType": "piercing",
+        "versatile": "1d8",
+        "thrown": "20/60"
+    },
+    {
+        "name": "Sickle",
+        "damageDice": "1d4",
+        "damageType": "slashing"
+    },
+    {
+        "name": "Light Crossbow",
+        "damageDice": "1d8",
+        "damageType": "piercing",
+        "twoHanded": true,
+        "ranged": "80/320",
+        "loading": true
+    },
+    {
+        "name": "Dart",
+        "damageDice": "1d4",
+        "damageType": "piercing",
+        "finesse": true,
+        "thrown": "20/60"
+    },
+    {
+        "name": "Shortbow",
+        "damageDice": "1d6",
+        "damageType": "piercing",
+        "twoHanded": true,
+        "ranged": "80/320"
+    },
+    {
+        "name": "Sling",
+        "damageDice": "1d4",
+        "damageType": "bludgeoning",
+        "ranged": "30/120"
+    },
+    {
+        "name": "Battleaxe",
+        "damageDice": "1d8",
+        "damageType": "slashing",
+        "versatile": "1d10",
+        "martial": true
+    },
+    {
+        "name": "Flail",
+        "damageDice": "1d8",
+        "damageType": "bludgeoning",
+        "martial": true
+    },
+    {
+        "name": "Glaive",
+        "damageDice": "1d10",
+        "damageType": "slashing",
+        "reach": "10",
+        "heavy": true,
+        "twoHanded":true,
+        "martial": true
+    },
+    {
+        "name": "Greataxe",
+        "damageDice": "1d12",
+        "damageType": "slashing",
+        "twoHanded": true,
+        "heavy": true,
+        "martial": true
+    },
+    {
+        "name": "Greatsword",
+        "damageDice": "2d6",
+        "damageType": "slashing",
+        "twoHanded": true,
+        "heavy": true,
+        "martial": true
+    },
+    {
+        "name": "Halberd",
+        "damageDice": "1d10",
+        "damageType": "slashing",
+        "twoHanded": true,
+        "reach": "10",
+        "heavy": true,
+        "martial": true
+    },
+    {
+        "name": "Lance",
+        "damageDice": "1d12",
+        "damageType": "piercing",
+        "reach": "10",
+        "martial": true,
+        "special": "You have disadvantage when you use a lance to attack a target within 5 feet of you. Also, a lance requires two hands to wield when you aren't mounted."
+    },
+    {
+        "name": "Longsword",
+        "damageDice": "1d8",
+        "damageType": "slashing",
+        "versatile": "1d10",
+        "martial": true
+    },
+    {
+        "name": "Maul",
+        "damageDice": "2d6",
+        "damageType": "bludgeoning",
+        "twoHanded": true,
+        "heavy": true,
+        "martial": true
+    },
+    {
+        "name": "Morningstar",
+        "damageDice": "1d8",
+        "damageType": "piercing",
+        "martial": true
+    },
+    {
+        "name": "Pike",
+        "damageDice": "1d10",
+        "damageType": "piercing",
+        "twoHanded": true,
+        "reach": "10",
+        "heavy": true,
+        "martial": true
+    },
+    {
+        "name": "Rapier",
+        "damageDice": "1d8",
+        "damageType": "piercing",
+        "finesse": true,
+        "martial": true
+    },
+    {
+        "name": "Scimitar",
+        "damageDice": "1d6",
+        "damageType": "slashing",
+        "light": true,
+        "finesse": true,
+        "martial": true
+    },
+    {
+        "name": "Shortsword",
+        "damageDice": "1d6",
+        "damageType": "slashing",
+        "light": true,
+        "finesse": true,
+        "martial": true
+    },
+    {
+        "name": "Trident",
+        "damageDice": "1d6",
+        "damageType": "piercing",
+        "versatile": "1d8",
+        "thrown": "20/60",
+        "martial": true
+    },
+    {
+        "name": "War Pick",
+        "damageDice": "1d8",
+        "damageType": "piercing",
+        "martial": true
+    },
+    {
+        "name": "Warhammer",
+        "damageDice": "1d8",
+        "damageType": "bludgeoning",
+        "versatile": "1d10",
+        "martial": true
+    },
+    {
+        "name": "Whip",
+        "damageDice": "1d4",
+        "damageType": "slashing",
+        "finesse": true,
+        "reach": "10",
+        "martial": true
+    },
+    {
+        "name": "Blowgun",
+        "damageDice": "1",
+        "damageType": "piercing",
+        "ranged": "25/100",
+        "loading": true,
+        "martial": true
+    },
+    {
+        "name": "Hand Crossbow",
+        "damageDice": "1d6",
+        "damageType": "piercing",
+        "light": true,
+        "ranged": "30/120",
+        "loading": true,
+        "martial": true
+    },
+    {
+        "name": "Heavy Crossbow",
+        "damageDice": "1d10",
+        "damageType": "piercing",
+        "twoHanded": true,
+        "heavy": true,
+        "ranged": "100/400",
+        "loading": true,
+        "martial": true
+    },
+    {
+        "name": "Longbow",
+        "damageDice": "1d8",
+        "damageType": "piercing",
+        "twoHanded": true,
+        "heavy": true,
+        "ranged": "150/600",
+        "martial": true
+    },
+    {
+        "name": "Net",
+        "damageDice": "",
+        "damageType": "",
+        "thrown": "5/15",
+        "martial": true,
+        "special": "A Large or smaller creature hit by a net is restrained until it is freed. A net has no effect on creatures that are formless, or creatures that are Huge or larger. A creature can use its action to make a DC 10 Strength check, freeing itself or another creature within its reach on a success. Dealing 5 slashing damage to the net (AC 10) also frees the creature without harming it, ending the effect and destroying the net. When you use an action, bonus action, or reaction to attack with a net, you can make only one attack regardless of the number of attacks you can normally make."
+    }
+]

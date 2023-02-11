@@ -27,6 +27,9 @@ window.api = {
     openExplorer: (path) => {
         return ipcRenderer.send("open-explorer", path);
     },
+    getSystem: (name) => {
+        return ipcRenderer.sendSync("get-system", name);
+    },
     path: pathModule,
 };
 window.dialog = {
@@ -70,18 +73,17 @@ module.exports = (function () {
         isFirstTimeLoading = true;
         console.log("Initalizing data...");
 
-        var baseFolder = pathModule.join(window.api.getPath("userData"), "data");
-        if (!fs.existsSync(baseFolder)) fs.mkdirSync(baseFolder);
-        loadDefaults("monsters.json");
-        loadDefaults("tables.json");
-        loadDefaults("conditions.json");
-        loadDefaults("items.json");
-        loadDefaults("randomTables.json");
-        loadDefaults("spells.json");
-        loadDefaults("mapToolData.json");
-        loadDefaults("homebrew.json");
-        loadDefaults("party.json");
-        loadDefaults("encounters.json");
+   
+        // loadDefaults("monsters.json");
+        // loadDefaults("tables.json");
+        // loadDefaults("conditions.json");
+        // loadDefaults("items.json");
+        // loadDefaults("randomTables.json");
+        // loadDefaults("spells.json");
+        // loadDefaults("mapToolData.json");
+        // loadDefaults("homebrew.json");
+        // loadDefaults("party.json");
+        // loadDefaults("encounters.json");
 
         [defaultTokenPath, settingsPath, generatorResourcePath, maptoolLibraryFolder, defaultEffectPath].forEach((folder) => {
             if (!fs.existsSync(folder)) fs.mkdirSync(folder);

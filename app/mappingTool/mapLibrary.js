@@ -21,7 +21,7 @@ class MapLibrary {
         this.scanLibrary("common");
         var cls = this;
         dataaccess.getSettings(globalSettings => {
-            console.log(globalSettings.current_party)
+        
             if (globalSettings.current_party && globalSettings.current_party != "Any") {
                 cls.scanLibrary(globalSettings.current_party);
 
