@@ -1,67 +1,30 @@
-var fs = require("fs");
 const { ipcRenderer } = require("electron");
-const { readdir, writeFile, readFile } = require("fs").promises;
+
 const uniqueID = require("uniqid");
 var pathModule = require("path");
+const CONFIG = window.config.get();
+
+const API_BASE_URL = CONFIG.api;
 const TOKEN_FORMAT = "webp";
 //Refactor to preload script
-window.api = {
-    getPath: (arg) => {
-        return ipcRenderer.sendSync("get-path", arg);
-    },
-    getAppPath: () => {
-        return ipcRenderer.sendSync("app-path");
-    },
-    getAppVersion: () => {
-        return ipcRenderer.sendSync("app-version");
-    },
-    messageWindow: (windowName, eventName, args) => {
-        return ipcRenderer.send("notify-window", { name: windowName, event: eventName, args: args });
-    },
-    openBrowser: (path) => {
-        return ipcRenderer.send("open-browser", path);
-    },
-    openWindowWithArgs: (windowName, eventName, args) => {
-        return ipcRenderer.send("notify-window", { name: windowName, event: eventName, args: args, openIfClosed: true });
-    },
-    openExplorer: (path) => {
-        return ipcRenderer.send("open-explorer", path);
-    },
-    getSystem: (name) => {
-        return ipcRenderer.sendSync("get-system", name);
-    },
-    path: pathModule,
-};
-window.dialog = {
-    showOpenDialogSync: (options) => {
-        return ipcRenderer.sendSync("open-dialog", options);
-    },
-    showMessageBoxSync: (options) => {
-        return ipcRenderer.sendSync("show-message-box", options);
-    },
-    showSaveDialogSync: (options) => {
-        return ipcRenderer.sendSync("show-save-dialog", options);
-    },
-};
 
 const sharp = require("sharp");
 
 const settingsPath = pathModule.join(window.api.getPath("userData"), "data", "settings");
 const resourcePath = pathModule.join(window.api.getPath("userData"), "data");
-const tempFilePath = pathModule.join(window.api.getPath("userData"), "temp");
+
 const baseTokenSize = 280;
-const defaultResourcePath = pathModule.join(window.api.getAppPath(), "data");
+
 const defaultGeneratorResourcePath = pathModule.join(window.api.getAppPath(), "data", "generators");
 const generatorResourcePath = pathModule.join(window.api.getPath("userData"), "data", "generators");
 const defaultTokenPath = pathModule.join(window.api.getPath("userData"), "data", "maptool_tokens");
 const defaultEffectPath = pathModule.join(window.api.getPath("userData"), "data", "maptool_effects");
-const maptoolLibraryFolder = pathModule.join(window.api.getPath("userData"), "data", "maptool_libraries");
+
 const conditionImagePath = pathModule.join(window.api.getPath("userData"), "data", "condition_images");
 const conditionResourcePath = pathModule.join(window.api.getAppPath(), "app", "mappingTool", "tokens", "conditions");
 
 module.exports = (function () {
     function initialize() {
-        checkIfFirstTimeLoadComplete();
         getSettings((settings) => {
             if (settings.theme) ThemeManager.initThemeFile(settings.theme);
         });
@@ -71,74 +34,37 @@ module.exports = (function () {
     function initializeData() {
         if (isFirstTimeLoading) return;
         isFirstTimeLoading = true;
-        console.log("Initalizing data...");
 
-   
-        // loadDefaults("monsters.json");
-        // loadDefaults("tables.json");
-        // loadDefaults("conditions.json");
-        // loadDefaults("items.json");
-        // loadDefaults("randomTables.json");
-        // loadDefaults("spells.json");
-        // loadDefaults("mapToolData.json");
-        // loadDefaults("homebrew.json");
-        // loadDefaults("party.json");
-        // loadDefaults("encounters.json");
+        // if (!fs.existsSync(conditionImagePath)) {
+        //     fs.mkdirSync(conditionImagePath);
+        //     getConditions((conditions) => {
+        //         conditions.forEach((condition) => {
+        //             var condResourcePath = pathModule.join(conditionResourcePath, condition.name.toLowerCase() + ".png");
+        //             var condStorePath = pathModule.join(conditionImagePath, condition.name.toLowerCase() + ".png");
 
-        [defaultTokenPath, settingsPath, generatorResourcePath, maptoolLibraryFolder, defaultEffectPath].forEach((folder) => {
-            if (!fs.existsSync(folder)) fs.mkdirSync(folder);
-        });
+        //             if (fs.existsSync(condResourcePath)) {
+        //                 fs.createReadStream(condResourcePath).pipe(fs.createWriteStream(condStorePath));
+        //                 condition.condition_background_location = condStorePath;
+        //             }
+        //         });
+        //         setConditions(conditions);
+        //     });
+        // }
 
-        loadGeneratorDefaults();
-
-        if (!fs.existsSync(conditionImagePath)) {
-            fs.mkdirSync(conditionImagePath);
-            getConditions((conditions) => {
-                conditions.forEach((condition) => {
-                    var condResourcePath = pathModule.join(conditionResourcePath, condition.name.toLowerCase() + ".png");
-                    var condStorePath = pathModule.join(conditionImagePath, condition.name.toLowerCase() + ".png");
-
-                    if (fs.existsSync(condResourcePath)) {
-                        fs.createReadStream(condResourcePath).pipe(fs.createWriteStream(condStorePath));
-                        condition.condition_background_location = condStorePath;
-                    }
-                });
-                setConditions(conditions);
-            });
-        }
-
-        isFirstTimeLoading = false;
         getHomebrewAndMonsters(function (data) {
             setMetadata(data, () => {});
         });
-        function loadGeneratorDefaults() {
-            ["names.json", "hook.json"].forEach((p) => {
-                var generatorPath = pathModule.join(generatorResourcePath, p);
-                if (fs.existsSync(generatorPath)) return;
-                var defaultPath = pathModule.join(defaultGeneratorResourcePath, p);
-                var defaultData = fs.readFileSync(defaultPath);
-                fs.writeFileSync(generatorPath, defaultData);
-            });
-        }
-        function loadDefaults(path) {
-            console.log("Loading defaults for " + path);
-            var fullPath = pathModule.join(resourcePath, path);
-            if (fs.existsSync(fullPath)) return;
-            var defaultPath = pathModule.join(defaultResourcePath, path);
-            console.log(fullPath, defaultPath);
-            var defaultData = fs.readFileSync(defaultPath);
-            fs.writeFileSync(fullPath, defaultData);
-            console.log("Wrote " + defaultPath);
-        }
     }
 
     async function writeTempFile(fileName, dataBuffer, callback) {
-        if (!fs.existsSync(tempFilePath)) fs.mkdirSync(tempFilePath);
-        var filePath = pathModule.join(tempFilePath, fileName);
-        await writeFile(filePath, dataBuffer);
-        filePath = filePath.replaceAll("\\", "/");
-        if (callback) callback(filePath);
-        return filePath;
+        return await basePost(
+            "tempFile",
+            {
+                fileName,
+                dataBuffer,
+            },
+            callback
+        );
     }
 
     function getTags(callback) {
@@ -170,22 +96,30 @@ module.exports = (function () {
                 if (npc.subtype) typeSet.add(npc.type.toLowerCase() + ` (${npc.subtype.toProperCase()})`);
             }
         });
-        console.log("setting metadata");
+
         return baseSet("monster_metadata.json", { tags: [...tagSet], types: [...typeSet].map((x) => x.toProperCase()) }, callback);
     }
 
-    function writeAutofillData(data, callback) {
-        baseSet("autofill_data.json", data, callback);
+    async function writeAutofillData(data, callback) {
+        return await basePost(
+            "module_file",
+            {
+                fileName: "autofill_data.json",
+                data: data,
+            },
+            callback
+        );
+        //  baseSet("autofill_data.json", data, callback);
     }
 
     function getAutofillData(callback) {
         return baseGet("autofill_data.json", callback);
     }
     function setParty(data, callback) {
-        baseSet("party.json", data, callback);
+        baseSet("party", data, callback);
     }
     function getMonsters(callback) {
-        return baseGetPredefined("monsters.json", callback);
+        return baseGet("monsters", callback);
     }
     function setMonsters(data, callback) {
         getHomebrewMonsters((hbList) => {
@@ -200,7 +134,7 @@ module.exports = (function () {
         return baseSet("tables.json", data, callback);
     }
     function getHomebrewMonsters(callback) {
-        return baseGet("homebrew.json", callback);
+        return baseGet("homebrew", callback);
     }
 
     function addHomebrew(dataList, overwrite, callback) {
@@ -216,57 +150,47 @@ module.exports = (function () {
         getMonsters((hbList) => {
             setMetadata(data.concat(hbList));
         });
-        baseSet("homebrew.json", data, callback);
+        baseSet("homebrew", data, callback);
     }
 
     function getConditions(callback) {
-        return baseGet("conditions.json", callback);
+        return baseGet("conditions", callback);
     }
 
     function setConditions(data, callback) {
-        return baseSet("conditions.json", data, callback);
-    }
-
-    function getConstantsSync() {
-        var data = JSON.parse(fs.readFileSync(pathModule.join(defaultResourcePath, "constants.json")));
-        data.specialAbilities = JSON.parse(fs.readFileSync(pathModule.join(defaultResourcePath, "special_abilities.json")));
-        data.weapons = JSON.parse(fs.readFileSync(pathModule.join(defaultResourcePath, "weapons.json")));
-        return data;
-    }
-    function setConstants(data, callback) {
-        return baseSet("constants.json", data, callback);
+        return baseSet("conditions", data, callback);
     }
 
     function getRandomTables(callback) {
-        return baseGet("randomTables.json", callback, { encounter_sets: {}, tables: {} });
+        return baseGet("randomTables", callback);
     }
 
     function setRandomTables(data, callback) {
-        return baseSet("randomTables.json", data, callback);
+        return baseSet("randomTables", data, callback);
     }
 
     function getItems(callback) {
-        return baseGet("items.json", callback);
+        return baseGet("items", callback);
     }
 
     function setItems(data, callback) {
-        return baseSet("items.json", data, callback);
+        return baseSet("items", data, callback);
     }
 
     function getParty(callback) {
-        return baseGet("party.json", callback);
+        return baseGet("party", callback);
     }
 
     function getSpells(callback) {
-        return baseGet("spells.json", callback);
+        return baseGet("spells", callback);
     }
 
     function setSpells(data, callback) {
-        return baseSet("spells.json", data, callback);
+        return baseSet("spells", data, callback);
     }
 
     function getScrolls(callback) {
-        return baseGetWithFullPath(pathModule.join(generatorResourcePath, "scrolls.json"), callback);
+        return baseGet(`module_file?fileName=${encodeURIComponent("\\generators\\scrolls.json")}`, callback);
     }
 
     function setScrolls(data, callback) {
@@ -275,18 +199,18 @@ module.exports = (function () {
     }
 
     function getEncounters(callback) {
-        return baseGet("encounters.json", callback);
+        return baseGet("encounters", callback);
     }
 
     function setEncounters(data, callback) {
-        return baseSet("encounters.json", data, callback);
+        return baseSet("encounters", data, callback);
     }
 
     function setMapToolData(data, callback) {
         return baseSet("mapToolData.json", data, callback);
     }
     function getMapToolData(callback) {
-        return baseGetPredefined("mapToolData.json", callback);
+        return baseGet("mapToolData.json", callback);
     }
 
     function getGeneratorData(callback) {
@@ -318,22 +242,9 @@ module.exports = (function () {
     }
 
     function getSettings(callback) {
-        fs.readFile(pathModule.join(settingsPath, "settings.json"), function (err, data) {
-            if (err) {
-                data = loadDefaultSettings();
-                initializeData();
-                saveSettings(data, () => {});
-            } else {
-                data = JSON.parse(data);
-                console.log(err, data);
-            }
-            if (!data.firstLoadComplete) {
-                data.firstLoadComplete = true;
-                saveSettings(data);
-            }
-            callback(data);
-        });
+        baseGet(`${CONFIG.module.name}/settings`, callback);
     }
+
     function getTokenPathSync(creatureId) {
         var fileEndings = [".webp", ".png", ".jpg", ".gif"];
         for (var i = 0; i < fileEndings.length; i++) {
@@ -355,12 +266,12 @@ module.exports = (function () {
         allPaths = allPaths.filter((x) => !removePaths.find((y) => y == x));
         allPaths.sort();
         console.log(allPaths);
-        
+
         for (var i = allPaths.length - 1; i >= 0; i--) {
             var pth = allPaths[i];
             var isNew = newPaths.find((x) => x == pth);
             if (isNew) {
-                console.log(tokenId +i)
+                console.log(tokenId + i);
                 await saveToken(tokenId + i, pth);
             } else {
                 await fs.renameSync(pth, getNewTokenSavePath(pth, tokenId + i));
@@ -385,33 +296,8 @@ module.exports = (function () {
         return possiblePaths;
     }
 
-    async function getTokenPath(creatureId) {
-        var fileEndings = [".webp", ".png", ".jpg", ".gif"];
-        for (var i = 0; i < fileEndings.length; i++) {
-            fileEnding = fileEndings[i];
-            var path = pathModule.join(defaultTokenPath, creatureId + fileEnding);
-            if (fs.existsSync(path)) return path;
-        }
-        return null;
-    }
-    function getNewTokenSavePath(currentPath, tokenId) {
-        var fileEnding = currentPath.substring(currentPath.lastIndexOf("."));
-        return pathModule.join(defaultTokenPath, tokenId + fileEnding);
-    }
-
     async function saveToken(tokenId, currentPath, trim) {
-        console.log("Saving token", tokenId, "trim:" + trim);
-        var savePath = getNewTokenSavePath;
-        currentPath, tokenId;
-        savePath = pathModule.join(defaultTokenPath, tokenId + ".webp");
-        let buffer = await sharp(currentPath)
-            .resize({
-                width: baseTokenSize,
-            })
-            .toFormat(TOKEN_FORMAT)
-            .toBuffer();
-        if (trim) await sharp(buffer).trim(0.5).toFile(pathModule.resolve(savePath));
-        else await sharp(buffer).toFile(pathModule.resolve(savePath));
+        return basePost("saveToken", { tokenId, currentPath, trim });
     }
 
     function saveSettings(settings, callback) {
@@ -476,37 +362,23 @@ module.exports = (function () {
         });
     }
 
-    function baseGetPredefined(path, callback, fallbackValue) {
-        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue, pathModule.join(defaultResourcePath, path));
+    function baseGet(path, callback) {
+        fetch(`${API_BASE_URL}${path}`)
+            .then((response) => response.json())
+            .then((data) => callback(data));
     }
 
-    function baseGet(path, callback, fallbackValue) {
-        return baseGetWithFullPath(pathModule.join(resourcePath, path), callback, fallbackValue);
-    }
-
-    function baseGetWithFullPath(path, callback, fallbackValue, fallbackPath) {
-        fs.readFile(path, function (err, data) {
-            if (err) {
-                console.log("Error getting file", err, fallbackValue);
-
-                if (fallbackPath) {
-                    console.log("Falling back on ", fallbackPath);
-                    fs.readFile(fallbackPath, function (err, fallbackData) {
-                        if (err) throw err;
-                        baseSetWithFullPath(path, JSON.parse(fallbackData), (err) => {});
-                        callback(JSON.parse(fallbackData));
-                    });
-                } else {
-                    initializeData();
-                    console.error(err);
-                    callback(fallbackValue);
-                }
-            } else {
-                var ret = JSON.parse(data);
-                callback(ret);
-            }
-            if (typeof callback != "function") console.log("Attempted to open " + path + " without a callback function, received " + callback);
+    async function basePost(path, data, callback) {
+        var resp = await fetch(`${API_BASE_URL}${path}`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
+        var json = resp.json();
+        if (callback) callback(json);
+        return json;
     }
 
     function openFile(path, callback, asJson = true, nullIfDoesNotExist) {
@@ -524,31 +396,13 @@ module.exports = (function () {
         });
     }
 
-    function checkIfFirstTimeLoadComplete() {
-        var baseFolder = pathModule.join(window.api.getPath("userData"), "data");
-        if (!fs.existsSync(baseFolder)) initializeData();
+    async function saveCoverImage(path) {
+        var res = await basePost("setCoverImage", { path: path });
+        return { name: res.name, path: res.path };
     }
 
-    function saveCoverImage(path) {
-        var basename = pathModule.basename(path);
-        var ext = pathModule.extname(basename);
-        var newPath = pathModule.join(resourcePath, "cover_image" + ext);
-        fs.createReadStream(path).pipe(fs.createWriteStream(newPath));
-        return { name: basename, path: newPath };
-    }
-    async function getFiles(dir) {
-        const dirents = await readdir(dir, { withFileTypes: true });
-        const files = await Promise.all(
-            dirents.map((dirent) => {
-                const res = pathModule.resolve(dir, dirent.name);
-                return dirent.isDirectory() ? getFiles(res) : res;
-            })
-        );
-        return Array.prototype.concat(...files);
-    }
-
-    function getMapToolLibraryData(libraryName, callback) {
-        baseGetWithFullPath(
+    async function getMapToolLibraryData(libraryName, callback) {
+        await baseGetWithFullPath(
             pathModule.join(maptoolLibraryFolder, libraryName, "library_data.json"),
             (data) => {
                 callback(data);
@@ -561,108 +415,19 @@ module.exports = (function () {
         return ["dungeoneer_map", "dd2vtt"];
     }
 
-    function getMapLibraryThumbNailPath(libName) {
-        var destinationFolder = pathModule.join(maptoolLibraryFolder, libName);
-        var thumbnailFolder = pathModule.join(destinationFolder, "thumbnails");
-
-        if (!fs.existsSync(destinationFolder)) fs.mkdirSync(destinationFolder);
-
-        if (!fs.existsSync(thumbnailFolder)) fs.mkdirSync(thumbnailFolder);
-        return thumbnailFolder;
-    }
     async function createLibraryFolder(libraryName, folderPath, callback, thumbnailSize) {
-        console.log(`Creating library ${libraryName}`);
-        var files = await getFiles(folderPath);
-
-        var destinationFolder = pathModule.join(maptoolLibraryFolder, libraryName);
-        var thumbnailFolder = getMapLibraryThumbNailPath(libraryName);
-        if (!fs.existsSync(maptoolLibraryFolder)) fs.mkdirSync(maptoolLibraryFolder);
-
-        baseGetWithFullPath(
-            pathModule.join(destinationFolder, "library_data.json"),
-            async (data) => {
-                if (data == null)
-                    data = {
-                        paths: [],
-                        name: libraryName,
-                        pinned: [],
-                        rootFolder: folderPath,
-                    };
-
-                var newFiles = files.filter((x) => !data.paths.find((y) => pathModule.basename(x) == pathModule.basename(y)));
-                var deletedFiles = data.paths.filter((x) => !files.find((y) => pathModule.basename(x) == pathModule.basename(y)));
-
-                deletedFiles.forEach((x) => {
-                    var thumbnailPath = pathModule.join(thumbnailFolder, `${pathModule.basename(x)}.png`);
-                    fs.unlink(thumbnailPath, (err) => {
-                        if (err) console.error(err);
-                    });
-                });
-
-                var dungeoneerMaps = newFiles.filter((x) => [".dd2vtt", ".dungeoneer_map"].includes(pathModule.extname(x)));
-                var images = newFiles.filter((x) => constants.imgFilters.includes(pathModule.extname(x).replace(".", "")));
-                var libraryList = [...images, ...dungeoneerMaps];
-                data.paths = data.paths.filter((x) => !deletedFiles.includes(x));
-                data.paths = [...data.paths, ...libraryList];
-                var workCount = dungeoneerMaps.length + images.length;
-                var processedImages = 0;
-                console.log("New files:");
-                console.log([...images, ...dungeoneerMaps]);
-
-                images.forEach(async (img) => {
-                    await sharp(img)
-                        .resize(await getMosaicDimensions(img, thumbnailSize))
-                        .png()
-                        .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(img)}.png`));
-
-                    processedImages++;
-                    if (processedImages == workCount) callback();
-                });
-
-                dungeoneerMaps.forEach((path) => {
-                    console.log(path);
-                    openFile(path, async (data) => {
-                        var buffer = pathModule.extname(path) == ".dungeoneer_map" ? Buffer.from(data.foregroundBase64, "base64") : Buffer.from(data.image, "base64");
-                        var dimensions = await getMosaicDimensions(buffer, thumbnailSize);
-                        await sharp(buffer)
-                            .resize(dimensions)
-                            .png()
-                            .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(path)}.png`));
-
-                        processedImages++;
-                        if (processedImages == workCount) callback();
-                    });
-                });
-                fs.writeFileSync(pathModule.join(destinationFolder, "library_data.json"), JSON.stringify(data));
-                if (workCount == 0) callback();
-            },
-            null
-        );
+        await basePost("/mapLibrary/create", {
+            libraryName,
+            folderPath,
+            thumbnailSize,
+        });
+        if (callback) callback();
     }
 
-    async function getMosaicDimensions(img, thumbnailSize) {
-        var metaData = await sharp(img).metadata();
-
-        return {
-            height: getHeight(),
-            width: getWidth(),
-        };
-
-        function getWidth() {
-            var returnValue = (metaData.width / metaData.height) * thumbnailSize;
-            returnValue -= returnValue % thumbnailSize;
-            return returnValue == 0 ? thumbnailSize : returnValue;
-        }
-        function getHeight() {
-            var returnValue = (metaData.height / metaData.width) * thumbnailSize;
-            returnValue -= returnValue % thumbnailSize;
-            return returnValue == 0 ? thumbnailSize : returnValue;
-        }
+    async function saveLibraryState(libraryObject) {
+        await basePost("/mapLibrary/saveState", { libraryObject });
     }
-    function saveLibraryState(libraryObject) {
-        var destinationFolder = pathModule.join(maptoolLibraryFolder, libraryObject.name);
-        fs.writeFileSync(pathModule.join(destinationFolder, "library_data.json"), JSON.stringify(libraryObject));
-    }
+
     function getPersistedGeneratorData(group, callback) {
         baseGetWithFullPath(
             pathModule.join(generatorResourcePath, "generator_persisted.json"),
@@ -739,8 +504,7 @@ module.exports = (function () {
     }
 
     async function base64(path) {
-        var b64 = await readFile(path, { encoding: "base64" });
-        return b64;
+        return await basePost("fileTobase64", { path: path });
     }
 
     return {
@@ -775,8 +539,6 @@ module.exports = (function () {
         getParty: getParty,
         setParty: setParty,
         getAutofillData: getAutofillData,
-        getConstantsSync: getConstantsSync,
-        setConstants: setConstants,
         getRandomTables: getRandomTables,
         setRandomTables: setRandomTables,
         setGeneratorData: setGeneratorData,

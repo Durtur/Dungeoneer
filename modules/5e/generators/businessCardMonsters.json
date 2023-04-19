@@ -1,0 +1,242 @@
+{
+    "0": {
+        "AC": 12,
+        "HP": 3,
+        "Attack": 2,
+        "Damage": 1,
+        "DC": 9,
+        "Save": 1
+    },
+    "1": {
+        "AC": 13,
+        "HP": 30,
+        "Attack": 4,
+        "Damage": 10,
+        "DC": 11,
+        "Save": 3
+    },
+    "2": {
+        "AC": 13,
+        "HP": 45,
+        "Attack": 5,
+        "Damage": 15,
+        "DC": 12,
+        "Save": 4
+    },
+    "3": {
+        "AC": 14,
+        "HP": 60,
+        "Attack": 5,
+        "Damage": 20,
+        "DC": 12,
+        "Save": 4
+    },
+    "4": {
+        "AC": 14,
+        "HP": 75,
+        "Attack": 6,
+        "Damage": 25,
+        "DC": 13,
+        "Save": 5
+    },
+    "5": {
+        "AC": 14,
+        "HP": 90,
+        "Attack": 6,
+        "Damage": 30,
+        "DC": 13,
+        "Save": 5
+    },
+    "6": {
+        "AC": 15,
+        "HP": 105,
+        "Attack": 7,
+        "Damage": 35,
+        "DC": 14,
+        "Save": 6
+    },
+    "7": {
+        "AC": 15,
+        "HP": 120,
+        "Attack": 7,
+        "Damage": 40,
+        "DC": 14,
+        "Save": 6
+    },
+    "8": {
+        "AC": 15,
+        "HP": 120,
+        "Attack": 8,
+        "Damage": 40,
+        "DC": 15,
+        "Save": 7
+    },
+    "9": {
+        "AC": 16,
+        "HP": 135,
+        "Attack": 8,
+        "Damage": 45,
+        "DC": 15,
+        "Save": 7
+    },
+    "10": {
+        "AC": 16,
+        "HP": 150,
+        "Attack": 9,
+        "Damage": 50,
+        "DC": 16,
+        "Save": 8
+    },
+    "11": {
+        "AC": 16,
+        "HP": 165,
+        "Attack": 9,
+        "Damage": 55,
+        "DC": 16,
+        "Save": 8
+    },
+    "12": {
+        "AC": 17,
+        "HP": 180,
+        "Attack": 10,
+        "Damage": 60,
+        "DC": 17,
+        "Save": 9
+    },
+    "13": {
+        "AC": 17,
+        "HP": 195,
+        "Attack": 10,
+        "Damage": 65,
+        "DC": 17,
+        "Save": 9
+    },
+    "14": {
+        "AC": 17,
+        "HP": 210,
+        "Attack": 11,
+        "Damage": 70,
+        "DC": 18,
+        "Save": 10
+    },
+    "15": {
+        "AC": 18,
+        "HP": 225,
+        "Attack": 11,
+        "Damage": 75,
+        "DC": 18,
+        "Save": 10
+    },
+    "16": {
+        "AC": 18,
+        "HP": 240,
+        "Attack": 12,
+        "Damage": 80,
+        "DC": 19,
+        "Save": 11
+    },
+    "17": {
+        "AC": 18,
+        "HP": 255,
+        "Attack": 12,
+        "Damage": 85,
+        "DC": 19,
+        "Save": 11
+    },
+    "18": {
+        "AC": 19,
+        "HP": 270,
+        "Attack": 13,
+        "Damage": 90,
+        "DC": 20,
+        "Save": 12
+    },
+    "19": {
+        "AC": 19,
+        "HP": 285,
+        "Attack": 13,
+        "Damage": 95,
+        "DC": 20,
+        "Save": 12
+    },
+    "20": {
+        "AC": 19,
+        "HP": 300,
+        "Attack": 14,
+        "Damage": 100,
+        "DC": 21,
+        "Save": 13
+    },
+    "21": {
+        "AC": 20,
+        "HP": 315,
+        "Attack": 14,
+        "Damage": 105,
+        "DC": 21,
+        "Save": 13
+    },
+    "22": {
+        "AC": 20,
+        "HP": 330,
+        "Attack": 15,
+        "Damage": 110,
+        "DC": 22,
+        "Save": 14
+    },
+    "23": {
+        "AC": 20,
+        "HP": 345,
+        "Attack": 15,
+        "Damage": 115,
+        "DC": 22,
+        "Save": 14
+    },
+    "24": {
+        "AC": 21,
+        "HP": 360,
+        "Attack": 16,
+        "Damage": 120,
+        "DC": 23,
+        "Save": 15
+    },
+    "25": {
+        "AC": 21,
+        "HP": 375,
+        "Attack": 16,
+        "Damage": 125,
+        "DC": 23,
+        "Save": 15
+    },
+    "26": {
+        "AC": 21,
+        "HP": 390,
+        "Attack": 17,
+        "Damage": 130,
+        "DC": 24,
+        "Save": 16
+    },
+    "1/8": {
+        "AC": 12,
+        "HP": 9,
+        "Attack": 3,
+        "Damage": 3,
+        "DC": 10,
+        "Save": 2
+    },
+    "1/4": {
+        "AC": 13,
+        "HP": 15,
+        "Attack": 3,
+        "Damage": 5,
+        "DC": 10,
+        "Save": 2
+    },
+    "1/2": {
+        "AC": 13,
+        "HP": 24,
+        "Attack": 4,
+        "Damage": 8,
+        "DC": 11,
+        "Save": 3
+    }
+}

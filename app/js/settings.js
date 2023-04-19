@@ -1,5 +1,3 @@
-
-
 const dataAccess = require("./js/dataaccess");
 const ThemeManager = require("./js/themeManager");
 const SlimSelect = require("slim-select");
@@ -32,7 +30,7 @@ var tokenFolderPath = null;
 var doneSaving = false;
 
 var oldSettings;
-ipcRenderer.on('settings-window-save-and-close', function (evt, arg) {
+ipcRenderer.on("settings-window-save-and-close", function (evt, arg) {
     saveSettings(true);
 });
 
@@ -51,18 +49,17 @@ document.addEventListener("DOMContentLoaded", function () {
         defaultPlayerTokenRotate.value = data.maptool.defaultPlayerTokenRotate || 0;
         addPlayersAutomatically.checked = data.maptool.addPlayersAutomatically;
         applyDarkvisionFilter.checked = data.maptool.applyDarkvisionFilter;
-        snapToGrid.checked = data.maptool.snapToGrid
+        snapToGrid.checked = data.maptool.snapToGrid;
         enableGrid.checked = data.maptool.enableGrid;
         matchSizeWithFileName.checked = data.maptool.matchSizeWithFileName;
-        syncToCombatPanel.checked = data.maptool.syncToCombatPanel
+        syncToCombatPanel.checked = data.maptool.syncToCombatPanel;
         diceRoller.checked = data.enable.diceRoller;
         generator.checked = data.enable.generator;
         lootRoller.checked = data.enable.lootRoller;
         mobControllerEnabled.checked = data.enable.mobController;
         mapTool.checked = data.enable.mapTool;
         colorTokenBases.checked = data.maptool.colorTokenBases;
-        if (transparentMaptoolWindow)
-            transparentMaptoolWindow.checked = data.maptool.transparentWindow;
+        if (transparentMaptoolWindow) transparentMaptoolWindow.checked = data.maptool.transparentWindow;
         saveRoller.checked = data.enable.saveRoller;
         defaultMapSizeX.value = data.maptool.defaultMapSize ? data.maptool.defaultMapSize : "";
         hideOrShowMapTool(true);
@@ -74,22 +71,19 @@ document.addEventListener("DOMContentLoaded", function () {
             coverBtn.innerHTML = coverImagePath.name;
         }
 
-        coverBtn.onclick = function (e) {
-            var selected = window.dialog.showOpenDialogSync(
-                {
-                    properties: ['openFile'],
-                    message: "Choose picture location",
-                    filters: [{ name: 'Images', extensions: constants.imgFilters }]
-                });
-            if (selected == null)
-                return;
+        coverBtn.onclick = async function (e) {
+            var selected = window.dialog.showOpenDialogSync({
+                properties: ["openFile"],
+                message: "Choose picture location",
+                filters: [{ name: "Images", extensions: constants.imgFilters }],
+            });
+            if (selected == null) return;
             selected = selected[0];
-            coverImagePath = dataAccess.saveCoverImage(selected);
+            coverImagePath = await dataAccess.saveCoverImage(selected);
             console.log(coverImagePath);
             coverBtn.innerHTML = coverImagePath.name;
         };
         document.getElementById("clear_cover_image_button").onclick = function (e) {
-
             coverImagePath = null;
             coverBtn.innerHTML = "Cover image";
         };
@@ -99,22 +93,18 @@ document.addEventListener("DOMContentLoaded", function () {
             soundBtn.innerText = soundLibraryPath;
         }
 
-
-
         soundBtn.onclick = function (e) {
             var selected = window.dialog.showOpenDialogSync({
-                properties: ['openDirectory'],
-                message: "Choose library location"
+                properties: ["openDirectory"],
+                message: "Choose library location",
             });
-            if (selected == null)
-                return;
+            if (selected == null) return;
             selected = selected[0];
             soundLibraryPath = selected;
 
             soundBtn.innerText = soundLibraryPath;
         };
         document.getElementById("clear_sound_library_button").onclick = function (e) {
-
             soundLibraryPath = null;
             soundBtn.innerText = "Sound library";
         };
@@ -124,58 +114,51 @@ document.addEventListener("DOMContentLoaded", function () {
             tokenBtn.innerText = tokenFolderPath;
         }
 
-
-
         tokenBtn.onclick = function (e) {
             var selected = window.dialog.showOpenDialogSync({
-                properties: ['openDirectory'],
-                message: "Choose library location"
+                properties: ["openDirectory"],
+                message: "Choose library location",
             });
-            if (selected == null)
-                return;
+            if (selected == null) return;
             selected = selected[0];
             tokenFolderPath = selected;
             tokenBtn.innerText = tokenFolderPath;
         };
         document.getElementById("clear_token_library_button").onclick = function (e) {
-
             tokenFolderPath = null;
             tokenBtn.innerText = "Monster token folder";
         };
-        
     });
-
 });
 
 async function readThemes(selectedTheme) {
     if (!selectedTheme) selectedTheme = "oldschool";
     var themes = await ThemeManager.getThemes();
     var select = document.getElementById("theme_select");
-    var optionList = themes.map(x => {
-
+    var optionList = themes.map((x) => {
         return {
             text: x,
             selected: x === selectedTheme,
-            value: x
-        }
-    })
+            value: x,
+        };
+    });
     new SlimSelect({
         select: select,
-        data: optionList
+        data: optionList,
     });
     select.onchange = function (e) {
         oldSettings.theme = select.value;
         ThemeManager.initThemeFile(oldSettings.theme);
-    }
+    };
 }
 
 function addHeaderHandlers() {
     var allHeaders = [...document.getElementsByClassName("settings_header")];
-    allHeaders.forEach(header => header.onclick = hideOrShowContent);
+    allHeaders.forEach((header) => (header.onclick = hideOrShowContent));
     allHeaders.forEach(function (header) {
         var parentNode = header.parentNode;
         parentNode.setAttribute("data-open", "false");
-    })
+    });
     function hideOrShowContent(event) {
         var parentNode = event.target.parentNode;
         var isOpen = parentNode.getAttribute("data-open");
@@ -183,18 +166,17 @@ function addHeaderHandlers() {
         var contentNode = parentNode.getElementsByClassName("header_content")[0];
 
         if (isOpen == "true") {
-            contentNode.classList.add("hidden")
-            parentNode.setAttribute("data-open", "false")
+            contentNode.classList.add("hidden");
+            parentNode.setAttribute("data-open", "false");
         } else {
-            contentNode.classList.remove("hidden")
-            parentNode.setAttribute("data-open", "true")
+            contentNode.classList.remove("hidden");
+            parentNode.setAttribute("data-open", "true");
         }
     }
 }
 function notifySettingsChanged() {
-    window.api.messageWindow('mainWindow', 'settings-changed');
-    window.api.messageWindow('maptoolWindow', 'settings-changed');
-
+    window.api.messageWindow("mainWindow", "settings-changed");
+    window.api.messageWindow("maptoolWindow", "settings-changed");
 }
 
 function saveSettings(closeImmediately) {
@@ -233,9 +215,8 @@ function saveSettings(closeImmediately) {
         data = loadDefaultSettings();
     }
 
-
     dataAccess.saveSettings(data, function (err) {
-        $('#save_success').finish().fadeIn("fast").delay(2500).fadeOut("slow");
+        $("#save_success").finish().fadeIn("fast").delay(2500).fadeOut("slow");
         var bg = document.querySelector("#save_msg_bg");
         bg.style.display = "flex";
         notifySettingsChanged();
@@ -243,24 +224,19 @@ function saveSettings(closeImmediately) {
             doneSaving = true;
             ipcRenderer.send("close-window");
         } else {
-            setTimeout(function () { ipcRenderer.send("close-window"); }, 1000);
+            setTimeout(function () {
+                ipcRenderer.send("close-window");
+            }, 1000);
         }
-
-
-
-    })
-
-
+    });
 }
-window.addEventListener('beforeunload', (event) => {
+window.addEventListener("beforeunload", (event) => {
     if (!doneSaving) {
         event.preventDefault();
-        event.returnValue = '';
+        event.returnValue = "";
         saveSettings(true);
     }
-
 });
-
 
 function hideOrShowMapTool() {
     var mapToolSection = document.getElementById("mapToolSection");
@@ -272,7 +248,6 @@ function hideOrShowMapTool() {
 }
 
 function hideOrShowGridSettings() {
-
     if (enableGrid.checked) {
         snapToGrid.parentElement.parentElement.classList.remove("hidden");
     } else {

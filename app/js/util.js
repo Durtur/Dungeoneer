@@ -1,4 +1,7 @@
-const { extname } = require("path");
+const extname = (path) => {
+    if (!path) return null;
+    return path.substring(path.lastIndexOf("."));
+};
 const sharp = require("sharp");
 module.exports = (function () {
     function IsVowel(letter) {

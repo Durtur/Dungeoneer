@@ -18,11 +18,27 @@ class PathConstants {
         return path.join(app.getPath("userData"), "data");
     }
     static globalSettings() {
-        return path.join(app.getPath("userData"), "data", "settings");
+        return path.join(app.getPath("userData"), "data", "settings", "settings.json");
+    }
+
+    static tempFilePath() {
+        return path.join(app.getPath("userData"), "temp");
+    }
+
+    static maptoolLibraryFolder(){
+        return path.join(app.getPath("userData"), "data", "maptool_libraries");
+    }
+
+    static moduleSettings(module) {
+        return path.join(this.modulesFolder(), module, "settings.json");
     }
 
     static moduleUserFolder() {
         return path.join(app.getPath("userData"), "data", "modules");
+    }
+
+    static moduleFile(moduleName, file) {
+        return path.join(app.getAppPath(), "modules", moduleName, file);
     }
 
     static modulesFolder() {

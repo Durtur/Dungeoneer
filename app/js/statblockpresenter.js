@@ -470,6 +470,7 @@ class StatblockPresenter {
         function validateEntry(obj) {
             if (obj.speed == null) obj.speed = "-";
         }
+        
         function createHeader(text) {
             var seperator = createSeperator(false);
             var cont = document.createElement("div");

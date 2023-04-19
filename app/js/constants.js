@@ -1,5 +1,5 @@
 
-const constants = require("./js/dataaccess").getConstantsSync();
+const constants = window.config.getConstantsSync();
 constants.imgFilters = ["png", "gif", "jpg", "jpeg", "webp", "avif", "svg"];
 
 

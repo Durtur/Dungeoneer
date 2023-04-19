@@ -1,3 +1,4 @@
+
 var loadedMonster = {};
 var loadedMonsterQueue = [];
 
@@ -11,18 +12,15 @@ const DnDBeyondImporter = require("./js/DnDBeyondImporter");
 const CharacterSyncer = require("./js/characterSyncer");
 const Modals = require("./js/modals");
 const ThemeManager = require("./js/themeManager");
-const fs = require("fs");
+
 const Onboarding = require("./js/onboarding");
 const onboarding = new Onboarding();
 const StatblockPresenter = require("./js/statblockpresenter");
 const { ipcRenderer } = require("electron");
 
-const icon = window.api.getAppPath().replaceAll("\\", "/") + "/app/css/img/icon.png";
-const customStylesheet = window.api.getAppPath().replaceAll("\\", "/") + "/app/css/prompt.css";
-// const prompt = require('electron-prompt');
-const uniqueID = require("uniqid");
 const NotePad = require("./js/notepad/notepad");
 const partyModal = require("./js/partyModal");
+
 
 const charSyncers = [];
 

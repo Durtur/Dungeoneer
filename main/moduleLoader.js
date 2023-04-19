@@ -4,13 +4,18 @@ const path = require("path");
 const module5e = require("./modules/module.5e");
 const moduleCommon = require("./modules/module.common");
 const PathConstants = require("./pathConstants");
+
 class ModuleLoader {
+    constructor(selectedModule) {
+        this.selectedModuleName = "";
+        this.selectModule(selectedModule);
+    }
+
     loadDefaults() {
         if (!fs.existsSync(PathConstants.baseUserDataFolder())) fs.mkdirSync(PathConstants.baseUserDataFolder());
         if (!fs.existsSync(PathConstants.moduleUserFolder())) fs.mkdirSync(PathConstants.moduleUserFolder());
         this.initializeModule(moduleCommon);
         this.initializeModule(module5e);
-      
     }
 
     moveModule(module, newPath) {
@@ -23,25 +28,26 @@ class ModuleLoader {
     initializeModule(module) {
         var moduleImportPath = module.thirdParty ? null : path.join(PathConstants.modulesFolder(), module.name);
         var modulePath = path.join(PathConstants.moduleUserFolder(), module.name);
-        if (!fs.existsSync(modulePath)) fs.mkdirSync(modulePath);
-        if (module.requiredFolders) {
-            module.requiredFolders.forEach((folderName) => {
-                var folderPath = path.join(modulePath, folderName);
-                if (!fs.existsSync(folderPath)) fs.mkdirSync(folderPath);
-            });
-        }
-        if (module.dataFiles) {
-            module.dataFiles.forEach((x) => {
-                var fullPath = x.folder ? path.join(modulePath, x.folder, x.fileName) : path.join(modulePath, x.fileName);
+        fsE.copySync(moduleImportPath, modulePath);
+    }
+    
+    selectModule(selectedModule) {
+        this.selectedModuleName = selectedModule;
+        this.module = getSelected();
 
-                if (fs.existsSync(fullPath)) return;
-                var fileToImport = x.folder ? path.join(moduleImportPath, x.folder, x.fileName) : path.join(moduleImportPath, x.fileName);
-                var defaultData = fs.readFileSync(fileToImport);
-                fs.writeFileSync(fullPath, defaultData);
-            });
+        function getSelected() {
+            if (selectedModule == "5e") {
+                return module5e;
+            }
         }
     }
 
-    getModule() {}
+    commonModule() {
+        return moduleCommon;
+    }
+
+    getModule() {
+        return this.module;
+    }
 }
 module.exports = ModuleLoader;
