@@ -40,6 +40,9 @@ class SaveManager {
                 sound: effects[i].sound,
                 dnd_height: effects[i].dnd_height,
                 dnd_width: effects[i].dnd_width,
+                brightLightRadius: effects[i].sight_radius_bright_light,
+                dimLightRadius: effects[i].sight_radius_dim_light,
+                isLightEffect: effects[i].sight_radius_dim_light > 0 || effects[i].sight_radius_bright_light > 0,
             };
             effectsToAdd.push(newEff);
         }
@@ -333,8 +336,8 @@ class SaveManager {
         newEffect.dnd_height = effect.dnd_height;
         newEffect.dnd_width = effect.dnd_width;
         newEffect.flying_height = effect.flying_height;
-        newEffect.sight_radius_bright_light = effect.sight_radius_bright_light;
-        newEffect.sight_radius_dim_light = effect.sight_radius_dim_light;
+        newEffect.sight_radius_bright_light = effect.sight_radius_bright_light || effect.brightLightRadius;
+        newEffect.sight_radius_dim_light = effect.sight_radius_dim_light || effect.dimLightRadius;
         newEffect.id = `effect_${effectId++}`;
         if (effect.sound) {
             newEffect.sound = effect.sound;
@@ -342,7 +345,7 @@ class SaveManager {
         }
         tokenLayer.appendChild(newEffect);
         effects.push(newEffect);
-        if (newEffect.classList.contains("light_effect")) {
+        if (newEffect.classList.contains("light_effect") || newEffect.isLightEffect) {
             pawns.lightSources.push(newEffect);
         }
     }
