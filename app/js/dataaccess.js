@@ -583,8 +583,7 @@ module.exports = (function () {
                     data = {
                         paths: [],
                         name: libraryName,
-                        pinned: [],
-                        rootFolder: folderPath,
+                        pinned: []
                     };
 
                 var newFiles = files.filter((x) => !data.paths.find((y) => pathModule.basename(x) == pathModule.basename(y)));
@@ -602,6 +601,8 @@ module.exports = (function () {
                 var libraryList = [...images, ...dungeoneerMaps];
                 data.paths = data.paths.filter((x) => !deletedFiles.includes(x));
                 data.paths = [...data.paths, ...libraryList];
+                data.rootFolder = folderPath;
+                data.extension = ".webp";
                 var workCount = dungeoneerMaps.length + images.length;
                 var processedImages = 0;
                 console.log("New files:");
@@ -610,8 +611,8 @@ module.exports = (function () {
                 images.forEach(async (img) => {
                     await sharp(img)
                         .resize(await getMosaicDimensions(img, thumbnailSize))
-                        .png()
-                        .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(img)}.png`));
+                        .webp()
+                        .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(img)}.webp`));
 
                     processedImages++;
                     if (processedImages == workCount) callback();
@@ -624,8 +625,8 @@ module.exports = (function () {
                         var dimensions = await getMosaicDimensions(buffer, thumbnailSize);
                         await sharp(buffer)
                             .resize(dimensions)
-                            .png()
-                            .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(path)}.png`));
+                            .webp()
+                            .toFile(pathModule.join(thumbnailFolder, `${pathModule.basename(path)}.webp`));
 
                         processedImages++;
                         if (processedImages == workCount) callback();

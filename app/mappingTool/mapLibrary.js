@@ -147,9 +147,10 @@ class MapLibrary {
                 return 0;
             });
         }
+        console.log(library)
 
         displayData.forEach(path => {
-            var thumbnailPath = pathModule.join(thumbnailFolder, pathModule.basename(path) + ".png");
+            var thumbnailPath = pathModule.join(thumbnailFolder, pathModule.basename(path) + (library.data.extension || ".png"));
             var extension = pathModule.extname(path);
             var img = elementCreator.createTextOverlayImage(thumbnailPath, pathModule.basename(path).replace(extension, ""));
 
