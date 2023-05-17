@@ -442,23 +442,17 @@ function populateSpellClassDropdown() {
             self.addEventListener(
                 "message",
                 function (e) {
-                    var data = e.data;
-
-                    var dropDownValues = [];
-                    data.forEach(function (element) {
-                        var exists = false;
-                        for (var j = 0; j < element.classes.length; j++) {
-                            for (var i = 0; i < dropDownValues.length; i++) {
-                                if (element.classes[j].trim().toLowerCase() == dropDownValues[i].value) {
-                                    exists = true;
-                                }
-                            }
-                            if (!exists) {
-                                dropDownValues.push({ value: element.classes[j], name: element.classes[j].substring(0, 1).toUpperCase() + element.classes[j].substring(1) });
-                            }
+                    var uniqueValues = new Set();
+                    e.data.forEach(function (spell) {
+                        for (var j = 0; j < spell.classes.length; j++) {
+                            uniqueValues.add(spell.classes[j].trim().toLowerCase());
                         }
                     });
-                    postMessage(dropDownValues);
+                    var dropDownValues = [];
+                    uniqueValues.forEach(function (className) {
+                        dropDownValues.push({ value: className, name: className.substring(0, 1).toUpperCase() + className.substring(1) });
+                    });
+                    postMessage(dropDownValues.sort((a, b) => a.value == b.value ? 0 : a.value < b.value ? -1 : 1));
                     self.close();
                 },
                 false
