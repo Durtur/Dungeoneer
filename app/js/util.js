@@ -261,7 +261,7 @@ module.exports = (function () {
             if (svg) {
                 return await dataAccess.base64(path);
             }
-            var shrp = sharp(path);
+            var shrp = sharp(path, { animated: true });
             var metadata = await shrp.metadata();
             var width = metadata.width;
             var height = metadata.height;
@@ -275,7 +275,7 @@ module.exports = (function () {
                 }
             }
 
-            var buffer = await shrp.toFormat("webp").toBuffer();
+            var buffer = await shrp.webp().toBuffer();
 
             return buffer.toString("base64");
         } catch (err) {

@@ -400,16 +400,11 @@ module.exports = (function () {
     async function saveToken(tokenId, currentPath, trim) {
         console.log("Saving token", tokenId, "trim:" + trim);
         var savePath = getNewTokenSavePath;
-        currentPath, tokenId;
         savePath = pathModule.join(defaultTokenPath, tokenId + ".webp");
-        let buffer = await sharp(currentPath)
-            .resize({
-                width: baseTokenSize,
-            })
-            .toFormat(TOKEN_FORMAT)
-            .toBuffer();
-        if (trim) await sharp(buffer).trim(0.5).toFile(pathModule.resolve(savePath));
-        else await sharp(buffer).toFile(pathModule.resolve(savePath));
+        let buffer = await sharp(currentPath, { animated: true })
+            .resize({width: baseTokenSize}).webp().toBuffer();
+        if (trim) await sharp(buffer, { animated: true }).trim(0.5).toFile(pathModule.resolve(savePath));
+        else await sharp(buffer, { animated: true }).toFile(pathModule.resolve(savePath));
     }
 
     function saveSettings(settings, callback) {
