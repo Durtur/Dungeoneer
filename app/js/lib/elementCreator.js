@@ -30,7 +30,7 @@ class ElementCreator {
         newTable.appendChild(currentHeader);
         var headerArr = [];
         for (var key in jsonObj) {
-            if(key == "tooltips") continue;
+            if (key == "tooltips") continue;
             columnCount++;
             newNode = document.createElement("th");
             newNode.innerHTML = marked.parse(key.deserialize().toProperCase());
@@ -160,6 +160,12 @@ class ElementCreator {
         var img = this.ele("img", "tile_image");
         img.src = imgSrc;
         var text = this.ele("p", "center overlay_text", text);
+        //Temp fix for backwards compatibility when map library thumbnails were saved in web instead of png
+        img.onerror = () => {
+    
+            if (img.src.includes(".png")) return;
+            img.src = img.src.replace(".webp", ".png");
+        };
         cont.appendChild(img);
         cont.appendChild(text);
         return cont;

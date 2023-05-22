@@ -21,7 +21,6 @@ class MapLibrary {
         this.scanLibrary("common");
         var cls = this;
         dataaccess.getSettings(globalSettings => {
-            console.log(globalSettings.current_party)
             if (globalSettings.current_party && globalSettings.current_party != "Any") {
                 cls.scanLibrary(globalSettings.current_party);
 
@@ -147,8 +146,7 @@ class MapLibrary {
                 return 0;
             });
         }
-        console.log(library)
-
+ 
         displayData.forEach(path => {
             var thumbnailPath = pathModule.join(thumbnailFolder, pathModule.basename(path) + (library.data.extension || ".png"));
             var extension = pathModule.extname(path);
