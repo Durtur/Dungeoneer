@@ -98,7 +98,6 @@ class TokenSelector {
                 filters: [{ name: "Images", extensions: constants.imgFilters }],
             });
             if (tokenPath == null) return;
-            tokenPath = tokenPath[0];
             cls.done(tokenPath);
         };
         buttonContainerParent.appendChild(buttonContainer);
