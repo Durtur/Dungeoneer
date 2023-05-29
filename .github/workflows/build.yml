@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ windows-latest, macos-latest]
+        os: [ windows-latest, macos-latest, linux-latest]
         
     env:
       USE_HARD_LINKS: false
