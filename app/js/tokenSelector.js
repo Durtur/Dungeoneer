@@ -90,7 +90,6 @@ class TokenSelector {
         var tokenSelectionText = document.createElement("p");
         tokenSelectionText.style.margin = "1em";
         var buttonWrapper = util.wrapper("div", "row", tokenSelectionText);
-
         fileBtn.onclick = () => {
             var tokenPath = window.dialog.showOpenDialogSync({
                 properties: ["openFile"],
