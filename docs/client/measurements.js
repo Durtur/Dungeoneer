@@ -128,7 +128,7 @@ let measurements = (function () {
                 }
                 measurementsLayerContext.beginPath();
                 measurementsLayerContext.moveTo(measurementOriginPosition.x * DEVICE_SCALE, measurementOriginPosition.y * DEVICE_SCALE);
-                measurementsLayerContext.lineTo(clientX, clientY);
+                measurementsLayerContext.lineTo(clientX * DEVICE_SCALE, clientY * DEVICE_SCALE);
                 measurementsLayerContext.stroke();
 
                 var b = {
