@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [ windows-latest, macos-latest, ubuntu-latest]
+        os: [ windows-latest, macos-latest]
         
     env:
       USE_HARD_LINKS: false
@@ -21,8 +21,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Install Wine
-        run: sudo apt-get install -y wine
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1.6.0
         with:
