@@ -1108,7 +1108,6 @@ var combatLoader = (function () {
                     var nameB = b.getAttribute("monster_original_name") || b.getElementsByClassName("name_field")[0].value;
                     if (nameA == nameB) return 0;
                     if (currentInitiativeActorName == nameA) return -1;
-
                     if (currentInitiativeActorName == nameB) return 1;
                     return 0;
                 };

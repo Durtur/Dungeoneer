@@ -48,17 +48,11 @@ function loadSettings() {
         effectFilePath = defaultEffectPath;
 
         if (!settings.enableGrid) settings.snapToGrid = false;
-        if (!settings.applyDarkvisionFilter) {
-            setBackgroundFilter();
-        } else {
-            if (fovLighting.viewerHasDarkvision()) {
-                setBackgroundFilter();
-            }
-        }
+
         var filterValue = settings.currentFilter ? settings.currentFilter : 0;
         var filterDd = document.getElementById("filter_tool");
         filterDd.selectedIndex = parseInt(filterValue);
-        setBackgroundFilter();
+        onBackgroundFilterSelected();
         if (settings.currentMap && !RUN_ARGS_MAP) {
             setMapForeground(settings.currentMap, settings.gridSettings.mapSize);
         }
@@ -78,6 +72,26 @@ function loadSettings() {
         if (!partyArray) loadParty();
         onSettingsLoaded();
     });
+}
+
+function onBackgroundFilterSelected() {
+    var filterDd = document.getElementById("filter_tool");
+    if (!filterDd) return;
+    filterValue = filterDd.options[filterDd.selectedIndex].value;
+    if (filterValue == "none") {
+        filtered = false;
+        filterDd.classList.remove("toggle_button_toggled");
+    } else {
+        filtered = true;
+        filterDd.classList.add("toggle_button_toggled");
+    }
+
+    if (fovLighting.viewerHasDarkvision() && settings.applyDarkvisionFilter && fovLighting.isDark()) {
+        filterValue = "grayscale(80%)";
+    }
+    serverNotifier.notifyServer("filter-set", { filter: filterValue });
+    settings.currentFilter = filterDd.selectedIndex;
+    map.setFilter(filterValue);
 }
 
 function saveSettings() {
@@ -114,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadSettings();
     updateHowlerListenerLocation();
     window.api.messageWindow("mainWindow", "maptool-initialized");
-    serverNotifier.notifyServer("initialized", {})
+    serverNotifier.notifyServer("initialized", {});
     serverNotifier.notifyServer("request-state", null);
     serverNotifier.mapToolInit();
     var bgSize = parseInt($("#foreground").css("background-size"));

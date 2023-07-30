@@ -29,6 +29,7 @@ var serverNotifier = (function () {
                 conditions: await getConditionsForExport(),
                 roundTimer: roundTimer?.getState(),
                 initiative: initiative.getState(),
+                filter: map.getFilter(),
             },
         });
     }

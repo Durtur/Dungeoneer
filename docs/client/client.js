@@ -382,6 +382,9 @@ function setState(message) {
             chat.messageReceived(message.data);
             pawnManager.talkBubble({ text: message.data.text, elementId: message.data.elementId });
             break;
+        case "filter-set":
+            map.setFilter(message.data.filter);
+            break;
     }
 }
 

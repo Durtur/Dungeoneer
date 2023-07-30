@@ -165,7 +165,53 @@
         </main>
 
         <div id="chat-container" class="hidden"></div>
+         <svg>
+        <filter id="effect_fill_filter" x="0%" y="0%" width="100%" height="100%">
+            <feImage id="effect_fill_filter_img" />
+        </filter>
+        <filter id="night-mode">
+            <feColorMatrix
+                type="matrix"
+                values="
+        0.2  0   0    0  0 
+        0   0.2 0    0  0 
+        0   0   0.3  0  0.01 
+        0    0   0    0  1"
+            />
+        </filter>
+        <filter id="winter-mode">
+            <feColorMatrix
+                type="matrix"
+                values="
+        0.6 0 0 0 0
+              0 0.6 0 0 0
+              0.3 0.2 2.5 0 0
+              0 0 0 1.8 0"
+            />
+        </filter>
+        <filter id="red_hue_filter">
+            <feColorMatrix
+                type="matrix"
+                values="0.78     0     0     0     0
+            0     0.04     0     0     0
+            0     0     0.04     0     0
+            0     0     0     1     0 "
+            />
+        </filter>
+        <filter id="daylight">
+            <!--Blur effect-->
+
+            <!--Lighting effect-->
+            <feSpecularLighting result="spec2" specularConstant="1.4" specularExponent="13" lighting-color="rgba(255,255,0,0.01)">
+                <!--Light source effect-->
+                <feDistantLight azimuth="25" elevation="5" />
+            </feSpecularLighting>
+            <!--Composition of inputs-->
+            <feComposite in="SourceGraphic" in2="spec2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+        </filter>
+    </svg>
     </body>
+   
     <script src="client/connectionConfig.js"></script>
     <script src="https://unpkg.com/peerjs@1.3.2/dist/peerjs.min.js"></script>
     <script src="client/hammer.min.js"></script>

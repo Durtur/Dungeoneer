@@ -310,8 +310,6 @@ function onConnected(conn) {
         }
     }
 
-    console.log(conn);
-
     var peer = peers.find((x) => x.connectonId == conn.connectionId);
     if (!peer) {
         peers.add({
@@ -326,7 +324,6 @@ function onConnected(conn) {
             return conn.send({ event: "ack" });
         } else if (data.event == "ack") {
             var peer = peers.find((x) => x.connectionId == conn.connectionId);
-            console.log(peers);
             peer.timeout.ack();
             return;
         }
@@ -456,6 +453,12 @@ function sendMaptoolState(maptoolState) {
                 data: maptoolState.initiative,
             });
             setClientFog(clientFogUserSet ? clientFog : maptoolState.fog);
+            console.log(maptoolState.filter);
+            if (maptoolState.filter)
+                peer.connection.send({
+                    event: "filter-set",
+                    data: { filter: maptoolState.filter },
+                });
         }
     });
 }

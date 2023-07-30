@@ -128,27 +128,6 @@ function newPawnId() {
     return `pawn${pawnId++}`;
 }
 
-function setBackgroundFilter() {
-    var filterDd = document.getElementById("filter_tool");
-    if (!filterDd) return;
-    filterValue = filterDd.options[filterDd.selectedIndex].value;
-    if (filterValue == "none") {
-        filtered = false;
-        filterDd.classList.remove("toggle_button_toggled");
-    } else {
-        filtered = true;
-        filterDd.classList.add("toggle_button_toggled");
-    }
-
-    if (fovLighting.viewerHasDarkvision() && settings.applyDarkvisionFilter && fovLighting.isDark()) {
-        filterValue = "grayscale(80%)";
-    }
-    document.querySelector("#map_layer_container").style.filter = filterValue;
-
-    settings.currentFilter = filterDd.selectedIndex;
-    saveSettings();
-}
-
 //Overriden in map.admin
 function saveSettings() {}
 function toggleSaveTimer() {}
@@ -1807,7 +1786,7 @@ function refreshFogOfWar(timestamp) {
 function switchActiveViewer() {
     fovLighting.toggleDarkvision();
     refreshFogOfWar();
-    setBackgroundFilter();
+    if (serverNotifier.isServer()) onBackgroundFilterSelected();
 }
 
 /* #endregion */
@@ -2132,6 +2111,15 @@ const map = (function () {
         });
     }
 
+    function setFilter(filterValue) {
+        document.querySelector("#map_layer_container").style.filter = filterValue;
+        saveSettings();
+    }
+
+    function getFilter() {
+        return document.querySelector("#map_layer_container").style.filter;
+    }
+
     return {
         init: init,
         moveMap,
@@ -2146,6 +2134,8 @@ const map = (function () {
         updateObjectSize: updateObjectSize,
         centerObjectOn: centerObjectOn,
         moveObject: moveObject,
+        setFilter: setFilter,
+        getFilter: getFilter,
         removeAllPawns: removeAllPawns,
         removeAllEffects: removeAllEffects,
         onkeydown: onkeydown,

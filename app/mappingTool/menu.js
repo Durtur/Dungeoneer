@@ -17,7 +17,7 @@ class Menu {
  
     document.querySelector("#vision_button").onclick = showLightSourceTooltip;
     document.querySelector("#conditions_button").onclick = showConditionsMenu;
-    document.getElementById("filter_tool").onchange = setBackgroundFilter;
+    document.getElementById("filter_tool").onchange = onBackgroundFilterSelected;
     document.getElementById("foreground_size_slider").oninput = function (
       event
     ) {
