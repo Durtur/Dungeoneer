@@ -5,7 +5,8 @@ const CLIENT_EVENT_HANLDERS = {
         appendServerLog(`${data.name} connected`, SERVER_EVENTS.CONNECTED);
         pendingStateRequests.push(peer);
         window.subscribe.requestMapToolState();
-        connection.send({ event: "enabled-features", data: ["dice-roller", "chat"] });
+        //connection.send({ event: "enabled-features", data: ["dice-roller", "chat"] });
+        connection.send({ event: "enabled-features", data: ["dice-roller"] });
     },
     "object-moved": function (data, connection, peer) {
         if (peer.partyAccess == null) return;
@@ -32,7 +33,7 @@ const CLIENT_EVENT_HANLDERS = {
     "chat-message": function (data, connection, peer) {
         if (peer.partyAccess.length == 1) {
             data = data.data;
-            console.log(data)
+            console.log(data);
             notifyMaptool({ event: "talk-bubble", elementId: peer.partyAccess[0].element_id, text: data.text });
             echoToPeers({ event: "chat-message", data: { name: peer.partyAccess[0].character_name, elementId: peer.partyAccess[0].element_id, text: data.text } });
         }
