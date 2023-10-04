@@ -974,13 +974,14 @@ function getRandomEncounter() {
 }
 
 function deleteFromHomebrew(toRemove) {
-    readDataFunction(function (data) {
+    readDataFunction(async function (data) {
         //Find index of first
         var index = indexOfId(data, toRemove);
         if (index == -1) return false;
         data.splice(index, 1);
         if (tab == "monsters" || tab == "homebrew") {
-            var tokens = getAllTokenPaths(toRemove);
+            console.log(toRemove)
+            var tokens = await dataAccess.getTokenPaths(toRemove);
             tokens.forEach((token) => {
                 fs.unlink(token, function (err) {
                     if (err) console.log(err);
