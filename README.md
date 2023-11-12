@@ -46,6 +46,16 @@ homebrew and freely licensed SRD monsters and spells, and has a few standard too
 ## I don't have any monster tokens
 There are some great sources of tokens, such as [Forgotten Adventures](https://www.forgotten-adventures.net/) (you can get all their tokens for free). You can use the token importer to mass import tokens. 
 
+## Operating system / Linux support
+Dungeoneer is built for windows as of now but a Mac build is included in the releases. If you are on Linux you will have to build it yourself, due to the sharpjs image library. You need to add the npm package on a Linux machine for it to run correctly. 
+* Check out the code
+* yarn remove sharp
+* yarn add sharp
+* yarn install
+* yarn start
+
+You can then run the build command, **npm run buildlinux**
+
 
 ## Licence and usage
 Anyone is free to use this application. See further constraints in [Licence.md](https://github.com/Durtur/Dungeoneer/blob/master/LICENSE.md). 
