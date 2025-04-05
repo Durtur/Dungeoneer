@@ -420,7 +420,8 @@ var combatLoader = (function () {
 
     function load(monster) {
         var row = addRow();
-        var nameField, hpField, acField, attackField, damageField, damageLabel;
+        var nameField, hpField, acFie
+        ld, attackField, damageField, damageLabel;
         nameField = row.getElementsByClassName("name_field")[0];
         hpField = row.getElementsByClassName("hp_field")[0];
         acField = row.getElementsByClassName("ac_field")[0];

@@ -114,7 +114,10 @@ class Importer {
         newObj.armor_class = e.ac[0].ac || e.ac[0];
         newObj.hit_points = e.hp.average;
         newObj.hit_dice = e.hp.formula;
-        newObj.size = sizes.find(x => x.substring(0, 1) == e.size.toLowerCase()).toProperCase();
+
+        var size = typeof(e.size) === "string" ? e.size.toLowerCase(): e.size[0].toLowerCase();
+     
+        newObj.size = sizes.find(x => x.substring(0, 1) == size).toProperCase();
         newObj.speed = getSpeed(e.speed);
         ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach(prop => {
             newObj[prop] = e[prop.substring(0, 3)];

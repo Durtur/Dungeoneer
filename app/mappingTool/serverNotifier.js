@@ -94,7 +94,6 @@ var serverNotifier = (function () {
             if (!includeHidden && pawns.players[i][0].client_hidden) continue;
             tokens.push(await saveManager.exportPawn(pawns.players[i], includeHidden));
         }
-        console.log(tokens);
 
         return tokens;
     }
