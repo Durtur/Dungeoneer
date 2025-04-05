@@ -39,38 +39,36 @@ class EncounterModule {
     }
 
     getEncounterDifficultyString(xpValue, allLevels) {
-        allLevels = allLevels.filter((x) => x);
-        console.log("Getting string for xp ", xpValue);
-        var tiers = [0, 0, 0, 0];
-        var tableArray;
-        allLevels.forEach((level) => {
-            if (level < 0 || level > encounterCalculatorTable.table.length - 1) return;
-            tableArray = encounterCalculatorTable.table[level];
-            for (var i = 0; i < 4; i++) {
-                tiers[i] = tiers[i] + tableArray[i];
+        allLevels = allLevels.filter((x) => x > 0 && x < 20);
+        if (allLevels.length === 0) return "Unable to calculate encounter challenge (Player level outside of 1-20)";
+
+        var maxLvl = Math.max(...allLevels);
+        var count = allLevels.length;
+
+        var tier = encounterCalculatorTable.table[maxLvl - 1];
+
+        var normalized = tier.map((x) => count * x);
+        var i = 0;
+
+        if (xpValue > normalized[0]) {
+            while (true) {
+                if (normalized[i] > xpValue || i >= 4) break;
+                i++;
             }
-        });
-        if (tiers.filter((x) => x != 0).length == 0) return "Unable to calculate challenge";
-        var i = 3;
-        while (xpValue < tiers[i]) {
-            if (i == -1) {
-                break;
-            }
-            i--;
         }
 
         switch (i) {
-            case -1:
-                return "Trivial";
             case 0:
-                return "Easy";
+                return "Trivial";
             case 1:
-                return "Medium";
+                return "Easy";
             case 2:
+                return "Medium";
+            case 3:
                 return "Hard";
 
-            case 3:
-                var ratio = xpValue / tiers[i];
+            case 4:
+                var ratio = xpValue / normalized[i];
                 ratio = Math.round(ratio);
 
                 return ratio == 1 ? "Deadly" : ratio + "x Deadly";
@@ -193,10 +191,37 @@ class EncounterModule {
                             "<p>Unable to generate an encounter for this difficulty, as no monsters that fit the criteria are available. This is either because a creature under the specified CR limit does not exist, or that the CR limit is not provided. Make sure that you have some active party members.</p>"
                         )
                     );
+
+                console.log(monsterArray);
+
                 var allAvailableCrs = [...new Set(monsterArray.map((b) => this.parseCRIndex(b.challenge_rating)))].sort();
 
                 var pickedMonsters = [];
-
+                if (monsterCount === 1) {
+                    var pickedCrTier = Math.max(...allAvailableCrs.filter((x) => encounterCalculatorTable.xpByCR[x] <= XPCeiling));
+                    console.log(
+                        "Compatible xp tiers: ",
+                        allAvailableCrs.filter((x) => encounterCalculatorTable.xpByCR[x] <= XPCeiling).map((x) => encounterCalculatorTable.xpByCR[x])
+                    );
+                    console.log(`Picked xp tier ${encounterCalculatorTable.xpByCR[pickedCrTier]}`);
+                    var set = monsterArray.filter((x) => this.parseCRIndex(x.challenge_rating) == pickedCrTier);
+                    console.log(
+                        pickedCrTier,
+                        set,
+                        allAvailableCrs.filter((x) => encounterCalculatorTable.xpByCR[x] <= XPCeiling)
+                    );
+                    pickedMonsters.push(set.pickOne());
+                    var totalXp = this.getXpSumForEncounter(
+                        pickedMonsters.map((x) => x.challenge_rating),
+                        pcLevels.length
+                    ).adjusted;
+                    return callback({
+                        name: `Solitary ${pickedMonsters[0].type}`,
+                        description: "A generated encounter",
+                        creatures: toEncounter(pickedMonsters),
+                        encounter_xp_value: totalXp,
+                    });
+                }
                 //Adjust count if this amount of creatures is not available:
                 while (this.getOptimalCrForCreatureNumber(monsterCount, allAvailableCrs, remainingXp) < 0 && monsterCount < 0) {
                     monsterCount--;
@@ -216,7 +241,7 @@ class EncounterModule {
                         pickedMonsters.map((x) => x.challenge_rating),
                         pcLevels.length
                     ).adjusted;
-                    console.log("total xp", totalXp);
+
                     return callback({
                         name: "Generated encounter",
                         description: "A generated encounter",
