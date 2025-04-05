@@ -1978,7 +1978,7 @@ const map = (function () {
                 moveObject(obj, { x: currX, y: currY }, true);
             });
         if (userAction) {
-            console.log("User action");
+      
             serverNotifier.notifyServer("object-moved", [
                 {
                     pos: map.objectGridCoords(elmnt),
