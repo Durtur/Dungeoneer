@@ -139,13 +139,14 @@ var fovLighting = function () {
         drawSegments();
         clearFogOfWar();
         //Base black
+  
         if ([MapFogEnum.Dark, MapFogEnum.LowLight].includes(activeFogType)) {
             fillMapToBlack();
             for (var i = 0; i < pawns.lightSources.length; i++) {
                 draw(pawns.lightSources[i]);
             }
         }
-        if (!forcedPerspectiveOrigin)
+        if (!forcedPerspectiveOrigin?.length)
             return;
 
         fogOfWarLayerContext.globalCompositeOperation = 'source-over';
@@ -598,6 +599,7 @@ var fovLighting = function () {
 
     function onSegmentsChanged() {
         console.log("Segments changed")
+        generateUniquePoints();
         serverNotifier.notifyServer("segments", { segments: serverNotifier.getSegments() });
     }
     function nudgeSegments(x, y) {
@@ -792,7 +794,6 @@ var fovLighting = function () {
     function clearFogOfWar() {
 
         fogOfWarLayerContext.beginPath();
-
         fogOfWarLayerContext.clearRect(0, 0, gridLayer.width, gridLayer.height);
         mapIsBlack = false;
     }
@@ -885,7 +886,8 @@ var fovLighting = function () {
         return {
             x: r_px + r_dx * T1,
             y: r_py + r_dy * T1,
-            param: T1
+            param: T1,
+          
         };
 
     }

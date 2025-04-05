@@ -34,7 +34,11 @@ var effectManager = (function () {
 
         newEffect.sight_radius_dim_light = effectObj.dimLightRadius == "" ? 20 : effectObj.dimLightRadius;
         newEffect.sight_radius_bright_light = effectObj.brightLightRadius == "" ? 20 : effectObj.brightLightRadius;
-        console.log();
+       
+        if(effectObj.dimRadius || effectObj.brightRadius){
+            newEffect.sight_radius_dim_light = effectObj.dimRadius * 5;
+            newEffect.sight_radius_bright_light = effectObj.brightRadius * 5;
+        }
 
         newEffect.flying_height = 0;
         newEffect.classList.add("light_effect");
@@ -51,18 +55,27 @@ var effectManager = (function () {
 
     function createBaseEffect(effectObj, isPreviewElement, e) {
         var newEffect = document.createElement("div");
-        var chosenWidth = effectObj.width;
-        var chosenHeight = effectObj.height;
+        var chosenWidth = effectObj.width ?? effectObj.size?.width;
+        var chosenHeight = effectObj.height ?? effectObj.size.height;
         var actualWidth, actualHeight;
 
         chosenWidth == "" ? (actualWidth = 20) : (actualWidth = chosenWidth);
         chosenHeight == "" ? (actualHeight = 20) : (actualHeight = chosenHeight);
 
-        newEffect.dnd_width = actualWidth;
-        newEffect.dnd_height = actualHeight;
+     
+        if(effectObj.size){
+            newEffect.dnd_width = actualWidth * UNITS_PER_GRID;
+            newEffect.dnd_height = actualHeight * UNITS_PER_GRID;
+            actualWidth = (actualWidth * cellSize) ;
+            actualHeight = (actualHeight * cellSize) ;
+        }else{
+            newEffect.dnd_width = actualWidth;
+            newEffect.dnd_height = actualHeight;
+            actualWidth *= cellSize / UNITS_PER_GRID;
+            actualHeight *= cellSize / UNITS_PER_GRID;
+            
+        }
 
-        actualWidth *= cellSize / UNITS_PER_GRID;
-        actualHeight *= cellSize / UNITS_PER_GRID;
         newEffect.style.width = actualWidth + "px";
         newEffect.style.height = actualHeight + "px";
         var angle = effectObj.angle;

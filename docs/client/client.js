@@ -187,6 +187,8 @@ function nothingEmpty(databuffer) {
 function toBase64Url(base64data, format) {
     if (base64data == null) return "none";
     if (!format) format = "webp";
+    if(base64data.startsWith("data:image"))
+        return `url(${base64data})`;
     return `url(data:image/${format};base64,${base64data})`;
 }
 
@@ -246,8 +248,13 @@ function setState(message) {
             break;
         case "tokens-set":
             map.removeAllPawns();
-            if (getDataBuffer(message.event)) importTokens(getDataBuffer(message.event).reduce((a, b) => a + b));
+            if (getDataBuffer(message.event)) importTokens(getDataBuffer(message.event).reduce((a, b) => a + b))
             else importTokens(message.data);
+            break;
+       case "tokens-place":
+            map.removeAllPawns();
+            if (getDataBuffer(message.event)) importTokens(getDataBuffer(message.event).reduce((a, b) => a + b), true);
+            else importTokens(message.data, true);
             break;
         case "constants":
             constants = message.data;
@@ -278,9 +285,15 @@ function setState(message) {
         case "segments":
             importSegments(message.data.segments);
             break;
+        case "segments-set":
+            importSegments(message.data.segments, true);
+            break;
         case "object-moved":
             moveObjects(message.data);
             break;
+        case "tokens-moved":
+             movePawns(message.data);
+             break;
         case "effects-set":
             if (getDataBuffer(message.event)) setEffects(getDataBuffer(message.event)?.reduce((a, b) => a + b));
             else setEffects(message.data);
@@ -318,7 +331,12 @@ function setState(message) {
         case "token-size":
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
-            enlargeReducePawn(token[0], message.data.direction);
+            if(message.data.size){
+                setPawnSize(token[0], message.data.size);
+            }else{
+                enlargeReducePawn(token[0], message.data.direction);
+
+            }
             break;
         case "token-color":
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
@@ -344,8 +362,12 @@ function setState(message) {
             var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;
             map.setTokenConditions(token[0], message.data.conditionList);
-
             break;
+        case "token-effects":
+            var token = pawns.players.find((x) => x[0].id == message.data.id) || pawns.monsters.find((x) => x[0].id == message.data.id);
+            if (!token || !token[0]) return;
+            onTokenEffects(token[0], message.data.effects);
+         break;
         case "condition-list":
             conditionList = message.data;
             conditionList.map((x) => (x.background_image = toBase64Url(x.base64img)));
@@ -408,7 +430,7 @@ function cssifyMobTokens(tokenArray) {
     console.log(tokenArray);
 }
 
-function importSegments(segments) {
+function importSegments(segments, addMapBounds = false) {
     if (!segments) segments = [];
     var arr = segments.map((seg) => {
         return {
@@ -416,7 +438,14 @@ function importSegments(segments) {
             b: map.pixelsFromGridCoords(seg.b.x, seg.b.y),
         };
     });
+    console.log(`Import segments, add map bounds: ${addMapBounds}`)
+    if(addMapBounds){
+        arr = [null, null, null, null, ... arr];
+    }
+    console.log(arr);
     fovLighting.setSegments(arr);
+    if(addMapBounds)
+        fovLighting.addWindowBorderToSegments();
     refreshFogOfWar();
 }
 
@@ -439,13 +468,22 @@ function tokenAccessChanged(access) {
     if (!earlierAccess || (earlierAccess.length == 0 && TOKEN_ACCESS.length > 0)) centerCurrentViewer();
 }
 
+///Version 2 of the function, using the origin instead of foreground origin
+function movePawns(arr){
+    arr.forEach((pawnInfo) => {
+        var pawn = document.getElementById(pawnInfo.id);
+        var tanslatedPixels = map.pixelsFromGridCoordsWithOrigin(pawnInfo.pos.x, pawnInfo.pos.y);
+        map.moveObject(pawn, tanslatedPixels, false);
+    });
+    refreshFogOfWar();
+}
+
 function moveObjects(arr) {
     console.log("Set positions:");
     console.log(arr);
     arr.forEach((pawnInfo) => {
         var pawn = document.getElementById(pawnInfo.id);
         var tanslatedPixels = map.pixelsFromGridCoords(pawnInfo.pos.x, pawnInfo.pos.y);
-        console.log(pawn);
         map.moveObject(pawn, tanslatedPixels, false);
     });
     refreshFogOfWar();
@@ -471,7 +509,7 @@ function clientSetForeground(message) {
 function setEffects(effectStr) {
     var arr = typeof effectStr == "string" ? JSON.parse(effectStr) : effectStr;
     map.removeAllEffects();
-
+    console.log(arr);
     arr.forEach((effObj) => addEffect(effObj));
 }
 function addEffect(effObj) {
@@ -486,13 +524,13 @@ function addEffect(effObj) {
     effectManager.addSfxEffect(effObj, { clientX: point.x, clientY: point.y });
 }
 
-async function addPawn(pawn) {
+async function addPawn(pawn, useOrigin = false) {
     pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
     pawn.onAdded = function (newPawn) {
         if (pawn.mobTokens) setMobTokens(pawn.mobTokens);
     };
-    pawn.spawnPoint = map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
-    console.log(pawn.dead);
+    pawn.spawnPoint = useOrigin ? map.pixelsFromGridCoordsWithOrigin(pawn.pos.x, pawn.pos.y) :  map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
+
     if (!pawn.isPlayer) pawn.name = "???";
     await generatePawns([pawn], !pawn.isPlayer);
 
@@ -510,11 +548,11 @@ async function addPawn(pawn) {
     }
 }
 
-function importTokens(tokenStr) {
+function importTokens(tokenStr, useOrigin = false) {
     var arr = typeof tokenStr == "string" ? JSON.parse(tokenStr) : tokenStr;
 
     arr.forEach(async (pawn) => {
-        await addPawn(pawn);
+        await addPawn(pawn, useOrigin);
     });
     onPerspectiveChanged();
 }

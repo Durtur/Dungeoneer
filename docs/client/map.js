@@ -1,8 +1,9 @@
+
 var cellSize = 35,
     originalCellSize = cellSize;
 const UNITS_PER_GRID = 5;
 const MAP_UNIT = "ft";
-const DEVICE_SCALE = window.devicePixelRatio;
+const DEVICE_SCALE = 1//window.devicePixelRatio;
 var STATIC_TOOLTIP = false;
 var canvasWidth = 400;
 var canvasHeight = 400;
@@ -217,6 +218,31 @@ function toggleVisibilityLayer() {
     }
     fovLighting.drawSegments();
     refreshFogOfWar();
+}
+
+function onTokenEffects(pawn, effectArr){
+    console.log(pawn)
+    if(effectArr.includes("dead")){
+        pawnManager.kill(pawn);
+    } else {
+        pawnManager.revive(pawn);
+    }
+    var woundEle = pawn.querySelector(".token_status");
+    woundEle.className = "token_status";
+  
+    if(effectArr.includes("wounded")){
+        woundEle.classList.add("pawn_wound_wounded")
+    }
+    if(effectArr.includes("bloodied")){
+        woundEle.classList.add("pawn_wound_bloodied")
+    }
+    if(effectArr.includes("near-death")){
+        woundEle.classList.add("pawn_wound_near_death")
+    }
+
+    pawn.setAttribute("data-state_changed", 1);
+    refreshPawnToolTips();
+
 }
 
 function onMonsterHealthChanged(arg) {
@@ -750,6 +776,18 @@ function enlargeReduceSelectedPawns(direction) {
     selectedPawns.forEach((element) => enlargeReducePawn(element, direction));
 }
 
+function setPawnSize(element, size){
+
+    element.dnd_hexes = size.width;
+    element.dnd_height = element.dnd_hexes * UNITS_PER_GRID;
+    element.dnd_width = element.dnd_hexes * UNITS_PER_GRID;
+
+    element.dnd_size = size.width;
+
+    refreshPawns();
+    resizePawns();
+}
+
 function enlargeReducePawn(element, direction) {
     var sizeIndex = creaturePossibleSizes.sizes.indexOf(element.dnd_size);
     var currentSize = creaturePossibleSizes.sizes[sizeIndex];
@@ -1084,7 +1122,7 @@ function dragPawn(elmnt) {
         pos4 = 0,
         originPosition = { x: elmnt.offsetLeft, y: elmnt.offsetTop },
         oldLine;
-    elmnt.onmousedown = dragMouseDown;
+    elmnt.onmousedown =  dragMouseDown;
     elmnt.ontouchstart = dragMouseDown;
     var tooltip = document.getElementById("tooltip");
     var distance;
@@ -1579,7 +1617,7 @@ function setBasePawnProperties(newPawn, pawn) {
     newPawn.dnd_height = newPawn.dnd_hexes * UNITS_PER_GRID;
     newPawn.dnd_width = newPawn.dnd_hexes * UNITS_PER_GRID;
     newPawn.attached_objects = [];
-    newPawn.dnd_size = creaturePossibleSizes.sizes[sizeIndex];
+    newPawn.dnd_size = creaturePossibleSizes?.sizes ?  creaturePossibleSizes.sizes[sizeIndex]: "medium";
 }
 
 async function createPawnElement(pawn, rotate) {
@@ -1588,6 +1626,7 @@ async function createPawnElement(pawn, rotate) {
     newPawn.id = pawn.id || newPawnId();
     newPawn.title = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
     newPawn.dnd_name = pawn.name.substring(0, 1).toUpperCase() + pawn.name.substring(1);
+    newPawn.dnd_hexes = pawn.dnd_hexes;
     setBasePawnProperties(newPawn, pawn);
     newPawn.style.backgroundColor = settings.colorTokenBases ? pawn.color : "transparent";
     if (pawn.dead == "true") pawnManager.kill(newPawn);
@@ -1932,6 +1971,16 @@ const map = (function () {
         };
     }
 
+    function pixelsFromGridCoordsWithOrigin(cellsX, cellsY) {
+        var rect = mapContainers[0].getBoundingClientRect();
+        var backgroundOriginX = rect.left;
+        var backgroundOriginY = rect.top;
+        return {
+            x: cellsX * cellSize + backgroundOriginX,
+            y: cellsY * cellSize + backgroundOriginY,
+        };
+    }
+
     function removePawn(element) {
         var isPlayer = isPlayerPawn(element);
         console.log("Remove ", element);
@@ -2143,6 +2192,7 @@ const map = (function () {
         objectGridCoords: objectGridCoords,
         toGridCoords: toGridCoords,
         pixelsFromGridCoords: pixelsFromGridCoords,
+        pixelsFromGridCoordsWithOrigin:pixelsFromGridCoordsWithOrigin,
         drawGrid: drawGrid,
     };
 })();

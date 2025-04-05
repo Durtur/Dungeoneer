@@ -776,7 +776,7 @@ function startAddingFromQueue() {
 
         pawn.id = "preview_token";
         await assignTokenImagePath(pawn);
-        console.log(pawn);
+
         var preview = await createPawnElement(pawn);
         document.body.appendChild(preview);
         previewPlacementManager.preview(preview, false);

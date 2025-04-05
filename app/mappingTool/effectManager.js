@@ -594,7 +594,7 @@ var effectManager = (function () {
 
         newEffect.sight_radius_bright_light = effectObj.brightLightRadius == "" ? 20 : effectObj.brightLightRadius;
         newEffect.sight_radius_dim_light = effectObj.dimLightRadius == "" ? 20 : effectObj.dimLightRadius;
-
+        
         newEffect.flying_height = 0;
         newEffect.classList.add("light_effect");
         if (visibilityLayerVisible) {
