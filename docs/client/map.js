@@ -862,6 +862,56 @@ function setPawnCondition(pawnElement, condition, originMainWindow = false) {
     raiseConditionsChanged(pawnElement, originMainWindow);
 }
 
+function setMobPositions(pawn, positions, rows, columns){
+    var container = pawn.querySelector(".mob_token_container");
+    
+    pawn.style.width = cellSize * columns + "px";
+    pawn.style.height = cellSize * rows + "px";
+    var allTokens = [...container.querySelectorAll(".mob_token")];
+    for(var i = 0 ; i < allTokens.length ; i++){
+        const token = allTokens[i];
+        var position  = positions[i];
+        token.setAttribute("data-relative-x",position.x);
+        token.setAttribute("data-relative-y",position.y);
+        token.style.top = position.y * cellSize + "px";
+        token.style.left = position.x * cellSize + "px";
+
+
+    }
+}
+
+function createMobImages(pawn, mobInfo){
+    
+    mobInfo.base64Images = mobInfo.base64Images.map(x=> toBase64Url(x));
+    const {mobSize, rows, columns,base64Images } = {... mobInfo};
+    const mobTokens = mobInfo.tokens;
+    var allTokens = [...pawn.querySelectorAll(".mob_token")];
+    while (allTokens.length > 0) {
+        var toRemove = allTokens.pop();
+        toRemove.parentNode.removeChild(toRemove);
+    }
+    pawn.setAttribute("data-mob_columns", columns);
+    pawn.setAttribute("data-mob_rows", rows);
+    pawn.setAttribute("data-mob_size", mobSize);
+    var container = pawn.querySelector(".mob_token_container");
+    
+    pawn.style.width = cellSize * columns;
+    pawn.style.height = cellSize * rows;
+    for(var i = 0 ; i < mobTokens.length ; i++){
+        const {imageIndex, position} = {... mobTokens[i]};
+        const base64 = base64Images[imageIndex];
+        var token = createMobToken(base64, false, pawn);
+        token.setAttribute("data-relative-x",position.x);
+        token.setAttribute("data-relative-y",position.y);
+        token.style.top = position.y * cellSize + "px";
+        token.style.left = position.x * cellSize + "px";
+        container.appendChild( token);
+
+    }
+
+}
+
+
 function refreshMobBackgroundImages(pawn, bgArray) {
     var shouldBeDead = parseInt(pawn.getAttribute("data-mob_dead_count"));
     var mobCount = parseInt(pawn.getAttribute("data-mob_size"));
@@ -954,7 +1004,7 @@ function createMobToken(path, cssify, mobElement) {
     var ele = document.createElement("div");
     ele.className = "mob_token";
     ele.style.backgroundImage = cssify ? Util.cssify(path) : path;
-    ele.setAttribute("data-token_path", path);
+
     ele.dnd_hexes = mobElement.dnd_hexes;
     setBasePawnProperties(ele, mobElement);
     return ele;
@@ -1409,16 +1459,26 @@ function resizeHelper(arr) {
     for (var i = 0; i < arr.length; i++) {
         var pawn = arr[i];
         var mobSize = pawn.getAttribute("data-mob_size");
-        var rowCount = Math.floor(Math.sqrt(mobSize));
-        var colCount = Math.ceil(Math.sqrt(mobSize));
-        if (mobSize) {
-            mobSize = parseInt(mobSize);
+        var mobRows = pawn.getAttribute("data-mob_rows");
+        var mobColumns = pawn.getAttribute("data-mob_columns");
+        var rowCount = mobRows ? parseInt(mobRows) :  Math.floor(Math.sqrt(mobSize));
+        var colCount = mobColumns ? parseInt(mobColumns):  Math.ceil(Math.sqrt(mobSize));
+ 
+        if (rowCount && colCount) {
             pawn.style.height = pawn.dnd_hexes * rowCount * cellSize + "px";
             pawn.style.width = pawn.dnd_hexes * colCount * cellSize + "px";
+          
             var mobTokens = [...pawn.querySelectorAll(".mob_token")];
             mobTokens.forEach((token) => {
                 token.style.height = pawn.dnd_hexes * cellSize + "px";
                 token.style.width = pawn.dnd_hexes * cellSize + "px";
+                var relativeX = token.getAttribute("data-relative-x");
+                var relativeY = token.getAttribute("data-relative-y");
+
+                if(relativeX && relativeY){
+                    token.style.top = parseFloat(relativeY) * cellSize + "px";
+                    token.style.left = parseFloat(relativeX) * cellSize + "px";
+                }
             });
         } else {
             pawn.style.height = pawn.dnd_hexes * cellSize + "px";
@@ -1581,8 +1641,8 @@ async function setPawnMobBackgroundImages(pawn, pawnParams) {
 }
 
 async function setPawnTokenFromParams(newPawn, pawn) {
-    console.log(pawn);
-    if (pawn.isMob) {
+
+    if (pawn.isMob ) {
         return setPawnMobBackgroundImages(newPawn, pawn);
     }
 
@@ -1632,7 +1692,7 @@ async function createPawnElement(pawn, rotate) {
     if (pawn.dead == "true") pawnManager.kill(newPawn);
     newPawn.classList.add("pawn_" + pawn.size.toLowerCase());
 
-    if (pawn.isMob) {
+    if (pawn.isMob || pawn.mobInfo) {
         newPawn.setAttribute("data-mob_size", pawn.mobSize);
         newPawn.setAttribute("data-mob_dead_count", pawn.mobCountDead);
         newPawn.classList.add("pawn_mob");

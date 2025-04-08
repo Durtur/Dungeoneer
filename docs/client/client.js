@@ -198,6 +198,7 @@ function getDataBuffer(event) {
 }
 
 function setState(message) {
+    console.log("Received", message)
     switch (message.event) {
         case "enabled-features":
             toggleFeatures(message.data);
@@ -385,9 +386,16 @@ function setState(message) {
         case "initiative":
             map.updateInitiative(message.data);
             break;
+        case "mob-tokens-positions":
+            setMobTokenPositions(message.data);
+            break; 
         case "mob-tokens-set":
             setMobTokens(message.data);
             break;
+        case "mob-tokens-set-v2":
+            var token = pawns.monsters.find((x) => x[0].id == message.data.id);
+            if (!token || !token[0]) return;
+            createMobImages(token, data);
         case "custom-sound-entry":
             var src = message.data.metadata.src;
             var encoding = message.data.metadata.encoding;
@@ -410,9 +418,18 @@ function setState(message) {
     }
 }
 
+function setMobTokenPositions(data) {
+    var token = pawns.players.find((x) => x[0].id == data.id) || pawns.monsters.find((x) => x[0].id == data.id);
+    if (!token || !token[0]) return;
+
+    var pawn = token[0];
+    if (data.mobSize) pawn.setAttribute("data-mob_size", data.mobSize);
+    setMobPositions(token[0], data.positions, data.rows, data.columns)
+    resizePawns();
+}
+
 function setMobTokens(data) {
     var token = pawns.players.find((x) => x[0].id == data.id) || pawns.monsters.find((x) => x[0].id == data.id);
-
     if (!token || !token[0]) return;
 
     var pawn = token[0];
@@ -423,12 +440,13 @@ function setMobTokens(data) {
 }
 
 function cssifyMobTokens(tokenArray) {
-    console.log(tokenArray);
+
     for (const [key, value] of Object.entries(tokenArray)) {
         tokenArray[key] = toBase64Url(value);
     }
     console.log(tokenArray);
 }
+
 
 function importSegments(segments, addMapBounds = false) {
     if (!segments) segments = [];
@@ -442,7 +460,7 @@ function importSegments(segments, addMapBounds = false) {
     if(addMapBounds){
         arr = [null, null, null, null, ... arr];
     }
-    console.log(arr);
+  
     fovLighting.setSegments(arr);
     if(addMapBounds)
         fovLighting.addWindowBorderToSegments();
@@ -525,9 +543,11 @@ function addEffect(effObj) {
 }
 
 async function addPawn(pawn, useOrigin = false) {
+    if(pawn.bgPhotoBase64)
     pawn.bgPhotoBase64 = toBase64Url(pawn.bgPhotoBase64);
     pawn.onAdded = function (newPawn) {
-        if (pawn.mobTokens) setMobTokens(pawn.mobTokens);
+        if(pawn.mobInfo)createMobImages(newPawn, pawn.mobInfo); //v2
+        if (pawn.mobTokens) setMobTokens(pawn.mobTokens); //v1
     };
     pawn.spawnPoint = useOrigin ? map.pixelsFromGridCoordsWithOrigin(pawn.pos.x, pawn.pos.y) :  map.pixelsFromGridCoords(pawn.pos.x, pawn.pos.y);
 
