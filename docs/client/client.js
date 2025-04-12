@@ -392,6 +392,12 @@ function setState(message) {
         case "mob-tokens-set":
             setMobTokens(message.data);
             break;
+        case "settings-set":
+    
+            var parsed = parseFloat(message.data?.mapUnitsPerSquare );
+            UNITS_PER_GRID = isNaN(parsed) ? 5 : message.data?.mapUnitsPerSquare ?? 5;
+            MAP_UNIT = message.data?.mapUnit ?? "ft";
+            break;
         case "mob-tokens-set-v2":
             var token = pawns.monsters.find((x) => x[0].id == message.data.id);
             if (!token || !token[0]) return;

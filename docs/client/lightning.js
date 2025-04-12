@@ -400,7 +400,7 @@ var fovLighting = function () {
                     var posY = parseFloat(light.position.y) * dungeonDraftCellSize + offsetY;
                     newEffect.style.top = posY + "px";
                     newEffect.style.left = posX + "px";
-                    var radius = parseFloat(light.range) * 5;
+                    var radius = parseFloat(light.range) * UNITS_PER_GRID;
                     newEffect.sight_radius_bright_light = radius / 2;
                     newEffect.sight_radius_dim_light = radius / 2;
                     effects.push(newEffect)

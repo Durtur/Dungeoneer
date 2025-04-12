@@ -1,8 +1,8 @@
 
 var cellSize = 35,
     originalCellSize = cellSize;
-const UNITS_PER_GRID = 5;
-const MAP_UNIT = "ft";
+let UNITS_PER_GRID = 5;
+let MAP_UNIT = "ft";
 const DEVICE_SCALE = 1//window.devicePixelRatio;
 var STATIC_TOOLTIP = false;
 var canvasWidth = 400;
@@ -690,7 +690,7 @@ var lastMeasuredLineDrawn,
 function drawLineAndShowTooltip(originPosition, destinationPoint, event) {
     var measuredDistance =
         Math.round(
-            (Math.sqrt(Math.pow(destinationPoint.x - originPosition.x, 2) + Math.pow(destinationPoint.y - originPosition.y, 2) + Math.pow(destinationPoint.z - originPosition.z, 2)) / cellSize) * 5
+            (Math.sqrt(Math.pow(destinationPoint.x - originPosition.x, 2) + Math.pow(destinationPoint.y - originPosition.y, 2) + Math.pow(destinationPoint.z - originPosition.z, 2)) / cellSize) * UNITS_PER_GRID
         ) + totalMeasuredDistance;
 
     if (lastMeasuredLineDrawn) {
@@ -1102,7 +1102,7 @@ function refreshMeasurementTooltip() {
 
         tooltip.innerHTML =
             Math.round(
-                (Math.sqrt(Math.pow(destinationPoint.x - originPosition.x, 2) + Math.pow(destinationPoint.y - originPosition.y, 2) + Math.pow(destinationPoint.z - originPosition.z, 2)) / cellSize) * 5
+                (Math.sqrt(Math.pow(destinationPoint.x - originPosition.x, 2) + Math.pow(destinationPoint.y - originPosition.y, 2) + Math.pow(destinationPoint.z - originPosition.z, 2)) / cellSize) * UNITS_PER_GRID
             ) + ` ${MAP_UNIT}`;
     }
 }
@@ -1284,7 +1284,7 @@ function dragPawn(elmnt) {
                     tooltip.style.top = selectedPawns[0].offsetTop - posY - 40 + "px";
                     tooltip.style.left = selectedPawns[0].offsetLeft - posX + "px";
                 }
-                distance = Math.round((Math.sqrt(Math.pow(selectedPawns[0].offsetLeft - originPosition.x, 2) + Math.pow(selectedPawns[0].offsetTop - originPosition.y, 2)) / cellSize) * 5);
+                distance = Math.round((Math.sqrt(Math.pow(selectedPawns[0].offsetLeft - originPosition.x, 2) + Math.pow(selectedPawns[0].offsetTop - originPosition.y, 2)) / cellSize) * UNITS_PER_GRID);
                 tooltip.innerHTML = distance + ` ${MAP_UNIT}`;
             } else {
                 if (!STATIC_TOOLTIP) {
@@ -1329,7 +1329,7 @@ function dragPawn(elmnt) {
             };
             oldLine.a = a;
             oldLine.b = b;
-            distance = Math.round((Math.sqrt(Math.pow(elmnt.offsetLeft - originPosition.x, 2) + Math.pow(elmnt.offsetTop - originPosition.y, 2)) / cellSize) * 5);
+            distance = Math.round((Math.sqrt(Math.pow(elmnt.offsetLeft - originPosition.x, 2) + Math.pow(elmnt.offsetTop - originPosition.y, 2)) / cellSize) * UNITS_PER_GRID);
             tooltip.innerHTML = distance + ` ${MAP_UNIT}`;
         });
     }
